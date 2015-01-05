@@ -1,0 +1,7 @@
+<!ELEMENT configurationstrings (configuration)*>
+
+<!ELEMENT configuration (isProduccion,usr,pass)*>
+
+<!ELEMENT isProduccion (#PCDATA)>
+<!ELEMENT usr (#PCDATA)>
+<!ELEMENT pass (#PCDATA)>

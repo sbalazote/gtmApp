@@ -1,0 +1,49 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+        
+	<http auto-config="true" use-expressions="true">
+		<intercept-url pattern='/**' requires-channel='https' />
+	
+		<intercept-url pattern="/js/**" access="permitAll" />
+		<intercept-url pattern="/css/**" access="permitAll" />
+		<intercept-url pattern="/images/**" access="permitAll" />
+		<intercept-url pattern="/login**" access="permitAll" />
+		<intercept-url pattern="/logout**" access="permitAll" />
+		
+		<intercept-url pattern="/input.do" access="hasRole('INPUT')" />
+		<intercept-url pattern="/provisioningRequest.do" access="hasRole('PROVISIONING_REQUEST')" />
+		<intercept-url pattern="/searchProvisioningToUpdate.do" access="hasRole('PROVISIONING_REQUEST_UPDATE')" />
+		<intercept-url pattern="/provisioningRequestAuthorization.do" access="hasRole('PROVISIONING_REQUEST_AUTHORIZATION')" />
+		<intercept-url pattern="/provisioningRequestCancellation.do" access="hasRole('PROVISIONING_REQUEST_CANCELLATION')" />
+		<intercept-url pattern="/pickingSheet.do" access="hasRole('PROVISIONING_REQUEST_PRINT')" />
+		<intercept-url pattern="/orderAssemblySelection.do" access="hasRole('ORDER_ASSEMBLY')" />
+		<intercept-url pattern="/deliveryNoteSheet.do" access="hasRole('DELIVERY_NOTE_PRINT')" />
+		<intercept-url pattern="/*Administration.do" access="hasRole('ENTITY_ADMINISTRATION')" />
+		<intercept-url pattern="/userAdministration.do" access="hasRole('USER_ADMINISTRATION')" />
+		<intercept-url pattern="/orderCancellation.do" access="hasRole('ORDER_ASSEMBLY_CANCELLATION')" />
+		<intercept-url pattern="/deliveryNoteCancellation.do" access="hasRole('DELIVERY_NOTE_CANCELLATION')" />
+		
+		<intercept-url pattern="/**" access="isAuthenticated()" />
+		
+		<form-login login-page="/login.do"
+			default-target-url="/home.do"
+			authentication-failure-url="/login.do?error"/>
+
+		<logout invalidate-session="true" logout-success-url="/login.do"/>
+	</http>
+
+	<!-- Configures in-memory implementation of the UserDetailsService implementation -->
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider>
+            <user-service>
+                <user name="admin" password="admin" authorities="ROLE_ADMIN"/>
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+	
+</beans:beans>

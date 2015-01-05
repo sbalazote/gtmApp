@@ -1,0 +1,61 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    					http://www.springframework.org/schema/beans/spring-beans.xsd
+    					http://www.springframework.org/schema/context
+    					http://www.springframework.org/schema/context/spring-context.xsd
+    					http://www.springframework.org/schema/mvc
+    					http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+ 
+    <context:component-scan base-package="com.drogueria.controllers"/>
+	<context:component-scan base-package="com.drogueria.service"/>
+    <context:component-scan base-package="com.drogueria.helper"/>
+    
+    <!--  Traditional configuration using XML only. -->
+	<mvc:annotation-driven content-negotiation-manager="cnManager"/>
+	
+	<!-- View resolver that delegates to other view resolvers based on the content type -->
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+       <!-- All configuration is now done by the manager - since Spring V3.2 -->
+       <property name="contentNegotiationManager" ref="cnManager"/>
+    	<!-- Define the view resolvers explicitly -->
+        <property name="viewResolvers">
+            <list>
+                <bean class="org.springframework.web.servlet.view.XmlViewResolver">
+                    <property name="location" value="WEB-INF/spreadsheet-views.xml"/>
+                </bean>
+                <bean class="org.springframework.web.servlet.view.XmlViewResolver">
+                    <property name="location" value="WEB-INF/pdf-views.xml"/>
+                </bean>
+            </list>
+        </property>
+		<property name="defaultViews">
+			<list>
+				<bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+				<bean class="org.springframework.web.servlet.view.xml.MarshallingView">
+				<constructor-arg>
+					<bean class="org.springframework.oxm.castor.CastorMarshaller"/>
+				</constructor-arg>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Simple strategy: only path extension is taken into account -->
+	<bean id="cnManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<property name="favorPathExtension" value="true"/>
+		<property name="ignoreAcceptHeader" value="true" />
+		<property name="defaultContentType" value="application/json" />
+		<property name="useJaf" value="false"/>
+		<property name="mediaTypes">
+			<map>
+				<entry key="pdf" value="application/pdf" /> 
+              	<entry key="xlsx" value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" /> 
+				<entry key="json" value="application/json" />
+				<entry key="xml" value="application/xml" />
+			</map>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,685 @@
+
+Input = function() {
+
+	var batchExpirationDate = new BatchExpirationDate();
+	var providerSerialized = new ProviderSerialized();
+	var selfSerialized = new SelfSerialized();
+	
+	var amountFormValidator = null;
+	
+	// Los inputDetails agrupados por fila
+	var inputDetailGroup = [];
+	
+	// Para validar que no ingrese 2 veces el mismo producto 
+	var productIds = [];
+	
+	// Mapa con los series que se cargaron por cada producto 
+	var tempSerialNumberGroup = {};
+	
+	// La fila donde se hace click (en el editar o borrar)
+	var currentRow = 0;
+	
+	// Todos estos valores se cargan en los modals, no olvidarse de precargarlos en el edit-row
+	var productDescription = "";
+	var productAmount = "";
+	var productId = "";
+	var productType = "";
+	var productGtin = "";
+	
+	var currentDate = new Date();
+	
+	var isButtonConfirm = false;
+	
+	var isUpdate = false;
+	
+	var cleanAmountModal = function() {
+		myResetForm($("#productAmountModalForm")[0], amountFormValidator);
+	};
+	
+	var cleanProductInput = function() {
+		$('#productInput').val("");
+	};
+	
+	if($("#inputId").val() != ""){
+		isUpdate = true;
+	}
+	
+	if(isUpdate){
+		$('#productInput').prop('disabled', true);
+		$('#agreementInput').prop('disabled', true).trigger("chosen:updated");
+		$("#divInputId").show();
+		currentDate = $("#currentDateInput").val();
+		if($("#providerInput").val() != ""){
+			$("#deliveryLocationDiv").hide();
+		}else{
+			$("#providerDiv").hide();
+		}
+	}else{
+		//Se esconde el div de cliente
+		$("#deliveryLocationDiv").hide();
+	}
+	
+	var validateProductAmountForm = function() {
+		var form = $("#productAmountModalForm");
+		amountFormValidator = form.validate({
+			rules: {
+				productAmount: {
+					required: true,
+					digits: true,
+					minValue: 0,
+				}
+			},
+			showErrors: myShowErrors,
+			onsubmit: false
+		});
+		return form.valid();
+	};
+	
+	var validateForm = function() {
+		var form = $("#inputForm");
+		form.validate({
+			rules: {
+				currentDate: {
+					required: true
+				},
+				concept: {
+					required: true
+				},
+				agreement: {
+					required: true
+				},
+				provider:{
+			        required: function(element) {
+			            return $("#deliveryLocationInput").val() == "";
+			        }
+				},
+				deliveryLocation: {
+					required: function(element) {
+			            return $("#providerInput").val() == "";
+			        }
+				},
+				deliveryNotePOS: {
+					required: true,
+					digits: true,
+					minlength: 4,
+					maxlength: 4
+				},
+				deliveryNoteNumber: {
+					required: true,
+					digits: true,
+					minlength: 8,
+					maxlength: 8
+				},
+				purchaseOrderNumber: {
+					nowhitespace: true,
+					alphanumeric: true,
+					maxlength: 30
+				}
+			},
+			showErrors: myShowErrors,
+			onsubmit: false
+		});
+		return form.valid();
+	};
+	
+//	var resetForm = function() {
+//		$("#currentDateInput").datepicker().datepicker("setDate", currentDate);
+//		$('#conceptInput').val('').trigger('chosen:updated');
+//		$('#providerInput').val('').trigger('chosen:updated');
+//		$('#agreementInput').val('').trigger('chosen:updated');
+//		$("#deliveryNoteNumberInput").val('');
+//		$("#purchaseOrderNumberInput").val('');
+//		$("#productInput").val('');
+//		$("#productTableBody").html('');
+//		inputDetailGroup = [];
+//	};
+	
+	$("#currentDateInput").datepicker().datepicker("setDate", currentDate);
+	
+	$('#currentDateButton').click(function() {
+		$("#currentDateInput").datepicker().focus();
+	});
+	
+	// Product autocomplete
+	
+	$("#productInput").autocomplete({
+		source: function(request, response) {
+			$.ajax({
+				url: "getProducts.do",
+				type: "GET",
+				async: false,
+				data: {
+					term: request.term,
+					active: true
+				},
+				success: function(data) {
+					var array = $.map(data, function(item) {
+						return {
+							id:	item.id,
+							label: item.code + " - " + item.description + " - " + item.brand.description + " - " + item.monodrug.description,
+							value: item.code + " - " + item.description,
+							gtin: item.lastGtin,
+							type: item.type
+						};
+					});
+					response(array);
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					myGenericError();
+				}
+			});
+		},
+		select: function(event, ui) {
+			if (!productEntered(ui.item.id)) {
+				productId = ui.item.id;
+				productGtin = ui.item.gtin;
+				productDescription = ui.item.value;
+				productType = ui.item.type;
+				$("#productInput").val(productDescription);
+				$('#amountModal').modal('show');
+			} else {
+				myShowAlert('danger', 'Producto ya Ingresado');
+				$("#productInput").val("");
+			}
+			return false;
+	    },
+		minLength: 3,
+		autoFocus: true
+	});
+	
+	$('#productInput').keydown(function(e) {
+	    if(e.keyCode == 121){ // F10
+	    	$.ajax({
+				url: "getProductBySerialOrGtin.do",
+				type: "GET",
+				data: {
+					serial: $(this).val()
+				},
+				success: function(response) {
+					if (response != "") {
+						if (!productEntered(response.id)) {
+							productId = response.id;
+							productGtin = response.lastGtin;
+							productDescription = response.code + ' - ' + response.description;
+							productType = response.type;
+							
+							$('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
+							
+							$("#productInput").val(productDescription);
+							$('#amountModal').modal('show');
+						} else {
+							myShowAlert('danger', 'Producto ya Ingresado');
+							$("#productInput").val("");
+						}
+					} else {
+						$('#productInput').tooltip("destroy").data("title", "Producto Inexistente").addClass("has-error").tooltip();
+						$('#productInput').focus();
+					}
+					return false;
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					myGenericError();
+				}
+			});
+	    }
+	});
+	
+	$('#amountModal').on('shown.bs.modal', function () {
+	    $('#productAmountInput').focus();
+	});
+	
+	$('#amountModal').on('hidden.bs.modal', function () {
+	    cleanAmountModal();
+	    cleanProductInput();
+	});
+	
+	$('#amountModal').keypress(function(e) {
+        if (e.keyCode === 13) {
+        	$("#amountModalAcceptButton").trigger('click');
+        	return false;
+        }
+    });
+	
+	var openModal = function(preloadedData) {
+		if (productType == "BE") {
+			batchExpirationDate.setPreloadedProduct(productDescription);
+			batchExpirationDate.setPreloadedAmount(productAmount);
+			batchExpirationDate.setPreloadedData(preloadedData);
+			batchExpirationDate.preloadModalData();
+			$('#batchExpirationDateModal').modal('show');
+			
+		} else if (productType == "PS") {
+			providerSerialized.setTempSerialNumbers(tempSerialNumberGroup[productId]);
+			providerSerialized.setProductSelectedGtin(productGtin);
+			providerSerialized.setPreloadedProduct(productDescription);
+			providerSerialized.setPreloadedProductId(productId);
+			providerSerialized.setPreloadedAmount(productAmount);
+			providerSerialized.setPreloadedData(preloadedData);
+			providerSerialized.preloadModalData();
+			$('#providerSerializedModal').modal('show');
+			
+		} else {
+			selfSerialized.setPreloadedProduct(productDescription);
+			selfSerialized.setPreloadedAmount(productAmount);
+			selfSerialized.setPreloadedData(preloadedData);
+			selfSerialized.preloadModalData();
+			$('#selfSerializedModal').modal('show');
+		}
+	};
+		
+	$("#amountModalAcceptButton").click(function() {
+		if (validateProductAmountForm()) {
+			productAmount = parseInt($("#productAmountInput").val());
+			$("#amountModal").modal('hide');
+			openModal(null);
+		}
+	});
+	
+	var populateInputDetailsTable = function() {
+		var tableRow = "<tr>"+
+		"<td class='td-description'>" + productDescription + "</td>" +
+		"<td class='td-amount'>" + productAmount + "</td>" +
+		"<td>"+
+			"<span class='span-productId' style='display:none'>" + productId + "</span>"+
+			"<span class='span-productType' style='display:none'>" + productType + "</span>"+
+			"<span class='span-productGtin' style='display:none'>" + productGtin + "</span>"+
+			"<a href='javascript:void(0);' class='edit-row'>Editar</a>"+
+		"</td>" +
+		"<td>"+
+			"<a href='javascript:void(0);' class='delete-row'>Eliminar</a>"+
+		"</td>" +
+		"</tr>";
+		$("#productTableBody").append(tableRow);
+	};
+	
+	var populateInputDetails = function(inputDetails, serialNumber, batch, expirationDate, amount, gtin) {
+		var inputDetail = {
+			"productId": productId,
+			"productType": productType,
+			"serialNumber": serialNumber,
+			"batch": batch,
+			"expirationDate": expirationDate,
+			"amount": amount,
+			"gtin": gtin
+		};
+		inputDetails.push(inputDetail);
+	};
+	
+	$('#productTableBody').on("click", ".edit-row", function() {
+		var parent = $(this).parent().parent();
+	
+		currentRow = $(".edit-row").index(this);
+		productDescription = parent.find(".td-description").html();
+		productAmount = parent.find(".td-amount").html();
+		productId = parent.find(".span-productId").html();
+		productType = parent.find(".span-productType").html();
+		productGtin = parent.find(".span-productGtin").html();
+		
+		openModal(inputDetailGroup[currentRow]);
+	});
+	
+	var currentRowElement = null;
+	
+	$('#productTableBody').on("click", ".delete-row", function(){
+		currentRowElement = this;
+		$('#deleteRowConfirmationModal').modal();
+	});
+	
+	$("#inputDeleteRowConfirmationButton").click(function() {
+		var parent = $(currentRowElement).parent().parent();
+		currentRow = $(".delete-row").index(currentRowElement);
+		inputDetailGroup.splice(currentRow, 1);
+		productIds.splice(currentRow, 1);
+		
+		productId = parent.find(".span-productId").html();
+		parent.remove();
+		$(".alert").hide();
+	});
+	
+	$("#batchExpirationDateAcceptButton").click(function() {
+		remainingAmount = $('#batchExpirationDateRemainingAmountLabel').text();
+		if (remainingAmount == 0) {
+			
+			var amounts = $("#batchExpirationDateTable td.amount");
+			var batchs = $("#batchExpirationDateTable td.batch");
+			var expirationDates = $("#batchExpirationDateTable td.expirationDate");
+			
+			var inputDetails = [];
+			
+			for (var i = 0; i < amounts.length; i++) {
+				populateInputDetails(inputDetails, null, batchs[i].innerHTML, expirationDates[i].innerHTML, amounts[i].innerHTML, productGtin);
+			}
+			
+			if (batchExpirationDate.getPreloadedData() == null) {
+				inputDetailGroup.push(inputDetails);
+				populateInputDetailsTable();
+				productIds.push(productId);
+			} else {
+				inputDetailGroup[currentRow] = inputDetails;
+				batchExpirationDate.setPreloadedData(null);
+			}
+			
+			$('#batchExpirationDateModal').modal('hide');
+			$(".alert").hide();
+		} else {
+			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "batchExpirationDateModalAlertDiv");
+		}
+	});
+
+	$("#providerSerializedAcceptButton").click(function() {
+		remainingAmount = $('#providerSerializedRemainingAmountLabel').text();
+		if (remainingAmount == 0) {
+			
+			var gtins = $("#providerSerializedTable td.gtin");
+			var serialNumbers = $("#providerSerializedTable td.serialNumber");
+			var batchs = $("#providerSerializedTable td.batch");
+			var expirationDates = $("#providerSerializedTable td.expirationDate");
+			
+			var inputDetails = [];
+			var tempSerialNumber = [];
+			
+			for (var i = 0; i < serialNumbers.length; i++) {
+				populateInputDetails(inputDetails, serialNumbers[i].innerHTML, batchs[i].innerHTML, expirationDates[i].innerHTML, 1, gtins[i].innerHTML);
+				tempSerialNumber[i] = serialNumbers[i].innerHTML;
+			}
+			
+			tempSerialNumberGroup[productId] = tempSerialNumber;
+
+			if (providerSerialized.getPreloadedData() == null) {
+				inputDetailGroup.push(inputDetails);
+				populateInputDetailsTable();
+				productIds.push(productId);
+			} else {
+				inputDetailGroup[currentRow] = inputDetails;
+				providerSerialized.setPreloadedData(null);
+			}
+			
+			$('#providerSerializedModal').modal('hide');
+			$(".alert").hide();
+		} else {
+			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "providerSerializedModalAlertDiv");
+		}
+	});
+	
+	$("#selfSerializedAcceptButton").click(function() {
+		remainingAmount = $('#selfSerializedRemainingAmountLabel').text();
+		if (remainingAmount == 0) {
+			
+			var amounts = $("#selfSerializedTable td.amount");
+			var batchs = $("#selfSerializedTable td.batch");
+			var expirationDates = $("#selfSerializedTable td.expirationDate");
+			
+			var inputDetails = [];
+			
+			for (var i = 0; i < amounts.length; i++) {
+				populateInputDetails(inputDetails, null, batchs[i].innerHTML, expirationDates[i].innerHTML, amounts[i].innerHTML, productGtin);
+			}
+			
+			if (selfSerialized.getPreloadedData() == null) {
+				inputDetailGroup.push(inputDetails);
+				populateInputDetailsTable();
+				productIds.push(productId);
+			} else {
+				inputDetailGroup[currentRow] = inputDetails;
+				selfSerialized.setPreloadedData(null);
+			}
+			
+			$('#selfSerializedModal').modal('hide');
+			$(".alert").hide();
+		} else {
+			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "selfSerializedModalAlertDiv");
+		}
+	});
+	
+	$("#confirmButton").click(function() {
+		if (validateForm()) {
+			if (inputDetailGroup.length > 0 || isUpdate ) {
+				isButtonConfirm = true;
+				var jsonInput = {
+					"id": $("#inputId").val(),
+					"conceptId": $("#conceptInput").val(),
+					"providerId": $("#providerInput").val(),
+					"deliveryLocationId": $("#deliveryLocationInput").val(),
+					"agreementId": $("#agreementInput").val(),
+					"deliveryNoteNumber": $("#deliveryNotePOSInput").val() + $("#deliveryNoteNumberInput").val(),
+					"purchaseOrderNumber": $("#purchaseOrderNumberInput").val().trim(),
+					"date": $("#currentDateInput").val(),
+					"inputDetails": []
+				};
+				
+				for (var i = 0, lengthI = inputDetailGroup.length; i < lengthI; i++) {
+					for (var j = 0; lengthJ = inputDetailGroup[i].length, j < lengthJ; j++) {
+						jsonInput.inputDetails.push(inputDetailGroup[i][j]);
+					}
+				}
+	
+				if(!isUpdate){
+					$.ajax({
+						url: "saveInput.do?isSerializedReturn=false",
+						type: "POST",
+						contentType:"application/json",
+						data: JSON.stringify(jsonInput),
+						async: true,
+			            beforeSend : function() {
+			                $.blockUI({ message: 'Espere un Momento por favor...' });
+			             }, 
+						success: function(response, textStatus, jqXHR) {
+							var doc = printIOPDF('input', response.id, response.inputDetails);
+							
+							var string = doc.output('datauristring');
+							var x = window.open('','Ingreso Nº', '', false);
+							x.document.open();
+							x.document.location=string;
+							
+							myReload("success", "Se ha registrado el ingreso de mercader&iacute;a n&uacute;mero: " + response.id);
+						},
+						error: function(response, jqXHR, textStatus, errorThrown) {
+							$.unblockUI();
+							myGenericError();
+						}
+					});
+				}else{
+					$.ajax({
+						url: "updateInput.do",
+						type: "POST",
+						contentType:"application/json",
+						data: JSON.stringify(jsonInput),
+						async: true,
+			            beforeSend : function() {
+			            	$.blockUI({ message: 'Espere un Momento por favor...' });
+			             }, 
+						success: function(response, textStatus, jqXHR) {
+							$.unblockUI();
+							if(response.resultado == true){
+								$.ajax({
+									url: "getInput.do",
+									type: "GET",
+									async: false,
+									data: {
+										inputId: response.operationId,
+									},
+									success: function(response) {
+										var doc = printIOPDF('input', response.id, response.inputDetails);
+										var string = doc.output('datauristring');
+										var x = window.open('','Ingreso Nº', '', false);
+										x.document.open();
+										x.document.location=string;
+										myRedirect("success","Se ha autorizado el ingreso de mercader&iacute;a n&uacute;mero: " + response.operationId, "searchInputToUpdate.do");
+									},
+									error: function(jqXHR, textStatus, errorThrown) {
+										myGenericError();
+									}
+								});
+							}else{
+								var errors = "";
+								for (var i = 0, lengthI = response.myOwnErrors.length; i < lengthI; i++) {
+									errors += response.myOwnErrors[i] + "<br />";
+								}
+								
+								if(response.errores != null){
+									errors += "<strong>Errores informados por ANMAT:</strong><br />";
+									for (var i = 0, lengthI = response.errores.length; i < lengthI; i++) {
+										errors += response.errores[i]._c_error + " - " + response.errores[i]._d_error + "<br />";
+									}
+								}
+								myShowAlert("danger", errors,null);
+							}
+						},
+						error: function(response, jqXHR, textStatus, errorThrown) {
+							$.unblockUI();
+							myGenericError();
+						}
+					});
+				}
+				
+			} else {
+				myShowAlert('danger', 'Por favor, ingrese al menos un producto.');
+			}
+		}
+	});
+	
+	$("#forcedInput").click(function() {
+		$('#forcedInputConfirmationModal').modal();
+	});
+	
+	$("#authorizeWithoutInform").click(function() {
+		//var popup = window.open();
+		if (validateForm()) {
+			isButtonConfirm = true;
+			var jsonInput = {
+				"id": $("#inputId").val(),
+				"conceptId": $("#conceptInput").val(),
+				"providerId": $("#providerInput").val(),
+				"deliveryLocationId": $("#deliveryLocationInput").val(),
+				"agreementId": $("#agreementInput").val(),
+				"deliveryNoteNumber": $("#deliveryNotePOSInput").val() + $("#deliveryNoteNumberInput").val(),
+				"purchaseOrderNumber": $("#purchaseOrderNumberInput").val().trim(),
+				"date": $("#currentDateInput").val(),
+				"inputDetails": []
+			};
+			
+			for (var i = 0, lengthI = inputDetailGroup.length; i < lengthI; i++) {
+				for (var j = 0; lengthJ = inputDetailGroup[i].length, j < lengthJ; j++) {
+					jsonInput.inputDetails.push(inputDetailGroup[i][j]);
+				}
+			}
+
+			$.ajax({
+				url: "authorizeInputWithoutInform.do",
+				type: "POST",
+				contentType:"application/json",
+				data: JSON.stringify(jsonInput),
+				async: true,
+	            beforeSend : function() {
+	                $.blockUI({ message: 'Espere un Momento por favor...' });
+	             }, 
+				success: function(response, textStatus, jqXHR) {
+					$.unblockUI();
+					if(response != null){
+						var doc = printIOPDF('input', response.id, response.inputDetails);
+						var string = doc.output('datauristring');
+						var x = window.open('','Ingreso Nº', '', false);
+						x.document.open();
+						x.document.location=string;
+						
+						myRedirect("success","Se ha autorizado el ingreso de mercader&iacute;a n&uacute;mero: " + $("#inputId").val(), "searchInputToUpdate.do");
+					}
+				},
+				error: function(response, jqXHR, textStatus, errorThrown) {
+					$.unblockUI();
+					myGenericError();
+				}
+			});
+		}
+	});
+	
+	
+	var productEntered = function(productId) {
+		for (var i = 0, l = productIds.length; i < l; ++i) {
+			if (productIds[i] == productId) {
+				return true;
+			}
+		}
+		return false;
+	};
+	
+	var hasChanged = function() {
+		if($("#conceptInput").val()!= "" || $("#providerInput").val() != "" || 
+				$("#agreementInput").val() != "" || 
+				$("#deliveryNotePOSInput").val() != "" ||
+				$("#deliveryNoteNumberInput").val() != "" ||
+				$("#purchaseOrderNumberInput").val() != "" || 
+				inputDetailGroup.length > 0){
+			return true;
+		}else{
+			return false;
+		}
+	};
+	
+	$(window).bind("beforeunload",function(event) {
+	    if(hasChanged() && isButtonConfirm == false) {
+	    	return "Existen cambios que no fueron confirmados.";
+	    } else {
+	    	isButtonConfirm = false;
+	    }
+	});
+	
+	$("input").blur(function() {
+		if ($("#deliveryNotePOSInput").val() != "")
+			$("#deliveryNotePOSInput").val(addLeadingZeros($("#deliveryNotePOSInput").val(), 4));
+		 if ($("#deliveryNoteNumberInput").val() != "")
+			 $("#deliveryNoteNumberInput").val(addLeadingZeros($("#deliveryNoteNumberInput").val(), 8));
+	 });
+	
+	$("#inputForm input, #inputForm select").keypress(function(event) {
+		return event.keyCode != 13;
+	});
+	
+	//Seleccion de Proveedor o Cliente de acuerdo al tipo de concepto.
+	
+	$('#conceptInput').on('change', function(evt, params) {
+		if($("#conceptInput").val() != ""){
+			$.ajax({
+				url: "isClientConcept.do",
+				type: "GET",
+				async: false,
+				data: {
+					conceptId: $("#conceptInput").val(),
+				},
+				success: function(response) {
+					if(response == true){
+						$("#providerDiv").hide();
+						$("#deliveryLocationDiv").show();
+						$('#providerInput').val('').trigger('chosen:updated');
+					}else{
+						$("#providerDiv").show();
+						$("#deliveryLocationDiv").hide();
+						$('#deliveryLocationInput').val('').trigger('chosen:updated');
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					myGenericError();
+				}
+			});
+		}
+	});
+	
+	$("#delete").click(function() {
+		
+		$.ajax({
+			url: "cancelInputWithoutStock.do",
+			type: "GET",
+			contentType:"application/json",
+			data: {
+				inputId: $("#inputId").val(),
+				},
+			async: true,
+			success: function(response) {
+				myRedirect("success", "Se ha realizado la anulaciï¿½n del ingreso de mercaderï¿½a correctamente","searchInputToUpdate.do");
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myDeleteInputError();
+			}
+		});
+	});
+};
