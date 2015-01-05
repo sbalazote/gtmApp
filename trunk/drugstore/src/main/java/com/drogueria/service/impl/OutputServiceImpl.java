@@ -1,0 +1,293 @@
+package com.drogueria.service.impl;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.drogueria.constant.Constants;
+import com.drogueria.dto.OutputDTO;
+import com.drogueria.dto.OutputDetailDTO;
+import com.drogueria.model.Agreement;
+import com.drogueria.model.Output;
+import com.drogueria.model.OutputDetail;
+import com.drogueria.model.Product;
+import com.drogueria.model.ProductGtin;
+import com.drogueria.model.Stock;
+import com.drogueria.persistence.dao.OutputDAO;
+import com.drogueria.query.OutputQuery;
+import com.drogueria.service.AgreementService;
+import com.drogueria.service.ConceptService;
+import com.drogueria.service.DeliveryLocationService;
+import com.drogueria.service.OutputService;
+import com.drogueria.service.ProductGtinService;
+import com.drogueria.service.ProductService;
+import com.drogueria.service.ProviderService;
+import com.drogueria.service.StockService;
+import com.drogueria.service.TraceabilityService;
+import com.drogueria.util.OperationResult;
+import com.inssjp.mywebservice.business.WebServiceResult;
+
+@Service
+@Transactional
+public class OutputServiceImpl implements OutputService {
+	private static final Logger logger = Logger.getLogger(OutputServiceImpl.class);
+
+	@Autowired
+	private OutputDAO outputDAO;
+	@Autowired
+	private ConceptService conceptService;
+	@Autowired
+	private ProviderService providerService;
+	@Autowired
+	private AgreementService agreementService;
+	@Autowired
+	private ProductService productService;
+	@Autowired
+	private StockService stockService;
+	@Autowired
+	private DeliveryLocationService deliveryLocationService;
+	@Autowired
+	private TraceabilityService traceabilityService;
+	@Autowired
+	private ProductGtinService productGtinService;
+
+	@Override
+	public Output save(OutputDTO outputDTO) {
+		Output output = this.buildInput(outputDTO);
+		this.outputDAO.save(output);
+		logger.info("Se ha generado exitosamente el Egreso de Mercadería número: " + output.getId());
+
+		return output;
+	}
+
+	@Override
+	@Async
+	public void sendTrasactionAsync(Output output) throws Exception {
+		WebServiceResult result = this.traceabilityService.processOutputPendingTransactions(output);
+		if (result != null) {
+			// Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
+			if (result.getResultado()) {
+				output.setTransactionCodeANMAT(result.getCodigoTransaccion());
+				output.setInformed(true);
+				this.save(output);
+			}
+		}
+	}
+
+	@Override
+	public OperationResult saveAndInform(Output output) throws Exception {
+		OperationResult result = this.traceabilityService.processOutputPendingTransactions(output);
+		if (result != null) {
+			// Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
+			if (result.getResultado() != null) {
+				if (result.getResultado()) {
+					output.setTransactionCodeANMAT(result.getCodigoTransaccion());
+					output.setInformed(true);
+					this.save(output);
+					result.setOperationId(output.getId());
+				}
+			}
+		}
+		this.outputDAO.save(output);
+		result.setOperationId(output.getId());
+		return result;
+	}
+
+	private Output buildInput(OutputDTO outputDTO) {
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat expirationDateFormatter = new SimpleDateFormat("dd/MM/yy");
+
+		try {
+			Agreement agreement = this.agreementService.get(outputDTO.getAgreementId());
+
+			Output output = new Output();
+			output.setAgreement(agreement);
+
+			output.setConcept(this.conceptService.get(outputDTO.getConceptId()));
+			if (outputDTO.getProviderId() != null) {
+				output.setProvider(this.providerService.get(outputDTO.getProviderId()));
+			}
+			if (outputDTO.getDeliveryLocationId() != null) {
+				output.setDeliveryLocation(this.deliveryLocationService.get(outputDTO.getDeliveryLocationId()));
+			}
+			output.setDate(dateFormatter.parse(outputDTO.getDate()));
+
+			List<OutputDetail> details = new ArrayList<>();
+			Product product = null;
+			for (OutputDetailDTO outputDetailDTO : outputDTO.getOutputDetails()) {
+				if (product == null || !product.getId().equals(outputDetailDTO.getProductId())) {
+					product = this.productService.get(outputDetailDTO.getProductId());
+				}
+
+				OutputDetail outputDetail = new OutputDetail();
+				outputDetail.setAmount(outputDetailDTO.getAmount());
+				outputDetail.setBatch(outputDetailDTO.getBatch());
+				if (outputDetailDTO.getExpirationDate() != null && !outputDetailDTO.getExpirationDate().isEmpty()) {
+					outputDetail.setExpirationDate(expirationDateFormatter.parse(outputDetailDTO.getExpirationDate()));
+				}
+				outputDetail.setSerialNumber(outputDetailDTO.getSerialNumber());
+
+				if (outputDetailDTO.getGtin() != null) {
+
+					ProductGtin productGtin = this.productGtinService.getByNumber(outputDetailDTO.getGtin());
+					outputDetail.setGtin(productGtin);
+				} else {
+					if (product.getLastProductGtin() != null) {
+						outputDetail.setGtin(product.getLastProductGtin());
+					}
+				}
+
+				outputDetail.setProduct(product);
+				this.updateStock(outputDetail, agreement);
+				details.add(outputDetail);
+			}
+			output.setOutputDetails(details);
+
+			if (output.hasToInform()) {
+				output.setInformAnmat(true);
+			} else {
+				output.setInformAnmat(false);
+			}
+
+			return output;
+
+		} catch (Exception e) {
+			throw new RuntimeException("No se ha podido mapear el OutputDTO", e);
+		}
+	}
+
+	private void updateStock(OutputDetail outputDetail, Agreement agreement) {
+		Stock stock = new Stock();
+		stock.setAgreement(agreement);
+		stock.setAmount(outputDetail.getAmount());
+		stock.setBatch(outputDetail.getBatch());
+		stock.setExpirationDate(outputDetail.getExpirationDate());
+		stock.setProduct(outputDetail.getProduct());
+		stock.setSerialNumber(outputDetail.getSerialNumber());
+		if (outputDetail.getGtin() != null) {
+			stock.setGtin(outputDetail.getGtin());
+		}
+
+		this.stockService.removeFromStock(stock);
+	}
+
+	@Override
+	public Output get(Integer id) {
+		return this.outputDAO.get(id);
+	}
+
+	@Override
+	public List<Output> getAll() {
+		return this.outputDAO.getAll();
+	}
+
+	@Override
+	public List<Output> getOutputForSearch(OutputQuery outputQuery) {
+		return this.outputDAO.getOutputForSearch(outputQuery);
+	}
+
+	@Override
+	public boolean getCountOutputSearch(OutputQuery outputQuery) {
+		return this.outputDAO.getCountOutputSearch(outputQuery);
+	}
+
+	@Override
+	public void cancelOutputs(List<Integer> outputsId) {
+		for (Integer id : outputsId) {
+			Output output = this.get(id);
+			if (!output.getConcept().isPrintDeliveryNote() && output.isInformAnmat()) {
+				try {
+					WebServiceResult result = this.traceabilityService.cancelOutputTransaction(output);
+					boolean alreadyCancelled = false;
+					if (result != null) {
+						if (result.getErrores() != null) {
+							if (result.getErrores(0).get_c_error().equals(Constants.ERROR_ANMAT_ALREADY_CANCELLED)) {
+								alreadyCancelled = true;
+							}
+						}
+						if (result.getResultado() || alreadyCancelled) {
+							output.setCancelled(true);
+							output.setInformAnmat(false);
+							// Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
+							output.setTransactionCodeANMAT(result.getCodigoTransaccion());
+							this.addOutputToStock(output);
+						}
+					}
+				} catch (Exception e) {
+					logger.info("No se ha podido cancelar los egresos");
+				}
+			} else {
+				output.setCancelled(true);
+				for (OutputDetail outputDetail : output.getOutputDetails()) {
+					this.addToStock(outputDetail, output.getAgreement());
+				}
+			}
+			this.save(output);
+			logger.info("Se ha anulado el Egreso número: " + id);
+		}
+	}
+
+	private void addToStock(OutputDetail outputDetail, Agreement agreement) {
+		Stock stock = new Stock();
+		stock.setAgreement(agreement);
+		stock.setAmount(outputDetail.getAmount());
+		stock.setBatch(outputDetail.getBatch());
+		stock.setExpirationDate(outputDetail.getExpirationDate());
+		stock.setProduct(outputDetail.getProduct());
+		stock.setSerialNumber(outputDetail.getSerialNumber());
+
+		if (outputDetail.getGtin() != null) {
+			stock.setGtin(outputDetail.getGtin());
+		}
+
+		this.stockService.addToStock(stock);
+	}
+
+	@Override
+	public boolean existSerial(Integer productId, String serial) {
+		return this.outputDAO.existSerial(productId, serial);
+	}
+
+	@Override
+	public List<Output> getCancelleables() {
+		return this.outputDAO.getCancelleables();
+	}
+
+	@Override
+	public List<Integer> getAllHasToPrint() {
+		return this.outputDAO.getAllHasToPrint();
+	}
+
+	@Override
+	public void addOutputToStock(Output output) {
+		for (OutputDetail outputDetail : output.getOutputDetails()) {
+			this.addToStock(outputDetail, output.getAgreement());
+		}
+	}
+
+	@Override
+	public void save(Output output) {
+		this.outputDAO.save(output);
+	}
+
+	@Override
+	public List<Output> getPendings() {
+		return this.outputDAO.getPendings();
+	}
+
+	@Override
+	public void authorizeWithoutInform(List<Integer> outputIds, String name) {
+		for (Integer outputId : outputIds) {
+			Output output = this.get(outputId);
+			output.setInformed(true);
+			this.save(output);
+		}
+	}
+
+}

@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC 
+	"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" 
+	"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+	
+<tiles-definitions>  
+
+    <definition name="base.definition" template="/WEB-INF/views/main.jsp">
+        <put-attribute name="header" value="/WEB-INF/views/header.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/views/menu.jsp" />
+        <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="/WEB-INF/views/footer.jsp" />
+    </definition>
+    
+    <definition name="error" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/error.jsp" />
+    </definition>
+
+    <definition name="login" extends="base.definition">
+        <put-attribute name="header" value="" />
+        <put-attribute name="menu" value="" />
+        <put-attribute name="body" value="/WEB-INF/views/login/login.jsp" />
+    </definition>
+    
+    <definition name="updateProperty" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/configuration/updateProperty.jsp" />
+    </definition>
+    
+    <definition name="input" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/input/input.jsp" />
+    </definition>
+    
+    <definition name="searchInput" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/report/searchInput.jsp" />
+    </definition>
+    
+    <definition name="serializedReturns" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/serializedReturns/serializedReturns.jsp" />
+    </definition>
+    
+    <definition name="provisioningRequest" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/provisioningRequest/provisioningRequest.jsp" />
+    </definition>
+    
+    <definition name="searchProvisioningRequest" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/report/searchProvisioningRequest.jsp" />
+    </definition>
+    
+    <definition name="orderAssembly" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/orderAssembly/orderAssembly.jsp" />
+    </definition>
+
+    <definition name="addProvider" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/add/addProvider.jsp" />
+    </definition>
+    
+    <definition name="addProduct" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/add/addProduct.jsp" />
+    </definition>
+
+    <definition name="addConcept" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/add/addConcept.jsp" />
+    </definition>
+    
+    <definition name="addLogisticsOperator" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/add/addLogisticsOperator.jsp" />
+    </definition>
+    
+    <definition name="addDeliveryLocation" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/add/addDeliveryLocation.jsp" />
+    </definition>
+    
+    <definition name="addClient" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/add/addClient.jsp" />
+    </definition>
+    
+    <definition name="addAgreement" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/add/addAgreement.jsp" />
+    </definition>
+    
+    <definition name="productAdministration" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/productAdministration.jsp" />
+    </definition>
+
+    <definition name="providerAdministration" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/providerAdministration.jsp" />
+    </definition>
+    
+    <definition name="conceptAdministration" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/conceptAdministration.jsp" />
+    </definition>
+    
+    <definition name="logisticsOperatorAdministration" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/logisticsOperatorAdministration.jsp" />
+    </definition>
+
+     <definition name="deliveryLocationAdministration" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/deliveryLocationAdministration.jsp" />
+    </definition>
+
+    <definition name="clientAdministration" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/clientAdministration.jsp" />
+    </definition>
+
+    <definition name="agreementAdministration" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/agreementAdministration.jsp" />
+    </definition>
+    
+    <definition name="agentAdministration" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/agentAdministration.jsp" />
+    </definition>
+    
+    <definition name="addAgent" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/add/addAgent.jsp" />
+    </definition>
+    
+    <definition name="eventAdministration" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/eventAdministration.jsp" />
+    </definition>
+    
+    <definition name="addEvent" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/add/addEvent.jsp" />
+    </definition>
+        
+    <definition name="addProductGroup" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/add/addProductGroup.jsp" />
+    </definition>
+    
+    <definition name="addProductBrand" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/add/addProductBrand.jsp" />
+    </definition>
+    
+    <definition name="addProductDrugCategory" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/add/addProductDrugCategory.jsp" />
+    </definition>
+    
+    <definition name="addProductMonodrug" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/add/addProductMonodrug.jsp" />
+    </definition>
+    
+    <definition name="addProviderType" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/add/addProviderType.jsp" />
+    </definition>
+    
+    <definition name="affiliateAdministration" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/affiliateAdministration.jsp" />
+    </definition>
+    
+    <definition name="addAffiliate" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/add/addAffiliate.jsp" />
+    </definition>
+    
+    <definition name="addUser" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/add/addUser.jsp" />
+    </definition>
+
+    <definition name="updateProduct" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/update/updateProduct.jsp" />
+    </definition>
+
+    <definition name="updateProductGroup" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/update/updateProductGroup.jsp" />
+    </definition>
+
+    <definition name="updateProductBrand" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/update/updateProductBrand.jsp" />
+    </definition>
+
+    <definition name="updateProductDrugCategory" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/update/updateProductDrugCategory.jsp" />
+    </definition>
+
+    <definition name="updateProductMonodrug" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/update/updateProductMonodrug.jsp" />
+    </definition>
+    
+    <definition name="alfabetaUpdateProducts" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/update/alfabetaUpdateProducts.jsp" />
+    </definition>
+    
+    <definition name="updateProvider" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/update/updateProvider.jsp" />
+    </definition>
+    
+     <definition name="updateProviderType" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/update/updateProviderType.jsp" />
+    </definition>
+    
+    <definition name="updateAffiliate" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/update/updateAffiliate.jsp" />
+    </definition>
+    
+    <definition name="updateAgent" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/update/updateAgent.jsp" />
+    </definition>
+    
+    <definition name="updateAgreement" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/update/updateAgreement.jsp" />
+    </definition>
+    
+    <definition name="updateConcept" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/update/updateConcept.jsp" />
+    </definition>
+    
+    <definition name="updateLogisticsOperator" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/update/updateLogisticsOperator.jsp" />
+    </definition>
+    
+    <definition name="updateDeliveryLocation" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/update/updateDeliveryLocation.jsp" />
+    </definition>
+
+    <definition name="updateClient" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/update/updateClient.jsp" />
+    </definition>
+    
+    <definition name="updateEvent" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/update/updateEvent.jsp" />
+    </definition>
+    
+    <definition name="updateUser" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/update/updateUser.jsp" />
+    </definition>
+
+    <definition name="readProduct" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/read/readProduct.jsp" />
+    </definition>
+    
+    <definition name="readProductBrand" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/read/readProductBrand.jsp" />
+    </definition>
+    
+    <definition name="readProductDrugCategory" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/read/readProductDrugCategory.jsp" />
+    </definition>
+    
+    <definition name="readProductGroup" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/read/readProductGroup.jsp" />
+    </definition>
+    
+    <definition name="readProductMonodrug" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/read/readProductMonodrug.jsp" />
+    </definition>
+    
+    <definition name="readProvider" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/read/readProvider.jsp" />
+    </definition>
+        
+    <definition name="readProviderType" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/read/readProviderType.jsp" />
+    </definition>
+    
+    <definition name="readLogisticsOperator" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/read/readLogisticsOperator.jsp" />
+    </definition>
+        
+    <definition name="readDeliveryLocation" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/read/readDeliveryLocation.jsp" />
+    </definition>
+
+    <definition name="readAgreement" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/read/readAgreement.jsp" />
+    </definition>
+    
+    <definition name="readAgent" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/read/readAgent.jsp" />
+    </definition>
+    
+    <definition name="readEvent" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/read/readEvent.jsp" />
+    </definition>
+    
+    <definition name="readAffiliate" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/read/readAffiliate.jsp" />
+    </definition>
+    
+    <definition name="readConcept" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/read/readConcept.jsp" />
+    </definition>
+    
+    <definition name="readClient" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/read/readClient.jsp" />
+    </definition>
+    
+    <definition name="readUser" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/read/readUser.jsp" />
+    </definition>
+    
+    <definition name="orderAssemblySelection" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/orderAssembly/orderAssemblySelection.jsp" />
+    </definition>
+    
+    <definition name="provisioningRequestAuthorization" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/provisioningRequest/provisioningRequestAuthorization.jsp" />
+    </definition>
+    
+    <definition name="deliveryNoteSheet" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/printing/deliveryNoteSheet.jsp" />
+    </definition>
+    
+    <definition name="deliveryNoteCancellation" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/deliveryNote/deliveryNoteCancellation.jsp" />
+    </definition>
+    
+    <definition name="pickingSheet" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/printing/pickingSheet.jsp" />
+    </definition>
+    
+    <definition name="provisioningRequestCancellation" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/provisioningRequest/provisioningRequestCancellation.jsp" />
+    </definition>
+    
+    <definition name="searchProvisioningToUpdate" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/provisioningRequest/searchProvisioningToUpdate.jsp" />
+    </definition>
+    
+    <definition name="home" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/home.jsp" />
+    </definition>
+    
+    <definition name="userAdministration" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/userAdministration.jsp" />
+    </definition>
+    
+    <definition name="roleAdministration" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/roleAdministration.jsp" />
+    </definition>
+    
+    <definition name="providerSerializedFormatAdministration" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/providerSerializedFormatAdministration.jsp" />
+    </definition>
+    
+    <definition name="addProviderSerializedFormat" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/add/addProviderSerializedFormat.jsp" />
+    </definition>
+    
+    <definition name="searchStock" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/report/searchStock.jsp" />
+    </definition>
+    
+    <definition name="searchDeliveryNote" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/report/searchDeliveryNote.jsp" />
+    </definition>
+
+    <definition name="searchAudit" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/report/searchAudit.jsp" />
+    </definition>
+    
+    <definition name="orderCancellation" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/orderAssembly/orderCancellation.jsp" />
+    </definition>
+    
+    <definition name="output" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/output/output.jsp" />
+    </definition>
+    
+    <definition name="searchInputToUpdate" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/input/searchInputToUpdate.jsp" />
+    </definition>
+    
+    <definition name="searchOutput" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/report/searchOutput.jsp" />
+    </definition>
+    
+    <definition name="inputCancellation" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/input/inputCancellation.jsp" />
+    </definition>
+    
+    <definition name="outputCancellation" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/output/outputCancellation.jsp" />
+    </definition>
+    
+    <definition name="pendingInputs" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/input/pendingInputs.jsp" />
+    </definition>
+    
+    <definition name="pendingTransactions" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/deliveryNote/pendingTransactions.jsp" />
+    </definition>
+    
+	<definition name="searchSerializedProduct" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/report/searchSerializedProduct.jsp" />
+    </definition>
+    
+	<definition name="searchBatchExpirateDateProduct" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/report/searchBatchExpirateDateProduct.jsp" />
+    </definition>
+    
+    <definition name="logisticOperatorAssignment" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/orderAssembly/logisticOperatorAssignment.jsp" />
+    </definition>
+    
+    <definition name="agreementTransfer" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/agreementTransfer/agreementTransfer.jsp" />
+    </definition>
+    
+</tiles-definitions>

@@ -1,0 +1,222 @@
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+	background-color: #eee;
+	font-size: 140%;
+}
+
+#wrap {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -60px;
+	padding: 0 0 60px;
+}
+
+#body {
+	max-width: 990px;
+	margin: auto;
+}
+
+#body .content {
+	background-color: #fff;
+	padding: 20px;
+	margin: 10px -20px 0px -20px;
+	-webkit-border-radius: 6px 6px 6px 6px;
+	-moz-border-radius: 6px 6px 6px 6px;
+	border-radius: 6px 6px 6px 6px;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+	box-shadow: 0 0 3px 3px #BBB;
+	min-height: 10px;
+}
+
+#header {
+	width : 100%;
+	background-color : #092E67;
+	padding-top : 1px;
+	border-bottom : 1px solid #888;
+	z-index : 0;
+	color:white;
+}
+.my-page-header {
+	padding-left: 13px;
+	margin: 20px 0 20px;
+	border-bottom: 1px solid #eeeeee;
+}
+#footer {
+	height : 50px;
+	z-index : 0;
+	text-align: center;
+}
+
+.form-signin {
+	max-width: 330px;
+	padding: 15px;
+	margin: 0 auto;
+}
+
+.text-muted-credit {
+	position: relative;
+	top: 25px;
+}
+
+.footer-a:hover { 
+	text-decoration: underline;
+}
+
+.my-table thead th {
+    background-color: #44617D;
+    color: white;
+}
+
+.my-table tr td:first-child,
+.my-table tr th:first-child {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.my-table tr td:last-child,
+.my-table tr th:last-child {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.form-margin {
+	margin-top: 25px; 
+}
+
+.form-margin-text {
+	margin-top: 28px; 
+}
+
+.my-textarea {
+	resize: none;
+}
+
+/* para el submenu */
+
+.dropdown-submenu {
+	position: relative;
+}
+
+.dropdown-submenu > .dropdown-menu {
+	top: 0;
+	left: 100%;
+	margin-top: -6px;
+	margin-left: -1px;
+	-webkit-border-radius: 0 6px 6px 6px;
+	   -moz-border-radius: 0 6px 6px 6px;
+	        border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover > .dropdown-menu {
+	display: block;
+}
+
+.dropup .dropdown-submenu > .dropdown-menu {
+	top: auto;
+	bottom: 0;
+	margin-top: 0;
+	margin-bottom: -2px;
+	-webkit-border-radius: 5px 5px 5px 0;
+	   -moz-border-radius: 5px 5px 5px 0;
+	        border-radius: 5px 5px 5px 0;
+}
+
+.dropdown-submenu > a:after {
+	display: block;
+	float: right;
+	width: 0;
+	height: 0;
+	margin-top: 5px;
+	margin-right: -10px;
+	border-color: transparent;
+	border-left-color: #cccccc;
+	border-style: solid;
+	border-width: 5px 0 5px 5px;
+	content: " ";
+}
+
+.dropdown-submenu:hover > a:after {
+	border-left-color: #ffffff;
+}
+
+.dropdown-submenu.pull-left {
+	float: none;
+}
+
+.dropdown-submenu.pull-left > .dropdown-menu {
+	left: -100%;
+	margin-left: 10px;
+	-webkit-border-radius: 6px 0 6px 6px;
+	   -moz-border-radius: 6px 0 6px 6px;
+	        border-radius: 6px 0 6px 6px;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus,
+.dropdown-submenu:hover > a,
+.dropdown-submenu:focus > a {
+	color: #ffffff;
+	text-decoration: none;
+	background-color: #0081c2;
+	background-image: -moz-linear-gradient(top, #0088cc, #0077b3);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0077b3));
+	background-image: -webkit-linear-gradient(top, #0088cc, #0077b3);
+	background-image: -o-linear-gradient(top, #0088cc, #0077b3);
+	background-image: linear-gradient(to bottom, #0088cc, #0077b3);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
+}
+
+.has-error {
+	border: 1px solid #b94a48!important;
+	background-color: #fee!important;
+}
+
+.ui-autocomplete {
+	max-height: 318px;
+	overflow-y: auto;
+	/* prevent horizontal scrollbar */
+	overflow-x: hidden;
+}
+
+.modal {
+    overflow-y: auto;
+}
+
+.tooltip.top .tooltip-arrow {
+	left: 51% !important;
+}
+
+.logout-button {
+	float:right;
+	/* margin-top:15px;
+	color:#00FFFF; */
+}
+
+.logout-button:hover {
+	color:#02d7cc;
+}
+
+/* Estilo para el blockUI */
+div.blockMsg {
+    width:  40%;
+    top:    30%;
+    left:   30%;
+    text-align: center;
+    background-color: #f00;
+    border: 1px solid #ddd;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; 
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50); 
+    -moz-opacity:.70;
+    opacity:.70;
+    padding: 15px;
+    color: #fff;
+}

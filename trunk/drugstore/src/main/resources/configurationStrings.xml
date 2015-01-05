@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE factories SYSTEM "configurationStrings.dtd">
+<configurationstrings>
+	
+	<configuration>
+		<isProduccion>false</isProduccion>
+		<usr>testwservice</usr>
+		<pass>testwservicepsw</pass>
+	</configuration>
+
+</configurationstrings>

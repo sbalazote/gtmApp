@@ -1,0 +1,45 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    					http://www.springframework.org/schema/beans/spring-beans.xsd
+    					http://www.springframework.org/schema/context
+    					http://www.springframework.org/schema/context/spring-context.xsd
+    					http://www.springframework.org/schema/mvc
+    					http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+	
+    <bean id="affiliates" class="com.drogueria.helper.impl.AffiliatesPdfView"/>
+	
+	<bean id="agents" class="com.drogueria.helper.impl.AgentsPdfView"/>
+	
+	<bean id="agreements" class="com.drogueria.helper.impl.AgreementsPdfView"/>
+	
+	<bean id="clients" class="com.drogueria.helper.impl.ClientsPdfView"/>
+	
+	<bean id="concepts" class="com.drogueria.helper.impl.ConceptsPdfView"/>
+	
+	<bean id="deliveryLocations" class="com.drogueria.helper.impl.DeliveryLocationsPdfView"/>
+	
+	<bean id="events" class="com.drogueria.helper.impl.EventsPdfView"/>
+	
+	<bean id="logisticsOperators" class="com.drogueria.helper.impl.LogisticsOperatorsPdfView"/>
+    
+	<bean id="products" class="com.drogueria.helper.impl.ProductsPdfView"/>
+	<bean id="productBrands" class="com.drogueria.helper.impl.ProductBrandsPdfView"/>
+	<bean id="productDrugCategories" class="com.drogueria.helper.impl.ProductDrugCategoriesPdfView"/>
+	<bean id="productGroups" class="com.drogueria.helper.impl.ProductGroupsPdfView"/>
+	<bean id="productMonodrugs" class="com.drogueria.helper.impl.ProductMonodrugsPdfView"/>
+	
+	<bean id="providers" class="com.drogueria.helper.impl.ProvidersPdfView"/>
+	<bean id="providerTypes" class="com.drogueria.helper.impl.ProviderTypesPdfView"/>
+	
+	<bean id="users" class="com.drogueria.helper.impl.UsersPdfView"/>
+	
+	<bean id="stocks" class="com.drogueria.helper.impl.StockPdfView"/>
+	<bean id="inputs" class="com.drogueria.helper.impl.InputsPdfView"/>
+	<bean id="outputs" class="com.drogueria.helper.impl.OutputsPdfView"/>
+	<bean id="provisionings" class="com.drogueria.helper.impl.ProvisioningPdfView"/>
+	<bean id="audits" class="com.drogueria.helper.impl.AuditPdfView"/>
+	
+</beans>
