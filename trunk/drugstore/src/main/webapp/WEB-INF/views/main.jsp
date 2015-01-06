@@ -22,6 +22,7 @@
 		<link rel="stylesheet" type="text/css" href="css/select2-bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="css/jquery.bootgrid.css">
 		<link rel="stylesheet" type="text/css" href="css/themes/blue/pace-theme-corner-indicator.css">
+		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 		
 	    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 	    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
@@ -65,9 +66,9 @@
 	            	<tiles:insertAttribute name="body" />
 	            </div>
 	        </div>
-	    </div>
-        <div id="footer">
+	        <div id="footer">
             <tiles:insertAttribute name="footer" />
-        </div>
+        	</div>
+	    </div>
 	</body>
 </html>
