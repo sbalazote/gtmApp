@@ -15,6 +15,24 @@ SaveAgreement = function() {
 				},
 				active: {
 					required: true
+				},
+				numberOfDeliveryNoteDetailsPerPage: {
+					required: true
+				},
+				pickingFilepath: {
+					required: true
+				},
+				orderLabelFilepath: {
+					required: true
+				},
+				deliveryNoteFilepath: {
+					required: true
+				},
+				deliveryNoteConcept: {
+					required: true
+				},
+				destructionConcept: {
+					required: true
 				}
 			},
 			showErrors: myShowErrors,
@@ -53,6 +71,12 @@ SaveAgreement = function() {
 					"code": $("#codeInput").val(),
 					"description": $("#descriptionInput").val(),
 					"active": $("#activeSelect option:selected").val(),
+					"numberOfDeliveryNoteDetailsPerPage": $("#numberOfDeliveryNoteDetailsPerPageInput").val(),
+					"pickingFilepath": $("#pickingFilepathInput").val(),
+					"orderLabelFilepath": $("#orderLabelFilepathInput").val(),
+					"deliveryNoteFilepath": $("#deliveryNoteFilepathInput").val(),
+					"deliveryNoteConceptId": $("#deliveryNoteConceptSelect option:selected").val(),
+					"destructionConceptId": $("#destructionConceptSelect option:selected").val()
 			};
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.

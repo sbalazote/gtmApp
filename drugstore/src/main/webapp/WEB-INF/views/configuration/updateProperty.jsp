@@ -108,37 +108,9 @@
 		<div id="panel2" class="panel-collapse">
 			<div class="panel-body">
 				<div class="row">
-					<div class="col-md-4 form-group">	
-						<label for="typeSelect"><spring:message code="configuration.providerType"/></label>
-						<select class="form-control chosen-select" id="typeSelect" name="type">
-							<option value="${selectedType.id}"><c:out value="${selectedType.description}"></c:out></option>
-							<c:forEach items="${types}" var="type" varStatus="status">
-								<option value="${type.id}"><c:out value="${type.description}"></c:out></option>
-							</c:forEach>
-						</select>
-					</div>
-					<div class="col-md-4 form-group">	
-						<label for="numberOfDeliveryNoteDetailsPerPageInput"><spring:message code="configuration.numberOfDeliveryNoteDetailsPerPage"/></label>
-						<input type="text" class="form-control" id="numberOfDeliveryNoteDetailsPerPageInput" name="numberOfDeliveryNoteDetailsPerPage" value="${numberOfDeliveryNoteDetailsPerPage}">
-					</div>
-					<div class="col-md-4 form-group">	
-						<label for="pickingFilepathInput"><spring:message code="configuration.pickingFilepath"/></label>
-						<input type="text" class="form-control" id="pickingFilepathInput" name="pickingFilepath" value="${pickingFilepath}">
-					</div>
-				</div>
-				
-				<div class="row">
-					<div class="col-md-4 form-group">	
-						<label for="orderLabelFilepathInput"><spring:message code="configuration.orderLabelFilepath"/></label>
-						<input type="text" class="form-control" id="orderLabelFilepathInput" name="orderLabelFilepath" value="${orderLabelFilepath}">
-					</div>
-					<div class="col-md-4 form-group">	
+					<div class="col-md-6 form-group">	
 						<label for="selfSerializedTagFilepathInput"><spring:message code="configuration.selfSerializedTagFilepath"/></label>
 						<input type="text" class="form-control" id="selfSerializedTagFilepathInput" name="selfSerializedTagFilepath" value="${selfSerializedTagFilepath}">
-					</div>
-					<div class="col-md-4 form-group">	
-						<label for="deliveryNoteFilepathInput"><spring:message code="configuration.deliveryNoteFilepath"/></label>
-						<input type="text" class="form-control" id="deliveryNoteFilepathInput" name="deliveryNoteFilepath" value="${deliveryNoteFilepath}">
 					</div>
 				</div>
             </div>

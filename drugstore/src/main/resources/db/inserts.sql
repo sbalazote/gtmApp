@@ -106,32 +106,56 @@ insert into event (id, code, description, origin_agent_id, destination_agent_id,
 insert into event (id, code, description, origin_agent_id, destination_agent_id, active) values (44,338,'INICIO DE TRAZA',4,2,true);
 insert into event (id, code, description, origin_agent_id, destination_agent_id, active) values (45,339,'INICIO DE TRAZA',5,2,true);
 
-INSERT INTO `concept` VALUES (1,1,'PDT:TOMA DE INVENTARIO',1,1,1,'\0',1,1,0),
-(2,2,'PDT:INGRESO POR COMPRAS',1,1,1,'\0',1,1,0),(3,3,'PDT:ENVIO A SUCURSALES','\0',1,1,'\0',1,1,0),
-(4,4,'PDT:DEVOLUCION A PROVEEDORES','\0',1,1,'\0',1,1,0),(5,5,'PSI:TOMA DE INVENTARIO',1,1,1,'\0',1,1,0),
-(6,6,'PSI:INGRESO POR COMPRAS',1,1,1,'\0',1,1,0),(7,7,'PSI:ENVIO A SUCURSALES','\0',1,1,'\0',1,1,0),
-(8,8,'PSI:DEVOLUCION A PROVEEDORES','\0',1,1,'\0',1,1,0),(9,11,'DSK:INGRESO POR DEPOSITO',1,1,1,'\0',1,1,0),
-(10,12,'DSK:INGRESO POR SUCURSAL',1,1,1,'\0','\0',1,0),(11,13,'DSK:ENVIO A SUCURSALES','\0',1,1,'\0',1,1,0),
-(12,14,'PDT:AJUSTE SOBRANTE INVENTARIO','\0',1,1,'\0',1,1,0),(13,15,'PDT:AJUSTE FALTANTE INVENTARIO',1,1,1,'\0',1,1,0),
-(14,16,'PDT:AJUSTE SOBRANTE ENVIO DEPO','\0',1,1,'\0',1,1,0),(15,17,'PDT:AJUSTE FALTANTE ENVIO DEPO',1,1,1,'\0',1,1,0),
-(16,18,'PDT:AJUSTE SOBRANTE ENVIO SUCU','\0',1,1,'\0',1,1,0),(17,19,'PDT:AJUSTE FALTANTE ENVIO SUCU',1,1,1,'\0',1,1,0),
-(18,20,'MAN:AJUSTE POR DEVOLUCION N/C',1,1,1,'\0',1,1,0),(19,21,'CRF:INGRESO POR COMPRAS X',1,1,1,'\0',1,1,0),
-(20,22,'CRF:ENVIO A SUCURSALES','\0',1,1,'\0',1,1,0),(21,23,'CRF:DEVOLUCION A PROVEEDORES','\0',1,1,'\0',1,1,0),
-(22,54,'SALIDA POR REMITO *CONSIGNADO','\0',1,1,'\0','\0',1,0),(23,55,'SALIDA POR REMITO *EN FIRME','\0',1,1,'\0','\0',1,0),
-(24,56,'INGRESO POR BAJA DE REMITO',1,1,1,'\0','\0',1,0),(25,57,'EGRESO TRANSF. DE CONVENIO','\0',1,1,'\0','\0',1,0),
-(26,58,'INGRESO TRANSF. DE CONVENIO',1,1,1,'\0','\0',1,0),(27,60,'DEVOLUCION DE CLIENTE',1,1,1,'\0','\0',1,0),
-(28,63,'DEVOLUCION DE SUCURSAL',1,1,1,'\0','\0',1,0),
-(29,70,'EGRESO TRANSF. SUBDEPOSITO','\0',1,1,'\0','\0',1,0),(30,71,'INGRESO TRANSF. SUBDEPOSITO',1,1,1,'\0','\0',1,0),
-(31,101,'INGRESO - INICIO DE TRAZA',1,1,1,'\0',1,1,0),(32,102,'MAN:INGRESO POR COMPRAS',1,1,1,'\0',1,1,0),
-(33,103,'ENVIO A SUCURSALES','\0',1,1,'\0',1,1,0),(34,104,'MAN:DEVOLUCION PROVEEDORES','\0',1,1,'\0',1,1,0),
-(35,120,'INGRESO POR COMPRAS',1,1,1,'\0',1,1,0),(36,140,'AJUSTE STOCK (-)','\0',1,1,'\0',1,1,0),
-(37,150,'INGRESO - ANUL REMITO INTERNO',1,1,1,'\0','\0',1,0),(38,151,'EGRESO - ANUL. REMITO INTERNO','\0',1,1,'\0','\0',1,0),
-(39,152,'AJUSTE (-) ERROR EN CARGA','\0',1,1,'\0','\0',1,0),(40,153,'ENVIO A DESTRUCCION (-)','\0',1,1,'\0',1,1,0),
-(41,154,'AJUSTE (+) POR LTE EN -',1,1,1,'\0',1,1,0),(42,155,'AJUSTE (-) POR LTE +','\0',1,1,'\0',1,1,0),
-(43,156,'AJUSTE+POR ERR EN EVIO A SUC',1,1,1,'\0',1,1,0),(44,157,'BAJA X CAMBIO LTE A SER','\0',1,1,'\0',1,1,0),
-(45,158,'ALTA X CAMBIO LTE A SER',1,1,1,'\0',1,1,0),(46,160,'DEVOLUCION LOTE Y VTO',1,1,1,'\0','\0',1,0),
-(47,200,'MOVIMIENTOS EXTRACAPITA OSECAC','\0',1,1,'\0','\0',1,0),(48,202,'RECALL ONCOLOGIA','\0',1,1,'\0','\0',1,0),
-(49,203,'RECALL OSECAC','\0',1,1,'\0','\0',1,0);
+INSERT INTO `concept` VALUES 
+(1,1,'PDT:TOMA DE INVENTARIO','0006','00000000',1,1,1,'\0',1,1,0),
+(2,2,'PDT:INGRESO POR COMPRAS','0006','00000000',1,1,1,'\0',1,1,0),
+(3,3,'PDT:ENVIO A SUCURSALES','0006','00000000','\0',1,1,'\0',1,1,0),
+(4,4,'PDT:DEVOLUCION A PROVEEDORES','0006','00000000','\0',1,1,'\0',1,1,0),
+(5,5,'PSI:TOMA DE INVENTARIO','0006','00000000',1,1,1,'\0',1,1,0),
+(6,6,'PSI:INGRESO POR COMPRAS','0006','00000000',1,1,1,'\0',1,1,0),
+(7,7,'PSI:ENVIO A SUCURSALES','0006','00000000','\0',1,1,'\0',1,1,0),
+(8,8,'PSI:DEVOLUCION A PROVEEDORES','0006','00000000','\0',1,1,'\0',1,1,0),
+(9,11,'DSK:INGRESO POR DEPOSITO','0006','00000000',1,1,1,'\0',1,1,0),
+(10,12,'DSK:INGRESO POR SUCURSAL','0006','00000000',1,1,1,'\0','\0',1,0),
+(11,13,'DSK:ENVIO A SUCURSALES','0006','00000000','\0',1,1,'\0',1,1,0),
+(12,14,'PDT:AJUSTE SOBRANTE INVENTARIO','0006','00000000','\0',1,1,'\0',1,1,0),
+(13,15,'PDT:AJUSTE FALTANTE INVENTARIO','0006','00000000',1,1,1,'\0',1,1,0),
+(14,16,'PDT:AJUSTE SOBRANTE ENVIO DEPO','0006','00000000','\0',1,1,'\0',1,1,0),
+(15,17,'PDT:AJUSTE FALTANTE ENVIO DEPO','0006','00000000',1,1,1,'\0',1,1,0),
+(16,18,'PDT:AJUSTE SOBRANTE ENVIO SUCU','0006','00000000','\0',1,1,'\0',1,1,0),
+(17,19,'PDT:AJUSTE FALTANTE ENVIO SUCU','0006','00000000',1,1,1,'\0',1,1,0),
+(18,20,'MAN:AJUSTE POR DEVOLUCION N/C','0006','00000000',1,1,1,'\0',1,1,0),
+(19,21,'CRF:INGRESO POR COMPRAS X','0006','00000000',1,1,1,'\0',1,1,0),
+(20,22,'CRF:ENVIO A SUCURSALES','0006','00000000','\0',1,1,'\0',1,1,0),
+(21,23,'CRF:DEVOLUCION A PROVEEDORES','0006','00000000','\0',1,1,'\0',1,1,0),
+(22,54,'SALIDA POR REMITO *CONSIGNADO','0006','00000000','\0',1,1,'\0','\0',1,0),
+(23,55,'SALIDA POR REMITO *EN FIRME','0006','00000000','\0',1,1,'\0','\0',1,0),
+(24,56,'INGRESO POR BAJA DE REMITO','0006','00000000',1,1,1,'\0','\0',1,0),
+(25,57,'EGRESO TRANSF. DE CONVENIO','0006','00000000','\0',1,1,'\0','\0',1,0),
+(26,58,'INGRESO TRANSF. DE CONVENIO','0006','00000000',1,1,1,'\0','\0',1,0),
+(27,60,'DEVOLUCION DE CLIENTE','0006','00000000',1,1,1,'\0','\0',1,0),
+(28,63,'DEVOLUCION DE SUCURSAL','0006','00000000',1,1,1,'\0','\0',1,0),
+(29,70,'EGRESO TRANSF. SUBDEPOSITO','0006','00000000','\0',1,1,'\0','\0',1,0),
+(30,71,'INGRESO TRANSF. SUBDEPOSITO','0006','00000000',1,1,1,'\0','\0',1,0),
+(31,101,'INGRESO - INICIO DE TRAZA','0006','00000000',1,1,1,'\0',1,1,0),
+(32,102,'MAN:INGRESO POR COMPRAS','0006','00000000',1,1,1,'\0',1,1,0),
+(33,103,'ENVIO A SUCURSALES','0006','00000000','\0',1,1,'\0',1,1,0),
+(34,104,'MAN:DEVOLUCION PROVEEDORES','0006','00000000','\0',1,1,'\0',1,1,0),
+(35,120,'INGRESO POR COMPRAS','0006','00000000',1,1,1,'\0',1,1,0),
+(36,140,'AJUSTE STOCK (-)','0006','00000000','\0',1,1,'\0',1,1,0),
+(37,150,'INGRESO - ANUL REMITO INTERNO','0006','00000000',1,1,1,'\0','\0',1,0),
+(38,151,'EGRESO - ANUL. REMITO INTERNO','0006','00000000','\0',1,1,'\0','\0',1,0),
+(39,152,'AJUSTE (-) ERROR EN CARGA','0006','00000000','\0',1,1,'\0','\0',1,0),
+(40,153,'ENVIO A DESTRUCCION (-)','0006','00000000','\0',1,1,'\0',1,1,0),
+(41,154,'AJUSTE (+) POR LTE EN -','0006','00000000',1,1,1,'\0',1,1,0),
+(42,155,'AJUSTE (-) POR LTE +','0006','00000000','\0',1,1,'\0',1,1,0),
+(43,156,'AJUSTE+POR ERR EN EVIO A SUC','0006','00000000',1,1,1,'\0',1,1,0),
+(44,157,'BAJA X CAMBIO LTE A SER','0006','00000000','\0',1,1,'\0',1,1,0),
+(45,158,'ALTA X CAMBIO LTE A SER','0006','00000000',1,1,1,'\0',1,1,0),
+(46,160,'DEVOLUCION LOTE Y VTO','0006','00000000',1,1,1,'\0','\0',1,0),
+(47,200,'MOVIMIENTOS EXTRACAPITA OSECAC','0006','00000000','\0',1,1,'\0','\0',1,0),
+(48,202,'RECALL ONCOLOGIA','0006','00000000','\0',1,1,'\0','\0',1,0),
+(49,203,'RECALL OSECAC','0006','00000000','\0',1,1,'\0','\0',1,0);
 
 insert into concept_event (id,concept_id, event_id) values (1,32,5);
 insert into concept_event (id,concept_id, event_id) values (2,32,6);
@@ -276,7 +300,13 @@ INSERT INTO `provider` VALUES (117,2776,'ARGIMED SRL','30708072822','ARGIMED SRL
 INSERT INTO `provider` VALUES (118,2778,'DROGUERIA AVANTFAR SA','30708335416','DROGUERIA AVANTFAR SA',1,'CABA','PIZARRO 5336','1',1,NULL,NULL,'7798166060008',1,1,1);
 INSERT INTO `provider` VALUES (119,2779,'GBG PHARMA','30708559063','GBG PHARMA',1,'caba','manuel A. rodriguez 2464','1',1,NULL,NULL,'7798173790004',1,1,1);
 
-INSERT INTO `agreement` VALUES (1,1,'ONCOMED',1),(2,2,'OSECAC AC',1),(3,3,'EXTRACAPITA',1),(4,4,'PAC',1),(6,6,'OSECAC PPG',1),(7,7,'OTROS ONCOMED',1);
+INSERT INTO `agreement` (id, code, description, order_label_filepath, delivery_note_filepath, picking_filepath, delivery_note_concept_id, destruction_concept_id, active) VALUES 
+(1,1,'ONCOMED','C:/ONCOMED/rotulo/','C:/ONCOMED/deliveryNotes/','C:/ONCOMED/pickingSheets/',23,31,1),
+(2,2,'OSECAC AC','C:/OSECACAC/rotulo/','C:/OSECACAC/deliveryNotes/','C:/OSECACAC/pickingSheets/',23,31,1),
+(3,3,'EXTRACAPITA','C:/EXTRACAPITA/rotulo/','C:/EXTRACAPITA/deliveryNotes/','C:/EXTRACAPITA/pickingSheets/',23,31,1),
+(4,4,'PAC','C:/PAC/rotulo/','C:/PAC/deliveryNotes/','C:/PAC/pickingSheets/',23,31,1),
+(6,6,'OSECAC PPG','C:/OSECACPPG/rotulo/','C:/OSECACPPG/deliveryNotes/','C:/OSECACPPG/pickingSheets/',23,31,1),
+(7,7,'OTROS ONCOMED','C:/OTROS/rotulo/','C:/OTROS/deliveryNotes/','C:/OTROS/pickingSheets/',23,31,1);
 
 insert into provisioning_request_state (id, description) values (1,'INGRESADO');
 insert into provisioning_request_state (id, description) values (2,'AUTORIZADO');
@@ -614,8 +644,8 @@ insert into provider_serialized_format (id,gtin_length,serial_number_length,expi
 insert into provider_serialized_format (id,gtin_length,serial_number_length,expiration_date_length,batch_length,sequence) values (104,13,20,6,10,'G-S-E-B');
 
 
-INSERT INTO `drugstore_property` (id, code, name, tax_id, corporate_name, province_id, locality, address, zip_code, phone, mail, gln, agent_id, type_id, last_tag, order_label_filepath, self_serialized_tag_filepath, last_delivery_note_number, delivery_note_filepath, picking_filepath, ANMAT_password, print_delivery_note_concept_id, start_trace_concept_id, proxy,proxy_port,inform_proxy)
-VALUES (1,86,'ONCOMED RENO','30686437228','ONCOMED RENO SA',1,'C.A.B.A.','AGUERO 1223','1425','4963-1500',NULL,'7798169170001',3,1,0,'C:/rotulo/','C:/selfSerializedTagsPrinter/',0,'C:/deliveryNotes/','C:/pickingSheets/',"ZrFFnPSO9FCCOwRq7/DYzg==", 23,31,"","",0);
+INSERT INTO `drugstore_property` (id, code, name, tax_id, corporate_name, province_id, locality, address, zip_code, phone, mail, gln, agent_id, last_tag, self_serialized_tag_filepath, ANMAT_password, start_trace_concept_id, proxy,proxy_port,inform_proxy)
+VALUES (1,86,'ONCOMED RENO','30686437228','ONCOMED RENO SA',1,'C.A.B.A.','AGUERO 1223','1425','4963-1500',NULL,'7798169170001',3,0,'C:/selfSerializedTagsPrinter/',"ZrFFnPSO9FCCOwRq7/DYzg==",23,"","",0);
 
 insert into `drugstore`.`role` values (1, 'INPUT', 'Recepción de Mercadería');
 insert into `drugstore`.`role` values (2, 'OUTPUT', 'Egreso de Mercadería');

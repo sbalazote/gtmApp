@@ -14,14 +14,15 @@ import com.drogueria.constant.State;
 import com.drogueria.helper.DeliveryNoteConfigFile;
 import com.drogueria.helper.DeliveryNoteSheetPrinter;
 import com.drogueria.helper.PrintOnPrinter;
+import com.drogueria.model.Concept;
 import com.drogueria.model.DeliveryNote;
 import com.drogueria.model.DeliveryNoteDetail;
-import com.drogueria.model.DrugstoreProperty;
 import com.drogueria.model.Order;
 import com.drogueria.model.OrderDetail;
 import com.drogueria.model.Product;
 import com.drogueria.model.ProvisioningRequest;
 import com.drogueria.model.ProvisioningRequestState;
+import com.drogueria.service.ConceptService;
 import com.drogueria.service.DeliveryNoteService;
 import com.drogueria.service.DrugstorePropertyService;
 import com.drogueria.service.OrderService;
@@ -50,10 +51,11 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 	private DeliveryNoteService deliveryNoteService;
 	@Autowired
 	private PrintOnPrinter printOnPrinter;
+	@Autowired
+	private ConceptService conceptService;
 
 	@Override
 	public List<Integer> print(List<Integer> ordersIds) {
-		Integer numberOfDeliveryNoteDetailsPerPage = this.drugstorePropertyService.get().getNumberOfDeliveryNoteDetailsPerPage();
 		List<Integer> printsNumbers = new ArrayList<>();
 		ProvisioningRequestState state = this.provisioningRequestStateService.get(State.DELIVERY_NOTE_PRINTED.getId());
 		Date date = new Date();
@@ -61,15 +63,17 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 		for (Integer id : ordersIds) {
 			Order order = this.orderService.get(id);
 			ProvisioningRequest provisioningRequest = this.provisioningRequestService.get(order.getProvisioningRequest().getId());
+			Integer numberOfDeliveryNoteDetailsPerPage = provisioningRequest.getAgreement().getNumberOfDeliveryNoteDetailsPerPage();
 			provisioningRequest.setState(state);
 			this.provisioningRequestService.save(provisioningRequest);
 
 			List<OrderDetail> orderDetails = order.getOrderDetails();
 			Integer deliveryNoteNumbersRequired = (orderDetails.size() / numberOfDeliveryNoteDetailsPerPage) + 1;
-			DrugstoreProperty drugstoreProperty = this.drugstorePropertyService.getAndUpdateDeliveryNote(deliveryNoteNumbersRequired);
-			DeliveryNoteConfigFile deliveryNoteConfigFile = new DeliveryNoteConfigFile(drugstoreProperty.getDeliveryNoteFilepath());
-			String drugstoreGln = drugstoreProperty.getGln();
-			Integer deliveryNoteNumber = drugstoreProperty.getLastDeliveryNoteNumber() - deliveryNoteNumbersRequired + 1;
+			Integer conceptId = order.getProvisioningRequest().getAgreement().getDeliveryNoteConcept().getId();
+			Concept concept = this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
+			DeliveryNoteConfigFile deliveryNoteConfigFile = new DeliveryNoteConfigFile(provisioningRequest.getAgreement().getDeliveryNoteFilepath());
+			String drugstoreGln = this.drugstorePropertyService.get().getGln();
+			Integer deliveryNoteNumber = concept.getLastDeliveryNoteNumber() - deliveryNoteNumbersRequired + 1;
 
 			// Hago el corte de remitos por la cantidad items por pagina que se indique por parametro.
 
@@ -104,13 +108,13 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 				}
 
 				// Imprimo el pdf de Remito
-				this.generateDeliveryNoteSheet(provisioningRequest, deliveryNoteNumber, deliveryNoteConfigFile, drugstoreProperty.getDeliveryNoteFilepath(),
-						drugstoreGln, tempOrderDetails);
+				this.generateDeliveryNoteSheet(provisioningRequest, deliveryNoteNumber, deliveryNoteConfigFile, provisioningRequest.getAgreement()
+						.getDeliveryNoteFilepath(), drugstoreGln, tempOrderDetails);
 				// Guardo el Remito en la base de datos
 				deliveryNote.setDeliveryNoteDetails(deliveryNoteDetails);
 				deliveryNote.setDate(date);
 				try {
-					if (order.hasToInform() && drugstoreProperty.getPrintDeliveryNoteConcept().isInformAnmat()) {
+					if (order.hasToInform() && provisioningRequest.getAgreement().getDeliveryNoteConcept().isInformAnmat()) {
 						deliveryNote.setInformAnmat(true);
 					} else {
 						deliveryNote.setInformAnmat(false);

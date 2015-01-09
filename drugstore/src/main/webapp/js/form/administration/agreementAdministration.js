@@ -6,7 +6,13 @@ $(document).ready(function() {
 		$("#idInput").val('');
 		$("#codeInput").val('');
 		$("#descriptionInput").val('');
+		$("#numberOfDeliveryNoteDetailsPerPageInput").val('');
+		$("#pickingFilepathInput").val('');
+		$("#orderLabelFilepathInput").val('');
+		$("#deliveryNoteFilepathInput").val('');
 		$("#activeSelect").val($("#activeSelect option:first").val());
+		$("#deliveryNoteConceptSelect").val($("#deliveryNoteConceptSelect option:first").val());
+		$("#destructionConceptSelect").val($("#destructionConceptSelect option:first").val());
 	};
 	
 	var deleteAgreement = function(agreementId) {
@@ -43,8 +49,14 @@ $(document).ready(function() {
 				$("#idInput").val(response.id);
 				$("#codeInput").val(response.code);
 				$("#descriptionInput").val(response.description);
+				$("#numberOfDeliveryNoteDetailsPerPageInput").val(response.numberOfDeliveryNoteDetailsPerPage);
+				$("#pickingFilepathInput").val(response.pickingFilepath);
+				$("#orderLabelFilepathInput").val(response.orderLabelFilepath);
+				$("#deliveryNoteFilepathInput").val(response.deliveryNoteFilepath);
 				var isActive = (response.active) ? "true" : "false";
 				$("#activeSelect").val(isActive).trigger('chosen:update');
+				$("#deliveryNoteConceptSelect").val(response.deliveryNoteConcept.id).trigger('chosen:update');
+				$("#destructionConceptSelect").val(response.destructionConcept.id).trigger('chosen:update');
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myDeleteError();
@@ -56,6 +68,12 @@ $(document).ready(function() {
 		$("#codeInput").attr('disabled', hidden);
 		$("#descriptionInput").attr('disabled', hidden);
 		$("#activeSelect").prop('disabled', hidden).trigger('chosen:update');
+		$("#numberOfDeliveryNoteDetailsPerPageInput").attr('disabled', hidden);
+		$("#pickingFilepathInput").attr('disabled', hidden);
+		$("#orderLabelFilepathInput").attr('disabled', hidden);
+		$("#deliveryNoteFilepathInput").attr('disabled', hidden);
+		$("#deliveryNoteConceptSelect").prop('disabled', hidden).trigger('chosen:update');
+		$("#destructionConceptSelect").prop('disabled', hidden).trigger('chosen:update');
 	};
 	
 	$("#addAgreement").click(function() {

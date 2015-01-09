@@ -27,4 +27,6 @@ public interface ConceptDAO {
 	List<Concept> getPaginated(int start, int length);
 
 	Long getTotalNumber();
+
+	Concept getForUpdate(Integer id);
 }

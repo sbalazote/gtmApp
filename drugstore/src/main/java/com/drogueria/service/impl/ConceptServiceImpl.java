@@ -70,4 +70,14 @@ public class ConceptServiceImpl implements ConceptService {
 	public Long getTotalNumber() {
 		return this.conceptDAO.getTotalNumber();
 	}
+
+	@Override
+	public Concept getAndUpdateDeliveryNote(Integer id, Integer amount) {
+		Concept concept = this.conceptDAO.getForUpdate(id);
+		Integer lastNumber = concept.getLastDeliveryNoteNumber();
+		Integer newLastNumber = lastNumber + amount;
+		concept.setLastDeliveryNoteNumber(newLastNumber);
+		this.conceptDAO.save(concept);
+		return concept;
+	}
 }

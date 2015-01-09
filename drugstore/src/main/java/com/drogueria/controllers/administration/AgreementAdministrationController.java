@@ -25,6 +25,7 @@ import com.drogueria.dto.AgreementTransferDTO;
 import com.drogueria.model.Agreement;
 import com.drogueria.service.AgreementService;
 import com.drogueria.service.AgreementTransferService;
+import com.drogueria.service.ConceptService;
 
 @Controller
 public class AgreementAdministrationController {
@@ -33,6 +34,8 @@ public class AgreementAdministrationController {
 	private AgreementService agreementService;
 	@Autowired
 	private AgreementTransferService agreementTransferService;
+	@Autowired
+	private ConceptService conceptService;
 
 	@RequestMapping(value = "/agreements", method = RequestMethod.POST)
 	public ModelAndView agreements() {
@@ -41,12 +44,13 @@ public class AgreementAdministrationController {
 
 	@RequestMapping(value = "/agreementAdministration", method = RequestMethod.GET)
 	public String agreementAdministration(ModelMap modelMap) throws Exception {
+		modelMap.put("deliveryNoteConcepts", this.conceptService.getAll());
+		modelMap.put("destructionConcepts", this.conceptService.getAll());
 		return "agreementAdministration";
 	}
 
 	@RequestMapping(value = "/saveAgreement", method = RequestMethod.POST)
-	public @ResponseBody
-	Agreement saveAgreement(@RequestBody AgreementDTO agreementDTO) throws Exception {
+	public @ResponseBody Agreement saveAgreement(@RequestBody AgreementDTO agreementDTO) throws Exception {
 		Agreement agreement = this.buildModel(agreementDTO);
 		this.agreementService.save(agreement);
 		return agreement;
@@ -61,30 +65,32 @@ public class AgreementAdministrationController {
 
 		agreement.setDescription(agreementDTO.getDescription());
 		agreement.setActive(agreementDTO.isActive());
+		agreement.setNumberOfDeliveryNoteDetailsPerPage(agreementDTO.getNumberOfDeliveryNoteDetailsPerPage());
+		agreement.setPickingFilepath(agreementDTO.getPickingFilepath());
+		agreement.setOrderLabelFilepath(agreementDTO.getOrderLabelFilepath());
+		agreement.setDeliveryNoteFilepath(agreementDTO.getDeliveryNoteFilepath());
+		agreement.setDeliveryNoteConcept(this.conceptService.get(agreementDTO.getDeliveryNoteConceptId()));
+		agreement.setDestructionConcept(this.conceptService.get(agreementDTO.getDestructionConceptId()));
 		return agreement;
 	}
 
 	@RequestMapping(value = "/readAgreement", method = RequestMethod.GET)
-	public @ResponseBody
-	Agreement readAgreement(@RequestParam Integer agreementId) throws Exception {
+	public @ResponseBody Agreement readAgreement(@RequestParam Integer agreementId) throws Exception {
 		return this.agreementService.get(agreementId);
 	}
 
 	@RequestMapping(value = "/deleteAgreement", method = RequestMethod.POST)
-	public @ResponseBody
-	boolean deleteAgreement(@RequestParam Integer agreementId) throws Exception {
+	public @ResponseBody boolean deleteAgreement(@RequestParam Integer agreementId) throws Exception {
 		return this.agreementService.delete(agreementId);
 	}
 
 	@RequestMapping(value = "/existsAgreement", method = RequestMethod.GET)
-	public @ResponseBody
-	Boolean existsAgreement(@RequestParam Integer code) throws Exception {
+	public @ResponseBody Boolean existsAgreement(@RequestParam Integer code) throws Exception {
 		return this.agreementService.exists(code);
 	}
 
 	@RequestMapping(value = "/getMatchedAgreements", method = RequestMethod.POST)
-	public @ResponseBody
-	String getMatchedAgreements(@RequestParam Map<String, String> parametersMap) throws JSONException {
+	public @ResponseBody String getMatchedAgreements(@RequestParam Map<String, String> parametersMap) throws JSONException {
 
 		String searchPhrase = parametersMap.get("searchPhrase");
 		Integer current = Integer.parseInt(parametersMap.get("current"));
@@ -115,7 +121,13 @@ public class AgreementAdministrationController {
 			dataJson.put("id", agreement.getId());
 			dataJson.put("code", agreement.getCode());
 			dataJson.put("description", agreement.getDescription());
+			dataJson.put("numberOfDeliveryNoteDetailsPerPage", agreement.getNumberOfDeliveryNoteDetailsPerPage());
+			dataJson.put("pickingFilepath", agreement.getPickingFilepath());
+			dataJson.put("orderLabelFilepath", agreement.getOrderLabelFilepath());
+			dataJson.put("deliveryNoteFilepath", agreement.getDeliveryNoteFilepath());
 			dataJson.put("isActive", agreement.isActive() == true ? "Si" : "No");
+			dataJson.put("deliveryNoteConcept", agreement.getDeliveryNoteConcept().getDescription());
+			dataJson.put("destructionConcept", agreement.getDestructionConcept().getDescription());
 			jsonArray.put(dataJson);
 		}
 
@@ -135,8 +147,7 @@ public class AgreementAdministrationController {
 	}
 
 	@RequestMapping(value = "/updateProductsAgreement", method = RequestMethod.POST)
-	public @ResponseBody
-	void saveInput(@RequestBody AgreementTransferDTO agreementTransferDTO, HttpServletRequest request) throws Exception {
+	public @ResponseBody void saveInput(@RequestBody AgreementTransferDTO agreementTransferDTO, HttpServletRequest request) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
 			this.agreementTransferService.updateAgreementStock(agreementTransferDTO, auth.getName());

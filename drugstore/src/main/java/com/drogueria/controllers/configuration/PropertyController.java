@@ -18,7 +18,6 @@ import com.drogueria.dto.DrugstorePropertyDTO;
 import com.drogueria.helper.EncryptionHelper;
 import com.drogueria.model.Agent;
 import com.drogueria.model.DrugstoreProperty;
-import com.drogueria.model.ProviderType;
 import com.drogueria.model.Province;
 import com.drogueria.service.AgentService;
 import com.drogueria.service.ConceptService;
@@ -46,8 +45,7 @@ public class PropertyController {
 	private static final Logger logger = Logger.getLogger(PropertyController.class);
 
 	@RequestMapping(value = "/saveProperty", method = RequestMethod.POST)
-	public @ResponseBody
-	void saveProperty(@RequestBody DrugstorePropertyDTO propertyDTO) throws Exception {
+	public @ResponseBody void saveProperty(@RequestBody DrugstorePropertyDTO propertyDTO) throws Exception {
 		this.drugstorePropertyService.save(this.buildModel(propertyDTO));
 	}
 
@@ -69,15 +67,9 @@ public class PropertyController {
 		property.setMail(propertyDTO.getMail());
 		property.setGln(propertyDTO.getGln());
 		property.setAgent(this.agentService.get(propertyDTO.getAgentId()));
-		property.setType(this.providerTypeService.get(propertyDTO.getTypeId()));
 		property.setDaysAgoPendingTransactions(propertyDTO.getDaysAgoPendingTransactions());
-		property.setNumberOfDeliveryNoteDetailsPerPage(propertyDTO.getNumberOfDeliveryNoteDetailsPerPage());
-		property.setOrderLabelFilepath(propertyDTO.getOrderLabelFilepath());
 		property.setSelfSerializedTagFilepath(propertyDTO.getSelfSerializedTagFilepath());
-		property.setDeliveryNoteFilepath(propertyDTO.getDeliveryNoteFilepath());
-		property.setPickingFilepath(propertyDTO.getPickingFilepath());
 		property.setANMATName(propertyDTO.getANMATName());
-		property.setPrintDeliveryNoteConcept(this.conceptService.get(propertyDTO.getPrintDeliveryNoteConceptId()));
 
 		DrugstoreProperty drugstoreProperty = this.drugstorePropertyService.get();
 
@@ -100,7 +92,6 @@ public class PropertyController {
 		property.setStartTraceConcept(this.conceptService.get(propertyDTO.getStartTraceConceptSelectId()));
 
 		property.setLastTag(drugstoreProperty.getLastTag());
-		property.setLastDeliveryNoteNumber(drugstoreProperty.getLastDeliveryNoteNumber());
 
 		return property;
 	}
@@ -134,24 +125,11 @@ public class PropertyController {
 		modelMap.put("agents", allAgents);
 		modelMap.put("selectedAgent", selectedAgent);
 
-		ProviderType selectedType = property.getType();
-		List<ProviderType> allTypes = this.providerTypeService.getAll();
-		allTypes.remove(selectedType);
-		modelMap.put("types", allTypes);
-		modelMap.put("selectedType", selectedType);
-
 		modelMap.put("daysAgoPendingTransactions", property.getDaysAgoPendingTransactions());
-		modelMap.put("numberOfDeliveryNoteDetailsPerPage", property.getNumberOfDeliveryNoteDetailsPerPage());
 
-		modelMap.put("orderLabelFilepath", property.getOrderLabelFilepath());
 		modelMap.put("selfSerializedTagFilepath", property.getSelfSerializedTagFilepath());
-		modelMap.put("deliveryNoteFilepath", property.getDeliveryNoteFilepath());
-		modelMap.put("pickingFilepath", property.getPickingFilepath());
 
 		modelMap.put("ANMATName", property.getANMATName());
-
-		modelMap.put("selectedConcept", property.getPrintDeliveryNoteConcept().getId());
-		modelMap.put("deliveryNoteconcepts", this.conceptService.getAllActives(false));
 
 		modelMap.put("selectedStartTraceConcept", property.getStartTraceConcept().getId());
 		modelMap.put("startTraceConcepts", this.conceptService.getAllActives(true));
