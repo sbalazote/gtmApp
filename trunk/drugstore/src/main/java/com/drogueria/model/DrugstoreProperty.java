@@ -59,43 +59,20 @@ public class DrugstoreProperty implements Serializable {
 	@JoinColumn(name = "agent_id", nullable = false)
 	private Agent agent;
 
-	@ManyToOne
-	@JoinColumn(name = "type_id", nullable = false)
-	private ProviderType type;
-
 	@Column(name = "days_ago_pending_transactions", nullable = false)
 	private Integer daysAgoPendingTransactions;
-
-	@Column(name = "number_of_delivery_note_details_per_page", nullable = false)
-	private Integer numberOfDeliveryNoteDetailsPerPage;
 
 	@Column(name = "last_tag", nullable = false)
 	private Integer lastTag;
 
-	@Column(name = "order_label_filepath", nullable = false)
-	private String orderLabelFilepath;
-
 	@Column(name = "self_serialized_tag_filepath", nullable = false)
 	private String selfSerializedTagFilepath;
-
-	@Column(name = "last_delivery_note_number", nullable = false)
-	private Integer lastDeliveryNoteNumber;
-
-	@Column(name = "delivery_note_filepath", nullable = false)
-	private String deliveryNoteFilepath;
-
-	@Column(name = "picking_filepath", nullable = false)
-	private String pickingFilepath;
 
 	@Column(name = "ANMAT_name", nullable = false)
 	private String ANMATName;
 
 	@Column(name = "ANMAT_password", nullable = false)
 	private String ANMATPassword;
-
-	@ManyToOne
-	@JoinColumn(name = "print_delivery_note_concept_id", nullable = false)
-	private Concept printDeliveryNoteConcept;
 
 	@ManyToOne
 	@JoinColumn(name = "start_trace_concept_id", nullable = false)
@@ -214,28 +191,12 @@ public class DrugstoreProperty implements Serializable {
 		this.agent = agent;
 	}
 
-	public ProviderType getType() {
-		return this.type;
-	}
-
-	public void setType(ProviderType type) {
-		this.type = type;
-	}
-
 	public Integer getDaysAgoPendingTransactions() {
 		return this.daysAgoPendingTransactions;
 	}
 
 	public void setDaysAgoPendingTransactions(Integer daysAgoPendingTransactions) {
 		this.daysAgoPendingTransactions = daysAgoPendingTransactions;
-	}
-
-	public Integer getNumberOfDeliveryNoteDetailsPerPage() {
-		return this.numberOfDeliveryNoteDetailsPerPage;
-	}
-
-	public void setNumberOfDeliveryNoteDetailsPerPage(Integer numberOfDeliveryNoteDetailsPerPage) {
-		this.numberOfDeliveryNoteDetailsPerPage = numberOfDeliveryNoteDetailsPerPage;
 	}
 
 	public Integer getLastTag() {
@@ -246,44 +207,12 @@ public class DrugstoreProperty implements Serializable {
 		this.lastTag = lastTag;
 	}
 
-	public String getOrderLabelFilepath() {
-		return this.orderLabelFilepath;
-	}
-
-	public void setOrderLabelFilepath(String orderLabelFilepath) {
-		this.orderLabelFilepath = orderLabelFilepath;
-	}
-
 	public String getSelfSerializedTagFilepath() {
 		return this.selfSerializedTagFilepath;
 	}
 
 	public void setSelfSerializedTagFilepath(String selfSerializedTagFilepath) {
 		this.selfSerializedTagFilepath = selfSerializedTagFilepath;
-	}
-
-	public Integer getLastDeliveryNoteNumber() {
-		return this.lastDeliveryNoteNumber;
-	}
-
-	public void setLastDeliveryNoteNumber(Integer lastDeliveryNoteNumber) {
-		this.lastDeliveryNoteNumber = lastDeliveryNoteNumber;
-	}
-
-	public String getDeliveryNoteFilepath() {
-		return this.deliveryNoteFilepath;
-	}
-
-	public void setDeliveryNoteFilepath(String deliveryNoteFilepath) {
-		this.deliveryNoteFilepath = deliveryNoteFilepath;
-	}
-
-	public String getPickingFilepath() {
-		return this.pickingFilepath;
-	}
-
-	public void setPickingFilepath(String pickingFilepath) {
-		this.pickingFilepath = pickingFilepath;
 	}
 
 	public String getANMATName() {
@@ -300,14 +229,6 @@ public class DrugstoreProperty implements Serializable {
 
 	public void setANMATPassword(String aNMATPassword) {
 		this.ANMATPassword = aNMATPassword;
-	}
-
-	public Concept getPrintDeliveryNoteConcept() {
-		return this.printDeliveryNoteConcept;
-	}
-
-	public void setPrintDeliveryNoteConcept(Concept printDeliveryNoteConcept) {
-		this.printDeliveryNoteConcept = printDeliveryNoteConcept;
 	}
 
 	public Concept getStartTraceConcept() {
@@ -341,5 +262,4 @@ public class DrugstoreProperty implements Serializable {
 	public void setHasProxy(boolean hasProxy) {
 		this.hasProxy = hasProxy;
 	}
-
 }

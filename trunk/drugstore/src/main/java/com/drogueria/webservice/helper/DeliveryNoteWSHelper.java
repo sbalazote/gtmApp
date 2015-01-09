@@ -12,6 +12,7 @@ import com.drogueria.model.DeliveryNote;
 import com.drogueria.model.DeliveryNoteDetail;
 import com.drogueria.model.Order;
 import com.drogueria.model.Output;
+import com.drogueria.service.AgreementService;
 import com.drogueria.service.DrugstorePropertyService;
 import com.drogueria.util.OperationResult;
 import com.drogueria.util.StringUtils;
@@ -28,13 +29,18 @@ public class DeliveryNoteWSHelper {
 	@Autowired
 	private WebServiceHelper webServiceHelper;
 
+	@Autowired
+	private AgreementService agreementService;
+
 	public OperationResult sendDrugInformationToAnmat(DeliveryNote deliveryNote, Order order, Output output) {
 		OperationResult operationResult = new OperationResult();
 		operationResult.setResultado(false);
 		List<MedicamentosDTO> medicines = new ArrayList<>();
 		WebServiceResult webServiceResult = null;
 		List<String> errors = new ArrayList<>();
-		boolean isInformAnmat = this.drugstorePropertyService.get().getPrintDeliveryNoteConcept().isInformAnmat();
+		// TODO aca chequeo si informo anmat en order u output??, dado que el concepto esta en agreement no en drugstoreproperty.-
+		boolean isInformAnmat = order.getProvisioningRequest().getAgreement().getDeliveryNoteConcept().isInformAnmat()
+				|| output.getAgreement().getDeliveryNoteConcept().isInformAnmat();
 		String eventId = this.getEvent(output, order);
 
 		if (isInformAnmat) {
@@ -54,7 +60,7 @@ public class DeliveryNoteWSHelper {
 				if (order != null) {
 					clientOrProvider = order.getProvisioningRequest().getDeliveryLocation().getCorporateName();
 					clientOrProviderAgent = order.getProvisioningRequest().getDeliveryLocation().getAgent().getDescription();
-					conceptDescription = this.drugstorePropertyService.get().getPrintDeliveryNoteConcept().getDescription();
+					conceptDescription = order.getProvisioningRequest().getAgreement().getDeliveryNoteConcept().getDescription();
 				}
 				String error = "No ha podido obtenerse el evento a informar dado el concepto y el cliente/provedor seleccionados (Concepto: '" + code + " - "
 						+ conceptDescription + "' Cliente/Proveedor '" + clientOrProvider + "' Tipo de Agente: '" + clientOrProviderAgent
@@ -89,7 +95,7 @@ public class DeliveryNoteWSHelper {
 					this.webServiceHelper.setDrug(drug, this.drugstorePropertyService.get().getGln(), order.getProvisioningRequest().getDeliveryLocation()
 							.getGln(), this.drugstorePropertyService.get().getTaxId(), order.getProvisioningRequest().getDeliveryLocation().getTaxId(),
 							deliveryNoteFormated, expirationDate, deliveryNoteDetail.getOrderDetail().getGtin().getNumber(), eventId, deliveryNoteDetail
-									.getOrderDetail().getSerialNumber(), deliveryNoteDetail.getOrderDetail().getBatch(), deliveryNote.getDate(), true);
+							.getOrderDetail().getSerialNumber(), deliveryNoteDetail.getOrderDetail().getBatch(), deliveryNote.getDate(), true);
 					medicines.add(drug);
 				}
 			}
@@ -121,13 +127,13 @@ public class DeliveryNoteWSHelper {
 		String eventId = null;
 		if (output != null) {
 			if (output.getDeliveryLocation() != null) {
-				eventId = this.drugstorePropertyService.get().getPrintDeliveryNoteConcept().getEventOnOutput(output.getDeliveryLocation().getAgent().getId());
+				eventId = output.getAgreement().getDeliveryNoteConcept().getEventOnOutput(output.getDeliveryLocation().getAgent().getId());
 			}
 			if (output.getProvider() != null) {
-				eventId = this.drugstorePropertyService.get().getPrintDeliveryNoteConcept().getEventOnOutput(output.getProvider().getAgent().getId());
+				eventId = output.getAgreement().getDeliveryNoteConcept().getEventOnOutput(output.getProvider().getAgent().getId());
 			}
 		} else {
-			eventId = this.drugstorePropertyService.get().getPrintDeliveryNoteConcept()
+			eventId = order.getProvisioningRequest().getAgreement().getDeliveryNoteConcept()
 					.getEventOnOutput(order.getProvisioningRequest().getDeliveryLocation().getAgent().getId());
 		}
 		return eventId;

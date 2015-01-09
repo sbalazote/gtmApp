@@ -10,6 +10,7 @@ public class ConceptDTO implements Serializable {
 	private Integer id;
 	private Integer code;
 	private String description;
+	private String deliveryNotePOS;
 	private boolean input;
 	private boolean printDeliveryNote;
 	private boolean refund;
@@ -49,6 +50,14 @@ public class ConceptDTO implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getDeliveryNotePOS() {
+		return this.deliveryNotePOS;
+	}
+
+	public void setDeliveryNotePOS(String deliveryNotePOS) {
+		this.deliveryNotePOS = deliveryNotePOS;
 	}
 
 	public boolean isInput() {

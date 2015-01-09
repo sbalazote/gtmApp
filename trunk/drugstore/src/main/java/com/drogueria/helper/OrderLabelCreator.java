@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.drogueria.model.DrugstoreProperty;
 import com.drogueria.model.Order;
 import com.drogueria.model.Product;
 import com.drogueria.service.DrugstorePropertyService;
@@ -36,8 +35,7 @@ public class OrderLabelCreator {
 	private DrugstorePropertyService drugstorePropertyService;
 
 	public void getLabelFile(Order order) throws IOException {
-		DrugstoreProperty drugstoreProperty = this.drugstorePropertyService.get();
-		String filepath = drugstoreProperty.getOrderLabelFilepath();
+		String filepath = order.getProvisioningRequest().getAgreement().getOrderLabelFilepath();
 
 		Map<Product, Integer> products = order.getProducts(false);
 		Map<Product, Integer> coldProducts = order.getProducts(true);

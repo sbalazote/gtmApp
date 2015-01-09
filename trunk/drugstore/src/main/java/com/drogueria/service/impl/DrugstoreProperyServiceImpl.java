@@ -27,16 +27,6 @@ public class DrugstoreProperyServiceImpl implements DrugstorePropertyService {
 	}
 
 	@Override
-	public DrugstoreProperty getAndUpdateDeliveryNote(Integer amount) {
-		DrugstoreProperty drugstoreProperty = this.drugstorePropertyDAO.getForUpdate();
-		Integer lastNumber = drugstoreProperty.getLastDeliveryNoteNumber();
-		Integer newLastNumber = lastNumber + amount;
-		drugstoreProperty.setLastDeliveryNoteNumber(newLastNumber);
-		this.drugstorePropertyDAO.save(drugstoreProperty);
-		return drugstoreProperty;
-	}
-
-	@Override
 	public DrugstoreProperty getAndUpdateSelfSerializedTag(Integer amount) {
 		DrugstoreProperty drugstoreProperty = this.drugstorePropertyDAO.getForUpdate();
 		Integer lastAmount = drugstoreProperty.getLastTag();

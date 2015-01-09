@@ -33,6 +33,7 @@
 			<th data-column-id="id" data-type="numeric"><spring:message code="common.id" /></th>
 			<th data-column-id="code" data-type="numeric"><spring:message code="common.code" /></th>
 			<th data-column-id="description"><spring:message code="common.description" /></th>
+			<th data-column-id="deliveryNotePOS"><spring:message code="common.deliveryNote.POS" /></th>
 			<%-- <th data-column-id="isInput"><spring:message code="common.isInput" /></th>
 			<th data-column-id="printDeliveryNote"><spring:message code="common.printDeliveryNote" /></th>
 			<th data-column-id="deliveryNotesCopies"><spring:message code="common.deliveryNotesCopies" /></th>
@@ -79,9 +80,13 @@
 							<label for="codeInput"><spring:message code="common.code" /></label>
 							<input type="text" class="form-control" id="codeInput" name="code">
 						</div>
-						<div class="col-md-8 form-group">
+						<div class="col-md-4 form-group">
 							<label for="descriptionInput"><spring:message code="common.description" /></label>
 							<input type="text" class="form-control" id="descriptionInput" name="description">
+						</div>
+						<div class="col-md-4 form-group">
+							<label for="deliveryNotePOSInput"><spring:message code="common.deliveryNote.POS" /></label>
+							<input type="text" class="form-control" id="deliveryNotePOSInput" name="deliveryNotePOS">
 						</div>
 					</div>
 

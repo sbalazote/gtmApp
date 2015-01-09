@@ -6,6 +6,7 @@ $(document).ready(function() {
 		$("#idInput").val('');
 		$("#codeInput").val('');
 		$("#descriptionInput").val('');
+		$("#deliveryNotePOSInput").val('');
 		$("#inputSelect").val($("#inputSelect option:first").val());
 		$("#printDeliveryNoteSelect").val($("#printDeliveryNoteSelect option:first").val());
 		$("#refundSelect").val($("#refundSelect option:first").val());
@@ -50,6 +51,7 @@ $(document).ready(function() {
 				$("#idInput").val(response.id);
 				$("#codeInput").val(response.code);
 				$("#descriptionInput").val(response.description);
+				$("#deliveryNotePOSInput").val(response.deliveryNotePOS);
 				var isInput = (response.input) ? "true" : "false";
 				$("#inputSelect").val(isInput).trigger('chosen:update');
 				var isPrintDeliveryNote = (response.printDeliveryNote) ? "true" : "false";
@@ -76,6 +78,7 @@ $(document).ready(function() {
 	var toggleElements = function(hidden) {
 		$("#codeInput").attr('disabled', hidden);
 		$("#descriptionInput").attr('disabled', hidden);
+		$("#deliveryNotePOSInput").attr('disabled', hidden);
 		$("#inputSelect").prop('disabled', hidden).trigger('chosen:update');
 		$("#printDeliveryNoteSelect").prop('disabled', hidden).trigger('chosen:update');
 		$("#refundSelect").prop('disabled', hidden).trigger('chosen:update');

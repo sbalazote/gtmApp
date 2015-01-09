@@ -13,12 +13,13 @@ import org.springframework.stereotype.Service;
 import com.drogueria.helper.DeliveryNoteConfigFile;
 import com.drogueria.helper.DeliveryNoteSheetPrinter;
 import com.drogueria.helper.PrintOnPrinter;
+import com.drogueria.model.Concept;
 import com.drogueria.model.DeliveryNote;
 import com.drogueria.model.DeliveryNoteDetail;
-import com.drogueria.model.DrugstoreProperty;
 import com.drogueria.model.Output;
 import com.drogueria.model.OutputDetail;
 import com.drogueria.model.Product;
+import com.drogueria.service.ConceptService;
 import com.drogueria.service.DeliveryNoteService;
 import com.drogueria.service.DrugstorePropertyService;
 import com.drogueria.service.OutputService;
@@ -41,21 +42,24 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 	private OutputService outputService;
 	@Autowired
 	private PrintOnPrinter printOnPrinter;
+	@Autowired
+	private ConceptService conceptService;
 
 	@Override
 	public List<Integer> print(List<Integer> outputsIds) {
-		Integer numberOfDeliveryNoteDetailsPerPage = this.drugstorePropertyService.get().getNumberOfDeliveryNoteDetailsPerPage();
 		List<Integer> printsNumbers = new ArrayList<>();
 		Date date = new Date();
+
 		for (Integer id : outputsIds) {
 			Output output = this.outputService.get(id);
-
+			Integer numberOfDeliveryNoteDetailsPerPage = output.getAgreement().getNumberOfDeliveryNoteDetailsPerPage();
 			List<OutputDetail> outputDetails = output.getOutputDetails();
 			Integer deliveryNoteNumbersRequired = (outputDetails.size() / numberOfDeliveryNoteDetailsPerPage) + 1;
-			DrugstoreProperty drugstoreProperty = this.drugstorePropertyService.getAndUpdateDeliveryNote(deliveryNoteNumbersRequired);
-			DeliveryNoteConfigFile deliveryNoteConfigFile = new DeliveryNoteConfigFile(drugstoreProperty.getDeliveryNoteFilepath());
-			String drugstoreGln = drugstoreProperty.getGln();
-			Integer deliveryNoteNumber = drugstoreProperty.getLastDeliveryNoteNumber() - deliveryNoteNumbersRequired + 1;
+			Integer conceptId = output.getAgreement().getDeliveryNoteConcept().getId();
+			Concept concept = this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
+			DeliveryNoteConfigFile deliveryNoteConfigFile = new DeliveryNoteConfigFile(output.getAgreement().getDeliveryNoteFilepath());
+			String drugstoreGln = this.drugstorePropertyService.get().getGln();
+			Integer deliveryNoteNumber = concept.getLastDeliveryNoteNumber() - deliveryNoteNumbersRequired + 1;
 
 			// Hago el corte de remitos por la cantidad items por pagina que se indique por parametro.
 
@@ -90,13 +94,13 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 				}
 
 				// Imprimo el pdf de Remito
-				this.generateDeliveryNoteSheet(output, deliveryNoteNumber, deliveryNoteConfigFile, drugstoreProperty.getDeliveryNoteFilepath(), drugstoreGln,
-						tempOutputDetails);
+				this.generateDeliveryNoteSheet(output, deliveryNoteNumber, deliveryNoteConfigFile, output.getAgreement().getDeliveryNoteFilepath(),
+						drugstoreGln, tempOutputDetails);
 				// Guardo el Remito en la base de datos
 				deliveryNote.setDeliveryNoteDetails(deliveryNoteDetails);
 				deliveryNote.setDate(date);
 				try {
-					if (output.hasProductThatInform() && this.drugstorePropertyService.get().getPrintDeliveryNoteConcept().isInformAnmat()) {
+					if (output.hasProductThatInform() && output.getAgreement().getDeliveryNoteConcept().isInformAnmat()) {
 						deliveryNote.setInformAnmat(true);
 					} else {
 						deliveryNote.setInformAnmat(false);

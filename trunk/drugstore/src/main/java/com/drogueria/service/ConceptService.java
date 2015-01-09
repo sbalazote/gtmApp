@@ -25,4 +25,7 @@ public interface ConceptService {
 	List<Concept> getPaginated(int start, int length);
 
 	Long getTotalNumber();
+
+	Concept getAndUpdateDeliveryNote(Integer id, Integer deliveryNoteNumbersRequired);
+
 }

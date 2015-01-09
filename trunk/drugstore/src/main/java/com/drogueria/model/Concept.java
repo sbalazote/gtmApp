@@ -30,6 +30,12 @@ public class Concept implements Serializable {
 	@Column(name = "description", nullable = false)
 	private String description;
 
+	@Column(name = "delivery_note_POS", nullable = false)
+	private String deliveryNotePOS;
+
+	@Column(name = "last_delivery_note_number", nullable = false)
+	private Integer lastDeliveryNoteNumber;
+
 	@Column(name = "input", nullable = false)
 	private boolean input;
 
@@ -79,6 +85,22 @@ public class Concept implements Serializable {
 		this.description = description;
 	}
 
+	public String getDeliveryNotePOS() {
+		return this.deliveryNotePOS;
+	}
+
+	public void setDeliveryNotePOS(String deliveryNotePOS) {
+		this.deliveryNotePOS = deliveryNotePOS;
+	}
+
+	public Integer getLastDeliveryNoteNumber() {
+		return this.lastDeliveryNoteNumber;
+	}
+
+	public void setLastDeliveryNoteNumber(Integer newLastNumber) {
+		this.lastDeliveryNoteNumber = newLastNumber;
+	}
+
 	public boolean isInput() {
 		return this.input;
 	}
@@ -119,14 +141,6 @@ public class Concept implements Serializable {
 		this.informAnmat = informAnmat;
 	}
 
-	public List<Event> getEvents() {
-		return this.events;
-	}
-
-	public void setEvents(List<Event> events) {
-		this.events = events;
-	}
-
 	public boolean isActive() {
 		return this.active;
 	}
@@ -141,6 +155,14 @@ public class Concept implements Serializable {
 
 	public void setClient(boolean client) {
 		this.client = client;
+	}
+
+	public List<Event> getEvents() {
+		return this.events;
+	}
+
+	public void setEvents(List<Event> events) {
+		this.events = events;
 	}
 
 	public String getEventOnInput(Integer agentId) {
@@ -183,7 +205,7 @@ public class Concept implements Serializable {
 	@Override
 	public int hashCode() {
 		assert false : "hashCode not designed";
-		return 1;
+	return 1;
 	}
 
 }

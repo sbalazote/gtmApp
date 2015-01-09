@@ -20,7 +20,6 @@ import com.drogueria.model.Affiliate;
 import com.drogueria.model.Agreement;
 import com.drogueria.model.Client;
 import com.drogueria.model.DeliveryLocation;
-import com.drogueria.model.DrugstoreProperty;
 import com.drogueria.model.ProvisioningRequest;
 import com.drogueria.model.ProvisioningRequestDetail;
 import com.drogueria.model.ProvisioningRequestState;
@@ -70,9 +69,7 @@ public class PickingSheetPrinterImpl implements PickingSheetPrinter {
 			ProvisioningRequest provisioningRequest = this.provisioningRequestService.get(id);
 			provisioningRequest.setState(state);
 			this.provisioningRequestService.save(provisioningRequest);
-			DrugstoreProperty drugstoreProperty = this.drugstorePropertyService.get();
-
-			this.createPdf(userName, drugstoreProperty.getPickingFilepath(), provisioningRequest);
+			this.createPdf(userName, provisioningRequest.getAgreement().getPickingFilepath(), provisioningRequest);
 		}
 	}
 

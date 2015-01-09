@@ -73,19 +73,12 @@ CREATE TABLE `drugstore`.`provider_type` (
   UNIQUE KEY `code_UNIQUE` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`agreement` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` int(11) NOT NULL,
-  `description` varchar(45) NOT NULL,
-  `active` bit(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `code_UNIQUE` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE `drugstore`.`concept` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(45) NOT NULL,
+  `delivery_note_POS` varchar(30) NOT NULL,
+  `last_delivery_note_number` int(7) NOT NULL,
   `input` bit(1) NOT NULL,
   `print_delivery_note` bit(1) NOT NULL,
   `delivery_note_copies` int(11) NOT NULL DEFAULT '0',
@@ -95,6 +88,23 @@ CREATE TABLE `drugstore`.`concept` (
   `client` bit(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code_UNIQUE` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `drugstore`.`agreement` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` int(11) NOT NULL,
+  `description` varchar(45) NOT NULL,
+  `number_of_delivery_note_details_per_page` int(11) NOT NULL DEFAULT 10,
+  `order_label_filepath` varchar(255) NOT NULL,
+  `delivery_note_filepath` varchar(255) NOT NULL,
+  `picking_filepath` varchar(255) NOT NULL,
+  `delivery_note_concept_id` int(11) NOT NULL,
+  `destruction_concept_id` int(11) NOT NULL,
+  `active` bit(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code_UNIQUE` (`code`),
+  CONSTRAINT `fk_agreement_delivery_note_concept` FOREIGN KEY (`delivery_note_concept_id`) REFERENCES `concept` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_agreement_destruction_concept` FOREIGN KEY (`destruction_concept_id`) REFERENCES `concept` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `drugstore`.`concept_event` (
@@ -533,18 +543,11 @@ CREATE TABLE `drugstore`.`drugstore_property` (
   `mail` varchar(45) DEFAULT NULL,
   `gln` varchar(45) NOT NULL,
   `agent_id` int(11) NOT NULL,
-  `type_id` int(11) NOT NULL,
   `days_ago_pending_transactions` int(11) NOT NULL DEFAULT 7,
-  `number_of_delivery_note_details_per_page` int(11) NOT NULL DEFAULT 10,
   `last_tag` int(7) NOT NULL,
-  `order_label_filepath` varchar(255) NOT NULL,
   `self_serialized_tag_filepath` varchar(255) NOT NULL,
-  `last_delivery_note_number` int(7) NOT NULL,
-  `delivery_note_filepath` varchar(255) NOT NULL,
-  `picking_filepath` varchar(255) NOT NULL,
   `ANMAT_name` varchar(45) NOT NULL DEFAULT 'pruebasws',
   `ANMAT_password` varchar(100) NOT NULL,
-  `print_delivery_note_concept_id` int(11) NOT NULL,
   `start_trace_concept_id` int(11) NOT NULL,
   `proxy` varchar(45),
   `proxy_port` varchar(45),
@@ -552,12 +555,9 @@ CREATE TABLE `drugstore`.`drugstore_property` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `code_UNIQUE` (`code`),
   KEY `fk_drugstore_property_province_idx` (`province_id`),
-  KEY `fk_drugstore_property_provider_type_idx` (`type_id`),
   KEY `fk_drugstore_property_agent_idx` (`agent_id`),
-  CONSTRAINT `fk_drugstore_property_provider_type` FOREIGN KEY (`type_id`) REFERENCES `provider_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_drugstore_property_agent` FOREIGN KEY (`agent_id`) REFERENCES `agent` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_drugstore_property_province` FOREIGN KEY (`province_id`) REFERENCES `province` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_drugstore_property_print_delivery_note_concept` FOREIGN KEY (`print_delivery_note_concept_id`) REFERENCES `concept` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_drugstore_property_start_trace_concept` FOREIGN KEY (`start_trace_concept_id`) REFERENCES `concept` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

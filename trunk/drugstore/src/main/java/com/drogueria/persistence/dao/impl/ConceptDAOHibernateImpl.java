@@ -3,6 +3,7 @@ package com.drogueria.persistence.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class ConceptDAOHibernateImpl implements ConceptDAO {
 
 	@Override
 	public void save(Concept concept) {
-		this.sessionFactory.getCurrentSession().saveOrUpdate(concept);
+		this.sessionFactory.getCurrentSession().merge(concept);
 	}
 
 	@Override
@@ -120,5 +121,10 @@ public class ConceptDAOHibernateImpl implements ConceptDAO {
 	public Long getTotalNumber() {
 		Long count = (Long) this.sessionFactory.getCurrentSession().createQuery("select count(*) from Concept").uniqueResult();
 		return count;
+	}
+
+	@Override
+	public Concept getForUpdate(Integer id) {
+		return (Concept) this.sessionFactory.getCurrentSession().get(Concept.class, id, LockOptions.UPGRADE);
 	}
 }

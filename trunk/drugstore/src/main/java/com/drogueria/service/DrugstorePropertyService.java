@@ -8,8 +8,6 @@ public interface DrugstorePropertyService {
 
 	DrugstoreProperty get();
 
-	DrugstoreProperty getAndUpdateDeliveryNote(Integer amount);
-
 	DrugstoreProperty getAndUpdateSelfSerializedTag(Integer amount);
 
 }
