@@ -17,7 +17,8 @@ SaveAgreement = function() {
 					required: true
 				},
 				numberOfDeliveryNoteDetailsPerPage: {
-					required: true
+					required: true,
+					digits: true
 				},
 				pickingFilepath: {
 					required: true
