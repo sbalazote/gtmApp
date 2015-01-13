@@ -15,7 +15,6 @@ import com.drogueria.util.OperationResult;
 import com.drogueria.webservice.WebServiceHelper;
 import com.drogueria.webservice.helper.DeliveryNoteWSHelper;
 import com.drogueria.webservice.helper.InputWSHelper;
-import com.drogueria.webservice.helper.OutputWSHelper;
 import com.inssjp.mywebservice.business.WebServiceResult;
 
 @Service
@@ -29,9 +28,6 @@ public class TraceabilityServiceImpl implements TraceabilityService {
 	private InputWSHelper inputWSHelper;
 
 	@Autowired
-	private OutputWSHelper outputWSHelper;
-
-	@Autowired
 	private DeliveryNoteWSHelper deliveryNoteWSHelper;
 
 	@Autowired
@@ -40,14 +36,6 @@ public class TraceabilityServiceImpl implements TraceabilityService {
 	@Override
 	public OperationResult processInputPendingTransactions(Input input) throws Exception {
 		OperationResult result = this.inputWSHelper.sendDrugInformationToAnmat(input);
-		return result;
-	}
-
-	@Override
-	public WebServiceResult cancelOutputTransaction(Output output) throws Exception {
-		long transactionCodeAnmat = Long.valueOf(output.getTransactionCodeANMAT());
-		WebServiceResult result = this.webServiceHelper.sendCancelacTransacc(transactionCodeAnmat, this.drugstorePropertyService.get().getANMATName(),
-				EncryptionHelper.AESDecrypt(this.drugstorePropertyService.get().getANMATPassword()));
 		return result;
 	}
 
@@ -64,12 +52,6 @@ public class TraceabilityServiceImpl implements TraceabilityService {
 		long transactionCodeAnmat = Long.valueOf(input.getTransactionCodeANMAT());
 		WebServiceResult result = this.webServiceHelper.sendCancelacTransacc(transactionCodeAnmat, this.drugstorePropertyService.get().getANMATName(),
 				EncryptionHelper.AESDecrypt(this.drugstorePropertyService.get().getANMATPassword()));
-		return result;
-	}
-
-	@Override
-	public OperationResult processOutputPendingTransactions(Output output) throws Exception {
-		OperationResult result = this.outputWSHelper.sendDrugInformationToAnmat(output);
 		return result;
 	}
 

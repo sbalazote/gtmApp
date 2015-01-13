@@ -110,13 +110,13 @@ public class DeliveryNoteController {
 					outputsToCancell.put(output.getId(), output);
 				}
 			}
-			if (!outputsToCancell.keySet().isEmpty()) {
-				List<Integer> outputIds = new ArrayList<Integer>();
-				for (Integer outputId : outputsToCancell.keySet()) {
-					outputIds.add(outputId);
-				}
-				this.outputService.cancelOutputs(outputIds);
-			}
+			// if (!outputsToCancell.keySet().isEmpty()) {
+			// List<Integer> outputIds = new ArrayList<Integer>();
+			// for (Integer outputId : outputsToCancell.keySet()) {
+			// outputIds.add(outputId);
+			// }
+			// this.outputService.cancelOutputs(outputIds);
+			// }
 		}
 
 	}
@@ -142,8 +142,8 @@ public class DeliveryNoteController {
 		Map<Integer, List<String>> outputDeliveryNotes = this.deliveryNoteService.getAssociatedOutputs(true);
 		modelMap.put("outputDeliveryNotes", outputDeliveryNotes);
 
-		List<Output> outputs = this.outputService.getPendings();
-		modelMap.put("outputs", outputs);
+		// List<Output> outputs = this.outputService.getPendings();
+		// modelMap.put("outputs", outputs);
 
 		return "pendingTransactions";
 	}

@@ -76,16 +76,7 @@ public class OutputsPdfView extends AbstractPdfView {
 			// -- newline
 			document.add(Chunk.NEWLINE);
 
-			// 6.CODIGO TRANSC. ANMAT
-			document.add(new Chunk("CODIGO TRANSC. ANMAT: "));
-			Chunk anmatCode = new Chunk(output.getTransactionCodeANMAT() != null ? output.getTransactionCodeANMAT() : "", fontTitle);
-			document.add(anmatCode);
-			document.add(new Chunk(" "));
-
-			// -- newline
-			document.add(Chunk.NEWLINE);
-
-			// 7.ANULADO
+			// 6.ANULADO
 			document.add(new Chunk("ANULADO: "));
 			Chunk cancelled = new Chunk(output.isCancelled() ? "SI" : "NO", fontTitle);
 			document.add(cancelled);

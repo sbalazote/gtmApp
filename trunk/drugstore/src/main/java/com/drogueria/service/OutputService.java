@@ -5,7 +5,6 @@ import java.util.List;
 import com.drogueria.dto.OutputDTO;
 import com.drogueria.model.Output;
 import com.drogueria.query.OutputQuery;
-import com.drogueria.util.OperationResult;
 
 public interface OutputService {
 
@@ -23,7 +22,7 @@ public interface OutputService {
 
 	List<Output> getCancelleables();
 
-	void cancelOutputs(List<Integer> outputsId);
+	// void cancelOutputs(List<Integer> outputsId);
 
 	public List<Integer> getAllHasToPrint();
 
@@ -31,11 +30,11 @@ public interface OutputService {
 
 	void save(Output output);
 
-	List<Output> getPendings();
+	// List<Output> getPendings();
 
-	OperationResult saveAndInform(Output output) throws Exception;
+	// OperationResult saveAndInform(Output output) throws Exception;
 
-	void sendTrasactionAsync(Output output) throws Exception;
+	// void sendTrasactionAsync(Output output) throws Exception;
 
-	void authorizeWithoutInform(List<Integer> outputIds, String name);
+	// void authorizeWithoutInform(List<Integer> outputIds, String name);
 }

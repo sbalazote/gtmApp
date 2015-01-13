@@ -44,21 +44,12 @@ public class Output implements Serializable {
 	@Column(name = "date", nullable = false)
 	private Date date;
 
-	@Column(name = "transaction_code_anmat")
-	private String transactionCodeANMAT;
-
 	@Column(name = "cancelled", nullable = false)
 	private boolean cancelled;
-
-	@Column(name = "inform_anmat", nullable = false)
-	private boolean informAnmat;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "output_id", referencedColumnName = "id", nullable = false)
 	private List<OutputDetail> outputDetails;
-
-	@Column(name = "informed", nullable = false)
-	private boolean informed;
 
 	public Integer getId() {
 		return this.id;
@@ -122,30 +113,6 @@ public class Output implements Serializable {
 
 	public void setOutputDetails(List<OutputDetail> outputDetails) {
 		this.outputDetails = outputDetails;
-	}
-
-	public String getTransactionCodeANMAT() {
-		return this.transactionCodeANMAT;
-	}
-
-	public void setTransactionCodeANMAT(String transactionCodeANMAT) {
-		this.transactionCodeANMAT = transactionCodeANMAT;
-	}
-
-	public boolean isInformAnmat() {
-		return this.informAnmat;
-	}
-
-	public void setInformAnmat(boolean informAnmat) {
-		this.informAnmat = informAnmat;
-	}
-
-	public boolean isInformed() {
-		return this.informed;
-	}
-
-	public void setInformed(boolean informed) {
-		this.informed = informed;
 	}
 
 	public boolean hasToInform() throws Exception {

@@ -19,12 +19,6 @@ var PendingTransactions = function() {
 		showOutputModal(outputId);
 	});
 	
-	$('#outputTableBody').on("click", ".view-output-row-outputTable", function() {
-		var parent = $(this).parent().parent();
-		outputId = parent.children().eq(1).text();
-		showOutputModal(outputId);
-	});
-	
 	$("#confirmDeliveryNotesButton").click(function() {
 		if(deliveryNotes.length > 0 ){
 			$.ajax({
@@ -80,60 +74,60 @@ var PendingTransactions = function() {
 		}
 	});
 	
-	$("#confirmOutputsButton").click(function() {
-		if(outputs.length > 0 ){
-			$.ajax({
-				url: "confirmPendingOutputs.do",
-				type: "POST",
-				contentType: "application/json",
-				data: JSON.stringify(outputs),
-				async: true,
-	            beforeSend : function() {
-	            	$.blockUI({ message: 'Espere un Momento por favor...' });
-	             }, 
-				success: function(response) {
-					if(response.length > 0 && response[0] != null){
-						for (var i = 0, lengthI = response.length; i < lengthI; i++) {
-							if(response[i].resultado == true){
-								$.unblockUI();
-								myShowAlert("success", "Se han informado los siguientes Egresos: " +  response[i].operationId, null);
-							}else{
-								$.unblockUI();
-								var errors = "";
-								for (var j = 0, lengthJ = response[i].myOwnErrors.length; j < lengthJ; j++) {
-									errors += response[i].myOwnErrors[j] + "<br />";
-								}
-								
-								if(response.errores != null){
-									errors += "<strong>Errores informados por ANMAT para egreso nï¿½" + response[i].operationId + "</strong><br />";
-									for (var j = 0, lengthJ = response[i].errores.length; j < lengthJ; j++) {
-										errors += response[i].errores[j]._c_error + " - " + response[i].errores[j]._d_error + "<br />";
-									}
-								}
-								myShowAlert("danger", errors,null);
-							}
-						}
-					}
-				},
-				error: function(response, jqXHR, textStatus, errorThrown) {
-					$.unblockUI();
-					myGenericError();
-				}
-			});
-		}else{
-			BootstrapDialog.show({
-				type: BootstrapDialog.TYPE_INFO,
-		        title: 'Atención',
-		        message: "Seleccione al menos un elemento",
-		        buttons: [{
-	                label: 'Cerrar',
-	                action: function(dialogItself){
-	                    dialogItself.close();
-	                }
-	            }]
-			});
-		}
-	});
+//	$("#confirmOutputsButton").click(function() {
+//		if(outputs.length > 0 ){
+//			$.ajax({
+//				url: "confirmPendingOutputs.do",
+//				type: "POST",
+//				contentType: "application/json",
+//				data: JSON.stringify(outputs),
+//				async: true,
+//	            beforeSend : function() {
+//	            	$.blockUI({ message: 'Espere un Momento por favor...' });
+//	             }, 
+//				success: function(response) {
+//					if(response.length > 0 && response[0] != null){
+//						for (var i = 0, lengthI = response.length; i < lengthI; i++) {
+//							if(response[i].resultado == true){
+//								$.unblockUI();
+//								myShowAlert("success", "Se han informado los siguientes Egresos: " +  response[i].operationId, null);
+//							}else{
+//								$.unblockUI();
+//								var errors = "";
+//								for (var j = 0, lengthJ = response[i].myOwnErrors.length; j < lengthJ; j++) {
+//									errors += response[i].myOwnErrors[j] + "<br />";
+//								}
+//								
+//								if(response.errores != null){
+//									errors += "<strong>Errores informados por ANMAT para egreso nï¿½" + response[i].operationId + "</strong><br />";
+//									for (var j = 0, lengthJ = response[i].errores.length; j < lengthJ; j++) {
+//										errors += response[i].errores[j]._c_error + " - " + response[i].errores[j]._d_error + "<br />";
+//									}
+//								}
+//								myShowAlert("danger", errors,null);
+//							}
+//						}
+//					}
+//				},
+//				error: function(response, jqXHR, textStatus, errorThrown) {
+//					$.unblockUI();
+//					myGenericError();
+//				}
+//			});
+//		}else{
+//			BootstrapDialog.show({
+//				type: BootstrapDialog.TYPE_INFO,
+//		        title: 'Atención',
+//		        message: "Seleccione al menos un elemento",
+//		        buttons: [{
+//	                label: 'Cerrar',
+//	                action: function(dialogItself){
+//	                    dialogItself.close();
+//	                }
+//	            }]
+//			});
+//		}
+//	});
 	
 	$("#deliveryNoteTable").bootgrid({
 	    selection: true,
@@ -189,73 +183,73 @@ var PendingTransactions = function() {
 	    }
 	});
 	
-	$("#outputTable").bootgrid({
-	    selection: true,
-	    multiSelect: true,
-	    rowSelect: true,
-	    keepSelection: true,
-	    formatters: {
-	        "option": function(column, row)
-	        {
-	        	return "<a href=\"#\" class='view-output-row-outputTable'>Consulta</a>";
-	        }
-	    }
-	}).on("selected.rs.jquery.bootgrid", function(e, rows)
-	{
-	    for (var i = 0; i < rows.length; i++)
-	    {
-	    	outputs.push(rows[i].output);
-	    }
-	}).on("deselected.rs.jquery.bootgrid", function(e, rows)
-	{
-	    for (var i = 0; i < rows.length; i++)
-	    {
-	    	for(var i = outputs.length - 1; i >= 0; i--) {
-			    if(outputs[i] === rows[i].output) {
-			    	outputs.splice(i, 1);
-			    }
-			}
-	    }
-	});
-	
-	$("#confirmOutputWithoutInform").click(function() {
-		$('#forcedOutputConfirmationModal').modal();
-	});
-	
-	$("#confirmOutputsWithoutInformModal").click(function() {
-		if(outputs.length > 0 ){
-			$.ajax({
-				url: "authorizeOutputWithoutInform.do",
-				type: "POST",
-				contentType: "application/json",
-				data: JSON.stringify(outputs),
-				async: true,
-	            beforeSend : function() {
-	            	$.blockUI({ message: 'Espere un Momento por favor...' });
-	             }, 
-				success: function(response) {
-					myReload("success", "Se han cerrado los siguientes egresos informados oportunamente: " + response);
-				},
-				error: function(response, jqXHR, textStatus, errorThrown) {
-					$.unblockUI();
-					myGenericError();
-				}
-			});
-		}else{
-			BootstrapDialog.show({
-				type: BootstrapDialog.TYPE_INFO,
-		        title: 'Atención',
-		        message: "Seleccione al menos un elemento",
-		        buttons: [{
-	                label: 'Cerrar',
-	                action: function(dialogItself){
-	                    dialogItself.close();
-	                }
-	            }]
-			});
-		}
-	});
-	
+//	$("#outputTable").bootgrid({
+//	    selection: true,
+//	    multiSelect: true,
+//	    rowSelect: true,
+//	    keepSelection: true,
+//	    formatters: {
+//	        "option": function(column, row)
+//	        {
+//	        	return "<a href=\"#\" class='view-output-row-outputTable'>Consulta</a>";
+//	        }
+//	    }
+//	}).on("selected.rs.jquery.bootgrid", function(e, rows)
+//	{
+//	    for (var i = 0; i < rows.length; i++)
+//	    {
+//	    	outputs.push(rows[i].output);
+//	    }
+//	}).on("deselected.rs.jquery.bootgrid", function(e, rows)
+//	{
+//	    for (var i = 0; i < rows.length; i++)
+//	    {
+//	    	for(var i = outputs.length - 1; i >= 0; i--) {
+//			    if(outputs[i] === rows[i].output) {
+//			    	outputs.splice(i, 1);
+//			    }
+//			}
+//	    }
+//	});
+//	
+//	$("#confirmOutputWithoutInform").click(function() {
+//		$('#forcedOutputConfirmationModal').modal();
+//	});
+//	
+//	$("#confirmOutputsWithoutInformModal").click(function() {
+//		if(outputs.length > 0 ){
+//			$.ajax({
+//				url: "authorizeOutputWithoutInform.do",
+//				type: "POST",
+//				contentType: "application/json",
+//				data: JSON.stringify(outputs),
+//				async: true,
+//	            beforeSend : function() {
+//	            	$.blockUI({ message: 'Espere un Momento por favor...' });
+//	             }, 
+//				success: function(response) {
+//					myReload("success", "Se han cerrado los siguientes egresos informados oportunamente: " + response);
+//				},
+//				error: function(response, jqXHR, textStatus, errorThrown) {
+//					$.unblockUI();
+//					myGenericError();
+//				}
+//			});
+//		}else{
+//			BootstrapDialog.show({
+//				type: BootstrapDialog.TYPE_INFO,
+//		        title: 'Atención',
+//		        message: "Seleccione al menos un elemento",
+//		        buttons: [{
+//	                label: 'Cerrar',
+//	                action: function(dialogItself){
+//	                    dialogItself.close();
+//	                }
+//	            }]
+//			});
+//		}
+//	});
+//	
 	$("#confirmDeliveryNotesWithoutInform").click(function() {
 		$('#forcedDeliveryNoteConfirmationModal').modal();
 	});

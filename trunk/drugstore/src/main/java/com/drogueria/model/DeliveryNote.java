@@ -46,6 +46,9 @@ public class DeliveryNote implements Serializable {
 	@Column(name = "informed", nullable = false)
 	private boolean informed;
 
+	@Column(name = "fake", nullable = false)
+	private boolean fake;
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -108,6 +111,14 @@ public class DeliveryNote implements Serializable {
 
 	public void setInformed(boolean informed) {
 		this.informed = informed;
+	}
+
+	public boolean isFake() {
+		return this.fake;
+	}
+
+	public void setFake(boolean fake) {
+		this.fake = fake;
 	}
 
 }
