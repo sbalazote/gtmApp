@@ -29,7 +29,6 @@
 	
 	<bean id="webServiceHelper" class="com.drogueria.webservice.WebServiceHelper" />
 	<bean id="inputWSHelper" class="com.drogueria.webservice.helper.InputWSHelper" />
-	<bean id="outputWSHelper" class="com.drogueria.webservice.helper.OutputWSHelper" />
 	<bean id="deliveryNoteWSHelper" class="com.drogueria.webservice.helper.DeliveryNoteWSHelper" />
 	
 	<bean id="webService" class="com.drogueria.webservice.WebService" />

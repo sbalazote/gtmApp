@@ -361,10 +361,7 @@ CREATE TABLE `drugstore`.`output` (
   `delivery_location_id` int(11),
   `agreement_id` int(11) NOT NULL,
   `date` date NOT NULL,
-  `transaction_code_anmat` varchar(100),
   `cancelled` bit(1) NOT NULL,
-  `inform_anmat` bit(1) NOT NULL,
-  `informed` bit(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_output_concept_idx` (`concept_id`),
   KEY `fk_output_provider_idx` (`provider_id`),
@@ -470,6 +467,7 @@ CREATE TABLE `drugstore`.`delivery_note` (
   `cancelled` bit(1) NOT NULL,
   `inform_anmat` bit(1) NOT NULL,
   `informed` bit(1) NOT NULL,
+  `fake` bit(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

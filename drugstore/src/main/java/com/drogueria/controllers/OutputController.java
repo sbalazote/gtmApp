@@ -23,6 +23,7 @@ import com.drogueria.constant.AuditState;
 import com.drogueria.constant.RoleOperation;
 import com.drogueria.dto.OutputDTO;
 import com.drogueria.helper.impl.OutputDeliveryNoteSheetPrinter;
+import com.drogueria.helper.impl.OutputFakeDeliveryNoteSheetPrinter;
 import com.drogueria.model.Output;
 import com.drogueria.query.OutputQuery;
 import com.drogueria.service.AgreementService;
@@ -50,6 +51,8 @@ public class OutputController {
 	private AuditService auditService;
 	@Autowired
 	private OutputDeliveryNoteSheetPrinter outputDeliveryNoteSheetPrinter;
+	@Autowired
+	private OutputFakeDeliveryNoteSheetPrinter outputFakeDeliveryNoteSheetPrinter;
 
 	@RequestMapping(value = "/output", method = RequestMethod.GET)
 	public String output(ModelMap modelMap) throws Exception {
@@ -84,9 +87,9 @@ public class OutputController {
 			for (Integer deliveryNote : deliveryNotes) {
 				this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote);
 			}
-		}
-		if (output.hasToInform()) {
-			this.outputService.sendTrasactionAsync(output);
+		} else {
+			Integer deliveryNote = this.outputFakeDeliveryNoteSheetPrinter.print(output);
+			this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote);
 		}
 		return output;
 	}
@@ -113,7 +116,7 @@ public class OutputController {
 	@RequestMapping(value = "/cancelOutputs", method = RequestMethod.POST)
 	public @ResponseBody
 	void cancelOutputs(@RequestBody List<Integer> outputIds) throws Exception {
-		this.outputService.cancelOutputs(outputIds);
+		// this.outputService.cancelOutputs(outputIds);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
 			for (Integer outputId : outputIds) {
@@ -130,7 +133,7 @@ public class OutputController {
 		if (auth != null) {
 			for (Integer outputId : outputIds) {
 				Output output = this.outputService.get(outputId);
-				OperationResult operationResult = this.outputService.saveAndInform(output);
+				OperationResult operationResult = null;// this.outputService.saveAndInform(output);
 				this.auditService.addAudit(auth.getName(), RoleOperation.OUTPUT.getId(), AuditState.COMFIRMED, output.getId());
 				operationResults.add(operationResult);
 			}
@@ -138,15 +141,15 @@ public class OutputController {
 		return operationResults;
 	}
 
-	@RequestMapping(value = "/authorizeOutputWithoutInform", method = RequestMethod.POST)
-	public @ResponseBody
-	List<Integer> authorizeOutputWithoutInform(@RequestBody List<Integer> outputIds, HttpServletRequest request) throws Exception {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null) {
-			this.outputService.authorizeWithoutInform(outputIds, auth.getName());
-		}
-		return outputIds;
-	}
+	// @RequestMapping(value = "/authorizeOutputWithoutInform", method = RequestMethod.POST)
+	// public @ResponseBody
+	// List<Integer> authorizeOutputWithoutInform(@RequestBody List<Integer> outputIds, HttpServletRequest request) throws Exception {
+	// Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	// if (auth != null) {
+	// this.outputService.authorizeWithoutInform(outputIds, auth.getName());
+	// }
+	// return outputIds;
+	// }
 
 	@RequestMapping(value = "/outputs", method = RequestMethod.POST)
 	public ModelAndView inputs(HttpServletRequest request) {

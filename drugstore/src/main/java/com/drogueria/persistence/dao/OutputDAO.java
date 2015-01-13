@@ -23,5 +23,5 @@ public interface OutputDAO {
 
 	public List<Integer> getAllHasToPrint();
 
-	List<Output> getPendings();
+	// List<Output> getPendings();
 }

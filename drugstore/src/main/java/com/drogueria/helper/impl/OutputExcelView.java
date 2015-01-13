@@ -105,7 +105,6 @@ public class OutputExcelView extends AbstractExcelView {
 				row.createCell(c++).setCellValue(output.getAgreement().getDescription());
 				row.createCell(c++).setCellValue(output.getClientOrProviderDescription());
 				row.createCell(c++).setCellValue(output.getDate());
-				row.createCell(c++).setCellValue(output.getTransactionCodeANMAT() == null ? output.getTransactionCodeANMAT() : "");
 				row.createCell(c++).setCellValue(output.isCancelled() ? "SI" : "NO");
 				row.createCell(c++).setCellValue(outputDetail.getProduct().getCode() + " - " + outputDetail.getProduct().getDescription());
 				row.createCell(c++).setCellValue(outputDetail.getGtin() != null ? outputDetail.getGtin().getNumber() : "");

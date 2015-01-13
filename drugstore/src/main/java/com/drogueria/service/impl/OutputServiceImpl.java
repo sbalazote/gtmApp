@@ -6,11 +6,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.drogueria.constant.Constants;
 import com.drogueria.dto.OutputDTO;
 import com.drogueria.dto.OutputDetailDTO;
 import com.drogueria.model.Agreement;
@@ -30,8 +28,6 @@ import com.drogueria.service.ProductService;
 import com.drogueria.service.ProviderService;
 import com.drogueria.service.StockService;
 import com.drogueria.service.TraceabilityService;
-import com.drogueria.util.OperationResult;
-import com.inssjp.mywebservice.business.WebServiceResult;
 
 @Service
 @Transactional
@@ -66,38 +62,38 @@ public class OutputServiceImpl implements OutputService {
 		return output;
 	}
 
-	@Override
-	@Async
-	public void sendTrasactionAsync(Output output) throws Exception {
-		WebServiceResult result = this.traceabilityService.processOutputPendingTransactions(output);
-		if (result != null) {
-			// Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
-			if (result.getResultado()) {
-				output.setTransactionCodeANMAT(result.getCodigoTransaccion());
-				output.setInformed(true);
-				this.save(output);
-			}
-		}
-	}
-
-	@Override
-	public OperationResult saveAndInform(Output output) throws Exception {
-		OperationResult result = this.traceabilityService.processOutputPendingTransactions(output);
-		if (result != null) {
-			// Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
-			if (result.getResultado() != null) {
-				if (result.getResultado()) {
-					output.setTransactionCodeANMAT(result.getCodigoTransaccion());
-					output.setInformed(true);
-					this.save(output);
-					result.setOperationId(output.getId());
-				}
-			}
-		}
-		this.outputDAO.save(output);
-		result.setOperationId(output.getId());
-		return result;
-	}
+	// @Override
+	// @Async
+	// public void sendTrasactionAsync(Output output) throws Exception {
+	// WebServiceResult result = this.traceabilityService.processOutputPendingTransactions(output);
+	// if (result != null) {
+	// // Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
+	// if (result.getResultado()) {
+	// output.setTransactionCodeANMAT(result.getCodigoTransaccion());
+	// output.setInformed(true);
+	// this.save(output);
+	// }
+	// }
+	// }
+	//
+	// @Override
+	// public OperationResult saveAndInform(Output output) throws Exception {
+	// OperationResult result = this.traceabilityService.processOutputPendingTransactions(output);
+	// if (result != null) {
+	// // Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
+	// if (result.getResultado() != null) {
+	// if (result.getResultado()) {
+	// output.setTransactionCodeANMAT(result.getCodigoTransaccion());
+	// output.setInformed(true);
+	// this.save(output);
+	// result.setOperationId(output.getId());
+	// }
+	// }
+	// }
+	// this.outputDAO.save(output);
+	// result.setOperationId(output.getId());
+	// return result;
+	// }
 
 	private Output buildInput(OutputDTO outputDTO) {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -149,12 +145,6 @@ public class OutputServiceImpl implements OutputService {
 			}
 			output.setOutputDetails(details);
 
-			if (output.hasToInform()) {
-				output.setInformAnmat(true);
-			} else {
-				output.setInformAnmat(false);
-			}
-
 			return output;
 
 		} catch (Exception e) {
@@ -197,41 +187,41 @@ public class OutputServiceImpl implements OutputService {
 		return this.outputDAO.getCountOutputSearch(outputQuery);
 	}
 
-	@Override
-	public void cancelOutputs(List<Integer> outputsId) {
-		for (Integer id : outputsId) {
-			Output output = this.get(id);
-			if (!output.getConcept().isPrintDeliveryNote() && output.isInformAnmat()) {
-				try {
-					WebServiceResult result = this.traceabilityService.cancelOutputTransaction(output);
-					boolean alreadyCancelled = false;
-					if (result != null) {
-						if (result.getErrores() != null) {
-							if (result.getErrores(0).get_c_error().equals(Constants.ERROR_ANMAT_ALREADY_CANCELLED)) {
-								alreadyCancelled = true;
-							}
-						}
-						if (result.getResultado() || alreadyCancelled) {
-							output.setCancelled(true);
-							output.setInformAnmat(false);
-							// Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
-							output.setTransactionCodeANMAT(result.getCodigoTransaccion());
-							this.addOutputToStock(output);
-						}
-					}
-				} catch (Exception e) {
-					logger.info("No se ha podido cancelar los egresos");
-				}
-			} else {
-				output.setCancelled(true);
-				for (OutputDetail outputDetail : output.getOutputDetails()) {
-					this.addToStock(outputDetail, output.getAgreement());
-				}
-			}
-			this.save(output);
-			logger.info("Se ha anulado el Egreso número: " + id);
-		}
-	}
+	// @Override
+	// public void cancelOutputs(List<Integer> outputsId) {
+	// for (Integer id : outputsId) {
+	// Output output = this.get(id);
+	// if (!output.getConcept().isPrintDeliveryNote() && output.isInformAnmat()) {
+	// try {
+	// WebServiceResult result = this.traceabilityService.cancelOutputTransaction(output);
+	// boolean alreadyCancelled = false;
+	// if (result != null) {
+	// if (result.getErrores() != null) {
+	// if (result.getErrores(0).get_c_error().equals(Constants.ERROR_ANMAT_ALREADY_CANCELLED)) {
+	// alreadyCancelled = true;
+	// }
+	// }
+	// if (result.getResultado() || alreadyCancelled) {
+	// output.setCancelled(true);
+	// output.setInformAnmat(false);
+	// // Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
+	// output.setTransactionCodeANMAT(result.getCodigoTransaccion());
+	// this.addOutputToStock(output);
+	// }
+	// }
+	// } catch (Exception e) {
+	// logger.info("No se ha podido cancelar los egresos");
+	// }
+	// } else {
+	// output.setCancelled(true);
+	// for (OutputDetail outputDetail : output.getOutputDetails()) {
+	// this.addToStock(outputDetail, output.getAgreement());
+	// }
+	// }
+	// this.save(output);
+	// logger.info("Se ha anulado el Egreso número: " + id);
+	// }
+	// }
 
 	private void addToStock(OutputDetail outputDetail, Agreement agreement) {
 		Stock stock = new Stock();
@@ -276,18 +266,18 @@ public class OutputServiceImpl implements OutputService {
 		this.outputDAO.save(output);
 	}
 
-	@Override
-	public List<Output> getPendings() {
-		return this.outputDAO.getPendings();
-	}
+	// @Override
+	// public List<Output> getPendings() {
+	// return this.outputDAO.getPendings();
+	// }
 
-	@Override
-	public void authorizeWithoutInform(List<Integer> outputIds, String name) {
-		for (Integer outputId : outputIds) {
-			Output output = this.get(outputId);
-			output.setInformed(true);
-			this.save(output);
-		}
-	}
+	// @Override
+	// public void authorizeWithoutInform(List<Integer> outputIds, String name) {
+	// for (Integer outputId : outputIds) {
+	// Output output = this.get(outputId);
+	// output.setInformed(true);
+	// this.save(output);
+	// }
+	// }
 
 }

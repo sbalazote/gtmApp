@@ -140,12 +140,12 @@ public class OutputDAOHibernateImpl implements OutputDAO {
 		return query.list();
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Output> getPendings() {
-		Query query;
-
-		query = this.sessionFactory.getCurrentSession().createQuery("from Output where informAnmat = true and informed = false");
-		return query.list();
-	}
+	// @SuppressWarnings("unchecked")
+	// @Override
+	// public List<Output> getPendings() {
+	// Query query;
+	//
+	// query = this.sessionFactory.getCurrentSession().createQuery("from Output where informAnmat = true and informed = false");
+	// return query.list();
+	// }
 }

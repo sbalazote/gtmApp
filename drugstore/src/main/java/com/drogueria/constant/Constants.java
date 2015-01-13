@@ -21,7 +21,6 @@ public final class Constants {
 	public static final String TEST_DESTINATION_TAXID = "30686437228";
 	public static final String TEST_GTIN = "07793081057133";
 	public static final String TEST_EVENT = "133";
-	public static final String TRACE_START_EVENT = "133"; // TODO tiene que estar en drugstore properties
 
 	private Constants() {
 

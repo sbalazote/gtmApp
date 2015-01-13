@@ -19,105 +19,55 @@
 			<h1><spring:message code="common.pendingTransactions"/></h1>
 		</div>
 	</div>
-	<div class="bs-example bs-example-tabs">
-		<ul id="myTab" class="nav nav-tabs">
-			<li class="active"><a href="#pendingDeliveryNotes" data-toggle="tab"><spring:message code="common.deliveryNotes"/></a></li>
-			<li><a href="#pendingOutputs" data-toggle="tab"><spring:message code="common.outputs"/></a></li>
-		</ul>
-		<br>
-		<div id="myTabContent" class="tab-content">
-			<div class="tab-pane fade in active" id="pendingDeliveryNotes">
-				<div>
-					<table class="table table-condensed table-hover table-striped" id="deliveryNoteTable">
-						<thead>
-					        <tr>
-					           	<th data-column-id="id" data-identifier="true"><spring:message code="common.id"/></th>
-		            			<th data-column-id="orderAssemblyOrOutputNumber"><spring:message code="deliveryNote.orderAssemblyOrOutputNumber"/></th>
-		            			<th data-column-id="class"><spring:message code="deliveryNote.class"/></th>
-		            			<th data-column-id="deliveryNoteNumbers"><spring:message code="deliveryNote.deliveryNoteNumbers"/></th>
-		          				<th data-column-id="option" data-formatter="option" data-sortable="false"><spring:message code="common.option"/></th>
-					        </tr>
-				   	 	</thead>
-				   	 	<tbody id="deliveryNoteTableBody">
-							<c:forEach items="${orderDeliveryNotes}" var="orderDeliveryNotes">
-								<tr>
-									<td><c:out value="A${orderDeliveryNotes.key}"></c:out></td>
-									<td><c:out value="${orderDeliveryNotes.key}"></c:out></td>
-									<td><spring:message code="deliveryNote.class.orderAssembly"/></td>
-									<td><c:out value="${orderDeliveryNotes.value}"></c:out></td>
-									<td><spring:message code="common.view"/></td>
-								</tr>
-							</c:forEach>
-				
-							<c:forEach items="${outputDeliveryNotes}" var="outputDeliveryNotes">
-								<tr>
-									<td><c:out value="E${outputDeliveryNotes.key}"></c:out></td>
-									<td><c:out value="${outputDeliveryNotes.key}"></c:out></td>
-									<td><spring:message code="deliveryNote.class.output"/></td>
-									<td><c:out value="${outputDeliveryNotes.value}"></c:out></td>
-									<td><spring:message code="common.view"/></td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
-			<br>
-			<div class="row">
-				<div class="col-md-2 col-md-offset-8">
-					<button class="btn btn-info btn-block" type="submit" id="confirmDeliveryNotesWithoutInform">
-						<span class="glyphicon glyphicon-log-in"></span>
-						<spring:message code="common.updatedManually" />
-					</button>
-				</div>
-				<div class="col-md-2">
-					<button class="btn btn-primary btn-block" type="submit" id="confirmDeliveryNotesButton">
-						<span class="glyphicon glyphicon-ok"></span>
-						<spring:message code="common.confirm" />
-					</button>
-				</div>
-			</div>
-			</div>
-			<div class="tab-pane fade" id="pendingOutputs">
-					<div>
-						<table class="table table-condensed table-hover table-striped" id="outputTable">
-							<thead>
-						        <tr>
-						            <th data-column-id="output" data-identifier="true"><spring:message code="common.output"/></th>
-			    			        <th data-column-id="concept"><spring:message code="common.concept"/></th>
-			            			<th data-column-id="agreement"><spring:message code="common.agreement"/></th>
-						          	<th data-column-id="option" data-formatter="option" data-sortable="false"><spring:message code="common.option"/></th>
-						        </tr>
-					   	 	</thead>
-					   	 	<tbody id="outputTableBody">
-								<c:forEach items="${outputs}" var="output">
-								<tr>
-									<td><c:out value="${output.id}"></c:out></td>
-									<td><c:out value="${output.concept.description}"></c:out></td>
-									<td><c:out value="${output.agreement.description}"></c:out></td>
-									<td><spring:message code="common.view"/></td>
-								</tr>
-								</c:forEach>
-							</tbody>
-						</table>
-					</div>
-				<br>
-				<div class="row">
-					<div class="col-md-2 col-md-offset-8">
-						<button class="btn btn-info btn-block" type="submit" id="confirmOutputWithoutInform">
-							<span class="glyphicon glyphicon-log-in"></span>
-							<spring:message code="common.updatedManually" />
-						</button>
-					</div>
-					<div class="col-md-2">
-						<button class="btn btn-primary btn-block" type="submit" id="confirmOutputsButton">
-							<span class="glyphicon glyphicon-ok"></span>
-							<spring:message code="common.confirm" />
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
+	<div>
+		<table class="table table-condensed table-hover table-striped" id="deliveryNoteTable">
+			<thead>
+		        <tr>
+		           	<th data-column-id="id" data-identifier="true"><spring:message code="common.id"/></th>
+           			<th data-column-id="orderAssemblyOrOutputNumber"><spring:message code="deliveryNote.orderAssemblyOrOutputNumber"/></th>
+           			<th data-column-id="class"><spring:message code="deliveryNote.class"/></th>
+           			<th data-column-id="deliveryNoteNumbers"><spring:message code="deliveryNote.deliveryNoteNumbers"/></th>
+         				<th data-column-id="option" data-formatter="option" data-sortable="false"><spring:message code="common.option"/></th>
+		        </tr>
+	   	 	</thead>
+	   	 	<tbody id="deliveryNoteTableBody">
+				<c:forEach items="${orderDeliveryNotes}" var="orderDeliveryNotes">
+					<tr>
+						<td><c:out value="A${orderDeliveryNotes.key}"></c:out></td>
+						<td><c:out value="${orderDeliveryNotes.key}"></c:out></td>
+						<td><spring:message code="deliveryNote.class.orderAssembly"/></td>
+						<td><c:out value="${orderDeliveryNotes.value}"></c:out></td>
+						<td><spring:message code="common.view"/></td>
+					</tr>
+				</c:forEach>
+	
+				<c:forEach items="${outputDeliveryNotes}" var="outputDeliveryNotes">
+					<tr>
+						<td><c:out value="E${outputDeliveryNotes.key}"></c:out></td>
+						<td><c:out value="${outputDeliveryNotes.key}"></c:out></td>
+						<td><spring:message code="deliveryNote.class.output"/></td>
+						<td><c:out value="${outputDeliveryNotes.value}"></c:out></td>
+						<td><spring:message code="common.view"/></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
 	</div>
+<br>
+<div class="row">
+	<div class="col-md-2 col-md-offset-8">
+		<button class="btn btn-info btn-block" type="submit" id="confirmDeliveryNotesWithoutInform">
+			<span class="glyphicon glyphicon-log-in"></span>
+			<spring:message code="common.updatedManually" />
+		</button>
+	</div>
+	<div class="col-md-2">
+		<button class="btn btn-primary btn-block" type="submit" id="confirmDeliveryNotesButton">
+			<span class="glyphicon glyphicon-ok"></span>
+			<spring:message code="common.confirm" />
+		</button>
+	</div>
+</div>
 </form>
 
 <div class="modal fade" data-backdrop="static" id="forcedDeliveryNoteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
