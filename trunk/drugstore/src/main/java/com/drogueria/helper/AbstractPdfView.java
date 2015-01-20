@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.view.AbstractView;
 
+import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.PdfWriter;
@@ -46,6 +47,7 @@ public abstract class AbstractPdfView extends AbstractView {
 		// Build PDF document.
 		writer.setInitialLeading(16);
 		document.open();
+		document.add(new Chunk(""));
 		this.buildPdfDocument(model, document, writer, request, response);
 		document.close();
 
