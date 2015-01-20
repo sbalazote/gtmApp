@@ -59,9 +59,10 @@ body {
 	margin: 0 auto;
 }
 
-.text-muted-credit {
-	position: relative;
-	top: 25px;
+.text-footer {
+	font-family: 'Merriweather', serif;
+	font-style: italic;
+  	font-weight: 900;
 }
 
 .footer-a:hover { 
