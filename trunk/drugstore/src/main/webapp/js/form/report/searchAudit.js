@@ -121,7 +121,13 @@ SearchAudit = function() {
 				'&roleId=' + jsonAuditSearch.roleId;
 				
 				var exportHTML = exportQueryTableHTML("/drogueria/rest/audits", params);
-				$( ".search" ).before(exportHTML);
+				var searchHTML = $(".search");
+				
+				if (searchHTML.prev().length == 0) {
+					$(".search").before(exportHTML);
+				} else {
+					$(".search").prev().html(exportHTML);
+				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myGenericError();

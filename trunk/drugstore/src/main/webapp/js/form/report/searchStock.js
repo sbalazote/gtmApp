@@ -195,7 +195,13 @@ SearchStock = function() {
 				'&batchNumber=' + jsonStockSearch.batchNumber; 
 				
 				var exportHTML = exportQueryTableHTML("/drogueria/rest/stocks", params);
-				$( ".search" ).before(exportHTML);
+				var searchHTML = $(".search");
+				
+				if (searchHTML.prev().length == 0) {
+					$(".search").before(exportHTML);
+				} else {
+					$(".search").prev().html(exportHTML);
+				}
 				
 			},
 			error: function(jqXHR, textStatus, errorThrown) {

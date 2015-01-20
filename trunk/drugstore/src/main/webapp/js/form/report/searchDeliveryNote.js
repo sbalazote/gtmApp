@@ -88,8 +88,14 @@ SearchDeliveryNote = function() {
 						$("#deliveryNoteTableOrder").bootgrid().bootgrid("append", aaData);
 						$("#deliveryNoteTableOrder").bootgrid().bootgrid("search", $(".search-field").val());
 				
-						var exportHTML = exportTableHTML("deliveryNoteTableOrder");
-						$("#divOrderTable").find(".search").before(exportHTML);
+						var exportHTML = exportTableHTML("deliveryNoteTableOrder");			
+						var searchHTML = $("#divOrderTable").find(".search");
+						
+						if (searchHTML.prev().length == 0) {
+							searchHTML.before(exportHTML);
+						} else {
+							searchHTML.prev().html(exportHTML);
+						}
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					myGenericError();
@@ -142,7 +148,13 @@ SearchDeliveryNote = function() {
 						$("#deliveryNoteTableOutput").bootgrid().bootgrid("search", $(".search-field").val());
 				
 						var exportHTML = exportTableHTML("deliveryNoteTableOutput");
-						$("#divOutputTable").find(".search").before(exportHTML);
+						var searchHTML = $("#divOutputTable").find(".search");
+						
+						if (searchHTML.prev().length == 0) {
+							searchHTML.before(exportHTML);
+						} else {
+							searchHTML.prev().html(exportHTML);
+						}
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					myGenericError();

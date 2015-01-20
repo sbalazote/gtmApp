@@ -62,7 +62,7 @@ SearchOutput = function() {
 	$("#searchButton").click(function() {
 		if(validateForm()){
 			var jsonOutputSearch = {
-				"id": $("#idSearch").val(),
+				"id": $("#idSearch").val().trim() || null,
 				"dateFrom": $("#dateFromSearch").val(),
 				"dateTo": $("#dateToSearch").val(),
 				"conceptId": $("#conceptSearch").val() || null,
@@ -143,7 +143,13 @@ SearchOutput = function() {
 				'&agreementId=' + jsonOutputSearch.agreementId;
 				
 				var exportHTML = exportQueryTableHTML("/drogueria/rest/outputs", params);
-				$( ".search" ).before(exportHTML);
+				var searchHTML = $(".search");
+				
+				if (searchHTML.prev().length == 0) {
+					$(".search").before(exportHTML);
+				} else {
+					$(".search").prev().html(exportHTML);
+				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myGenericError();
