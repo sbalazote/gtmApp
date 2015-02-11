@@ -1,7 +1,6 @@
 package com.drogueria.controllers;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,17 +24,14 @@ import com.drogueria.dto.DeliveryNoteResultDTO;
 import com.drogueria.helper.impl.OrderDeliveryNoteSheetPrinter;
 import com.drogueria.model.DeliveryNote;
 import com.drogueria.model.Order;
-import com.drogueria.model.Output;
 import com.drogueria.model.ProvisioningRequest;
 import com.drogueria.service.AgreementService;
 import com.drogueria.service.AuditService;
 import com.drogueria.service.ClientService;
 import com.drogueria.service.DeliveryNoteService;
 import com.drogueria.service.OrderService;
-import com.drogueria.service.OutputService;
 import com.drogueria.service.ProvisioningRequestService;
 import com.drogueria.service.ProvisioningRequestStateService;
-import com.drogueria.service.TraceabilityService;
 import com.drogueria.util.OperationResult;
 
 @Controller
@@ -57,10 +53,6 @@ public class DeliveryNoteController {
 	private AgreementService agreementService;
 	@Autowired
 	private ClientService clientService;
-	@Autowired
-	private TraceabilityService traceabilityService;
-	@Autowired
-	private OutputService outputService;
 
 	@RequestMapping(value = "/deliveryNoteSheet", method = RequestMethod.GET)
 	public String deliveryNoteSheet(ModelMap modelMap) throws Exception {
@@ -98,33 +90,13 @@ public class DeliveryNoteController {
 	void cancelDeliveryNotes(@RequestBody List<String> deliveryNoteNumbers) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
-			LinkedHashMap<Integer, Output> outputsToCancell = new LinkedHashMap<Integer, Output>();
-			for (String deliveryNoteNumber : deliveryNoteNumbers) {
-				DeliveryNote deliveryNote = this.deliveryNoteService.getDeliveryNoteFromNumber(deliveryNoteNumber);
-				deliveryNote.setCancelled(true);
-				this.deliveryNoteService.save(deliveryNote);
-				this.traceabilityService.cancelDeliveryNoteTransaction(deliveryNote);
-				this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_CANCELLATION.getId(), AuditState.CANCELLED, deliveryNote.getId());
-				Output output = this.deliveryNoteService.getOutput(deliveryNote);
-				if (output != null) {
-					outputsToCancell.put(output.getId(), output);
-				}
-			}
-			// if (!outputsToCancell.keySet().isEmpty()) {
-			// List<Integer> outputIds = new ArrayList<Integer>();
-			// for (Integer outputId : outputsToCancell.keySet()) {
-			// outputIds.add(outputId);
-			// }
-			// this.outputService.cancelOutputs(outputIds);
-			// }
+			this.deliveryNoteService.cancelDeliveryNotes(deliveryNoteNumbers, auth.getName());
 		}
-
 	}
 
 	@RequestMapping(value = "/reassemblyOrders", method = RequestMethod.POST)
 	public @ResponseBody
 	void reassemblyOrders(@RequestBody List<Integer> orderIds) throws Exception {
-
 		for (Integer orderId : orderIds) {
 			Order order = this.orderService.get(orderId);
 			ProvisioningRequest provisioningRequest = order.getProvisioningRequest();
@@ -141,9 +113,6 @@ public class DeliveryNoteController {
 
 		Map<Integer, List<String>> outputDeliveryNotes = this.deliveryNoteService.getAssociatedOutputs(true);
 		modelMap.put("outputDeliveryNotes", outputDeliveryNotes);
-
-		// List<Output> outputs = this.outputService.getPendings();
-		// modelMap.put("outputs", outputs);
 
 		return "pendingTransactions";
 	}

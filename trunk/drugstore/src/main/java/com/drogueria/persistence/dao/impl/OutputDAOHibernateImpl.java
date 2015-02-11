@@ -139,13 +139,4 @@ public class OutputDAOHibernateImpl implements OutputDAO {
 						"select o.id from output as o, concept as c where not exists (select * from output_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.output_detail_id and dn.id = dnd.delivery_note_id and o.id = od.output_id and dn.cancelled = 0) and o.cancelled = 0 and o.concept_id = c.id and c.print_delivery_note = false");
 		return query.list();
 	}
-
-	// @SuppressWarnings("unchecked")
-	// @Override
-	// public List<Output> getPendings() {
-	// Query query;
-	//
-	// query = this.sessionFactory.getCurrentSession().createQuery("from Output where informAnmat = true and informed = false");
-	// return query.list();
-	// }
 }

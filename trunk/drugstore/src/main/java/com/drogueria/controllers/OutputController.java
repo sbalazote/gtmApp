@@ -30,6 +30,7 @@ import com.drogueria.service.AgreementService;
 import com.drogueria.service.AuditService;
 import com.drogueria.service.ConceptService;
 import com.drogueria.service.DeliveryLocationService;
+import com.drogueria.service.DeliveryNoteService;
 import com.drogueria.service.OutputService;
 import com.drogueria.service.ProviderService;
 import com.drogueria.util.OperationResult;
@@ -53,6 +54,8 @@ public class OutputController {
 	private OutputDeliveryNoteSheetPrinter outputDeliveryNoteSheetPrinter;
 	@Autowired
 	private OutputFakeDeliveryNoteSheetPrinter outputFakeDeliveryNoteSheetPrinter;
+	@Autowired
+	private DeliveryNoteService deliveryNoteService;
 
 	@RequestMapping(value = "/output", method = RequestMethod.GET)
 	public String output(ModelMap modelMap) throws Exception {
@@ -140,16 +143,6 @@ public class OutputController {
 		}
 		return operationResults;
 	}
-
-	// @RequestMapping(value = "/authorizeOutputWithoutInform", method = RequestMethod.POST)
-	// public @ResponseBody
-	// List<Integer> authorizeOutputWithoutInform(@RequestBody List<Integer> outputIds, HttpServletRequest request) throws Exception {
-	// Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	// if (auth != null) {
-	// this.outputService.authorizeWithoutInform(outputIds, auth.getName());
-	// }
-	// return outputIds;
-	// }
 
 	@RequestMapping(value = "/outputs", method = RequestMethod.POST)
 	public ModelAndView inputs(HttpServletRequest request) {
