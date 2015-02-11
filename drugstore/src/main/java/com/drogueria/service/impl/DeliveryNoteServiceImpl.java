@@ -9,13 +9,17 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.drogueria.constant.AuditState;
 import com.drogueria.constant.Constants;
+import com.drogueria.constant.RoleOperation;
 import com.drogueria.model.DeliveryNote;
 import com.drogueria.model.Order;
 import com.drogueria.model.Output;
 import com.drogueria.persistence.dao.DeliveryNoteDAO;
 import com.drogueria.query.DeliveryNoteQuery;
+import com.drogueria.service.AuditService;
 import com.drogueria.service.DeliveryNoteService;
+import com.drogueria.service.OutputService;
 import com.drogueria.service.TraceabilityService;
 import com.drogueria.util.OperationResult;
 import com.inssjp.mywebservice.business.WebServiceResult;
@@ -30,6 +34,10 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	private DeliveryNoteDAO deliveryNoteDAO;
 	@Autowired
 	private TraceabilityService traceabilityService;
+	@Autowired
+	private AuditService auditService;
+	@Autowired
+	private OutputService outputService;
 
 	@Override
 	public DeliveryNote get(Integer id) {
@@ -153,8 +161,30 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 			try {
 				this.save(deliveryNote);
 			} catch (Exception e) {
-				logger.info("No se ha podido actualizar el estado a informado al remito " + deliveryNoteId);
+				logger.info("No se ha podido actualizar el estado al remito " + deliveryNoteId);
 			}
+		}
+	}
+
+	@Override
+	public void cancelDeliveryNotes(List<String> deliveryNoteNumbers, String username) {
+		for (String deliveryNoteNumber : deliveryNoteNumbers) {
+			DeliveryNote deliveryNote = this.getDeliveryNoteFromNumber(deliveryNoteNumber);
+			deliveryNote.setCancelled(true);
+			try {
+				this.save(deliveryNote);
+			} catch (Exception e) {
+				logger.info("No se ha podido actualizar el estado al remito " + deliveryNote.getId());
+			}
+			try {
+				this.traceabilityService.cancelDeliveryNoteTransaction(deliveryNote);
+			} catch (Exception e) {
+				logger.info("No se ha podido informar la cancelacion a ANMAT " + deliveryNote.getId());
+				e.printStackTrace();
+			}
+			this.auditService.addAudit(username, RoleOperation.DELIVERY_NOTE_CANCELLATION.getId(), AuditState.CANCELLED, deliveryNote.getId());
+			Output output = this.getOutput(deliveryNote);
+			this.outputService.cancel(output);
 		}
 	}
 }

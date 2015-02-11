@@ -27,7 +27,6 @@ import com.drogueria.service.ProductGtinService;
 import com.drogueria.service.ProductService;
 import com.drogueria.service.ProviderService;
 import com.drogueria.service.StockService;
-import com.drogueria.service.TraceabilityService;
 
 @Service
 @Transactional
@@ -49,8 +48,6 @@ public class OutputServiceImpl implements OutputService {
 	@Autowired
 	private DeliveryLocationService deliveryLocationService;
 	@Autowired
-	private TraceabilityService traceabilityService;
-	@Autowired
 	private ProductGtinService productGtinService;
 
 	@Override
@@ -61,39 +58,6 @@ public class OutputServiceImpl implements OutputService {
 
 		return output;
 	}
-
-	// @Override
-	// @Async
-	// public void sendTrasactionAsync(Output output) throws Exception {
-	// WebServiceResult result = this.traceabilityService.processOutputPendingTransactions(output);
-	// if (result != null) {
-	// // Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
-	// if (result.getResultado()) {
-	// output.setTransactionCodeANMAT(result.getCodigoTransaccion());
-	// output.setInformed(true);
-	// this.save(output);
-	// }
-	// }
-	// }
-	//
-	// @Override
-	// public OperationResult saveAndInform(Output output) throws Exception {
-	// OperationResult result = this.traceabilityService.processOutputPendingTransactions(output);
-	// if (result != null) {
-	// // Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
-	// if (result.getResultado() != null) {
-	// if (result.getResultado()) {
-	// output.setTransactionCodeANMAT(result.getCodigoTransaccion());
-	// output.setInformed(true);
-	// this.save(output);
-	// result.setOperationId(output.getId());
-	// }
-	// }
-	// }
-	// this.outputDAO.save(output);
-	// result.setOperationId(output.getId());
-	// return result;
-	// }
 
 	private Output buildInput(OutputDTO outputDTO) {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -187,41 +151,20 @@ public class OutputServiceImpl implements OutputService {
 		return this.outputDAO.getCountOutputSearch(outputQuery);
 	}
 
-	// @Override
-	// public void cancelOutputs(List<Integer> outputsId) {
-	// for (Integer id : outputsId) {
-	// Output output = this.get(id);
-	// if (!output.getConcept().isPrintDeliveryNote() && output.isInformAnmat()) {
-	// try {
-	// WebServiceResult result = this.traceabilityService.cancelOutputTransaction(output);
-	// boolean alreadyCancelled = false;
-	// if (result != null) {
-	// if (result.getErrores() != null) {
-	// if (result.getErrores(0).get_c_error().equals(Constants.ERROR_ANMAT_ALREADY_CANCELLED)) {
-	// alreadyCancelled = true;
-	// }
-	// }
-	// if (result.getResultado() || alreadyCancelled) {
-	// output.setCancelled(true);
-	// output.setInformAnmat(false);
-	// // Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
-	// output.setTransactionCodeANMAT(result.getCodigoTransaccion());
-	// this.addOutputToStock(output);
-	// }
-	// }
-	// } catch (Exception e) {
-	// logger.info("No se ha podido cancelar los egresos");
-	// }
-	// } else {
-	// output.setCancelled(true);
-	// for (OutputDetail outputDetail : output.getOutputDetails()) {
-	// this.addToStock(outputDetail, output.getAgreement());
-	// }
-	// }
-	// this.save(output);
-	// logger.info("Se ha anulado el Egreso número: " + id);
-	// }
-	// }
+	@Override
+	public void cancel(Output output) {
+		output.setCancelled(true);
+		try {
+			this.addOutputToStock(output);
+		} catch (Exception e) {
+			logger.info("No se ha reingresar el stock");
+		}
+		try {
+			this.save(output);
+		} catch (Exception e) {
+			logger.info("No se ha podido guardar los cambios para el egreso " + output.getId());
+		}
+	}
 
 	private void addToStock(OutputDetail outputDetail, Agreement agreement) {
 		Stock stock = new Stock();
@@ -265,19 +208,5 @@ public class OutputServiceImpl implements OutputService {
 	public void save(Output output) {
 		this.outputDAO.save(output);
 	}
-
-	// @Override
-	// public List<Output> getPendings() {
-	// return this.outputDAO.getPendings();
-	// }
-
-	// @Override
-	// public void authorizeWithoutInform(List<Integer> outputIds, String name) {
-	// for (Integer outputId : outputIds) {
-	// Output output = this.get(outputId);
-	// output.setInformed(true);
-	// this.save(output);
-	// }
-	// }
 
 }

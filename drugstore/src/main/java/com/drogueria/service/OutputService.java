@@ -22,19 +22,11 @@ public interface OutputService {
 
 	List<Output> getCancelleables();
 
-	// void cancelOutputs(List<Integer> outputsId);
-
 	public List<Integer> getAllHasToPrint();
 
 	void addOutputToStock(Output output);
 
 	void save(Output output);
 
-	// List<Output> getPendings();
-
-	// OperationResult saveAndInform(Output output) throws Exception;
-
-	// void sendTrasactionAsync(Output output) throws Exception;
-
-	// void authorizeWithoutInform(List<Integer> outputIds, String name);
+	void cancel(Output output);
 }

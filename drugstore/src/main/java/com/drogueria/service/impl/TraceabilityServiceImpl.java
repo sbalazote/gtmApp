@@ -41,17 +41,23 @@ public class TraceabilityServiceImpl implements TraceabilityService {
 
 	@Override
 	public WebServiceResult cancelDeliveryNoteTransaction(DeliveryNote deliveryNote) throws Exception {
-		String transactionCodeANMAT = deliveryNote.getTransactionCodeANMAT();
-		WebServiceResult result = this.webServiceHelper.sendCancelacTransacc(Long.valueOf(transactionCodeANMAT), this.drugstorePropertyService.get()
-				.getANMATName(), EncryptionHelper.AESDecrypt(this.drugstorePropertyService.get().getANMATPassword()));
+		Long transactionCodeANMAT = Long.valueOf(deliveryNote.getTransactionCodeANMAT());
+		WebServiceResult result = null;
+		if (transactionCodeANMAT != null) {
+			result = this.webServiceHelper.sendCancelacTransacc(Long.valueOf(transactionCodeANMAT), this.drugstorePropertyService.get().getANMATName(),
+					EncryptionHelper.AESDecrypt(this.drugstorePropertyService.get().getANMATPassword()));
+		}
 		return result;
 	}
 
 	@Override
 	public WebServiceResult cancelInputTransaction(Input input) throws Exception {
-		long transactionCodeAnmat = Long.valueOf(input.getTransactionCodeANMAT());
-		WebServiceResult result = this.webServiceHelper.sendCancelacTransacc(transactionCodeAnmat, this.drugstorePropertyService.get().getANMATName(),
-				EncryptionHelper.AESDecrypt(this.drugstorePropertyService.get().getANMATPassword()));
+		String transactionCodeANMAT = input.getTransactionCodeANMAT();
+		WebServiceResult result = null;
+		if (transactionCodeANMAT != null) {
+			result = this.webServiceHelper.sendCancelacTransacc(Long.valueOf(transactionCodeANMAT), this.drugstorePropertyService.get().getANMATName(),
+					EncryptionHelper.AESDecrypt(this.drugstorePropertyService.get().getANMATPassword()));
+		}
 		return result;
 	}
 
