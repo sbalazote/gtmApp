@@ -41,5 +41,5 @@
 	
 	<bean id="webService" class="com.drogueria.webservice.WebService" />
 	
-	
+	<bean id="printOnPrinter" class="com.drogueria.helper.PrintOnPrinter" />
 </beans>
