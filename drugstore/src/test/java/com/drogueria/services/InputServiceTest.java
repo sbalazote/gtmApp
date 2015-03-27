@@ -28,6 +28,7 @@ import com.drogueria.exceptions.NullProviderAndDeliveryLocationIdsException;
 import com.drogueria.model.Agreement;
 import com.drogueria.model.Concept;
 import com.drogueria.model.Input;
+import com.drogueria.model.ProductGtin;
 import com.drogueria.persistence.dao.InputDAO;
 import com.drogueria.service.AgreementService;
 import com.drogueria.service.AuditService;
@@ -36,6 +37,7 @@ import com.drogueria.service.DeliveryLocationService;
 import com.drogueria.service.DrugstorePropertyService;
 import com.drogueria.service.OrderService;
 import com.drogueria.service.OutputService;
+import com.drogueria.service.ProductGtinService;
 import com.drogueria.service.ProductService;
 import com.drogueria.service.ProviderService;
 import com.drogueria.service.StockService;
@@ -70,6 +72,8 @@ public class InputServiceTest {
 	private OutputService outputServiceMock;
 	@Mock
 	private OrderService orderServiceMock;
+	@Mock
+	private ProductGtinService productGtinServiceMock;
 
 	@Before
 	public void setUp() {
@@ -82,9 +86,12 @@ public class InputServiceTest {
 
 	@Test(expected = NullAgreementIdException.class)
 	public void testSaveWithNullAgreement() throws Exception {
+		ProductGtin productGtin = new ProductGtin();
+		productGtin.setNumber("928029");
+		when(this.productGtinServiceMock.get(1)).thenReturn(productGtin);
 
 		InputDetailDTO iddto = new InputDetailDTOBuilder().amount(1).batch("L0065").expirationDate("110120").productId(1).productType("BE").serialNumber("")
-				.build();
+				.gtin("").build();
 
 		InputDTO dto = new InputDTOBuilder().agreementId(null).conceptId(1).date("01/01/2015").deliveryLocationId(1).deliveryNoteNumber("R0000da")
 				.providerId(1).purchaseOrderNumber("a").addInputDetail(iddto).build();
@@ -96,7 +103,7 @@ public class InputServiceTest {
 	public void testSaveWithNullConcept() throws Exception {
 
 		InputDetailDTO iddto = new InputDetailDTOBuilder().amount(1).batch("L0065").expirationDate("110120").productId(1).productType("BE").serialNumber("")
-				.build();
+				.gtin("").build();
 
 		InputDTO dto = new InputDTOBuilder().agreementId(1).conceptId(null).date("01/01/2015").deliveryLocationId(1).deliveryNoteNumber("R0000da")
 				.providerId(1).purchaseOrderNumber("a").addInputDetail(iddto).build();
@@ -108,7 +115,7 @@ public class InputServiceTest {
 	public void testSaveWithNullDate() throws Exception {
 
 		InputDetailDTO iddto = new InputDetailDTOBuilder().amount(1).batch("L0065").expirationDate("110120").productId(1).productType("BE").serialNumber("")
-				.build();
+				.gtin("").build();
 
 		InputDTO dto = new InputDTOBuilder().agreementId(1).conceptId(1).date(null).deliveryLocationId(1).deliveryNoteNumber("R0000da").providerId(1)
 				.purchaseOrderNumber("a").addInputDetail(iddto).build();
@@ -122,7 +129,7 @@ public class InputServiceTest {
 		Agreement gg = new Agreement();
 
 		InputDetailDTO iddto = new InputDetailDTOBuilder().amount(1).batch("L0065").expirationDate("110120").productId(1).productType("BE").serialNumber("")
-				.build();
+				.gtin("").build();
 
 		InputDTO dto = new InputDTOBuilder().agreementId(1).conceptId(1).date("01-01-2015").deliveryLocationId(1).deliveryNoteNumber("R0000da").providerId(1)
 				.purchaseOrderNumber("a").addInputDetail(iddto).build();
@@ -134,11 +141,11 @@ public class InputServiceTest {
 
 	@Test
 	public void testSaveWithCorrectInput() throws Exception {
-        Concept concept = new Concept();
+		Concept concept = new Concept();
 		concept.setInformAnmat(false);
 
 		InputDetailDTO iddto = new InputDetailDTOBuilder().amount(1).batch("L0065").expirationDate("110120").productId(1).productType("BE").serialNumber("")
-				.build();
+				.gtin("").build();
 
 		InputDTO dto = new InputDTOBuilder().agreementId(1).conceptId(1).date("01/01/2015").deliveryLocationId(null).deliveryNoteNumber("R0000da")
 				.providerId(1).purchaseOrderNumber("a").addInputDetail(iddto).build();
@@ -156,7 +163,7 @@ public class InputServiceTest {
 		concept.setInformAnmat(false);
 
 		InputDetailDTO iddto = new InputDetailDTOBuilder().amount(1).batch("L0065").expirationDate("110120").productId(1).productType("BE").serialNumber("")
-				.build();
+				.gtin("").build();
 
 		InputDTO dto = new InputDTOBuilder().agreementId(1).conceptId(1).date("01/01/2015").deliveryLocationId(null).deliveryNoteNumber("R0000da")
 				.providerId(null).purchaseOrderNumber("a").addInputDetail(iddto).build();

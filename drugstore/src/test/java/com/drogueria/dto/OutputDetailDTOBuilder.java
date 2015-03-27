@@ -37,6 +37,11 @@ public class OutputDetailDTOBuilder {
 		return this;
 	}
 
+	public OutputDetailDTOBuilder gtin(String gtin) {
+		this.dto.setGtin(gtin);
+		return this;
+	}
+
 	public OutputDetailDTO build() {
 		return this.dto;
 	}

@@ -38,6 +38,11 @@ public class InputDetailDTOBuilder {
 		return this;
 	}
 
+	public InputDetailDTOBuilder gtin(String gtin) {
+		this.dto.setGtin(gtin);
+		return this;
+	}
+
 	public InputDetailDTO build() {
 		return this.dto;
 	}

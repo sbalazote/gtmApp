@@ -20,6 +20,7 @@ import com.drogueria.dto.OutputDetailDTO;
 import com.drogueria.dto.OutputDetailDTOBuilder;
 import com.drogueria.model.Concept;
 import com.drogueria.model.Output;
+import com.drogueria.model.ProductGtin;
 import com.drogueria.persistence.dao.OutputDAO;
 import com.drogueria.service.AgreementService;
 import com.drogueria.service.AuditService;
@@ -28,6 +29,7 @@ import com.drogueria.service.DeliveryLocationService;
 import com.drogueria.service.DrugstorePropertyService;
 import com.drogueria.service.OrderService;
 import com.drogueria.service.OutputService;
+import com.drogueria.service.ProductGtinService;
 import com.drogueria.service.ProductService;
 import com.drogueria.service.ProviderService;
 import com.drogueria.service.StockService;
@@ -62,6 +64,8 @@ public class OutputServiceTest {
 	private OutputService outputServiceMock;
 	@Mock
 	private OrderService orderServiceMock;
+	@Mock
+	private ProductGtinService productGtinServiceMock;
 
 	@Before
 	public void setUp() {
@@ -76,14 +80,15 @@ public class OutputServiceTest {
 	public void testSaveWithCorrectInput() throws Exception {
 		Concept concept = new Concept();
 		concept.setInformAnmat(false);
-
+		ProductGtin productGtin = new ProductGtin();
 		OutputDetailDTO iddto = new OutputDetailDTOBuilder().amount(1).batch("L0065").expirationDate("11/01/20").productId(1).productType("BE")
-				.serialNumber("").build();
+				.serialNumber("").gtin("").build();
 
 		OutputDTO dto = new OutputDTOBuilder().agreementId(1).conceptId(1).date("01/01/2015").deliveryLocationId(null).providerId(1).addInputDetail(iddto)
 				.build();
 
 		when(this.conceptServiceMock.get(1)).thenReturn(concept);
+		when(this.productGtinServiceMock.get(1)).thenReturn(productGtin);
 
 		doNothing().when(this.outputDAO).save(Matchers.isA(Output.class));
 

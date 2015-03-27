@@ -2,8 +2,6 @@ package com.drogueria.persistence.dao.impl;
 
 import java.util.Date;
 
-import com.drogueria.model.*;
-import com.drogueria.service.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -12,7 +10,22 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
-import static org.mockito.Mockito.when;
+import com.drogueria.model.Agreement;
+import com.drogueria.model.Concept;
+import com.drogueria.model.Product;
+import com.drogueria.model.ProductBrand;
+import com.drogueria.model.ProductDrugCategory;
+import com.drogueria.model.ProductGroup;
+import com.drogueria.model.ProductMonodrug;
+import com.drogueria.model.Stock;
+import com.drogueria.service.AgreementService;
+import com.drogueria.service.ConceptService;
+import com.drogueria.service.ProductBrandService;
+import com.drogueria.service.ProductDrugCategoryService;
+import com.drogueria.service.ProductGroupService;
+import com.drogueria.service.ProductMonodrugService;
+import com.drogueria.service.ProductService;
+import com.drogueria.service.StockService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:application-context-test.xml" })
@@ -32,8 +45,8 @@ public class StockServiceTest {
 	private ProductGroupService productGroupService;
 	@Autowired
 	private ProductMonodrugService productMonodrugService;
-    @Mock
-    private ConceptService conceptServiceMock;
+	@Mock
+	private ConceptService conceptServiceMock;
 
 	@Test
 	public void save() {
@@ -42,9 +55,8 @@ public class StockServiceTest {
 		agreement.setActive(true);
 		agreement.setCode(5656);
 		agreement.setDescription("Test Agreement");
-        Concept concept = new Concept();
-        when(this.conceptServiceMock.get(1)).thenReturn(concept);
-        agreement.setDeliveryNoteConcept(this.conceptServiceMock.get(1));
+		Concept concept = new Concept();
+		agreement.setDeliveryNoteConcept(concept);
 		this.agreementService.save(agreement);
 		stock.setAgreement(agreement);
 		stock.setAmount(10);
