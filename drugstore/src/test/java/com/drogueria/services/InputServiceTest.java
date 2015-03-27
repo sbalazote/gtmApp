@@ -42,7 +42,7 @@ import com.drogueria.service.StockService;
 import com.drogueria.service.impl.InputServiceImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:application-context-test.xml", "classpath:security-context-test.xml" })
+@ContextConfiguration("classpath:application-context-test.xml")
 public class InputServiceTest {
 
 	@InjectMocks
@@ -134,7 +134,7 @@ public class InputServiceTest {
 
 	@Test
 	public void testSaveWithCorrectInput() throws Exception {
-		Concept concept = new Concept();
+        Concept concept = new Concept();
 		concept.setInformAnmat(false);
 
 		InputDetailDTO iddto = new InputDetailDTOBuilder().amount(1).batch("L0065").expirationDate("110120").productId(1).productType("BE").serialNumber("")

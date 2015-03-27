@@ -16,7 +16,7 @@
 		http://www.springframework.org/schema/task/spring-task-3.0.xsd">
     
     <import resource="persistence-context.xml"/>
-    <!-- <import resource="security-context-test.xml"/> -->
+    <import resource="security-context-test.xml"/>
     <!-- <import resource="classpath:application-context.xml"/> -->
     
 	<context:component-scan base-package="com.drogueria.controllers"/>
@@ -33,9 +33,8 @@
 		</property>
 	</bean>
 	
-		<bean id="webServiceHelper" class="com.drogueria.webservice.WebServiceHelper" />
+	<bean id="webServiceHelper" class="com.drogueria.webservice.WebServiceHelper" />
 	<bean id="inputWSHelper" class="com.drogueria.webservice.helper.InputWSHelper" />
-	<bean id="outputWSHelper" class="com.drogueria.webservice.helper.OutputWSHelper" />
 	<bean id="deliveryNoteWSHelper" class="com.drogueria.webservice.helper.DeliveryNoteWSHelper" />
 	
 	
