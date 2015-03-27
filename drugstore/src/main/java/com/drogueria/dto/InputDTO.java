@@ -15,6 +15,7 @@ public class InputDTO implements Serializable {
 	private String deliveryNoteNumber;
 	private String purchaseOrderNumber;
 	private String date;
+
 	private List<InputDetailDTO> inputDetails;
 
 	public Integer getId() {
