@@ -132,6 +132,7 @@ public class AgreementServiceTest {
         agreement.setCode(123);
         agreement.setDescription("Test description");
         agreement.setDeliveryNoteConcept(concept);
+
         agreement.setDestructionConcept(concept);
 
 		this.agreementService.save(agreement);
