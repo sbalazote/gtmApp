@@ -34,4 +34,6 @@ public interface StockDAO {
 	List<Product> getForAutocomplete(String term, Integer agreementId);
 
 	Product getByGtin(String gtin, Integer agreementId);
+
+	boolean delete(Integer stockId);
 }

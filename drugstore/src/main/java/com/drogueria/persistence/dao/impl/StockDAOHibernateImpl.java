@@ -252,4 +252,15 @@ public class StockDAOHibernateImpl implements StockDAO {
 			return null;
 		}
 	}
+
+	@Override
+	public boolean delete(Integer stockId) {
+		Stock stock = this.get(stockId);
+		if (stock != null) {
+			this.sessionFactory.getCurrentSession().delete(stock);
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

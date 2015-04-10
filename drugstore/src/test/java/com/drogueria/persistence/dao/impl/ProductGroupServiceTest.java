@@ -2,6 +2,8 @@ package com.drogueria.persistence.dao.impl;
 
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,19 @@ public class ProductGroupServiceTest {
 	@Autowired
 	private ProductGroupService productGroupService;
 
+	@Before
+	public void setUp() {
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		List<ProductGroup> productGroups = this.productGroupService.getAll();
+
+		for (ProductGroup productGroup : productGroups) {
+			this.productGroupService.delete(productGroup.getId());
+		}
+	}
+
 	@Test
 	public void save() {
 		ProductGroup productGroup = new ProductGroup();
@@ -29,8 +44,6 @@ public class ProductGroupServiceTest {
 
 		ProductGroup savedProductGroup = this.productGroupService.get(productGroup.getId());
 		Assert.isTrue(productGroup.getDescription().equals(savedProductGroup.getDescription()));
-
-		this.productGroupService.delete(productGroup.getId());
 	}
 
 	@Test
@@ -50,10 +63,6 @@ public class ProductGroupServiceTest {
 		List<ProductGroup> productGroups = this.productGroupService.getAll();
 
 		Assert.isTrue(productGroups.size() == 2);
-
-		for (ProductGroup productGroup : productGroups) {
-			this.productGroupService.delete(productGroup.getId());
-		}
 	}
 
 	@Test
@@ -69,8 +78,6 @@ public class ProductGroupServiceTest {
 
 		Boolean isFalse = this.productGroupService.exists(999);
 		Assert.isTrue(isFalse == false);
-
-		this.productGroupService.delete(productGroup.getId());
 	}
 
 }

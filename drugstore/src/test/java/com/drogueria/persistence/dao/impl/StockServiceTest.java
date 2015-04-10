@@ -2,6 +2,8 @@ package com.drogueria.persistence.dao.impl;
 
 import java.util.Date;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -38,6 +40,8 @@ public class StockServiceTest {
 	@Autowired
 	private AgreementService agreementService;
 	@Autowired
+	private ConceptService conceptService;
+	@Autowired
 	private ProductBrandService productBrandService;
 	@Autowired
 	private ProductDrugCategoryService productDrugCategoryService;
@@ -48,70 +52,108 @@ public class StockServiceTest {
 	@Mock
 	private ConceptService conceptServiceMock;
 
+	private Concept concept;
+	private Agreement agreement;
+	private Product product;
+	private ProductBrand productBrand;
+	private ProductDrugCategory productDrugCategory;
+	private ProductGroup productGroup;
+	private ProductMonodrug productMonodrug;
+
+	@Before
+	public void setUp() {
+		this.concept = new Concept();
+		this.concept.setCode(1);
+		this.concept.setActive(true);
+		this.concept.setDeliveryNoteCopies(1);
+		this.concept.setDeliveryNotePOS("");
+		this.concept.setDescription("Test Concept");
+		this.concept.setClient(true);
+		this.concept.setEvents(null);
+		this.concept.setInformAnmat(true);
+		this.concept.setInput(true);
+		this.concept.setLastDeliveryNoteNumber(1);
+		this.concept.setPrintDeliveryNote(false);
+		this.concept.setRefund(true);
+		this.concept.setId(1);
+		this.conceptService.save(this.concept);
+
+		this.agreement = new Agreement();
+		this.agreement.setActive(true);
+		this.agreement.setCode(123);
+		this.agreement.setDescription("Test description");
+		this.agreement.setDeliveryNoteFilepath("");
+		this.agreement.setOrderLabelFilepath("");
+		this.agreement.setPickingFilepath("");
+		this.agreement.setNumberOfDeliveryNoteDetailsPerPage(999);
+		this.agreement.setDeliveryNoteConcept(this.concept);
+		this.agreement.setDestructionConcept(this.concept);
+		this.agreementService.save(this.agreement);
+
+		this.product = new Product();
+		this.product.setActive(true);
+		this.product.setCode(133623);
+		this.product.setCold(false);
+		this.product.setDescription("Test product");
+		this.product.setInformAnmat(false);
+		this.product.setType("SS");
+
+		this.productBrand = new ProductBrand();
+		this.productBrand.setActive(true);
+		this.productBrand.setCode(4546);
+		this.productBrand.setDescription("Test Product Brand Description");
+		this.productBrandService.save(this.productBrand);
+		this.product.setBrand(this.productBrand);
+
+		this.productDrugCategory = new ProductDrugCategory();
+		this.productDrugCategory.setActive(true);
+		this.productDrugCategory.setDescription("Test Product Drug Category Description");
+		this.productDrugCategory.setCode(3344);
+		this.productDrugCategoryService.save(this.productDrugCategory);
+		this.product.setDrugCategory(this.productDrugCategory);
+
+		this.productGroup = new ProductGroup();
+		this.productGroup.setActive(true);
+		this.productGroup.setDescription("Test Product Group Description");
+		this.productGroup.setCode(4444);
+		this.productGroupService.save(this.productGroup);
+		this.product.setGroup(this.productGroup);
+
+		this.productMonodrug = new ProductMonodrug();
+		this.productMonodrug.setActive(true);
+		this.productMonodrug.setDescription("Test Product Brand Description");
+		this.productMonodrug.setCode(2222);
+		this.productMonodrugService.save(this.productMonodrug);
+		this.product.setMonodrug(this.productMonodrug);
+
+		this.productService.save(this.product);
+	}
+
+	@After
+	public final void tearDown() {
+		this.agreementService.delete(this.agreement.getId());
+		this.productService.delete(this.product.getId());
+	}
+
 	@Test
 	public void save() {
 		Stock stock = new Stock();
-		Agreement agreement = new Agreement();
-		agreement.setActive(true);
-		agreement.setCode(5656);
-		agreement.setDescription("Test Agreement");
-		Concept concept = new Concept();
-		agreement.setDeliveryNoteConcept(concept);
-		this.agreementService.save(agreement);
-		stock.setAgreement(agreement);
+		stock.setAgreement(this.agreement);
 		stock.setAmount(10);
 		stock.setBatch("abcd");
 		stock.setExpirationDate(new Date());
-		Product product = new Product();
-		product.setActive(true);
-
-		ProductBrand productBrand = new ProductBrand();
-		productBrand.setActive(true);
-		productBrand.setCode(4546);
-		productBrand.setDescription("Test Product Brand Description");
-		this.productBrandService.save(productBrand);
-
-		product.setBrand(productBrand);
-		product.setCode(133623);
-		product.setCold(false);
-		product.setDescription("Test product");
-
-		ProductDrugCategory productDrugCategory = new ProductDrugCategory();
-		productDrugCategory.setActive(true);
-		productDrugCategory.setDescription("Test Product Drug Category Description");
-		productDrugCategory.setCode(3344);
-		this.productDrugCategoryService.save(productDrugCategory);
-		product.setDrugCategory(productDrugCategory);
-
-		ProductGroup productGroup = new ProductGroup();
-		productGroup.setActive(true);
-		productGroup.setDescription("Test Product Group Description");
-		productGroup.setCode(4444);
-		this.productGroupService.save(productGroup);
-
-		product.setGroup(productGroup);
-		product.setInformAnmat(false);
-		ProductMonodrug productMonodrug = new ProductMonodrug();
-		productMonodrug.setActive(true);
-		productMonodrug.setDescription("Test Product Brand Description");
-		productMonodrug.setCode(2222);
-		this.productMonodrugService.save(productMonodrug);
-		product.setMonodrug(productMonodrug);
-
-		product.setType("SS");
-		this.productService.save(product);
 
 		stock.setBatch("aabcd");
 		stock.setExpirationDate(new Date());
-		stock.setProduct(product);
+		stock.setProduct(this.product);
 		stock.setSerialNumber("1656565465");
 		this.stockService.save(stock);
 
 		Stock savedStock = this.stockService.get(stock.getId());
 		Assert.isTrue(stock.getBatch().equals(savedStock.getBatch()));
 
-		Assert.isTrue(Long.valueOf(stock.getAmount()) == this.stockService.getProductAmount(product.getId(), agreement.getId(), null));
+		Assert.isTrue(Long.valueOf(stock.getAmount()) == this.stockService.getProductAmount(this.product.getId(), this.agreement.getId(), null));
 
-		// Assert.isTrue(product.getId().equals(this.stockService.getByGtin(product.getGtin(), agreement.getId())));
+		this.stockService.delete(stock.getId());
 	}
 }

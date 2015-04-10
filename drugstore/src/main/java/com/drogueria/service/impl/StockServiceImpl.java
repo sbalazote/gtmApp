@@ -157,4 +157,9 @@ public class StockServiceImpl implements StockService {
 		stock.setAgreement(destinationAgreement);
 		this.save(stock);
 	}
+
+	@Override
+	public boolean delete(Integer stockId) {
+		return this.stockDAO.delete(stockId);
+	}
 }

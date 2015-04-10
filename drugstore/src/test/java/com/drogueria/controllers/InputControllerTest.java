@@ -44,7 +44,7 @@ import com.drogueria.util.IntegrationTestUtil;
 import com.drogueria.util.MockSecurityContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration( "classpath:application-context-test.xml")
+@ContextConfiguration("classpath:application-context-test.xml")
 @WebAppConfiguration
 @EnableWebMvc
 @TransactionConfiguration(defaultRollback = true)

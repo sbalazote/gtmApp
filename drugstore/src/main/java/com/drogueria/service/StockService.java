@@ -37,4 +37,6 @@ public interface StockService {
 
 	void updateAgreementStock(Integer id, String serialNumber, String number, Agreement destinationAgreement);
 
+	boolean delete(Integer stockId);
+
 }

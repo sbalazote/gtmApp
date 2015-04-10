@@ -2,6 +2,8 @@ package com.drogueria.persistence.dao.impl;
 
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,19 @@ public class ProductDrugCategoryServiceTest {
 	@Autowired
 	private ProductDrugCategoryService productDrugCategoryService;
 
+	@Before
+	public void setUp() {
+
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		List<ProductDrugCategory> productDrugCategories = this.productDrugCategoryService.getAll();
+		for (ProductDrugCategory productDrugCategory : productDrugCategories) {
+			this.productDrugCategoryService.delete(productDrugCategory.getId());
+		}
+	}
+
 	@Test
 	public void save() {
 		ProductDrugCategory productDrugCategory = new ProductDrugCategory();
@@ -29,8 +44,6 @@ public class ProductDrugCategoryServiceTest {
 
 		ProductDrugCategory savedProductDrugCategory = this.productDrugCategoryService.get(productDrugCategory.getId());
 		Assert.isTrue(productDrugCategory.getDescription().equals(savedProductDrugCategory.getDescription()));
-
-		this.productDrugCategoryService.delete(productDrugCategory.getId());
 	}
 
 	@Test
@@ -50,10 +63,6 @@ public class ProductDrugCategoryServiceTest {
 		List<ProductDrugCategory> productDrugCategorys = this.productDrugCategoryService.getAll();
 
 		Assert.isTrue(productDrugCategorys.size() == 2);
-
-		for (ProductDrugCategory productDrugCategory : productDrugCategorys) {
-			this.productDrugCategoryService.delete(productDrugCategory.getId());
-		}
 	}
 
 	@Test
@@ -69,8 +78,6 @@ public class ProductDrugCategoryServiceTest {
 
 		Boolean isFalse = this.productDrugCategoryService.exists(999);
 		Assert.isTrue(isFalse == false);
-
-		this.productDrugCategoryService.delete(productDrugCategory.getId());
 	}
 
 }

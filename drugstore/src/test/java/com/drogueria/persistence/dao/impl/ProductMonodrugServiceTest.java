@@ -2,6 +2,8 @@ package com.drogueria.persistence.dao.impl;
 
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,19 @@ public class ProductMonodrugServiceTest {
 	@Autowired
 	private ProductMonodrugService productMonodrugService;
 
+	@Before
+	public void setUp() {
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		List<ProductMonodrug> productMonodrugs = this.productMonodrugService.getAll();
+
+		for (ProductMonodrug productMonodrug : productMonodrugs) {
+			this.productMonodrugService.delete(productMonodrug.getId());
+		}
+	}
+
 	@Test
 	public void save() {
 		ProductMonodrug productMonodrug = new ProductMonodrug();
@@ -29,8 +44,6 @@ public class ProductMonodrugServiceTest {
 
 		ProductMonodrug savedProductMonodrug = this.productMonodrugService.get(productMonodrug.getId());
 		Assert.isTrue(productMonodrug.getDescription().equals(savedProductMonodrug.getDescription()));
-
-		this.productMonodrugService.delete(productMonodrug.getId());
 	}
 
 	@Test
@@ -50,10 +63,6 @@ public class ProductMonodrugServiceTest {
 		List<ProductMonodrug> productMonodrugs = this.productMonodrugService.getAll();
 
 		Assert.isTrue(productMonodrugs.size() == 2);
-
-		for (ProductMonodrug productMonodrug : productMonodrugs) {
-			this.productMonodrugService.delete(productMonodrug.getId());
-		}
 	}
 
 	@Test
@@ -69,8 +78,6 @@ public class ProductMonodrugServiceTest {
 
 		Boolean isFalse = this.productMonodrugService.exists(999);
 		Assert.isTrue(isFalse == false);
-
-		this.productMonodrugService.delete(productMonodrug.getId());
 	}
 
 }
