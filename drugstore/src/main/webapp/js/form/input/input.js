@@ -189,41 +189,87 @@ Input = function() {
 	
 	$('#productInput').keydown(function(e) {
 	    if(e.keyCode == 121){ // F10
-	    	$.ajax({
-				url: "getProductBySerialOrGtin.do",
-				type: "GET",
-				data: {
-					serial: $(this).val()
-				},
-				success: function(response) {
-					if (response != "") {
-						if (!productEntered(response.id)) {
-							productId = response.id;
-							productGtin = response.lastGtin;
-							productDescription = response.code + ' - ' + response.description;
-							productType = response.type;
-							
-							$('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
-							
-							$("#productInput").val(productDescription);
-							$('#amountModal').modal('show');
-						} else {
-							myShowAlert('danger', 'Producto ya Ingresado');
-							$("#productInput").val("");
-						}
-					} else {
-						$('#productInput').tooltip("destroy").data("title", "Producto Inexistente").addClass("has-error").tooltip();
-						$('#productInput').focus();
-					}
-					return false;
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					myGenericError();
-				}
-			});
+            var serial = $(this).val();
+            if(serial.indexOf("414") == 0) {
+                $('#productOthersSelfSerielized').modal('show');
+            }else{
+                $.ajax({
+                    url: "getProductBySerialOrGtin.do",
+                    type: "GET",
+                    data: {
+                        serial: serial
+                    },
+                    success: function(response) {
+                        if (response != "") {
+                            if (!productEntered(response.id)) {
+                                productId = response.id;
+                                productGtin = response.lastGtin;
+                                productDescription = response.code + ' - ' + response.description;
+                                productType = response.type;
+
+                                $('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
+
+                                $("#productInput").val(productDescription);
+                                $('#amountModal').modal('show');
+                            } else {
+                                myShowAlert('danger', 'Producto ya Ingresado');
+                                $("#productInput").val("");
+                            }
+                        } else
+                        {
+                            $('#productInput').tooltip("destroy").data("title", "Producto Inexistente").addClass("has-error").tooltip();
+                            $('#productInput').focus();
+                        }
+                        return false;
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        myGenericError();
+                    }
+                });
+            }
 	    }
 	});
-	
+
+    //Esto es para buscar productos en el modal de serializados de origen que comienzan con 414
+    $("#productDescriptionOthersSelfSerielized").autocomplete( {
+        source: function(request, response) {
+            $.ajax({
+                url: "getProducts.do",
+                type: "GET",
+                async: false,
+                data: {
+                    term: request.term,
+                    active: true
+                },
+                success: function(data) {
+                    var array = $.map(data, function(item) {
+                        return {
+                            id:	item.id,
+                            label: item.code + " - " + item.description + " - " + item.brand.description + " - " + item.monodrug.description,
+                            value: item.code + " - " + item.description,
+                            gtin: item.lastGtin,
+                            type: item.type
+                        };
+                    });
+                    response(array);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    myGenericError();
+                }
+            });
+        },
+        select: function(event, ui) {
+            productId = ui.item.id;
+            productGtin = ui.item.gtin;
+            productDescription = ui.item.value;
+            productType = ui.item.type;
+            $("#productDescriptionOthersSelfSerielized").val(productDescription);
+            return false;
+        },
+        minLength: 3,
+        autoFocus: true
+    });
+
 	$('#amountModal').on('shown.bs.modal', function () {
 	    $('#productAmountInput').focus();
 	});
@@ -467,7 +513,7 @@ Input = function() {
 							var doc = printIOPDF('input', response.id, response.inputDetails);
 							
 							var string = doc.output('datauristring');
-							var x = window.open('','Ingreso Nº', '', false);
+							var x = window.open('','Ingreso Nï¿½', '', false);
 							x.document.open();
 							x.document.location=string;
 							
@@ -501,7 +547,7 @@ Input = function() {
 									success: function(response) {
 										var doc = printIOPDF('input', response.id, response.inputDetails);
 										var string = doc.output('datauristring');
-										var x = window.open('','Ingreso Nº', '', false);
+										var x = window.open('','Ingreso Nï¿½', '', false);
 										x.document.open();
 										x.document.location=string;
 										myRedirect("success","Se ha autorizado el ingreso de mercader&iacute;a n&uacute;mero: " + response.operationId, "searchInputToUpdate.do");
@@ -578,7 +624,7 @@ Input = function() {
 					if(response != null){
 						var doc = printIOPDF('input', response.id, response.inputDetails);
 						var string = doc.output('datauristring');
-						var x = window.open('','Ingreso Nº', '', false);
+						var x = window.open('','Ingreso Nï¿½', '', false);
 						x.document.open();
 						x.document.location=string;
 						
