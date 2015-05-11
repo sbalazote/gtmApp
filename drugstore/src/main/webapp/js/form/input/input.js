@@ -248,7 +248,8 @@ Input = function() {
                             label: item.code + " - " + item.description + " - " + item.brand.description + " - " + item.monodrug.description,
                             value: item.code + " - " + item.description,
                             gtin: item.lastGtin,
-                            type: item.type
+                            type: item.type,
+                            gtins: item.gtins
                         };
                     });
                     response(array);
@@ -263,12 +264,16 @@ Input = function() {
             productGtin = ui.item.gtin;
             productDescription = ui.item.value;
             productType = ui.item.type;
+            for (var i = 0; i < ui.item.gtins.length; i++) {
+                $('#productGtinOthersSelfSerielized').append('<option value="foo">' + ui.item.gtins[i].number + '</option>');
+            }
+            $('#productGtinOthersSelfSerielized').trigger("liszt:updated");
             $("#productDescriptionOthersSelfSerielized").val(productDescription);
             return false;
         },
         minLength: 3,
         autoFocus: true
-    });
+    },{appendTo: "#productOthersSelfSerielized"});
 
 	$('#amountModal').on('shown.bs.modal', function () {
 	    $('#productAmountInput').focus();
