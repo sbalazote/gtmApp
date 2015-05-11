@@ -2,7 +2,14 @@ START TRANSACTION;
 
 DROP SCHEMA IF EXISTS `drugstore`;
 
-CREATE SCHEMA `drugstore` ;
+/*La primera vez hay que comentar esto */
+DROP USER drugstore;
+
+CREATE DATABASE drugstore;
+CREATE USER drugstore IDENTIFIED BY 'drugstore';
+GRANT ALL PRIVILEGES ON `drugstore`.* TO `drugstore`@`localhost` IDENTIFIED BY 'drugstore';
+
+USE drugstore;
 
 CREATE TABLE `drugstore`.`agent` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

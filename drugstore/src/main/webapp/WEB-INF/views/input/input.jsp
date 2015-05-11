@@ -384,7 +384,7 @@
 	</div>
 </form>
 
-<%-- Confirmación del delete de una row --%>
+<%-- Confirmaciï¿½n del delete de una row --%>
 <div class="modal fade" data-backdrop="static" id="deleteRowConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:250px">
 		<div class="modal-content">
@@ -399,7 +399,7 @@
 	</div>
 </div>
 
-<%-- Confirmación del delete de una row --%>
+<%-- Confirmaciï¿½n del delete de una row --%>
 <div class="modal fade" data-backdrop="static" id="forcedInputConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:250px">
 		<div class="modal-content">
@@ -414,4 +414,30 @@
 	</div>
 </div>
 
-
+<%-- Modal Productos Serializacion Propia de un eslabon anterior --%>
+<form id="productOthersSelfSerielizedForm" action="" onsubmit="return false;">
+    <div class="modal fade" data-backdrop="static" id="productOthersSelfSerielized" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width:950px">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label for="productDescriptionOthersSelfSerielized"><spring:message code="common.product"/></label>
+                            <input type="text" class="form-control" name="productDescriptionOthersSelfSerielized" id="productDescriptionOthersSelfSerielized"/>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <label for="productGtinOthersSelfSerielized"><spring:message code="common.gtin"/></label>
+                            <select id="productGtinOthersSelfSerielized" name="productGtinOthersSelfSerielized" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.abort"/></button>
+                    <button type="button" class="btn btn-primary" id="othersSelfSerielizedAcceptButton"><spring:message code="common.accept"/></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
