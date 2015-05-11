@@ -7,6 +7,7 @@
 		http://www.springframework.org/schema/security/spring-security-3.0.xsd">
         
 	<http auto-config="true" use-expressions="true">
+	    <access-denied-handler error-page="/403.do" />
 		<intercept-url pattern='/**' requires-channel='https' />
 	
 		<intercept-url pattern="/js/**" access="permitAll" />
@@ -23,6 +24,9 @@
 		
 		<intercept-url pattern="/output.do" access="hasRole('OUTPUT')" />
 		<intercept-url pattern="/outputCancellation.do" access="hasRole('OUTPUT_CANCELLATION')" />
+		
+		<intercept-url pattern="/supplying.do" access="hasRole('SUPPLYING')" />
+		<intercept-url pattern="/supplyingCancellation.do" access="hasRole('SUPPLYING_CANCELLATION')" />
 
 		<intercept-url pattern="/provisioningRequest.do" access="hasRole('PROVISIONING_REQUEST')" />
 		<intercept-url pattern="/searchProvisioningToUpdate.do" access="hasRole('PROVISIONING_REQUEST_UPDATE')" />

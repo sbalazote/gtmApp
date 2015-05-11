@@ -56,6 +56,18 @@
 						<sec:authorize access="hasRole('AGREEMENT_TRANSFER')">
 							<li class="activable"><a href="agreementTransfer.do"><spring:message code="common.agreementTransfer"/></a></li>
 						</sec:authorize>
+						
+						<li class="dropdown-submenu">
+							<a href="#"><spring:message code="administration.supplying"/></a>
+							<ul class="dropdown-menu">
+								<sec:authorize access="hasRole('SUPPLYING')">
+									<li class="activable"><a href="supplying.do"><spring:message code="common.do"/></a></li>
+								</sec:authorize>
+								<sec:authorize access="hasRole('SUPPLYING_CANCELLATION')">
+									<li><a href="supplyingCancellation.do"><spring:message code="administration.cancelled.button"/> </a></li>
+								</sec:authorize>
+							</ul>
+						</li>
 					</ul>
 				</li>
 			</sec:authorize>

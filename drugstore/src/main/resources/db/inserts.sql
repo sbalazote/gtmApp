@@ -665,6 +665,8 @@ insert into `drugstore`.`role` values (15, 'INPUT_CANCELLATION', 'Anulación de 
 insert into `drugstore`.`role` values (16, 'INPUT_AUTHORIZATION', 'Autorización de Ingreso');
 insert into `drugstore`.`role` values (17, 'OUTPUT_CANCELLATION', 'Anulación de Egreso');
 insert into `drugstore`.`role` values (18, 'AGREEMENT_TRANSFER', 'Transferencia de Convenio');
+insert into `drugstore`.`role` values (19, 'SUPPLYING', 'Dispensa');
+insert into `drugstore`.`role` values (20, 'SUPPLYING_CANCELLATION', 'Anulación de Dispensa');
 
 insert into `drugstore`.`user` values (1, "sbalazote", "56b0181ff973c81c300fc908089f36a27ddd8698", 1);
 insert into `drugstore`.`user` values (2, "mflongo", "b3e10c0b6a86fd20231a693c7b15254cf26ce80d", 1);
@@ -699,6 +701,8 @@ insert into user_role values (25, 4, 15);
 insert into user_role values (26, 4, 16);
 insert into user_role values (27, 4, 17);
 insert into user_role values (28, 4, 18);
+insert into user_role values (29, 4, 19);
+insert into user_role values (30, 4, 20);
 
 insert into audit_action values (1, 'Confirmado');
 insert into audit_action values (2, 'Modificado');
