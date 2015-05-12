@@ -190,9 +190,7 @@ Input = function() {
 	$('#productInput').keydown(function(e) {
 	    if(e.keyCode == 121){ // F10
             var serial = $(this).val();
-            if(serial.indexOf("414") == 0 && serial.length >= 21) {
-            	productType = "PS";
-                productDescription = "Pendiente de informar";
+            if(isASelfSerializedProduct(serial)) {
                 $('#productOthersSelfSerielized').modal('show');
             }else{
                 $.ajax({
@@ -231,6 +229,28 @@ Input = function() {
             }
 	    }
 	});
+
+    var isASelfSerializedProduct = function(serial) {
+        var toReturn = false;
+        $.ajax({
+            url: "parseSelfSerial.do",
+            type: "GET",
+            async: false,
+            data: {
+                serial: serial
+            },
+            success: function (response) {
+                if(response == true){
+                    toReturn = true;
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                myGenericError("serializedModalAlertDiv");
+                toReturn = false;
+            }
+        });
+        return toReturn;
+    };
 
     //Esto es para buscar productos en el modal de serializados de origen que comienzan con 414
     $("#productDescriptionOthersSelfSerielized").autocomplete( {
