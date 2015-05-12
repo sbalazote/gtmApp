@@ -190,7 +190,9 @@ Input = function() {
 	$('#productInput').keydown(function(e) {
 	    if(e.keyCode == 121){ // F10
             var serial = $(this).val();
-            if(serial.indexOf("414") == 0) {
+            if(serial.indexOf("414") == 0 && serial.length >= 21) {
+            	productType = "PS";
+                productDescription = "Pendiente de informar";
                 $('#productOthersSelfSerielized').modal('show');
             }else{
                 $.ajax({
@@ -260,14 +262,12 @@ Input = function() {
             });
         },
         select: function(event, ui) {
-            productId = ui.item.id;
-            productGtin = ui.item.gtin;
             productDescription = ui.item.value;
             productType = ui.item.type;
             for (var i = 0; i < ui.item.gtins.length; i++) {
-                $('#productGtinOthersSelfSerielized').append('<option value="foo">' + ui.item.gtins[i].number + '</option>');
+                $('#productGtinOthersSelfSerielized').append('<option value="' + ui.item.gtins[i].id + '">' + ui.item.gtins[i].number + '</option>');
             }
-            $('#productGtinOthersSelfSerielized').trigger("liszt:updated");
+            $("#gtinDiv").show();
             $("#productDescriptionOthersSelfSerielized").val(productDescription);
             return false;
         },
@@ -277,6 +277,11 @@ Input = function() {
 
 	$('#amountModal').on('shown.bs.modal', function () {
 	    $('#productAmountInput').focus();
+	});
+	
+	$("#othersSelfSerielizedAcceptButton").click(function() {
+		$("#productOthersSelfSerielized").modal('hide');
+		$('#amountModal').modal('show');
 	});
 	
 	$('#amountModal').on('hidden.bs.modal', function () {
