@@ -7,12 +7,8 @@
 <nav class="navbar navbar-default" role="navigation">
 	<!-- Brand and toggle get grouped for better mobile display -->
 	<div class="navbar-header">
-		<button type="button" class="navbar-toggle" data-toggle="collapse"
-			data-target=".navbar-ex1-collapse">
-			<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
-			<span class="icon-bar"></span> <span class="icon-bar"></span>
-		</button>
-		<a class="navbar-brand" href="home.do"><spring:message code="administration.drugManagement"/></a>
+		<a class="navbar-brand" href="home.do"> <span><img alt="Brand" width="25" height="25" src="./images/oncomed-reno.png"></span> <spring:message code="administration.drugManagement" />
+		</a>
 	</div>
 
 	<!-- Collect the nav links, forms, and other content for toggling -->
@@ -73,108 +69,94 @@
 			</sec:authorize>
 
 			<sec:authorize access="hasAnyRole('PROVISIONING_REQUEST', 'PROVISIONING_REQUEST_UPDATE','PROVISIONING_REQUEST_PRINT', 'PROVISIONING_REQUEST_AUTHORIZATION', 'ORDER_ASSEMBLY', 'PROVISIONING_REQUEST_CANCELLATION', 'ORDER_ASSEMBLY_CANCELLATION')">
-				<li class="activable dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="common.requests"/> <b class="caret"></b></a>
+				<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="common.requests" /> <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<sec:authorize access="hasRole('PROVISIONING_REQUEST')">
-							<li><a href="provisioningRequest.do"><spring:message code="common.do"/></a></li>
+							<li><a href="provisioningRequest.do"><spring:message code="common.do" /></a></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('PROVISIONING_REQUEST_UPDATE')">
-							<li><a href="searchProvisioningToUpdate.do"><spring:message code="common.update"/></a></li>
+							<li><a href="searchProvisioningToUpdate.do"><spring:message code="common.update" /></a></li>
 						</sec:authorize>
-				    	<sec:authorize access="hasRole('PROVISIONING_REQUEST_PRINT')">
-							<li><a href="pickingSheet.do"><spring:message code="printing.pickingSheets"/></a></li>
+						<sec:authorize access="hasRole('PROVISIONING_REQUEST_PRINT')">
+							<li><a href="pickingSheet.do"><spring:message code="printing.pickingSheets" /></a></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('PROVISIONING_REQUEST_AUTHORIZATION')">
-							<li><a href="provisioningRequestAuthorization.do"><spring:message code="common.authorize"/></a></li>
+							<li><a href="provisioningRequestAuthorization.do"><spring:message code="common.authorize" /></a></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('ORDER_ASSEMBLY')">
-							<li class="activable"><a href="orderAssemblySelection.do"><spring:message code="common.orderAssembly"/></a></li>
+							<li class="activable"><a href="orderAssemblySelection.do"><spring:message code="common.orderAssembly" /></a></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('ORDER_ASSEMBLY')">
-							<li class="activable"><a href="logisticOperatorAssignment.do"><spring:message code="common.logisticOperatorAssingment"/></a></li>
+							<li class="activable"><a href="logisticOperatorAssignment.do"><spring:message code="common.logisticOperatorAssingment" /></a></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('PROVISIONING_REQUEST_CANCELLATION')">
-							<li><a href="provisioningRequestCancellation.do"><spring:message code="provisioningRequest.cancellation.label"/> </a></li>
+							<li><a href="provisioningRequestCancellation.do"><spring:message code="provisioningRequest.cancellation.label" /> </a></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('ORDER_ASSEMBLY_CANCELLATION')">
-							<li><a href="orderCancellation.do"><spring:message code="orderAssembly.orderCancelation"/> </a></li>
+							<li><a href="orderCancellation.do"><spring:message code="orderAssembly.orderCancelation" /> </a></li>
 						</sec:authorize>
-					</ul>
-		        </li>
+					</ul></li>
 			</sec:authorize>
-			
+
 			<sec:authorize access="hasAnyRole('DELIVERY_NOTE_PRINT', 'DELIVERY_NOTE_CANCELLATION')">
-		        <li class="activable dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="printing.label"/> <b class="caret"></b></a>
+				<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="printing.label" /> <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<sec:authorize access="hasRole('DELIVERY_NOTE_PRINT')">
-				    		<li><a href="deliveryNoteSheet.do"><spring:message code="printing.deliveryNotes"/></a></li>
-				    	</sec:authorize>
-				    	<sec:authorize access="hasRole('DELIVERY_NOTE_CANCELLATION')">
-							<li><a href="deliveryNoteCancellation.do"><spring:message code="deliveryNote.cancellation.label"/> </a></li>
+							<li><a href="deliveryNoteSheet.do"><spring:message code="printing.deliveryNotes" /></a></li>
 						</sec:authorize>
-					</ul>
-		        </li>
+						<sec:authorize access="hasRole('DELIVERY_NOTE_CANCELLATION')">
+							<li><a href="deliveryNoteCancellation.do"><spring:message code="deliveryNote.cancellation.label" /> </a></li>
+						</sec:authorize>
+					</ul></li>
 			</sec:authorize>
-			
+
 			<sec:authorize access="hasRole('ORDER_ASSEMBLY')">
-				<li class="activable"><a href="pendingTransactions.do"><spring:message code="common.pendingTransactions"/></a></li>
+				<li class="activable"><a href="pendingTransactions.do"><spring:message code="common.pendingTransactions" /></a></li>
 			</sec:authorize>
-	        
-			<li class="activable dropdown">
-				<a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="administration.lookUp"/> <b class="caret"></b></a>
+
+			<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="administration.lookUp" /> <b class="caret"></b></a>
 				<ul class="dropdown-menu">
-			    	<li><a href="searchInput.do"><spring:message code="common.inputs"/></a></li>
-			    	<li><a href="searchOutput.do"><spring:message code="common.outputs"/></a></li>
-					<li><a href="searchProvisioningRequest.do"><spring:message code="common.provisioningRequests"/></a></li>
-					<li><a href="searchStock.do"><spring:message code="common.stocks"/></a></li>
-					<li><a href="searchDeliveryNote.do"><spring:message code="common.deliveryNotes"/></a></li>
-					<li><a href="searchAudit.do"><spring:message code="common.audits"/></a></li>
-					<li><a href="searchSerializedProduct.do"><spring:message code="common.searchSerializedProduct"/></a></li>
-					<li><a href="searchBatchExpirateDateProduct.do"><spring:message code="common.searchBatchExpirateDateProduct"/></a></li>
-				</ul>
-	        </li>
+					<li><a href="searchInput.do"><spring:message code="common.inputs" /></a></li>
+					<li><a href="searchOutput.do"><spring:message code="common.outputs" /></a></li>
+					<li><a href="searchProvisioningRequest.do"><spring:message code="common.provisioningRequests" /></a></li>
+					<li><a href="searchStock.do"><spring:message code="common.stocks" /></a></li>
+					<li><a href="searchDeliveryNote.do"><spring:message code="common.deliveryNotes" /></a></li>
+					<li><a href="searchAudit.do"><spring:message code="common.audits" /></a></li>
+					<li><a href="searchSerializedProduct.do"><spring:message code="common.searchSerializedProduct" /></a></li>
+					<li><a href="searchBatchExpirateDateProduct.do"><spring:message code="common.searchBatchExpirateDateProduct" /></a></li>
+				</ul></li>
 
 			<sec:authorize access="hasAnyRole('ENTITY_ADMINISTRATION', 'USER_ADMINISTRATION')">
-				<li class="activable dropdown">
-	                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="administration.label"/> <b class="caret"></b></a>
-	                <ul class="dropdown-menu">
-	                	<sec:authorize access="hasRole('ENTITY_ADMINISTRATION')">
-							<li class="dropdown-submenu">
-			                    <a href="#"><spring:message code="administration.entity"/></a>
+				<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="administration.label" /> <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<sec:authorize access="hasRole('ENTITY_ADMINISTRATION')">
+							<li class="dropdown-submenu"><a href="#"><spring:message code="administration.entity" /></a>
 								<ul class="dropdown-menu">
-									<li><a href="productAdministration.do"><spring:message code="common.products"/></a></li>
-									<li><a href="providerAdministration.do"><spring:message code="common.providers"/></a></li>
-									<li><a href="conceptAdministration.do"><spring:message code="common.concepts"/></a></li>
-							    	<li><a href="logisticsOperatorAdministration.do"><spring:message code="common.logisticsOperators"/></a></li>
-							    	<li><a href="deliveryLocationAdministration.do"><spring:message code="common.deliveryLocations"/></a></li>
-									<li><a href="clientAdministration.do"><spring:message code="common.clients"/></a></li>
-									<li><a href="agreementAdministration.do"><spring:message code="common.agreements"/></a></li>
-									<li><a href="agentAdministration.do"><spring:message code="common.agents"/></a></li>
-									<li><a href="eventAdministration.do"><spring:message code="common.events"/></a></li>
-									<li><a href="affiliateAdministration.do"><spring:message code="common.affiliates"/></a></li>
-									<li><a href="providerSerializedFormatAdministration.do"><spring:message code="common.serializations"/></a></li>
-								</ul>
-							</li>
+									<li><a href="productAdministration.do"><spring:message code="common.products" /></a></li>
+									<li><a href="providerAdministration.do"><spring:message code="common.providers" /></a></li>
+									<li><a href="conceptAdministration.do"><spring:message code="common.concepts" /></a></li>
+									<li><a href="logisticsOperatorAdministration.do"><spring:message code="common.logisticsOperators" /></a></li>
+									<li><a href="deliveryLocationAdministration.do"><spring:message code="common.deliveryLocations" /></a></li>
+									<li><a href="clientAdministration.do"><spring:message code="common.clients" /></a></li>
+									<li><a href="agreementAdministration.do"><spring:message code="common.agreements" /></a></li>
+									<li><a href="agentAdministration.do"><spring:message code="common.agents" /></a></li>
+									<li><a href="eventAdministration.do"><spring:message code="common.events" /></a></li>
+									<li><a href="affiliateAdministration.do"><spring:message code="common.affiliates" /></a></li>
+									<li><a href="providerSerializedFormatAdministration.do"><spring:message code="common.serializations" /></a></li>
+								</ul></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('USER_ADMINISTRATION')">
-	                        <li>
-	                        	<a href="userAdministration.do"><spring:message code="administration.users"/></a>
-	                        </li>
+							<li><a href="userAdministration.do"><spring:message code="administration.users" /></a></li>
 						</sec:authorize>
-					</ul>
-				</li>
+					</ul></li>
 			</sec:authorize>
-			
-		<sec:authorize access="hasRole('ENTITY_ADMINISTRATION')">
-			<li class="activable">
-				<a href="updateProperty.do"><spring:message code="common.properties" /></a>
-			</li>
-		</sec:authorize>
+
+			<sec:authorize access="hasRole('ENTITY_ADMINISTRATION')">
+				<li class="activable"><a href="updateProperty.do"><spring:message code="common.properties" /></a></li>
+			</sec:authorize>
 		</ul>
-		<a role="button" class="btn btn-primary btn-lg logout-button" href="j_spring_security_logout">
-			<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Salir</a>
-		
+		<a role="button" class="btn btn-primary btn-lg logout-button" href="j_spring_security_logout"> <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Salir
+		</a>
+
 	</div>
 </nav>
