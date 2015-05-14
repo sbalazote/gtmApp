@@ -64,7 +64,6 @@
 		<session-timeout>1440</session-timeout>
 	</session-config>
 
-
 	<error-page>
 		<error-code>400</error-code>
 		<location>/400.do</location>

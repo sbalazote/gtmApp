@@ -15,20 +15,19 @@ public class ErrorController {
 		ModelAndView model = new ModelAndView();
 		model.addObject("error", 403);
 		if (user != null) {
-			model.addObject("msg", "Error!. El usuario: " + user.getName() + " no tiene permiso para acceder a este recurso.");
+			model.addObject("msg", "El usuario: " + user.getName() + " no tiene permiso para acceder a este recurso.");
 		} else {
-			model.addObject("msg", "Error!. No tiene permiso para acceder a este recurso.");
+			model.addObject("msg", "No tiene permiso para acceder a este recurso.");
 		}
 		model.setViewName("error");
 		return model;
-
 	}
 
 	@RequestMapping(value = "/400")
 	public ModelAndView badRequest() {
 		ModelAndView model = new ModelAndView();
 		model.addObject("error", 400);
-		model.addObject("msg", "Error!. Petición incorrecta.");
+		model.addObject("msg", "Petición incorrecta.");
 		model.setViewName("error");
 		return model;
 	}
@@ -37,7 +36,7 @@ public class ErrorController {
 	public ModelAndView notFound() {
 		ModelAndView model = new ModelAndView();
 		model.addObject("error", 404);
-		model.addObject("msg", "Error!. Página no encontrada.");
+		model.addObject("msg", "Página no encontrada.");
 		model.setViewName("error");
 		return model;
 	}
@@ -50,5 +49,4 @@ public class ErrorController {
 		model.setViewName("error");
 		return model;
 	}
-
 }
