@@ -425,10 +425,9 @@
                             <label for="productDescriptionOthersSelfSerielized"><spring:message code="common.product"/></label>
                             <input type="text" class="form-control" name="productDescriptionOthersSelfSerielized" id="productDescriptionOthersSelfSerielized"/>
                         </div>
-                        <div class="col-md-12 form-group">
+                        <div id="gtinDiv" class="col-md-12 form-group" style="display:none">
                             <label for="productGtinOthersSelfSerielized"><spring:message code="common.gtin"/></label>
-                            <select id="productGtinOthersSelfSerielized" name="productGtinOthersSelfSerielized" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
-                                <option value=""></option>
+                            <select id="productGtinOthersSelfSerielized" name="productGtinOthersSelfSerielized" class="form-control" data-placeholder="<spring:message code='common.select.option'/>">
                             </select>
                         </div>
                     </div>
