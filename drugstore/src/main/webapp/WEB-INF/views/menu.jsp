@@ -18,60 +18,60 @@
 	<!-- Collect the nav links, forms, and other content for toggling -->
 	<div class="collapse navbar-collapse navbar-ex1-collapse">
 		<ul class="nav navbar-nav">
-			<sec:authorize access="hasAnyRole('INPUT', 'OUTPUT', 'SERIALIZED_RETURNS')">
-				<li class="activable dropdown">
-		        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="common.stock"/> <b class="caret"></b></a>
-			        <ul class="dropdown-menu">
-						<li class="dropdown-submenu">
-							<a href="#"><spring:message code="administration.input"/></a>
-							<ul class="dropdown-menu">
-								<sec:authorize access="hasRole('INPUT')">
-									<li class="activable"><a href="input.do"><spring:message code="common.do"/></a></li>
-									<li class="activable"><a href="pendingInputs.do"><spring:message code="common.pendings"/></a></li>
-								</sec:authorize>
-								<sec:authorize access="hasRole('INPUT_AUTHORIZATION')">
-									<li class="activable"><a href="searchInputToUpdate.do"><spring:message code="common.authorize"/></a></li>
-								</sec:authorize>
-								<sec:authorize access="hasRole('INPUT_CANCELLATION')">
-									<li><a href="inputCancellation.do"><spring:message code="administration.cancelled.button"/> </a></li>
-								</sec:authorize>
-							</ul>
-				        </li>
-				        
-				        <sec:authorize access="hasRole('SERIALIZED_RETURNS')">
-							<li class="activable"><a href="serializedReturns.do"><spring:message code="serializedReturns.label"/></a></li>
+			<sec:authorize access="hasAnyRole('INPUT', 'INPUT_AUTHORIZATION', 'INPUT_CANCELLATION', 'SERIALIZED_RETURNS', 'OUTPUT', 'OUTPUT_CANCELLATION', 'AGREEMENT_TRANSFER', 'SUPPLYING', 'SUPPLYING_CANCELLATION')">
+				<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="common.stock" /> <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+
+						<sec:authorize access="hasAnyRole('INPUT', 'INPUT_AUTHORIZATION', 'INPUT_CANCELLATION')">
+							<li class="dropdown-submenu"><a href="#"><spring:message code="administration.input" /></a>
+								<ul class="dropdown-menu">
+									<sec:authorize access="hasRole('INPUT')">
+										<li class="activable"><a href="input.do"><spring:message code="common.do" /></a></li>
+										<li class="activable"><a href="pendingInputs.do"><spring:message code="common.pendings" /></a></li>
+									</sec:authorize>
+									<sec:authorize access="hasRole('INPUT_AUTHORIZATION')">
+										<li class="activable"><a href="searchInputToUpdate.do"><spring:message code="common.authorize" /></a></li>
+									</sec:authorize>
+									<sec:authorize access="hasRole('INPUT_CANCELLATION')">
+										<li><a href="inputCancellation.do"><spring:message code="administration.cancelled.button" /> </a></li>
+									</sec:authorize>
+								</ul></li>
 						</sec:authorize>
-						
-						<li class="dropdown-submenu">
-							<a href="#"><spring:message code="administration.output"/></a>
-							<ul class="dropdown-menu">
-								<sec:authorize access="hasRole('OUTPUT')">
-									<li class="activable"><a href="output.do"><spring:message code="common.do"/></a></li>
-								</sec:authorize>
-								<sec:authorize access="hasRole('OUTPUT_CANCELLATION')">
-									<li><a href="outputCancellation.do"><spring:message code="administration.cancelled.button"/> </a></li>
-								</sec:authorize>
-							</ul>
-						</li>
+
+						<sec:authorize access="hasRole('SERIALIZED_RETURNS')">
+							<li class="activable"><a href="serializedReturns.do"><spring:message code="serializedReturns.label" /></a></li>
+						</sec:authorize>
+
+						<sec:authorize access="hasAnyRole('OUTPUT', 'OUTPUT_CANCELLATION')">
+							<li class="dropdown-submenu"><a href="#"><spring:message code="administration.output" /></a>
+								<ul class="dropdown-menu">
+									<sec:authorize access="hasRole('OUTPUT')">
+										<li class="activable"><a href="output.do"><spring:message code="common.do" /></a></li>
+									</sec:authorize>
+									<sec:authorize access="hasRole('OUTPUT_CANCELLATION')">
+										<li><a href="outputCancellation.do"><spring:message code="administration.cancelled.button" /> </a></li>
+									</sec:authorize>
+								</ul></li>
+						</sec:authorize>
+
 						<sec:authorize access="hasRole('AGREEMENT_TRANSFER')">
-							<li class="activable"><a href="agreementTransfer.do"><spring:message code="common.agreementTransfer"/></a></li>
+							<li class="activable"><a href="agreementTransfer.do"><spring:message code="common.agreementTransfer" /></a></li>
 						</sec:authorize>
-						
-						<li class="dropdown-submenu">
-							<a href="#"><spring:message code="administration.supplying"/></a>
-							<ul class="dropdown-menu">
-								<sec:authorize access="hasRole('SUPPLYING')">
-									<li class="activable"><a href="supplying.do"><spring:message code="common.do"/></a></li>
-								</sec:authorize>
-								<sec:authorize access="hasRole('SUPPLYING_CANCELLATION')">
-									<li><a href="supplyingCancellation.do"><spring:message code="administration.cancelled.button"/> </a></li>
-								</sec:authorize>
-							</ul>
-						</li>
-					</ul>
-				</li>
+
+						<sec:authorize access="hasAnyRole('SUPPLYING', 'SUPPLYING_CANCELLATION')">
+							<li class="dropdown-submenu"><a href="#"><spring:message code="administration.supplying" /></a>
+								<ul class="dropdown-menu">
+									<sec:authorize access="hasRole('SUPPLYING')">
+										<li class="activable"><a href="supplying.do"><spring:message code="common.do" /></a></li>
+									</sec:authorize>
+									<sec:authorize access="hasRole('SUPPLYING_CANCELLATION')">
+										<li><a href="supplyingCancellation.do"><spring:message code="administration.cancelled.button" /> </a></li>
+									</sec:authorize>
+								</ul></li>
+						</sec:authorize>
+					</ul></li>
 			</sec:authorize>
-			
+
 			<sec:authorize access="hasAnyRole('PROVISIONING_REQUEST', 'PROVISIONING_REQUEST_UPDATE','PROVISIONING_REQUEST_PRINT', 'PROVISIONING_REQUEST_AUTHORIZATION', 'ORDER_ASSEMBLY', 'PROVISIONING_REQUEST_CANCELLATION', 'ORDER_ASSEMBLY_CANCELLATION')">
 				<li class="activable dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="common.requests"/> <b class="caret"></b></a>
