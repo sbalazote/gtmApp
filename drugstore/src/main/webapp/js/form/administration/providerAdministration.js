@@ -114,7 +114,7 @@ $(document).ready(function() {
 	    requestHandler: function (request) {
 	    	return request; 
 	    },
-	    url: "/drogueria/getMatchedProviders.do",
+	    url: "./getMatchedProviders.do",
 	    formatters: {
 	        "commands": function(column, row)
 	        {
@@ -152,7 +152,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	var exportHTML = exportTableHTML("/drogueria/rest/providers");
+	var exportHTML = exportTableHTML("./rest/providers");
 	$("#provider").find(".search").before(exportHTML);
 	// Fin Modulo Proveedor
 	
@@ -232,7 +232,7 @@ $(document).ready(function() {
 	    requestHandler: function (request) {
 	    	return request; 
 	    },
-	    url: "/drogueria/getMatchedProviderTypes.do",
+	    url: "./getMatchedProviderTypes.do",
 	    formatters: {
 	        "commands": function(column, row)
 	        {
@@ -270,7 +270,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	var exportHTML = exportTableHTML("/drogueria/rest/providerTypes");
+	var exportHTML = exportTableHTML("./rest/providerTypes");
 	$("#providerType").find(".search").before(exportHTML);
 	// Fin Modulo Tipo de Proveedor
 	

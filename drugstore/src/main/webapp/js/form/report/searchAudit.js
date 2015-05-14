@@ -120,7 +120,7 @@ SearchAudit = function() {
 				'&actionId=' + jsonAuditSearch.actionId +
 				'&roleId=' + jsonAuditSearch.roleId;
 				
-				var exportHTML = exportQueryTableHTML("/drogueria/rest/audits", params);
+				var exportHTML = exportQueryTableHTML("./rest/audits", params);
 				var searchHTML = $(".search");
 				
 				if (searchHTML.prev().length == 0) {

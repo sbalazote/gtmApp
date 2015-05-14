@@ -95,7 +95,7 @@ $(document).ready(function() {
 	    requestHandler: function (request) {
 	    	return request; 
 	    },
-	    url: "/drogueria/getMatchedLogisticsOperators.do",
+	    url: "./getMatchedLogisticsOperators.do",
 	    formatters: {
 	        "commands": function(column, row)
 	        {
@@ -132,7 +132,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	var exportHTML = exportTableHTML("/drogueria/rest/logisticsOperators");
+	var exportHTML = exportTableHTML("./rest/logisticsOperators");
 	$(".search").before(exportHTML);
 	
 	$("#deleteEntityButton").click(function() {

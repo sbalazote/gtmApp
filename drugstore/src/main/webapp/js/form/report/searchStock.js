@@ -194,7 +194,7 @@ SearchStock = function() {
 				'&serialNumber=' + jsonStockSearch.serialNumber +
 				'&batchNumber=' + jsonStockSearch.batchNumber; 
 				
-				var exportHTML = exportQueryTableHTML("/drogueria/rest/stocks", params);
+				var exportHTML = exportQueryTableHTML("./rest/stocks", params);
 				var searchHTML = $(".search");
 				
 				if (searchHTML.prev().length == 0) {

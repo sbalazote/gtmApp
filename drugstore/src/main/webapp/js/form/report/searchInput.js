@@ -156,7 +156,7 @@ SearchInput = function() {
 				'&purchaseOrderNumber=' + jsonInputSearch.purchaseOrderNumber +
 				'&cancelled=' + jsonInputSearch.cancelled; 
 				
-				var exportHTML = exportQueryTableHTML("/drogueria/rest/inputs", params);
+				var exportHTML = exportQueryTableHTML("./rest/inputs", params);
 				var searchHTML = $(".search");
 				
 				if (searchHTML.prev().length == 0) {

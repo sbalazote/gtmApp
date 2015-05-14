@@ -142,7 +142,7 @@ SearchOutput = function() {
 				'&deliveryLocationId=' + jsonOutputSearch.deliveryLocationId +
 				'&agreementId=' + jsonOutputSearch.agreementId;
 				
-				var exportHTML = exportQueryTableHTML("/drogueria/rest/outputs", params);
+				var exportHTML = exportQueryTableHTML("./rest/outputs", params);
 				var searchHTML = $(".search");
 				
 				if (searchHTML.prev().length == 0) {

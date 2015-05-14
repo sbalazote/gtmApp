@@ -30,6 +30,7 @@
 	    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="js/jquery.validate.min.js"></script>
 		<script type="text/javascript" src="js/additional-methods.min.js"></script>
+		<script type="text/javascript" src="js/jquery.bootgrid.js"></script>
 	    <script type="text/javascript" src="js/localization/messages_es.js"></script>
 	    <script type="text/javascript" src="js/localization/jquery.ui.datepicker-es.min.js"></script>
 	    <script type="text/javascript" src="js/bootstrap.min.js"></script>
@@ -46,8 +47,6 @@
 		<script type="text/javascript" src="js/select2_locale_es.js"></script>
 		<script type="text/javascript" src="js/jquery.blockUI.js"></script>
 		<script type="text/javascript" src="js/jspdf.debug.js"></script>
-		<script type="text/javascript" src="js/jquery.bootgrid.js"></script>
-		<script type="text/javascript" src="js/localization/messages_es.js"></script>
 		<script type="text/javascript" src="js/jquery.base64.js"></script>
 		<script type="text/javascript" src="js/pace.js"></script>
 		<script type="text/javascript" src="js/jquery.cookie.js"></script>

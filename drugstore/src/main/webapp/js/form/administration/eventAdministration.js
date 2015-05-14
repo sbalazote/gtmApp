@@ -80,7 +80,7 @@ $(document).ready(function() {
 	    requestHandler: function (request) {
 	    	return request; 
 	    },
-	    url: "/drogueria/getMatchedEvents.do",
+	    url: "./getMatchedEvents.do",
 	    formatters: {
 	        "commands": function(column, row)
 	        {
@@ -117,7 +117,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	var exportHTML = exportTableHTML("/drogueria/rest/events");
+	var exportHTML = exportTableHTML("./rest/events");
 	$(".search").before(exportHTML);
 	
 	$("#deleteEntityButton").click(function() {

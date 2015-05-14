@@ -105,7 +105,7 @@ $(document).ready(function() {
 	    requestHandler: function (request) {
 	    	return request; 
 	    },
-	    url: "/drogueria/getMatchedClients.do",
+	    url: "./getMatchedClients.do",
 	    formatters: {
 	        "commands": function(column, row)
 	        {
@@ -142,7 +142,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	var exportHTML = exportTableHTML("/drogueria/rest/clients");
+	var exportHTML = exportTableHTML("./rest/clients");
 	$(".search").before(exportHTML);
 	
 	$("#deleteEntityButton").click(function() {

@@ -74,7 +74,7 @@ $(document).ready(function() {
 	    requestHandler: function (request) {
 	    	return request; 
 	    },
-	    url: "/drogueria/getMatchedAgents.do",
+	    url: "./getMatchedAgents.do",
 	    formatters: {
 	        "commands": function(column, row)
 	        {
@@ -111,7 +111,7 @@ $(document).ready(function() {
 		});
 	});
 		
-	var exportHTML = exportTableHTML("/drogueria/rest/agents");
+	var exportHTML = exportTableHTML("./rest/agents");
 	$(".search").before(exportHTML);
 	
 	$("#deleteEntityButton").click(function() {

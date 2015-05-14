@@ -86,7 +86,7 @@ $(document).ready(function() {
 	    requestHandler: function (request) {
 	    	return request; 
 	    },
-	    url: "/drogueria/getMatchedAffiliates.do",
+	    url: "./getMatchedAffiliates.do",
 	    formatters: {
 	        "commands": function(column, row)
 	        {
@@ -123,7 +123,7 @@ $(document).ready(function() {
 		});
 	});
 		
-	var exportHTML = exportTableHTML("/drogueria/rest/affiliates");
+	var exportHTML = exportTableHTML("./rest/affiliates");
 	$(".search").before(exportHTML);
 	
 	$("#deleteEntityButton").click(function() {

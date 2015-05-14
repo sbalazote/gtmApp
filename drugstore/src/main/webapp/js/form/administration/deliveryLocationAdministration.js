@@ -107,7 +107,7 @@ $(document).ready(function() {
 	    requestHandler: function (request) {
 	    	return request; 
 	    },
-	    url: "/drogueria/getMatchedDeliveryLocations.do",
+	    url: "./getMatchedDeliveryLocations.do",
 	    formatters: {
 	        "commands": function(column, row)
 	        {
@@ -144,7 +144,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	var exportHTML = exportTableHTML("/drogueria/rest/deliveryLocations");
+	var exportHTML = exportTableHTML("./rest/deliveryLocations");
 	$(".search").before(exportHTML);
 	
 	$("#deleteEntityButton").click(function() {

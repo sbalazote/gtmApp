@@ -84,7 +84,7 @@ $(document).ready(function() {
 	    requestHandler: function (request) {
 	    	return request; 
 	    },
-	    url: "/drogueria/getMatchedUsers.do",
+	    url: "./getMatchedUsers.do",
 	    formatters: {
 	        "commands": function(column, row)
 	        {
@@ -121,7 +121,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	var exportHTML = exportTableHTML("/drogueria/rest/users");
+	var exportHTML = exportTableHTML("./rest/users");
 	$(".search").before(exportHTML);
 	
 	$("#deleteEntityButton").click(function() {

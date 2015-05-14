@@ -92,7 +92,7 @@ $(document).ready(function() {
 	    requestHandler: function (request) {
 	    	return request; 
 	    },
-	    url: "/drogueria/getMatchedAgreements.do",
+	    url: "./getMatchedAgreements.do",
 	    formatters: {
 	        "commands": function(column, row)
 	        {
@@ -129,7 +129,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	var exportHTML = exportTableHTML("/drogueria/rest/agreements");
+	var exportHTML = exportTableHTML("./rest/agreements");
 	$(".search").before(exportHTML);
 	
 	$("#deleteEntityButton").click(function() {

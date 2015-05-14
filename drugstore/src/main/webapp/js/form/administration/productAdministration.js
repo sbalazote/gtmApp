@@ -111,7 +111,7 @@ $(document).ready(function() {
 	    requestHandler: function (request) {
 	    	return request; 
 	    },
-	    url: "/drogueria/getMatchedProducts.do",
+	    url: "./getMatchedProducts.do",
 	    formatters: {
 	        "commands": function(column, row)
 	        {
@@ -149,7 +149,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	var exportHTML = exportTableHTML("/drogueria/rest/products");
+	var exportHTML = exportTableHTML("./rest/products");
 	$("#product").find(".search").before(exportHTML);
 	//Fin Modulo Productos
 	
@@ -230,7 +230,7 @@ $(document).ready(function() {
 	    requestHandler: function (request) {
 	    	return request; 
 	    },
-	    url: "/drogueria/getMatchedProductBrands.do",
+	    url: "./getMatchedProductBrands.do",
 	    formatters: {
 	        "commands": function(column, row)
 	        {
@@ -268,7 +268,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	var exportHTML = exportTableHTML("/drogueria/rest/productBrands");
+	var exportHTML = exportTableHTML("./rest/productBrands");
 	$("#productBrand").find(".search").before(exportHTML);
 	//Fin Modulo Marcas
 	
@@ -349,7 +349,7 @@ $(document).ready(function() {
 	    requestHandler: function (request) {
 	    	return request; 
 	    },
-	    url: "/drogueria/getMatchedProductMonodrugs.do",
+	    url: "./getMatchedProductMonodrugs.do",
 	    formatters: {
 	        "commands": function(column, row)
 	        {
@@ -387,7 +387,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	var exportHTML = exportTableHTML("/drogueria/rest/productMonodrugs");
+	var exportHTML = exportTableHTML("./rest/productMonodrugs");
 	$("#productMonodrug").find(".search").before(exportHTML);
 	//Fin Modulo Monodroga
 	
@@ -468,7 +468,7 @@ $(document).ready(function() {
 	    requestHandler: function (request) {
 	    	return request; 
 	    },
-	    url: "/drogueria/getMatchedProductDrugCategories.do",
+	    url: "./getMatchedProductDrugCategories.do",
 	    formatters: {
 	        "commands": function(column, row)
 	        {
@@ -506,7 +506,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	var exportHTML = exportTableHTML("/drogueria/rest/productDrugCategories");
+	var exportHTML = exportTableHTML("./rest/productDrugCategories");
 	$("#productDrugCategory").find(".search").before(exportHTML);
 	//Fin Modulo Drug Category
 	
@@ -587,7 +587,7 @@ $(document).ready(function() {
 	    requestHandler: function (request) {
 	    	return request; 
 	    },
-	    url: "/drogueria/getMatchedProductGroups.do",
+	    url: "./getMatchedProductGroups.do",
 	    formatters: {
 	        "commands": function(column, row)
 	        {
@@ -625,7 +625,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	var exportHTML = exportTableHTML("/drogueria/rest/productGroups");
+	var exportHTML = exportTableHTML("./rest/productGroups");
 	$("#productGroup").find(".search").before(exportHTML);
 	//Fin Modulo Grupo de Productos
 	

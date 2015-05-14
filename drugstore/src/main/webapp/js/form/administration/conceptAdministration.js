@@ -107,7 +107,7 @@ $(document).ready(function() {
 	    requestHandler: function (request) {
 	    	return request; 
 	    },
-	    url: "/drogueria/getMatchedConcepts.do",
+	    url: "./getMatchedConcepts.do",
 	    formatters: {
 	        "commands": function(column, row)
 	        {
@@ -144,7 +144,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	var exportHTML = exportTableHTML("/drogueria/rest/concepts");
+	var exportHTML = exportTableHTML("./rest/concepts");
 	$(".search").before(exportHTML);
 	
 	$("#deleteEntityButton").click(function() {

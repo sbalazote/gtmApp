@@ -167,7 +167,7 @@ SearchProvisioningRequest = function() {
 				'&logisticsOperator=' + jsonProvisioningSearch.logisticsOperator +
 				'&stateId=' + jsonProvisioningSearch.stateId; 
 				
-				var exportHTML = exportQueryTableHTML("/drogueria/rest/provisionings", params);
+				var exportHTML = exportQueryTableHTML("./rest/provisionings", params);
 				var searchHTML = $(".search");
 				
 				if (searchHTML.prev().length == 0) {
