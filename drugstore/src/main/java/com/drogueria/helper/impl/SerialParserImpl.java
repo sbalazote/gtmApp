@@ -42,10 +42,20 @@ public class SerialParserImpl implements SerialParser {
 	}
 
 	@Override
-	public boolean parseSelfSerial(String serial) {
+	public boolean isParseSelfSerial(String serial) {
 		String regexp = "414[0-9]{13}21[0-9]{7}";
 		return serial.matches(regexp);
 	}
+
+    @Override
+    public ProviderSerializedProductDTO parseSelfSerial(String serial) {
+        String gln = serial.substring(3,16);
+        String serialNumber = serial.substring(18,25);
+        ProviderSerializedProductDTO providerSerializedProductDTO = new ProviderSerializedProductDTO();
+        providerSerializedProductDTO.setSerialNumber(gln + serialNumber);
+
+        return providerSerializedProductDTO;
+    }
 
 	private String getSeparators(String fieldType, List<ProviderSerializedFormatTokens> formatTokens) {
 		String separators = "";

@@ -280,7 +280,7 @@ var ProvisioningRequest = function() {
 						}
 						$("#amountModal").modal('hide');
 					}else{
-						$("#productAmountInput").tooltip("destroy").data("title", "Stock insuficiente").addClass("has-error").tooltip();
+						$("#productAmountInput").tooltip("destroy").data("title", "Stock disponible: " + response).addClass("has-error").tooltip();
 						return false;
 					}
 				},
@@ -360,7 +360,7 @@ var ProvisioningRequest = function() {
 						data: JSON.stringify(jsonProvisioningRequest),
 						async: true,
 						success: function(response) {
-							myReload("success", "Se ha registrado la solicitud de abastecimiento número: " + response.id);
+							myReload("success", "Se ha registrado la solicitud de abastecimiento nï¿½mero: " + response.id);
 						},
 						error: function(jqXHR, textStatus, errorThrown) {
 							myGenericError();
@@ -418,7 +418,7 @@ var ProvisioningRequest = function() {
 				$('#addAffiliateModalAlertDiv').html(
 						'<div class="alert alert-danger alert-block fade in">' +
 						'<button type="button" class="close" data-dismiss="alert">' +
-						'&times;</button>Código existente. Por favor, ingrese uno diferente.</div>');
+						'&times;</button>Cï¿½digo existente. Por favor, ingrese uno diferente.</div>');
 			} else {
 				$.ajax({
 					url: "saveAffiliate.do",

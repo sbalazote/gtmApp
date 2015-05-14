@@ -6,6 +6,7 @@ public interface SerialParser {
 
 	ProviderSerializedProductDTO parse(String serial);
 
-	boolean parseSelfSerial(String serial);
+	boolean isParseSelfSerial(String serial);
 
+    ProviderSerializedProductDTO parseSelfSerial(String serial);
 }

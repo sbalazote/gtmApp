@@ -103,7 +103,7 @@ SerializedReturns = function() {
 			outputOrderDetails[0].splice(indexOf, 1);
 			
 		} else {
-			myShowAlert('danger', 'Serie Inexistente o ya leído.');
+			myShowAlert('danger', 'Serie Inexistente o ya leï¿½do.');
 		}
 	};
 	
@@ -185,16 +185,16 @@ SerializedReturns = function() {
 						if (response == "") {
 
 							$.ajax({
-								url: "parseSelfSerial.do",
+								url: "isParseSelfSerial.do",
 								type: "GET",
 								async: false,
 								data: {
 									serial: $('#serialNumberInput').val()
 								},
 								success: function(response) {
-									// No es un trazado propio, por lo tanto no es un serie válido.
+									// No es un trazado propio, por lo tanto no es un serie vï¿½lido.
 									if (!response) {
-										myShowAlert('danger', 'Formato de Serie Inválido.');
+										myShowAlert('danger', 'Formato de Serie Invï¿½lido.');
 										return;
 									}
 									// Es un trazado propio.
@@ -281,16 +281,16 @@ SerializedReturns = function() {
 						if (response == "") {
 
 							$.ajax({
-								url: "parseSelfSerial.do",
+								url: "isParseSelfSerial.do",
 								type: "GET",
 								async: false,
 								data: {
 									serial: $('#serialNumberInput').val()
 								},
 								success: function(response) {
-									// No es un trazado propio, por lo tanto no es un serie válido.
+									// No es un trazado propio, por lo tanto no es un serie vï¿½lido.
 									if (!response) {
-										myShowAlert('danger', 'Formato de Serie Inválido.');
+										myShowAlert('danger', 'Formato de Serie Invï¿½lido.');
 										return;
 									}
 									// Es un trazado propio.

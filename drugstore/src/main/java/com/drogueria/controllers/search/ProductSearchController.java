@@ -48,13 +48,17 @@ public class ProductSearchController {
 	@RequestMapping(value = "/parseSerial", method = RequestMethod.GET)
 	public @ResponseBody
 	ProviderSerializedProductDTO parseSerial(@RequestParam String serial) {
-		return this.serialParser.parse(serial);
+		if(this.serialParser.isParseSelfSerial(serial)){
+            return this.serialParser.parseSelfSerial(serial);
+        }else {
+            return this.serialParser.parse(serial);
+        }
 	}
 
-	@RequestMapping(value = "/parseSelfSerial", method = RequestMethod.GET)
+	@RequestMapping(value = "/isParseSelfSerial", method = RequestMethod.GET)
 	public @ResponseBody
 	boolean parseSelfSerial(@RequestParam String serial) {
-		return this.serialParser.parseSelfSerial(serial);
+		return this.serialParser.isParseSelfSerial(serial);
 	}
 
 	@RequestMapping(value = "/getGtins", method = RequestMethod.GET)

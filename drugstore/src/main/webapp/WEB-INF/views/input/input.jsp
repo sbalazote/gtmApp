@@ -414,29 +414,3 @@
 	</div>
 </div>
 
-<%-- Modal Productos Serializacion Propia de un eslabon anterior --%>
-<form id="productOthersSelfSerielizedForm" action="" onsubmit="return false;">
-    <div class="modal fade" data-backdrop="static" id="productOthersSelfSerielized" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog" style="width:950px">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12 form-group">
-                            <label for="productDescriptionOthersSelfSerielized"><spring:message code="common.product"/></label>
-                            <input type="text" class="form-control" name="productDescriptionOthersSelfSerielized" id="productDescriptionOthersSelfSerielized"/>
-                        </div>
-                        <div id="gtinDiv" class="col-md-12 form-group" style="display:none">
-                            <label for="productGtinOthersSelfSerielized"><spring:message code="common.gtin"/></label>
-                            <select id="productGtinOthersSelfSerielized" name="productGtinOthersSelfSerielized" class="form-control" data-placeholder="<spring:message code='common.select.option'/>">
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.abort"/></button>
-                    <button type="button" class="btn btn-primary" id="othersSelfSerielizedAcceptButton"><spring:message code="common.accept"/></button>
-                </div>
-            </div>
-        </div>
-    </div>
-</form>

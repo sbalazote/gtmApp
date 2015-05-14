@@ -190,110 +190,47 @@ Input = function() {
 	$('#productInput').keydown(function(e) {
 	    if(e.keyCode == 121){ // F10
             var serial = $(this).val();
-            if(isASelfSerializedProduct(serial)) {
-                $('#productOthersSelfSerielized').modal('show');
-            }else{
-                $.ajax({
-                    url: "getProductBySerialOrGtin.do",
-                    type: "GET",
-                    data: {
-                        serial: serial
-                    },
-                    success: function(response) {
-                        if (response != "") {
-                            if (!productEntered(response.id)) {
-                                productId = response.id;
-                                productGtin = response.lastGtin;
-                                productDescription = response.code + ' - ' + response.description;
-                                productType = response.type;
-
-                                $('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
-
-                                $("#productInput").val(productDescription);
-                                $('#amountModal').modal('show');
-                            } else {
-                                myShowAlert('danger', 'Producto ya Ingresado');
-                                $("#productInput").val("");
-                            }
-                        } else
-                        {
-                            $('#productInput').tooltip("destroy").data("title", "Producto Inexistente").addClass("has-error").tooltip();
-                            $('#productInput').focus();
-                        }
-                        return false;
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        myGenericError();
-                    }
-                });
-            }
-	    }
-	});
-
-    var isASelfSerializedProduct = function(serial) {
-        var toReturn = false;
-        $.ajax({
-            url: "parseSelfSerial.do",
-            type: "GET",
-            async: false,
-            data: {
-                serial: serial
-            },
-            success: function (response) {
-                if(response == true){
-                    toReturn = true;
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                myGenericError("serializedModalAlertDiv");
-                toReturn = false;
-            }
-        });
-        return toReturn;
-    };
-
-    //Esto es para buscar productos en el modal de serializados de origen que comienzan con 414
-    $("#productDescriptionOthersSelfSerielized").autocomplete( {
-        source: function(request, response) {
             $.ajax({
-                url: "getProducts.do",
+                url: "getProductBySerialOrGtin.do",
                 type: "GET",
-                async: false,
                 data: {
-                    term: request.term,
-                    active: true
+                    serial: serial
                 },
-                success: function(data) {
-                    var array = $.map(data, function(item) {
-                        return {
-                            id:	item.id,
-                            label: item.code + " - " + item.description + " - " + item.brand.description + " - " + item.monodrug.description,
-                            value: item.code + " - " + item.description,
-                            gtin: item.lastGtin,
-                            type: item.type,
-                            gtins: item.gtins
-                        };
-                    });
-                    response(array);
+                success: function(response) {
+                    if (response != "") {
+                        if (!productEntered(response.id)) {
+                            productId = response.id;
+                            //Esto hay q ver pero es para que si leyo por gtin q se le asocie ese
+                            // gtin a los productos a ingresar
+                            if(serial.length == 13) {
+                                productGtin = serial;
+                            }else{
+                                productGtin = response.lastGtin;
+                            }
+                            productDescription = response.code + ' - ' + response.description;
+                            productType = response.type;
+
+                            $('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
+
+                            $("#productInput").val(productDescription);
+                            $('#amountModal').modal('show');
+                        } else {
+                            myShowAlert('danger', 'Producto ya Ingresado');
+                            $("#productInput").val("");
+                        }
+                    } else
+                    {
+                        $('#productInput').tooltip("destroy").data("title", "Producto Inexistente").addClass("has-error").tooltip();
+                        $('#productInput').focus();
+                    }
+                    return false;
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     myGenericError();
                 }
             });
-        },
-        select: function(event, ui) {
-            productDescription = ui.item.value;
-            productType = ui.item.type;
-            for (var i = 0; i < ui.item.gtins.length; i++) {
-                $('#productGtinOthersSelfSerielized').append('<option value="' + ui.item.gtins[i].id + '">' + ui.item.gtins[i].number + '</option>');
-            }
-            $("#gtinDiv").show();
-            $("#productDescriptionOthersSelfSerielized").val(productDescription);
-            return false;
-        },
-        minLength: 3,
-        autoFocus: true
-    },{appendTo: "#productOthersSelfSerielized"});
+	    }
+	});
 
 	$('#amountModal').on('shown.bs.modal', function () {
 	    $('#productAmountInput').focus();
@@ -445,20 +382,20 @@ Input = function() {
 	$("#providerSerializedAcceptButton").click(function() {
 		remainingAmount = $('#providerSerializedRemainingAmountLabel').text();
 		if (remainingAmount == 0) {
-			
+
 			var gtins = $("#providerSerializedTable td.gtin");
 			var serialNumbers = $("#providerSerializedTable td.serialNumber");
 			var batchs = $("#providerSerializedTable td.batch");
 			var expirationDates = $("#providerSerializedTable td.expirationDate");
-			
+
 			var inputDetails = [];
 			var tempSerialNumber = [];
-			
+
 			for (var i = 0; i < serialNumbers.length; i++) {
 				populateInputDetails(inputDetails, serialNumbers[i].innerHTML, batchs[i].innerHTML, expirationDates[i].innerHTML, 1, gtins[i].innerHTML);
 				tempSerialNumber[i] = serialNumbers[i].innerHTML;
 			}
-			
+
 			tempSerialNumberGroup[productId] = tempSerialNumber;
 
 			if (providerSerialized.getPreloadedData() == null) {
@@ -469,14 +406,14 @@ Input = function() {
 				inputDetailGroup[currentRow] = inputDetails;
 				providerSerialized.setPreloadedData(null);
 			}
-			
+
 			$('#providerSerializedModal').modal('hide');
 			$(".alert").hide();
 		} else {
 			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "providerSerializedModalAlertDiv");
 		}
 	});
-	
+
 	$("#selfSerializedAcceptButton").click(function() {
 		remainingAmount = $('#selfSerializedRemainingAmountLabel').text();
 		if (remainingAmount == 0) {

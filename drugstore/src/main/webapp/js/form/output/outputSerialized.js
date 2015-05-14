@@ -96,7 +96,7 @@ OutputSerialized = function() {
 				},
 				success: function(response) {
 					if (response == "") {
-						readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Inválido").addClass("has-error").tooltip();
+						readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Invï¿½lido").addClass("has-error").tooltip();
 						return;
 					}
 					
@@ -125,7 +125,7 @@ OutputSerialized = function() {
 					
 					//	Si el Gtin leido no coincide con el seleccionado en la pantalla de input.
 					if (gtinFound == false) {
-						readSerialNumber.tooltip("destroy").data("title", "GTIN leído no coincide con el seleccionado").addClass("has-error").tooltip();
+						readSerialNumber.tooltip("destroy").data("title", "GTIN leï¿½do no coincide con el seleccionado").addClass("has-error").tooltip();
 						return;
 					}
 					//TODO seguir desde aca
@@ -140,7 +140,7 @@ OutputSerialized = function() {
 			// if self serialized
 			
 			$.ajax({
-				url: "parseSelfSerial.do",
+				url: "isParseSelfSerial.do",
 				type: "GET",
 				async: false,
 				data: {
@@ -148,7 +148,7 @@ OutputSerialized = function() {
 				},
 				success: function(response) {
 					if (!response) {
-						readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Inválido").addClass("has-error").tooltip();
+						readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Invï¿½lido").addClass("has-error").tooltip();
 						return;
 					}
 
@@ -194,7 +194,7 @@ OutputSerialized = function() {
 					
 					readSerialNumber.focus();
 				} else {
-					readSerialNumber.tooltip("destroy").data("title", "El producto leído no se encuentra en stock").addClass("has-error").tooltip();
+					readSerialNumber.tooltip("destroy").data("title", "El producto leï¿½do no se encuentra en stock").addClass("has-error").tooltip();
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
