@@ -53,6 +53,7 @@ public class SerialParserImpl implements SerialParser {
         String serialNumber = serial.substring(18,25);
         ProviderSerializedProductDTO providerSerializedProductDTO = new ProviderSerializedProductDTO();
         providerSerializedProductDTO.setSerialNumber(gln + serialNumber);
+        providerSerializedProductDTO.setValue("S",gln + serialNumber);
 
         return providerSerializedProductDTO;
     }

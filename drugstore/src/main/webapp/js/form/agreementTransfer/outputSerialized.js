@@ -100,29 +100,35 @@ OutputSerialized = function() {
 						return;
 					}
 					
-		           var gtinFound = false;
-                   $.ajax({
-                          url: "getGtins.do",
-                          type: "GET",
-                          async: false,
-                           data: {
-                               productId: preloadedProductId,
-                               },
-                           success: function(responseGtin) {
-                                   var gtins = responseGtin;
-                                   for (var i = 0; i < gtins.length; i++) {
-                                       if(gtins[i].number == response.gtin){
-                                           gtinFound = true;
-                                       }
-                                   }
-                           },
-                           error: function(jqXHR, textStatus, errorThrown) {
-                               myGenericError("providerSerializedModalAlertDiv");
-                           }
-                     });
-					
-					var gtin = response.gtin;
-					
+		            var gtinFound = false;
+                    var gtin;
+                    if(response.gtin != null) {
+                        $.ajax({
+                            url: "getGtins.do",
+                            type: "GET",
+                            async: false,
+                            data: {
+                                productId: preloadedProductId,
+                            },
+                            success: function (responseGtin) {
+                                var gtins = responseGtin;
+                                for (var i = 0; i < gtins.length; i++) {
+                                    if (gtins[i].number == response.gtin) {
+                                        gtinFound = true;
+                                    }
+                                }
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                myGenericError("providerSerializedModalAlertDiv");
+                            }
+                        });
+
+                        var gtin = response.gtin;
+                    }else{
+                        gtin = productSelectedGtin;
+                        gtinFound = true;
+                    }
+
 					//	Si el Gtin leido no coincide con el seleccionado en la pantalla de input.
 					if (gtinFound == false) {
 						readSerialNumber.tooltip("destroy").data("title", "GTIN le�do no coincide con el seleccionado").addClass("has-error").tooltip();
