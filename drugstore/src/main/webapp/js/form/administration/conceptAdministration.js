@@ -65,6 +65,7 @@ $(document).ready(function() {
 				$("#activeSelect").val(isActive).trigger('chosen:update');
 				var isClient = (response.client) ? "true" : "false";
 				$("#clientSelect").val(isClient).trigger('chosen:update');
+				//getEvents();
 				$.each(response.events, function (idx, value) {
 					$('#my-select').multiSelect('select', value.id.toString());
 				});
@@ -74,7 +75,27 @@ $(document).ready(function() {
 			}
 		});
 	};
-	
+	/*
+	var getEvents = function() {
+		$.ajax({
+			url: "getInputOutputEvents.do",
+			type: "GET",
+			data: {
+				input: $("#inputSelect").val()
+			},
+			async: true,
+			success: function(response) {
+				for(var i = response.length-1; i > 0 ; i--){
+					var event = response[i];
+					$('#my-select').multiSelect('addOption', { value: 'test', text: event.code + "-" +  event.description +": ORIGEN: " + event.originAgent.description + " - DESTINO: " + event.destinationAgent.description, index: 0, nested: 'optgroup_label' });
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myGenericError();
+			}
+		});
+	};
+	*/
 	var toggleElements = function(hidden) {
 		$("#codeInput").attr('disabled', hidden);
 		$("#descriptionInput").attr('disabled', hidden);

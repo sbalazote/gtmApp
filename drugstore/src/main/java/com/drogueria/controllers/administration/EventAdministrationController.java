@@ -42,7 +42,8 @@ public class EventAdministrationController {
 	}
 
 	@RequestMapping(value = "/saveEvent", method = RequestMethod.POST)
-	public @ResponseBody Event saveEvent(@RequestBody EventDTO eventDTO) throws Exception {
+	public @ResponseBody
+	Event saveEvent(@RequestBody EventDTO eventDTO) throws Exception {
 		Event event = this.buildModel(eventDTO);
 		this.eventService.save(event);
 		return event;
@@ -64,22 +65,32 @@ public class EventAdministrationController {
 	}
 
 	@RequestMapping(value = "/readEvent", method = RequestMethod.GET)
-	public @ResponseBody Event readEvent(@RequestParam Integer eventId) throws Exception {
+	public @ResponseBody
+	Event readEvent(@RequestParam Integer eventId) throws Exception {
 		return this.eventService.get(eventId);
 	}
 
 	@RequestMapping(value = "/deleteEvent", method = RequestMethod.POST)
-	public @ResponseBody boolean deleteEvent(@RequestParam Integer eventId) throws Exception {
+	public @ResponseBody
+	boolean deleteEvent(@RequestParam Integer eventId) throws Exception {
 		return this.eventService.delete(eventId);
 	}
 
 	@RequestMapping(value = "/existsEvent", method = RequestMethod.GET)
-	public @ResponseBody Boolean exists(@RequestParam Integer code) throws Exception {
+	public @ResponseBody
+	Boolean exists(@RequestParam Integer code) throws Exception {
 		return this.eventService.exists(code);
 	}
 
+	@RequestMapping(value = "/getInputOutputEvents", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Event> exists(@RequestParam boolean input) throws Exception {
+		return this.eventService.getInputOutput(input);
+	}
+
 	@RequestMapping(value = "/getMatchedEvents", method = RequestMethod.POST)
-	public @ResponseBody String getMatchedEvents(@RequestParam Map<String, String> parametersMap) throws JSONException {
+	public @ResponseBody
+	String getMatchedEvents(@RequestParam Map<String, String> parametersMap) throws JSONException {
 
 		String searchPhrase = parametersMap.get("searchPhrase");
 		Integer current = Integer.parseInt(parametersMap.get("current"));
