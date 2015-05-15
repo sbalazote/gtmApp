@@ -38,7 +38,6 @@ public class ProductSearchController {
 			if (productDTO != null && productDTO.getGtin() != null) {
 				return this.productService.getByGtin(productDTO.getGtin());
 			}
-			// TODO aca tenemos un problema: si es serializado propio no puedo buscar mediante el serie, a cual gtin corresponde, no hay relacion entre ambos
 		} else {
 			return this.productService.getByGtin(serial);
 		}

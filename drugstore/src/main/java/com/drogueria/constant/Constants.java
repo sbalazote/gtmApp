@@ -5,6 +5,11 @@ public final class Constants {
 	public static final String SELF_SERIALIZED_SERIAL_FORMAT = "414%s21%s";
 	public static final String SELF_SERIALIZED_TAG_LEADING_REGEX = "414\\d{13}21";
 	public static final Integer SERIAL_NUMBER_LENGTH = 7;
+    public static final Integer SELF_SERIALIZED_CODE_LENGTH = 3;
+    public static final Integer GLN_LENGTH = 13;
+    public static final Integer SELF_SERIALIZED_SEPARATOR_SERIAL_LENGTH = 2;
+    public static final Integer SELF_SERIALIZED_SERIAL_LENGTH = 7;
+    public static final Integer SELF_SERIALIZED_LENGTH = 25;
 	public static final Integer GTIN_LENGTH = 14;
 	public static final String ENCRYPTION_SALT = "TPPROF7599";
 

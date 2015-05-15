@@ -234,7 +234,11 @@ Output = function() {
 					if (response != "") {
 						if (!productEntered(response.id)) {
 							productId = response.id;
-							productGtin = response.lastGtin;
+                            if(serial.length == 13) {
+                                productGtin = serial;
+                            }else{
+                                productGtin = response.lastGtin;
+                            }
 							productDescription = response.code + ' - ' + response.description;
 							productType = response.type;
 							
@@ -444,7 +448,7 @@ Output = function() {
 						if (!response.concept.printDeliveryNote) {
 							var doc = printIOPDF('output', response.id, response.outputDetails);
 							var string = doc.output('datauristring');
-							var x = window.open('','Egreso Nº', '', false);
+							var x = window.open('','Egreso Nï¿½', '', false);
 							x.document.open();
 							x.document.location=string;
 						}
