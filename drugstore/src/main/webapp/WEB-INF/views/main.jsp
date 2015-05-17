@@ -51,6 +51,8 @@
 		<script type="text/javascript" src="js/pace.js"></script>
 		<script type="text/javascript" src="js/jquery.cookie.js"></script>
 		<script type="text/javascript" src="js/jQuery.download.js"></script>
+		<script type="text/javascript" src="js/emulatetab.joelpurra.js"></script>
+		<script type="text/javascript" src="js/plusastab.joelpurra.js"></script>
 		
 	</head>
 	<body>

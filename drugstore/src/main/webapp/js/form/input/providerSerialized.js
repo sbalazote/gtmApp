@@ -4,7 +4,7 @@
 
 /*
  * REGLA VALIDACION MASCARAS SERIALIZADOS ORIGEN
- * 01 + "0+GTIN" + 21(serie) de 20 dígitos alfanuméricos, 17(vencimiento) de 6 dígitos AAMMDD y 10(lote) 20 dígitos alfanuméricos.
+ * 01 + "0+GTIN" + 21(serie) de 20 dï¿½gitos alfanumï¿½ricos, 17(vencimiento) de 6 dï¿½gitos AAMMDD y 10(lote) 20 dï¿½gitos alfanumï¿½ricos.
  * 
  * Ejemplos:
  * Etiqueta:  01 07798123400000 21 1234567890        (ID = 0)
@@ -128,34 +128,41 @@ ProviderSerialized = function() {
 			},
 			success: function(response) {
 				if (response == "") {
-					readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Inválido").addClass("has-error").tooltip();
+					readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Invï¿½lido").addClass("has-error").tooltip();
 					return;
 				}
 				var gtinFound = false;
-				$.ajax({
-					url: "getGtins.do",
-					type: "GET",
-					async: false,
-					data: {
-						productId: preloadedProductId,
-					},
-					success: function(responseGtin) {
-						var gtins = responseGtin;
-						for (var i = 0; i < gtins.length; i++) {
-							if(gtins[i].number == response.gtin){
-								gtinFound = true;
-							}
-						}
-					},
-					error: function(jqXHR, textStatus, errorThrown) {
-						myGenericError("providerSerializedModalAlertDiv");
-					}
-				});
-				var gtin = response.gtin;
+                var gtin;
+                if(response.gtin != null){
+                    $.ajax({
+                        url: "getGtins.do",
+                        type: "GET",
+                        async: false,
+                        data: {
+                            productId: preloadedProductId,
+                        },
+                        success: function(responseGtin) {
+                            var gtins = responseGtin;
+                            for (var i = 0; i < gtins.length; i++) {
+                                if(gtins[i].number == response.gtin){
+                                    gtinFound = true;
+                                }
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            myGenericError("providerSerializedModalAlertDiv");
+                        }
+                    });
+                    gtin = response.gtin;
+                }else{
+                    gtin = productSelectedGtin;
+                    gtinFound = true;
+                }
+
 				
 				//	Si el Gtin leido no coincide con el seleccionado en la pantalla de input.
 				if (gtinFound == false) {
-					readSerialNumber.tooltip("destroy").data("title", "GTIN leído no coincide con el seleccionado").addClass("has-error").tooltip();
+					readSerialNumber.tooltip("destroy").data("title", "GTIN leï¿½do no coincide con el seleccionado").addClass("has-error").tooltip();
 					return;
 				}
 				
@@ -190,7 +197,7 @@ ProviderSerialized = function() {
 					
 					// Si no es valida la fecha de vencimiento que viene en el serie, dado que es anterior al dia de la fecha o mal formado.
 					if (!validExpirationDate) {
-						readSerialNumber.tooltip("destroy").data("title", "Fecha de vencimiento inválida o anterior a la fecha del día.").addClass("has-error").tooltip();
+						readSerialNumber.tooltip("destroy").data("title", "Fecha de vencimiento invï¿½lida o anterior a la fecha del dï¿½a.").addClass("has-error").tooltip();
 						return;
 					}
 					
@@ -285,7 +292,7 @@ ProviderSerialized = function() {
 	    myResetForm($("#providerSerializedModalForm")[0], formValidator);
 	});
 	
-	$('#providerSerializedModal').on('keypress', function(e) {
+	$('#providerSerializedAddButton').on('keypress', function(e) {
 		//	Si la tecla presionada es 'ENTER'
 	    if (e.keyCode === 13) {
 	    	var remainingAmount = $('#providerSerializedRemainingAmountLabel').text();

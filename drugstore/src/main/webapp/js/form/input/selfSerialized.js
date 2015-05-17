@@ -155,7 +155,7 @@ SelfSerialized = function() {
 	    myResetForm($("#selfSerializedModalForm")[0], formValidator);
 	});
 	
-	$('#selfSerializedModal').on('keypress', function(e) {
+	$('#selfSerializedGenerateButton').on('keypress', function(e) {
 		//	Si la tecla presionada es 'ENTER'
         if (e.keyCode === 13) {
         	var remainingAmount = $('#selfSerializedRemainingAmountLabel').text();

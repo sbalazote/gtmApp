@@ -154,7 +154,7 @@ BatchExpirationDate = function() {
 	    myResetForm($("#batchExpirationDateModalForm")[0], formValidator);
 	});
 	
-	$('#batchExpirationDateModal').on('keypress', function(e) {
+	$('#batchExpirationDateAddButton').on('keypress', function(e) {
 		//	Si la tecla presionada es 'ENTER'
         if (e.keyCode === 13) {
         	var remainingAmount = $('#batchExpirationDateRemainingAmountLabel').text();

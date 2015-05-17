@@ -12,7 +12,7 @@
 	});
 </script>
 
-<form id="inputForm" action="" onsubmit="return false;">
+<form id="inputForm" action="" onsubmit="return false;" data-plus-as-tab="true">
 
 <div class="row">
 	<div class="col-md-6 form-group">
@@ -38,7 +38,7 @@
 <div class="row">
 	<div class="col-md-4 form-group">
 		<label for="conceptInput"><spring:message code="common.concept"/></label>
-		<select id="conceptInput" name="concept" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
+		<select id="conceptInput" name="concept" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>" autofocus>
 			<option value=""></option>
 			<c:forEach items="${concepts}" var="concept">
 				<option value="${concept.id}"  ${conceptId == concept.id ? 'selected' : ''}><c:out value="${concept.code}"></c:out> - <c:out value="${concept.description}"></c:out></option>
@@ -92,7 +92,7 @@
 <div class="row">
 	<div class="col-md-12 form-group">
 		<label for="productInput"><spring:message code="common.addProduct"/></label>
-		<input id="productInput" type="search" placeholder='<spring:message code="input.product.placeholder"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental" />
+		<input id="productInput" type="search" placeholder='<spring:message code="input.product.placeholder"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental"/>
 	</div>
 </div>
 
@@ -177,7 +177,7 @@
 </form>
 
 <%-- Modal Ingreso Lote y Vencimiento --%>
-<form id="batchExpirationDateModalForm" action="" onsubmit="return false;">
+<form id="batchExpirationDateModalForm" action="" onsubmit="return false;" data-plus-as-tab="true">
 	<div class="modal fade" data-backdrop="static" data-keyboard="false" id="batchExpirationDateModal">
 		<div class="modal-dialog" style="width: 900px">
 			<div class="modal-content">
@@ -218,7 +218,7 @@
 							<input type="text" name="amount" id="amountInput" placeholder='<spring:message code="input.amount.placeholder"/>' class="form-control">
 						</div>
 						<div class="col-md-3 form-group">
-							<button id="batchExpirationDateAddButton" type="button" class="btn btn-warning"> <span class="glyphicon glyphicon-plus"></span>Asignar</button>
+							<button id="batchExpirationDateAddButton" type="button" class="btn btn-warning" data-plus-as-tab="false"> <span class="glyphicon glyphicon-plus"></span>Asignar</button>
 						</div>
 					</div>
 					<div>
@@ -246,7 +246,7 @@
 </form>
 
 <%-- Modal Ingreso Serializado de Origen --%>
-<form id="providerSerializedModalForm" action="" onsubmit="return false;">
+<form id="providerSerializedModalForm" action="" onsubmit="return false;" data-plus-as-tab="true">
 	<div class="modal fade" data-backdrop="static" data-keyboard="false" id="providerSerializedModal">
 		<div class="modal-dialog" style="width: 1100px">
 			<div class="modal-content">
@@ -287,7 +287,7 @@
 							<input id="providerSerializedExpirationDateInput" name="providerSerializedExpirationDate"  placeholder='<spring:message code="input.expirationDate.placeholder"/>' type="text" class="form-control">
 						</div>
 						<div class="col-md-2 form-group">
-							<button id="providerSerializedAddButton" type="button" class="btn btn-warning"><span class="glyphicon glyphicon-plus"></span><spring:message code="common.add"/></button>
+							<button id="providerSerializedAddButton" type="button" class="btn btn-warning" data-plus-as-tab="false"><span class="glyphicon glyphicon-plus"></span><spring:message code="common.add"/></button>
 						</div>
 					</div>
 					<div>
@@ -316,7 +316,7 @@
 </form>
 
 <%-- Modal Ingreso Serializado Propio y Generacion de Etiquetas --%>
-<form id="selfSerializedModalForm" action="" onsubmit="return false;">
+<form id="selfSerializedModalForm" action="" onsubmit="return false;" data-plus-as-tab="true">
 	<div class="modal fade" data-backdrop="static" data-keyboard="false" id="selfSerializedModal">
 		<div class="modal-dialog" style="width: 900px">
 			<div class="modal-content">
@@ -357,7 +357,7 @@
 							<input type="text" name="selfSerializedAmount" id="selfSerializedAmountInput" placeholder='<spring:message code="input.amount.placeholder"/>' class="form-control">
 						</div>
 						<div class="col-md-3 form-group">
-							<button id="selfSerializedGenerateButton" type="button" class="btn btn-warning"> <span class="glyphicon glyphicon-plus"></span><spring:message code="input.modal.selfSerializedModal.Generate"/></button>
+							<button id="selfSerializedGenerateButton" type="button" class="btn btn-warning" data-plus-as-tab="false"> <span class="glyphicon glyphicon-plus"></span><spring:message code="input.modal.selfSerializedModal.Generate"/></button>
 						</div>
 					</div>
 					<div>

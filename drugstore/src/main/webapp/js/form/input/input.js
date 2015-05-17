@@ -140,6 +140,16 @@ Input = function() {
 		$("#currentDateInput").datepicker().focus();
 	});
 	
+	$('select').chosen().filter('[autofocus]').trigger('chosen:activate');
+	
+	$("#inputForm").plusAsTab();
+	JoelPurra.PlusAsTab.setOptions({
+		// Use enter instead of plus
+		// Number 13 found through demo at
+		// http://api.jquery.com/event.which/
+		key: 13
+	});
+	
 	// Product autocomplete
 	
 	$("#productInput").autocomplete({
