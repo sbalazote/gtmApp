@@ -27,6 +27,7 @@ $(document).ready(function() {
 		}
 		$('#'+myDiv).html(
 			'<div class="alert alert-' + type + ' alert-block fade in">' +
+			'<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>' +
 			'<button type="button" class="close" data-dismiss="alert">' +
 			'&times;</button>' + message + '</div>');
 	};
@@ -46,11 +47,11 @@ $(document).ready(function() {
 	// Alerts
 	
 	myGenericError = function(element) {
-		var message = 'Ha ocurrido un error al intentar procesar su solicitud. Por favor, comuníquese con el Administrador del Sistema.';
+		var message = 'Ha ocurrido un error al intentar procesar su solicitud. Por favor, comunï¿½quese con el Administrador del Sistema.';
 		myShowAlert('danger', message, element);
 		BootstrapDialog.show({
 			type: BootstrapDialog.TYPE_DANGER,
-	        title: 'Operación Fallida',
+	        title: 'Operaciï¿½n Fallida',
 	        message: message,
 	        buttons: [{
                 label: 'Cerrar',
@@ -66,14 +67,14 @@ $(document).ready(function() {
 	};
 	
 	myExistentCodeError = function() {
-		myShowAlert('danger', 'Código existente. Por favor, ingrese uno diferente.');
+		myShowAlert('danger', 'Cï¿½digo existente. Por favor, ingrese uno diferente.');
 	};
 	
 	myUpdateSuccessful = function() {
-		myShowAlert('success', 'Se ha registrado la modificación correctamente.');
+		myShowAlert('success', 'Se ha registrado la modificaciï¿½n correctamente.');
 	};
 	
-	// Alerts que redirigen o recargan la páginas
+	// Alerts que redirigen o recargan la pï¿½ginas
 	
 	myCreateSuccessful = function() {
 		myReload('success', 'Se ha registrado el alta correctamente.');
@@ -102,7 +103,7 @@ $(document).ready(function() {
 		myShowAlert(jsonObject.type, jsonObject.message);
 		BootstrapDialog.show({
 			type: BootstrapDialog.TYPE_SUCCESS,
-	        title: 'Operación Exitosa',
+	        title: 'Operaciï¿½n Exitosa',
 	        message: jsonObject.message,
 	        buttons: [{
                 label: 'Cerrar',

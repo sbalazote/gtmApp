@@ -11,6 +11,7 @@
 <form id="login" action="j_spring_security_check" method="post">
 	<c:if test="${not empty error}">
 		<div class="alert alert-danger alert-block fade in">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
 			<strong>Error! </strong>${error}
 		</div>
