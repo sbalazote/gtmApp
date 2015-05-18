@@ -499,6 +499,7 @@ var ProvisioningRequest = function() {
 			productDetail.amount = $(this).find(".td-amount").html();
 			productDetails.push(productDetail);
 		 });
+        $("#affiliateInput").select2("enable", true);
 	}else{
 		$("#affiliateInput").select2("enable", false);
 	}
