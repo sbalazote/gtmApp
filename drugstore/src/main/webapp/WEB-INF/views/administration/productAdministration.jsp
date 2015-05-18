@@ -16,20 +16,6 @@
 		new SaveProductMonodrug();
 	});
 </script>
-<style type="text/css">
-    .idColumn{
-        width: 5%
-    }
-    .descriptionColumn{
-        width: 45%
-    }
-    .commandsColumn{
-        width: 15%
-    }
-    .gtinColumn{
-        width: 15%
-    }
-</style>
 
 <div class="row">
 	<div class="col-md-9 form-group">

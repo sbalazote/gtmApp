@@ -86,7 +86,7 @@
 		<table class="table table-condensed table-hover table-striped" id="stockTable">
 			<thead>
 		        <tr>
-		            <th data-column-id="product"><spring:message code="common.product"/></th>
+		            <th data-column-id="product" data-header-css-class="descriptionColumn"><spring:message code="common.product"/></th>
 		            <th data-column-id="agreement"><spring:message code="common.agreement"/></th>
 		            <th data-column-id="batch"><spring:message code="common.batch"/></th>
 		            <th data-column-id="expirationDate"><spring:message code="common.expirationDate"/></th>
