@@ -1,9 +1,11 @@
 package com.drogueria.service;
 
+import java.text.ParseException;
 import java.util.List;
 
 import com.drogueria.constant.AuditState;
 import com.drogueria.dto.AuditResultDTO;
+import com.drogueria.dto.OutputOrderResultDTO;
 import com.drogueria.model.Audit;
 import com.drogueria.query.AuditQuery;
 
@@ -24,4 +26,6 @@ public interface AuditService {
 	public AuditResultDTO getAudit(Integer productId, String serialNumber);
 
 	public AuditResultDTO getAudit(Integer productId, String batch, String expirateDate);
+
+	public OutputOrderResultDTO getOutputOrOrder(Integer productId, String serialNumber) throws ParseException;
 }

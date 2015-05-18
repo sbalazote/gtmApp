@@ -1,5 +1,7 @@
 package com.drogueria.service.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.drogueria.constant.AuditState;
+import com.drogueria.dto.AuditDTO;
 import com.drogueria.dto.AuditResultDTO;
+import com.drogueria.dto.OutputOrderResultDTO;
 import com.drogueria.model.Audit;
 import com.drogueria.model.AuditAction;
 import com.drogueria.model.Role;
@@ -87,5 +91,81 @@ public class AuditServiceImpl implements AuditService {
 	@Override
 	public AuditResultDTO getAudit(Integer productId, String batch, String expirateDate) {
 		return this.auditDAO.getAudit(productId, batch, expirateDate);
+	}
+
+	@Override
+	public OutputOrderResultDTO getOutputOrOrder(Integer productId, String serialNumber) throws ParseException {
+		OutputOrderResultDTO outputOrderResultDTO = new OutputOrderResultDTO();
+		AuditResultDTO auditResultDTO = this.getAudit(productId, serialNumber);
+		List<AuditDTO> orders = auditResultDTO.getOrders();
+		List<AuditDTO> inputs = auditResultDTO.getInputs();
+		List<AuditDTO> outputs = auditResultDTO.getOutputs();
+
+		// Si egresos y armados no existen, no hay devolucion.
+		if (outputs.isEmpty() && orders.isEmpty()) {
+			outputOrderResultDTO.setOutputId(null);
+			outputOrderResultDTO.setOrderId(null);
+		}
+		// Si egresos existen, pero no armados verifico que sea lo ultimo y devuelvo los egresos.
+		// EGRESO.
+		else if (!outputs.isEmpty() && orders.isEmpty()) {
+			if (inputs.isEmpty()) {
+				outputOrderResultDTO.setOutputId(outputs.get(0).getOperationId());
+				outputOrderResultDTO.setOrderId(null);
+			} else {
+				SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				Date outputDate = dateFormatter.parse(outputs.get(0).getDate());
+				Date inputDate = dateFormatter.parse(inputs.get(0).getDate());
+				if (outputDate.after(inputDate)) {
+					outputOrderResultDTO.setOutputId(outputs.get(0).getOperationId());
+					outputOrderResultDTO.setOrderId(null);
+				}
+			}
+		}
+		// Si armados existen, pero no egresos verifico que sea lo ultimo y devuelvo los armados.
+		// ARMADO.
+		else if (outputs.isEmpty() && !orders.isEmpty()) {
+			if (inputs.isEmpty()) {
+				outputOrderResultDTO.setOutputId(null);
+				outputOrderResultDTO.setOrderId(orders.get(0).getOperationId());
+			} else {
+				SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				Date orderDate = dateFormatter.parse(orders.get(0).getDate());
+				Date inputDate = dateFormatter.parse(inputs.get(0).getDate());
+				if (orderDate.after(inputDate)) {
+					outputOrderResultDTO.setOutputId(null);
+					outputOrderResultDTO.setOrderId(orders.get(0).getOperationId());
+				}
+			}
+		}
+		// Si ambos egresos y armados existen, verifico cual es el ultimo y lo devuelvo.
+		// EGRESO o ARMADO.
+		else {
+			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+			if (inputs.isEmpty()) {
+				Date outputDate = dateFormatter.parse(outputs.get(0).getDate());
+				Date orderDate = dateFormatter.parse(orders.get(0).getDate());
+				if (outputDate.after(orderDate)) {
+					outputOrderResultDTO.setOutputId(outputs.get(0).getOperationId());
+					outputOrderResultDTO.setOrderId(null);
+				} else {
+					outputOrderResultDTO.setOutputId(null);
+					outputOrderResultDTO.setOrderId(orders.get(0).getOperationId());
+				}
+			} else {
+				Date outputDate = dateFormatter.parse(outputs.get(0).getDate());
+				Date orderDate = dateFormatter.parse(orders.get(0).getDate());
+				Date inputDate = dateFormatter.parse(inputs.get(0).getDate());
+				if (outputDate.after(inputDate) && outputDate.after(orderDate)) {
+					outputOrderResultDTO.setOutputId(outputs.get(0).getOperationId());
+					outputOrderResultDTO.setOrderId(null);
+				}
+				if (orderDate.after(inputDate) && orderDate.after(outputDate)) {
+					outputOrderResultDTO.setOutputId(null);
+					outputOrderResultDTO.setOrderId(orders.get(0).getOperationId());
+				}
+			}
+		}
+		return outputOrderResultDTO;
 	}
 }
