@@ -6,6 +6,10 @@ SerializedReturns = function() {
 	var serialNumber = null;
 	
 	var currentDate = new Date();
+
+    $("#deliveryNotePOSInput").numeric();
+
+    $("#deliveryNoteNumberInput").numeric();
 	
 	var buildReturn = function(outputId, orderId) {
 		if (outputId != null) {

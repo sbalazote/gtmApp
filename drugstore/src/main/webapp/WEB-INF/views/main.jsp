@@ -53,7 +53,8 @@
 		<script type="text/javascript" src="js/jQuery.download.js"></script>
 		<script type="text/javascript" src="js/emulatetab.joelpurra.js"></script>
 		<script type="text/javascript" src="js/plusastab.joelpurra.js"></script>
-		
+        <script type="text/javascript" src="js/jquery.numeric.js"></script>
+
 	</head>
 	<body>
 		<div id="wrap">

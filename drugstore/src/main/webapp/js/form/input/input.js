@@ -43,7 +43,11 @@ Input = function() {
 	if($("#inputId").val() != ""){
 		isUpdate = true;
 	}
-	
+
+    $("#deliveryNotePOSInput").numeric();
+
+    $("#deliveryNoteNumberInput").numeric();
+
 	if(isUpdate){
 		$('#productInput').prop('disabled', true);
 		$('#agreementInput').prop('disabled', true).trigger("chosen:updated");
