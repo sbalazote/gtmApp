@@ -50,7 +50,7 @@
 	</div>
 
 	<div class="row">
-		<div class="col-md-4 form-group">
+		<div class="col-md-6 form-group">
 			<label for="deliveryLocationInput"><spring:message code="common.deliveryLocation" /></label>
 			<select id="deliveryLocationInput" name="deliveryLocation" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 				<option value=""></option>
@@ -59,7 +59,7 @@
 				</c:forEach>
 			</select>
 		</div>
-		<div class="col-md-4 form-group">
+		<div class="col-md-2 form-group">
 			<label for="deliveryDateInput"><spring:message code="common.deliveryDate" /></label>
 			<div class="input-group">
 				<input type="hidden" id="deliveryDatePreloadedInput" name="deliveryDatePreloaded" value="<fmt:formatDate pattern="dd/MM/yyyy" value="${deliveryDate}"/>"/>
@@ -214,7 +214,7 @@
 	</div>
 </form>
 
-<%-- Confirmación del delete de una row --%>
+<%-- Confirmaciï¿½n del delete de una row --%>
 <div class="modal fade" data-backdrop="static" id="deleteRowConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:250px">
 		<div class="modal-content">
