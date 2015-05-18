@@ -170,6 +170,7 @@ OutputBatchExpirationDate = function() {
 			success: function(response) {
 				if (response != "") {
 					var selectContent = "<option value=''>Seleccione Lote - Vencimiento</option>";
+                    $('#batchExpirationDateSelect').empty();
 					$('#batchExpirationDateSelect', this).append(selectContent);
 					for (var i = 0, l = response.length; i < l; i++) {
 						var stockId = response[i].id;
