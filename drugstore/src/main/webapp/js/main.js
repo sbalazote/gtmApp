@@ -100,7 +100,7 @@ $(document).ready(function() {
             }
         }
         return this.optional(element) || check;
-    }, "Por favor, escribe una fecha mayor a la fecha del d&iacute;a. (Formato: ddmmaa)");
+    }, "Por favor, escribe una fecha mayor a la fecha del día. (Formato: ddmmaa)");
     
     jQuery.validator.addMethod("minDate", function(value, element, param) {
     	var partsTo = value.split("/");
@@ -141,7 +141,7 @@ $(document).ready(function() {
 	//a minimum number value on a validate form
 	$.validator.addMethod('minValue', function (value, el, param) {
 	    return value > param;
-	},"Por favor, ingrese un n&uacute;mero mayor a cero");
+	},"Por favor, ingrese un número mayor a cero");
 	
 	printIOPDFHeader = function(doc, mode, title, currentSheet, totalSheets) {
 		doc.setFontSize(16);
@@ -165,7 +165,7 @@ $(document).ready(function() {
 		}
 		doc.text(20, 60, 'Convenio: ' + $("#agreementInput option:selected").text());
 		if (mode == 'input') {
-			doc.text(20, 70, 'N&uacute;mero de Remito: R' + $("#deliveryNotePOSInput").val() + '-' + $("#deliveryNoteNumberInput").val());
+			doc.text(20, 70, 'Número de Remito: R' + $("#deliveryNotePOSInput").val() + '-' + $("#deliveryNoteNumberInput").val());
 			doc.text(20, 80, 'Orden de Compra: ' + $("#purchaseOrderNumberInput").val().trim());
 		}
 
@@ -186,7 +186,7 @@ $(document).ready(function() {
 		var currentSheet = 1;
 		var totalSheets = Math.floor(details.length / 20) + 1;
 		var offsetY = 100;
-		var title = (mode == 'input') ? 'Recepci&oacute;n de Mercader&iacute;a Nro.: ' : 'Egreso de Mercader&iacute;a Nro.: ';
+		var title = (mode == 'input') ? 'Recepción de Mercadería Nro.: ' : 'Egreso de Mercadería Nro.: ';
 		
 		printIOPDFHeader(doc, mode, title + id.toString(), currentSheet, totalSheets);
 		

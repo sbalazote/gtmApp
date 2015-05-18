@@ -47,8 +47,16 @@ Input = function() {
     $("#deliveryNotePOSInput").numeric();
 
     $("#deliveryNoteNumberInput").numeric();
+    
+    $("#expirationDateInput").numeric();
+    $("#providerSerializedExpirationDateInput").numeric();
+    $("#selfSerializedExpirationDateInput").numeric();
 
-	if(isUpdate){
+    $("#selfSerializedAmountInput").numeric();
+    
+    $("#amountInput").numeric();
+    
+    if(isUpdate){
 		$('#productInput').prop('disabled', true);
 		$('#agreementInput').prop('disabled', true).trigger("chosen:updated");
 		$("#divInputId").show();

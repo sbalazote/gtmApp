@@ -31,6 +31,8 @@ Output = function() {
 	$("#deliveryLocationDiv").hide();
 	$("#productOutput").attr("disabled", true);
 	
+    $("#amountInput").numeric();
+	
 	var validateProductAmountForm = function() {
 		var form = $("#productAmountModalForm");
 		amountFormValidator = form.validate({
