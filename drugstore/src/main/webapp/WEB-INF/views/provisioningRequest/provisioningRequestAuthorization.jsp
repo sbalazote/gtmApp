@@ -19,7 +19,7 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-md-4 form-group">
+	<div class="col-md-3 form-group">
 		<label for="agreementSearch"><spring:message code="common.agreement"/></label>
 		<select id="agreementSearch" name="agreementSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 			<option value=""></option>
@@ -28,7 +28,7 @@
 			</c:forEach>
 		</select>
 	</div>
-	<div class="col-md-4 form-group">
+	<div class="col-md-5 form-group">
 		<label for="clientSearch"><spring:message code="common.client"/></label>
 		<select id="clientSearch" name="clientSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 			<option value=""></option>
