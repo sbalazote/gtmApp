@@ -255,3 +255,17 @@ div.blockMsg {
 .social-em:hover {
 	color: #f39c12;
 }
+
+/* esto es para bootgrid*/
+.idColumn{
+    width: 5%
+}
+.descriptionColumn{
+    width: 45%
+}
+.commandsColumn{
+    width: 15%
+}
+.gtinColumn{
+    width: 15%
+}

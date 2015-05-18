@@ -25,6 +25,8 @@ OrderAssembly = function() {
 	
 	var isButtonConfirm = false;
 	
+    $("#amountInput").numeric();
+	
 	$('#productInput').keydown(function(e) {
 	    if(e.keyCode == 121){ // F10
 	    	$.ajax({
