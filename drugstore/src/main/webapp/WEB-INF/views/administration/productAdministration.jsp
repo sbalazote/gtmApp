@@ -16,6 +16,20 @@
 		new SaveProductMonodrug();
 	});
 </script>
+<style type="text/css">
+    .idColumn{
+        width: 5%
+    }
+    .descriptionColumn{
+        width: 45%
+    }
+    .commandsColumn{
+        width: 15%
+    }
+    .gtinColumn{
+        width: 15%
+    }
+</style>
 
 <div class="row">
 	<div class="col-md-9 form-group">
@@ -50,20 +64,13 @@
 				<table id="productsTable" class="table table-condensed table-hover table-striped">
 					<thead>
 						<tr>
-							<th data-column-id="id" data-type="numeric"><spring:message code="common.id"/></th>
+							<th data-column-id="id" data-header-css-class="idColumn" data-type="numeric"><spring:message code="common.id"/></th>
 							<th data-column-id="code" data-type="numeric"><spring:message code="common.code"/></th>
-							<th data-column-id="description"><spring:message code="common.description"/></th>
-							<th data-column-id="gtin" data-type="numeric"><spring:message code="common.gtin"/></th>
-							<%-- <th data-column-id="brand"><spring:message code="common.brand"/></th>
-							<th data-column-id="monodrug"><spring:message code="common.monodrug"/></th>
-							<th data-column-id="group"><spring:message code="common.productGroup"/></th>
-							<th data-column-id="drugCategory"><spring:message code="common.drugCategory"/></th> --%>
+							<th data-column-id="description" data-header-css-class="descriptionColumn"><spring:message code="common.description"/></th>
+							<th data-column-id="gtin" data-header-css-class="gtinColumn" data-type="numeric"><spring:message code="common.gtin"/></th>
 							<th data-column-id="price" data-type="numeric"><spring:message code="common.price"/></th>
 							<th data-column-id="isCold"><spring:message code="common.cold"/></th>
-							<%-- <th data-column-id="isInformAnmat"><spring:message code="common.informAnmat"/></th>
-							<th data-column-id="type"><spring:message code="common.type"/></th>
-							<th data-column-id="isActive"><spring:message code="common.active"/></th> --%>
-							<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
+							<th data-column-id="commands" data-header-css-class="commandsColumn" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
 						</tr>
 					</thead>
 				</table>
@@ -80,11 +87,11 @@
 				<table id="productBrandsTable" class="table table-condensed table-hover table-striped">				
 					<thead>
 						<tr>
-							<th data-column-id="id" data-type="numeric"><spring:message code="common.id"/></th>
+							<th data-column-id="id" data-header-css-class="idColumn" data-type="numeric"><spring:message code="common.id"/></th>
 							<th data-column-id="code" data-type="numeric"><spring:message code="common.code"/></th>
-							<th data-column-id="description"><spring:message code="common.description"/></th>
+							<th data-column-id="description" data-header-css-class="descriptionColumn"><spring:message code="common.description"/></th>
 							<th data-column-id="isActive"><spring:message code="common.active"/></th>
-							<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
+							<th data-column-id="commands" data-header-css-class="commandsColumn" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
 						</tr>
 					</thead>
 				</table>
@@ -101,11 +108,11 @@
 				<table id="productMonodrugsTable" class="table table-condensed table-hover table-striped">				
 					<thead>
 						<tr>
-							<th data-column-id="id" data-type="numeric"><spring:message code="common.id"/></th>
+							<th data-column-id="id" data-header-css-class="idColumn" data-type="numeric"><spring:message code="common.id"/></th>
 							<th data-column-id="code" data-type="numeric"><spring:message code="common.code"/></th>
-							<th data-column-id="description"><spring:message code="common.description"/></th>
+							<th data-column-id="description" data-header-css-class="descriptionColumn"><spring:message code="common.description"/></th>
 							<th data-column-id="isActive"><spring:message code="common.active"/></th>
-							<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
+							<th data-column-id="commands" data-header-css-class="commandsColumn" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
 						</tr>
 					</thead>
 				</table>
@@ -122,11 +129,11 @@
 				<table id="productDrugCategoriesTable" class="table table-condensed table-hover table-striped">				
 					<thead>
 						<tr>
-							<th data-column-id="id" data-type="numeric"><spring:message code="common.id"/></th>
+							<th data-column-id="id" data-header-css-class="idColumn" data-type="numeric"><spring:message code="common.id"/></th>
 							<th data-column-id="code" data-type="numeric"><spring:message code="common.code"/></th>
-							<th data-column-id="description"><spring:message code="common.description"/></th>
+							<th data-column-id="description" data-header-css-class="descriptionColumn"><spring:message code="common.description"/></th>
 							<th data-column-id="isActive"><spring:message code="common.active"/></th>
-							<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
+							<th data-column-id="commands" data-header-css-class="commandsColumn" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
 						</tr>
 					</thead>
 				</table>
@@ -143,11 +150,11 @@
 				<table id="productGroupsTable" class="table table-condensed table-hover table-striped">				
 					<thead>
 						<tr>
-							<th data-column-id="id" data-type="numeric"><spring:message code="common.id"/></th>
+							<th data-column-id="id" data-header-css-class="idColumn" data-type="numeric"><spring:message code="common.id"/></th>
 							<th data-column-id="code" data-type="numeric"><spring:message code="common.code"/></th>
-							<th data-column-id="description"><spring:message code="common.description"/></th>
+							<th data-column-id="description" data-header-css-class="descriptionColumn"><spring:message code="common.description"/></th>
 							<th data-column-id="isActive"><spring:message code="common.active"/></th>
-							<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
+							<th data-column-id="commands" data-header-css-class="commandsColumn" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
 						</tr>
 					</thead>
 				</table>
