@@ -29,6 +29,7 @@
 	    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 	    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="js/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="js/chosen.jquery.min.js"></script>
 		<script type="text/javascript" src="js/additional-methods.min.js"></script>
 		<script type="text/javascript" src="js/jquery.bootgrid.js"></script>
 	    <script type="text/javascript" src="js/localization/messages_es.js"></script>
@@ -37,7 +38,6 @@
 		<script type="text/javascript" src="js/main.js"></script>
 		<script type="text/javascript" src="js/alerts.js"></script>
 		<script type="text/javascript" src="js/jquery.multi-select.js"></script>
-		<script type="text/javascript" src="js/chosen.jquery.min.js"></script>
 		<script type="text/javascript" src="js/jquery.iframe-transport.js"></script>
 		<script type="text/javascript" src="js/jquery.fileupload.js"></script>
 		<script type="text/javascript" src="js/jquery.fileupload-process.js"></script>
