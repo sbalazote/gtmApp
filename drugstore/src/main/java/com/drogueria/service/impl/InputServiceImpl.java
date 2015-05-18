@@ -481,27 +481,21 @@ public class InputServiceImpl implements InputService {
 	}
 
 	@Override
-	public void cancelInputs(List<Integer> inputIds) {
-		for (Integer inputId : inputIds) {
-			boolean canCancel = true;
-			boolean hasNoSerials = true;
-			Input input = this.get(inputId);
-			for (InputDetail inputDetail : input.getInputDetails()) {
-				if (inputDetail.getSerialNumber() != null && !inputDetail.getProduct().getType().equals("SS")) {
-					hasNoSerials = false;
-					if (this.outputService.existSerial(inputDetail.getProduct().getId(), inputDetail.getSerialNumber())
-							|| this.orderService.existSerial(inputDetail.getProduct().getId(), inputDetail.getSerialNumber())) {
-						canCancel = false;
-					}
-				}
-			}
-			if (canCancel && !hasNoSerials) {
-				try {
+	public boolean cancelInput(Integer inputId) {
+		boolean canCancel = true;
+		boolean hasNoSerials = false;
+		boolean toReturn = false;
+		Input input = this.get(inputId);
+		this.canCancelInput(input, canCancel, hasNoSerials);
+		if (canCancel && !hasNoSerials) {
+			// Si tiene serie tiene que informar a ANMAT la cancelacion.
+			try {
+				if (input.hasToInform()) {
 					WebServiceResult result = this.traceabilityService.cancelInputTransaction(input);
 					boolean alreadyCancelled = false;
 					if (result != null) {
-						// Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
 						if (result.getErrores() != null) {
+							// Esto hay que verlo
 							if (result.getErrores(0).get_c_error().equals(Constants.ERROR_ANMAT_ALREADY_CANCELLED)) {
 								alreadyCancelled = true;
 							}
@@ -509,17 +503,24 @@ public class InputServiceImpl implements InputService {
 						if (result.getResultado() || alreadyCancelled) {
 							input.setCancelled(true);
 							this.saveAndRemoveFromStock(input);
+							toReturn = true;
 						}
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
+				} else {
+					input.setCancelled(true);
+					this.saveAndRemoveFromStock(input);
+					toReturn = true;
 				}
-			}
-			if (hasNoSerials) {
-				input.setCancelled(true);
-				this.saveAndRemoveFromStock(input);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
+		if (hasNoSerials) {
+			input.setCancelled(true);
+			this.saveAndRemoveFromStock(input);
+			toReturn = true;
+		}
+		return toReturn;
 	}
 
 	@Override
@@ -535,5 +536,23 @@ public class InputServiceImpl implements InputService {
 		}
 		this.saveAndUpdateStock(input);
 		return input;
+	}
+
+	private void canCancelInput(Input input, boolean canCancel, boolean hasNoSerials) {
+		for (InputDetail inputDetail : input.getInputDetails()) {
+			// Los serializados se fija si existen en stock
+			if (inputDetail.getSerialNumber() != null) {
+				hasNoSerials = false;
+				if (!this.existsSerial(inputDetail.getSerialNumber(), inputDetail.getProduct().getId(), inputDetail.getGtin().getNumber())) {
+					canCancel = false;
+				}
+			} else {
+				// Si no tiene serie entonces es lote y vencimiento, se fija que haya la cantidad suficiente.
+				if (!this.stockService.hasStock(inputDetail.getProduct().getId(), inputDetail.getBatch(), inputDetail.getExpirationDate(), input.getAgreement()
+						.getId(), inputDetail.getAmount())) {
+					canCancel = false;
+				}
+			}
+		}
 	}
 }

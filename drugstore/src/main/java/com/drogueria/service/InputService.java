@@ -37,7 +37,7 @@ public interface InputService {
 
 	Object getInputs(boolean cancelled);
 
-	void cancelInputs(List<Integer> inputIds);
+	boolean cancelInput(Integer inputId);
 
 	List<Input> getCancelables(InputQuery inputQuery);
 

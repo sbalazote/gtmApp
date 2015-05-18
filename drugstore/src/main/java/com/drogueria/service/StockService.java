@@ -1,5 +1,6 @@
 package com.drogueria.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.drogueria.model.Agreement;
@@ -38,5 +39,7 @@ public interface StockService {
 	void updateAgreementStock(Integer id, String serialNumber, String number, Agreement destinationAgreement);
 
 	boolean delete(Integer stockId);
+
+	boolean hasStock(Integer productId, String batch, Date expirationDate, Integer agreementId, Integer amount);
 
 }

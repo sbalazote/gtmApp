@@ -168,15 +168,19 @@ InputCancellation = function() {
 	
 
 	$("#confirmButton").click(function() {
-		if(requestsToCancel.length > 0){
+		if(requestsToCancel.length == 1){
 			$.ajax({
-				url: "cancelInputs.do",
+				url: "cancelInput.do",
 				type: "POST",
 				contentType: "application/json",
-				data: JSON.stringify(requestsToCancel),
+				data: JSON.stringify(requestsToCancel[0]),
 				async: false,
 				success: function(response) {
-					myReload("success", "Se han anulado las siguientes solicitudes: " + requestsToCancel);
+					if(response == true){
+						myReload("success", "Se ha anulado el ingreso: " + requestsToCancel);
+					}else{
+						myReload("warning", "No puede ser anulado el ingreso: " + requestsToCancel);
+					}
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					myGenericError();
@@ -186,7 +190,7 @@ InputCancellation = function() {
 			BootstrapDialog.show({
 				type: BootstrapDialog.TYPE_INFO,
 		        title: 'Atenci&iacute;n',
-		        message: "Seleccione al menos un elemento",
+		        message: "Seleccione un elemento",
 		        buttons: [{
 	                label: 'Cerrar',
 	                action: function(dialogItself){

@@ -164,10 +164,10 @@ public class InputController {
 		return "inputCancellation";
 	}
 
-	@RequestMapping(value = "/cancelInputs", method = RequestMethod.POST)
+	@RequestMapping(value = "/cancelInput", method = RequestMethod.POST)
 	public @ResponseBody
-	void cancelInputs(@RequestBody List<Integer> inputIds) throws Exception {
-		this.inputService.cancelInputs(inputIds);
+	boolean cancelInputs(@RequestBody Integer inputId) throws Exception {
+		return this.inputService.cancelInput(inputId);
 	}
 
 	@RequestMapping(value = "/pendingInputs", method = RequestMethod.GET)

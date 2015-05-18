@@ -1,5 +1,6 @@
 package com.drogueria.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -161,5 +162,11 @@ public class StockServiceImpl implements StockService {
 	@Override
 	public boolean delete(Integer stockId) {
 		return this.stockDAO.delete(stockId);
+	}
+
+	@Override
+	public boolean hasStock(Integer productId, String batch, Date expirationDate, Integer agreementId, Integer amount) {
+		Stock stock = this.stockDAO.getBatchExpirationDateStockForUpdate(productId, batch, expirationDate, agreementId);
+		return stock.getAmount() >= amount;
 	}
 }
