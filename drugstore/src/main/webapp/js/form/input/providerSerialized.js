@@ -128,7 +128,7 @@ ProviderSerialized = function() {
 			},
 			success: function(response) {
 				if (response == "") {
-					readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Inv�lido").addClass("has-error").tooltip();
+					readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Inv&aacute;lido").addClass("has-error").tooltip();
 					return;
 				}
 				var gtinFound = false;
@@ -162,7 +162,7 @@ ProviderSerialized = function() {
 				
 				//	Si el Gtin leido no coincide con el seleccionado en la pantalla de input.
 				if (gtinFound == false) {
-					readSerialNumber.tooltip("destroy").data("title", "GTIN le�do no coincide con el seleccionado").addClass("has-error").tooltip();
+					readSerialNumber.tooltip("destroy").data("title", "GTIN le&iacute;do no coincide con el seleccionado").addClass("has-error").tooltip();
 					return;
 				}
 				
@@ -197,7 +197,7 @@ ProviderSerialized = function() {
 					
 					// Si no es valida la fecha de vencimiento que viene en el serie, dado que es anterior al dia de la fecha o mal formado.
 					if (!validExpirationDate) {
-						readSerialNumber.tooltip("destroy").data("title", "Fecha de vencimiento inv�lida o anterior a la fecha del d�a.").addClass("has-error").tooltip();
+						readSerialNumber.tooltip("destroy").data("title", "Fecha de vencimiento inv&aacute;lida o anterior a la fecha del d&iacute;a.").addClass("has-error").tooltip();
 						return;
 					}
 					

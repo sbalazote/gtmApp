@@ -65,7 +65,7 @@ public class AuditServiceImpl implements AuditService {
 		audit.setUser(this.userService.getByName(username));
 
 		this.save(audit);
-		logger.info("Se ha registrado la accion: " + auditAction.getDescription() + ", relacionado con la Operación " + role.getDescription()
+		logger.info("Se ha registrado la accion: " + auditAction.getDescription() + ", relacionado con la Operacion " + role.getDescription()
 				+ " realizada por: " + username);
 	}
 

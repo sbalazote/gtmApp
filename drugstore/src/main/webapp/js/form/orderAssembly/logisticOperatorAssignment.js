@@ -51,7 +51,7 @@ var LogisticOperatorAssignment = function() {
 			}else{
 				BootstrapDialog.show({
 					type: BootstrapDialog.TYPE_INFO,
-			        title: 'Atenci�n',
+			        title: 'Atenci&oacute;n',
 			        message: "Seleccione al menos un elemento",
 			        buttons: [{
 		                label: 'Cerrar',

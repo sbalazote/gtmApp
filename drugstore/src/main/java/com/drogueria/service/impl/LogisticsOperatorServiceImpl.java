@@ -23,7 +23,7 @@ public class LogisticsOperatorServiceImpl implements LogisticsOperatorService {
 	@Override
 	public void save(LogisticsOperator logisticsOperator) {
 		this.logisticsOperatorDAO.save(logisticsOperator);
-		logger.info("Se han guardado los cambios exitosamente. Id de Operador Logístico: " + logisticsOperator.getId());
+		logger.info("Se han guardado los cambios exitosamente. Id de Operador Logistico: " + logisticsOperator.getId());
 	}
 
 	@Override

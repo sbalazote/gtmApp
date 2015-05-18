@@ -185,7 +185,7 @@ InputCancellation = function() {
 		}else{
 			BootstrapDialog.show({
 				type: BootstrapDialog.TYPE_INFO,
-		        title: 'Atenci�n',
+		        title: 'Atenci&iacute;n',
 		        message: "Seleccione al menos un elemento",
 		        buttons: [{
 	                label: 'Cerrar',

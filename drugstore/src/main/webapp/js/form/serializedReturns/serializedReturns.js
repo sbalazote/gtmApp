@@ -107,7 +107,7 @@ SerializedReturns = function() {
 			outputOrderDetails[0].splice(indexOf, 1);
 			
 		} else {
-			myShowAlert('danger', 'Serie Inexistente o ya le�do.');
+			myShowAlert('danger', 'Serie Inexistente o ya le&iacute;do.');
 		}
 	};
 	
@@ -198,7 +198,7 @@ SerializedReturns = function() {
 								success: function(response) {
 									// No es un trazado propio, por lo tanto no es un serie v�lido.
 									if (!response) {
-										myShowAlert('danger', 'Formato de Serie Inv�lido.');
+										myShowAlert('danger', 'Formato de Serie Inv&aacute;lido.');
 										return;
 									}
 									// Es un trazado propio.
@@ -294,7 +294,7 @@ SerializedReturns = function() {
 								success: function(response) {
 									// No es un trazado propio, por lo tanto no es un serie v�lido.
 									if (!response) {
-										myShowAlert('danger', 'Formato de Serie Inv�lido.');
+										myShowAlert('danger', 'Formato de Serie Inv&aacute;lido.');
 										return;
 									}
 									// Es un trazado propio.

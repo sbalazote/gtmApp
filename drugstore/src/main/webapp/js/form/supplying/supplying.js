@@ -395,7 +395,7 @@ var Supplying = function() {
 												success : function(response) {
 													myReload(
 															"success",
-															"Se ha registrado la solicitud de abastecimiento n�mero: "
+															"Se ha registrado la solicitud de abastecimiento n&uacute;mero: "
 																	+ response.id);
 												},
 												error : function(jqXHR,
@@ -461,7 +461,7 @@ var Supplying = function() {
 										.html(
 												'<div class="alert alert-danger alert-block fade in">'
 														+ '<button type="button" class="close" data-dismiss="alert">'
-														+ '&times;</button>C�digo existente. Por favor, ingrese uno diferente.</div>');
+														+ '&times;</button>C&oacute;digo existente. Por favor, ingrese uno diferente.</div>');
 							} else {
 								$
 										.ajax({

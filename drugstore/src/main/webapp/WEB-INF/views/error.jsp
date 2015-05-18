@@ -39,6 +39,6 @@ h1 {
 <br>
 <div class="row">
 	<div class="col-md-6 col-md-offset-3">
-  		<button type="button" class="btn btn-info btn-lg btn-block" onclick="location.href='home.do'" id="homeButton"><span class="glyphicon glyphicon-home"></span>	Volver al Menú</button>
+  		<button type="button" class="btn btn-info btn-lg btn-block" onclick="location.href='home.do'" id="homeButton"><span class="glyphicon glyphicon-home"></span>	Volver al Men&uacute;</button>
   	</div>
 </div>

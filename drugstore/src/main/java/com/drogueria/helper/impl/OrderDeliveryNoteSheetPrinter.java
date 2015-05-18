@@ -123,7 +123,7 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 					this.deliveryNoteService.save(deliveryNote);
 					this.deliveryNoteService.sendTrasactionAsync(deliveryNote);
 				} catch (Exception e1) {
-					logger.info("No se ha podido imprimir el remito: " + deliveryNoteNumber + " para la Solicitud de Abastecimiento número: " + id);
+					logger.info("No se ha podido imprimir el remito: " + deliveryNoteNumber + " para la Solicitud de Abastecimiento n&uacute;mero: " + id);
 				}
 
 				printsNumbers.add(deliveryNote.getId());

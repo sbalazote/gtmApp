@@ -44,7 +44,7 @@ var PendingTransactions = function() {
 								}
 								
 								if(response.errores != null){
-									errors += "<strong>Errores informados por ANMAT para egreso nï¿½" + response[i].operationId + "</strong><br />";
+									errors += "<strong>Errores informados por ANMAT para egreso numero" + response[i].operationId + "</strong><br />";
 									for (var j = 0, lengthJ = response[i].errores.length; j < lengthJ; j++) {
 										errors += response[i].errores[j]._c_error + " - " + response[i].errores[j]._d_error + "<br />";
 									}
@@ -62,7 +62,7 @@ var PendingTransactions = function() {
 		}else{
 			BootstrapDialog.show({
 				type: BootstrapDialog.TYPE_INFO,
-		        title: 'Atenciï¿½n',
+		        title: 'Atenci&oacute;n',
 		        message: "Seleccione al menos un elemento",
 		        buttons: [{
 	                label: 'Cerrar',
@@ -117,7 +117,7 @@ var PendingTransactions = function() {
 //		}else{
 //			BootstrapDialog.show({
 //				type: BootstrapDialog.TYPE_INFO,
-//		        title: 'Atención',
+//		        title: 'Atenciï¿½n',
 //		        message: "Seleccione al menos un elemento",
 //		        buttons: [{
 //	                label: 'Cerrar',
@@ -238,7 +238,7 @@ var PendingTransactions = function() {
 //		}else{
 //			BootstrapDialog.show({
 //				type: BootstrapDialog.TYPE_INFO,
-//		        title: 'Atención',
+//		        title: 'Atenciï¿½n',
 //		        message: "Seleccione al menos un elemento",
 //		        buttons: [{
 //	                label: 'Cerrar',
@@ -276,7 +276,7 @@ var PendingTransactions = function() {
 		}else{
 			BootstrapDialog.show({
 				type: BootstrapDialog.TYPE_INFO,
-		        title: 'Atención',
+		        title: 'Atenci&oacute;n',
 		        message: "Seleccione al menos un elemento",
 		        buttons: [{
 	                label: 'Cerrar',

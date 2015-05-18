@@ -63,7 +63,7 @@ public class FileController {
 			}
 
 		} else {
-			logger.error("No se ha podido subir el archivo porque éste estaba vacío");
+			logger.error("No se ha podido subir el archivo porque &eacute;ste estaba vac&iacute;o");
 		}
 		return fileMeta;
 	}

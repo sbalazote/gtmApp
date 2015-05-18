@@ -59,10 +59,10 @@ public class OutputFakeDeliveryNoteSheetPrinter {
 				this.deliveryNoteService.save(deliveryNote);
 				this.deliveryNoteService.sendTrasactionAsync(deliveryNote);
 			} catch (Exception e1) {
-				logger.info("No se ha podido imprimir el remito número: " + deliveryNoteNumber);
+				logger.info("No se ha podido imprimir el remito numero: " + deliveryNoteNumber);
 			}
 
-			logger.info("Se ha impreso el remito número: " + deliveryNoteNumber);
+			logger.info("Se ha impreso el remito numero: " + deliveryNoteNumber);
 
 		}
 		return deliveryNoteNumber;

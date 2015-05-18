@@ -5,6 +5,6 @@
 		<a target="_blank" href="https://twitter.com/LS&TSolutions"><i id="social" class="fa fa-twitter-square fa-3x social-tw"></i></a>
 		<a target="_blank" href="https://plus.google.com/+LS&TSolutions-page"><i id="social" class="fa fa-google-plus-square fa-3x social-gp"></i></a>
 		<a target="_blank" href="mailto:info@LSTSolutions.com"><i id="social" class="fa fa-envelope-square fa-3x social-em"></i></a> <br />
-		<p class="text-footer">Copyright© LS&T Solutions 2015. Todos los derechos reservados.</p>
+		<p class="text-footer">Copyright@ LS&T Solutions 2015. Todos los derechos reservados.</p>
 	</div>
 </div>

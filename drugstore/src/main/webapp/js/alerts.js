@@ -47,11 +47,11 @@ $(document).ready(function() {
 	// Alerts
 	
 	myGenericError = function(element) {
-		var message = 'Ha ocurrido un error al intentar procesar su solicitud. Por favor, comun�quese con el Administrador del Sistema.';
+		var message = 'Ha ocurrido un error al intentar procesar su solicitud. Por favor, comun&uacute;quese con el Administrador del Sistema.';
 		myShowAlert('danger', message, element);
 		BootstrapDialog.show({
 			type: BootstrapDialog.TYPE_DANGER,
-	        title: 'Operaci�n Fallida',
+	        title: 'Operaci&oacute;n Fallida',
 	        message: message,
 	        buttons: [{
                 label: 'Cerrar',
@@ -67,14 +67,14 @@ $(document).ready(function() {
 	};
 	
 	myExistentCodeError = function() {
-		myShowAlert('danger', 'C�digo existente. Por favor, ingrese uno diferente.');
+		myShowAlert('danger', 'C&oacute;digo existente. Por favor, ingrese uno diferente.');
 	};
 	
 	myUpdateSuccessful = function() {
-		myShowAlert('success', 'Se ha registrado la modificaci�n correctamente.');
+		myShowAlert('success', 'Se ha registrado la modificaci&oacute;n correctamente.');
 	};
 	
-	// Alerts que redirigen o recargan la p�ginas
+	// Alerts que redirigen o recargan la paginas
 	
 	myCreateSuccessful = function() {
 		myReload('success', 'Se ha registrado el alta correctamente.');
@@ -103,7 +103,7 @@ $(document).ready(function() {
 		myShowAlert(jsonObject.type, jsonObject.message);
 		BootstrapDialog.show({
 			type: BootstrapDialog.TYPE_SUCCESS,
-	        title: 'Operaci�n Exitosa',
+	        title: 'Operaci&oacute;n Exitosa',
 	        message: jsonObject.message,
 	        buttons: [{
                 label: 'Cerrar',

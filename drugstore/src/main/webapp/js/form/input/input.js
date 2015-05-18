@@ -494,7 +494,7 @@ Input = function() {
 							var doc = printIOPDF('input', response.id, response.inputDetails);
 							
 							var string = doc.output('datauristring');
-							var x = window.open('','Ingreso N�', '', false);
+							var x = window.open('','Ingreso N&deg;', '', false);
 							x.document.open();
 							x.document.location=string;
 							
@@ -528,7 +528,7 @@ Input = function() {
 									success: function(response) {
 										var doc = printIOPDF('input', response.id, response.inputDetails);
 										var string = doc.output('datauristring');
-										var x = window.open('','Ingreso N�', '', false);
+										var x = window.open('','Ingreso N&deg;', '', false);
 										x.document.open();
 										x.document.location=string;
 										myRedirect("success","Se ha autorizado el ingreso de mercader&iacute;a n&uacute;mero: " + response.operationId, "searchInputToUpdate.do");
@@ -605,7 +605,7 @@ Input = function() {
 					if(response != null){
 						var doc = printIOPDF('input', response.id, response.inputDetails);
 						var string = doc.output('datauristring');
-						var x = window.open('','Ingreso N�', '', false);
+						var x = window.open('','Ingreso N&deg;', '', false);
 						x.document.open();
 						x.document.location=string;
 						
@@ -702,7 +702,7 @@ Input = function() {
 				},
 			async: true,
 			success: function(response) {
-				myRedirect("success", "Se ha realizado la anulaci�n del ingreso de mercader�a correctamente","searchInputToUpdate.do");
+				myRedirect("success", "Se ha realizado la anulaci&oacute;n del ingreso de mercader&iacute;a correctamente","searchInputToUpdate.do");
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myDeleteInputError();

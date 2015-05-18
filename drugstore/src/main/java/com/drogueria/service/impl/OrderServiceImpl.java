@@ -56,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
 		provisioningRequest.setState(this.provisioningRequestStateService.get(State.ASSEMBLED.getId()));
 		this.provisioningRequestService.save(provisioningRequest);
 
-		logger.info("Se ha armado el pedido para la para la Solicitud de Abastecimiento número: " + provisioningRequest.getId() + ". Id de pedido: "
+		logger.info("Se ha armado el pedido para la para la Solicitud de Abastecimiento nï¿½mero: " + provisioningRequest.getId() + ". Id de pedido: "
 				+ order.getId());
 
 		return order;
@@ -156,7 +156,7 @@ public class OrderServiceImpl implements OrderService {
 			for (OrderDetail orderDetail : order.getOrderDetails()) {
 				this.addToStock(orderDetail, order.getProvisioningRequest().getAgreement());
 			}
-			logger.info("Se ha anulado el Armado de Pedido número: " + id);
+			logger.info("Se ha anulado el Armado de Pedido nï¿½mero: " + id);
 		}
 	}
 

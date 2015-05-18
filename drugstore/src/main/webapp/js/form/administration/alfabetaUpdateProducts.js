@@ -7,12 +7,12 @@ AlfabetaUpdateProducts = function() {
 
             if (data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['type'])) {
             	uploadError = true;
-                myShowAlert('danger', 'Tipo de archivo no válido.');
+                myShowAlert('danger', 'Tipo de archivo no v&aacute;lido.');
             }
 
             if (data.originalFiles[0]['size'] > 5000000) {
             	uploadError = true;
-            	myShowAlert('danger', 'Tamaño de archivo demasiado grande.');
+            	myShowAlert('danger', 'Tama&ntilde;o de archivo demasiado grande.');
             }
             if (!uploadError) {
             	data.submit();
