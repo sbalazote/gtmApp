@@ -12,7 +12,7 @@
 	});
 </script>
 
-<form id="inputForm" action="" onsubmit="return false;" data-plus-as-tab="true">
+<form id="inputForm" action="" onsubmit="return false;">
 
 <div class="row">
 	<div class="col-md-6 form-group">
@@ -78,21 +78,21 @@
 	<div class="col-md-6 form-group">
 		<label for="deliveryNoteNumberInput"><spring:message code="common.deliveryNote"/></label>
 		<div class="input-group">
-			<input name="deliveryNotePOS" id="deliveryNotePOSInput" type="text" class="form-control" placeholder=<spring:message code="common.deliveryNote.POS"/> value="${deliveryNotePOSInput != null ? deliveryNotePOSInput : ''}">
+			<input name="deliveryNotePOS" id="deliveryNotePOSInput" type="text" class="form-control" tabindex="1" placeholder='<spring:message code="common.deliveryNote.POS"/>' value="${deliveryNotePOSInput != null ? deliveryNotePOSInput : ''}">
   			<span class="input-group-addon">-</span>
-  			<input name="deliveryNoteNumber" id="deliveryNoteNumberInput" type="text" class="form-control" placeholder=<spring:message code="common.deliveryNote.number"/> value="${deliveryNoteNumberInput != null ? deliveryNoteNumberInput : ''}">
+  			<input name="deliveryNoteNumber" id="deliveryNoteNumberInput" type="text" class="form-control" tabindex="2" placeholder='<spring:message code="common.deliveryNote.number"/>' value="${deliveryNoteNumberInput != null ? deliveryNoteNumberInput : ''}">
 		</div>
 	</div>
 	<div class="col-md-6 form-group">
 		<label for="purchaseOrderNumberInput"><spring:message code="common.purchaseOrder"/></label>
-		<input type="text" class="form-control" name="purchaseOrderNumber" id="purchaseOrderNumberInput" value="${purchaseOrderNumber != null ? purchaseOrderNumber : ''}">
+		<input type="text" class="form-control" name="purchaseOrderNumber" id="purchaseOrderNumberInput" value="${purchaseOrderNumber != null ? purchaseOrderNumber : ''}" tabindex="3">
 	</div>
 </div>
 
 <div class="row">
 	<div class="col-md-12 form-group">
 		<label for="productInput"><spring:message code="common.addProduct"/></label>
-		<input id="productInput" type="search" placeholder='<spring:message code="input.product.placeholder"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental"/>
+		<input id="productInput" type="search" placeholder='<spring:message code="input.product.placeholder"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental" tabindex="4"/>
 	</div>
 </div>
 
@@ -137,7 +137,7 @@
 			<button class="btn btn-danger btn-block" id="delete"><span class="glyphicon glyphicon-remove"></span> <spring:message code="input.cancellation.button"/></button>
 		</div>
 		<div class="col-md-2 col-md-offset-4">
-			<button class="btn btn-danger btn-block" onclick="location.href='home.do'" id="abortButton"><span class="glyphicon glyphicon-remove"></span> <spring:message code="common.abort"/></button>
+			<button class="btn btn-danger btn-block" onclick="myAbortWarning();" id="abortButton"><span class="glyphicon glyphicon-remove"></span> <spring:message code="common.abort"/></button>
 		</div>
 		<div class="col-md-2">
 			<button class="btn btn-info" id="forcedInput"><span class="glyphicon glyphicon-log-in"></span> <spring:message code="input.authorizeWithoutInform.button"/></button>
@@ -148,7 +148,7 @@
 	</c:if>
 	<c:if test="${inputId == null}">
 		<div class="col-md-2 col-md-offset-8">
-			<button class="btn btn-danger btn-block" onclick="location.href='home.do'" id="abortButton"><span class="glyphicon glyphicon-remove"></span> <spring:message code="common.abort"/></button>
+			<button class="btn btn-danger btn-block" onclick="myAbortWarning();" id="abortButton"><span class="glyphicon glyphicon-remove"></span> <spring:message code="common.abort"/></button>
 		</div>
 		<div class="col-md-2">
 			<button type="submit" class="btn btn-success btn-block" id="confirmButton"><span class="glyphicon glyphicon-ok"></span> <spring:message code="common.confirm"/></button>
@@ -177,7 +177,7 @@
 </form>
 
 <%-- Modal Ingreso Lote y Vencimiento --%>
-<form id="batchExpirationDateModalForm" action="" onsubmit="return false;" data-plus-as-tab="true">
+<form id="batchExpirationDateModalForm" action="" onsubmit="return false;">
 	<div class="modal fade" data-backdrop="static" data-keyboard="false" id="batchExpirationDateModal">
 		<div class="modal-dialog" style="width: 900px">
 			<div class="modal-content">
@@ -209,16 +209,16 @@
 					</div>
 					<div class="row">
 						<div class="col-md-3 form-group">
-							<input type="text" name="batch" id="batchInput" placeholder='<spring:message code="input.batch.placeholder"/>' class="form-control">
+							<input type="text" name="batch" id="batchInput" placeholder='<spring:message code="input.batch.placeholder"/>' class="form-control" tabindex="1">
 						</div>
 						<div class="col-md-3 form-group">
-							<input type="text" name="expirationDate" id="expirationDateInput" placeholder='<spring:message code="input.expirationDate.placeholder"/>' class="form-control">
+							<input type="text" name="expirationDate" id="expirationDateInput" placeholder='<spring:message code="input.expirationDate.placeholder"/>' class="form-control" tabindex="2">
 						</div>
 						<div class="col-md-3 form-group">
-							<input type="text" name="amount" id="amountInput" placeholder='<spring:message code="input.amount.placeholder"/>' class="form-control">
+							<input type="text" name="amount" id="amountInput" placeholder='<spring:message code="input.amount.placeholder"/>' class="form-control" tabindex="3">
 						</div>
 						<div class="col-md-3 form-group">
-							<button id="batchExpirationDateAddButton" type="button" class="btn btn-warning" data-plus-as-tab="false"> <span class="glyphicon glyphicon-plus"></span>Asignar</button>
+							<button id="batchExpirationDateAddButton" type="button" class="btn btn-warning" tabindex="4"> <span class="glyphicon glyphicon-plus"></span>Asignar</button>
 						</div>
 					</div>
 					<div>
@@ -246,7 +246,7 @@
 </form>
 
 <%-- Modal Ingreso Serializado de Origen --%>
-<form id="providerSerializedModalForm" action="" onsubmit="return false;" data-plus-as-tab="true">
+<form id="providerSerializedModalForm" action="" onsubmit="return false;">
 	<div class="modal fade" data-backdrop="static" data-keyboard="false" id="providerSerializedModal">
 		<div class="modal-dialog" style="width: 1100px">
 			<div class="modal-content">
@@ -278,16 +278,16 @@
 					</div>
 					<div class="row">
 						<div class="col-md-6 form-group">
-							<input id="readSerialNumberInput" name="readSerialNumber" placeholder='<spring:message code="common.readSerial"/>' type="text" class="form-control">
+							<input id="readSerialNumberInput" name="readSerialNumber" placeholder='<spring:message code="common.readSerial"/>' type="text" class="form-control"  tabindex="1">
 						</div>
 						<div class="col-md-2 form-group">
-							<input id="providerSerializedBatchInput" name="providerSerializedBatch" placeholder='<spring:message code="input.batch.placeholder"/>' type="text" class="form-control">
+							<input id="providerSerializedBatchInput" name="providerSerializedBatch" placeholder='<spring:message code="input.batch.placeholder"/>' type="text" class="form-control"  tabindex="2">
 						</div>
 						<div class="col-md-2 form-group">
-							<input id="providerSerializedExpirationDateInput" name="providerSerializedExpirationDate"  placeholder='<spring:message code="input.expirationDate.placeholder"/>' type="text" class="form-control">
+							<input id="providerSerializedExpirationDateInput" name="providerSerializedExpirationDate"  placeholder='<spring:message code="input.expirationDate.placeholder"/>' type="text" class="form-control"  tabindex="3">
 						</div>
 						<div class="col-md-2 form-group">
-							<button id="providerSerializedAddButton" type="button" class="btn btn-warning" data-plus-as-tab="false"><span class="glyphicon glyphicon-plus"></span><spring:message code="common.add"/></button>
+							<button id="providerSerializedAddButton" type="button" class="btn btn-warning"><span class="glyphicon glyphicon-plus"></span><spring:message code="common.add"/></button>
 						</div>
 					</div>
 					<div>
@@ -316,7 +316,7 @@
 </form>
 
 <%-- Modal Ingreso Serializado Propio y Generacion de Etiquetas --%>
-<form id="selfSerializedModalForm" action="" onsubmit="return false;" data-plus-as-tab="true">
+<form id="selfSerializedModalForm" action="" onsubmit="return false;">
 	<div class="modal fade" data-backdrop="static" data-keyboard="false" id="selfSerializedModal">
 		<div class="modal-dialog" style="width: 900px">
 			<div class="modal-content">
@@ -348,16 +348,16 @@
 					</div>
 					<div class="row">
 						<div class="col-md-3 form-group">
-							<input type="text" name="selfSerializedBatch" id="selfSerializedBatchInput" placeholder='<spring:message code="input.batch.placeholder"/>' class="form-control">
+							<input type="text" name="selfSerializedBatch" id="selfSerializedBatchInput" placeholder='<spring:message code="input.batch.placeholder"/>' class="form-control"  tabindex="1">
 						</div>
 						<div class="col-md-3 form-group">
-							<input type="text" name="selfSerializedExpirationDate" id="selfSerializedExpirationDateInput" placeholder='<spring:message code="input.expirationDate.placeholder"/>' class="form-control">
+							<input type="text" name="selfSerializedExpirationDate" id="selfSerializedExpirationDateInput" placeholder='<spring:message code="input.expirationDate.placeholder"/>' class="form-control"  tabindex="2">
 						</div>
 						<div class="col-md-3 form-group">
-							<input type="text" name="selfSerializedAmount" id="selfSerializedAmountInput" placeholder='<spring:message code="input.amount.placeholder"/>' class="form-control">
+							<input type="text" name="selfSerializedAmount" id="selfSerializedAmountInput" placeholder='<spring:message code="input.amount.placeholder"/>' class="form-control" tabindex="3">
 						</div>
 						<div class="col-md-3 form-group">
-							<button id="selfSerializedGenerateButton" type="button" class="btn btn-warning" data-plus-as-tab="false"> <span class="glyphicon glyphicon-plus"></span><spring:message code="input.modal.selfSerializedModal.Generate"/></button>
+							<button id="selfSerializedGenerateButton" type="button" class="btn btn-warning"> <span class="glyphicon glyphicon-plus"></span><spring:message code="input.modal.selfSerializedModal.Generate"/></button>
 						</div>
 					</div>
 					<div>

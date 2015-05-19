@@ -134,18 +134,6 @@ Input = function() {
 		return form.valid();
 	};
 	
-//	var resetForm = function() {
-//		$("#currentDateInput").datepicker().datepicker("setDate", currentDate);
-//		$('#conceptInput').val('').trigger('chosen:updated');
-//		$('#providerInput').val('').trigger('chosen:updated');
-//		$('#agreementInput').val('').trigger('chosen:updated');
-//		$("#deliveryNoteNumberInput").val('');
-//		$("#purchaseOrderNumberInput").val('');
-//		$("#productInput").val('');
-//		$("#productTableBody").html('');
-//		inputDetailGroup = [];
-//	};
-	
 	$("#currentDateInput").datepicker().datepicker("setDate", currentDate);
 	
 	$('#currentDateButton').click(function() {
@@ -154,16 +142,9 @@ Input = function() {
 	
 	$('select').chosen().filter('[autofocus]').trigger('chosen:activate');
 	
-	$("#inputForm").plusAsTab();
-	JoelPurra.PlusAsTab.setOptions({
-		// Use enter instead of plus
-		// Number 13 found through demo at
-		// http://api.jquery.com/event.which/
-		key: 13
-	});
+	$("#inputForm").enableEnterToTab({ captureTabKey: true });
 	
 	// Product autocomplete
-	
 	$("#productInput").autocomplete({
 		source: function(request, response) {
 			$.ajax({
@@ -671,7 +652,6 @@ Input = function() {
 	});
 	
 	//Seleccion de Proveedor o Cliente de acuerdo al tipo de concepto.
-	
 	$('#conceptInput').on('change', function(evt, params) {
 		if($("#conceptInput").val() != ""){
 			$.ajax({
@@ -686,10 +666,12 @@ Input = function() {
 						$("#providerDiv").hide();
 						$("#deliveryLocationDiv").show();
 						$('#providerInput').val('').trigger('chosen:updated');
+						$('#deliveryLocationInput').chosen().trigger('chosen:activate');
 					}else{
 						$("#providerDiv").show();
 						$("#deliveryLocationDiv").hide();
 						$('#deliveryLocationInput').val('').trigger('chosen:updated');
+						$('#providerInput').chosen().trigger('chosen:activate');
 					}
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
@@ -697,6 +679,18 @@ Input = function() {
 				}
 			});
 		}
+	});
+	
+	$('#providerInput').on('change', function(evt, params) {
+		$('#agreementInput').chosen().trigger('chosen:activate');
+	});
+	
+	$('#deliveryLocationInput').on('change', function(evt, params) {
+		$('#agreementInput').chosen().trigger('chosen:activate');
+	});
+	
+	$('#agreementInput').on('change', function(evt, params) {
+		$('#deliveryNotePOSInput').focus();
 	});
 	
 	$("#delete").click(function() {

@@ -62,6 +62,35 @@ $(document).ready(function() {
 		});
 	};
 	
+	myAbortWarning = function(element) {
+		var message = 'Desea regresar a la pagina principal?';
+		//myShowAlert('danger', message, element);
+		BootstrapDialog.show({
+			type: BootstrapDialog.TYPE_WARNING,
+	        title: 'Advertencia!',
+	        message: message,
+	        closable: false,
+            /*data: {
+                'callback': callback
+            },*/
+            buttons: [{
+                    label: 'Cancelar',
+                    action: function(dialogItself) {
+                        //typeof dialogItself.getData('callback') === 'function' && dialogItself.getData('callback')(false);
+                        dialogItself.close();
+                    }
+                }, {
+                    label: 'OK',
+                    cssClass: 'btn-primary',
+                    action: function(dialogItself) {
+                        //typeof dialogItself.getData('callback') === 'function' && dialogItself.getData('callback')(true);
+                        dialogItself.close();
+                        window.location.href = 'home.do';
+                    }
+                }]
+		});
+	};
+	
 	myDeleteError = function() {
 		myShowAlert('danger', 'No es posible eliminar el elemento porque se encuentra utilizado. Si lo desea, puede desactivarlo.');
 	};
