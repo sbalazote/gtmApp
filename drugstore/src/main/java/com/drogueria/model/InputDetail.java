@@ -98,4 +98,9 @@ public class InputDetail implements Serializable {
 		this.gtin = gtin;
 	}
 
+	@Override
+	public String toString() {
+		return "Producto " + this.getProduct().getDescription() + " Serie: " + this.getSerialNumber() + " ";
+	}
+
 }

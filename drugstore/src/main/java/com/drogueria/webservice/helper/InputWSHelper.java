@@ -37,6 +37,10 @@ public class InputWSHelper {
 	@Autowired
 	private WebService webService;
 
+	private static String ERROR_AGENT_HAS_NOT_INFORM = "No se ha podido informar el ingreso dado que los siguientes productos no fueron informados por el Agente de origen";
+	private static String ERROR_CANNOT_CONNECT_TO_ANMAT_PENDING_TRANSACTION = "No se han podido obtener las transacciones pendientes";
+	private static String ERROR_CANNOT_CONNECT_TO_ANMAT = "No se ha podido conectar con el Servidor de ANMAT";
+
 	public OperationResult sendDrugInformationToAnmat(Input input) throws Exception {
 		OperationResult operationResult = new OperationResult();
 		operationResult.setResultado(false);
@@ -53,27 +57,19 @@ public class InputWSHelper {
 				webServiceResult = this.sendDrugs(input, medicines, errors, eventId);
 			} else {
 				if (hasChecked) {
-					String error = "No se ha podido informar el ingreso dado que los siguientes productos no fueron informados por el Agente de origen";
-					logger.info(error);
-					errors.add(error);
+					errors.add(ERROR_AGENT_HAS_NOT_INFORM);
 					for (InputDetail inputDetail : pendingTransations) {
-						error = "Producto " + inputDetail.getProduct().getDescription() + " Serie: " + inputDetail.getSerialNumber() + " ";
-						logger.info(error);
-						errors.add(error);
+						errors.add(inputDetail.toString());
 					}
 				} else {
-					String error = "No se han podido obtener las transacciones pendientes";
-					logger.info(error);
-					errors.add(error);
+					errors.add(ERROR_CANNOT_CONNECT_TO_ANMAT_PENDING_TRANSACTION);
 				}
 			}
 
 		} else {
 			String error = "No ha podido obtenerse el evento a informar dado el concepto y el cliente/provedor seleccionados (Concepto: '"
-					+ input.getConcept().getCode() + " - " + input.getConcept().getDescription() + "' Cliente/Proveedor '"
-					+ input.getClientOrProviderDescription() + "' Tipo de Agente: '" + input.getClientOrProviderAgentDescription()
-					+ "'). El ingreso no fue informado.";
-			logger.info(error);
+					+ input.getConcept().toString() + "' Cliente/Proveedor '" + input.getClientOrProviderDescription() + "' Tipo de Agente: '"
+					+ input.getClientOrProviderAgentDescription() + "'). El ingreso no fue informado.";
 			errors.add(error);
 		}
 
@@ -81,6 +77,7 @@ public class InputWSHelper {
 		if (webServiceResult != null) {
 			operationResult.setFromWebServiceResult(webServiceResult);
 		}
+		logger.info(errors);
 		return operationResult;
 	}
 
@@ -90,25 +87,11 @@ public class InputWSHelper {
 			// Solo si el producto informa anmat se hace el servicio
 			if (inputDetail.getProduct().isInformAnmat()
 					&& ("PS".equals(inputDetail.getProduct().getType()) || "SS".equals(inputDetail.getProduct().getType()))) {
-				if (inputDetail.getProduct().getLastGtin() != null) {
-					MedicamentosDTO drug = new MedicamentosDTO();
-					String deliveryNote = "R" + StringUtils.addLeadingZeros(input.getDeliveryNoteNumber(), 12);
-					String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(inputDetail.getExpirationDate()).toString();
-
-					if ("SS".equals(inputDetail.getProduct().getType())) {
-						String startTraceEvent = this.drugstorePropertyService.get().getStartTraceConcept().getEventOnInput(input.getClientOrProviderAgent());
-						if (startTraceEvent != null) {
-							eventId = startTraceEvent;
-						}
-					}
-					this.webServiceHelper.setDrug(drug, input.getOriginGln(), this.drugstorePropertyService.get().getGln(), input.getOriginTax(),
-							this.drugstorePropertyService.get().getTaxId(), deliveryNote, expirationDate, inputDetail.getGtin().getNumber(), eventId,
-							inputDetail.getSerialNumber(), inputDetail.getBatch(), input.getDate(), false);
-
+				if (inputDetail.getGtin() != null) {
+					MedicamentosDTO drug = this.setDrug(input, medicines, eventId, inputDetail);
 					medicines.add(drug);
 				} else {
 					String error = "El producto " + inputDetail.getProduct().getDescription() + " no registra GTIN, no puede ser informado.";
-					logger.info(error);
 					errors.add(error);
 				}
 			}
@@ -118,12 +101,29 @@ public class InputWSHelper {
 			webServiceResult = this.webServiceHelper.run(medicines, this.drugstorePropertyService.get().getANMATName(),
 					EncryptionHelper.AESDecrypt(this.drugstorePropertyService.get().getANMATPassword()), errors);
 			if (webServiceResult == null) {
-				String error = "No se ha podido conectar con el Servidor de ANMAT";
-				errors.add(error);
-				logger.info(error);
+				errors.add(ERROR_CANNOT_CONNECT_TO_ANMAT);
 			}
 		}
+		logger.info(errors);
 		return webServiceResult;
+	}
+
+	private MedicamentosDTO setDrug(Input input, List<MedicamentosDTO> medicines, String eventId, InputDetail inputDetail) {
+		MedicamentosDTO drug = new MedicamentosDTO();
+		String deliveryNote = "R" + StringUtils.addLeadingZeros(input.getDeliveryNoteNumber(), 12);
+		String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(inputDetail.getExpirationDate()).toString();
+
+		if ("SS".equals(inputDetail.getProduct().getType())) {
+			String startTraceEvent = this.drugstorePropertyService.get().getStartTraceConcept().getEventOnInput(input.getClientOrProviderAgent());
+			if (startTraceEvent != null) {
+				eventId = startTraceEvent;
+			}
+		}
+		this.webServiceHelper.setDrug(drug, input.getOriginGln(), this.drugstorePropertyService.get().getGln(), input.getOriginTax(),
+				this.drugstorePropertyService.get().getTaxId(), deliveryNote, expirationDate, inputDetail.getGtin().getNumber(), eventId,
+				inputDetail.getSerialNumber(), inputDetail.getBatch(), input.getDate(), false);
+
+		return drug;
 	}
 
 	public boolean getPendingTransactions(List<InputDetail> details, List<InputDetail> pendingProducts, List<String> errors) throws Exception {
@@ -148,31 +148,37 @@ public class InputWSHelper {
 								EncryptionHelper.AESDecrypt(this.drugstorePropertyService.get().getANMATPassword()), nullValue, null, null, null, gtin,
 								nullValue, null, null, simpleDateFormat.format(date), simpleDateFormat.format(new Date()), null, null, null, null, nullValue,
 								null, null);
-						if (pendingTransactions != null) {
-							if (pendingTransactions.getErrores() == null) {
-								if (pendingTransactions.getList() != null) {
-									for (TransaccionPlainWS transaccionPlainWS : pendingTransactions.getList()) {
-										if (transaccionPlainWS.get_numero_serial().equals(inputDetail.getSerialNumber())
-												&& transaccionPlainWS.get_gtin().equals(gtin)) {
-											found = true;
-										}
-									}
-									toReturn = true;
-									if (found == false) {
-										pendingProducts.add(inputDetail);
-									}
-								}
-							} else {
-								for (WebServiceError error : pendingTransactions.getErrores()) {
-									errors.add("Errores informados por ANMAT: " + error.get_c_error() + " - " + error.get_d_error());
-								}
-							}
-						}
+						toReturn = this.checkPendingTransactions(pendingProducts, errors, pendingTransactions, inputDetail, found, gtin);
 					}
 				}
 			}
 		} catch (Exception e) {
-			logger.info("No se ha podido obtener las transacciones pendientes");
+			logger.info(ERROR_CANNOT_CONNECT_TO_ANMAT_PENDING_TRANSACTION);
+		}
+		return toReturn;
+	}
+
+	private boolean checkPendingTransactions(List<InputDetail> pendingProducts, List<String> errors, TransaccionesNoConfirmadasWSResult pendingTransactions,
+			InputDetail inputDetail, boolean found, String gtin) {
+		boolean toReturn = false;
+		if (pendingTransactions != null) {
+			if (pendingTransactions.getErrores() == null) {
+				if (pendingTransactions.getList() != null) {
+					for (TransaccionPlainWS transaccionPlainWS : pendingTransactions.getList()) {
+						if (transaccionPlainWS.get_numero_serial().equals(inputDetail.getSerialNumber()) && transaccionPlainWS.get_gtin().equals(gtin)) {
+							found = true;
+						}
+					}
+					toReturn = true;
+					if (found == false) {
+						pendingProducts.add(inputDetail);
+					}
+				}
+			} else {
+				for (WebServiceError error : pendingTransactions.getErrores()) {
+					errors.add("Errores informados por ANMAT: " + error.get_c_error() + " - " + error.get_d_error());
+				}
+			}
 		}
 		return toReturn;
 	}

@@ -205,7 +205,12 @@ public class Concept implements Serializable {
 	@Override
 	public int hashCode() {
 		assert false : "hashCode not designed";
-	return 1;
+		return 1;
 	}
 
+	@Override
+	public String toString() {
+		return this.getCode() + " - " + this.getDescription();
+
+	}
 }
