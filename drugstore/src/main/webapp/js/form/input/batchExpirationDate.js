@@ -148,16 +148,31 @@ BatchExpirationDate = function() {
 	
 	$('#batchExpirationDateModal').on('shown.bs.modal', function () {
 	    $('#batchInput').focus();
-	    $("#batchExpirationDateModalForm").enableEnterToTab({ captureTabKey: true });
 	});
 	
 	$('#batchExpirationDateModal').on('hidden.bs.modal', function () {
 	    myResetForm($("#batchExpirationDateModalForm")[0], formValidator);
 	});
 	
-	$('#batchExpirationDateAddButton').on('keypress', function(e) {
+	$('#batchInput').on('keypress', function(e) {
 		//	Si la tecla presionada es 'ENTER'
-		if ((e.keyCode === 13) && (e.target.id === "batchExpirationDateAddButton")) {
+		if (e.keyCode === 13) {
+			$('#expirationDateInput').focus();
+			return false;
+		}
+	});
+	
+	$('#expirationDateInput').on('keypress', function(e) {
+		//	Si la tecla presionada es 'ENTER'
+		if (e.keyCode === 13) {
+			$('#amountInput').focus();
+			return false;
+		}
+	});
+	
+	$('#amountInput').on('keypress', function(e) {
+		//	Si la tecla presionada es 'ENTER'
+		if (e.keyCode === 13) {
         	var remainingAmount = $('#batchExpirationDateRemainingAmountLabel').text();
 			if (remainingAmount == 0) {
 				$("#batchExpirationDateAcceptButton").trigger('click');

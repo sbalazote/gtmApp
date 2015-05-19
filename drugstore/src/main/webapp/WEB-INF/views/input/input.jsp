@@ -209,16 +209,16 @@
 					</div>
 					<div class="row">
 						<div class="col-md-3 form-group">
-							<input type="text" name="batch" id="batchInput" placeholder='<spring:message code="input.batch.placeholder"/>' class="form-control" tabindex="1">
+							<input type="text" name="batch" id="batchInput" placeholder='<spring:message code="input.batch.placeholder"/>' class="form-control">
 						</div>
 						<div class="col-md-3 form-group">
-							<input type="text" name="expirationDate" id="expirationDateInput" placeholder='<spring:message code="input.expirationDate.placeholder"/>' class="form-control" tabindex="2">
+							<input type="text" name="expirationDate" id="expirationDateInput" placeholder='<spring:message code="input.expirationDate.placeholder"/>' class="form-control">
 						</div>
 						<div class="col-md-3 form-group">
-							<input type="text" name="amount" id="amountInput" placeholder='<spring:message code="input.amount.placeholder"/>' class="form-control" tabindex="3">
+							<input type="text" name="amount" id="amountInput" placeholder='<spring:message code="input.amount.placeholder"/>' class="form-control">
 						</div>
 						<div class="col-md-3 form-group">
-							<button id="batchExpirationDateAddButton" type="button" class="btn btn-warning" tabindex="4"> <span class="glyphicon glyphicon-plus"></span>Asignar</button>
+							<button id="batchExpirationDateAddButton" type="button" class="btn btn-warning"> <span class="glyphicon glyphicon-plus"></span>Asignar</button>
 						</div>
 					</div>
 					<div>
