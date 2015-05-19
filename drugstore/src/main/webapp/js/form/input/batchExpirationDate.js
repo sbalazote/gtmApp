@@ -148,6 +148,7 @@ BatchExpirationDate = function() {
 	
 	$('#batchExpirationDateModal').on('shown.bs.modal', function () {
 	    $('#batchInput').focus();
+	    $("#batchExpirationDateModalForm").enableEnterToTab({ captureTabKey: true });
 	});
 	
 	$('#batchExpirationDateModal').on('hidden.bs.modal', function () {
@@ -156,7 +157,7 @@ BatchExpirationDate = function() {
 	
 	$('#batchExpirationDateAddButton').on('keypress', function(e) {
 		//	Si la tecla presionada es 'ENTER'
-        if (e.keyCode === 13) {
+		if ((e.keyCode === 13) && (e.target.id === "batchExpirationDateAddButton")) {
         	var remainingAmount = $('#batchExpirationDateRemainingAmountLabel').text();
 			if (remainingAmount == 0) {
 				$("#batchExpirationDateAcceptButton").trigger('click');
