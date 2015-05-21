@@ -1,13 +1,16 @@
 package com.drogueria.webservice;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.security.KeyManagementException;
 import java.security.KeyStore;
+import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
 import java.security.cert.X509Certificate;
 
-import javax.net.ssl.ManagerFactoryParameters;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactorySpi;
-import javax.net.ssl.X509TrustManager;
+import javax.net.ssl.*;
 
 public class MyProvider extends Provider {
 
@@ -16,9 +19,26 @@ public class MyProvider extends Provider {
 	public MyProvider() {
 		super("MyProvider", 1.0, "Trust certificates");
 		this.put("TrustManagerFactory.TrustAllCertificates", MyTrustManagerFactory.class.getName());
-	}
+        // Install the all-trusting trust manager
+        try {
+            final SSLContext sslContext = SSLContext.getInstance("SSL");
+            sslContext.init( null, new MyTrustManagerFactory().engineGetTrustManagers(), new java.security.SecureRandom() );
+            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+            final URLConnection urlCon = new URL( "https://servicios.pami.org.ar/trazamed.WebService" ).openConnection();
+            ( (HttpsURLConnection) urlCon ).setSSLSocketFactory(sslSocketFactory);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        }
 
-	protected static class MyTrustManagerFactory extends TrustManagerFactorySpi {
+    }
+
+	private static class MyTrustManagerFactory extends TrustManagerFactorySpi {
 
 		public MyTrustManagerFactory() {
 		}
