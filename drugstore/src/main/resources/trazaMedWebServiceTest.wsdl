@@ -860,7 +860,7 @@
 	</wsdl:binding>
 	<wsdl:service name="IWebService">
 		<wsdl:port binding="tns:IWebServiceSoapBinding" name="IWebServicePort">
-			<soap:address location="https://mail.servicios.pami.org.ar:9050/trazamed.WebService" />
+			<soap:address location="https://servicios.pami.org.ar/trazamed.WebService" />
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>
