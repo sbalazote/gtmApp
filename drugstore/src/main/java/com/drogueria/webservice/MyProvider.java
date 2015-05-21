@@ -19,23 +19,6 @@ public class MyProvider extends Provider {
 	public MyProvider() {
 		super("MyProvider", 1.0, "Trust certificates");
 		this.put("TrustManagerFactory.TrustAllCertificates", MyTrustManagerFactory.class.getName());
-        // Install the all-trusting trust manager
-        try {
-            final SSLContext sslContext = SSLContext.getInstance("SSL");
-            sslContext.init( null, new MyTrustManagerFactory().engineGetTrustManagers(), new java.security.SecureRandom() );
-            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-            final URLConnection urlCon = new URL( "https://servicios.pami.org.ar/trazamed.WebService" ).openConnection();
-            ( (HttpsURLConnection) urlCon ).setSSLSocketFactory(sslSocketFactory);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (KeyManagementException e) {
-            e.printStackTrace();
-        }
-
     }
 
 	private static class MyTrustManagerFactory extends TrustManagerFactorySpi {
