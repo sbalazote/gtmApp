@@ -36,7 +36,7 @@ import com.inssjp.mywebservice.business.WebServiceResult;
 public class WebService {
 
 	private static final String PATH_PAMI_PRODUCCION = "https://trazabilidad.pami.org.ar:9050/trazamed.WebService";
-	private static final String PATH_PAMI_ENTRENAMIENTO = "https://servicios.pami.org.ar/trazamed.WebService?wsdl";
+	private static final String PATH_PAMI_ENTRENAMIENTO = "https://mail.servicios.pami.org.ar:9050/trazamed.WebService?wsdl";
 	private static final String targetNamespace = "http://business.mywebservice.inssjp.com/";
 	private static final String webServiceName = "IWebService";
 
@@ -84,7 +84,7 @@ public class WebService {
 		TransaccionesNoConfirmadasWSResult wsr = null;
 		wsr = webService.getTransaccionesNoConfirmadas(usuario, pass, idTransaccion, glnInformador, glnOrigen, glnDestino, gtin, idEvento, fechaOpeDesde,
 				fechaOpeHasta, fechaTransDesde, fechaTransHasta, fechaVencimientoDesde, fechaVencimientoHasta, nroRemito, nroFactura, estadoTransaccion, otro,
-				otro1);
+				otro1, estadoTransaccion, estadoTransaccion);
 		return wsr;
 	}
 

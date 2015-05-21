@@ -8,54 +8,26 @@
 package com.inssjp.mywebservice.business;
 
 public class TransaccionesNoConfirmadasWSResult  implements java.io.Serializable {
-    private com.inssjp.mywebservice.business.TransaccionPlainWS[] list;
-
     private java.lang.Long cantPaginas;
+
+    private com.inssjp.mywebservice.business.WebServiceError[] errores;
 
     private java.lang.Boolean hay_error;
 
-    private com.inssjp.mywebservice.business.WebServiceError[] errores;
+    private com.inssjp.mywebservice.business.TransaccionPlainWS[] list;
 
     public TransaccionesNoConfirmadasWSResult() {
     }
 
     public TransaccionesNoConfirmadasWSResult(
-           com.inssjp.mywebservice.business.TransaccionPlainWS[] list,
            java.lang.Long cantPaginas,
+           com.inssjp.mywebservice.business.WebServiceError[] errores,
            java.lang.Boolean hay_error,
-           com.inssjp.mywebservice.business.WebServiceError[] errores) {
-           this.list = list;
+           com.inssjp.mywebservice.business.TransaccionPlainWS[] list) {
            this.cantPaginas = cantPaginas;
-           this.hay_error = hay_error;
            this.errores = errores;
-    }
-
-
-    /**
-     * Gets the list value for this TransaccionesNoConfirmadasWSResult.
-     * 
-     * @return list
-     */
-    public com.inssjp.mywebservice.business.TransaccionPlainWS[] getList() {
-        return list;
-    }
-
-
-    /**
-     * Sets the list value for this TransaccionesNoConfirmadasWSResult.
-     * 
-     * @param list
-     */
-    public void setList(com.inssjp.mywebservice.business.TransaccionPlainWS[] list) {
-        this.list = list;
-    }
-
-    public com.inssjp.mywebservice.business.TransaccionPlainWS getList(int i) {
-        return this.list[i];
-    }
-
-    public void setList(int i, com.inssjp.mywebservice.business.TransaccionPlainWS _value) {
-        this.list[i] = _value;
+           this.hay_error = hay_error;
+           this.list = list;
     }
 
 
@@ -76,26 +48,6 @@ public class TransaccionesNoConfirmadasWSResult  implements java.io.Serializable
      */
     public void setCantPaginas(java.lang.Long cantPaginas) {
         this.cantPaginas = cantPaginas;
-    }
-
-
-    /**
-     * Gets the hay_error value for this TransaccionesNoConfirmadasWSResult.
-     * 
-     * @return hay_error
-     */
-    public java.lang.Boolean getHay_error() {
-        return hay_error;
-    }
-
-
-    /**
-     * Sets the hay_error value for this TransaccionesNoConfirmadasWSResult.
-     * 
-     * @param hay_error
-     */
-    public void setHay_error(java.lang.Boolean hay_error) {
-        this.hay_error = hay_error;
     }
 
 
@@ -126,6 +78,54 @@ public class TransaccionesNoConfirmadasWSResult  implements java.io.Serializable
         this.errores[i] = _value;
     }
 
+
+    /**
+     * Gets the hay_error value for this TransaccionesNoConfirmadasWSResult.
+     * 
+     * @return hay_error
+     */
+    public java.lang.Boolean getHay_error() {
+        return hay_error;
+    }
+
+
+    /**
+     * Sets the hay_error value for this TransaccionesNoConfirmadasWSResult.
+     * 
+     * @param hay_error
+     */
+    public void setHay_error(java.lang.Boolean hay_error) {
+        this.hay_error = hay_error;
+    }
+
+
+    /**
+     * Gets the list value for this TransaccionesNoConfirmadasWSResult.
+     * 
+     * @return list
+     */
+    public com.inssjp.mywebservice.business.TransaccionPlainWS[] getList() {
+        return list;
+    }
+
+
+    /**
+     * Sets the list value for this TransaccionesNoConfirmadasWSResult.
+     * 
+     * @param list
+     */
+    public void setList(com.inssjp.mywebservice.business.TransaccionPlainWS[] list) {
+        this.list = list;
+    }
+
+    public com.inssjp.mywebservice.business.TransaccionPlainWS getList(int i) {
+        return this.list[i];
+    }
+
+    public void setList(int i, com.inssjp.mywebservice.business.TransaccionPlainWS _value) {
+        this.list[i] = _value;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof TransaccionesNoConfirmadasWSResult)) return false;
@@ -138,18 +138,18 @@ public class TransaccionesNoConfirmadasWSResult  implements java.io.Serializable
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
-            ((this.list==null && other.getList()==null) || 
-             (this.list!=null &&
-              java.util.Arrays.equals(this.list, other.getList()))) &&
             ((this.cantPaginas==null && other.getCantPaginas()==null) || 
              (this.cantPaginas!=null &&
               this.cantPaginas.equals(other.getCantPaginas()))) &&
+            ((this.errores==null && other.getErrores()==null) || 
+             (this.errores!=null &&
+              java.util.Arrays.equals(this.errores, other.getErrores()))) &&
             ((this.hay_error==null && other.getHay_error()==null) || 
              (this.hay_error!=null &&
               this.hay_error.equals(other.getHay_error()))) &&
-            ((this.errores==null && other.getErrores()==null) || 
-             (this.errores!=null &&
-              java.util.Arrays.equals(this.errores, other.getErrores())));
+            ((this.list==null && other.getList()==null) || 
+             (this.list!=null &&
+              java.util.Arrays.equals(this.list, other.getList())));
         __equalsCalc = null;
         return _equals;
     }
@@ -161,28 +161,28 @@ public class TransaccionesNoConfirmadasWSResult  implements java.io.Serializable
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        if (getList() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getList());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getList(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
-        }
         if (getCantPaginas() != null) {
             _hashCode += getCantPaginas().hashCode();
-        }
-        if (getHay_error() != null) {
-            _hashCode += getHay_error().hashCode();
         }
         if (getErrores() != null) {
             for (int i=0;
                  i<java.lang.reflect.Array.getLength(getErrores());
                  i++) {
                 java.lang.Object obj = java.lang.reflect.Array.get(getErrores(), i);
+                if (obj != null &&
+                    !obj.getClass().isArray()) {
+                    _hashCode += obj.hashCode();
+                }
+            }
+        }
+        if (getHay_error() != null) {
+            _hashCode += getHay_error().hashCode();
+        }
+        if (getList() != null) {
+            for (int i=0;
+                 i<java.lang.reflect.Array.getLength(getList());
+                 i++) {
+                java.lang.Object obj = java.lang.reflect.Array.get(getList(), i);
                 if (obj != null &&
                     !obj.getClass().isArray()) {
                     _hashCode += obj.hashCode();
@@ -200,19 +200,19 @@ public class TransaccionesNoConfirmadasWSResult  implements java.io.Serializable
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://business.mywebservice.inssjp.com/", "transaccionesNoConfirmadasWSResult"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("list");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "list"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://business.mywebservice.inssjp.com/", "transaccionPlainWS"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(true);
-        elemField.setMaxOccursUnbounded(true);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("cantPaginas");
         elemField.setXmlName(new javax.xml.namespace.QName("", "cantPaginas"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "long"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("errores");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "errores"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://business.mywebservice.inssjp.com/", "webServiceError"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(true);
+        elemField.setMaxOccursUnbounded(true);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("hay_error");
@@ -222,9 +222,9 @@ public class TransaccionesNoConfirmadasWSResult  implements java.io.Serializable
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("errores");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "errores"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://business.mywebservice.inssjp.com/", "webServiceError"));
+        elemField.setFieldName("list");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "list"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://business.mywebservice.inssjp.com/", "transaccionPlainWS"));
         elemField.setMinOccurs(0);
         elemField.setNillable(true);
         elemField.setMaxOccursUnbounded(true);

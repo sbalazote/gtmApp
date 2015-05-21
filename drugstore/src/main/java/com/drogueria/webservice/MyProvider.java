@@ -1,16 +1,13 @@
 package com.drogueria.webservice;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.security.KeyManagementException;
 import java.security.KeyStore;
-import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
 import java.security.cert.X509Certificate;
 
-import javax.net.ssl.*;
+import javax.net.ssl.ManagerFactoryParameters;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactorySpi;
+import javax.net.ssl.X509TrustManager;
 
 public class MyProvider extends Provider {
 
@@ -19,9 +16,9 @@ public class MyProvider extends Provider {
 	public MyProvider() {
 		super("MyProvider", 1.0, "Trust certificates");
 		this.put("TrustManagerFactory.TrustAllCertificates", MyTrustManagerFactory.class.getName());
-    }
+	}
 
-	private static class MyTrustManagerFactory extends TrustManagerFactorySpi {
+	protected static class MyTrustManagerFactory extends TrustManagerFactorySpi {
 
 		public MyTrustManagerFactory() {
 		}

@@ -8,138 +8,262 @@
 package com.inssjp.mywebservice.business;
 
 public class MedicamentosDTODHSerie  implements java.io.Serializable {
+    private java.lang.String apellido;
+
+    private java.lang.String cuit_destino;
+
+    private java.lang.String cuit_origen;
+
+    private java.lang.String depto;
+
+    private java.lang.String desde_numero_serial;
+
+    private java.lang.String direccion;
+
     private java.lang.String f_evento;
 
-    private java.lang.String h_evento;
-
-    private java.lang.String gln_origen;
+    private java.lang.String fecha_nacimiento;
 
     private java.lang.String gln_destino;
 
-    private java.lang.String n_remito;
-
-    private java.lang.String n_factura;
-
-    private java.lang.String vencimiento;
+    private java.lang.String gln_origen;
 
     private java.lang.String gtin;
 
-    private java.lang.String lote;
-
-    private java.lang.String desde_numero_serial;
+    private java.lang.String h_evento;
 
     private java.lang.String hasta_numero_serial;
 
     private java.lang.String id_evento;
 
-    private java.lang.String cuit_origen;
+    private java.lang.Long id_motivo_devolucion;
 
-    private java.lang.String cuit_destino;
+    private java.lang.Long id_motivo_reposicion;
 
     private java.lang.String id_obra_social;
 
-    private java.lang.String apellido;
+    private java.lang.String localidad;
 
-    private java.lang.String nombres;
-
-    private java.lang.String tipo_documento;
+    private java.lang.String lote;
 
     private java.lang.String n_documento;
 
-    private java.lang.String sexo;
-
-    private java.lang.String direccion;
-
-    private java.lang.String numero;
-
-    private java.lang.String piso;
-
-    private java.lang.String depto;
-
-    private java.lang.String localidad;
-
-    private java.lang.String provincia;
+    private java.lang.String n_factura;
 
     private java.lang.String n_postal;
 
-    private java.lang.String fecha_nacimiento;
+    private java.lang.String n_remito;
 
-    private java.lang.String telefono;
+    private java.lang.String nombres;
 
     private java.lang.String nro_asociado;
 
-    private java.lang.Long id_motivo_devolucion;
+    private java.lang.String numero;
 
     private java.lang.String otro_motivo_devolucion;
+
+    private java.lang.String piso;
+
+    private java.lang.String provincia;
+
+    private java.lang.String sexo;
+
+    private java.lang.String telefono;
+
+    private java.lang.String tipo_documento;
+
+    private java.lang.String vencimiento;
 
     public MedicamentosDTODHSerie() {
     }
 
     public MedicamentosDTODHSerie(
-           java.lang.String f_evento,
-           java.lang.String h_evento,
-           java.lang.String gln_origen,
-           java.lang.String gln_destino,
-           java.lang.String n_remito,
-           java.lang.String n_factura,
-           java.lang.String vencimiento,
-           java.lang.String gtin,
-           java.lang.String lote,
+           java.lang.String apellido,
+           java.lang.String cuit_destino,
+           java.lang.String cuit_origen,
+           java.lang.String depto,
            java.lang.String desde_numero_serial,
+           java.lang.String direccion,
+           java.lang.String f_evento,
+           java.lang.String fecha_nacimiento,
+           java.lang.String gln_destino,
+           java.lang.String gln_origen,
+           java.lang.String gtin,
+           java.lang.String h_evento,
            java.lang.String hasta_numero_serial,
            java.lang.String id_evento,
-           java.lang.String cuit_origen,
-           java.lang.String cuit_destino,
-           java.lang.String id_obra_social,
-           java.lang.String apellido,
-           java.lang.String nombres,
-           java.lang.String tipo_documento,
-           java.lang.String n_documento,
-           java.lang.String sexo,
-           java.lang.String direccion,
-           java.lang.String numero,
-           java.lang.String piso,
-           java.lang.String depto,
-           java.lang.String localidad,
-           java.lang.String provincia,
-           java.lang.String n_postal,
-           java.lang.String fecha_nacimiento,
-           java.lang.String telefono,
-           java.lang.String nro_asociado,
            java.lang.Long id_motivo_devolucion,
-           java.lang.String otro_motivo_devolucion) {
-           this.f_evento = f_evento;
-           this.h_evento = h_evento;
-           this.gln_origen = gln_origen;
-           this.gln_destino = gln_destino;
-           this.n_remito = n_remito;
-           this.n_factura = n_factura;
-           this.vencimiento = vencimiento;
-           this.gtin = gtin;
-           this.lote = lote;
+           java.lang.Long id_motivo_reposicion,
+           java.lang.String id_obra_social,
+           java.lang.String localidad,
+           java.lang.String lote,
+           java.lang.String n_documento,
+           java.lang.String n_factura,
+           java.lang.String n_postal,
+           java.lang.String n_remito,
+           java.lang.String nombres,
+           java.lang.String nro_asociado,
+           java.lang.String numero,
+           java.lang.String otro_motivo_devolucion,
+           java.lang.String piso,
+           java.lang.String provincia,
+           java.lang.String sexo,
+           java.lang.String telefono,
+           java.lang.String tipo_documento,
+           java.lang.String vencimiento) {
+           this.apellido = apellido;
+           this.cuit_destino = cuit_destino;
+           this.cuit_origen = cuit_origen;
+           this.depto = depto;
            this.desde_numero_serial = desde_numero_serial;
+           this.direccion = direccion;
+           this.f_evento = f_evento;
+           this.fecha_nacimiento = fecha_nacimiento;
+           this.gln_destino = gln_destino;
+           this.gln_origen = gln_origen;
+           this.gtin = gtin;
+           this.h_evento = h_evento;
            this.hasta_numero_serial = hasta_numero_serial;
            this.id_evento = id_evento;
-           this.cuit_origen = cuit_origen;
-           this.cuit_destino = cuit_destino;
-           this.id_obra_social = id_obra_social;
-           this.apellido = apellido;
-           this.nombres = nombres;
-           this.tipo_documento = tipo_documento;
-           this.n_documento = n_documento;
-           this.sexo = sexo;
-           this.direccion = direccion;
-           this.numero = numero;
-           this.piso = piso;
-           this.depto = depto;
-           this.localidad = localidad;
-           this.provincia = provincia;
-           this.n_postal = n_postal;
-           this.fecha_nacimiento = fecha_nacimiento;
-           this.telefono = telefono;
-           this.nro_asociado = nro_asociado;
            this.id_motivo_devolucion = id_motivo_devolucion;
+           this.id_motivo_reposicion = id_motivo_reposicion;
+           this.id_obra_social = id_obra_social;
+           this.localidad = localidad;
+           this.lote = lote;
+           this.n_documento = n_documento;
+           this.n_factura = n_factura;
+           this.n_postal = n_postal;
+           this.n_remito = n_remito;
+           this.nombres = nombres;
+           this.nro_asociado = nro_asociado;
+           this.numero = numero;
            this.otro_motivo_devolucion = otro_motivo_devolucion;
+           this.piso = piso;
+           this.provincia = provincia;
+           this.sexo = sexo;
+           this.telefono = telefono;
+           this.tipo_documento = tipo_documento;
+           this.vencimiento = vencimiento;
+    }
+
+
+    /**
+     * Gets the apellido value for this MedicamentosDTODHSerie.
+     * 
+     * @return apellido
+     */
+    public java.lang.String getApellido() {
+        return apellido;
+    }
+
+
+    /**
+     * Sets the apellido value for this MedicamentosDTODHSerie.
+     * 
+     * @param apellido
+     */
+    public void setApellido(java.lang.String apellido) {
+        this.apellido = apellido;
+    }
+
+
+    /**
+     * Gets the cuit_destino value for this MedicamentosDTODHSerie.
+     * 
+     * @return cuit_destino
+     */
+    public java.lang.String getCuit_destino() {
+        return cuit_destino;
+    }
+
+
+    /**
+     * Sets the cuit_destino value for this MedicamentosDTODHSerie.
+     * 
+     * @param cuit_destino
+     */
+    public void setCuit_destino(java.lang.String cuit_destino) {
+        this.cuit_destino = cuit_destino;
+    }
+
+
+    /**
+     * Gets the cuit_origen value for this MedicamentosDTODHSerie.
+     * 
+     * @return cuit_origen
+     */
+    public java.lang.String getCuit_origen() {
+        return cuit_origen;
+    }
+
+
+    /**
+     * Sets the cuit_origen value for this MedicamentosDTODHSerie.
+     * 
+     * @param cuit_origen
+     */
+    public void setCuit_origen(java.lang.String cuit_origen) {
+        this.cuit_origen = cuit_origen;
+    }
+
+
+    /**
+     * Gets the depto value for this MedicamentosDTODHSerie.
+     * 
+     * @return depto
+     */
+    public java.lang.String getDepto() {
+        return depto;
+    }
+
+
+    /**
+     * Sets the depto value for this MedicamentosDTODHSerie.
+     * 
+     * @param depto
+     */
+    public void setDepto(java.lang.String depto) {
+        this.depto = depto;
+    }
+
+
+    /**
+     * Gets the desde_numero_serial value for this MedicamentosDTODHSerie.
+     * 
+     * @return desde_numero_serial
+     */
+    public java.lang.String getDesde_numero_serial() {
+        return desde_numero_serial;
+    }
+
+
+    /**
+     * Sets the desde_numero_serial value for this MedicamentosDTODHSerie.
+     * 
+     * @param desde_numero_serial
+     */
+    public void setDesde_numero_serial(java.lang.String desde_numero_serial) {
+        this.desde_numero_serial = desde_numero_serial;
+    }
+
+
+    /**
+     * Gets the direccion value for this MedicamentosDTODHSerie.
+     * 
+     * @return direccion
+     */
+    public java.lang.String getDireccion() {
+        return direccion;
+    }
+
+
+    /**
+     * Sets the direccion value for this MedicamentosDTODHSerie.
+     * 
+     * @param direccion
+     */
+    public void setDireccion(java.lang.String direccion) {
+        this.direccion = direccion;
     }
 
 
@@ -164,42 +288,22 @@ public class MedicamentosDTODHSerie  implements java.io.Serializable {
 
 
     /**
-     * Gets the h_evento value for this MedicamentosDTODHSerie.
+     * Gets the fecha_nacimiento value for this MedicamentosDTODHSerie.
      * 
-     * @return h_evento
+     * @return fecha_nacimiento
      */
-    public java.lang.String getH_evento() {
-        return h_evento;
+    public java.lang.String getFecha_nacimiento() {
+        return fecha_nacimiento;
     }
 
 
     /**
-     * Sets the h_evento value for this MedicamentosDTODHSerie.
+     * Sets the fecha_nacimiento value for this MedicamentosDTODHSerie.
      * 
-     * @param h_evento
+     * @param fecha_nacimiento
      */
-    public void setH_evento(java.lang.String h_evento) {
-        this.h_evento = h_evento;
-    }
-
-
-    /**
-     * Gets the gln_origen value for this MedicamentosDTODHSerie.
-     * 
-     * @return gln_origen
-     */
-    public java.lang.String getGln_origen() {
-        return gln_origen;
-    }
-
-
-    /**
-     * Sets the gln_origen value for this MedicamentosDTODHSerie.
-     * 
-     * @param gln_origen
-     */
-    public void setGln_origen(java.lang.String gln_origen) {
-        this.gln_origen = gln_origen;
+    public void setFecha_nacimiento(java.lang.String fecha_nacimiento) {
+        this.fecha_nacimiento = fecha_nacimiento;
     }
 
 
@@ -224,62 +328,22 @@ public class MedicamentosDTODHSerie  implements java.io.Serializable {
 
 
     /**
-     * Gets the n_remito value for this MedicamentosDTODHSerie.
+     * Gets the gln_origen value for this MedicamentosDTODHSerie.
      * 
-     * @return n_remito
+     * @return gln_origen
      */
-    public java.lang.String getN_remito() {
-        return n_remito;
+    public java.lang.String getGln_origen() {
+        return gln_origen;
     }
 
 
     /**
-     * Sets the n_remito value for this MedicamentosDTODHSerie.
+     * Sets the gln_origen value for this MedicamentosDTODHSerie.
      * 
-     * @param n_remito
+     * @param gln_origen
      */
-    public void setN_remito(java.lang.String n_remito) {
-        this.n_remito = n_remito;
-    }
-
-
-    /**
-     * Gets the n_factura value for this MedicamentosDTODHSerie.
-     * 
-     * @return n_factura
-     */
-    public java.lang.String getN_factura() {
-        return n_factura;
-    }
-
-
-    /**
-     * Sets the n_factura value for this MedicamentosDTODHSerie.
-     * 
-     * @param n_factura
-     */
-    public void setN_factura(java.lang.String n_factura) {
-        this.n_factura = n_factura;
-    }
-
-
-    /**
-     * Gets the vencimiento value for this MedicamentosDTODHSerie.
-     * 
-     * @return vencimiento
-     */
-    public java.lang.String getVencimiento() {
-        return vencimiento;
-    }
-
-
-    /**
-     * Sets the vencimiento value for this MedicamentosDTODHSerie.
-     * 
-     * @param vencimiento
-     */
-    public void setVencimiento(java.lang.String vencimiento) {
-        this.vencimiento = vencimiento;
+    public void setGln_origen(java.lang.String gln_origen) {
+        this.gln_origen = gln_origen;
     }
 
 
@@ -304,42 +368,22 @@ public class MedicamentosDTODHSerie  implements java.io.Serializable {
 
 
     /**
-     * Gets the lote value for this MedicamentosDTODHSerie.
+     * Gets the h_evento value for this MedicamentosDTODHSerie.
      * 
-     * @return lote
+     * @return h_evento
      */
-    public java.lang.String getLote() {
-        return lote;
+    public java.lang.String getH_evento() {
+        return h_evento;
     }
 
 
     /**
-     * Sets the lote value for this MedicamentosDTODHSerie.
+     * Sets the h_evento value for this MedicamentosDTODHSerie.
      * 
-     * @param lote
+     * @param h_evento
      */
-    public void setLote(java.lang.String lote) {
-        this.lote = lote;
-    }
-
-
-    /**
-     * Gets the desde_numero_serial value for this MedicamentosDTODHSerie.
-     * 
-     * @return desde_numero_serial
-     */
-    public java.lang.String getDesde_numero_serial() {
-        return desde_numero_serial;
-    }
-
-
-    /**
-     * Sets the desde_numero_serial value for this MedicamentosDTODHSerie.
-     * 
-     * @param desde_numero_serial
-     */
-    public void setDesde_numero_serial(java.lang.String desde_numero_serial) {
-        this.desde_numero_serial = desde_numero_serial;
+    public void setH_evento(java.lang.String h_evento) {
+        this.h_evento = h_evento;
     }
 
 
@@ -384,42 +428,42 @@ public class MedicamentosDTODHSerie  implements java.io.Serializable {
 
 
     /**
-     * Gets the cuit_origen value for this MedicamentosDTODHSerie.
+     * Gets the id_motivo_devolucion value for this MedicamentosDTODHSerie.
      * 
-     * @return cuit_origen
+     * @return id_motivo_devolucion
      */
-    public java.lang.String getCuit_origen() {
-        return cuit_origen;
+    public java.lang.Long getId_motivo_devolucion() {
+        return id_motivo_devolucion;
     }
 
 
     /**
-     * Sets the cuit_origen value for this MedicamentosDTODHSerie.
+     * Sets the id_motivo_devolucion value for this MedicamentosDTODHSerie.
      * 
-     * @param cuit_origen
+     * @param id_motivo_devolucion
      */
-    public void setCuit_origen(java.lang.String cuit_origen) {
-        this.cuit_origen = cuit_origen;
+    public void setId_motivo_devolucion(java.lang.Long id_motivo_devolucion) {
+        this.id_motivo_devolucion = id_motivo_devolucion;
     }
 
 
     /**
-     * Gets the cuit_destino value for this MedicamentosDTODHSerie.
+     * Gets the id_motivo_reposicion value for this MedicamentosDTODHSerie.
      * 
-     * @return cuit_destino
+     * @return id_motivo_reposicion
      */
-    public java.lang.String getCuit_destino() {
-        return cuit_destino;
+    public java.lang.Long getId_motivo_reposicion() {
+        return id_motivo_reposicion;
     }
 
 
     /**
-     * Sets the cuit_destino value for this MedicamentosDTODHSerie.
+     * Sets the id_motivo_reposicion value for this MedicamentosDTODHSerie.
      * 
-     * @param cuit_destino
+     * @param id_motivo_reposicion
      */
-    public void setCuit_destino(java.lang.String cuit_destino) {
-        this.cuit_destino = cuit_destino;
+    public void setId_motivo_reposicion(java.lang.Long id_motivo_reposicion) {
+        this.id_motivo_reposicion = id_motivo_reposicion;
     }
 
 
@@ -444,62 +488,42 @@ public class MedicamentosDTODHSerie  implements java.io.Serializable {
 
 
     /**
-     * Gets the apellido value for this MedicamentosDTODHSerie.
+     * Gets the localidad value for this MedicamentosDTODHSerie.
      * 
-     * @return apellido
+     * @return localidad
      */
-    public java.lang.String getApellido() {
-        return apellido;
+    public java.lang.String getLocalidad() {
+        return localidad;
     }
 
 
     /**
-     * Sets the apellido value for this MedicamentosDTODHSerie.
+     * Sets the localidad value for this MedicamentosDTODHSerie.
      * 
-     * @param apellido
+     * @param localidad
      */
-    public void setApellido(java.lang.String apellido) {
-        this.apellido = apellido;
+    public void setLocalidad(java.lang.String localidad) {
+        this.localidad = localidad;
     }
 
 
     /**
-     * Gets the nombres value for this MedicamentosDTODHSerie.
+     * Gets the lote value for this MedicamentosDTODHSerie.
      * 
-     * @return nombres
+     * @return lote
      */
-    public java.lang.String getNombres() {
-        return nombres;
+    public java.lang.String getLote() {
+        return lote;
     }
 
 
     /**
-     * Sets the nombres value for this MedicamentosDTODHSerie.
+     * Sets the lote value for this MedicamentosDTODHSerie.
      * 
-     * @param nombres
+     * @param lote
      */
-    public void setNombres(java.lang.String nombres) {
-        this.nombres = nombres;
-    }
-
-
-    /**
-     * Gets the tipo_documento value for this MedicamentosDTODHSerie.
-     * 
-     * @return tipo_documento
-     */
-    public java.lang.String getTipo_documento() {
-        return tipo_documento;
-    }
-
-
-    /**
-     * Sets the tipo_documento value for this MedicamentosDTODHSerie.
-     * 
-     * @param tipo_documento
-     */
-    public void setTipo_documento(java.lang.String tipo_documento) {
-        this.tipo_documento = tipo_documento;
+    public void setLote(java.lang.String lote) {
+        this.lote = lote;
     }
 
 
@@ -524,142 +548,22 @@ public class MedicamentosDTODHSerie  implements java.io.Serializable {
 
 
     /**
-     * Gets the sexo value for this MedicamentosDTODHSerie.
+     * Gets the n_factura value for this MedicamentosDTODHSerie.
      * 
-     * @return sexo
+     * @return n_factura
      */
-    public java.lang.String getSexo() {
-        return sexo;
+    public java.lang.String getN_factura() {
+        return n_factura;
     }
 
 
     /**
-     * Sets the sexo value for this MedicamentosDTODHSerie.
+     * Sets the n_factura value for this MedicamentosDTODHSerie.
      * 
-     * @param sexo
+     * @param n_factura
      */
-    public void setSexo(java.lang.String sexo) {
-        this.sexo = sexo;
-    }
-
-
-    /**
-     * Gets the direccion value for this MedicamentosDTODHSerie.
-     * 
-     * @return direccion
-     */
-    public java.lang.String getDireccion() {
-        return direccion;
-    }
-
-
-    /**
-     * Sets the direccion value for this MedicamentosDTODHSerie.
-     * 
-     * @param direccion
-     */
-    public void setDireccion(java.lang.String direccion) {
-        this.direccion = direccion;
-    }
-
-
-    /**
-     * Gets the numero value for this MedicamentosDTODHSerie.
-     * 
-     * @return numero
-     */
-    public java.lang.String getNumero() {
-        return numero;
-    }
-
-
-    /**
-     * Sets the numero value for this MedicamentosDTODHSerie.
-     * 
-     * @param numero
-     */
-    public void setNumero(java.lang.String numero) {
-        this.numero = numero;
-    }
-
-
-    /**
-     * Gets the piso value for this MedicamentosDTODHSerie.
-     * 
-     * @return piso
-     */
-    public java.lang.String getPiso() {
-        return piso;
-    }
-
-
-    /**
-     * Sets the piso value for this MedicamentosDTODHSerie.
-     * 
-     * @param piso
-     */
-    public void setPiso(java.lang.String piso) {
-        this.piso = piso;
-    }
-
-
-    /**
-     * Gets the depto value for this MedicamentosDTODHSerie.
-     * 
-     * @return depto
-     */
-    public java.lang.String getDepto() {
-        return depto;
-    }
-
-
-    /**
-     * Sets the depto value for this MedicamentosDTODHSerie.
-     * 
-     * @param depto
-     */
-    public void setDepto(java.lang.String depto) {
-        this.depto = depto;
-    }
-
-
-    /**
-     * Gets the localidad value for this MedicamentosDTODHSerie.
-     * 
-     * @return localidad
-     */
-    public java.lang.String getLocalidad() {
-        return localidad;
-    }
-
-
-    /**
-     * Sets the localidad value for this MedicamentosDTODHSerie.
-     * 
-     * @param localidad
-     */
-    public void setLocalidad(java.lang.String localidad) {
-        this.localidad = localidad;
-    }
-
-
-    /**
-     * Gets the provincia value for this MedicamentosDTODHSerie.
-     * 
-     * @return provincia
-     */
-    public java.lang.String getProvincia() {
-        return provincia;
-    }
-
-
-    /**
-     * Sets the provincia value for this MedicamentosDTODHSerie.
-     * 
-     * @param provincia
-     */
-    public void setProvincia(java.lang.String provincia) {
-        this.provincia = provincia;
+    public void setN_factura(java.lang.String n_factura) {
+        this.n_factura = n_factura;
     }
 
 
@@ -684,42 +588,42 @@ public class MedicamentosDTODHSerie  implements java.io.Serializable {
 
 
     /**
-     * Gets the fecha_nacimiento value for this MedicamentosDTODHSerie.
+     * Gets the n_remito value for this MedicamentosDTODHSerie.
      * 
-     * @return fecha_nacimiento
+     * @return n_remito
      */
-    public java.lang.String getFecha_nacimiento() {
-        return fecha_nacimiento;
+    public java.lang.String getN_remito() {
+        return n_remito;
     }
 
 
     /**
-     * Sets the fecha_nacimiento value for this MedicamentosDTODHSerie.
+     * Sets the n_remito value for this MedicamentosDTODHSerie.
      * 
-     * @param fecha_nacimiento
+     * @param n_remito
      */
-    public void setFecha_nacimiento(java.lang.String fecha_nacimiento) {
-        this.fecha_nacimiento = fecha_nacimiento;
+    public void setN_remito(java.lang.String n_remito) {
+        this.n_remito = n_remito;
     }
 
 
     /**
-     * Gets the telefono value for this MedicamentosDTODHSerie.
+     * Gets the nombres value for this MedicamentosDTODHSerie.
      * 
-     * @return telefono
+     * @return nombres
      */
-    public java.lang.String getTelefono() {
-        return telefono;
+    public java.lang.String getNombres() {
+        return nombres;
     }
 
 
     /**
-     * Sets the telefono value for this MedicamentosDTODHSerie.
+     * Sets the nombres value for this MedicamentosDTODHSerie.
      * 
-     * @param telefono
+     * @param nombres
      */
-    public void setTelefono(java.lang.String telefono) {
-        this.telefono = telefono;
+    public void setNombres(java.lang.String nombres) {
+        this.nombres = nombres;
     }
 
 
@@ -744,22 +648,22 @@ public class MedicamentosDTODHSerie  implements java.io.Serializable {
 
 
     /**
-     * Gets the id_motivo_devolucion value for this MedicamentosDTODHSerie.
+     * Gets the numero value for this MedicamentosDTODHSerie.
      * 
-     * @return id_motivo_devolucion
+     * @return numero
      */
-    public java.lang.Long getId_motivo_devolucion() {
-        return id_motivo_devolucion;
+    public java.lang.String getNumero() {
+        return numero;
     }
 
 
     /**
-     * Sets the id_motivo_devolucion value for this MedicamentosDTODHSerie.
+     * Sets the numero value for this MedicamentosDTODHSerie.
      * 
-     * @param id_motivo_devolucion
+     * @param numero
      */
-    public void setId_motivo_devolucion(java.lang.Long id_motivo_devolucion) {
-        this.id_motivo_devolucion = id_motivo_devolucion;
+    public void setNumero(java.lang.String numero) {
+        this.numero = numero;
     }
 
 
@@ -782,6 +686,126 @@ public class MedicamentosDTODHSerie  implements java.io.Serializable {
         this.otro_motivo_devolucion = otro_motivo_devolucion;
     }
 
+
+    /**
+     * Gets the piso value for this MedicamentosDTODHSerie.
+     * 
+     * @return piso
+     */
+    public java.lang.String getPiso() {
+        return piso;
+    }
+
+
+    /**
+     * Sets the piso value for this MedicamentosDTODHSerie.
+     * 
+     * @param piso
+     */
+    public void setPiso(java.lang.String piso) {
+        this.piso = piso;
+    }
+
+
+    /**
+     * Gets the provincia value for this MedicamentosDTODHSerie.
+     * 
+     * @return provincia
+     */
+    public java.lang.String getProvincia() {
+        return provincia;
+    }
+
+
+    /**
+     * Sets the provincia value for this MedicamentosDTODHSerie.
+     * 
+     * @param provincia
+     */
+    public void setProvincia(java.lang.String provincia) {
+        this.provincia = provincia;
+    }
+
+
+    /**
+     * Gets the sexo value for this MedicamentosDTODHSerie.
+     * 
+     * @return sexo
+     */
+    public java.lang.String getSexo() {
+        return sexo;
+    }
+
+
+    /**
+     * Sets the sexo value for this MedicamentosDTODHSerie.
+     * 
+     * @param sexo
+     */
+    public void setSexo(java.lang.String sexo) {
+        this.sexo = sexo;
+    }
+
+
+    /**
+     * Gets the telefono value for this MedicamentosDTODHSerie.
+     * 
+     * @return telefono
+     */
+    public java.lang.String getTelefono() {
+        return telefono;
+    }
+
+
+    /**
+     * Sets the telefono value for this MedicamentosDTODHSerie.
+     * 
+     * @param telefono
+     */
+    public void setTelefono(java.lang.String telefono) {
+        this.telefono = telefono;
+    }
+
+
+    /**
+     * Gets the tipo_documento value for this MedicamentosDTODHSerie.
+     * 
+     * @return tipo_documento
+     */
+    public java.lang.String getTipo_documento() {
+        return tipo_documento;
+    }
+
+
+    /**
+     * Sets the tipo_documento value for this MedicamentosDTODHSerie.
+     * 
+     * @param tipo_documento
+     */
+    public void setTipo_documento(java.lang.String tipo_documento) {
+        this.tipo_documento = tipo_documento;
+    }
+
+
+    /**
+     * Gets the vencimiento value for this MedicamentosDTODHSerie.
+     * 
+     * @return vencimiento
+     */
+    public java.lang.String getVencimiento() {
+        return vencimiento;
+    }
+
+
+    /**
+     * Sets the vencimiento value for this MedicamentosDTODHSerie.
+     * 
+     * @param vencimiento
+     */
+    public void setVencimiento(java.lang.String vencimiento) {
+        this.vencimiento = vencimiento;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof MedicamentosDTODHSerie)) return false;
@@ -794,102 +818,105 @@ public class MedicamentosDTODHSerie  implements java.io.Serializable {
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
-            ((this.f_evento==null && other.getF_evento()==null) || 
-             (this.f_evento!=null &&
-              this.f_evento.equals(other.getF_evento()))) &&
-            ((this.h_evento==null && other.getH_evento()==null) || 
-             (this.h_evento!=null &&
-              this.h_evento.equals(other.getH_evento()))) &&
-            ((this.gln_origen==null && other.getGln_origen()==null) || 
-             (this.gln_origen!=null &&
-              this.gln_origen.equals(other.getGln_origen()))) &&
-            ((this.gln_destino==null && other.getGln_destino()==null) || 
-             (this.gln_destino!=null &&
-              this.gln_destino.equals(other.getGln_destino()))) &&
-            ((this.n_remito==null && other.getN_remito()==null) || 
-             (this.n_remito!=null &&
-              this.n_remito.equals(other.getN_remito()))) &&
-            ((this.n_factura==null && other.getN_factura()==null) || 
-             (this.n_factura!=null &&
-              this.n_factura.equals(other.getN_factura()))) &&
-            ((this.vencimiento==null && other.getVencimiento()==null) || 
-             (this.vencimiento!=null &&
-              this.vencimiento.equals(other.getVencimiento()))) &&
-            ((this.gtin==null && other.getGtin()==null) || 
-             (this.gtin!=null &&
-              this.gtin.equals(other.getGtin()))) &&
-            ((this.lote==null && other.getLote()==null) || 
-             (this.lote!=null &&
-              this.lote.equals(other.getLote()))) &&
+            ((this.apellido==null && other.getApellido()==null) || 
+             (this.apellido!=null &&
+              this.apellido.equals(other.getApellido()))) &&
+            ((this.cuit_destino==null && other.getCuit_destino()==null) || 
+             (this.cuit_destino!=null &&
+              this.cuit_destino.equals(other.getCuit_destino()))) &&
+            ((this.cuit_origen==null && other.getCuit_origen()==null) || 
+             (this.cuit_origen!=null &&
+              this.cuit_origen.equals(other.getCuit_origen()))) &&
+            ((this.depto==null && other.getDepto()==null) || 
+             (this.depto!=null &&
+              this.depto.equals(other.getDepto()))) &&
             ((this.desde_numero_serial==null && other.getDesde_numero_serial()==null) || 
              (this.desde_numero_serial!=null &&
               this.desde_numero_serial.equals(other.getDesde_numero_serial()))) &&
+            ((this.direccion==null && other.getDireccion()==null) || 
+             (this.direccion!=null &&
+              this.direccion.equals(other.getDireccion()))) &&
+            ((this.f_evento==null && other.getF_evento()==null) || 
+             (this.f_evento!=null &&
+              this.f_evento.equals(other.getF_evento()))) &&
+            ((this.fecha_nacimiento==null && other.getFecha_nacimiento()==null) || 
+             (this.fecha_nacimiento!=null &&
+              this.fecha_nacimiento.equals(other.getFecha_nacimiento()))) &&
+            ((this.gln_destino==null && other.getGln_destino()==null) || 
+             (this.gln_destino!=null &&
+              this.gln_destino.equals(other.getGln_destino()))) &&
+            ((this.gln_origen==null && other.getGln_origen()==null) || 
+             (this.gln_origen!=null &&
+              this.gln_origen.equals(other.getGln_origen()))) &&
+            ((this.gtin==null && other.getGtin()==null) || 
+             (this.gtin!=null &&
+              this.gtin.equals(other.getGtin()))) &&
+            ((this.h_evento==null && other.getH_evento()==null) || 
+             (this.h_evento!=null &&
+              this.h_evento.equals(other.getH_evento()))) &&
             ((this.hasta_numero_serial==null && other.getHasta_numero_serial()==null) || 
              (this.hasta_numero_serial!=null &&
               this.hasta_numero_serial.equals(other.getHasta_numero_serial()))) &&
             ((this.id_evento==null && other.getId_evento()==null) || 
              (this.id_evento!=null &&
               this.id_evento.equals(other.getId_evento()))) &&
-            ((this.cuit_origen==null && other.getCuit_origen()==null) || 
-             (this.cuit_origen!=null &&
-              this.cuit_origen.equals(other.getCuit_origen()))) &&
-            ((this.cuit_destino==null && other.getCuit_destino()==null) || 
-             (this.cuit_destino!=null &&
-              this.cuit_destino.equals(other.getCuit_destino()))) &&
-            ((this.id_obra_social==null && other.getId_obra_social()==null) || 
-             (this.id_obra_social!=null &&
-              this.id_obra_social.equals(other.getId_obra_social()))) &&
-            ((this.apellido==null && other.getApellido()==null) || 
-             (this.apellido!=null &&
-              this.apellido.equals(other.getApellido()))) &&
-            ((this.nombres==null && other.getNombres()==null) || 
-             (this.nombres!=null &&
-              this.nombres.equals(other.getNombres()))) &&
-            ((this.tipo_documento==null && other.getTipo_documento()==null) || 
-             (this.tipo_documento!=null &&
-              this.tipo_documento.equals(other.getTipo_documento()))) &&
-            ((this.n_documento==null && other.getN_documento()==null) || 
-             (this.n_documento!=null &&
-              this.n_documento.equals(other.getN_documento()))) &&
-            ((this.sexo==null && other.getSexo()==null) || 
-             (this.sexo!=null &&
-              this.sexo.equals(other.getSexo()))) &&
-            ((this.direccion==null && other.getDireccion()==null) || 
-             (this.direccion!=null &&
-              this.direccion.equals(other.getDireccion()))) &&
-            ((this.numero==null && other.getNumero()==null) || 
-             (this.numero!=null &&
-              this.numero.equals(other.getNumero()))) &&
-            ((this.piso==null && other.getPiso()==null) || 
-             (this.piso!=null &&
-              this.piso.equals(other.getPiso()))) &&
-            ((this.depto==null && other.getDepto()==null) || 
-             (this.depto!=null &&
-              this.depto.equals(other.getDepto()))) &&
-            ((this.localidad==null && other.getLocalidad()==null) || 
-             (this.localidad!=null &&
-              this.localidad.equals(other.getLocalidad()))) &&
-            ((this.provincia==null && other.getProvincia()==null) || 
-             (this.provincia!=null &&
-              this.provincia.equals(other.getProvincia()))) &&
-            ((this.n_postal==null && other.getN_postal()==null) || 
-             (this.n_postal!=null &&
-              this.n_postal.equals(other.getN_postal()))) &&
-            ((this.fecha_nacimiento==null && other.getFecha_nacimiento()==null) || 
-             (this.fecha_nacimiento!=null &&
-              this.fecha_nacimiento.equals(other.getFecha_nacimiento()))) &&
-            ((this.telefono==null && other.getTelefono()==null) || 
-             (this.telefono!=null &&
-              this.telefono.equals(other.getTelefono()))) &&
-            ((this.nro_asociado==null && other.getNro_asociado()==null) || 
-             (this.nro_asociado!=null &&
-              this.nro_asociado.equals(other.getNro_asociado()))) &&
             ((this.id_motivo_devolucion==null && other.getId_motivo_devolucion()==null) || 
              (this.id_motivo_devolucion!=null &&
               this.id_motivo_devolucion.equals(other.getId_motivo_devolucion()))) &&
+            ((this.id_motivo_reposicion==null && other.getId_motivo_reposicion()==null) || 
+             (this.id_motivo_reposicion!=null &&
+              this.id_motivo_reposicion.equals(other.getId_motivo_reposicion()))) &&
+            ((this.id_obra_social==null && other.getId_obra_social()==null) || 
+             (this.id_obra_social!=null &&
+              this.id_obra_social.equals(other.getId_obra_social()))) &&
+            ((this.localidad==null && other.getLocalidad()==null) || 
+             (this.localidad!=null &&
+              this.localidad.equals(other.getLocalidad()))) &&
+            ((this.lote==null && other.getLote()==null) || 
+             (this.lote!=null &&
+              this.lote.equals(other.getLote()))) &&
+            ((this.n_documento==null && other.getN_documento()==null) || 
+             (this.n_documento!=null &&
+              this.n_documento.equals(other.getN_documento()))) &&
+            ((this.n_factura==null && other.getN_factura()==null) || 
+             (this.n_factura!=null &&
+              this.n_factura.equals(other.getN_factura()))) &&
+            ((this.n_postal==null && other.getN_postal()==null) || 
+             (this.n_postal!=null &&
+              this.n_postal.equals(other.getN_postal()))) &&
+            ((this.n_remito==null && other.getN_remito()==null) || 
+             (this.n_remito!=null &&
+              this.n_remito.equals(other.getN_remito()))) &&
+            ((this.nombres==null && other.getNombres()==null) || 
+             (this.nombres!=null &&
+              this.nombres.equals(other.getNombres()))) &&
+            ((this.nro_asociado==null && other.getNro_asociado()==null) || 
+             (this.nro_asociado!=null &&
+              this.nro_asociado.equals(other.getNro_asociado()))) &&
+            ((this.numero==null && other.getNumero()==null) || 
+             (this.numero!=null &&
+              this.numero.equals(other.getNumero()))) &&
             ((this.otro_motivo_devolucion==null && other.getOtro_motivo_devolucion()==null) || 
              (this.otro_motivo_devolucion!=null &&
-              this.otro_motivo_devolucion.equals(other.getOtro_motivo_devolucion())));
+              this.otro_motivo_devolucion.equals(other.getOtro_motivo_devolucion()))) &&
+            ((this.piso==null && other.getPiso()==null) || 
+             (this.piso!=null &&
+              this.piso.equals(other.getPiso()))) &&
+            ((this.provincia==null && other.getProvincia()==null) || 
+             (this.provincia!=null &&
+              this.provincia.equals(other.getProvincia()))) &&
+            ((this.sexo==null && other.getSexo()==null) || 
+             (this.sexo!=null &&
+              this.sexo.equals(other.getSexo()))) &&
+            ((this.telefono==null && other.getTelefono()==null) || 
+             (this.telefono!=null &&
+              this.telefono.equals(other.getTelefono()))) &&
+            ((this.tipo_documento==null && other.getTipo_documento()==null) || 
+             (this.tipo_documento!=null &&
+              this.tipo_documento.equals(other.getTipo_documento()))) &&
+            ((this.vencimiento==null && other.getVencimiento()==null) || 
+             (this.vencimiento!=null &&
+              this.vencimiento.equals(other.getVencimiento())));
         __equalsCalc = null;
         return _equals;
     }
@@ -901,35 +928,41 @@ public class MedicamentosDTODHSerie  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
+        if (getApellido() != null) {
+            _hashCode += getApellido().hashCode();
+        }
+        if (getCuit_destino() != null) {
+            _hashCode += getCuit_destino().hashCode();
+        }
+        if (getCuit_origen() != null) {
+            _hashCode += getCuit_origen().hashCode();
+        }
+        if (getDepto() != null) {
+            _hashCode += getDepto().hashCode();
+        }
+        if (getDesde_numero_serial() != null) {
+            _hashCode += getDesde_numero_serial().hashCode();
+        }
+        if (getDireccion() != null) {
+            _hashCode += getDireccion().hashCode();
+        }
         if (getF_evento() != null) {
             _hashCode += getF_evento().hashCode();
         }
-        if (getH_evento() != null) {
-            _hashCode += getH_evento().hashCode();
-        }
-        if (getGln_origen() != null) {
-            _hashCode += getGln_origen().hashCode();
+        if (getFecha_nacimiento() != null) {
+            _hashCode += getFecha_nacimiento().hashCode();
         }
         if (getGln_destino() != null) {
             _hashCode += getGln_destino().hashCode();
         }
-        if (getN_remito() != null) {
-            _hashCode += getN_remito().hashCode();
-        }
-        if (getN_factura() != null) {
-            _hashCode += getN_factura().hashCode();
-        }
-        if (getVencimiento() != null) {
-            _hashCode += getVencimiento().hashCode();
+        if (getGln_origen() != null) {
+            _hashCode += getGln_origen().hashCode();
         }
         if (getGtin() != null) {
             _hashCode += getGtin().hashCode();
         }
-        if (getLote() != null) {
-            _hashCode += getLote().hashCode();
-        }
-        if (getDesde_numero_serial() != null) {
-            _hashCode += getDesde_numero_serial().hashCode();
+        if (getH_evento() != null) {
+            _hashCode += getH_evento().hashCode();
         }
         if (getHasta_numero_serial() != null) {
             _hashCode += getHasta_numero_serial().hashCode();
@@ -937,65 +970,62 @@ public class MedicamentosDTODHSerie  implements java.io.Serializable {
         if (getId_evento() != null) {
             _hashCode += getId_evento().hashCode();
         }
-        if (getCuit_origen() != null) {
-            _hashCode += getCuit_origen().hashCode();
+        if (getId_motivo_devolucion() != null) {
+            _hashCode += getId_motivo_devolucion().hashCode();
         }
-        if (getCuit_destino() != null) {
-            _hashCode += getCuit_destino().hashCode();
+        if (getId_motivo_reposicion() != null) {
+            _hashCode += getId_motivo_reposicion().hashCode();
         }
         if (getId_obra_social() != null) {
             _hashCode += getId_obra_social().hashCode();
         }
-        if (getApellido() != null) {
-            _hashCode += getApellido().hashCode();
+        if (getLocalidad() != null) {
+            _hashCode += getLocalidad().hashCode();
         }
-        if (getNombres() != null) {
-            _hashCode += getNombres().hashCode();
-        }
-        if (getTipo_documento() != null) {
-            _hashCode += getTipo_documento().hashCode();
+        if (getLote() != null) {
+            _hashCode += getLote().hashCode();
         }
         if (getN_documento() != null) {
             _hashCode += getN_documento().hashCode();
         }
-        if (getSexo() != null) {
-            _hashCode += getSexo().hashCode();
-        }
-        if (getDireccion() != null) {
-            _hashCode += getDireccion().hashCode();
-        }
-        if (getNumero() != null) {
-            _hashCode += getNumero().hashCode();
-        }
-        if (getPiso() != null) {
-            _hashCode += getPiso().hashCode();
-        }
-        if (getDepto() != null) {
-            _hashCode += getDepto().hashCode();
-        }
-        if (getLocalidad() != null) {
-            _hashCode += getLocalidad().hashCode();
-        }
-        if (getProvincia() != null) {
-            _hashCode += getProvincia().hashCode();
+        if (getN_factura() != null) {
+            _hashCode += getN_factura().hashCode();
         }
         if (getN_postal() != null) {
             _hashCode += getN_postal().hashCode();
         }
-        if (getFecha_nacimiento() != null) {
-            _hashCode += getFecha_nacimiento().hashCode();
+        if (getN_remito() != null) {
+            _hashCode += getN_remito().hashCode();
         }
-        if (getTelefono() != null) {
-            _hashCode += getTelefono().hashCode();
+        if (getNombres() != null) {
+            _hashCode += getNombres().hashCode();
         }
         if (getNro_asociado() != null) {
             _hashCode += getNro_asociado().hashCode();
         }
-        if (getId_motivo_devolucion() != null) {
-            _hashCode += getId_motivo_devolucion().hashCode();
+        if (getNumero() != null) {
+            _hashCode += getNumero().hashCode();
         }
         if (getOtro_motivo_devolucion() != null) {
             _hashCode += getOtro_motivo_devolucion().hashCode();
+        }
+        if (getPiso() != null) {
+            _hashCode += getPiso().hashCode();
+        }
+        if (getProvincia() != null) {
+            _hashCode += getProvincia().hashCode();
+        }
+        if (getSexo() != null) {
+            _hashCode += getSexo().hashCode();
+        }
+        if (getTelefono() != null) {
+            _hashCode += getTelefono().hashCode();
+        }
+        if (getTipo_documento() != null) {
+            _hashCode += getTipo_documento().hashCode();
+        }
+        if (getVencimiento() != null) {
+            _hashCode += getVencimiento().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -1008,6 +1038,48 @@ public class MedicamentosDTODHSerie  implements java.io.Serializable {
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://business.mywebservice.inssjp.com/", "medicamentosDTODHSerie"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("apellido");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "apellido"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("cuit_destino");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "cuit_destino"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("cuit_origen");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "cuit_origen"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("depto");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "depto"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("desde_numero_serial");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "desde_numero_serial"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("direccion");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "direccion"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("f_evento");
         elemField.setXmlName(new javax.xml.namespace.QName("", "f_evento"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
@@ -1015,15 +1087,8 @@ public class MedicamentosDTODHSerie  implements java.io.Serializable {
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("h_evento");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "h_evento"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("gln_origen");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "gln_origen"));
+        elemField.setFieldName("fecha_nacimiento");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "fecha_nacimiento"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
@@ -1036,22 +1101,8 @@ public class MedicamentosDTODHSerie  implements java.io.Serializable {
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("n_remito");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "n_remito"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("n_factura");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "n_factura"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("vencimiento");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "vencimiento"));
+        elemField.setFieldName("gln_origen");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "gln_origen"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
@@ -1064,15 +1115,8 @@ public class MedicamentosDTODHSerie  implements java.io.Serializable {
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("lote");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "lote"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("desde_numero_serial");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "desde_numero_serial"));
+        elemField.setFieldName("h_evento");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "h_evento"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
@@ -1092,85 +1136,22 @@ public class MedicamentosDTODHSerie  implements java.io.Serializable {
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("cuit_origen");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "cuit_origen"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setFieldName("id_motivo_devolucion");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "id_motivo_devolucion"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "long"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("cuit_destino");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "cuit_destino"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setFieldName("id_motivo_reposicion");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "id_motivo_reposicion"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "long"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("id_obra_social");
         elemField.setXmlName(new javax.xml.namespace.QName("", "id_obra_social"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("apellido");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "apellido"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("nombres");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "nombres"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("tipo_documento");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "tipo_documento"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("n_documento");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "n_documento"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("sexo");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "sexo"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("direccion");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "direccion"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("numero");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "numero"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("piso");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "piso"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("depto");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "depto"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
@@ -1183,8 +1164,22 @@ public class MedicamentosDTODHSerie  implements java.io.Serializable {
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("provincia");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "provincia"));
+        elemField.setFieldName("lote");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "lote"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("n_documento");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "n_documento"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("n_factura");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "n_factura"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
@@ -1197,15 +1192,15 @@ public class MedicamentosDTODHSerie  implements java.io.Serializable {
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("fecha_nacimiento");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "fecha_nacimiento"));
+        elemField.setFieldName("n_remito");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "n_remito"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("telefono");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "telefono"));
+        elemField.setFieldName("nombres");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "nombres"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
@@ -1218,15 +1213,57 @@ public class MedicamentosDTODHSerie  implements java.io.Serializable {
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("id_motivo_devolucion");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "id_motivo_devolucion"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "long"));
+        elemField.setFieldName("numero");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "numero"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("otro_motivo_devolucion");
         elemField.setXmlName(new javax.xml.namespace.QName("", "otro_motivo_devolucion"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("piso");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "piso"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("provincia");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "provincia"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("sexo");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "sexo"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("telefono");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "telefono"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("tipo_documento");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "tipo_documento"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("vencimiento");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "vencimiento"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
