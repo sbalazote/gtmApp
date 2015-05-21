@@ -20,10 +20,10 @@ public final class Constants {
 	public static final String ERROR_ANMAT_ALREADY_CANCELLED = "4";
 
 	public static final boolean TEST = true;
-	public static final String TEST_ORIGIN_GLN = "glnws";
-	public static final String TEST_DESTINATION_GLN = "9999999999918";
-	public static final String TEST_ORIGIN_TAXID = "glnws";
-	public static final String TEST_DESTINATION_TAXID = "30686437228";
+	public static final String TEST_ORIGIN_GLN = "9999999999918";
+	public static final String TEST_DESTINATION_GLN = "glnws";
+	public static final String TEST_ORIGIN_TAXID = "20259171289";
+	public static final String TEST_DESTINATION_TAXID = "20259171289";
 	public static final String TEST_GTIN = "07793081057133";
 	public static final String TEST_EVENT = "133";
 
