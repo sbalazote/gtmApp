@@ -134,6 +134,9 @@ public class PropertyController {
 		modelMap.put("selectedStartTraceConcept", property.getStartTraceConcept().getId());
 		modelMap.put("startTraceConcepts", this.conceptService.getAllActives(true));
 
+        modelMap.put("selectedConcept", property.getStartTraceConcept().getId());
+        modelMap.put("deliveryNoteconcepts", this.conceptService.getAllActives(true));
+
 		modelMap.put("proxy", property.getProxy());
 		modelMap.put("proxyPort", property.getProxyPort());
 		modelMap.put("informProxy", property.isHasProxy());
