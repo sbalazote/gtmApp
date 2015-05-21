@@ -18,7 +18,7 @@ public class MyProvider extends Provider {
 		this.put("TrustManagerFactory.TrustAllCertificates", MyTrustManagerFactory.class.getName());
 	}
 
-	protected static class MyTrustManagerFactory extends TrustManagerFactorySpi {
+	public static class MyTrustManagerFactory extends TrustManagerFactorySpi {
 
 		public MyTrustManagerFactory() {
 		}
