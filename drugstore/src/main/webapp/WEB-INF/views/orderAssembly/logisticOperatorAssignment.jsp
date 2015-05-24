@@ -14,9 +14,7 @@
 
 <div class="row">
 	<div class="col-md-9 form-group">
-		<h1>
-			<spring:message code="common.logisticsOperatorAssignment" />
-		</h1>
+		<h3><spring:message code="common.logisticsOperatorAssignment" /></h3>
 	</div>
 </div>
 <div class="row">

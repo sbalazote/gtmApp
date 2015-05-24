@@ -13,7 +13,7 @@
 
 <div class="row">
 	<div class="col-md-6 form-group">
-		<h1><spring:message code="serializedReturns.label"/></h1>
+		<h3><spring:message code="serializedReturns.label"/></h3>
 		<input type="hidden" class="form-control" id="serializedReturnsId" value="${serializedReturnsId != null ? serializedReturnsId : ''}">
 	</div>
 	<div class="col-md-3">

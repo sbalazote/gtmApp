@@ -14,7 +14,7 @@
 <form action="" onsubmit="return false;">
 	<div class="row">
 		<div class="col-md-12 form-group">
-			<h1><spring:message code="orderAssembly.orderCancelation"/></h1>
+			<h3><spring:message code="orderAssembly.orderCancelation"/></h3>
 		</div>
 	</div>
 	

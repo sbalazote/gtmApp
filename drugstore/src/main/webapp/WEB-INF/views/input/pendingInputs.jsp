@@ -5,7 +5,7 @@
 <script type="text/javascript" src="js/form/modals.js"></script>
 <div class="row">
 	<div class="col-md-9 form-group">
-		<h1><spring:message code="administration.pendingInputs"/></h1>
+		<h3><spring:message code="administration.pendingInputs"/></h3>
 	</div>
 </div>
 

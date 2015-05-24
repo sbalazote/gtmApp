@@ -9,7 +9,7 @@
 	});
 </script>
 
-<form id="provisioningRequestForm" action="" onsubmit="return false;">
+<form id="provisioningRequestForm" action="" onsubmit="return false;" data-plus-as-tab="true">
 
 	<div class="row">
 		<div class="col-md-9 form-group">
@@ -24,7 +24,7 @@
 	<div class="row">
 		<div class="col-md-4 form-group">
 			<label for="agreementInput"><spring:message code="common.agreement" /></label>
-			<select id="agreementInput" name="agreement" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
+			<select id="agreementInput" name="agreement" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>" autofocus>
 				<option value=""></option>
 				<c:forEach items="${agreements}" var="agreement">
 					<option value="${agreement.id}" ${agreementId == agreement.id ? 'selected' : ''}><c:out value="${agreement.code}"></c:out> - <c:out value="${agreement.description}"></c:out></option>

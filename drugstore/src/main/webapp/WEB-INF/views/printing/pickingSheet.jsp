@@ -13,9 +13,7 @@
 
 <div class="row">
 	<div class="col-md-9 form-group">
-		<h1>
-			<spring:message code="administration.pickingSheet" />
-		</h1>
+		<h3><spring:message code="administration.pickingSheet" /></h3>
 	</div>
 </div>
 

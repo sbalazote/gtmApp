@@ -14,7 +14,7 @@
 
 <div class="row">
 	<div class="col-md-9 form-group">
-		<h1><spring:message code="common.output"/></h1>
+		<h3><spring:message code="common.output"/></h3>
 	</div>
 	<div class="col-md-3 form-group">
 		<label for="currentDateInput"><spring:message code="common.date"/></label>

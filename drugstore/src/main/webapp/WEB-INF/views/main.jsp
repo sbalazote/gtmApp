@@ -1,40 +1,41 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  
-"http://www.w3.org/TR/html4/loose.dtd">  
+"http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<title><spring:message code="administration.drugManagement"/></title>
-		<link rel="shortcut icon" href=images/worlwide_drugstore_logo_c.png type="image/png">
-		
-	    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-	    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css">
-	    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+		<title><spring:message code="administration.drugManagement" /></title>
+		<link rel="shortcut icon" href=images/oncomed-reno.png type="image/png">
+	
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css">
+		<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
 		<link rel="stylesheet" type="text/css" href="css/styles.css">
 		<link rel="stylesheet" type="text/css" href="css/multi-select.css">
 		<link rel="stylesheet" type="text/css" href="css/chosen.css">
-		<link rel="stylesheet" type="text/css" href="css/chosen-bootstrap.css">	
-		<link rel="stylesheet" type="text/css" href="css/jquery.fileupload-ui.css">		
+		<link rel="stylesheet" type="text/css" href="css/chosen-bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="css/jquery.fileupload-ui.css">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-dialog.css">
 		<link rel="stylesheet" type="text/css" href="css/select2.css">
 		<link rel="stylesheet" type="text/css" href="css/select2-bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="css/jquery.bootgrid.css">
 		<link rel="stylesheet" type="text/css" href="css/themes/blue/pace-theme-corner-indicator.css">
+		<link rel="stylesheet" type="text/css" href="css/jqClock.css">
 		<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 		<link rel="stylesheet" type="text/css" href='//fonts.googleapis.com/css?family=Merriweather:900italic'>
 		<link rel="stylesheet" type="text/css" href='//fonts.googleapis.com/css?family=Roboto:500,700,400'>
 		
-	    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
-	    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="js/jquery.validate.min.js"></script>
 		<script type="text/javascript" src="js/chosen.jquery.min.js"></script>
 		<script type="text/javascript" src="js/additional-methods.min.js"></script>
 		<script type="text/javascript" src="js/jquery.bootgrid.js"></script>
-	    <script type="text/javascript" src="js/localization/messages_es.js"></script>
-	    <script type="text/javascript" src="js/localization/jquery.ui.datepicker-es.min.js"></script>
-	    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/localization/messages_es.js"></script>
+		<script type="text/javascript" src="js/localization/jquery.ui.datepicker-es.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>
 		<script type="text/javascript" src="js/alerts.js"></script>
 		<script type="text/javascript" src="js/jquery.multi-select.js"></script>
@@ -54,26 +55,26 @@
 		<script type="text/javascript" src="js/emulatetab.joelpurra.js"></script>
 		<script type="text/javascript" src="js/plusastab.joelpurra.js"></script>
 		<script type="text/javascript" src="js/jquery.ya-enter2tab.js"></script>
-        <script type="text/javascript" src="js/jquery.numeric.js"></script>
-
+		<script type="text/javascript" src="js/jquery.numeric.js"></script>
+		<script type="text/javascript" src="js/jqClock.js"></script>
 	</head>
 	<body>
 		<div id="wrap">
-<%-- 	        <div id="header">
-	            <tiles:insertAttribute name="header" />
-	        </div> --%>
-	        <div id="menu">
-	            <tiles:insertAttribute name="menu" />
-	        </div>
-	        <div id="body">
-	        	<div class="content">
-	        		<div id="alertDiv"></div>
-	            	<tiles:insertAttribute name="body" />
-	            </div>
-	        </div>
-	        <div id="footer">
-            <tiles:insertAttribute name="footer" />
-        	</div>
-	    </div>
+			<div id="header">
+				<tiles:insertAttribute name="header" />
+			</div>
+			<div id="menu">
+				<tiles:insertAttribute name="menu" />
+			</div>
+			<div id="body">
+				<div class="content">
+					<div id="alertDiv"></div>
+					<tiles:insertAttribute name="body" />
+				</div>
+			</div>
+			<div id="footer">
+				<tiles:insertAttribute name="footer" />
+			</div>
+		</div>
 	</body>
 </html>

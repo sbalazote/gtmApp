@@ -12,7 +12,7 @@
 <form id="searchStockForm" action="" onsubmit="return false;">
 	<div class="row">
 		<div class="col-md-9 form-group">
-			<h1><spring:message code="common.title.searchStock"/></h1>
+			<h3><spring:message code="common.title.searchStock"/></h3>
 		</div>
 	</div>
 	<div>
