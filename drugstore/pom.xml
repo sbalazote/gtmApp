@@ -456,7 +456,6 @@
                     <url>http://localhost:8080/manager/text</url>
                     <server>tomcat</server>
                     <path>/${project.artifactId}</path>
-                    <serverXml>${project.basedir}/server.xml</serverXml>
                     <username>admin</username>
         			<password>admin</password>
                 </configuration>
