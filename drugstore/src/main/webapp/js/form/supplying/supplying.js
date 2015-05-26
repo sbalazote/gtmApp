@@ -5,21 +5,15 @@ var Supplying = function() {
 	var productAmount = null;
 	var productDetails = [];
 
-	var isUpdate = false;
-
 	var isAdd = true;
 	var currentRowElement = null;
 
 	var addAffiliateModalFormValidator = null;
 	var amountFormValidator = null;
-	
+
 	var currentDate = new Date();
 
 	var isButtonConfirm = false;
-
-	if ($("#provisioningId").val() != "") {
-		isUpdate = true;
-	}
 
 	var cleanAddAffiliateModal = function() {
 		$("#addAffiliateModal input").val("");
@@ -119,8 +113,8 @@ var Supplying = function() {
 					dataType : 'json',
 					quietMillis : 250,
 					data : function(term, page) { // page is the one-based
-													// page number tracked by
-													// Select2
+						// page number tracked by
+						// Select2
 						return {
 							term : term, // search term
 							pageNumber : page, // page number
@@ -131,8 +125,8 @@ var Supplying = function() {
 					},
 					results : function(data, page, query) {
 						var more = (data.length == 10); // whether or not there
-														// are more results
-														// available
+						// are more results
+						// available
 
 						var parsedResults = [];
 
@@ -163,75 +157,113 @@ var Supplying = function() {
 
 	$("#affiliateInput").select2("enable", false);
 
-	$('.select2-input').on(
-			'keydown',
-			function(e) {
-				if (e.keyCode === 121) {
-					cleanAddAffiliateModal();
-					$("#affiliateClientInput").val(
-							$("#clientInput option:selected").html());
-					$('#addAffiliateModal').modal('show');
-				}
-			});
+	$('.select2-input').on('keydown', function(e) {
+		if (e.keyCode === 121) {
+			cleanAddAffiliateModal();
+			$("#affiliateClientInput").val($("#clientInput option:selected").html());
+			$('#addAffiliateModal').modal('show');
+		}
+	});
 
 	$('#currentDateButton').click(function() {
 		$("#currentDateInput").datepicker().focus();
 	});
 
 	$("#currentDateInput").datepicker().datepicker("setDate", currentDate);
-	
+
 	$('#currentDateButton').click(function() {
 		$("#currentDateInput").datepicker().focus();
 	});
-	
-	$("#productInput").autocomplete(
-			{
-				source : function(request, response) {
-					$.ajax({
-						url : "getProductoFromStock.do",
-						type : "GET",
-						async : false,
-						data : {
-							term : request.term,
-							agreementId : null,
-						},
-						success : function(data) {
-							var array = $.map(data, function(item) {
-								return {
-									id : item.id,
-									label : item.code + " - "
-											+ item.description + " - "
-											+ item.brand.description + " - "
-											+ item.monodrug.description,
-									value : item.code + " - "
-											+ item.description,
-								};
-							});
-							response(array);
-						},
-						error : function(jqXHR, textStatus, errorThrown) {
-							myGenericError();
-						}
-					});
-				},
-				select : function(event, ui) {
-					if (!productEntered(ui.item.id)) {
-						productId = ui.item.id;
-						productDescription = ui.item.value;
-						isAdd = true;
 
-						$('#productInput').data("title", "").removeClass(
-								"has-error").tooltip("destroy");
-						$("#productInput").val(productDescription);
-						$('#amountModal').modal('show');
+	$("#productInput").autocomplete({
+		source : function(request, response) {
+			$.ajax({
+				url : "getProductoFromStock.do",
+				type : "GET",
+				async : false,
+				data : {
+					term : request.term,
+					agreementId : null,
+				},
+				success : function(data) {
+					var array = $.map(data, function(item) {
+						return {
+							id : item.id,
+							label : item.code + " - "
+							+ item.description + " - "
+							+ item.brand.description + " - "
+							+ item.monodrug.description,
+							value : item.code + " - "
+							+ item.description,
+						};
+					});
+					response(array);
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					myGenericError();
+				}
+			});
+		},
+		select : function(event, ui) {
+			if (!productEntered(ui.item.id)) {
+				productId = ui.item.id;
+				productDescription = ui.item.value;
+				isAdd = true;
+
+				$('#productInput').data("title", "").removeClass(
+				"has-error").tooltip("destroy");
+				$("#productInput").val(productDescription);
+				$('#amountModal').modal('show');
+			} else {
+				myShowAlert('danger', 'Producto ya Ingresado');
+			}
+			return false;
+		},
+		minLength : 3,
+		autoFocus : true
+	});
+	
+	$('#productInput').keydown(function(e) {
+	    if(e.keyCode == 121){ // F10
+	    	$.ajax({
+				url: "getProductFromStockBySerialOrGtin.do",
+				type: "GET",
+				data: {
+					serial: $(this).val(),
+					agreementId: null
+				},
+				success: function(response) {
+					if (response != "") {
+						if (!productEntered(response.id)) {
+							productId = response.id;
+                            if(serial.length == 13) {
+                                productGtin = serial;
+                            }else{
+                                productGtin = response.lastGtin;
+                            }
+							productDescription = response.code + ' - ' + response.description;
+							productType = response.type;
+							
+							$('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
+							
+							$("#productInput").val(productDescription);
+							$('#amountModal').modal('show');
+						} else {
+							myShowAlert('danger', 'Producto ya Ingresado');
+							$("#productInput").val("");
+						}
 					} else {
-						myShowAlert('danger', 'Producto ya Ingresado');
+						$('#productInput').tooltip("destroy").data("title", "Producto Inexistente").addClass("has-error").tooltip();
+						$('#productInput').focus();
 					}
 					return false;
 				},
-				minLength : 3,
-				autoFocus : true
+				error: function(jqXHR, textStatus, errorThrown) {
+					myGenericError();
+				}
 			});
+	    }
+	});
 
 	$("#affiliateDocumentTypeInput").autocomplete({
 		source : [ "DNI", "LC", "LE" ],
@@ -258,44 +290,39 @@ var Supplying = function() {
 		}
 	});
 
-	$("#amountModalAcceptButton").click(
-			function() {
-				if (validateProductAmountForm()) {
-					productAmount = parseInt($("#productAmountInput").val());
-					$.ajax({
-						url : "getProductAmount.do",
-						type : "GET",
-						async : false,
-						data : {
-							productId : productId,
-							agreementId : $("#agreementInput").val(),
-							provisioningId : $("#provisioningId").val()
-						},
-						success : function(response) {
-							if (response != "" && response >= productAmount) {
-								if (isAdd) {
-									$('#agreementInput').prop('disabled', true)
-											.trigger("chosen:updated");
-									populateProductsDetailsTable();
-									populateProductsDetails(productDetails,
-											productAmount);
-								} else {
-									setNewAmount(productAmount);
-								}
-								$("#amountModal").modal('hide');
-							} else {
-								$("#productAmountInput").tooltip("destroy")
-										.data("title", "Stock insuficiente")
-										.addClass("has-error").tooltip();
-								return false;
-							}
-						},
-						error : function(jqXHR, textStatus, errorThrown) {
-							myGenericError();
+	$("#amountModalAcceptButton").click(function() {
+		if (validateProductAmountForm()) {
+			productAmount = parseInt($("#productAmountInput").val());
+			$.ajax({
+				url : "getProductAmount.do",
+				type : "GET",
+				async : false,
+				data : {
+					productId : productId,
+					agreementId : null,
+					provisioningId : null
+				},
+				success : function(response) {
+					if (response != "" && response >= productAmount) {
+						if (isAdd) {
+							$('#agreementInput').prop('disabled', true).trigger("chosen:updated");
+							populateProductsDetailsTable();
+							populateProductsDetails(productDetails,	productAmount);
+						} else {
+							setNewAmount(productAmount);
 						}
-					});
+						$("#amountModal").modal('hide');
+					} else {
+						$("#productAmountInput").tooltip("destroy").data("title", "Stock insuficiente").addClass("has-error").tooltip();
+						return false;
+					}
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					myGenericError();
 				}
 			});
+		}
+	});
 
 	var populateProductsDetailsTable = function() {
 		var tableRow = "<tr><td>"
@@ -350,60 +377,41 @@ var Supplying = function() {
 				}
 			});
 
-	$("#confirmButton")
-			.click(
-					function() {
-						if (validateForm()) {
-							if (productDetails.length > 0) {
-								if ($("#affiliateInput").val() != "") {
-									isButtonConfirm = true;
-									var jsonProvisioningRequest = {
-										"id" : $("#provisioningId").val(),
-										"deliveryLocationId" : $(
-												"#deliveryLocationInput").val(),
-										"agreementId" : $("#agreementInput")
-												.val(),
-										"logisticsOperatorId" : $(
-												"#logisticsOperatorInput")
-												.val(),
-										"affiliateId" : $("#affiliateInput")
-												.val(),
-										"deliveryDate" : $("#deliveryDateInput")
-												.val(),
-										"comment" : $("#commentTextarea").val(),
-										"clientId" : $("#clientInput").val(),
-										"products" : productDetails
-									};
+	
+	$("#confirmButton").click(function() {
+		if (validateForm()) {
+			if (productDetails.length > 0) {
+				if ($("#affiliateInput").val() != "") {
+					isButtonConfirm = true;
+					var jsonSupplying = {
+							//"id" : $("#provisioningId").val(),
+							"clientId" : $("#clientInput").val(),
+							"affiliateId" : $("#affiliateInput").val(),
+							"currentDate" : $("#currentDateInput").val(),
+							"products" : productDetails
+					};
 
-									$
-											.ajax({
-												url : "saveProvisioningRequest.do",
-												type : "POST",
-												contentType : "application/json",
-												data : JSON
-														.stringify(jsonProvisioningRequest),
-												async : true,
-												success : function(response) {
-													myReload(
-															"success",
-															"Se ha registrado la solicitud de abastecimiento n&uacute;mero: "
-																	+ response.id);
-												},
-												error : function(jqXHR,
-														textStatus, errorThrown) {
-													myGenericError();
-												}
-											});
-								} else {
-									myShowAlert('danger',
-											'Por favor, seleccione un afiliado.');
-								}
-							} else {
-								myShowAlert('danger',
-										'Por favor, ingrese al menos un producto.');
-							}
+					$.ajax({
+						url : "saveSupplying.do",
+						type : "POST",
+						contentType : "application/json",
+						data : JSON.stringify(jsonSupplying),
+						async : true,
+						success : function(response) {
+							myReload("success",	"Se ha registrado la solicitud de abastecimiento n&uacute;mero: " + response.id);
+						},
+						error : function(jqXHR,	textStatus, errorThrown) {
+							myGenericError();
 						}
 					});
+				} else {
+					myShowAlert('danger', 'Por favor, seleccione un afiliado.');
+				}
+			} else {
+				myShowAlert('danger', 'Por favor, ingrese al menos un producto.');
+			}
+		}
+	});
 
 	$('#addAffiliateModalForm').on('keypress', function(e) {
 		// Si la tecla presionada es 'ENTER'
@@ -432,59 +440,50 @@ var Supplying = function() {
 		return exists;
 	};
 
-	$("#addAffiliateModalAcceptButton")
-			.click(
-					function() {
-						if (validateAddAffiliateModalForm()) {
+	$("#addAffiliateModalAcceptButton").click(function() {
+		if (validateAddAffiliateModalForm()) {
 
-							var jsonAffiliate = {
-								"code" : $("#affiliateCodeInput").val(),
-								"name" : $("#affiliateNameInput").val(),
-								"surname" : $("#affiliateSurnameInput").val(),
-								"documentType" : $(
-										"#affiliateDocumentTypeInput").val(),
-								"document" : $("#affiliateDocumentInput").val(),
-								"clientId" : $("#clientInput").val(),
-								"active" : true
-							};
-							if (existsAffiliate()) {
-								$('#addAffiliateModalAlertDiv')
-										.html(
-												'<div class="alert alert-danger alert-block fade in">'
-														+ '<button type="button" class="close" data-dismiss="alert">'
-														+ '&times;</button>C&oacute;digo existente. Por favor, ingrese uno diferente.</div>');
-							} else {
-								$
-										.ajax({
-											url : "saveAffiliate.do",
-											type : "POST",
-											contentType : "application/json",
-											data : JSON
-													.stringify(jsonAffiliate),
-											async : true,
-											success : function(response) {
-												$("#addAffiliateModal").modal(
-														'hide');
-												$('#affiliateInput')
-														.select2(
-																"data",
-																{
-																	id : response.id,
-																	text : response.code
-																			+ ' - '
-																			+ response.surname
-																			+ ' '
-																			+ response.name
-																});
-											},
-											error : function(jqXHR, textStatus,
-													errorThrown) {
-												myGenericError("addAffiliateModalAlertDiv");
-											}
-										});
-							}
-						}
-					});
+			var jsonAffiliate = {
+					"code" : $("#affiliateCodeInput").val(),
+					"name" : $("#affiliateNameInput").val(),
+					"surname" : $("#affiliateSurnameInput").val(),
+					"documentType" : $("#affiliateDocumentTypeInput").val(),
+					"document" : $("#affiliateDocumentInput").val(),
+					"clientId" : $("#clientInput").val(),
+					"active" : true
+			};
+			if (existsAffiliate()) {
+				$('#addAffiliateModalAlertDiv').html(
+						'<div class="alert alert-danger alert-block fade in">'
+						+ '<button type="button" class="close" data-dismiss="alert">'
+						+ '&times;</button>C&oacute;digo existente. Por favor, ingrese uno diferente.</div>');
+			} else {
+				$.ajax({
+					url : "saveAffiliate.do",
+					type : "POST",
+					contentType : "application/json",
+					data : JSON.stringify(jsonAffiliate),
+					async : true,
+					success : function(response) {
+						$("#addAffiliateModal").modal('hide');
+						$('#affiliateInput').select2("data",
+							{
+							id : response.id,
+							text : response.code
+							+ ' - '
+							+ response.surname
+							+ ' '
+							+ response.name
+								});
+					},
+					error : function(jqXHR, textStatus,
+							errorThrown) {
+						myGenericError("addAffiliateModalAlertDiv");
+					}
+				});
+			}
+		}
+	});
 
 	var productEntered = function(productId) {
 		for (var i = 0, l = productDetails.length; i < l; ++i) {
@@ -518,42 +517,13 @@ var Supplying = function() {
 
 	$('#clientInput').on('change', function(evt, params) {
 		if ($("#clientInput").val() == "") {
-			// $("#affiliateInput").attr("disabled",
-			// true).trigger("chosen:updated");
-			// $("#affiliateInput").empty();
-			// $('#affiliateInput').trigger("chosen:updated");
 			$("#affiliateInput").select2("val", "");
 		} else {
 			$("#affiliateInput").select2("enable", true);
 		}
 	});
 
-	$('#agreementInput').on('change', function(evt, params) {
-		if ($("#agreementInput").val() == "") {
-			$("#productInput").attr("disabled", true);
-		} else {
-			$("#productInput").attr("disabled", false);
-		}
+	$("#provisioningRequestForm input, #provisioningRequestForm select").keypress(function(event) {
+		return event.keyCode != 13;
 	});
-
-	if (isUpdate) {
-		$("#divProvisioningId").show();
-
-		$("#productInput").attr("disabled", false);
-		$('#agreementInput').prop('disabled', true).trigger("chosen:updated");
-		$("#productTableBody tr").each(function() {
-			var productDetail = {};
-			productDetail.productId = $(this).find(".span-productId").html();
-			productDetail.amount = $(this).find(".td-amount").html();
-			productDetails.push(productDetail);
-		});
-	} else {
-		$("#affiliateInput").select2("enable", false);
-	}
-
-	$("#provisioningRequestForm input, #provisioningRequestForm select")
-			.keypress(function(event) {
-				return event.keyCode != 13;
-			});
-
 };
