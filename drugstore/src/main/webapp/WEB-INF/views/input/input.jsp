@@ -401,10 +401,20 @@
 
 <%-- Confirmaci�n del delete de una row --%>
 <div class="modal fade" data-backdrop="static" id="forcedInputConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog" style="width:250px">
+	<div class="modal-dialog" style="width:400px">
 		<div class="modal-content">
 			<div class="modal-body">
-				<strong><span style="color:red"><spring:message code="input.forcedInputConfirmationModal.text"/></span></strong>
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <strong><span style="color:red"><spring:message code="input.forcedInputConfirmationModal.text"/></span></strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <label><spring:message code="common.transactionCodeDescription"/>:&nbsp;&nbsp;</label>
+                        <input type="text" name="selfSerializedBatch" id="transactionCodeInput" class="form-control"  tabindex="1">
+                    </div>
+                </div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.no"/></button>

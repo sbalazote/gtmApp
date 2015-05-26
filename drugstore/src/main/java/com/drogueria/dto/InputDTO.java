@@ -15,6 +15,7 @@ public class InputDTO implements Serializable {
 	private String deliveryNoteNumber;
 	private String purchaseOrderNumber;
 	private String date;
+    private String transactionCodeANMAT;
 
 	private List<InputDetailDTO> inputDetails;
 
@@ -90,4 +91,11 @@ public class InputDTO implements Serializable {
 		this.deliveryLocationId = deliveryLocationId;
 	}
 
+    public String getTransactionCodeANMAT() {
+        return transactionCodeANMAT;
+    }
+
+    public void setTransactionCodeANMAT(String transactionCodeANMAT) {
+        this.transactionCodeANMAT = transactionCodeANMAT;
+    }
 }
