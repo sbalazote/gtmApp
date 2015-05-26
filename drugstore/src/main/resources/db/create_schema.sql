@@ -401,13 +401,16 @@ CREATE TABLE `drugstore`.`supplying` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `client_id` int(11) NOT NULL,
   `affiliate_id` int(11) NOT NULL,
+  `agreement_id` int(11) NOT NULL,
   `date` date NOT NULL,
   `cancelled` bit(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_supplying_client_idx` (`client_id`),
   KEY `fk_supplying_affiliate_idx` (`affiliate_id`),
+  KEY `fk_supplying_agreement_idx` (`agreement_id`),
   CONSTRAINT `fk_supplying_client_idx` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_supplying_affiliate_idx` FOREIGN KEY (`affiliate_id`) REFERENCES `affiliate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_supplying_agreement_idx` FOREIGN KEY (`agreement_id`) REFERENCES `agreement` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `drugstore`.`supplying_detail` (
