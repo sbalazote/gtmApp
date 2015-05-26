@@ -396,7 +396,7 @@ var Supplying = function() {
 			"expirationDate": expirationDate,
 			"amount": amount,
 			"gtin": gtin,
-			"inStock": inStock
+			"inStock": !isOutOfStock
 		};
 		orderDetails.push(orderDetail);
 	};
@@ -533,7 +533,7 @@ var Supplying = function() {
 
 					for (var i = 0, lengthI = supplyingDetailGroup.length; i < lengthI; i++) {
 					for (var j = 0; lengthJ = supplyingDetailGroup[i].length, j < lengthJ; j++) {
-						jsonOutput.outputDetails.push(supplyingDetailGroup[i][j]);
+						jsonSupplying.supplyingDetails.push(supplyingDetailGroup[i][j]);
 					}
 				}
 				
@@ -546,7 +546,7 @@ var Supplying = function() {
 						data : JSON.stringify(jsonSupplying),
 						async : true,
 						success : function(response) {
-							myReload("success",	"Se ha registrado la solicitud de abastecimiento n&uacute;mero: " + response.id);
+							myReload("success",	"Se ha registrado la dispensa n&uacute;mero: " + response.id);
 						},
 						error : function(jqXHR,	textStatus, errorThrown) {
 							myGenericError();

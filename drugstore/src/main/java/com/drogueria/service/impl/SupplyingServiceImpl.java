@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.drogueria.dto.SupplyingDTO;
 import com.drogueria.dto.SupplyingDetailDTO;
+import com.drogueria.model.Agreement;
 import com.drogueria.model.Product;
 import com.drogueria.model.ProductGtin;
 import com.drogueria.model.Stock;
@@ -18,6 +19,7 @@ import com.drogueria.model.Supplying;
 import com.drogueria.model.SupplyingDetail;
 import com.drogueria.persistence.dao.SupplyingDAO;
 import com.drogueria.service.AffiliateService;
+import com.drogueria.service.AgreementService;
 import com.drogueria.service.ClientService;
 import com.drogueria.service.ProductGtinService;
 import com.drogueria.service.ProductService;
@@ -35,6 +37,8 @@ public class SupplyingServiceImpl implements SupplyingService {
 	private ClientService clientService;
 	@Autowired
 	private AffiliateService affiliateService;
+	@Autowired
+	private AgreementService agreementService;
 	@Autowired
 	private ProductService productService;
 	@Autowired
@@ -56,7 +60,11 @@ public class SupplyingServiceImpl implements SupplyingService {
 		SimpleDateFormat expirationDateFormatter = new SimpleDateFormat("dd/MM/yy");
 
 		try {
+			Agreement agreement = this.agreementService.get(supplyingDTO.getAgreementId());
+
 			Supplying supplying = new Supplying();
+			supplying.setAgreement(agreement);
+
 			supplying.setClient(this.clientService.get(supplyingDTO.getClientId()));
 			supplying.setAffiliate(this.affiliateService.get(supplyingDTO.getAffiliateId()));
 			supplying.setDate(dateFormatter.parse(supplyingDTO.getDate()));
@@ -87,7 +95,8 @@ public class SupplyingServiceImpl implements SupplyingService {
 				}
 
 				supplyingDetail.setProduct(product);
-				this.updateStock(supplyingDetail);
+				supplyingDetail.setInStock(supplyingDetailDTO.getInStock());
+				this.updateStock(supplyingDetail, agreement);
 				details.add(supplyingDetail);
 			}
 			supplying.setSupplyingDetails(details);
@@ -99,10 +108,9 @@ public class SupplyingServiceImpl implements SupplyingService {
 		}
 	}
 
-	private void updateStock(SupplyingDetail supplyingDetail) {
+	private void updateStock(SupplyingDetail supplyingDetail, Agreement agreement) {
 		Stock stock = new Stock();
-		// TODO AGREEMENT NULL ?????
-		stock.setAgreement(null);
+		stock.setAgreement(agreement);
 		stock.setAmount(supplyingDetail.getAmount());
 		stock.setBatch(supplyingDetail.getBatch());
 		stock.setExpirationDate(supplyingDetail.getExpirationDate());

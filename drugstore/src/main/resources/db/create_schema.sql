@@ -410,7 +410,7 @@ CREATE TABLE `drugstore`.`supplying` (
   KEY `fk_supplying_agreement_idx` (`agreement_id`),
   CONSTRAINT `fk_supplying_client_idx` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_supplying_affiliate_idx` FOREIGN KEY (`affiliate_id`) REFERENCES `affiliate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_supplying_agreement_idx` FOREIGN KEY (`agreement_id`) REFERENCES `agreement` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_supplying_agreement_idx` FOREIGN KEY (`agreement_id`) REFERENCES `agreement` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `drugstore`.`supplying_detail` (
@@ -422,7 +422,7 @@ CREATE TABLE `drugstore`.`supplying_detail` (
   `batch` varchar(30) NOT NULL,
   `expiration_date` date NOT NULL,
   `amount` int(11) NOT NULL,
-  `inStock` bit(1) NOT NULL,,
+  `in_stock` bit(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_supplying_detail_supplying_idx` (`supplying_id`),
   KEY `fk_supplying_detail_product_idx` (`product_id`),

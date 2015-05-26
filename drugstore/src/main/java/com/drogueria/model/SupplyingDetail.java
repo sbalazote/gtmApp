@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "output_detail")
+@Table(name = "supplying_detail")
 public class SupplyingDetail implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -42,8 +42,8 @@ public class SupplyingDetail implements Serializable {
 	@Column(name = "amount", nullable = false)
 	private Integer amount;
 
-	@Column(name = "inStock", nullable = false)
-	private Boolean inStock;
+	@Column(name = "in_stock", nullable = false)
+	private boolean inStock;
 
 	public Integer getId() {
 		return this.id;
@@ -101,11 +101,11 @@ public class SupplyingDetail implements Serializable {
 		this.amount = amount;
 	}
 
-	public Boolean getInStock() {
+	public boolean getInStock() {
 		return this.inStock;
 	}
 
-	public void setInStock(Boolean inStock) {
+	public void setInStock(boolean inStock) {
 		this.inStock = inStock;
 	}
 }
