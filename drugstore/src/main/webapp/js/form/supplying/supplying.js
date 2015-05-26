@@ -1,6 +1,3 @@
-/**
- * 
- */
 var Supplying = function() {
 
 	var productId = null;
@@ -40,22 +37,16 @@ var Supplying = function() {
 	};
 
 	var validateForm = function() {
-		var form = $("#provisioningRequestForm");
-		$("#provisioningRequestForm").validate({
+		var form = $("#supplyingForm");
+		$("#supplyingForm").validate({
 			rules : {
 				client : {
-					required : true
-				},
-				deliveryLocation : {
-					required : true
-				},
-				agreement : {
 					required : true
 				},
 				affiliate : {
 					required : true
 				},
-				deliveryDate : {
+				currentDate : {
 					required : true
 				}
 			},
@@ -183,8 +174,8 @@ var Supplying = function() {
 				}
 			});
 
-	$('#deliveryDateButton').click(function() {
-		$("#deliveryDateInput").datepicker().focus();
+	$('#currentDateButton').click(function() {
+		$("#currentDateInput").datepicker().focus();
 	});
 
 	$("#currentDateInput").datepicker().datepicker("setDate", currentDate);
@@ -202,7 +193,7 @@ var Supplying = function() {
 						async : false,
 						data : {
 							term : request.term,
-							agreementId : $("#agreementInput").val(),
+							agreementId : null,
 						},
 						success : function(data) {
 							var array = $.map(data, function(item) {

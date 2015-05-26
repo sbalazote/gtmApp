@@ -397,6 +397,38 @@ CREATE TABLE `drugstore`.`output_detail` (
   CONSTRAINT `fk_output_detail_product_gtin` FOREIGN KEY (`gtin_id`) REFERENCES `product_gtin` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `drugstore`.`supplying` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `affiliate_id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `cancelled` bit(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_supplying_client_idx` (`client_id`),
+  KEY `fk_supplying_affiliate_idx` (`affiliate_id`),
+  CONSTRAINT `fk_supplying_client_idx` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_supplying_affiliate_idx` FOREIGN KEY (`affiliate_id`) REFERENCES `affiliate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `drugstore`.`supplying_detail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `supplying_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `gtin_id` int(11),
+  `serial_number` varchar(30) DEFAULT NULL,
+  `batch` varchar(30) NOT NULL,
+  `expiration_date` date NOT NULL,
+  `amount` int(11) NOT NULL,
+  `inStock` bit(1) NOT NULL,,
+  PRIMARY KEY (`id`),
+  KEY `fk_supplying_detail_supplying_idx` (`supplying_id`),
+  KEY `fk_supplying_detail_product_idx` (`product_id`),
+  KEY `fk_supplying_detail_gtin_idx` (`gtin_id`),
+  CONSTRAINT `fk_supplying_detail_supplying_idx` FOREIGN KEY (`supplying_id`) REFERENCES `supplying` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_supplying_detail_product_idx` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_supplying_detail_gtin_idx` FOREIGN KEY (`gtin_id`) REFERENCES `product_gtin` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `drugstore`.`provisioning_request_state` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(20) NOT NULL,
