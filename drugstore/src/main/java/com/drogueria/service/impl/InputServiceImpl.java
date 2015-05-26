@@ -532,6 +532,9 @@ public class InputServiceImpl implements InputService {
 	public Input authorizeWithoutInform(InputDTO inputDTO, String name) {
 		Input input = this.update(inputDTO);
 		if (input.isInformAnmat()) {
+            if(inputDTO.getTransactionCodeANMAT() != null){
+                input.setTransactionCodeANMAT(inputDTO.getTransactionCodeANMAT());
+            }
 			input.setInformed(true);
 		}
 		this.saveAndUpdateStock(input);

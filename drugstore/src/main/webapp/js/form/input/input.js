@@ -55,6 +55,8 @@ Input = function() {
     $("#selfSerializedAmountInput").numeric();
     
     $("#amountInput").numeric();
+
+    $("#transactionCodeInput").numeric();
     
     if(isUpdate){
 		$('#productInput').prop('disabled', true);
@@ -571,6 +573,7 @@ Input = function() {
 				"deliveryNoteNumber": $("#deliveryNotePOSInput").val() + $("#deliveryNoteNumberInput").val(),
 				"purchaseOrderNumber": $("#purchaseOrderNumberInput").val().trim(),
 				"date": $("#currentDateInput").val(),
+                "transactionCodeANMAT": $("#transactionCodeInput").val(),
 				"inputDetails": []
 			};
 			
