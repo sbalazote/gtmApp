@@ -249,11 +249,16 @@ Input = function() {
 	$('#amountModal').on('hidden.bs.modal', function () {
 	    cleanAmountModal();
 	    cleanProductInput();
+	    $('#productInput').focus();
 	});
 	
 	$('#amountModal').keypress(function(e) {
         if (e.keyCode === 13) {
         	$("#amountModalAcceptButton").trigger('click');
+        	return false;
+        }
+        if (e.keyCode === 27) {
+        	$('#productInput').focus();
         	return false;
         }
     });
