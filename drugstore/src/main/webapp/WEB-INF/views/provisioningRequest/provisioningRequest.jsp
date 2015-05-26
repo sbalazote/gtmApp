@@ -13,7 +13,7 @@
 
 	<div class="row">
 		<div class="col-md-9 form-group">
-			<h1 class="form-provisioningRequest-heading"><spring:message code="provisioningRequest.label" /></h1> 
+			<h3 class="form-provisioningRequest-heading"><spring:message code="provisioningRequest.label" /></h3> 
 			<input type="hidden" class="form-control" id="provisioningId" value="${provisioningRequestId != null ? provisioningRequestId : ''}">
 		</div>
 		<div id="divProvisioningId" class="col-md-3 form-group" style="display:none;">

@@ -14,7 +14,7 @@
 
 	<div class="row">
 		<div class="col-md-9 form-group">
-			<h1 class="form-agreementTransfer-heading"><spring:message code="common.agreementTransfer" /></h1> 
+			<h3 class="form-agreementTransfer-heading"><spring:message code="common.agreementTransfer" /></h3> 
 		</div>
 	</div>
 

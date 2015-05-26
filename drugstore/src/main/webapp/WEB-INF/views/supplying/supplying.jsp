@@ -15,7 +15,7 @@
 
 	<div class="row">
 		<div class="col-md-6 form-group">
-			<h1 class="form-supplying-heading"><spring:message code="supplying.label" /></h1> 
+			<h3 class="form-supplying-heading"><spring:message code="supplying.label" /></h3> 
 			<input type="hidden" class="form-control" id="supplyingId" value="${supplyingId != null ? supplyingId : ''}">
 		</div>
 		<div class="col-md-3">
