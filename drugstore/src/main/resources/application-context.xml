@@ -16,7 +16,13 @@
 		http://www.springframework.org/schema/task  
 		http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
-    <context:property-placeholder location="classpath:${config-directory}/${env}.properties"/>
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:conf/persistence.properties</value>
+            </list>
+        </property>
+    </bean>
     <import resource="persistence-context.xml"/>
     <import resource="security-context.xml"/>
 	
