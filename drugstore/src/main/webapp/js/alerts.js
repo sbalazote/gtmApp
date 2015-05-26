@@ -46,6 +46,26 @@ $(document).ready(function() {
 	
 	// Alerts
 	
+	noStockSupplyingAlert = function(element) {
+		var message = 'No existe ese producto en el inventario. A continuacion asignara productos fuera del mismo.';
+		myShowAlert('danger', message, element);
+		BootstrapDialog.show({
+			type: BootstrapDialog.TYPE_WARNING,
+	        message: message,
+	        title: 'Advertencia!',
+	        message: message,
+	        closable: false,
+	        buttons: [{
+	        	label: 'OK',
+                cssClass: 'btn-primary',
+                action: function(dialogItself) {
+                    //typeof dialogItself.getData('callback') === 'function' && dialogItself.getData('callback')(true);
+                    dialogItself.close();
+                }
+            }]
+		});
+	};
+	
 	myGenericError = function(element) {
 		var message = 'Ha ocurrido un error al intentar procesar su solicitud. Por favor, comun&uacute;quese con el Administrador del Sistema.';
 		myShowAlert('danger', message, element);

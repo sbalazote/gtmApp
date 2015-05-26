@@ -9,6 +9,7 @@ public class SupplyingDTO implements Serializable {
 	private Integer id;
 	private Integer clientId;
 	private Integer affiliateId;
+	private Integer agreementId;
 	private String date;
 	private List<SupplyingDetailDTO> supplyingDetails;
 
@@ -34,6 +35,14 @@ public class SupplyingDTO implements Serializable {
 
 	public void setAffiliateId(Integer affiliateId) {
 		this.affiliateId = affiliateId;
+	}
+
+	public Integer getAgreementId() {
+		return this.agreementId;
+	}
+
+	public void setAgreementId(Integer agreementId) {
+		this.agreementId = agreementId;
 	}
 
 	public String getDate() {

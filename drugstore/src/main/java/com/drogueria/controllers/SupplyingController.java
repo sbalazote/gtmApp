@@ -19,6 +19,7 @@ import com.drogueria.constant.AuditState;
 import com.drogueria.constant.RoleOperation;
 import com.drogueria.dto.SupplyingDTO;
 import com.drogueria.model.Supplying;
+import com.drogueria.service.AgreementService;
 import com.drogueria.service.AuditService;
 import com.drogueria.service.ClientService;
 import com.drogueria.service.SupplyingService;
@@ -32,11 +33,14 @@ public class SupplyingController {
 	private AuditService auditService;
 	@Autowired
 	private ClientService clientService;
+	@Autowired
+	private AgreementService agreementService;
 
 	@RequestMapping(value = "/supplying", method = RequestMethod.GET)
 	public String supplying(ModelMap modelMap) throws Exception {
 		modelMap.put("currentDate", (new SimpleDateFormat("dd/MM/yyyy").format(new Date())).toString());
 		modelMap.put("clients", this.clientService.getAllActives());
+		modelMap.put("agreements", this.agreementService.getAllActives());
 
 		return "supplying";
 	}

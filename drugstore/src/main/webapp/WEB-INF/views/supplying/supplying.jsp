@@ -3,6 +3,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script type="text/javascript" src="js/form/supplying/supplying.js"></script>
+<script type="text/javascript" src="js/form/output/outputBatchExpirateDate.js"></script>
+<script type="text/javascript" src="js/form/output/outputSerialized.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		new Supplying();
@@ -33,7 +35,7 @@
 	</div>
 
 	<div class="row">
-		<div class="col-md-6 form-group">
+		<div class="col-md-4 form-group">
 			<label for="clientInput"><spring:message code="common.client" /></label>
 			<select id="clientInput" name="client" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 				<option value=""></option>
@@ -42,16 +44,25 @@
 				</c:forEach>
 			</select>
 		</div>
-		<div class="col-md-6 form-group">
+		<div class="col-md-4 form-group">
 			<label for="affiliateInput"><spring:message code="common.affiliate" /></label>
 			<input type='hidden' id="affiliateInput" name="affiliate" class="form-control">
 		</div>
+		<div class="col-md-4 form-group">
+		<label for="agreementInput"><spring:message code="common.agreement"/></label>
+		<select id="agreementInput" name="agreement" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
+			<option value=""></option>
+			<c:forEach items="${agreements}" var="agreement">
+				<option value="${agreement.id}"><c:out value="${agreement.code}"></c:out> - <c:out value="${agreement.description}"></c:out></option>
+			</c:forEach>
+		</select>
+	</div>
 	</div>
 
 	<div class="row">
 		<div class="col-md-12 form-group">
 			<label for="productInput"><spring:message code="common.addProduct"/></label>
-			<input id="productInput" type="search" placeholder='<spring:message code="common.search"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental" disabled/>
+			<input id="productInput" type="search" placeholder='<spring:message code="common.search"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental"/>
 		</div>
 	</div>
 
@@ -68,17 +79,6 @@
 				</tr>
 			</thead>
 			<tbody id="productTableBody">
-			<c:forEach items="${productsSelected}" var="supplyingDetail" varStatus="status">
-				<tr>
-					<td><c:out value="${supplyingDetail.product.code}"></c:out> - <c:out value="${supplyingDetail.product.description}"></c:out>
-					<span class='span-productId' style='display:none'>${supplyingDetail.product.id}</span>
-					</td>
-					<td class='td-amount'><c:out value="${supplyingDetail.amount}"></c:out></td>
-					<td>
-						<a href='javascript:void(0);' class='edit-row'><i class='glyphicon glyphicon-pencil'></i></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='javascript:void(0);' class='delete-row'><i class='glyphicon glyphicon-remove'></i></a>
-					</td>
-				</tr>
-			</c:forEach>
 			</tbody>
 		</table>
 	</div>
@@ -184,8 +184,138 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.no"/></button>
-				<button type="button" class="btn btn-primary" data-dismiss="modal" id="provisoningDeleteRowConfirmationButton"><spring:message code="common.yes"/></button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" id="inputDeleteRowConfirmationButton"><spring:message code="common.yes"/></button>
 			</div>
 		</div>
 	</div>
 </div>
+
+<%-- Modal Ingreso Lote y Vencimiento --%>
+<form id="batchExpirationDateModalForm" action="" onsubmit="return false;">
+	<div class="modal fade" data-backdrop="static" data-keyboard="false" id="batchExpirationDateModal">
+		<div class="modal-dialog" style="width: 900px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title"><spring:message code="orderAssembly.modal.batchExpirationDateModal.title"/></h4>
+				</div>
+				<div id="batchExpirationDateModalAlertDiv"></div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12 form-group">
+							<label><spring:message code="common.product"/>:&nbsp;&nbsp;</label>
+							<label id="batchExpirationDateProductLabel"></label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4 form-group">
+							<label><spring:message code="common.amount"/>:&nbsp;&nbsp;</label>
+							<span style="color:black"><label id="batchExpirationDateRequestedAmountLabel"></label></span>
+						</div>
+						<div class="col-md-4 form-group">
+							<label><spring:message code="common.entered"/>:&nbsp;&nbsp;</label>
+							<span style="color:blue"><label id="batchExpirationDateEnteredAmountLabel"></label></span>
+						</div>
+						<div class="col-md-4 form-group">
+							<label><spring:message code="common.remaining"/>:&nbsp;&nbsp;</label>
+							<span style="color:red"><label id="batchExpirationDateRemainingAmountLabel"></label></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 form-group">
+							<select id="batchExpirationDateSelect" name="batchExpirationDate" class="form-control chosen-select" data-placeholder="<spring:message code='orderAssembly.batchExpirationDate.placeholder'/>"></select>
+						</div>
+						<div class="col-md-3 form-group">
+							<input type="text" name="amount" id="amountInput" placeholder='<spring:message code="input.amount.placeholder"/>' class="form-control">
+						</div>
+						<div class="col-md-3 form-group">
+							<button id="batchExpirationDateAddButton" type="button" class="btn btn-warning"> <span class="glyphicon glyphicon-plus"></span>Asignar</button>
+						</div>
+					</div>
+					<div>
+						<table id="batchExpirationDateTable" class="table">
+							<thead>
+								<tr>
+									<th><spring:message code="common.batch" /></th>
+									<th><spring:message code="common.expirationDate" /></th>
+									<th><spring:message code="common.amount" /></th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.abort"/></button>
+					<button type="button" class="btn btn-primary" id="batchExpirationDateAcceptButton"><spring:message code="common.confirm"/></button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<%-- Modal Ingreso Serializados --%>
+<form id="serializedModalForm" action="" onsubmit="return false;">
+	<div class="modal fade" data-backdrop="static" data-keyboard="false" id="serializedModal">
+		<div class="modal-dialog" style="width: 900px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title"><spring:message code="orderAssembly.modal.serializedModal.title"/></h4>
+				</div>
+				<div id="serializedModalAlertDiv"></div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12 form-group">
+							<label><spring:message code="common.product"/>:&nbsp;&nbsp;</label>
+							<label id="serializedProductLabel"></label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4 form-group">
+							<label><spring:message	code="common.amount"/>:&nbsp;&nbsp;</label>
+							<span style="color:black"><label id="serializedRequestedAmountLabel"></label></span>
+						</div>
+						<div class="col-md-4 form-group">
+							<label><spring:message code="common.entered"/>:&nbsp;&nbsp;</label>
+							<span style="color:blue"><label id="serializedEnteredAmountLabel"></label></span>
+						</div>
+						<div class="col-md-4 form-group">
+							<label><spring:message code="common.remaining"/>:&nbsp;&nbsp;</label>
+							<span style="color:red"><label id="serializedRemainingAmountLabel"></label></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-10 form-group">
+							<input id="readSerialNumberInput" name="readSerialNumber" placeholder='<spring:message code="common.readSerial"/>' type="text" class="form-control">
+						</div>
+						<div class="col-md-2 form-group">
+							<button id="serializedAddButton" type="button" class="btn btn-warning"><span class="glyphicon glyphicon-plus"></span><spring:message code="common.add"/></button>
+						</div>
+					</div>
+					<div>
+						<table id="serializedTable" class="table">
+							<thead>
+								<tr>
+									<th style="display: none;" ><spring:message code="common.gtin"/></th>
+									<th><spring:message code="common.serialNumber"/></th>
+									<th><spring:message code="common.batch"/></th>
+									<th><spring:message code="common.expirationDate"/></th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.abort"/></button>
+					<button type="button" class="btn btn-primary" id="serializedAcceptButton"><spring:message code="common.confirm"/></button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

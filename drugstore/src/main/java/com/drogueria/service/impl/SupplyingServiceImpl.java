@@ -95,7 +95,7 @@ public class SupplyingServiceImpl implements SupplyingService {
 			return supplying;
 
 		} catch (Exception e) {
-			throw new RuntimeException("No se ha podido mapear el OutputDTO", e);
+			throw new RuntimeException("No se ha podido mapear el SupplyingDTO", e);
 		}
 	}
 

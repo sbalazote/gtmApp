@@ -33,6 +33,10 @@ public class Supplying implements Serializable {
 	@JoinColumn(name = "affiliate_id")
 	private Affiliate affiliate;
 
+	@ManyToOne
+	@JoinColumn(name = "agreement_id", nullable = false)
+	private Agreement agreement;
+
 	@Column(name = "date", nullable = false)
 	private Date date;
 
@@ -65,6 +69,14 @@ public class Supplying implements Serializable {
 
 	public void setAffiliate(Affiliate affiliate) {
 		this.affiliate = affiliate;
+	}
+
+	public Agreement getAgreement() {
+		return this.agreement;
+	}
+
+	public void setAgreement(Agreement agreement) {
+		this.agreement = agreement;
 	}
 
 	public Date getDate() {

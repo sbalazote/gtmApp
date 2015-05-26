@@ -1,19 +1,43 @@
 var Supplying = function() {
 
-	var productId = null;
-	var productDescription = null;
-	var productAmount = null;
-	var productDetails = [];
-
-	var isAdd = true;
+	var isOutOfStock = false;
+	
 	var currentRowElement = null;
 
 	var addAffiliateModalFormValidator = null;
 	var amountFormValidator = null;
 
 	var currentDate = new Date();
+	
+	var batchExpirationDate = new OutputBatchExpirationDate();
+	var serialized = new OutputSerialized();
+	
+	// Los orderDetails agrupados por fila
+	var supplyingDetailGroup = [];
+	
+	// Mapa con los series que se cargaron por cada producto 
+	var tempSerialNumberGroup = {};
+	
+	// Mapa con los stockIds que se cargaron por cada producto 
+	var tempStockIdsGroup = {};
+	
+	var productDescription = "";
+	var productAmount = "";
+	var productId = "";
+	var productType = "";
+	var productGtin = "";
+	
+	// Para validar que no ingrese 2 veces el mismo producto 
+	var productIds = [];
+	
+	// La fila donde se hace click (en el editar o borrar)
+	var currentRow = 0;
+	
+	var isEdit = false;
 
 	var isButtonConfirm = false;
+	
+	$("#productInput").attr("disabled", true);
 
 	var cleanAddAffiliateModal = function() {
 		$("#addAffiliateModal input").val("");
@@ -39,6 +63,9 @@ var Supplying = function() {
 				},
 				affiliate : {
 					required : true
+				},
+				agreement: {
+					required: true
 				},
 				currentDate : {
 					required : true
@@ -177,24 +204,21 @@ var Supplying = function() {
 
 	$("#productInput").autocomplete({
 		source : function(request, response) {
+			var url = isOutOfStock ? "getProducts.do" : "getProductoFromStock.do";
+			var data = isOutOfStock ? { term: request.term, active: true } : { term : request.term, agreementId : $("#agreementInput").val(), };
 			$.ajax({
-				url : "getProductoFromStock.do",
+				url : url,
 				type : "GET",
 				async : false,
-				data : {
-					term : request.term,
-					agreementId : null,
-				},
+				data : data,
 				success : function(data) {
 					var array = $.map(data, function(item) {
 						return {
 							id : item.id,
-							label : item.code + " - "
-							+ item.description + " - "
-							+ item.brand.description + " - "
-							+ item.monodrug.description,
-							value : item.code + " - "
-							+ item.description,
+							label : item.code + " - " + item.description + " - " + item.brand.description + " - " + item.monodrug.description,
+							value : item.code + " - " + item.description,
+							gtin: item.lastGtin,
+							type: item.type
 						};
 					});
 					response(array);
@@ -207,20 +231,26 @@ var Supplying = function() {
 		select : function(event, ui) {
 			if (!productEntered(ui.item.id)) {
 				productId = ui.item.id;
+				productGtin = ui.item.gtin;
 				productDescription = ui.item.value;
-				isAdd = true;
-
-				$('#productInput').data("title", "").removeClass(
-				"has-error").tooltip("destroy");
+				productType = ui.item.type;
+				$('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
 				$("#productInput").val(productDescription);
 				$('#amountModal').modal('show');
 			} else {
 				myShowAlert('danger', 'Producto ya Ingresado');
+				$("#productInput").val("");
 			}
 			return false;
 		},
 		minLength : 3,
-		autoFocus : true
+		autoFocus : true,
+		response: function(event, ui) {
+            if ((ui.content.length === 0) && (!isOutOfStock)) {
+            	isOutOfStock = true;
+            	noStockSupplyingAlert();
+            }
+        }
 	});
 	
 	$('#productInput').keydown(function(e) {
@@ -230,7 +260,7 @@ var Supplying = function() {
 				type: "GET",
 				data: {
 					serial: $(this).val(),
-					agreementId: null
+					agreementId: $("#agreementInput").val()
 				},
 				success: function(response) {
 					if (response != "") {
@@ -282,6 +312,14 @@ var Supplying = function() {
 		cleanAmountModal();
 		cleanProductInput();
 	});
+	
+	$('#agreementInput').on('change', function(evt, params) {
+		if($("#agreementInput").val() == ""){
+			$("#productInput").attr("disabled", true);
+		}else{
+			$("#productInput").attr("disabled", false);
+		}
+	});
 
 	$('#amountModal').on('keypress', function(e) {
 		if (e.keyCode === 13) {
@@ -293,57 +331,165 @@ var Supplying = function() {
 	$("#amountModalAcceptButton").click(function() {
 		if (validateProductAmountForm()) {
 			productAmount = parseInt($("#productAmountInput").val());
-			$.ajax({
-				url : "getProductAmount.do",
-				type : "GET",
-				async : false,
-				data : {
-					productId : productId,
-					agreementId : null,
-					provisioningId : null
-				},
-				success : function(response) {
-					if (response != "" && response >= productAmount) {
-						if (isAdd) {
+			if (!isOutOfStock) {
+				$.ajax({
+					url : "getProductAmount.do",
+					type : "GET",
+					async : false,
+					data : {
+						productId : productId,
+						agreementId : $("#agreementInput").val(),
+						provisioningId : null
+					},
+					success : function(response) {
+						if (response != "" && response >= productAmount) {
 							$('#agreementInput').prop('disabled', true).trigger("chosen:updated");
-							populateProductsDetailsTable();
-							populateProductsDetails(productDetails,	productAmount);
+							openModal(null);
+							$("#amountModal").modal('hide');
 						} else {
-							setNewAmount(productAmount);
+							$("#productAmountInput").tooltip("destroy").data("title", "Stock insuficiente").addClass("has-error").tooltip();
+							return false;
 						}
-						$("#amountModal").modal('hide');
-					} else {
-						$("#productAmountInput").tooltip("destroy").data("title", "Stock insuficiente").addClass("has-error").tooltip();
-						return false;
+					},
+					error : function(jqXHR, textStatus, errorThrown) {
+						myGenericError();
 					}
-				},
-				error : function(jqXHR, textStatus, errorThrown) {
-					myGenericError();
-				}
-			});
+				});
+			} else {
+				$('#agreementInput').prop('disabled', true).trigger("chosen:updated");
+				openModal(null);
+				$("#amountModal").modal('hide');
+			}
 		}
 	});
 
+	var openModal = function(preloadedData) {
+		if (productType == "BE") {
+			batchExpirationDate.setPreloadedProduct(productDescription);
+			batchExpirationDate.setPreloadedProductId(productId);
+			batchExpirationDate.setPreloadedAmount(productAmount);
+			batchExpirationDate.setPreloadedData(preloadedData);
+			batchExpirationDate.setPreloadedStockIds(tempStockIdsGroup[productId]);
+			
+			batchExpirationDate.preloadModalData();
+			$('#batchExpirationDateModal').modal('show');
+			
+		} else {
+			serialized.setPreloadedProduct(productDescription);
+			serialized.setPreloadedProductId(productId);
+			serialized.setPreloadedProductType(productType);
+			serialized.setPreloadedAmount(productAmount);
+			serialized.setPreloadedData(preloadedData);
+			serialized.setProductSelectedGtin(productGtin);
+			serialized.setTempSerialNumbers(tempSerialNumberGroup[productId]);
+			
+			serialized.preloadModalData();
+			$('#serializedModal').modal('show');
+		}
+	};
+	
+	var populateInputDetails = function(orderDetails, serialNumber, batch, expirationDate, amount, gtin) {
+		var orderDetail = {
+			"productId": productId,
+			"serialNumber": serialNumber,
+			"batch": batch,
+			"expirationDate": expirationDate,
+			"amount": amount,
+			"gtin": gtin,
+			"inStock": inStock
+		};
+		orderDetails.push(orderDetail);
+	};
+	
+	$('#productTableBody').on("click", ".edit-button", function() {
+		var parent = $(this).parent().parent();
+	
+		currentRow = $(".edit-button").index(this);
+		productDescription = parent.find(".td-description").html();
+		productAmount = parent.find(".td-amount").html();
+		productId = parent.find(".span-productId").html();
+		productType = parent.find(".span-productType").html();
+		productGtin = parent.find(".span-productGtin").html();
+		isEdit = true;
+		
+		openModal(supplyingDetailGroup[currentRow]);
+	});
+	
 	var populateProductsDetailsTable = function() {
-		var tableRow = "<tr><td>"
-				+ productDescription
-				+ "<span class='span-productId' style='display:none'>"
-				+ productId
-				+ "</span></td>"
-				+ "<td class='td-amount'>"
-				+ productAmount
-				+ "</td>"
-				+ "<td><a href='javascript:void(0);' class='edit-row'>Editar</a></td><td><a href='javascript:void(0);' class='delete-row'>Eliminar</a></td></tr>";
+		var tableRow = "<tr><td class='td-description'>" + productDescription + "</td>" +
+		"<td class='td-amount'>" + productAmount + "</td>" +
+		"<td>" +
+		"<span class='span-productId' style='display:none'>" + productId + "</c:out></span>" +
+		"<span class='span-productType' style='display:none'>" + productType + "</c:out></span>" + 
+		"<span class='span-productGtin' style='display:none'>" + productGtin + "</c:out></span>" +
+		"<a href='javascript:void(0);' class='edit-button'>Editar</a>  " +
+		"<a href='javascript:void(0);' class='delete-row'>Eliminar</a></td></tr>";
 		$("#productTableBody").append(tableRow);
 	};
+	
+	$("#batchExpirationDateAcceptButton").click(function() {
+		remainingAmount = $('#batchExpirationDateRemainingAmountLabel').text();
+		if (remainingAmount == 0) {
+			
+			var amounts = $("#batchExpirationDateTable td.amount");
+			var batchs = $("#batchExpirationDateTable td.batch");
+			var expirationDates = $("#batchExpirationDateTable td.expirationDate");
+			var stockIds = $("#batchExpirationDateTable span.stockId");
+			
+			var orderDetails = [];
+			var tempStockIds = [];
+			
+			for (var i = 0; i < amounts.length; i++) {
+				populateInputDetails(orderDetails, null, batchs[i].innerHTML, expirationDates[i].innerHTML, amounts[i].innerHTML, productGtin);
+				tempStockIds[i] = parseInt(stockIds[i].innerHTML);
+			}
+			if(isEdit){
+				supplyingDetailGroup[currentRow] = orderDetails;
+			}else{
+				supplyingDetailGroup.push(orderDetails);
+				populateProductsDetailsTable();
+			}
+				
+			tempStockIdsGroup[productId] = tempStockIds;
+			
+			$("#batchExpirationDateModal").modal("hide");
+			$(".alert").hide();
+		} else {
+			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "batchExpirationDateModalAlertDiv");
+		}
+	});
 
-	var populateProductsDetails = function(productDetails, amount) {
-		var productDetail = {};
-		productDetail.productId = productId;
-		productDetail.amount = amount;
+	$("#serializedAcceptButton").click(function() {
+		remainingAmount = $('#serializedRemainingAmountLabel').text();
+		if (remainingAmount == 0) {
+			
+            var gtins = $("#serializedTable td.gtin");
+			var serialNumbers = $("#serializedTable td.serialNumber");
+			var batchs = $("#serializedTable td.batch");
+			var expirationDates = $("#serializedTable td.expirationDate");
+			
+			var orderDetails = [];
+			var tempSerialNumber = [];
+			
+			for (var i = 0; i < serialNumbers.length; i++) {
+				populateInputDetails(orderDetails, serialNumbers[i].innerHTML, batchs[i].innerHTML, expirationDates[i].innerHTML, 1, gtins[i].innerHTML);
+				tempSerialNumber[i] = serialNumbers[i].innerHTML;
+			}
 
-		productDetails.push(productDetail);
-	};
+			if(isEdit){
+				supplyingDetailGroup[currentRow] = orderDetails;
+			}else{
+				supplyingDetailGroup.push(orderDetails);
+				populateProductsDetailsTable();
+			}
+			tempSerialNumberGroup[productId] = tempSerialNumber;
+			
+			$("#serializedModal").modal("hide");
+			$(".alert").hide();
+		} else {
+			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "serializedModalAlertDiv");
+		}
+	});
 
 	$('#productTableBody').on("click", ".delete-row", function() {
 		currentRowElement = this;
@@ -358,13 +504,6 @@ var Supplying = function() {
 		$('#amountModal').modal();
 	});
 
-	var setNewAmount = function(productAmount) {
-		var parent = $(currentRowElement).parent().parent();
-		var currentRow = $(".edit-row").index(currentRowElement);
-		productDetails[currentRow].amount = productAmount;
-		parent.find(".td-amount").text(productAmount);
-	};
-
 	$("#provisoningDeleteRowConfirmationButton").click(
 			function() {
 				var parent = $(currentRowElement).parent().parent();
@@ -372,25 +511,34 @@ var Supplying = function() {
 				productDetails.splice(currentRow, 1);
 				parent.remove();
 				if (productDetails.length == 0) {
-					$('#agreementInput').prop('disabled', false).trigger(
-							"chosen:updated");
+					$('#agreementInput').prop('disabled', false).trigger("chosen:updated");
 				}
 			});
 
 	
+	
 	$("#confirmButton").click(function() {
 		if (validateForm()) {
-			if (productDetails.length > 0) {
+			if (supplyingDetailGroup.length > 0) {
 				if ($("#affiliateInput").val() != "") {
-					isButtonConfirm = true;
+					$(this).attr("disabled", true);
 					var jsonSupplying = {
-							//"id" : $("#provisioningId").val(),
+							"id" : $("#supplyingId").val(),
 							"clientId" : $("#clientInput").val(),
 							"affiliateId" : $("#affiliateInput").val(),
-							"currentDate" : $("#currentDateInput").val(),
-							"products" : productDetails
+							"agreementId": $("#agreementInput").val(),
+							"date" : $("#currentDateInput").val(),
+							"supplyingDetails" : []
 					};
 
+					for (var i = 0, lengthI = supplyingDetailGroup.length; i < lengthI; i++) {
+					for (var j = 0; lengthJ = supplyingDetailGroup[i].length, j < lengthJ; j++) {
+						jsonOutput.outputDetails.push(supplyingDetailGroup[i][j]);
+					}
+				}
+				
+					isButtonConfirm = true;
+	
 					$.ajax({
 						url : "saveSupplying.do",
 						type : "POST",
@@ -486,8 +634,8 @@ var Supplying = function() {
 	});
 
 	var productEntered = function(productId) {
-		for (var i = 0, l = productDetails.length; i < l; ++i) {
-			if (productDetails[i].productId == productId) {
+		for (var i = 0, l = productIds.length; i < l; ++i) {
+			if (productIds[i] == productId) {
 				return true;
 			}
 		}
