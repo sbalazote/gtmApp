@@ -11,7 +11,7 @@ public class ConfigReader {
 	}
 
 	private void readFile() {
-		ConfigReader.isProduccion = "false";
+		ConfigReader.isProduccion = "true";
 		ConfigReader.usr = "testwservice";
 		ConfigReader.pass = "testwservicepsw";
 	}
