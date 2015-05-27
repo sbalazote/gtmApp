@@ -56,8 +56,6 @@ Input = function() {
     
     $("#amountInput").numeric();
 
-    $("#transactionCodeInput").numeric();
-    
     if(isUpdate){
 		$('#productInput').prop('disabled', true);
 		$('#agreementInput').prop('disabled', true).trigger("chosen:updated");
@@ -578,7 +576,6 @@ Input = function() {
 				"deliveryNoteNumber": $("#deliveryNotePOSInput").val() + $("#deliveryNoteNumberInput").val(),
 				"purchaseOrderNumber": $("#purchaseOrderNumberInput").val().trim(),
 				"date": $("#currentDateInput").val(),
-                "transactionCodeANMAT": $("#transactionCodeInput").val(),
 				"inputDetails": []
 			};
 			
