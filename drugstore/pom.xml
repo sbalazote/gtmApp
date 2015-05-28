@@ -321,21 +321,18 @@
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-distribution-manifest</artifactId>
 			<version>2.2</version>
-			<scope>provided</scope>
+			<!-- <scope>provided</scope> -->
 			<exclusions>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-jdk14</artifactId>
 				</exclusion>
+				<exclusion>
+					<artifactId>geronimo-servlet_2.5_spec</artifactId>
+					<groupId>org.apache.geronimo.specs</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
-		
-		<!-- LA AGREGO PARA VER SI CON ESTO SE ARREGLA EL TEMA DEL CLIENTPROXY SINO SIGO INVESTIGANDO -->
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-			<version>2.2</version>
-		</dependency>		
 
  		<dependency>
 			<groupId>commons-discovery</groupId>
