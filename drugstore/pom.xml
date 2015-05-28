@@ -329,6 +329,13 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
+		<!-- LA AGREGO PARA VER SI CON ESTO SE ARREGLA EL TEMA DEL CLIENTPROXY SINO SIGO INVESTIGANDO -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>2.2</version>
+		</dependency>		
 
  		<dependency>
 			<groupId>commons-discovery</groupId>
@@ -393,7 +400,7 @@
                   <httpPort>8080</httpPort>
                   <httpsPort>8443</httpsPort>
                   <keystoreFile>${user.home}/.keystore</keystoreFile>
-                  <keystorePass>lucho005</keystorePass>
+                  <keystorePass>sanlorenzo</keystorePass>
                 </configuration>
             </plugin>
 		</plugins>
