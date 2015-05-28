@@ -19,7 +19,6 @@ public final class Constants {
 
 	public static final String ERROR_ANMAT_ALREADY_CANCELLED = "4";
 
-	public static final boolean TEST = false;
 	public static final String TEST_ORIGIN_GLN = "9999999999918";
 	public static final String TEST_DESTINATION_GLN = "glnws";
 	public static final String TEST_ORIGIN_TAXID = "20259171289";

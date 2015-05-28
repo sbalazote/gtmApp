@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.drogueria.config.PropertyProvider;
 import com.drogueria.constant.Constants;
 import com.drogueria.service.DrugstorePropertyService;
 import com.drogueria.util.StringUtils;
@@ -80,7 +81,8 @@ public class WebServiceHelper {
 		} else {
 			drug.setH_evento(new SimpleDateFormat("HH:mm").format(new Date()).toString());
 		}
-		if (!Constants.TEST) {
+		String isProducion = PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION);
+		if (isProducion.equals("true")) {
 			drug.setGln_origen(originGLN);
 			drug.setGln_destino(destinationGLN);
 

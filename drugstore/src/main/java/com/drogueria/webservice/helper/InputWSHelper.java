@@ -9,7 +9,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.drogueria.constant.Constants;
+import com.drogueria.config.PropertyProvider;
 import com.drogueria.helper.EncryptionHelper;
 import com.drogueria.model.Input;
 import com.drogueria.model.InputDetail;
@@ -137,10 +137,12 @@ public class InputWSHelper {
 			c.setTime(date);
 			c.add(Calendar.DATE, -this.drugstorePropertyService.get().getDaysAgoPendingTransactions());
 			date.setTime(c.getTime().getTime());
+			String isProducion = PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION);
+
 			for (InputDetail inputDetail : details) {
 				boolean found = false;
 				if (inputDetail.getProduct().isInformAnmat() && "PS".equals(inputDetail.getProduct().getType())) {
-					if (Constants.TEST) {
+					if (!isProducion.equals("true")) {
 						toReturn = true;
 					} else {
 						String gtin = StringUtils.addLeadingZeros(inputDetail.getProduct().getLastGtin(), 14);

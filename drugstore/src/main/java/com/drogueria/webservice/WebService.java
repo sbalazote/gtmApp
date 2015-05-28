@@ -25,6 +25,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 
+import com.drogueria.config.PropertyProvider;
 import com.inssjp.mywebservice.business.ConfirmacionTransaccionDTO;
 import com.inssjp.mywebservice.business.IWebServicePortType;
 import com.inssjp.mywebservice.business.MedicamentosDTO;
@@ -35,8 +36,6 @@ import com.inssjp.mywebservice.business.WebServiceResult;
 
 public class WebService {
 
-	private static final String PATH_PAMI_PRODUCCION = "https://trazabilidad.pami.org.ar:9050/trazamed.WebService";
-	private static final String PATH_PAMI_ENTRENAMIENTO = "https://mail.servicios.pami.org.ar:9050/trazamed.WebService?wsdl";
 	private static final String targetNamespace = "http://business.mywebservice.inssjp.com/";
 	private static final String webServiceName = "IWebService";
 
@@ -91,7 +90,7 @@ public class WebService {
 	@SuppressWarnings("deprecation")
 	private IWebServicePortType configurarWebService() throws ServiceException, MalformedURLException {
 		this.setDefaultProxy();
-		String wsdl = this.getPathWsdl(ConfigReader.getIsProduccion());
+		String wsdl = PropertyProvider.getInstance().getProp(PropertyProvider.WEB_SERVICE_URL);
 		URL wsdlURL = null;
 
 		ApplicationContext appContext = new ClassPathXmlApplicationContext(new String[] { "web-service.xml" });
@@ -161,13 +160,13 @@ public class WebService {
 	private String getPathWsdl(String valor) {
 
 		String resultado = null;
-		if (valor != null) {
-			if (valor.toUpperCase().equals("TRUE")) {
-				resultado = WebService.PATH_PAMI_PRODUCCION;
-			} else if (valor.toUpperCase().equals("FALSE")) {
-				resultado = WebService.PATH_PAMI_ENTRENAMIENTO;
-			}
-		}
+		// if (valor != null) {
+		// if (valor.toUpperCase().equals("TRUE")) {
+		// resultado = WebService.PATH_PAMI_PRODUCCION;
+		// } else if (valor.toUpperCase().equals("FALSE")) {
+		// resultado = WebService.PATH_PAMI_ENTRENAMIENTO;
+		// }
+		// }
 		return resultado;
 
 	}
