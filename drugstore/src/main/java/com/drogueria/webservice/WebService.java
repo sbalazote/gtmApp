@@ -91,11 +91,13 @@ public class WebService {
 	private IWebServicePortType configurarWebService() throws ServiceException, MalformedURLException {
 		this.setDefaultProxy();
 		String wsdl = PropertyProvider.getInstance().getProp(PropertyProvider.WEB_SERVICE_URL);
+        Boolean isProduction = Boolean.valueOf(PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION));
+
 		URL wsdlURL = null;
 
 		ApplicationContext appContext = new ClassPathXmlApplicationContext(new String[] { "web-service.xml" });
 		Resource resource = null;
-		if (ConfigReader.getIsProduccion().equals("true")) {
+		if (isProduction) {
 			resource = appContext.getResource("classpath:trazaMedWebService.wsdl");
 		} else {
 			resource = appContext.getResource("classpath:trazaMedWebServiceTest.wsdl");
