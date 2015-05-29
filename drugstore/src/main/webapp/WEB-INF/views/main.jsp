@@ -55,7 +55,6 @@
 		<script type="text/javascript" src="js/plusastab.joelpurra.js"></script>
 		<script type="text/javascript" src="js/jquery.ya-enter2tab.js"></script>
 		<script type="text/javascript" src="js/jquery.numeric.js"></script>
-		<script type="text/javascript" src="js/jqClock.js"></script>
 	</head>
 	<body>
 		<div id="wrap">

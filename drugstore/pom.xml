@@ -3,10 +3,10 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.drogueria</groupId>
-	<artifactId>drogueria</artifactId>
+	<artifactId>gtm-app</artifactId>
 	<packaging>war</packaging>
-	<version>1.0-SNAPSHOT</version>
-	<name>drogueria</name>
+	<version>1.0.0-SNAPSHOT</version>
+	<name>gtm-app</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -361,7 +361,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>drogueria</finalName>
+		<finalName>gtm-app</finalName>
         <filters>
             <filter>src/main/filters/drugstore-filter-${env}.properties</filter>
         </filters>
@@ -391,7 +391,7 @@
                   <httpPort>8080</httpPort>
                   <httpsPort>8443</httpsPort>
                   <keystoreFile>${user.home}/.keystore</keystoreFile>
-                  <keystorePass>sanlorenzo</keystorePass>
+                  <keystorePass>password</keystorePass>
                 </configuration>
             </plugin>
 		</plugins>
