@@ -113,7 +113,6 @@ public class ReportAdministrationController {
 
 	@RequestMapping(value = "/searchBatchExpirateDateProduct", method = RequestMethod.GET)
 	public String searchBatchExpirateDateProduct(ModelMap modelMap) throws Exception {
-		this.auditService.getAudit(21892, "16565", "10/10/2014");
 		return "searchBatchExpirateDateProduct";
 	}
 

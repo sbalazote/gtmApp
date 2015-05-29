@@ -55,7 +55,7 @@ import com.drogueria.service.ProviderService;
 import com.drogueria.service.StockService;
 import com.drogueria.service.TraceabilityService;
 import com.drogueria.util.OperationResult;
-import com.drogueria.util.StringUtils;
+import com.drogueria.util.StringUtility;
 import com.inssjp.mywebservice.business.WebServiceResult;
 
 @Service
@@ -210,7 +210,7 @@ public class InputServiceImpl implements InputService {
 				newInputDetailDTO.setExpirationDate(inputDetailDTO.getExpirationDate());
 				newInputDetailDTO.setAmount(1);
 
-				String serialNumber = StringUtils.addLeadingZeros(currentSerialNumber, SERIAL_NUMBER_LENGTH);
+				String serialNumber = StringUtility.addLeadingZeros(currentSerialNumber, SERIAL_NUMBER_LENGTH);
 
 				// String serial = String.format(SELF_SERIALIZED_SERIAL_FORMAT, drugstoreProperty.getGln(), serialNumber);
 				// newInputDetailDTO.setSerialNumber(serial);

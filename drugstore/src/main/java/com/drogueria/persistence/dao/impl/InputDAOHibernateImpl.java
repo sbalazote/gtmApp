@@ -18,6 +18,7 @@ import com.drogueria.constant.Constants;
 import com.drogueria.model.Input;
 import com.drogueria.persistence.dao.InputDAO;
 import com.drogueria.query.InputQuery;
+import com.drogueria.util.StringUtility;
 
 @Repository
 public class InputDAOHibernateImpl implements InputDAO {
@@ -155,30 +156,16 @@ public class InputDAOHibernateImpl implements InputDAO {
 
 		String sentence = "select i.*, id.*  from input as i, input_detail as id where i.cancelled = 0 and id.input_id = i.id";
 
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-		Date dateFromFormated = null;
-		Date dateToFormated = null;
-
 		if (inputQuery.getId() != null) {
 			sentence += " and i.id =" + inputQuery.getId();
 		}
 
 		if (!StringUtils.isEmpty(inputQuery.getDateFrom())) {
-			try {
-				dateFromFormated = dateFormatter.parse(inputQuery.getDateFrom());
-				sentence += " and i.date >= " + dateFromFormated;
-			} catch (ParseException e) {
-				throw new RuntimeException("El formato de la fecha ingresada no es valido.", e);
-			}
+			sentence += " and i.date >= '" + StringUtility.toUSDateFormat(inputQuery.getDateFrom()) + "'";
 		}
 
 		if (!StringUtils.isEmpty(inputQuery.getDateTo())) {
-			try {
-				dateToFormated = dateFormatter.parse(inputQuery.getDateTo());
-				sentence += " and i.date <= " + dateToFormated;
-			} catch (ParseException e) {
-				throw new RuntimeException("El formato de la fecha ingresada no es valido.", e);
-			}
+			sentence += " and i.date <= '" + StringUtility.toUSDateFormat(inputQuery.getDateTo()) + "'";
 		}
 
 		if (inputQuery.getConceptId() != null) {

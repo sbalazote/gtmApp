@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.drogueria.config.PropertyProvider;
 import com.drogueria.constant.Constants;
 import com.drogueria.service.DrugstorePropertyService;
-import com.drogueria.util.StringUtils;
+import com.drogueria.util.StringUtility;
 import com.inssjp.mywebservice.business.MedicamentosDTO;
 import com.inssjp.mywebservice.business.WebServiceError;
 import com.inssjp.mywebservice.business.WebServiceResult;
@@ -36,11 +36,11 @@ public class WebServiceHelper {
 			return result = this.webService.sendMedicamentos(medicamentos, username, password);
 
 		} catch (Exception e) {
-			errors.add("No se pudo enviar la transacción");
+			errors.add("No se pudo enviar la transacciï¿½n");
 			logger.info(e);
 		}
 		if (processResult(result)) {
-			logger.info("La consulta con ANMAT fue satisfactoria. Código de Transacción: " + result.getCodigoTransaccion());
+			logger.info("La consulta con ANMAT fue satisfactoria. Cï¿½digo de Transacciï¿½n: " + result.getCodigoTransaccion());
 		}
 		return result;
 	}
@@ -53,7 +53,7 @@ public class WebServiceHelper {
 			} else {
 				WebServiceError[] errors = result.getErrores();
 				for (WebServiceError webServiceError : errors) {
-					logger.error("Código de Error: " + webServiceError.get_c_error() + "Descripción de Error: " + webServiceError.get_d_error());
+					logger.error("Cï¿½digo de Error: " + webServiceError.get_c_error() + "Descripciï¿½n de Error: " + webServiceError.get_d_error());
 				}
 			}
 		}
@@ -89,7 +89,7 @@ public class WebServiceHelper {
 			drug.setCuit_origen(originTax);
 			drug.setCuit_destino(destinationTax);
 			drug.setId_evento(eventId);
-			drug.setGtin(StringUtils.addLeadingZeros(gtin, 14));
+			drug.setGtin(StringUtility.addLeadingZeros(gtin, 14));
 		} else {
 			drug.setGln_origen(Constants.TEST_DESTINATION_GLN);
 			drug.setGln_destino(Constants.TEST_ORIGIN_GLN);

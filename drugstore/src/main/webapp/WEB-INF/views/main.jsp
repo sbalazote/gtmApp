@@ -1,9 +1,11 @@
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
 	<head>
+		<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+		<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+		
 		<title><spring:message code="administration.drugManagement" /></title>
+		
 		<link rel="shortcut icon" href=images/oncomed-reno.png type="image/png">
 	
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">

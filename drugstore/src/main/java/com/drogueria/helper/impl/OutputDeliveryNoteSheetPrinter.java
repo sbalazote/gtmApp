@@ -23,7 +23,7 @@ import com.drogueria.service.ConceptService;
 import com.drogueria.service.DeliveryNoteService;
 import com.drogueria.service.DrugstorePropertyService;
 import com.drogueria.service.OutputService;
-import com.drogueria.util.StringUtils;
+import com.drogueria.util.StringUtility;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfReader;
@@ -139,7 +139,7 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 
 			// imprimo numero de remito.
 			overContent.setTextMatrix(164.0f * 2.8346f, (293.60f - 16.0f) * 2.8346f);
-			overContent.showText(StringUtils.addLeadingZeros(deliveryNoteNumber, 8));
+			overContent.showText(StringUtility.addLeadingZeros(deliveryNoteNumber, 8));
 
 			// imprimo fecha.
 			overContent.setTextMatrix(deliveryNoteConfigFile.getDateCoordinate().getPosX() * 2.8346f, (293.60f - deliveryNoteConfigFile.getDateCoordinate()

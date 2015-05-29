@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.drogueria.model.ProductMonodrug;
 import com.drogueria.persistence.dao.ProductMonodrugDAO;
-import com.drogueria.util.StringUtils;
+import com.drogueria.util.StringUtility;
 
 @Repository
 public class ProductMonodrugDAOHibernateImpl implements ProductMonodrugDAO {
@@ -39,7 +39,7 @@ public class ProductMonodrugDAOHibernateImpl implements ProductMonodrugDAO {
 	@Override
 	public List<ProductMonodrug> getForAutocomplete(String term, Boolean active) {
 		String sentence = "from ProductMonodrug where (description like :description";
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			sentence += " or convert(code, CHAR) like :code";
 		}
 		sentence += ")";
@@ -50,7 +50,7 @@ public class ProductMonodrugDAOHibernateImpl implements ProductMonodrugDAO {
 		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
 		query.setParameter("description", "%" + term + "%");
 
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			query.setParameter("code", "%" + term + "%");
 		}
 		return query.list();
@@ -60,14 +60,14 @@ public class ProductMonodrugDAOHibernateImpl implements ProductMonodrugDAO {
 	@Override
 	public List<ProductMonodrug> getForAutocomplete(String term) {
 		String sentence = "from ProductMonodrug where description like :description";
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			sentence += " or convert(code, CHAR) like :code";
 		}
 
 		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
 		query.setParameter("description", "%" + term + "%");
 
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			query.setParameter("code", "%" + term + "%");
 		}
 		return query.list();

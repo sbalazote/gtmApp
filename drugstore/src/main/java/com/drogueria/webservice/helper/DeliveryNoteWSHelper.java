@@ -14,7 +14,7 @@ import com.drogueria.model.Order;
 import com.drogueria.model.Output;
 import com.drogueria.service.DrugstorePropertyService;
 import com.drogueria.util.OperationResult;
-import com.drogueria.util.StringUtils;
+import com.drogueria.util.StringUtility;
 import com.drogueria.webservice.WebServiceHelper;
 import com.inssjp.mywebservice.business.MedicamentosDTO;
 import com.inssjp.mywebservice.business.WebServiceResult;
@@ -91,9 +91,9 @@ public class DeliveryNoteWSHelper {
 			MedicamentosDTO drug = new MedicamentosDTO();
 			String deliveryNoteFormated;
 			if (deliveryNote.isFake()) {
-				deliveryNoteFormated = "X" + StringUtils.addLeadingZeros(deliveryNote.getNumber(), 12);
+				deliveryNoteFormated = "X" + StringUtility.addLeadingZeros(deliveryNote.getNumber(), 12);
 			} else {
-				deliveryNoteFormated = "R" + StringUtils.addLeadingZeros(deliveryNote.getNumber(), 12);
+				deliveryNoteFormated = "R" + StringUtility.addLeadingZeros(deliveryNote.getNumber(), 12);
 			}
 			if (deliveryNoteDetail.getOrderDetail() != null) {
 				if (deliveryNoteDetail.getOrderDetail().getProduct().isInformAnmat()

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.drogueria.model.ProductGroup;
 import com.drogueria.persistence.dao.ProductGroupDAO;
-import com.drogueria.util.StringUtils;
+import com.drogueria.util.StringUtility;
 
 @Repository
 public class ProductGroupDAOHibernateImpl implements ProductGroupDAO {
@@ -39,7 +39,7 @@ public class ProductGroupDAOHibernateImpl implements ProductGroupDAO {
 	@Override
 	public List<ProductGroup> getForAutocomplete(String term, Boolean active) {
 		String sentence = "from ProductGroup where (description like :description";
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			sentence += " or convert(code, CHAR) like :code";
 		}
 		sentence += ")";
@@ -50,7 +50,7 @@ public class ProductGroupDAOHibernateImpl implements ProductGroupDAO {
 		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
 		query.setParameter("description", "%" + term + "%");
 
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			query.setParameter("code", "%" + term + "%");
 		}
 		return query.list();

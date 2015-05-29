@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.drogueria.model.ProductBrand;
 import com.drogueria.persistence.dao.ProductBrandDAO;
-import com.drogueria.util.StringUtils;
+import com.drogueria.util.StringUtility;
 
 @Repository
 public class ProductBrandDAOHibernateImpl implements ProductBrandDAO {
@@ -39,7 +39,7 @@ public class ProductBrandDAOHibernateImpl implements ProductBrandDAO {
 	@Override
 	public List<ProductBrand> getForAutocomplete(String term, Boolean active) {
 		String sentence = "from ProductBrand where (description like :description";
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			sentence += " or convert(code, CHAR) like :code";
 		}
 		sentence += ")";
@@ -50,7 +50,7 @@ public class ProductBrandDAOHibernateImpl implements ProductBrandDAO {
 		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
 		query.setParameter("description", "%" + term + "%");
 
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			query.setParameter("code", "%" + term + "%");
 		}
 		return query.list();
@@ -60,14 +60,14 @@ public class ProductBrandDAOHibernateImpl implements ProductBrandDAO {
 	@Override
 	public List<ProductBrand> getForAutocomplete(String term) {
 		String sentence = "from ProductBrand where description like :description";
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			sentence += " or convert(code, CHAR) like :code";
 		}
 
 		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
 		query.setParameter("description", "%" + term + "%");
 
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			query.setParameter("code", "%" + term + "%");
 		}
 		return query.list();

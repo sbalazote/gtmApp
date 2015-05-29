@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.drogueria.model.Agreement;
 import com.drogueria.persistence.dao.AgreementDAO;
-import com.drogueria.util.StringUtils;
+import com.drogueria.util.StringUtility;
 
 @Repository
 public class AgreementDAOHibernateImpl implements AgreementDAO {
@@ -39,7 +39,7 @@ public class AgreementDAOHibernateImpl implements AgreementDAO {
 	@Override
 	public List<Agreement> getForAutocomplete(String term, Boolean active) {
 		String sentence = "from Agreement where (description like :description";
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			sentence += " or convert(code, CHAR) like :code";
 		}
 		sentence += ")";
@@ -50,7 +50,7 @@ public class AgreementDAOHibernateImpl implements AgreementDAO {
 		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
 		query.setParameter("description", "%" + term + "%");
 
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			query.setParameter("code", "%" + term + "%");
 		}
 		return query.list();

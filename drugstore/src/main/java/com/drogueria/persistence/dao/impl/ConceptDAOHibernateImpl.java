@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.drogueria.model.Concept;
 import com.drogueria.persistence.dao.ConceptDAO;
-import com.drogueria.util.StringUtils;
+import com.drogueria.util.StringUtility;
 
 @Repository
 public class ConceptDAOHibernateImpl implements ConceptDAO {
@@ -40,7 +40,7 @@ public class ConceptDAOHibernateImpl implements ConceptDAO {
 	@Override
 	public List<Concept> getForAutocomplete(String term, Boolean active) {
 		String sentence = "from Concept where (description like :description";
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			sentence += " or convert(code, CHAR) like :code";
 		}
 		sentence += ")";
@@ -51,7 +51,7 @@ public class ConceptDAOHibernateImpl implements ConceptDAO {
 		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
 		query.setParameter("description", "%" + term + "%");
 
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			query.setParameter("code", "%" + term + "%");
 		}
 		return query.list();

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.drogueria.model.DrugstoreProperty;
 import com.drogueria.model.Event;
 import com.drogueria.persistence.dao.EventDAO;
-import com.drogueria.util.StringUtils;
+import com.drogueria.util.StringUtility;
 
 @Repository
 public class EventDAOHibernateImpl implements EventDAO {
@@ -40,7 +40,7 @@ public class EventDAOHibernateImpl implements EventDAO {
 	@Override
 	public List<Event> getForAutocomplete(String term, Boolean active) {
 		String sentence = "from Event where (description like :description";
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			sentence += " or convert(code, CHAR) like :code";
 		}
 		sentence += ")";
@@ -51,7 +51,7 @@ public class EventDAOHibernateImpl implements EventDAO {
 		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
 		query.setParameter("description", "%" + term + "%");
 
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			query.setParameter("code", "%" + term + "%");
 		}
 		return query.list();

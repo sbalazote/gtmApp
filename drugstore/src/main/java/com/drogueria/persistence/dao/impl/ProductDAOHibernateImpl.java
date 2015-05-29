@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.drogueria.model.Product;
 import com.drogueria.persistence.dao.ProductDAO;
-import com.drogueria.util.StringUtils;
+import com.drogueria.util.StringUtility;
 
 @Repository
 public class ProductDAOHibernateImpl implements ProductDAO {
@@ -40,7 +40,7 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 	public List<Product> getForAutocomplete(String term, Boolean active) {
 		String sentence = "from Product where ((description like :description or brand.description like :brand or monodrug.description like :monodrug) "
 				+ "or exists (select p from Product as p inner join p.gtins as g where g.number = :gtin)";
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			sentence += " or convert(code, CHAR) like :code";
 		}
 		sentence += ")";
@@ -50,11 +50,11 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 
 		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
 		query.setParameter("description", "%" + term + "%");
-		query.setParameter("gtin", StringUtils.removeLeadingZero(term));
+		query.setParameter("gtin", StringUtility.removeLeadingZero(term));
 		query.setParameter("brand", "%" + term + "%");
 		query.setParameter("monodrug", "%" + term + "%");
 
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			query.setParameter("code", "%" + term + "%");
 		}
 		return query.list();
@@ -65,7 +65,7 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 		try {
 			Query query = this.sessionFactory.getCurrentSession().createQuery(
 					"select p from Product as p inner join p.gtins as g where g.number = :gtin and p.active = true");
-			query.setParameter("gtin", StringUtils.removeLeadingZero(gtin));
+			query.setParameter("gtin", StringUtility.removeLeadingZero(gtin));
 			return (Product) query.list().get(0);
 		} catch (IndexOutOfBoundsException e) {
 			return null;

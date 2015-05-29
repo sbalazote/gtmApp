@@ -15,7 +15,7 @@ import com.drogueria.model.Input;
 import com.drogueria.model.InputDetail;
 import com.drogueria.service.DrugstorePropertyService;
 import com.drogueria.util.OperationResult;
-import com.drogueria.util.StringUtils;
+import com.drogueria.util.StringUtility;
 import com.drogueria.webservice.WebService;
 import com.drogueria.webservice.WebServiceHelper;
 import com.inssjp.mywebservice.business.MedicamentosDTO;
@@ -110,7 +110,7 @@ public class InputWSHelper {
 
 	private MedicamentosDTO setDrug(Input input, List<MedicamentosDTO> medicines, String eventId, InputDetail inputDetail) {
 		MedicamentosDTO drug = new MedicamentosDTO();
-		String deliveryNote = "R" + StringUtils.addLeadingZeros(input.getDeliveryNoteNumber(), 12);
+		String deliveryNote = "R" + StringUtility.addLeadingZeros(input.getDeliveryNoteNumber(), 12);
 		String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(inputDetail.getExpirationDate()).toString();
 
 		if ("SS".equals(inputDetail.getProduct().getType())) {
@@ -145,7 +145,7 @@ public class InputWSHelper {
 					if (!isProducion.equals("true")) {
 						toReturn = true;
 					} else {
-						String gtin = StringUtils.addLeadingZeros(inputDetail.getProduct().getLastGtin(), 14);
+						String gtin = StringUtility.addLeadingZeros(inputDetail.getProduct().getLastGtin(), 14);
 						pendingTransactions = this.webService.getTransaccionesNoConfirmadas(this.drugstorePropertyService.get().getANMATName(),
 								EncryptionHelper.AESDecrypt(this.drugstorePropertyService.get().getANMATPassword()), nullValue, null, null, null, gtin,
 								nullValue, null, null, simpleDateFormat.format(date), simpleDateFormat.format(new Date()), null, null, null, null, nullValue,

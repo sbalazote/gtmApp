@@ -35,8 +35,7 @@ public class FileController {
 	private static final Logger logger = Logger.getLogger(FileController.class);
 
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public @ResponseBody
-	FileMeta upload(MultipartHttpServletRequest request) {
+	public @ResponseBody FileMeta upload(MultipartHttpServletRequest request) {
 
 		MultipartFile mpf = request.getFile("alfabetaUpdateFile");
 		FileMeta fileMeta = null;
@@ -63,14 +62,13 @@ public class FileController {
 			}
 
 		} else {
-			logger.error("No se ha podido subir el archivo porque &eacute;ste estaba vac&iacute;o");
+			logger.error("No se ha podido subir el archivo porque éste estaba vacío");
 		}
 		return fileMeta;
 	}
 
 	@RequestMapping(value = "/updateProducts", method = RequestMethod.POST)
-	public @ResponseBody
-	void updateProducts(HttpServletRequest request, @RequestBody AlfabetaFileDTO alfabetaFileDTO) throws Exception {
+	public @ResponseBody void updateProducts(HttpServletRequest request, @RequestBody AlfabetaFileDTO alfabetaFileDTO) throws Exception {
 
 		String path = request.getSession().getServletContext().getRealPath("/alfabeta/");
 		String timestamp = new SimpleDateFormat("dd-MM-yyyy").format(new Date());

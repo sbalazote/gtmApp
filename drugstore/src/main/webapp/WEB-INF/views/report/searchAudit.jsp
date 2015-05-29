@@ -55,7 +55,7 @@
 		
 		<div class="row">
 			<div class="col-md-4 form-group">
-				<label for="userSearch"><spring:message code="common.agreement"/></label>
+				<label for="userSearch"><spring:message code="common.user"/></label>
 				<select id="userSearch" name="userSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 					<option value=""></option>
 					<c:forEach items="${users}" var="user">

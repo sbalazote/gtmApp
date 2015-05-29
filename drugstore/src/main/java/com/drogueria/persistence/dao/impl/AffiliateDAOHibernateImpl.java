@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.drogueria.model.Affiliate;
 import com.drogueria.persistence.dao.AffiliateDAO;
-import com.drogueria.util.StringUtils;
+import com.drogueria.util.StringUtility;
 
 @Repository
 public class AffiliateDAOHibernateImpl implements AffiliateDAO {
@@ -39,7 +39,7 @@ public class AffiliateDAOHibernateImpl implements AffiliateDAO {
 	@Override
 	public List<Affiliate> getForAutocomplete(String term, Boolean active) {
 		String sentence = "from Affiliate where (name like :name or surname = :surname";
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			sentence += " or convert(code, CHAR) like :code";
 		}
 		sentence += ")";
@@ -51,7 +51,7 @@ public class AffiliateDAOHibernateImpl implements AffiliateDAO {
 		query.setParameter("name", "%" + term + "%");
 		query.setParameter("surname", "%" + term + "%");
 
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			query.setParameter("code", "%" + term + "%");
 		}
 		return query.list();

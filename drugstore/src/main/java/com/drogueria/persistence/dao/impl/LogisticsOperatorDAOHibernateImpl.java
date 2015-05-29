@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.drogueria.model.LogisticsOperator;
 import com.drogueria.persistence.dao.LogisticsOperatorDAO;
-import com.drogueria.util.StringUtils;
+import com.drogueria.util.StringUtility;
 
 @Repository
 public class LogisticsOperatorDAOHibernateImpl implements LogisticsOperatorDAO {
@@ -39,7 +39,7 @@ public class LogisticsOperatorDAOHibernateImpl implements LogisticsOperatorDAO {
 	@Override
 	public List<LogisticsOperator> getForAutocomplete(String term, Boolean active) {
 		String sentence = "from LogisticsOperator where (taxId like :taxId or corporateName like :corporateName or locality like :locality";
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			sentence += " or convert(code, CHAR) like :code";
 		}
 		sentence += ")";
@@ -52,7 +52,7 @@ public class LogisticsOperatorDAOHibernateImpl implements LogisticsOperatorDAO {
 		query.setParameter("corporateName", "%" + term + "%");
 		query.setParameter("locality", "%" + term + "%");
 
-		if (StringUtils.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			query.setParameter("code", "%" + term + "%");
 		}
 		return query.list();

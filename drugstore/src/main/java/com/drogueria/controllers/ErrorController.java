@@ -27,7 +27,7 @@ public class ErrorController {
 	public ModelAndView badRequest() {
 		ModelAndView model = new ModelAndView();
 		model.addObject("error", 400);
-		model.addObject("msg", "Petici&oacute;n incorrecta.");
+		model.addObject("msg", "Petición incorrecta.");
 		model.setViewName("error");
 		return model;
 	}
@@ -36,7 +36,7 @@ public class ErrorController {
 	public ModelAndView notFound() {
 		ModelAndView model = new ModelAndView();
 		model.addObject("error", 404);
-		model.addObject("msg", "P&aacute;gina no encontrada.");
+		model.addObject("msg", "Página no encontrada.");
 		model.setViewName("error");
 		return model;
 	}
