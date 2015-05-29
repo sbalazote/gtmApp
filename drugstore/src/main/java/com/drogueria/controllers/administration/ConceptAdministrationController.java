@@ -45,7 +45,8 @@ public class ConceptAdministrationController {
 	}
 
 	@RequestMapping(value = "/saveConcept", method = RequestMethod.POST)
-	public @ResponseBody Concept saveConcept(@RequestBody ConceptDTO conceptDTO) throws Exception {
+	public @ResponseBody
+	Concept saveConcept(@RequestBody ConceptDTO conceptDTO) throws Exception {
 		Concept concept = this.buildModel(conceptDTO);
 		this.conceptService.save(concept);
 		return concept;
@@ -57,6 +58,8 @@ public class ConceptAdministrationController {
 		if (conceptDTO.getId() != null) {
 			concept.setId(conceptDTO.getId());
 			concept.setLastDeliveryNoteNumber(this.conceptService.get(conceptDTO.getId()).getLastDeliveryNoteNumber());
+		} else {
+			concept.setLastDeliveryNoteNumber(new Integer(0));
 		}
 		concept.setCode(conceptDTO.getCode());
 		concept.setDescription(conceptDTO.getDescription());
@@ -83,7 +86,8 @@ public class ConceptAdministrationController {
 	}
 
 	@RequestMapping(value = "/readConcept", method = RequestMethod.GET)
-	public @ResponseBody Concept readConcept(ModelMap modelMap, @RequestParam Integer conceptId) throws Exception {
+	public @ResponseBody
+	Concept readConcept(ModelMap modelMap, @RequestParam Integer conceptId) throws Exception {
 		Concept concept = this.conceptService.get(conceptId);
 
 		modelMap.put("events", this.getSelectedEvents(concept));
@@ -121,22 +125,26 @@ public class ConceptAdministrationController {
 	}
 
 	@RequestMapping(value = "/deleteConcept", method = RequestMethod.POST)
-	public @ResponseBody boolean deleteConcept(@RequestParam Integer conceptId) throws Exception {
+	public @ResponseBody
+	boolean deleteConcept(@RequestParam Integer conceptId) throws Exception {
 		return this.conceptService.delete(conceptId);
 	}
 
 	@RequestMapping(value = "/existsConcept", method = RequestMethod.GET)
-	public @ResponseBody Boolean existsConcept(@RequestParam Integer code) throws Exception {
+	public @ResponseBody
+	Boolean existsConcept(@RequestParam Integer code) throws Exception {
 		return this.conceptService.exists(code);
 	}
 
 	@RequestMapping(value = "/isClientConcept", method = RequestMethod.GET)
-	public @ResponseBody Boolean isClientConcept(@RequestParam Integer conceptId) throws Exception {
+	public @ResponseBody
+	Boolean isClientConcept(@RequestParam Integer conceptId) throws Exception {
 		return this.conceptService.get(conceptId).isClient();
 	}
 
 	@RequestMapping(value = "/getMatchedConcepts", method = RequestMethod.POST)
-	public @ResponseBody String getMatchedConcepts(@RequestParam Map<String, String> parametersMap) throws JSONException {
+	public @ResponseBody
+	String getMatchedConcepts(@RequestParam Map<String, String> parametersMap) throws JSONException {
 
 		String searchPhrase = parametersMap.get("searchPhrase");
 		Integer current = Integer.parseInt(parametersMap.get("current"));

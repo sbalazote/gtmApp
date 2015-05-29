@@ -86,7 +86,7 @@ $(document).ready(function() {
 			},
 			async: false,
 			success: function(response) {
-				for(var i = response.length-1; i > 0 ; i--){
+				for(var i = response.length-1; i >= 0 ; i--){
 					var event = response[i];
 					$('#my-select').multiSelect('addOption', { value: event.id , text: event.code + "-" +  event.description +": ORIGEN: " + event.originAgent.description + " - DESTINO: " + event.destinationAgent.description, index: 0, nested: 'optgroup_label' });
 				}
@@ -139,6 +139,7 @@ $(document).ready(function() {
 		$('#addConceptLabel').show();
 		$('#readConceptLabel').hide();
 		$('#updateConceptLabel').hide();
+		getEvents();
 		$('#conceptModal').modal('show');
 	});
 	
@@ -315,4 +316,5 @@ $(document).ready(function() {
     $(".alert .close").on('click', function(e) {
         $(this).parent().hide();
     });
+    
 });
