@@ -32,14 +32,14 @@ BatchExpirationDate = function() {
 		var form = $("#outOfStockBatchExpirationDateModalForm");
 		formValidator = form.validate({
 			rules: {
-				batch: {
+				outOfStockBatch: {
 					required: true
 				},
-				expirationDate: {
+				outOfStockExpirationDate: {
 					required: true,
 					expirationDate: true
 				},
-				amount: {
+				outOfStockAmount: {
 					required: true,
 					digits: true,
 					min: 1,
@@ -49,7 +49,7 @@ BatchExpirationDate = function() {
 			showErrors: myShowErrors
 		});
 		
-		$('input[name=amount]').rules("add", {
+		$('input[name=outOfStockAmount]').rules("add", {
 			max: maxAmount
 		});
 		
@@ -79,15 +79,15 @@ BatchExpirationDate = function() {
 	};
 	
 	var disableInputs = function() {
-		$('#batchInput').attr("disabled", true);
-		$('#expirationDateInput').attr("disabled", true);
-		$('#amountInput').attr("disabled", true);
+		$('#outOfStockBatchInput').attr("disabled", true);
+		$('#outOfStockExpirationDateInput').attr("disabled", true);
+		$('#outOfStockAmountInput').attr("disabled", true);
 	};
 	
 	var enableInputs = function() {
-		$('#batchInput').attr("disabled", false);
-		$('#expirationDateInput').attr("disabled", false);
-		$('#amountInput').attr("disabled", false);
+		$('#outOfStockBatchInput').attr("disabled", false);
+		$('#outOfStockExpirationDateInput').attr("disabled", false);
+		$('#outOfStockAmountInput').attr("disabled", false);
 	};
 	
 	var addToTable = function(batch, expirationDate, amount) {
@@ -116,7 +116,7 @@ BatchExpirationDate = function() {
 			
 			formValidator.resetForm();
 			
-			$('#batchInput').focus();
+			$('#outOfStockBatchInput').focus();
 		}
 	};
 	
@@ -147,30 +147,30 @@ BatchExpirationDate = function() {
 	};
 	
 	$('#outOfStockBatchExpirationDateModal').on('shown.bs.modal', function () {
-	    $('#batchInput').focus();
+	    $('#outOfStockBatchInput').focus();
 	});
 	
 	$('#outOfStockBatchExpirationDateModal').on('hidden.bs.modal', function () {
 	    myResetForm($("#outOfStockBatchExpirationDateModalForm")[0], formValidator);
 	});
 	
-	$('#batchInput').on('keypress', function(e) {
+	$('#outOfStockBatchInput').on('keypress', function(e) {
 		//	Si la tecla presionada es 'ENTER'
 		if (e.keyCode === 13) {
-			$('#expirationDateInput').focus();
+			$('#outOfStockExpirationDateInput').focus();
 			return false;
 		}
 	});
 	
-	$('#expirationDateInput').on('keypress', function(e) {
+	$('#outOfStockExpirationDateInput').on('keypress', function(e) {
 		//	Si la tecla presionada es 'ENTER'
 		if (e.keyCode === 13) {
-			$('#amountInput').focus();
+			$('#outOfStockAmountInput').focus();
 			return false;
 		}
 	});
 	
-	$('#amountInput').on('keypress', function(e) {
+	$('#outOfStockAmountInput').on('keypress', function(e) {
 		//	Si la tecla presionada es 'ENTER'
 		if (e.keyCode === 13) {
         	var remainingAmount = $('#outOfStockBatchExpirationDateRemainingAmountLabel').text();

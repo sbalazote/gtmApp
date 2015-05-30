@@ -158,6 +158,7 @@ $(document).ready(function() {
 		doc.text(180, 10, 'Hoja ' + currentSheet + '/' + totalSheets);
 		doc.text(150, 20, 'Fecha: ' + $("#currentDateInput").val());
 
+		if ((mode == 'input') || (mode == 'output')) {
 		doc.text(20, 40, 'Concepto: ' + $("#conceptInput option:selected").text());
 		if ($("#providerInput").val() != "") {
 			doc.text(20, 50, 'Proveedor: ' + $("#providerInput option:selected").text());
@@ -167,6 +168,10 @@ $(document).ready(function() {
 			} else {
 				doc.text(20, 50, 'Cliente: ' + $("#clientInput option:selected").text());
 			}
+		}
+		} else {
+			doc.text(20, 40, 'Cliente: ' + $("#clientInput option:selected").text());
+			doc.text(20, 50, 'Afiliado: ' + $("#affiliateInput").select2("data").text);
 		}
 		doc.text(20, 60, 'Convenio: ' + $("#agreementInput option:selected").text());
 		if (mode == 'input') {
@@ -179,8 +184,12 @@ $(document).ready(function() {
 		doc.text(10, 90, 'PRODUCTO');
 		doc.text(70, 90, 'SERIE');
 		doc.text(120, 90, 'LOTE');
-		doc.text(160, 90, 'VENCIMIENTO');
-		doc.text(190, 90, 'CANT.');
+		doc.text(150, 90, 'VENCIMIENTO');
+		doc.text(175, 90, 'CANT.');
+		
+		if (mode == 'supplying') {
+			doc.text(190, 90, 'EN STOCK.');
+		}
 		doc.setFontType("normal");
 		doc.setLineWidth(1);
 		doc.line(5, 95, 205, 95);
@@ -191,7 +200,20 @@ $(document).ready(function() {
 		var currentSheet = 1;
 		var totalSheets = Math.floor(details.length / 20) + 1;
 		var offsetY = 100;
-		var title = (mode == 'input') ? 'Recepci\u00f3n de Mercader\u00eda Nro.: ' : 'Egreso de Mercader\u00eda Nro.: ';
+		var title;
+			
+		switch(mode) {
+	    	case 'input':
+	    		title = 'Recepci\u00f3n de Mercader\u00eda Nro.: ';
+	    		break;
+	    	case 'output':
+	    		title = 'Egreso de Mercader\u00eda Nro.: ';
+	    		break;
+	    	case 'supplying':
+	    		title = 'Dispensa Nro.: ';
+	    		break;
+		}
+		//var title = (mode == 'input') ? 'Recepci\u00f3n de Mercader\u00eda Nro.: ' : 'Egreso de Mercader\u00eda Nro.: ';
 		
 		printIOPDFHeader(doc, mode, title + id.toString(), currentSheet, totalSheets);
 		
@@ -210,8 +232,11 @@ $(document).ready(function() {
 			doc.text(10, offsetY, value.product.code.toString() + ' - ' + value.product.description);
 			doc.text(70, offsetY, value.serialNumber);
 			doc.text(120, offsetY, value.batch);
-			doc.text(160, offsetY, myParseDate(value.expirationDate));
-			doc.text(190, offsetY, value.amount.toString());
+			doc.text(150, offsetY, myParseDate(value.expirationDate));
+			doc.text(175, offsetY, value.amount.toString());
+			if (mode == 'supplying') {
+				doc.text(190, offsetY, (value.inStock) ? 'SI' : 'NO');
+			}
 			offsetY += 10;
 		});
 		

@@ -27,7 +27,7 @@ Output = function() {
 	
 	var isEdit = false;
 	
-	//Se esconde el div de cliente
+	//Se esconde el div de Lugares de Entrega.
 	$("#deliveryLocationDiv").hide();
 	$("#productOutput").attr("disabled", true);
 	
@@ -64,10 +64,10 @@ Output = function() {
 				},
 				provider:{
 			        required: function(element) {
-			            return $("#clientInput").val() == "";
+			            return $("#deliveryLocationInput").val() == "";
 			        }
 				},
-				client: {
+				deliveryLocation: {
 					required: function(element) {
 			            return $("#providerInput").val() == "";
 			        }
@@ -446,6 +446,9 @@ Output = function() {
 					contentType:"application/json",
 					data: JSON.stringify(jsonOutput),
 					async: false,
+					beforeSend : function() {
+		                $.blockUI({ message: 'Espere un Momento por favor...' });
+		             },
 					success: function(response) {
 						if (!response.concept.printDeliveryNote) {
 							var doc = printIOPDF('output', response.id, response.outputDetails);
@@ -458,6 +461,7 @@ Output = function() {
 						myRedirect("success", "Se ha generado exitosamente el Egreso de Mercaderia: " + response.id, "output.do");
 					},
 					error: function(jqXHR, textStatus, errorThrown) {
+						$.unblockUI();
 						myGenericError();
 					}
 				});

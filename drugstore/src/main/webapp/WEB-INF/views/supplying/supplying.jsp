@@ -356,13 +356,13 @@
 					</div>
 					<div class="row">
 						<div class="col-md-3 form-group">
-							<input type="text" name="batch" id="batchInput" placeholder='<spring:message code="input.batch.placeholder"/>' class="form-control">
+							<input type="text" name="outOfStockBatch" id="outOfStockBatchInput" placeholder='<spring:message code="input.batch.placeholder"/>' class="form-control">
 						</div>
 						<div class="col-md-3 form-group">
-							<input type="text" name="expirationDate" id="expirationDateInput" placeholder='<spring:message code="input.expirationDate.placeholder"/>' class="form-control">
+							<input type="text" name="outOfStockExpirationDate" id="outOfStockExpirationDateInput" placeholder='<spring:message code="input.expirationDate.placeholder"/>' class="form-control">
 						</div>
 						<div class="col-md-3 form-group">
-							<input type="text" name="amount" id="amountInput" placeholder='<spring:message code="input.amount.placeholder"/>' class="form-control">
+							<input type="text" name="outOfStockAmount" id="outOfStockAmountInput" placeholder='<spring:message code="input.amount.placeholder"/>' class="form-control">
 						</div>
 						<div class="col-md-3 form-group">
 							<button id="outOfStockBatchExpirationDateAddButton" type="button" class="btn btn-warning"> <span class="glyphicon glyphicon-plus"></span>Asignar</button>

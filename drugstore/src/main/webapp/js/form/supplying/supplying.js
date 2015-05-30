@@ -666,10 +666,21 @@ var Supplying = function() {
 						contentType : "application/json",
 						data : JSON.stringify(jsonSupplying),
 						async : true,
+						beforeSend : function() {
+			                $.blockUI({ message: 'Espere un Momento por favor...' });
+			             },
 						success : function(response) {
+							var doc = printIOPDF('supplying', response.id, response.supplyingDetails);
+							
+							var string = doc.output('datauristring');
+							var x = window.open('','_blank', '', false);
+							x.document.open();
+							x.document.location=string;
+							
 							myReload("success",	"Se ha registrado la dispensa n\u00famero: " + response.id);
 						},
 						error : function(jqXHR,	textStatus, errorThrown) {
+							$.unblockUI();
 							myGenericError();
 						}
 					});

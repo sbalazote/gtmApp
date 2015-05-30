@@ -1,7 +1,6 @@
 $(document).ready(function() {
 	
 	// My Global Functions
-	
 	myReload = function(type, message) {
 		var postObject = {
 			"type": type,
@@ -32,20 +31,7 @@ $(document).ready(function() {
 			'&times;</button> ' + message + '</div>');
 	};
 	
-//	myShowAlert = function(type, message, element) {
-//		var myDiv = "alertDiv";
-//		if (element) {
-//			myDiv = element;
-//		}
-//		var header = "success" == type ? "Enhorabuena!" : "Error!";
-//		$('#'+myDiv).html(
-//			'<div class="alert alert-' + type + ' alert-block fade in">' +
-//			'<button type="button" class="close" data-dismiss="alert">' +
-//			'&times;</button><strong>' + header + ' </strong>' + message + '</div>');
-//	};
-	
 	// Alerts
-	
 	assignProductsOutOfStockAlert = function(element) {
 		var assignOutOfStock = false;
 		
@@ -76,7 +62,7 @@ $(document).ready(function() {
 	};
 	
 	myGenericError = function(element) {
-		var message = 'Ha ocurrido un error al intentar procesar su solicitud. Por favor, comun\u00faquese con el Administrador del Sistema.';
+		var message = 'Ha ocurrido un error al intentar procesar su solicitud. Por favor, comun\u00edquese con el Administrador del Sistema.';
 		myShowAlert('danger', message, element);
 		BootstrapDialog.show({
 			type: BootstrapDialog.TYPE_DANGER,
