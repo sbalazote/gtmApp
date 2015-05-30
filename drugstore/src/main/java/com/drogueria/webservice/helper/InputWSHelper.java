@@ -13,7 +13,7 @@ import com.drogueria.config.PropertyProvider;
 import com.drogueria.helper.EncryptionHelper;
 import com.drogueria.model.Input;
 import com.drogueria.model.InputDetail;
-import com.drogueria.service.DrugstorePropertyService;
+import com.drogueria.service.PropertyService;
 import com.drogueria.util.OperationResult;
 import com.drogueria.util.StringUtility;
 import com.drogueria.webservice.WebService;
@@ -29,7 +29,7 @@ public class InputWSHelper {
 	private static final Logger logger = Logger.getLogger(WebServiceHelper.class);
 
 	@Autowired
-	private DrugstorePropertyService drugstorePropertyService;
+	private PropertyService PropertyService;
 
 	@Autowired
 	private WebServiceHelper webServiceHelper;
@@ -98,8 +98,8 @@ public class InputWSHelper {
 		}
 		if (!medicines.isEmpty() && errors.isEmpty()) {
 			logger.info("Iniciando consulta con ANMAT");
-			webServiceResult = this.webServiceHelper.run(medicines, this.drugstorePropertyService.get().getANMATName(),
-					EncryptionHelper.AESDecrypt(this.drugstorePropertyService.get().getANMATPassword()), errors);
+			webServiceResult = this.webServiceHelper.run(medicines, this.PropertyService.get().getANMATName(),
+					EncryptionHelper.AESDecrypt(this.PropertyService.get().getANMATPassword()), errors);
 			if (webServiceResult == null) {
 				errors.add(ERROR_CANNOT_CONNECT_TO_ANMAT);
 			}
@@ -114,13 +114,13 @@ public class InputWSHelper {
 		String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(inputDetail.getExpirationDate()).toString();
 
 		if ("SS".equals(inputDetail.getProduct().getType())) {
-			String startTraceEvent = this.drugstorePropertyService.get().getStartTraceConcept().getEventOnInput(input.getClientOrProviderAgent());
+			String startTraceEvent = this.PropertyService.get().getStartTraceConcept().getEventOnInput(input.getClientOrProviderAgent());
 			if (startTraceEvent != null) {
 				eventId = startTraceEvent;
 			}
 		}
-		this.webServiceHelper.setDrug(drug, input.getOriginGln(), this.drugstorePropertyService.get().getGln(), input.getOriginTax(),
-				this.drugstorePropertyService.get().getTaxId(), deliveryNote, expirationDate, inputDetail.getGtin().getNumber(), eventId,
+		this.webServiceHelper.setDrug(drug, input.getOriginGln(), this.PropertyService.get().getGln(), input.getOriginTax(),
+				this.PropertyService.get().getTaxId(), deliveryNote, expirationDate, inputDetail.getGtin().getNumber(), eventId,
 				inputDetail.getSerialNumber(), inputDetail.getBatch(), input.getDate(), false, null, null, null, null, null);
 
 		return drug;
@@ -135,7 +135,7 @@ public class InputWSHelper {
 			Date date = new Date();
 			Calendar c = Calendar.getInstance();
 			c.setTime(date);
-			c.add(Calendar.DATE, -this.drugstorePropertyService.get().getDaysAgoPendingTransactions());
+			c.add(Calendar.DATE, -this.PropertyService.get().getDaysAgoPendingTransactions());
 			date.setTime(c.getTime().getTime());
 			String isProducion = PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION);
 
@@ -146,8 +146,8 @@ public class InputWSHelper {
 						toReturn = true;
 					} else {
 						String gtin = StringUtility.addLeadingZeros(inputDetail.getProduct().getLastGtin(), 14);
-						pendingTransactions = this.webService.getTransaccionesNoConfirmadas(this.drugstorePropertyService.get().getANMATName(),
-								EncryptionHelper.AESDecrypt(this.drugstorePropertyService.get().getANMATPassword()), nullValue, null, null, null, gtin,
+						pendingTransactions = this.webService.getTransaccionesNoConfirmadas(this.PropertyService.get().getANMATName(),
+								EncryptionHelper.AESDecrypt(this.PropertyService.get().getANMATPassword()), nullValue, null, null, null, gtin,
 								nullValue, null, null, simpleDateFormat.format(date), simpleDateFormat.format(new Date()), null, null, null, null, nullValue,
 								null, null);
 						toReturn = this.checkPendingTransactions(pendingProducts, errors, pendingTransactions, inputDetail, found, gtin);

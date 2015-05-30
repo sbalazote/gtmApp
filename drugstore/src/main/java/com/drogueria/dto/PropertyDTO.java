@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class DrugstorePropertyDTO implements Serializable {
+public class PropertyDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;

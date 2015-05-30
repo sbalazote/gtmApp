@@ -1,5 +1,6 @@
 package com.drogueria.persistence.dao.impl;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import com.drogueria.service.ClientService;
 import com.drogueria.service.ProvinceService;
 import com.drogueria.service.VATLiabilityService;
 
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:application-context-test.xml" })
 public class AffiliateServiceTest {

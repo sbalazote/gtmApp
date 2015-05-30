@@ -24,7 +24,7 @@ import com.drogueria.model.ProvisioningRequest;
 import com.drogueria.model.ProvisioningRequestDetail;
 import com.drogueria.model.ProvisioningRequestState;
 import com.drogueria.model.Stock;
-import com.drogueria.service.DrugstorePropertyService;
+import com.drogueria.service.PropertyService;
 import com.drogueria.service.ProvisioningRequestService;
 import com.drogueria.service.ProvisioningRequestStateService;
 import com.drogueria.service.StockService;
@@ -51,7 +51,7 @@ public class PickingSheetPrinterImpl implements PickingSheetPrinter {
 	@Autowired
 	private ProvisioningRequestStateService provisioningRequestStateService;
 	@Autowired
-	private DrugstorePropertyService drugstorePropertyService;
+	private PropertyService PropertyService;
 	@Autowired
 	private StockService stockService;
 	@Autowired

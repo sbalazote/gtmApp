@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.drogueria.config.PropertyProvider;
 import com.drogueria.constant.Constants;
-import com.drogueria.service.DrugstorePropertyService;
+import com.drogueria.service.PropertyService;
 import com.drogueria.util.StringUtility;
 import com.inssjp.mywebservice.business.MedicamentosDTO;
 import com.inssjp.mywebservice.business.WebServiceError;
@@ -23,7 +23,7 @@ public class WebServiceHelper {
 	private WebService webService;
 
 	@Autowired
-	private DrugstorePropertyService drugstorePropertyService;
+	private PropertyService PropertyService;
 
 	public WebServiceResult run(List<MedicamentosDTO> medicines, String username, String password, List<String> errors) {
 		this.setProxy();
@@ -143,9 +143,9 @@ public class WebServiceHelper {
 	}
 
 	public void setProxy() {
-		if (this.drugstorePropertyService.get().isHasProxy()) {
-			this.webService.setProxy(this.drugstorePropertyService.get().getProxy());
-			this.webService.setProxyPort(this.drugstorePropertyService.get().getProxyPort());
+		if (this.PropertyService.get().isHasProxy()) {
+			this.webService.setProxy(this.PropertyService.get().getProxy());
+			this.webService.setProxyPort(this.PropertyService.get().getProxyPort());
 			this.webService.setInformProxy(true);
 		} else {
 			this.webService.setInformProxy(false);

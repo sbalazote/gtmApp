@@ -15,7 +15,7 @@ import com.drogueria.model.Supplying;
 import com.drogueria.model.SupplyingDetail;
 import com.drogueria.service.ConceptService;
 import com.drogueria.service.DeliveryNoteService;
-import com.drogueria.service.DrugstorePropertyService;
+import com.drogueria.service.PropertyService;
 
 @Service
 public class SupplyingFakeDeliveryNoteSheetPrinter {
@@ -27,7 +27,7 @@ public class SupplyingFakeDeliveryNoteSheetPrinter {
 	@Autowired
 	private ConceptService conceptService;
 	@Autowired
-	private DrugstorePropertyService drugstorePropertyService;
+	private PropertyService PropertyService;
 
 	public Integer print(Supplying supplying) {
 		Date date = new Date();
@@ -54,7 +54,7 @@ public class SupplyingFakeDeliveryNoteSheetPrinter {
 			deliveryNote.setDate(date);
 			deliveryNote.setFake(true);
 			try {
-				if (supplying.hasProductThatInform() && this.drugstorePropertyService.get().getSupplyingConcept().isInformAnmat()) {
+				if (supplying.hasProductThatInform() && this.PropertyService.get().getSupplyingConcept().isInformAnmat()) {
 					deliveryNote.setInformAnmat(true);
 				} else {
 					deliveryNote.setInformAnmat(false);

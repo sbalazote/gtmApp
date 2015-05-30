@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -29,6 +30,7 @@ import com.drogueria.service.ProductMonodrugService;
 import com.drogueria.service.ProductService;
 import com.drogueria.service.StockService;
 
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:application-context-test.xml" })
 public class StockServiceTest {

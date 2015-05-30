@@ -10,7 +10,7 @@ import com.drogueria.model.Input;
 import com.drogueria.model.Order;
 import com.drogueria.model.Output;
 import com.drogueria.model.Supplying;
-import com.drogueria.service.DrugstorePropertyService;
+import com.drogueria.service.PropertyService;
 import com.drogueria.service.TraceabilityService;
 import com.drogueria.util.OperationResult;
 import com.drogueria.webservice.WebServiceHelper;
@@ -32,7 +32,7 @@ public class TraceabilityServiceImpl implements TraceabilityService {
 	private DeliveryNoteWSHelper deliveryNoteWSHelper;
 
 	@Autowired
-	private DrugstorePropertyService drugstorePropertyService;
+	private PropertyService PropertyService;
 
 	@Override
 	public OperationResult processInputPendingTransactions(Input input) throws Exception {
@@ -45,8 +45,8 @@ public class TraceabilityServiceImpl implements TraceabilityService {
 		Long transactionCodeANMAT = Long.valueOf(deliveryNote.getTransactionCodeANMAT());
 		WebServiceResult result = null;
 		if (transactionCodeANMAT != null) {
-			result = this.webServiceHelper.sendCancelacTransacc(Long.valueOf(transactionCodeANMAT), this.drugstorePropertyService.get().getANMATName(),
-					EncryptionHelper.AESDecrypt(this.drugstorePropertyService.get().getANMATPassword()));
+			result = this.webServiceHelper.sendCancelacTransacc(Long.valueOf(transactionCodeANMAT), this.PropertyService.get().getANMATName(),
+					EncryptionHelper.AESDecrypt(this.PropertyService.get().getANMATPassword()));
 		}
 		return result;
 	}
@@ -56,8 +56,8 @@ public class TraceabilityServiceImpl implements TraceabilityService {
 		String transactionCodeANMAT = input.getTransactionCodeANMAT();
 		WebServiceResult result = null;
 		if (transactionCodeANMAT != null) {
-			result = this.webServiceHelper.sendCancelacTransacc(Long.valueOf(transactionCodeANMAT), this.drugstorePropertyService.get().getANMATName(),
-					EncryptionHelper.AESDecrypt(this.drugstorePropertyService.get().getANMATPassword()));
+			result = this.webServiceHelper.sendCancelacTransacc(Long.valueOf(transactionCodeANMAT), this.PropertyService.get().getANMATName(),
+					EncryptionHelper.AESDecrypt(this.PropertyService.get().getANMATPassword()));
 		}
 		return result;
 	}

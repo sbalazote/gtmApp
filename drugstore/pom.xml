@@ -363,7 +363,7 @@
 	<build>
 		<finalName>gtm-app</finalName>
         <filters>
-            <filter>src/main/filters/drugstore-filter-${env}.properties</filter>
+            <filter>src/main/filters/filter-${env}.properties</filter>
         </filters>
         <resources>
             <resource>
@@ -417,6 +417,12 @@
             <id>production</id>
             <properties>
                 <env>prod</env>
+            </properties>
+        </profile>
+        <profile>
+            <id>hmoore</id>
+            <properties>
+                <env>hmoore</env>
             </properties>
         </profile>
     </profiles>

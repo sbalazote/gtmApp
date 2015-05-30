@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.drogueria.model.DrugstoreProperty;
+import com.drogueria.model.Property;
 import com.drogueria.model.Event;
 import com.drogueria.persistence.dao.EventDAO;
 import com.drogueria.util.StringUtility;
@@ -66,8 +66,8 @@ public class EventDAOHibernateImpl implements EventDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Event> getInputOutput(boolean input) {
-		DrugstoreProperty drugstoreProperty = (DrugstoreProperty) this.sessionFactory.getCurrentSession().createCriteria(DrugstoreProperty.class).list().get(0);
-		Integer agentId = drugstoreProperty.getAgent().getId();
+		Property Property = (Property) this.sessionFactory.getCurrentSession().createCriteria(Property.class).list().get(0);
+		Integer agentId = Property.getAgent().getId();
 		Query query = null;
 		if (!input) {
 			query = this.sessionFactory.getCurrentSession().createQuery("from Event where originAgent.id = :agentId");

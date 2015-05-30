@@ -26,7 +26,7 @@ import com.drogueria.service.AgreementService;
 import com.drogueria.service.AuditService;
 import com.drogueria.service.ConceptService;
 import com.drogueria.service.DeliveryLocationService;
-import com.drogueria.service.DrugstorePropertyService;
+import com.drogueria.service.PropertyService;
 import com.drogueria.service.OrderService;
 import com.drogueria.service.OutputService;
 import com.drogueria.service.ProductGtinService;
@@ -55,7 +55,7 @@ public class OutputServiceTest {
 	@Mock
 	private StockService stockServiceMock;
 	@Mock
-	private DrugstorePropertyService drugstorePropertyServiceMock;
+	private PropertyService PropertyServiceMock;
 	@Mock
 	private DeliveryLocationService deliveryLocationServiceMock;
 	@Mock

@@ -24,7 +24,7 @@ import com.drogueria.model.ProvisioningRequest;
 import com.drogueria.model.ProvisioningRequestState;
 import com.drogueria.service.ConceptService;
 import com.drogueria.service.DeliveryNoteService;
-import com.drogueria.service.DrugstorePropertyService;
+import com.drogueria.service.PropertyService;
 import com.drogueria.service.OrderService;
 import com.drogueria.service.ProvisioningRequestService;
 import com.drogueria.service.ProvisioningRequestStateService;
@@ -42,7 +42,7 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 	@Autowired
 	private ProvisioningRequestService provisioningRequestService;
 	@Autowired
-	private DrugstorePropertyService drugstorePropertyService;
+	private PropertyService PropertyService;
 	@Autowired
 	private ProvisioningRequestStateService provisioningRequestStateService;
 	@Autowired
@@ -72,7 +72,7 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 			Integer conceptId = order.getProvisioningRequest().getAgreement().getDeliveryNoteConcept().getId();
 			Concept concept = this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
 			DeliveryNoteConfigFile deliveryNoteConfigFile = new DeliveryNoteConfigFile(provisioningRequest.getAgreement().getDeliveryNoteFilepath());
-			String drugstoreGln = this.drugstorePropertyService.get().getGln();
+			String drugstoreGln = this.PropertyService.get().getGln();
 			Integer deliveryNoteNumber = concept.getLastDeliveryNoteNumber() - deliveryNoteNumbersRequired + 1;
 
 			// Hago el corte de remitos por la cantidad items por pagina que se indique por parametro.

@@ -11,8 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "drugstore_property")
-public class DrugstoreProperty implements Serializable {
+@Table(name = "property")
+public class Property implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

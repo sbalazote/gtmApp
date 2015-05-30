@@ -13,7 +13,7 @@ import com.drogueria.model.DeliveryNoteDetail;
 import com.drogueria.model.Order;
 import com.drogueria.model.Output;
 import com.drogueria.model.Supplying;
-import com.drogueria.service.DrugstorePropertyService;
+import com.drogueria.service.PropertyService;
 import com.drogueria.util.OperationResult;
 import com.drogueria.util.StringUtility;
 import com.drogueria.webservice.WebServiceHelper;
@@ -24,7 +24,7 @@ public class DeliveryNoteWSHelper {
 	private static final Logger logger = Logger.getLogger(WebServiceHelper.class);
 
 	@Autowired
-	private DrugstorePropertyService drugstorePropertyService;
+	private PropertyService PropertyService;
 
 	@Autowired
 	private WebServiceHelper webServiceHelper;
@@ -47,7 +47,7 @@ public class DeliveryNoteWSHelper {
 			isInformAnmat = order.getProvisioningRequest().getAgreement().getDeliveryNoteConcept().isInformAnmat();
 		}
 		if (supplying != null) {
-			isInformAnmat = this.drugstorePropertyService.get().getSupplyingConcept().isInformAnmat();
+			isInformAnmat = this.PropertyService.get().getSupplyingConcept().isInformAnmat();
 		}
 		String eventId = this.getEvent(output, order, deliveryNote.isFake(), supplying);
 
@@ -74,7 +74,7 @@ public class DeliveryNoteWSHelper {
 				if (supplying != null) {
 					clientOrProvider = order.getProvisioningRequest().getDeliveryLocation().getCorporateName();
 					clientOrProviderAgent = order.getProvisioningRequest().getDeliveryLocation().getAgent().getDescription();
-					conceptDescription = this.drugstorePropertyService.get().getSupplyingConcept().getDescription();
+					conceptDescription = this.PropertyService.get().getSupplyingConcept().getDescription();
 				}
 				String error = "No ha podido obtenerse el evento a informar dado el concepto y el cliente/provedor seleccionados (Concepto: '" + code + " - "
 						+ conceptDescription + "' Cliente/Proveedor '" + clientOrProvider + "' Tipo de Agente: '" + clientOrProviderAgent
@@ -111,8 +111,8 @@ public class DeliveryNoteWSHelper {
 								.getProduct().getType()))) {
 					String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(deliveryNoteDetail.getOrderDetail().getExpirationDate()).toString();
 
-					this.webServiceHelper.setDrug(drug, this.drugstorePropertyService.get().getGln(), order.getProvisioningRequest().getDeliveryLocation()
-							.getGln(), this.drugstorePropertyService.get().getTaxId(), order.getProvisioningRequest().getDeliveryLocation().getTaxId(),
+					this.webServiceHelper.setDrug(drug, this.PropertyService.get().getGln(), order.getProvisioningRequest().getDeliveryLocation()
+							.getGln(), this.PropertyService.get().getTaxId(), order.getProvisioningRequest().getDeliveryLocation().getTaxId(),
 							deliveryNoteFormated, expirationDate, deliveryNoteDetail.getOrderDetail().getGtin().getNumber(), eventId, deliveryNoteDetail
 									.getOrderDetail().getSerialNumber(), deliveryNoteDetail.getOrderDetail().getBatch(), deliveryNote.getDate(), true, null,
 							null, null, null, null);
@@ -125,7 +125,7 @@ public class DeliveryNoteWSHelper {
 								.getProduct().getType()))) {
 					String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(deliveryNoteDetail.getOutputDetail().getExpirationDate()).toString();
 
-					this.webServiceHelper.setDrug(drug, this.drugstorePropertyService.get().getGln(), output.getDestinationGln(), this.drugstorePropertyService
+					this.webServiceHelper.setDrug(drug, this.PropertyService.get().getGln(), output.getDestinationGln(), this.PropertyService
 							.get().getTaxId(), output.getDestinationTax(), deliveryNoteFormated, expirationDate, deliveryNoteDetail.getOutputDetail().getGtin()
 							.getNumber(), eventId, deliveryNoteDetail.getOutputDetail().getSerialNumber(), deliveryNoteDetail.getOutputDetail().getBatch(),
 							deliveryNote.getDate(), true, null, null, null, null, null);
@@ -138,9 +138,9 @@ public class DeliveryNoteWSHelper {
 								.getProduct().getType()))) {
 					String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(deliveryNoteDetail.getSupplyingDetail().getExpirationDate()).toString();
 
-					System.out.println("GLN del est asiss" + this.drugstorePropertyService.get().getGln());
-					System.out.println("CUIT del est asiss" + this.drugstorePropertyService.get().getTaxId());
-					this.webServiceHelper.setDrug(drug, this.drugstorePropertyService.get().getGln(), null, this.drugstorePropertyService.get().getTaxId(),
+					System.out.println("GLN del est asiss" + this.PropertyService.get().getGln());
+					System.out.println("CUIT del est asiss" + this.PropertyService.get().getTaxId());
+					this.webServiceHelper.setDrug(drug, this.PropertyService.get().getGln(), null, this.PropertyService.get().getTaxId(),
 							null, null, expirationDate, deliveryNoteDetail.getSupplyingDetail().getGtin().getNumber(), eventId, deliveryNoteDetail
 									.getSupplyingDetail().getSerialNumber(), deliveryNoteDetail.getSupplyingDetail().getBatch(), deliveryNote.getDate(), true,
 							supplying.getAffiliate().getSurname(), supplying.getAffiliate().getName(), supplying.getAffiliate().getDocument(), supplying
@@ -152,8 +152,8 @@ public class DeliveryNoteWSHelper {
 
 		if (!medicines.isEmpty()) {
 			logger.info("Iniciando consulta con ANMAT");
-			WebServiceResult result = this.webServiceHelper.run(medicines, this.drugstorePropertyService.get().getANMATName(),
-					EncryptionHelper.AESDecrypt(this.drugstorePropertyService.get().getANMATPassword()), errors);
+			WebServiceResult result = this.webServiceHelper.run(medicines, this.PropertyService.get().getANMATName(),
+					EncryptionHelper.AESDecrypt(this.PropertyService.get().getANMATPassword()), errors);
 			return result;
 		}
 		return null;
@@ -183,8 +183,8 @@ public class DeliveryNoteWSHelper {
 					.getEventOnOutput(order.getProvisioningRequest().getDeliveryLocation().getAgent().getId());
 		}
 		if (supplying != null) {
-			if (this.drugstorePropertyService.get().getSupplyingConcept().getEvents().size() > 0) {
-				eventId = this.drugstorePropertyService.get().getSupplyingConcept().getEvents().get(0).getId().toString();
+			if (this.PropertyService.get().getSupplyingConcept().getEvents().size() > 0) {
+				eventId = this.PropertyService.get().getSupplyingConcept().getEvents().get(0).getId().toString();
 			}
 		}
 		return eventId;

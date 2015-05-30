@@ -14,21 +14,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.drogueria.dto.DrugstorePropertyDTO;
+import com.drogueria.dto.PropertyDTO;
 import com.drogueria.helper.EncryptionHelper;
 import com.drogueria.model.Agent;
-import com.drogueria.model.DrugstoreProperty;
+import com.drogueria.model.Property;
 import com.drogueria.model.Province;
 import com.drogueria.service.AgentService;
 import com.drogueria.service.ConceptService;
-import com.drogueria.service.DrugstorePropertyService;
+import com.drogueria.service.PropertyService;
 import com.drogueria.service.ProviderTypeService;
 import com.drogueria.service.ProvinceService;
 
 @Controller
 public class PropertyController {
 	@Autowired
-	private DrugstorePropertyService drugstorePropertyService;
+	private PropertyService PropertyService;
 
 	@Autowired
 	private AgentService agentService;
@@ -46,12 +46,12 @@ public class PropertyController {
 
 	@RequestMapping(value = "/saveProperty", method = RequestMethod.POST)
 	public @ResponseBody
-	void saveProperty(@RequestBody DrugstorePropertyDTO propertyDTO) throws Exception {
-		this.drugstorePropertyService.save(this.buildModel(propertyDTO));
+	void saveProperty(@RequestBody PropertyDTO propertyDTO) throws Exception {
+		this.PropertyService.save(this.buildModel(propertyDTO));
 	}
 
-	private DrugstoreProperty buildModel(DrugstorePropertyDTO propertyDTO) {
-		DrugstoreProperty property = new DrugstoreProperty();
+	private Property buildModel(PropertyDTO propertyDTO) {
+		Property property = new Property();
 		if (propertyDTO.getId() != null) {
 			property.setId(propertyDTO.getId());
 		}
@@ -72,12 +72,12 @@ public class PropertyController {
 		property.setSelfSerializedTagFilepath(propertyDTO.getSelfSerializedTagFilepath());
 		property.setANMATName(propertyDTO.getANMATName());
 
-		DrugstoreProperty drugstoreProperty = this.drugstorePropertyService.get();
+		Property Property = this.PropertyService.get();
 
 		if (!propertyDTO.getANMATPassword().isEmpty()) {
 			property.setANMATPassword(EncryptionHelper.AESEncrypt(propertyDTO.getANMATPassword()));
 		} else {
-			property.setANMATPassword(drugstoreProperty.getANMATPassword());
+			property.setANMATPassword(Property.getANMATPassword());
 		}
 
 		if (propertyDTO.isInformProxy()) {
@@ -93,14 +93,14 @@ public class PropertyController {
 		property.setStartTraceConcept(this.conceptService.get(propertyDTO.getStartTraceConceptSelectId()));
 		property.setSupplyingConcept(this.conceptService.get(propertyDTO.getSupplyingConceptSelectId()));
 
-		property.setLastTag(drugstoreProperty.getLastTag());
+		property.setLastTag(Property.getLastTag());
 
 		return property;
 	}
 
 	@RequestMapping(value = "/updateProperty", method = RequestMethod.GET)
 	public String updateProperty(ModelMap modelMap, @RequestParam Map<String, String> parameters) throws Exception {
-		DrugstoreProperty property = this.drugstorePropertyService.get();
+		Property property = this.PropertyService.get();
 
 		modelMap.put("id", property.getId());
 		modelMap.put("code", property.getCode());
@@ -149,7 +149,7 @@ public class PropertyController {
 
 	@RequestMapping(value = "/getProperties", method = RequestMethod.GET)
 	@ResponseBody
-	public DrugstoreProperty getProperties() throws IOException {
-		return this.drugstorePropertyService.get();
+	public Property getProperties() throws IOException {
+		return this.PropertyService.get();
 	}
 }

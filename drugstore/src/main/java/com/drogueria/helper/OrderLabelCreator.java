@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.drogueria.model.Order;
 import com.drogueria.model.Product;
-import com.drogueria.service.DrugstorePropertyService;
+import com.drogueria.service.PropertyService;
 import com.ibm.icu.text.SimpleDateFormat;
 
 @Service
@@ -32,7 +32,7 @@ public class OrderLabelCreator {
 	private static final int MAX_PRODUCT_LIMIT = 16;
 
 	@Autowired
-	private DrugstorePropertyService drugstorePropertyService;
+	private PropertyService PropertyService;
 
 	public void getLabelFile(Order order) throws IOException {
 		String filepath = order.getProvisioningRequest().getAgreement().getOrderLabelFilepath();

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import com.drogueria.model.Concept;
 import com.drogueria.service.AgreementService;
 import com.drogueria.service.ConceptService;
 
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:application-context-test.xml" })
 public class AgreementServiceTest {

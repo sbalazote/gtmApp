@@ -33,7 +33,7 @@ import com.drogueria.exceptions.NullProviderAndDeliveryLocationIdsException;
 import com.drogueria.exceptions.NullSerialNumberException;
 import com.drogueria.helper.SelfSerializedTagsPrinter;
 import com.drogueria.model.Agreement;
-import com.drogueria.model.DrugstoreProperty;
+import com.drogueria.model.Property;
 import com.drogueria.model.Input;
 import com.drogueria.model.InputDetail;
 import com.drogueria.model.Product;
@@ -45,7 +45,7 @@ import com.drogueria.service.AgreementService;
 import com.drogueria.service.AuditService;
 import com.drogueria.service.ConceptService;
 import com.drogueria.service.DeliveryLocationService;
-import com.drogueria.service.DrugstorePropertyService;
+import com.drogueria.service.PropertyService;
 import com.drogueria.service.InputService;
 import com.drogueria.service.OrderService;
 import com.drogueria.service.OutputService;
@@ -77,7 +77,7 @@ public class InputServiceImpl implements InputService {
 	@Autowired
 	private StockService stockService;
 	@Autowired
-	private DrugstorePropertyService drugstorePropertyService;
+	private PropertyService PropertyService;
 	@Autowired
 	private DeliveryLocationService deliveryLocationService;
 	@Autowired
@@ -122,7 +122,7 @@ public class InputServiceImpl implements InputService {
 	}
 
 	private void printSelfSerializedTags(Input input) {
-		SelfSerializedTagsPrinter selfSerializedTagsPrinter = new SelfSerializedTagsPrinter(this.drugstorePropertyService.get().getSelfSerializedTagFilepath());
+		SelfSerializedTagsPrinter selfSerializedTagsPrinter = new SelfSerializedTagsPrinter(this.PropertyService.get().getSelfSerializedTagFilepath());
 
 		String inputId = input.getId().toString();
 		for (InputDetail inputDetail : input.getInputDetails()) {
@@ -182,8 +182,8 @@ public class InputServiceImpl implements InputService {
 		}
 
 		if (!selfSerializedDetails.isEmpty() && !isSerializedReturn.booleanValue()) {
-			DrugstoreProperty drugstoreProperty = this.drugstorePropertyService.getAndUpdateSelfSerializedTag(totalAmount);
-			List<InputDetailDTO> newSelfSerializedDetails = this.generateSelfSerializedDetails(totalAmount, selfSerializedDetails, drugstoreProperty);
+			Property Property = this.PropertyService.getAndUpdateSelfSerializedTag(totalAmount);
+			List<InputDetailDTO> newSelfSerializedDetails = this.generateSelfSerializedDetails(totalAmount, selfSerializedDetails, Property);
 			newDetails.addAll(newSelfSerializedDetails);
 		}
 
@@ -197,9 +197,9 @@ public class InputServiceImpl implements InputService {
 	}
 
 	private List<InputDetailDTO> generateSelfSerializedDetails(Integer totalAmount, List<InputDetailDTO> selfSerializedDetails,
-			DrugstoreProperty drugstoreProperty) {
+			Property Property) {
 		List<InputDetailDTO> newSelfSerializedDetails = new ArrayList<>();
-		Integer currentSerialNumber = drugstoreProperty.getLastTag() - totalAmount + 1;
+		Integer currentSerialNumber = Property.getLastTag() - totalAmount + 1;
 
 		for (InputDetailDTO inputDetailDTO : selfSerializedDetails) {
 			for (int i = 0; i < inputDetailDTO.getAmount(); i++) {
@@ -212,10 +212,10 @@ public class InputServiceImpl implements InputService {
 
 				String serialNumber = StringUtility.addLeadingZeros(currentSerialNumber, SERIAL_NUMBER_LENGTH);
 
-				// String serial = String.format(SELF_SERIALIZED_SERIAL_FORMAT, drugstoreProperty.getGln(), serialNumber);
+				// String serial = String.format(SELF_SERIALIZED_SERIAL_FORMAT, Property.getGln(), serialNumber);
 				// newInputDetailDTO.setSerialNumber(serial);
 
-				newInputDetailDTO.setSerialNumber(drugstoreProperty.getGln() + serialNumber);
+				newInputDetailDTO.setSerialNumber(Property.getGln() + serialNumber);
 
 				newSelfSerializedDetails.add(newInputDetailDTO);
 
