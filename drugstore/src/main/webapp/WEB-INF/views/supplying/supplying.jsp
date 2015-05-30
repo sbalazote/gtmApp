@@ -5,6 +5,9 @@
 <script type="text/javascript" src="js/form/supplying/supplying.js"></script>
 <script type="text/javascript" src="js/form/output/outputBatchExpirateDate.js"></script>
 <script type="text/javascript" src="js/form/output/outputSerialized.js"></script>
+<script type="text/javascript" src="js/form/supplying/batchExpirationDate.js"></script>
+<script type="text/javascript" src="js/form/supplying/providerSerialized.js"></script>
+<script type="text/javascript" src="js/form/supplying/selfSerialized.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		new Supplying();
@@ -91,7 +94,7 @@
 			</button>
 		</div>
 		<div class="col-md-2">
-			<button class="btn btn-success btn-block" type="submit" id="confirmButton">
+			<button class="btn btn-success btn-block" type="button" id="confirmButton">
 				<span class="glyphicon glyphicon-ok"></span>
 				<spring:message code="common.confirm" />
 			</button>
@@ -319,3 +322,226 @@
 		</div>
 	</div>
 </form>
+
+<%-- Modal Ingreso Lote y Vencimiento --%>
+<form id="outOfStockBatchExpirationDateModalForm" action="" onsubmit="return false;">
+	<div class="modal fade" data-backdrop="static" data-keyboard="false" id="outOfStockBatchExpirationDateModal">
+		<div class="modal-dialog" style="width: 900px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title"><spring:message code="input.modal.batchExpirationDateModal.title"/></h4>
+				</div>
+				<div id="outOfStockBatchExpirationDateModalAlertDiv"></div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12 form-group">
+							<label><spring:message code="common.product"/>:&nbsp;&nbsp;</label>
+							<label id="outOfStockBatchExpirationDateProductLabel"></label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4 form-group">
+							<label><spring:message code="common.amount"/>:&nbsp;&nbsp;</label>
+							<span style="color:black"><label id="outOfStockBatchExpirationDateRequestedAmountLabel"></label></span>
+						</div>
+						<div class="col-md-4 form-group">
+							<label><spring:message code="common.entered"/>:&nbsp;&nbsp;</label>
+							<span style="color:blue"><label id="outOfStockBatchExpirationDateEnteredAmountLabel"></label></span>
+						</div>
+						<div class="col-md-4 form-group">
+							<label><spring:message code="common.remaining"/>:&nbsp;&nbsp;</label>
+							<span style="color:red"><label id="outOfStockBatchExpirationDateRemainingAmountLabel"></label></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 form-group">
+							<input type="text" name="batch" id="batchInput" placeholder='<spring:message code="input.batch.placeholder"/>' class="form-control">
+						</div>
+						<div class="col-md-3 form-group">
+							<input type="text" name="expirationDate" id="expirationDateInput" placeholder='<spring:message code="input.expirationDate.placeholder"/>' class="form-control">
+						</div>
+						<div class="col-md-3 form-group">
+							<input type="text" name="amount" id="amountInput" placeholder='<spring:message code="input.amount.placeholder"/>' class="form-control">
+						</div>
+						<div class="col-md-3 form-group">
+							<button id="outOfStockBatchExpirationDateAddButton" type="button" class="btn btn-warning"> <span class="glyphicon glyphicon-plus"></span>Asignar</button>
+						</div>
+					</div>
+					<div>
+						<table id="outOfStockBatchExpirationDateTable" class="table">
+							<thead>
+								<tr>
+									<th><spring:message code="common.batch" /></th>
+									<th><spring:message code="common.expirationDate" /></th>
+									<th><spring:message code="common.amount" /></th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.abort"/></button>
+					<button type="button" class="btn btn-primary" id="outOfStockBatchExpirationDateAcceptButton"><spring:message code="common.confirm"/></button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<%-- Modal Ingreso Serializado de Origen --%>
+<form id="outOfStockProviderSerializedModalForm" action="" onsubmit="return false;">
+	<div class="modal fade" data-backdrop="static" data-keyboard="false" id="outOfStockProviderSerializedModal">
+		<div class="modal-dialog" style="width: 1100px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title"><spring:message code="input.modal.providerSerializedModal.title"/></h4>
+				</div>
+				<div id="outOfStockProviderSerializedModalAlertDiv"></div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12 form-group">
+							<label><spring:message code="common.product"/>:&nbsp;&nbsp;</label>
+							<label id="outOfStockProviderSerializedProductLabel"></label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4 form-group">
+							<label><spring:message	code="common.amount"/>:&nbsp;&nbsp;</label>
+							<span style="color:black"><label id="outOfStockProviderSerializedRequestedAmountLabel"></label></span>
+						</div>
+						<div class="col-md-4 form-group">
+							<label><spring:message code="common.entered"/>:&nbsp;&nbsp;</label>
+							<span style="color:blue"><label id="outOfStockProviderSerializedEnteredAmountLabel"></label></span>
+						</div>
+						<div class="col-md-4 form-group">
+							<label><spring:message code="common.remaining"/>:&nbsp;&nbsp;</label>
+							<span style="color:red"><label id="outOfStockProviderSerializedRemainingAmountLabel"></label></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 form-group">
+							<input id="outOfStockReadSerialNumberInput" name="outOfStockReadSerialNumber" placeholder='<spring:message code="common.readSerial"/>' type="text" class="form-control"  tabindex="1">
+						</div>
+						<div class="col-md-2 form-group">
+							<input id="outOfStockProviderSerializedBatchInput" name="outOfStockProviderSerializedBatch" placeholder='<spring:message code="input.batch.placeholder"/>' type="text" class="form-control"  tabindex="2">
+						</div>
+						<div class="col-md-2 form-group">
+							<input id="outOfStockProviderSerializedExpirationDateInput" name="outOfStockProviderSerializedExpirationDate"  placeholder='<spring:message code="input.expirationDate.placeholder"/>' type="text" class="form-control"  tabindex="3">
+						</div>
+						<div class="col-md-2 form-group">
+							<button id="outOfStockProviderSerializedAddButton" type="button" class="btn btn-warning"><span class="glyphicon glyphicon-plus"></span><spring:message code="common.add"/></button>
+						</div>
+					</div>
+					<div>
+						<table id="outOfStockProviderSerializedTable" class="table">
+							<thead>
+								<tr>
+									<th style="display: none;" ><spring:message code="common.gtin"/></th>
+									<th><spring:message code="common.serialNumber"/></th>
+									<th><spring:message code="common.batch"/></th>
+									<th><spring:message code="common.expirationDate"/></th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.abort"/></button>
+					<button type="button" class="btn btn-primary" id="outOfStockProviderSerializedAcceptButton"><spring:message code="common.confirm"/></button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<%-- Modal Ingreso Serializado Propio y Generacion de Etiquetas --%>
+<form id="outOfStockSelfSerializedModalForm" action="" onsubmit="return false;">
+	<div class="modal fade" data-backdrop="static" data-keyboard="false" id="outOfStockSelfSerializedModal">
+		<div class="modal-dialog" style="width: 900px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title"><spring:message code="input.modal.selfSerializedModal.title"/></h4>
+				</div>
+				<div id="outOfStockSelfSerializedModalAlertDiv"></div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12 form-group">
+							<label><spring:message code="common.product"/>:&nbsp;&nbsp;</label>
+							<label id="outOfStockSelfSerializedProductLabel"></label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4 form-group">
+							<label><spring:message code="common.amount"/>:&nbsp;&nbsp;</label>
+							<span style="color:black"><label id="outOfStockSelfSerializedRequestedAmountLabel"></label></span>
+						</div>
+						<div class="col-md-4 form-group">
+							<label><spring:message code="common.entered"/>:&nbsp;&nbsp;</label>
+							<span style="color:blue"><label id="outOfStockSelfSerializedEnteredAmountLabel"></label></span>
+						</div>
+						<div class="col-md-4 form-group">
+							<label><spring:message code="common.remaining"/>:&nbsp;&nbsp;</label>
+							<span style="color:red"><label id="outOfStockSelfSerializedRemainingAmountLabel"></label></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 form-group">
+							<input type="text" name="outOfStockSelfSerializedBatch" id="outOfStockSelfSerializedBatchInput" placeholder='<spring:message code="input.batch.placeholder"/>' class="form-control"  tabindex="1">
+						</div>
+						<div class="col-md-3 form-group">
+							<input type="text" name="outOfStockSelfSerializedExpirationDate" id="outOfStockSelfSerializedExpirationDateInput" placeholder='<spring:message code="input.expirationDate.placeholder"/>' class="form-control"  tabindex="2">
+						</div>
+						<div class="col-md-3 form-group">
+							<input type="text" name="outOfStockSelfSerializedAmount" id="outOfStockSelfSerializedAmountInput" placeholder='<spring:message code="input.amount.placeholder"/>' class="form-control" tabindex="3">
+						</div>
+						<div class="col-md-3 form-group">
+							<button id="outOfStockSelfSerializedGenerateButton" type="button" class="btn btn-warning"> <span class="glyphicon glyphicon-plus"></span><spring:message code="input.modal.selfSerializedModal.Generate"/></button>
+						</div>
+					</div>
+					<div>
+						<table id="outOfStockSelfSerializedTable" class="table">
+							<thead>
+								<tr>
+									<th><spring:message code="common.batch" /></th>
+									<th><spring:message code="common.expirationDate" /></th>
+									<th><spring:message code="common.amount" /></th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.abort"/></button>
+					<button type="button" class="btn btn-primary" id="outOfStockSelfSerializedAcceptButton"><spring:message code="common.confirm"/></button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<%-- Confirmación del delete de una row --%>
+<div class="modal fade" data-backdrop="static" id="deleteRowConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width:250px">
+		<div class="modal-content">
+			<div class="modal-body">
+				<strong><span style="color:red"><spring:message code="input.deleteRowConfirmationModal.text"/></span></strong>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.no"/></button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" id="inputDeleteRowConfirmationButton"><spring:message code="common.yes"/></button>
+			</div>
+		</div>
+	</div>
+</div>

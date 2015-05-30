@@ -29,7 +29,7 @@ $(document).ready(function() {
 			'<div class="alert alert-' + type + ' alert-block fade in">' +
 			'<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>' +
 			'<button type="button" class="close" data-dismiss="alert">' +
-			'&times;</button>' + message + '</div>');
+			'&times;</button> ' + message + '</div>');
 	};
 	
 //	myShowAlert = function(type, message, element) {
@@ -46,24 +46,33 @@ $(document).ready(function() {
 	
 	// Alerts
 	
-	noStockSupplyingAlert = function(element) {
-		var message = 'No existe ese producto en el inventario. A continuacion asignara productos fuera del mismo.';
-		myShowAlert('danger', message, element);
-		BootstrapDialog.show({
+	assignProductsOutOfStockAlert = function(element) {
+		var assignOutOfStock = false;
+		
+		var dialogInstance = new BootstrapDialog.show({
 			type: BootstrapDialog.TYPE_WARNING,
-	        message: message,
+			size: BootstrapDialog.SIZE_LARGE,
+	        message: 'Desea asignar productos fuera de inventario?.',
 	        title: 'Advertencia!',
-	        message: message,
 	        closable: false,
 	        buttons: [{
-	        	label: 'OK',
+                label: 'No',
+                action: function(dialogItself) {
+                    //typeof dialogItself.getData('callback') === 'function' && dialogItself.getData('callback')(false);
+                    dialogItself.close();
+                }
+            }, {
+                label: 'Si',
                 cssClass: 'btn-primary',
                 action: function(dialogItself) {
                     //typeof dialogItself.getData('callback') === 'function' && dialogItself.getData('callback')(true);
+                	assignOutOfStock = true;
                     dialogItself.close();
                 }
             }]
 		});
+		
+		return assignOutOfStock;
 	};
 	
 	myGenericError = function(element) {

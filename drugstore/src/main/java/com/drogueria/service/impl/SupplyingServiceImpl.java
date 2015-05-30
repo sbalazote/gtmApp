@@ -57,7 +57,7 @@ public class SupplyingServiceImpl implements SupplyingService {
 
 	private Supplying buildSupplying(SupplyingDTO supplyingDTO) {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-		SimpleDateFormat expirationDateFormatter = new SimpleDateFormat("dd/MM/yy");
+		SimpleDateFormat expirationDateFormatter = null;
 
 		try {
 			Agreement agreement = this.agreementService.get(supplyingDTO.getAgreementId());
@@ -80,7 +80,13 @@ public class SupplyingServiceImpl implements SupplyingService {
 				supplyingDetail.setAmount(supplyingDetailDTO.getAmount());
 				supplyingDetail.setBatch(supplyingDetailDTO.getBatch());
 				if (supplyingDetailDTO.getExpirationDate() != null && !supplyingDetailDTO.getExpirationDate().isEmpty()) {
-					supplyingDetail.setExpirationDate(expirationDateFormatter.parse(supplyingDetailDTO.getExpirationDate()));
+					if (supplyingDetailDTO.getInStock()) {
+						expirationDateFormatter = new SimpleDateFormat("dd/MM/yy");
+						supplyingDetail.setExpirationDate(expirationDateFormatter.parse(supplyingDetailDTO.getExpirationDate()));
+					} else {
+						expirationDateFormatter = new SimpleDateFormat("ddMMyy");
+						supplyingDetail.setExpirationDate(expirationDateFormatter.parse(supplyingDetailDTO.getExpirationDate()));
+					}
 				}
 				supplyingDetail.setSerialNumber(supplyingDetailDTO.getSerialNumber());
 
@@ -96,7 +102,9 @@ public class SupplyingServiceImpl implements SupplyingService {
 
 				supplyingDetail.setProduct(product);
 				supplyingDetail.setInStock(supplyingDetailDTO.getInStock());
-				this.updateStock(supplyingDetail, agreement);
+				if (supplyingDetail.getInStock()) {
+					this.updateStock(supplyingDetail, agreement);
+				}
 				details.add(supplyingDetail);
 			}
 			supplying.setSupplyingDetails(details);
@@ -148,10 +156,9 @@ public class SupplyingServiceImpl implements SupplyingService {
 		}
 	}
 
-	private void addToStock(SupplyingDetail supplyingDetail) {
+	private void addToStock(SupplyingDetail supplyingDetail, Agreement agreement) {
 		Stock stock = new Stock();
-		// TODO AGREEMENT NULL ?????
-		stock.setAgreement(null);
+		stock.setAgreement(agreement);
 		stock.setAmount(supplyingDetail.getAmount());
 		stock.setBatch(supplyingDetail.getBatch());
 		stock.setExpirationDate(supplyingDetail.getExpirationDate());
@@ -173,7 +180,7 @@ public class SupplyingServiceImpl implements SupplyingService {
 	@Override
 	public void addSupplyingToStock(Supplying supplying) {
 		for (SupplyingDetail supplyingDetail : supplying.getSupplyingDetails()) {
-			this.addToStock(supplyingDetail);
+			this.addToStock(supplyingDetail, supplying.getAgreement());
 		}
 	}
 
