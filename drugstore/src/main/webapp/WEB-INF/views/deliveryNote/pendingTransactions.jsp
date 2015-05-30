@@ -12,6 +12,7 @@
 
 <jsp:include page="../modals/outputModal.jsp" />
 <jsp:include page="../modals/orderModal.jsp" />
+<jsp:include page="../modals/supplyingModal.jsp" />
 
 <form action="" onsubmit="return false;">
 	<div class="row">

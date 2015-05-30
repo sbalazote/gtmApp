@@ -13,6 +13,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.drogueria.constant.AuditState;
@@ -60,5 +61,11 @@ public class SupplyingController {
 		this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote);
 
 		return supplying;
+	}
+
+	@RequestMapping(value = "/getSupplying", method = RequestMethod.GET)
+	public @ResponseBody
+	Supplying getSupplying(@RequestParam Integer supplyingId) {
+		return this.supplyingService.get(supplyingId);
 	}
 }

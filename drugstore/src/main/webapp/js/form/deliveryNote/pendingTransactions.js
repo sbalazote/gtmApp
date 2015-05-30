@@ -19,6 +19,12 @@ var PendingTransactions = function() {
 		showOutputModal(outputId);
 	});
 	
+	$('#deliveryNoteTableBody').on("click", ".view-supplying-row-deliveryNoteTable", function() {
+		var parent = $(this).parent().parent();
+		supplyingId = parent.children().eq(2).text();
+		showSupplyingModal(supplyingId);
+	});
+	
 	$("#confirmDeliveryNotesButton").click(function() {
 		if(deliveryNotes.length > 0 ){
 			$.ajax({
@@ -139,8 +145,13 @@ var PendingTransactions = function() {
 	        {
 	        	if (row.class === "ARMADO") {
 	        		return "<a href=\"#\" class='view-order-row-deliveryNoteTable'>Consulta</a>";
-	        	} else
+	        	}
+	        	if(row.class === "EGRESO") {
 	        		return "<a href=\"#\" class='view-output-row-deliveryNoteTable'>Consulta</a>";
+	        	}
+	        	if(row.class === "DISPENSA") {
+	        		return "<a href=\"#\" class='view-supplying-row-deliveryNoteTable'>Consulta</a>";
+	        	}
 	        }
 	    }
 	}).on("selected.rs.jquery.bootgrid", function(e, rows)

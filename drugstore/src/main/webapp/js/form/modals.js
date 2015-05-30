@@ -296,4 +296,50 @@ $(document).ready(function() {
 		$('#provisioningModal').modal('show');
 	};
 	
+	
+	showSupplyingModal = function(supplyingId) {
+		$.ajax({
+			url: "getSupplying.do",
+			type: "GET",
+			async: false,
+			data: {
+				supplyingId: supplyingId,
+			},
+			success: function(response) {
+				populateSupplyingModal(response);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myGenericError();
+			}
+		});
+	};
+	
+	var populateSupplyingModal = function(response) {
+		$('#supplyingModalProductTableBody').empty();
+		
+		
+		$('#supplyingModalAgreementInput').val(response.agreement.code + " - " + response.agreement.description);
+		$('#supplyingModalAffiliateInput').val(response.affiliate.code + " - " + response.affiliate.surname + " " + response.affiliate.name);
+		$('#supplyingModalClientInput').val(response.client.code + " - " + response.client.name);
+		
+		var tableRow;
+		
+		for (var i=0; i< response.supplyingDetails.length;i++) {
+			var serialNumber = "";
+			if(response.supplyingDetails[i].serialNumber != null){
+				serialNumber = response.supplyingDetails[i].serialNumber;
+			}
+			tableRow = "<tr><td>" +  response.supplyingDetails[i].product.code + " - " 
+			+ response.supplyingDetails[i].product.description + "</td>" +
+			"<td>"+  response.supplyingDetails[i].amount + "</td>" +
+			"<td>"+  serialNumber + "</td>" +
+			"<td>"+  response.supplyingDetails[i].batch + "</td>" +
+			"<td>"+  myParseDate(response.supplyingDetails[i].expirationDate) + "</td>" +
+			"</tr>";
+			$("#supplyingModalProductTableBody").append(tableRow);
+		}
+		
+		$('#supplyingModal').modal('show');
+	};
+	
 });
