@@ -29,6 +29,10 @@ public class DeliveryNoteDetail implements Serializable {
 	@JoinColumn(name = "output_detail_id")
 	private OutputDetail outputDetail;
 
+	@ManyToOne
+	@JoinColumn(name = "supplying_detail_id")
+	private SupplyingDetail supplyingDetail;
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -52,4 +56,13 @@ public class DeliveryNoteDetail implements Serializable {
 	public void setOutputDetail(OutputDetail outputDetail) {
 		this.outputDetail = outputDetail;
 	}
+
+	public SupplyingDetail getSupplyingDetail() {
+		return this.supplyingDetail;
+	}
+
+	public void setSupplyingDetail(SupplyingDetail supplyingDetail) {
+		this.supplyingDetail = supplyingDetail;
+	}
+
 }

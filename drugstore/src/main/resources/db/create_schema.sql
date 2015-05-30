@@ -518,10 +518,12 @@ CREATE TABLE `drugstore`.`delivery_note_detail` (
   `delivery_note_id` int(11)  NOT NULL,
   `order_detail_id` int(11) ,
   `output_detail_id` int(11),
+  `supplying_detail_id` int(11),
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_delivery_note_detail_delivery_note` FOREIGN KEY (`delivery_note_id`) REFERENCES `delivery_note` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_delivery_note_detail_order_detail` FOREIGN KEY (`order_detail_id`) REFERENCES `order_detail` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_delivery_note_detail_output_detail` FOREIGN KEY (`output_detail_id`) REFERENCES `output_detail` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_delivery_note_detail_output_detail` FOREIGN KEY (`output_detail_id`) REFERENCES `output_detail` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_delivery_note_detail_supplying_detail` FOREIGN KEY (`supplying_detail_id`) REFERENCES `supplying_detail` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `drugstore`.`serial_separation_mapping` (

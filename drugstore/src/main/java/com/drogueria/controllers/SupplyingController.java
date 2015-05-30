@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.drogueria.constant.AuditState;
 import com.drogueria.constant.RoleOperation;
 import com.drogueria.dto.SupplyingDTO;
+import com.drogueria.helper.impl.SupplyingFakeDeliveryNoteSheetPrinter;
 import com.drogueria.model.Supplying;
 import com.drogueria.service.AgreementService;
 import com.drogueria.service.AuditService;
@@ -35,6 +36,8 @@ public class SupplyingController {
 	private ClientService clientService;
 	@Autowired
 	private AgreementService agreementService;
+	@Autowired
+	private SupplyingFakeDeliveryNoteSheetPrinter supplyingFakeDeliveryNoteSheetPrinter;
 
 	@RequestMapping(value = "/supplying", method = RequestMethod.GET)
 	public String supplying(ModelMap modelMap) throws Exception {
@@ -46,13 +49,15 @@ public class SupplyingController {
 	}
 
 	@RequestMapping(value = "/saveSupplying", method = RequestMethod.POST)
-	public @ResponseBody Supplying saveSupplying(@RequestBody SupplyingDTO supplyingDTO, HttpServletRequest request) throws Exception {
+	public @ResponseBody
+	Supplying saveSupplying(@RequestBody SupplyingDTO supplyingDTO, HttpServletRequest request) throws Exception {
 		Supplying supplying = this.supplyingService.save(supplyingDTO);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
 			this.auditService.addAudit(auth.getName(), RoleOperation.SUPPLYING.getId(), AuditState.COMFIRMED, supplying.getId());
 		}
-		// this.auditService.addAudit(auth.getName(), RoleOperation.SUPPLYING_DOC_PRINT.getId(), AuditState.COMFIRMED, supplyingDoc);
+		Integer deliveryNote = this.supplyingFakeDeliveryNoteSheetPrinter.print(supplying);
+		this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote);
 
 		return supplying;
 	}
