@@ -33,7 +33,7 @@ PickingSheet = function() {
 				data: JSON.stringify(provisioningsToPrint),
 				async: false,
 				success: function(response) {
-					myReload("success", "Se han mandado a cola de impresi&oacute;n las siguientes hojas de picking: " + provisioningsToPrint);
+					myReload("success", "Se han mandado a cola de impresi\u00f3n las siguientes hojas de picking: " + provisioningsToPrint);
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					myGenericError();
@@ -42,7 +42,7 @@ PickingSheet = function() {
 		}else{
 			BootstrapDialog.show({
 				type: BootstrapDialog.TYPE_INFO,
-		        title: 'Atenci&oacute;n',
+		        title: 'Atenci\u00f3n',
 		        message: "Seleccione al menos un elemento",
 		        buttons: [{
 	                label: 'Cerrar',

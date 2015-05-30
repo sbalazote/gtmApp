@@ -96,7 +96,7 @@ OutputSerialized = function() {
 				},
 				success: function(response) {
 					if (response == "") {
-						readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Inv&aacute;lido").addClass("has-error").tooltip();
+						readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Inv\u00e1lido").addClass("has-error").tooltip();
 						return;
 					}
 					
@@ -131,7 +131,7 @@ OutputSerialized = function() {
 
 					//	Si el Gtin leido no coincide con el seleccionado en la pantalla de input.
 					if (gtinFound == false) {
-						readSerialNumber.tooltip("destroy").data("title", "GTIN le&iacute;do no coincide con el seleccionado").addClass("has-error").tooltip();
+						readSerialNumber.tooltip("destroy").data("title", "GTIN le\u00eddo no coincide con el seleccionado").addClass("has-error").tooltip();
 						return;
 					}
 					//TODO seguir desde aca
@@ -154,7 +154,7 @@ OutputSerialized = function() {
 				},
 				success: function(response) {
 					if (!response) {
-						readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Inv&aacute;lido").addClass("has-error").tooltip();
+						readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Inv\u00e1lido").addClass("has-error").tooltip();
 						return;
 					}
 
@@ -200,7 +200,7 @@ OutputSerialized = function() {
 					
 					readSerialNumber.focus();
 				} else {
-					readSerialNumber.tooltip("destroy").data("title", "El producto le&iacute;do no se encuentra en stock").addClass("has-error").tooltip();
+					readSerialNumber.tooltip("destroy").data("title", "El producto le\u00eddo no se encuentra en stock").addClass("has-error").tooltip();
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
@@ -263,7 +263,7 @@ OutputSerialized = function() {
 		if (remainingAmount > 0) {
 			generateRow();
 		} else {
-			myShowAlert('danger', 'Ya se ha ingresado la totalidad de productos requeridos. Por favor presione el bot&oacute;n "Confirmar".', "serializedModalAlertDiv");
+			myShowAlert('danger', 'Ya se ha ingresado la totalidad de productos requeridos. Por favor presione el bot\u00f3n "Confirmar".', "serializedModalAlertDiv");
 		}
 	});
 	

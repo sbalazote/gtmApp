@@ -492,7 +492,7 @@ Input = function() {
 							x.document.open();
 							x.document.location=string;
 							
-							myReload("success", "Se ha registrado el ingreso de mercader&iacute;a n&uacute;mero: " + response.id);
+							myReload("success", "Se ha registrado el ingreso de mercader\u00eda n\u00famero: " + response.id);
 						},
 						error: function(response, jqXHR, textStatus, errorThrown) {
 							$.unblockUI();
@@ -525,7 +525,7 @@ Input = function() {
 										var x = window.open('','Ingreso N&deg;', '', false);
 										x.document.open();
 										x.document.location=string;
-										myRedirect("success","Se ha autorizado el ingreso de mercader&iacute;a n&uacute;mero: " + response.operationId, "searchInputToUpdate.do");
+										myRedirect("success","Se ha autorizado el ingreso de mercader\u00eda n\u00famero: " + response.operationId, "searchInputToUpdate.do");
 									},
 									error: function(jqXHR, textStatus, errorThrown) {
 										myGenericError();
@@ -603,7 +603,7 @@ Input = function() {
 						x.document.open();
 						x.document.location=string;
 						
-						myRedirect("success","Se ha autorizado el ingreso de mercader&iacute;a n&uacute;mero: " + $("#inputId").val(), "searchInputToUpdate.do");
+						myRedirect("success","Se ha autorizado el ingreso de mercader\u00eda n\u00famero: " + $("#inputId").val(), "searchInputToUpdate.do");
 					}
 				},
 				error: function(response, jqXHR, textStatus, errorThrown) {
@@ -709,7 +709,7 @@ Input = function() {
 				},
 			async: true,
 			success: function(response) {
-				myRedirect("success", "Se ha realizado la anulaci&oacute;n del ingreso de mercader&iacute;a correctamente","searchInputToUpdate.do");
+				myRedirect("success", "Se ha realizado la anulaci\u00f3n del ingreso de mercader\u00eda correctamente","searchInputToUpdate.do");
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myDeleteInputError();

@@ -49,7 +49,7 @@ var DeliveryNoteCancellation = function() {
 		}else{
 			BootstrapDialog.show({
 				type: BootstrapDialog.TYPE_INFO,
-		        title: 'Atenci&oacute;n',
+		        title: 'Atenci\u00f3n',
 		        message: "Seleccione al menos un elemento",
 		        buttons: [{
 	                label: 'Cerrar',

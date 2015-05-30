@@ -360,7 +360,7 @@ var ProvisioningRequest = function() {
 						data: JSON.stringify(jsonProvisioningRequest),
 						async: true,
 						success: function(response) {
-							myReload("success", "Se ha registrado la solicitud de abastecimiento n&uacute;mero: " + response.id);
+							myReload("success", "Se ha registrado la solicitud de abastecimiento n\u00famero: " + response.id);
 						},
 						error: function(jqXHR, textStatus, errorThrown) {
 							myGenericError();
@@ -418,7 +418,7 @@ var ProvisioningRequest = function() {
 				$('#addAffiliateModalAlertDiv').html(
 						'<div class="alert alert-danger alert-block fade in">' +
 						'<button type="button" class="close" data-dismiss="alert">' +
-						'&times;</button>C&oacute;digo existente. Por favor, ingrese uno diferente.</div>');
+						'&times;</button>C\u00f3digo existente. Por favor, ingrese uno diferente.</div>');
 			} else {
 				$.ajax({
 					url: "saveAffiliate.do",

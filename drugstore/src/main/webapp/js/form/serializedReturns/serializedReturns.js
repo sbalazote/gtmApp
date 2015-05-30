@@ -107,7 +107,7 @@ SerializedReturns = function() {
 			outputOrderDetails[0].splice(indexOf, 1);
 			
 		} else {
-			myShowAlert('danger', 'Serie Inexistente o ya le&iacute;do.');
+			myShowAlert('danger', 'Serie Inexistente o ya le\u00eddo.');
 		}
 	};
 	
@@ -198,7 +198,7 @@ SerializedReturns = function() {
 								success: function(response) {
 									// No es un trazado propio, por lo tanto no es un serie v�lido.
 									if (!response) {
-										myShowAlert('danger', 'Formato de Serie Inv&aacute;lido.');
+										myShowAlert('danger', 'Formato de Serie Inv\u00e1lido.');
 										return;
 									}
 									// Es un trazado propio.
@@ -294,7 +294,7 @@ SerializedReturns = function() {
 								success: function(response) {
 									// No es un trazado propio, por lo tanto no es un serie v�lido.
 									if (!response) {
-										myShowAlert('danger', 'Formato de Serie Inv&aacute;lido.');
+										myShowAlert('danger', 'Formato de Serie Inv\u00e1lido.');
 										return;
 									}
 									// Es un trazado propio.
@@ -353,7 +353,7 @@ SerializedReturns = function() {
 					data: JSON.stringify(jsonInput),
 					async: false,
 					success: function(response, textStatus, jqXHR) {
-						myReload("success", "Se ha registrado el ingreso de mercader&iacute;a n&uacute;mero: " + response.id);
+						myReload("success", "Se ha registrado el ingreso de mercader\u00eda n\u00famero: " + response.id);
 					},
 					error: function(response, jqXHR, textStatus, errorThrown) {
 						myGenericError();

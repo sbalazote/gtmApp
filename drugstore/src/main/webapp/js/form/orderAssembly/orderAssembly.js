@@ -193,7 +193,7 @@ OrderAssembly = function() {
 				data: JSON.stringify(jsonOrder),
 				async: false,
 				success: function(response) {
-					myRedirect("success", "Se ha generado exitosamente el pedido para la Solicitud n&uacute;mero: " + response.id, "orderAssemblySelection.do");
+					myRedirect("success", "Se ha generado exitosamente el pedido para la Solicitud n\u00famero: " + response.id, "orderAssemblySelection.do");
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					myGenericError();

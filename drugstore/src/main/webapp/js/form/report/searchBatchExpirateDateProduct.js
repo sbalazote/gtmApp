@@ -219,7 +219,7 @@ SearchBatchExpirateDateProduct = function() {
 						
 						BootstrapDialog.show({
 							type: BootstrapDialog.TYPE_INFO,
-					        title: 'Atenci&oacute;n',
+					        title: 'Atenci\u00f3n',
 					        message: "No se han encontrado elementos para la consulta realizada.",
 					        buttons: [{
 				                label: 'Cerrar',

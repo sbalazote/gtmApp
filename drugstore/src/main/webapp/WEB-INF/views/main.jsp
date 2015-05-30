@@ -6,6 +6,8 @@
 		
 		<title><spring:message code="administration.drugManagement" /></title>
 		
+		<meta charset="UTF-8">
+		
 		<link rel="shortcut icon" href=images/oncomed-reno.png type="image/png">
 	
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">

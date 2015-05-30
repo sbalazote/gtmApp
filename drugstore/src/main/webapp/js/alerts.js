@@ -76,11 +76,11 @@ $(document).ready(function() {
 	};
 	
 	myGenericError = function(element) {
-		var message = 'Ha ocurrido un error al intentar procesar su solicitud. Por favor, comun&uacute;quese con el Administrador del Sistema.';
+		var message = 'Ha ocurrido un error al intentar procesar su solicitud. Por favor, comun\u00faquese con el Administrador del Sistema.';
 		myShowAlert('danger', message, element);
 		BootstrapDialog.show({
 			type: BootstrapDialog.TYPE_DANGER,
-	        title: 'Operaci&oacute;n Fallida',
+	        title: 'Operaci\u00f3n Fallida',
 	        message: message,
 	        buttons: [{
                 label: 'Cerrar',
@@ -125,11 +125,11 @@ $(document).ready(function() {
 	};
 	
 	myExistentCodeError = function() {
-		myShowAlert('danger', 'C&oacute;digo existente. Por favor, ingrese uno diferente.');
+		myShowAlert('danger', 'C\u00f3digo existente. Por favor, ingrese uno diferente.');
 	};
 	
 	myUpdateSuccessful = function() {
-		myShowAlert('success', 'Se ha registrado la modificaci&oacute;n correctamente.');
+		myShowAlert('success', 'Se ha registrado la modificaci\u00f3n correctamente.');
 	};
 	
 	// Alerts que redirigen o recargan la paginas
@@ -151,7 +151,7 @@ $(document).ready(function() {
 	};
 	
 	myQueryTooLargeAlert = function() {
-		myShowAlert('danger', 'Consulta demasiado amplia. Por favor sea m&aacute;s especifico.');
+		myShowAlert('danger', 'Consulta demasiado amplia. Por favor sea m\u00e1s especifico.');
 	};
 	
 	// Chequea si hay alerts que mostrar
@@ -161,7 +161,7 @@ $(document).ready(function() {
 		myShowAlert(jsonObject.type, jsonObject.message);
 		BootstrapDialog.show({
 			type: BootstrapDialog.TYPE_SUCCESS,
-	        title: 'Operaci&oacute;n Exitosa',
+	        title: 'Operaci\u00f3n Exitosa',
 	        message: jsonObject.message,
 	        buttons: [{
                 label: 'Cerrar',

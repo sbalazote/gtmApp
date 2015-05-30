@@ -7,7 +7,7 @@ AlfabetaUpdateProducts = function() {
 
             if (data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['type'])) {
             	uploadError = true;
-                myShowAlert('danger', 'Tipo de archivo no v&aacute;lido.');
+                myShowAlert('danger', 'Tipo de archivo no v\u00e1lido.');
             }
 
             if (data.originalFiles[0]['size'] > 5000000) {

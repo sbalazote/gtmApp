@@ -188,7 +188,7 @@ BatchExpirationDate = function() {
 		if (remainingAmount > 0) {
 			generateRow();
 		} else {
-			myShowAlert('danger', 'Ya se ha ingresado la totalidad de productos requeridos. Por favor presione el bot&oacute;n "Confirmar".', "batchExpirationDateModalAlertDiv");
+			myShowAlert('danger', 'Ya se ha ingresado la totalidad de productos requeridos. Por favor presione el bot\u00f3n "Confirmar".', "batchExpirationDateModalAlertDiv");
 		}
 	});
 	
