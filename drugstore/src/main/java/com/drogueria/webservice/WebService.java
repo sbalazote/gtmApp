@@ -78,12 +78,12 @@ public class WebService {
 	public TransaccionesNoConfirmadasWSResult getTransaccionesNoConfirmadas(String usuario, String pass, long idTransaccion, String glnInformador,
 			String glnOrigen, String glnDestino, String gtin, long idEvento, String fechaOpeDesde, String fechaOpeHasta, String fechaTransDesde,
 			String fechaTransHasta, String fechaVencimientoDesde, String fechaVencimientoHasta, String nroRemito, String nroFactura, long estadoTransaccion,
-			String otro, String otro1) throws Exception {
+			String lote, String serie, Long numeroDePagina, Long cantidadDeRegPorPagina) throws Exception {
 		IWebServicePortType webService = this.configurarWebService();
 		TransaccionesNoConfirmadasWSResult wsr = null;
 		wsr = webService.getTransaccionesNoConfirmadas(usuario, pass, idTransaccion, glnInformador, glnOrigen, glnDestino, gtin, idEvento, fechaOpeDesde,
-				fechaOpeHasta, fechaTransDesde, fechaTransHasta, fechaVencimientoDesde, fechaVencimientoHasta, nroRemito, nroFactura, estadoTransaccion, otro,
-				otro1, estadoTransaccion, estadoTransaccion);
+				fechaOpeHasta, fechaTransDesde, fechaTransHasta, fechaVencimientoDesde, fechaVencimientoHasta, nroRemito, nroFactura, estadoTransaccion, lote,
+				serie, numeroDePagina, cantidadDeRegPorPagina);
 		return wsr;
 	}
 
@@ -91,7 +91,7 @@ public class WebService {
 	private IWebServicePortType configurarWebService() throws ServiceException, MalformedURLException {
 		this.setDefaultProxy();
 		String wsdl = PropertyProvider.getInstance().getProp(PropertyProvider.WEB_SERVICE_URL);
-        Boolean isProduction = Boolean.valueOf(PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION));
+		Boolean isProduction = Boolean.valueOf(PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION));
 
 		URL wsdlURL = null;
 

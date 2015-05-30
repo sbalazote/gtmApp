@@ -119,9 +119,9 @@ public class InputWSHelper {
 				eventId = startTraceEvent;
 			}
 		}
-		this.webServiceHelper.setDrug(drug, input.getOriginGln(), this.PropertyService.get().getGln(), input.getOriginTax(),
-				this.PropertyService.get().getTaxId(), deliveryNote, expirationDate, inputDetail.getGtin().getNumber(), eventId,
-				inputDetail.getSerialNumber(), inputDetail.getBatch(), input.getDate(), false, null, null, null, null, null);
+		this.webServiceHelper.setDrug(drug, input.getOriginGln(), this.PropertyService.get().getGln(), input.getOriginTax(), this.PropertyService.get()
+				.getTaxId(), deliveryNote, expirationDate, inputDetail.getGtin().getNumber(), eventId, inputDetail.getSerialNumber(), inputDetail.getBatch(),
+				input.getDate(), false, null, null, null, null, null);
 
 		return drug;
 	}
@@ -147,9 +147,9 @@ public class InputWSHelper {
 					} else {
 						String gtin = StringUtility.addLeadingZeros(inputDetail.getProduct().getLastGtin(), 14);
 						pendingTransactions = this.webService.getTransaccionesNoConfirmadas(this.PropertyService.get().getANMATName(),
-								EncryptionHelper.AESDecrypt(this.PropertyService.get().getANMATPassword()), nullValue, null, null, null, gtin,
-								nullValue, null, null, simpleDateFormat.format(date), simpleDateFormat.format(new Date()), null, null, null, null, nullValue,
-								null, null);
+								EncryptionHelper.AESDecrypt(this.PropertyService.get().getANMATPassword()), nullValue, null, null, null, gtin, nullValue, null,
+								null, simpleDateFormat.format(date), simpleDateFormat.format(new Date()), null, null, null, null, nullValue, null, null,
+								new Long(0), new Long(0));
 						toReturn = this.checkPendingTransactions(pendingProducts, errors, pendingTransactions, inputDetail, found, gtin);
 					}
 				}
