@@ -78,21 +78,21 @@
 	<div class="col-md-6 form-group">
 		<label for="deliveryNoteNumberInput"><spring:message code="common.deliveryNote"/></label>
 		<div class="input-group">
-			<input name="deliveryNotePOS" id="deliveryNotePOSInput" type="text" class="form-control" tabindex="1" placeholder='<spring:message code="common.deliveryNote.POS"/>' value="${deliveryNotePOSInput != null ? deliveryNotePOSInput : ''}">
+			<input name="deliveryNotePOS" id="deliveryNotePOSInput" type="text" class="form-control" placeholder='<spring:message code="common.deliveryNote.POS"/>' value="${deliveryNotePOSInput != null ? deliveryNotePOSInput : ''}">
   			<span class="input-group-addon">-</span>
-  			<input name="deliveryNoteNumber" id="deliveryNoteNumberInput" type="text" class="form-control" tabindex="2" placeholder='<spring:message code="common.deliveryNote.number"/>' value="${deliveryNoteNumberInput != null ? deliveryNoteNumberInput : ''}">
+  			<input name="deliveryNoteNumber" id="deliveryNoteNumberInput" type="text" class="form-control" placeholder='<spring:message code="common.deliveryNote.number"/>' value="${deliveryNoteNumberInput != null ? deliveryNoteNumberInput : ''}">
 		</div>
 	</div>
 	<div class="col-md-6 form-group">
 		<label for="purchaseOrderNumberInput"><spring:message code="common.purchaseOrder"/></label>
-		<input type="text" class="form-control" name="purchaseOrderNumber" id="purchaseOrderNumberInput" value="${purchaseOrderNumber != null ? purchaseOrderNumber : ''}" tabindex="3">
+		<input type="text" class="form-control" name="purchaseOrderNumber" id="purchaseOrderNumberInput" value="${purchaseOrderNumber != null ? purchaseOrderNumber : ''}">
 	</div>
 </div>
 
 <div class="row">
 	<div class="col-md-12 form-group">
 		<label for="productInput"><spring:message code="common.addProduct"/></label>
-		<input id="productInput" type="search" placeholder='<spring:message code="input.product.placeholder"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental" tabindex="4"/>
+		<input id="productInput" type="search" placeholder='<spring:message code="input.product.placeholder"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental"/>
 	</div>
 </div>
 
@@ -278,13 +278,13 @@
 					</div>
 					<div class="row">
 						<div class="col-md-6 form-group">
-							<input id="readSerialNumberInput" name="readSerialNumber" placeholder='<spring:message code="common.readSerial"/>' type="text" class="form-control"  tabindex="1">
+							<input id="readSerialNumberInput" name="readSerialNumber" placeholder='<spring:message code="common.readSerial"/>' type="text" class="form-control">
 						</div>
 						<div class="col-md-2 form-group">
-							<input id="providerSerializedBatchInput" name="providerSerializedBatch" placeholder='<spring:message code="input.batch.placeholder"/>' type="text" class="form-control"  tabindex="2">
+							<input id="providerSerializedBatchInput" name="providerSerializedBatch" placeholder='<spring:message code="input.batch.placeholder"/>' type="text" class="form-control">
 						</div>
 						<div class="col-md-2 form-group">
-							<input id="providerSerializedExpirationDateInput" name="providerSerializedExpirationDate"  placeholder='<spring:message code="input.expirationDate.placeholder"/>' type="text" class="form-control"  tabindex="3">
+							<input id="providerSerializedExpirationDateInput" name="providerSerializedExpirationDate"  placeholder='<spring:message code="input.expirationDate.placeholder"/>' type="text" class="form-control">
 						</div>
 						<div class="col-md-2 form-group">
 							<button id="providerSerializedAddButton" type="button" class="btn btn-warning"><span class="glyphicon glyphicon-plus"></span><spring:message code="common.add"/></button>
@@ -348,13 +348,13 @@
 					</div>
 					<div class="row">
 						<div class="col-md-3 form-group">
-							<input type="text" name="selfSerializedBatch" id="selfSerializedBatchInput" placeholder='<spring:message code="input.batch.placeholder"/>' class="form-control"  tabindex="1">
+							<input type="text" name="selfSerializedBatch" id="selfSerializedBatchInput" placeholder='<spring:message code="input.batch.placeholder"/>' class="form-control">
 						</div>
 						<div class="col-md-3 form-group">
-							<input type="text" name="selfSerializedExpirationDate" id="selfSerializedExpirationDateInput" placeholder='<spring:message code="input.expirationDate.placeholder"/>' class="form-control"  tabindex="2">
+							<input type="text" name="selfSerializedExpirationDate" id="selfSerializedExpirationDateInput" placeholder='<spring:message code="input.expirationDate.placeholder"/>' class="form-control">
 						</div>
 						<div class="col-md-3 form-group">
-							<input type="text" name="selfSerializedAmount" id="selfSerializedAmountInput" placeholder='<spring:message code="input.amount.placeholder"/>' class="form-control" tabindex="3">
+							<input type="text" name="selfSerializedAmount" id="selfSerializedAmountInput" placeholder='<spring:message code="input.amount.placeholder"/>' class="form-control">
 						</div>
 						<div class="col-md-3 form-group">
 							<button id="selfSerializedGenerateButton" type="button" class="btn btn-warning"> <span class="glyphicon glyphicon-plus"></span><spring:message code="input.modal.selfSerializedModal.Generate"/></button>

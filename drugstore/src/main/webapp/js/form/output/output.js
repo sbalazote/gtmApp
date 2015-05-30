@@ -450,7 +450,7 @@ Output = function() {
 						if (!response.concept.printDeliveryNote) {
 							var doc = printIOPDF('output', response.id, response.outputDetails);
 							var string = doc.output('datauristring');
-							var x = window.open('','Egreso N&deg;', '', false);
+							var x = window.open('','_blank', '', false);
 							x.document.open();
 							x.document.location=string;
 						}
