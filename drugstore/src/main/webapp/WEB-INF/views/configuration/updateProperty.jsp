@@ -130,20 +130,20 @@
 						<input type="text" class="form-control" id="ANMATNameInput" name="ANMATName" value="${ANMATName}">
 					</div>
 					<div class="col-md-4 form-group">
-						<label for="conceptSelect"><spring:message code="configuration.deliveryNoteConcept"/></label>
-						<select id="conceptSelect" name="concept" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
+						<label for="startTraceConceptSelect"><spring:message code="configuration.startTraceConcept"/></label>
+						<select id="startTraceConceptSelect" name="startTraceConcept" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 							<option value=""></option>
-							<c:forEach items="${deliveryNoteconcepts}" var="concept">
-								<option value="${concept.id}"  ${selectedConcept == concept.id ? 'selected' : ''}><c:out value="${concept.code}"></c:out> - <c:out value="${concept.description}"></c:out></option>
+							<c:forEach items="${concepts}" var="concept">
+								<option value="${concept.id}"  ${selectedStartTraceConcept == concept.id ? 'selected' : ''}><c:out value="${concept.code}"></c:out> - <c:out value="${concept.description}"></c:out></option>
 							</c:forEach>
 						</select>
 					</div>
 					<div class="col-md-4 form-group">
-						<label for="startTraceConceptSelect"><spring:message code="configuration.startTraceConcept"/></label>
-						<select id="startTraceConceptSelect" name="startTraceConcept" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
+						<label for="supplyingConceptSelect"><spring:message code="configuration.startTraceConcept"/></label>
+						<select id="supplyingConceptSelect" name="supplyingConcept" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 							<option value=""></option>
-							<c:forEach items="${startTraceConcepts}" var="concept">
-								<option value="${concept.id}"  ${selectedStartTraceConcept == concept.id ? 'selected' : ''}><c:out value="${concept.code}"></c:out> - <c:out value="${concept.description}"></c:out></option>
+							<c:forEach items="${deliveryNoteconcepts}" var="concept">
+								<option value="${concept.id}"  ${selectedSupplyingConcept == concept.id ? 'selected' : ''}><c:out value="${concept.code}"></c:out> - <c:out value="${concept.description}"></c:out></option>
 							</c:forEach>
 						</select>
 					</div>

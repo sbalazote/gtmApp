@@ -34,6 +34,7 @@ public class DrugstorePropertyDTO implements Serializable {
 	private String proxy;
 	private String proxyNumber;
 	private boolean informProxy;
+	private Integer supplyingConceptSelectId;
 
 	public Integer getId() {
 		return this.id;
@@ -253,6 +254,14 @@ public class DrugstorePropertyDTO implements Serializable {
 
 	public void setInformProxy(boolean informProxy) {
 		this.informProxy = informProxy;
+	}
+
+	public Integer getSupplyingConceptSelectId() {
+		return this.supplyingConceptSelectId;
+	}
+
+	public void setSupplyingConceptSelectId(Integer supplyingConceptSelectId) {
+		this.supplyingConceptSelectId = supplyingConceptSelectId;
 	}
 
 }

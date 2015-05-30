@@ -6,6 +6,7 @@ import java.util.Map;
 import com.drogueria.model.DeliveryNote;
 import com.drogueria.model.Order;
 import com.drogueria.model.Output;
+import com.drogueria.model.Supplying;
 import com.drogueria.query.DeliveryNoteQuery;
 import com.drogueria.util.OperationResult;
 
@@ -19,6 +20,8 @@ public interface DeliveryNoteService {
 
 	Map<Integer, List<String>> getAssociatedOutputs(boolean informAnmat);
 
+	Map<Integer, List<String>> getAssociatedSupplyings(boolean informAnmat);
+
 	void save(DeliveryNote deliveryNote) throws Exception;
 
 	DeliveryNote getDeliveryNoteFromNumber(String deliveryNoteNumber);
@@ -30,6 +33,8 @@ public interface DeliveryNoteService {
 	Order getOrder(DeliveryNote deliveryNote);
 
 	Output getOutput(DeliveryNote deliveryNote);
+
+	Supplying getSupplying(DeliveryNote deliveryNote);
 
 	OperationResult saveAndInform(DeliveryNote deliveryNote) throws Exception;
 

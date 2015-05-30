@@ -121,7 +121,7 @@ public class InputWSHelper {
 		}
 		this.webServiceHelper.setDrug(drug, input.getOriginGln(), this.drugstorePropertyService.get().getGln(), input.getOriginTax(),
 				this.drugstorePropertyService.get().getTaxId(), deliveryNote, expirationDate, inputDetail.getGtin().getNumber(), eventId,
-				inputDetail.getSerialNumber(), inputDetail.getBatch(), input.getDate(), false);
+				inputDetail.getSerialNumber(), inputDetail.getBatch(), input.getDate(), false, null, null, null, null, null);
 
 		return drug;
 	}

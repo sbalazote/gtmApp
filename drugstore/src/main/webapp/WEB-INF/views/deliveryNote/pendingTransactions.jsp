@@ -50,6 +50,15 @@
 						<td><spring:message code="common.view"/></td>
 					</tr>
 				</c:forEach>
+				<c:forEach items="${supplyingDeliveryNotes}" var="supplyingDeliveryNotes">
+					<tr>
+						<td><c:out value="E${supplyingDeliveryNotes.key}"></c:out></td>
+						<td><c:out value="${supplyingDeliveryNotes.key}"></c:out></td>
+						<td><spring:message code="deliveryNote.class.supplying"/></td>
+						<td><c:out value="${supplyingDeliveryNotes.value}"></c:out></td>
+						<td><spring:message code="common.view"/></td>
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 	</div>

@@ -12,6 +12,7 @@ import com.drogueria.model.DeliveryNote;
 import com.drogueria.model.DeliveryNoteDetail;
 import com.drogueria.model.Order;
 import com.drogueria.model.Output;
+import com.drogueria.model.Supplying;
 import com.drogueria.service.DrugstorePropertyService;
 import com.drogueria.util.OperationResult;
 import com.drogueria.util.StringUtility;
@@ -28,7 +29,7 @@ public class DeliveryNoteWSHelper {
 	@Autowired
 	private WebServiceHelper webServiceHelper;
 
-	public OperationResult sendDrugInformationToAnmat(DeliveryNote deliveryNote, Order order, Output output) {
+	public OperationResult sendDrugInformationToAnmat(DeliveryNote deliveryNote, Order order, Output output, Supplying supplying) {
 		OperationResult operationResult = new OperationResult();
 		operationResult.setResultado(false);
 		List<MedicamentosDTO> medicines = new ArrayList<>();
@@ -41,14 +42,18 @@ public class DeliveryNoteWSHelper {
 			} else {
 				isInformAnmat = output.getAgreement().getDeliveryNoteConcept().isInformAnmat();
 			}
-		} else {
+		}
+		if (order != null) {
 			isInformAnmat = order.getProvisioningRequest().getAgreement().getDeliveryNoteConcept().isInformAnmat();
 		}
-		String eventId = this.getEvent(output, order, deliveryNote.isFake());
+		if (supplying != null) {
+			isInformAnmat = this.drugstorePropertyService.get().getSupplyingConcept().isInformAnmat();
+		}
+		String eventId = this.getEvent(output, order, deliveryNote.isFake(), supplying);
 
 		if (isInformAnmat) {
 			if (eventId != null) {
-				webServiceResult = this.sendDrugs(deliveryNote, order, output, medicines, errors, eventId);
+				webServiceResult = this.sendDrugs(deliveryNote, order, output, medicines, errors, eventId, supplying);
 			} else {
 				String clientOrProvider = "";
 				String clientOrProviderAgent = "";
@@ -65,6 +70,11 @@ public class DeliveryNoteWSHelper {
 					clientOrProvider = order.getProvisioningRequest().getDeliveryLocation().getCorporateName();
 					clientOrProviderAgent = order.getProvisioningRequest().getDeliveryLocation().getAgent().getDescription();
 					conceptDescription = order.getProvisioningRequest().getAgreement().getDeliveryNoteConcept().getDescription();
+				}
+				if (supplying != null) {
+					clientOrProvider = order.getProvisioningRequest().getDeliveryLocation().getCorporateName();
+					clientOrProviderAgent = order.getProvisioningRequest().getDeliveryLocation().getAgent().getDescription();
+					conceptDescription = this.drugstorePropertyService.get().getSupplyingConcept().getDescription();
 				}
 				String error = "No ha podido obtenerse el evento a informar dado el concepto y el cliente/provedor seleccionados (Concepto: '" + code + " - "
 						+ conceptDescription + "' Cliente/Proveedor '" + clientOrProvider + "' Tipo de Agente: '" + clientOrProviderAgent
@@ -85,7 +95,7 @@ public class DeliveryNoteWSHelper {
 	}
 
 	private WebServiceResult sendDrugs(DeliveryNote deliveryNote, Order order, Output output, List<MedicamentosDTO> medicines, List<String> errors,
-			String eventId) {
+			String eventId, Supplying supplying) {
 		for (DeliveryNoteDetail deliveryNoteDetail : deliveryNote.getDeliveryNoteDetails()) {
 			// Solo si el producto informa anmat se hace el servicio
 			MedicamentosDTO drug = new MedicamentosDTO();
@@ -104,7 +114,8 @@ public class DeliveryNoteWSHelper {
 					this.webServiceHelper.setDrug(drug, this.drugstorePropertyService.get().getGln(), order.getProvisioningRequest().getDeliveryLocation()
 							.getGln(), this.drugstorePropertyService.get().getTaxId(), order.getProvisioningRequest().getDeliveryLocation().getTaxId(),
 							deliveryNoteFormated, expirationDate, deliveryNoteDetail.getOrderDetail().getGtin().getNumber(), eventId, deliveryNoteDetail
-									.getOrderDetail().getSerialNumber(), deliveryNoteDetail.getOrderDetail().getBatch(), deliveryNote.getDate(), true);
+									.getOrderDetail().getSerialNumber(), deliveryNoteDetail.getOrderDetail().getBatch(), deliveryNote.getDate(), true, null,
+							null, null, null, null);
 					medicines.add(drug);
 				}
 			}
@@ -117,7 +128,23 @@ public class DeliveryNoteWSHelper {
 					this.webServiceHelper.setDrug(drug, this.drugstorePropertyService.get().getGln(), output.getDestinationGln(), this.drugstorePropertyService
 							.get().getTaxId(), output.getDestinationTax(), deliveryNoteFormated, expirationDate, deliveryNoteDetail.getOutputDetail().getGtin()
 							.getNumber(), eventId, deliveryNoteDetail.getOutputDetail().getSerialNumber(), deliveryNoteDetail.getOutputDetail().getBatch(),
-							deliveryNote.getDate(), true);
+							deliveryNote.getDate(), true, null, null, null, null, null);
+					medicines.add(drug);
+				}
+			}
+			if (deliveryNoteDetail.getSupplyingDetail() != null) {
+				if (deliveryNoteDetail.getSupplyingDetail().getProduct().isInformAnmat()
+						&& ("PS".equals(deliveryNoteDetail.getSupplyingDetail().getProduct().getType()) || "SS".equals(deliveryNoteDetail.getSupplyingDetail()
+								.getProduct().getType()))) {
+					String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(deliveryNoteDetail.getSupplyingDetail().getExpirationDate()).toString();
+
+					System.out.println("GLN del est asiss" + this.drugstorePropertyService.get().getGln());
+					System.out.println("CUIT del est asiss" + this.drugstorePropertyService.get().getTaxId());
+					this.webServiceHelper.setDrug(drug, this.drugstorePropertyService.get().getGln(), null, this.drugstorePropertyService.get().getTaxId(),
+							null, null, expirationDate, deliveryNoteDetail.getSupplyingDetail().getGtin().getNumber(), eventId, deliveryNoteDetail
+									.getSupplyingDetail().getSerialNumber(), deliveryNoteDetail.getSupplyingDetail().getBatch(), deliveryNote.getDate(), true,
+							supplying.getAffiliate().getSurname(), supplying.getAffiliate().getName(), supplying.getAffiliate().getDocument(), supplying
+									.getAffiliate().getDocumentType(), supplying.getClient().getCode());
 					medicines.add(drug);
 				}
 			}
@@ -132,7 +159,7 @@ public class DeliveryNoteWSHelper {
 		return null;
 	}
 
-	public String getEvent(Output output, Order order, boolean isFake) {
+	public String getEvent(Output output, Order order, boolean isFake, Supplying supplying) {
 		String eventId = null;
 		if (output != null) {
 			if (isFake) {
@@ -150,9 +177,15 @@ public class DeliveryNoteWSHelper {
 					eventId = output.getAgreement().getDeliveryNoteConcept().getEventOnOutput(output.getProvider().getAgent().getId());
 				}
 			}
-		} else {
+		}
+		if (order != null) {
 			eventId = order.getProvisioningRequest().getAgreement().getDeliveryNoteConcept()
 					.getEventOnOutput(order.getProvisioningRequest().getDeliveryLocation().getAgent().getId());
+		}
+		if (supplying != null) {
+			if (this.drugstorePropertyService.get().getSupplyingConcept().getEvents().size() > 0) {
+				eventId = this.drugstorePropertyService.get().getSupplyingConcept().getEvents().get(0).getId().toString();
+			}
 		}
 		return eventId;
 	}

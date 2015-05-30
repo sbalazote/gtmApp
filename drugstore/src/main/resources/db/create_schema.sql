@@ -591,6 +591,7 @@ CREATE TABLE `drugstore`.`drugstore_property` (
   `ANMAT_name` varchar(45) NOT NULL DEFAULT 'pruebasws',
   `ANMAT_password` varchar(100) NOT NULL,
   `start_trace_concept_id` int(11) NOT NULL,
+  `supplying_concept_id` int(11) NOT NULL,
   `proxy` varchar(45),
   `proxy_port` varchar(45),
   `inform_proxy` bit(1) NOT NULL,
@@ -600,7 +601,8 @@ CREATE TABLE `drugstore`.`drugstore_property` (
   KEY `fk_drugstore_property_agent_idx` (`agent_id`),
   CONSTRAINT `fk_drugstore_property_agent` FOREIGN KEY (`agent_id`) REFERENCES `agent` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_drugstore_property_province` FOREIGN KEY (`province_id`) REFERENCES `province` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_drugstore_property_start_trace_concept` FOREIGN KEY (`start_trace_concept_id`) REFERENCES `concept` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_drugstore_property_start_trace_concept` FOREIGN KEY (`start_trace_concept_id`) REFERENCES `concept` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_drugstore_property_supplying_concept` FOREIGN KEY (`supplying_concept_id`) REFERENCES `concept` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `drugstore`.`audit_action` (

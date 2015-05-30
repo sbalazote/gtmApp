@@ -72,7 +72,8 @@ public class WebServiceHelper {
 	}
 
 	public void setDrug(MedicamentosDTO drug, String originGLN, String destinationGLN, String originTax, String destinationTax, String deliveryNote,
-			String expirationDate, String gtin, String eventId, String serialNumber, String batch, Date date, boolean isDeliveryNote) {
+			String expirationDate, String gtin, String eventId, String serialNumber, String batch, Date date, boolean isDeliveryNote, String affiliateSurname,
+			String affiliateName, String document, String documentType, Integer clientCode) {
 		String dateFormatted = new SimpleDateFormat("dd/MM/yyyy").format(date).toString();
 		drug.setF_evento(dateFormatted);
 
@@ -81,8 +82,8 @@ public class WebServiceHelper {
 		} else {
 			drug.setH_evento(new SimpleDateFormat("HH:mm").format(new Date()).toString());
 		}
-		String isProducion = PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION);
-		if (isProducion.equals("true")) {
+		Boolean isProducion = Boolean.valueOf(PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION));
+		if (isProducion) {
 			drug.setGln_origen(originGLN);
 			drug.setGln_destino(destinationGLN);
 
@@ -90,6 +91,22 @@ public class WebServiceHelper {
 			drug.setCuit_destino(destinationTax);
 			drug.setId_evento(eventId);
 			drug.setGtin(StringUtility.addLeadingZeros(gtin, 14));
+
+			if (affiliateSurname != null) {
+				drug.setApellido(affiliateSurname);
+			}
+			if (affiliateName != null) {
+				drug.setNombres(affiliateName);
+			}
+			if (document != null) {
+				drug.setN_documento(document);
+			}
+			if (documentType != null) {
+				drug.setTipo_documento(documentType);
+			}
+			if (clientCode != null) {
+				drug.setId_obra_social(String.valueOf(clientCode));
+			}
 		} else {
 			drug.setGln_origen(Constants.TEST_DESTINATION_GLN);
 			drug.setGln_destino(Constants.TEST_ORIGIN_GLN);
@@ -98,6 +115,22 @@ public class WebServiceHelper {
 			drug.setCuit_destino(Constants.TEST_DESTINATION_TAXID);
 			drug.setId_evento(Constants.TEST_EVENT);
 			drug.setGtin(Constants.TEST_GTIN);
+
+			if (affiliateSurname != null) {
+				drug.setApellido(affiliateSurname);
+			}
+			if (affiliateName != null) {
+				drug.setNombres(affiliateName);
+			}
+			if (document != null) {
+				drug.setN_documento(document);
+			}
+			if (documentType != null) {
+				drug.setTipo_documento(documentType);
+			}
+			if (clientCode != null) {
+				drug.setId_obra_social(String.valueOf(clientCode));
+			}
 		}
 		if (deliveryNote != null) {
 			drug.setN_remito(deliveryNote);

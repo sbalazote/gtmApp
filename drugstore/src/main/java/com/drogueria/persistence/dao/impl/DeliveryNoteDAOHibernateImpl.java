@@ -15,10 +15,12 @@ import org.springframework.stereotype.Repository;
 import com.drogueria.model.DeliveryNote;
 import com.drogueria.model.Order;
 import com.drogueria.model.Output;
+import com.drogueria.model.Supplying;
 import com.drogueria.persistence.dao.DeliveryNoteDAO;
 import com.drogueria.query.DeliveryNoteQuery;
 import com.drogueria.service.OrderService;
 import com.drogueria.service.OutputService;
+import com.drogueria.service.SupplyingService;
 
 @Repository
 public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
@@ -29,6 +31,8 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 	private OutputService outputService;
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private SupplyingService supplyingService;
 
 	@Override
 	public DeliveryNote get(Integer id) {
@@ -98,6 +102,35 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 			}
 		}
 		return associatedOutputs;
+	}
+
+	@Override
+	public Map<Integer, List<String>> getAssociatedSupplyings(boolean informAnmat) {
+		Map<Integer, List<String>> associatedSupplyings = new HashMap<Integer, List<String>>();
+		String sentence = "select distinct sd.supplying_id, dn.number from supplying_detail as sd, delivery_note_detail as dnd, delivery_note dn where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
+		if (informAnmat) {
+			sentence += " and dn.inform_anmat = 1 and dn.informed = 0";
+		}
+		Query query;
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+
+		Iterator<Object[]> it = query.list().iterator();
+		while (it.hasNext()) {
+			Object[] supplyingDeliveryNotePair = it.next();
+			Integer outputId = (Integer) supplyingDeliveryNotePair[0];
+			String deliveryNoteNumber = (String) supplyingDeliveryNotePair[1];
+			List<String> deliveryNotes = null;
+			if (!associatedSupplyings.containsKey(outputId)) {
+				deliveryNotes = new ArrayList<String>();
+				deliveryNotes.add(deliveryNoteNumber);
+				associatedSupplyings.put(outputId, deliveryNotes);
+			} else {
+				deliveryNotes = associatedSupplyings.get(outputId);
+				deliveryNotes.add(deliveryNoteNumber);
+				associatedSupplyings.put(outputId, deliveryNotes);
+			}
+		}
+		return associatedSupplyings;
 	}
 
 	@Override
@@ -190,6 +223,19 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 			Query query = this.sessionFactory.getCurrentSession().createQuery("from DeliveryNote where number = :deliveryNoteNumber");
 			query.setParameter("deliveryNoteNumber", deliveryNoteNumber);
 			return (DeliveryNote) query.list().get(0);
+		} catch (IndexOutOfBoundsException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public Supplying getSupplying(DeliveryNote deliveryNote) {
+		try {
+			String sentence = "select s.id from supplying_detail as sd, delivery_note_detail as dnd, delivery_note as dn, supplying as s where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and sd.supplying_id = s.id and dnd.delivery_note_id = "
+					+ deliveryNote.getId();
+
+			Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+			return this.supplyingService.get((Integer) (query.list().get(0)));
 		} catch (IndexOutOfBoundsException e) {
 			return null;
 		}

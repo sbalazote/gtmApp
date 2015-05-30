@@ -9,6 +9,7 @@ import com.drogueria.model.DeliveryNote;
 import com.drogueria.model.Input;
 import com.drogueria.model.Order;
 import com.drogueria.model.Output;
+import com.drogueria.model.Supplying;
 import com.drogueria.service.DrugstorePropertyService;
 import com.drogueria.service.TraceabilityService;
 import com.drogueria.util.OperationResult;
@@ -62,8 +63,8 @@ public class TraceabilityServiceImpl implements TraceabilityService {
 	}
 
 	@Override
-	public OperationResult processDeliveryNotePendingTransactions(DeliveryNote deliveryNote, Order order, Output output) throws Exception {
-		OperationResult result = this.deliveryNoteWSHelper.sendDrugInformationToAnmat(deliveryNote, order, output);
+	public OperationResult processDeliveryNotePendingTransactions(DeliveryNote deliveryNote, Order order, Output output, Supplying supplying) throws Exception {
+		OperationResult result = this.deliveryNoteWSHelper.sendDrugInformationToAnmat(deliveryNote, order, output, supplying);
 		return result;
 	}
 }

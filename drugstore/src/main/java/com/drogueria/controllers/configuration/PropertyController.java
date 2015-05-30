@@ -45,7 +45,8 @@ public class PropertyController {
 	private static final Logger logger = Logger.getLogger(PropertyController.class);
 
 	@RequestMapping(value = "/saveProperty", method = RequestMethod.POST)
-	public @ResponseBody void saveProperty(@RequestBody DrugstorePropertyDTO propertyDTO) throws Exception {
+	public @ResponseBody
+	void saveProperty(@RequestBody DrugstorePropertyDTO propertyDTO) throws Exception {
 		this.drugstorePropertyService.save(this.buildModel(propertyDTO));
 	}
 
@@ -90,6 +91,7 @@ public class PropertyController {
 		}
 
 		property.setStartTraceConcept(this.conceptService.get(propertyDTO.getStartTraceConceptSelectId()));
+		property.setSupplyingConcept(this.conceptService.get(propertyDTO.getSupplyingConceptSelectId()));
 
 		property.setLastTag(drugstoreProperty.getLastTag());
 
@@ -132,10 +134,11 @@ public class PropertyController {
 		modelMap.put("ANMATName", property.getANMATName());
 
 		modelMap.put("selectedStartTraceConcept", property.getStartTraceConcept().getId());
-		modelMap.put("startTraceConcepts", this.conceptService.getAllActives(true));
+		modelMap.put("concepts", this.conceptService.getAllActives(true));
 
-        modelMap.put("selectedConcept", property.getStartTraceConcept().getId());
-        modelMap.put("deliveryNoteconcepts", this.conceptService.getAllActives(true));
+		modelMap.put("selectedStartTraceConcept", property.getStartTraceConcept().getId());
+		modelMap.put("selectedSupplyingConcept", property.getSupplyingConcept().getId());
+		modelMap.put("deliveryNoteconcepts", this.conceptService.getAllActives(false));
 
 		modelMap.put("proxy", property.getProxy());
 		modelMap.put("proxyPort", property.getProxyPort());

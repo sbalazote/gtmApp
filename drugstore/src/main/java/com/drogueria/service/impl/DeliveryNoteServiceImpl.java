@@ -15,6 +15,7 @@ import com.drogueria.constant.RoleOperation;
 import com.drogueria.model.DeliveryNote;
 import com.drogueria.model.Order;
 import com.drogueria.model.Output;
+import com.drogueria.model.Supplying;
 import com.drogueria.persistence.dao.DeliveryNoteDAO;
 import com.drogueria.query.DeliveryNoteQuery;
 import com.drogueria.service.AuditService;
@@ -91,12 +92,18 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	}
 
 	@Override
+	public Supplying getSupplying(DeliveryNote deliveryNote) {
+		return this.deliveryNoteDAO.getSupplying(deliveryNote);
+	}
+
+	@Override
 	@Async
 	public void sendTrasactionAsync(DeliveryNote deliveryNote) throws Exception {
 		Order order = this.getOrder(deliveryNote);
 		Output output = this.getOutput(deliveryNote);
+		Supplying supplying = this.getSupplying(deliveryNote);
 
-		OperationResult result = this.traceabilityService.processDeliveryNotePendingTransactions(deliveryNote, order, output);
+		OperationResult result = this.traceabilityService.processDeliveryNotePendingTransactions(deliveryNote, order, output, supplying);
 		if (result != null) {
 			// Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
 			if (result.getResultado()) {
@@ -112,8 +119,9 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 		this.save(deliveryNote);
 		Order order = this.getOrder(deliveryNote);
 		Output output = this.getOutput(deliveryNote);
+		Supplying supplying = this.getSupplying(deliveryNote);
 
-		OperationResult result = this.traceabilityService.processDeliveryNotePendingTransactions(deliveryNote, order, output);
+		OperationResult result = this.traceabilityService.processDeliveryNotePendingTransactions(deliveryNote, order, output, supplying);
 		if (result != null) {
 			// Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
 			if (result.getResultado()) {
@@ -186,5 +194,10 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 			Output output = this.getOutput(deliveryNote);
 			this.outputService.cancel(output);
 		}
+	}
+
+	@Override
+	public Map<Integer, List<String>> getAssociatedSupplyings(boolean informAnmat) {
+		return this.deliveryNoteDAO.getAssociatedSupplyings(informAnmat);
 	}
 }

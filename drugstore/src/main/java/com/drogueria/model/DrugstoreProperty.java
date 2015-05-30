@@ -78,6 +78,10 @@ public class DrugstoreProperty implements Serializable {
 	@JoinColumn(name = "start_trace_concept_id", nullable = false)
 	private Concept startTraceConcept;
 
+	@ManyToOne
+	@JoinColumn(name = "supplying_concept_id", nullable = false)
+	private Concept supplyingConcept;
+
 	@Column(name = "proxy")
 	private String proxy;
 
@@ -262,4 +266,13 @@ public class DrugstoreProperty implements Serializable {
 	public void setHasProxy(boolean hasProxy) {
 		this.hasProxy = hasProxy;
 	}
+
+	public Concept getSupplyingConcept() {
+		return this.supplyingConcept;
+	}
+
+	public void setSupplyingConcept(Concept supplyingConcept) {
+		this.supplyingConcept = supplyingConcept;
+	}
+
 }

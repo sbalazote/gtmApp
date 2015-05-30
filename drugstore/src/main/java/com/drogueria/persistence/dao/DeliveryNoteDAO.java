@@ -6,6 +6,7 @@ import java.util.Map;
 import com.drogueria.model.DeliveryNote;
 import com.drogueria.model.Order;
 import com.drogueria.model.Output;
+import com.drogueria.model.Supplying;
 import com.drogueria.query.DeliveryNoteQuery;
 
 public interface DeliveryNoteDAO {
@@ -26,8 +27,12 @@ public interface DeliveryNoteDAO {
 
 	Output gerOutput(DeliveryNote deliveryNote);
 
+	Supplying getSupplying(DeliveryNote deliveryNote);
+
 	List<DeliveryNote> getDeliveryNoteFromOrderForSearch(DeliveryNoteQuery deliveryNoteQuery);
 
 	List<DeliveryNote> getDeliveryNoteFromOutputForSearch(DeliveryNoteQuery deliveryNoteQuery);
+
+	Map<Integer, List<String>> getAssociatedSupplyings(boolean informAnmat);
 
 }

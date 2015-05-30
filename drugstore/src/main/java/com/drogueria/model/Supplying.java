@@ -109,9 +109,14 @@ public class Supplying implements Serializable {
 		return hasToInform;
 	}
 
-	// TODO
 	public boolean hasProductThatInform() throws Exception {
 		boolean hasToInform = false;
+		for (SupplyingDetail supplyingDetail : this.getSupplyingDetails()) {
+			if (supplyingDetail.getProduct().isInformAnmat()
+					&& ("PS".equals(supplyingDetail.getProduct().getType()) || "SS".equals(supplyingDetail.getProduct().getType()))) {
+				hasToInform = true;
+			}
+		}
 		return hasToInform;
 	}
 }

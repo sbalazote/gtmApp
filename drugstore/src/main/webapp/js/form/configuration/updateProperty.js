@@ -138,6 +138,7 @@ UpdateProperty = function() {
 					"proxy":  $("#proxyNameInput").val(),
 					"proxyNumber":  $("#proxyNumberInput").val(),
 					"informProxy": $("#proxySelect").val(),
+					"supplyingConceptSelectId": $("#supplyingConceptSelect option:selected").val(),
 			};
 
 			$.ajax({
