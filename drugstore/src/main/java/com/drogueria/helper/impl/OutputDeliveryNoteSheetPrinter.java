@@ -24,10 +24,11 @@ import com.drogueria.service.DeliveryNoteService;
 import com.drogueria.service.DrugstorePropertyService;
 import com.drogueria.service.OutputService;
 import com.drogueria.util.StringUtility;
+import com.lowagie.text.Document;
+import com.lowagie.text.PageSize;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfReader;
-import com.lowagie.text.pdf.PdfStamper;
+import com.lowagie.text.pdf.PdfWriter;
 
 @Service
 public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
@@ -126,10 +127,13 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 	private void generateDeliveryNoteSheet(Output output, Integer deliveryNoteNumber, DeliveryNoteConfigFile deliveryNoteConfigFile, String pdfPath,
 			String drugstoreGln, List<OutputDetail> outputDetails) {
 		try {
-			PdfReader reader = new PdfReader(pdfPath + "Estimate_035931_blank.pdf");
-			PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream(pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf"));
+			Document document = new Document(PageSize.A4);
+			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfPath + "REMITO-" + deliveryNoteNumber + ".pdf"));
+			document.addAuthor("REMITO-" + deliveryNoteNumber);
+			document.addTitle("LS&T Solutions");
+			document.open();
 
-			PdfContentByte overContent = pdfStamper.getOverContent(1);
+			PdfContentByte overContent = writer.getDirectContent();
 
 			BaseFont bf = BaseFont.createFont(BaseFont.TIMES_BOLD, BaseFont.WINANSI, false);
 
@@ -309,7 +313,7 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 			overContent.endText();
 			overContent.restoreState();
 
-			pdfStamper.close();
+			document.close();
 
 			// TODO obtener IP desde el concepto o drugstore property, el archivo se guardaria en una carpeta del servidor.
 			// this.printOnPrinter.sendToPrint("//10.80.38.149/Lexmark T632", pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf");
