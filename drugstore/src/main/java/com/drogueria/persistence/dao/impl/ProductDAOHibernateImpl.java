@@ -39,6 +39,7 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 	@Override
 	public List<Product> getForAutocomplete(String term, Boolean active) {
 		String gtinSentence = "select p from Product as p inner join p.gtins as pg where pg.number = :gtin";
+
 		String literalSentence = "select p from Product as p where (description like :description or brand.description like :brand or monodrug.description like :monodrug";
 
 		if (StringUtility.isInteger(term)) {
