@@ -149,7 +149,7 @@ public class InputWSHelper {
 						pendingTransactions = this.webService.getTransaccionesNoConfirmadas(this.PropertyService.get().getANMATName(),
 								EncryptionHelper.AESDecrypt(this.PropertyService.get().getANMATPassword()), nullValue, null, null, null, gtin, nullValue, null,
 								null, simpleDateFormat.format(date), simpleDateFormat.format(new Date()), null, null, null, null, nullValue, null, null,
-								new Long(0), new Long(0));
+								new Long(1), new Long(100));
 						toReturn = this.checkPendingTransactions(pendingProducts, errors, pendingTransactions, inputDetail, found, gtin);
 					}
 				}
