@@ -236,11 +236,12 @@ Output = function() {
 					if (response != "") {
 						if (!productEntered(response.id)) {
 							productId = response.id;
-                            if(serial.length == 13) {
+                            /*if(serial.length == 13) {
                                 productGtin = serial;
                             }else{
                                 productGtin = response.lastGtin;
-                            }
+                            }*/
+							productGtin = response.lastGtin;
 							productDescription = response.code + ' - ' + response.description;
 							productType = response.type;
 							

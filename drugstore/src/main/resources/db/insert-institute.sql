@@ -219,6 +219,8 @@ VALUES (1,86,'ONCOMED RENO','30686437228','ONCOMED RENO SA',1,'C.A.B.A.','AGUERO
 
 insert into `institute`.`role` values (1, 'INPUT', 'Recepción de Mercadería');
 insert into `institute`.`role` values (2, 'OUTPUT', 'Egreso de Mercadería');
+insert into `institute`.`role` values (10, 'DELIVERY_NOTE_PRINT', 'Impresión de Remitos');
+insert into `institute`.`role` values (11, 'DELIVERY_NOTE_CANCELLATION', 'Anulación de Remitos');
 insert into `institute`.`role` values (12, 'ENTITY_ADMINISTRATION', 'Administración de Entidades');
 insert into `institute`.`role` values (13, 'USER_ADMINISTRATION', 'Administración de Usuarios');
 insert into `institute`.`role` values (15, 'INPUT_CANCELLATION', 'Anulación de Ingreso');

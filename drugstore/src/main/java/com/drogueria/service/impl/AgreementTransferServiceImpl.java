@@ -105,7 +105,7 @@ public class AgreementTransferServiceImpl implements AgreementTransferService {
 				gtin = agreementTransferDetail.getGtin().getNumber();
 			}
 			this.stockService.updateAgreementStock(agreementTransferDetail.getProduct().getId(), agreementTransferDetail.getSerialNumber(), gtin,
-					destinationAgreement);
+					originAgreement, destinationAgreement);
 			details.add(agreementTransferDetail);
 		}
 		agreementTransfer.setAgreementTransferDetail(details);

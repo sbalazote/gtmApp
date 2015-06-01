@@ -184,7 +184,8 @@ OutputSerialized = function() {
 			data: {
 				productId: preloadedProductId,
 				serialNumber: serialNumber,
-				gtin: gtin
+				gtin: gtin,
+				agreementId: $("#originAgreementInput").val()
 			},
 			success: function(response) {
 				if (response) {

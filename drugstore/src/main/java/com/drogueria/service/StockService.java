@@ -24,7 +24,7 @@ public interface StockService {
 
 	List<Stock> getBatchExpirationDateStock(Integer productId, Integer agreementId);
 
-	Stock getSerializedStock(Integer productId, String serialNumber, String gtin);
+	Stock getSerializedStock(Integer productId, String serialNumber, String gtin, Integer agreementId);
 
 	Stock getSerializedProductStock(String serialNumber, Integer agreementId);
 
@@ -36,7 +36,7 @@ public interface StockService {
 
 	Product getByGtin(String gtin, Integer agreementId);
 
-	void updateAgreementStock(Integer id, String serialNumber, String number, Agreement destinationAgreement);
+	void updateAgreementStock(Integer id, String serialNumber, String number, Agreement originAgreement, Agreement destinationAgreement);
 
 	boolean delete(Integer stockId);
 

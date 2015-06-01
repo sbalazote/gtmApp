@@ -76,8 +76,7 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/saveOrder", method = RequestMethod.POST)
-	public @ResponseBody
-	Order saveOrder(@RequestBody OrderDTO orderDTO) throws Exception {
+	public @ResponseBody Order saveOrder(@RequestBody OrderDTO orderDTO) throws Exception {
 		Order order = this.orderService.save(orderDTO);
 		this.orderLabelCreator.getLabelFile(order);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -88,20 +87,19 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/getBatchExpirationDateStock", method = RequestMethod.GET)
-	public @ResponseBody
-	List<Stock> getBatchExpirationDateStock(@RequestParam Map<String, String> parameters) {
+	public @ResponseBody List<Stock> getBatchExpirationDateStock(@RequestParam Map<String, String> parameters) {
 		Integer productId = Integer.valueOf(parameters.get("productId"));
 		Integer agreementId = Integer.valueOf(parameters.get("agreementId"));
 		return this.stockService.getBatchExpirationDateStock(productId, agreementId);
 	}
 
 	@RequestMapping(value = "/getSerializedStock", method = RequestMethod.GET)
-	public @ResponseBody
-	Stock getSerializedStock(@RequestParam Map<String, String> parameters) {
+	public @ResponseBody Stock getSerializedStock(@RequestParam Map<String, String> parameters) {
 		Integer productId = Integer.valueOf(parameters.get("productId"));
 		String serialNumber = String.valueOf(parameters.get("serialNumber"));
 		String gtin = String.valueOf(parameters.get("gtin"));
-		return this.stockService.getSerializedStock(productId, serialNumber, gtin);
+		Integer agreementId = Integer.valueOf(parameters.get("agreementId"));
+		return this.stockService.getSerializedStock(productId, serialNumber, gtin, agreementId);
 	}
 
 	@RequestMapping(value = "/orderSaved", method = RequestMethod.POST)
@@ -118,15 +116,13 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/getOrder", method = RequestMethod.GET)
-	public @ResponseBody
-	Order getOrder(@RequestParam Integer orderId) throws Exception {
+	public @ResponseBody Order getOrder(@RequestParam Integer orderId) throws Exception {
 		Order order = this.orderService.get(orderId);
 		return order;
 	}
 
 	@RequestMapping(value = "/cancelOrders", method = RequestMethod.POST)
-	public @ResponseBody
-	void cancelOrders(@RequestBody List<Integer> orderIds) throws Exception {
+	public @ResponseBody void cancelOrders(@RequestBody List<Integer> orderIds) throws Exception {
 		this.orderService.cancelOrders(orderIds);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
@@ -137,14 +133,12 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/getOrdersToPrint", method = RequestMethod.GET)
-	public @ResponseBody
-	List<Order> getOrdersToPrint(@RequestParam Integer agreementId, Integer clientId) {
+	public @ResponseBody List<Order> getOrdersToPrint(@RequestParam Integer agreementId, Integer clientId) {
 		return this.orderService.getAllFilter(agreementId, clientId, State.ASSEMBLED.getId());
 	}
 
 	@RequestMapping(value = "/getAuthorizedProvisioningsForOrders", method = RequestMethod.GET)
-	public @ResponseBody
-	List<ProvisioningRequest> getAuthorizedProvisioningsForOrders(@RequestParam Integer agreementId, Integer clientId) {
+	public @ResponseBody List<ProvisioningRequest> getAuthorizedProvisioningsForOrders(@RequestParam Integer agreementId, Integer clientId) {
 		List<ProvisioningRequest> provisionings = this.provisioningRequestService.getFilterProvisionings(agreementId, clientId, State.AUTHORIZED.getId());
 		provisionings.addAll(this.provisioningRequestService.getFilterProvisionings(agreementId, clientId, State.PRINTED.getId()));
 		return provisionings;

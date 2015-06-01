@@ -42,9 +42,10 @@ public class StockServiceImpl implements StockService {
 			Stock serializedProductStock;
 			if (stock.getGtin() != null) {
 				serializedProductStock = this.stockDAO.getSerializedProductStock(stock.getProduct().getId(), stock.getSerialNumber(), stock.getGtin()
-						.getNumber());
+						.getNumber(), stock.getAgreement().getId());
 			} else {
-				serializedProductStock = this.stockDAO.getSerializedProductStock(stock.getProduct().getId(), stock.getSerialNumber(), null);
+				serializedProductStock = this.stockDAO.getSerializedProductStock(stock.getProduct().getId(), stock.getSerialNumber(), null, stock
+						.getAgreement().getId());
 			}
 			if (serializedProductStock != null) {
 				throw new RuntimeException("Ya existe un registro de stock para el serie '" + stock.getSerialNumber() + "' del producto '"
@@ -84,8 +85,8 @@ public class StockServiceImpl implements StockService {
 	}
 
 	@Override
-	public Stock getSerializedStock(Integer productId, String serialNumber, String gtin) {
-		return this.stockDAO.getSerializedProductStock(productId, serialNumber, gtin);
+	public Stock getSerializedStock(Integer productId, String serialNumber, String gtin, Integer agreementId) {
+		return this.stockDAO.getSerializedProductStock(productId, serialNumber, gtin, agreementId);
 	}
 
 	@Override
@@ -98,7 +99,8 @@ public class StockServiceImpl implements StockService {
 		if (stock.getGtin() != null) {
 			gtin = stock.getGtin().getNumber();
 		}
-		Stock serializedProductStock = this.stockDAO.getSerializedProductStock(stock.getProduct().getId(), stock.getSerialNumber(), gtin);
+		Stock serializedProductStock = this.stockDAO.getSerializedProductStock(stock.getProduct().getId(), stock.getSerialNumber(), gtin, stock.getAgreement()
+				.getId());
 		if (serializedProductStock != null) {
 			this.stockDAO.delete(serializedProductStock);
 		} else {
@@ -153,8 +155,8 @@ public class StockServiceImpl implements StockService {
 	}
 
 	@Override
-	public void updateAgreementStock(Integer productId, String serialNumber, String gtin, Agreement destinationAgreement) {
-		Stock stock = this.getSerializedStock(productId, serialNumber, gtin);
+	public void updateAgreementStock(Integer productId, String serialNumber, String gtin, Agreement originAgreement, Agreement destinationAgreement) {
+		Stock stock = this.getSerializedStock(productId, serialNumber, gtin, originAgreement.getId());
 		stock.setAgreement(destinationAgreement);
 		this.save(stock);
 	}

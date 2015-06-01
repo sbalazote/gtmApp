@@ -52,9 +52,9 @@ public class StockDAOHibernateImpl implements StockDAO {
 	}
 
 	@Override
-	public Stock getSerializedProductStock(Integer productId, String serialNumber, String gtin) {
+	public Stock getSerializedProductStock(Integer productId, String serialNumber, String gtin, Integer agreementId) {
 		try {
-			String sentence = "from Stock where product.id = :productId and serialNumber = :serialNumber ";
+			String sentence = "from Stock where product.id = :productId and serialNumber = :serialNumber and agreement.id = :agreementId ";
 			// TODO validar si esto esta bien.
 			Product product = this.productService.get(productId);
 			if (gtin != null && product.getType().equals("PS")) {
@@ -65,6 +65,7 @@ public class StockDAOHibernateImpl implements StockDAO {
 			Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
 			query.setParameter("productId", productId);
 			query.setParameter("serialNumber", serialNumber);
+			query.setParameter("agreementId", agreementId);
 
 			if (gtin != null && product.getType().equals("PS")) {
 				if (gtin != "") {

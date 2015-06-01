@@ -39,14 +39,14 @@ public class SupplyingFakeDeliveryNoteSheetPrinter {
 
 		// Hago el corte de remitos por la cantidad items por pagina que se indique por parametro.
 
-		for (SupplyingDetail supplyinDetail : supplyingDetails) {
+		for (SupplyingDetail supplyingDetail : supplyingDetails) {
 			DeliveryNote deliveryNote = new DeliveryNote();
 			deliveryNote.setNumber(Integer.toString(deliveryNoteNumber));
 
 			List<DeliveryNoteDetail> deliveryNoteDetails = new ArrayList<DeliveryNoteDetail>();
 
 			DeliveryNoteDetail deliveryNoteDetail = new DeliveryNoteDetail();
-			deliveryNoteDetail.setSupplyingDetail(supplyinDetail);
+			deliveryNoteDetail.setSupplyingDetail(supplyingDetail);
 			deliveryNoteDetails.add(deliveryNoteDetail);
 
 			// Guardo el Remito en la base de datos

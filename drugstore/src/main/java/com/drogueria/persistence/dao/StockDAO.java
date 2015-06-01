@@ -17,7 +17,7 @@ public interface StockDAO {
 
 	void delete(Stock stock);
 
-	Stock getSerializedProductStock(Integer productId, String serialNumber, String gtin);
+	Stock getSerializedProductStock(Integer productId, String serialNumber, String gtin, Integer agreementId);
 
 	Stock getSerializedProductStock(String serialNumber, Integer agreementId);
 
