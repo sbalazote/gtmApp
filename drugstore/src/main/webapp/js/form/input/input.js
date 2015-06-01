@@ -353,6 +353,8 @@ Input = function() {
 		productId = parent.find(".span-productId").html();
 		parent.remove();
 		$(".alert").hide();
+		
+		providerSerialized.deleteSerials(tempSerialNumberGroup[productId]);
 	});
 	
 	$("#batchExpirationDateAcceptButton").click(function() {

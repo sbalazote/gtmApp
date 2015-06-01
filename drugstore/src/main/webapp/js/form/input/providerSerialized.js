@@ -54,6 +54,12 @@ ProviderSerialized = function() {
 		preloadedProductId = value;
 	};
 	
+	var deleteSerials = function(serials) {
+		$.each(serials, function(index, serial) {
+			tempSerialNumbers.splice(tempSerialNumbers.indexOf(serial), 1);
+		});
+	};
+	
 	var formValidator = null;
 	
 	var validateForm = function() {
@@ -272,7 +278,7 @@ ProviderSerialized = function() {
 		
 		if (preloadedData != null) {
 			for (var i = 0; i < preloadedData.length; i++) {
-				addToTable(preloadedData[i].serialNumber, preloadedData[i].batch, preloadedData[i].expirationDate);
+				addToTable(preloadedData[i].gtin, preloadedData[i].serialNumber, preloadedData[i].batch, preloadedData[i].expirationDate);
 			}
 			$('#providerSerializedEnteredAmountLabel').text(preloadedAmount);
 			$('#providerSerializedRemainingAmountLabel').text(parseInt(0));
@@ -322,7 +328,8 @@ ProviderSerialized = function() {
 		setPreloadedAmount: setPreloadedAmount,
 		setPreloadedProduct: setPreloadedProduct,
 		setPreloadedProductId: setPreloadedProductId,
-		preloadModalData: preloadModalData
+		preloadModalData: preloadModalData,
+		deleteSerials: deleteSerials
 	};
 	
 };
