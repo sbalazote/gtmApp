@@ -38,26 +38,33 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Product> getForAutocomplete(String term, Boolean active) {
-		String sentence = "from Product where ((description like :description or brand.description like :brand or monodrug.description like :monodrug) "
-				+ "or exists (select p from Product as p inner join p.gtins as g where g.number = :gtin)";
+		String gtinSentence = "select p from Product as p inner join p.gtins as pg where pg.number = :gtin";
+		String literalSentence = "select p from Product as p where description like :description or brand.description like :brand or monodrug.description like :monodrug";
+
 		if (StringUtility.isInteger(term)) {
-			sentence += " or convert(code, CHAR) like :code";
+			literalSentence += " or convert(code, CHAR) like :code";
 		}
-		sentence += ")";
 		if (active != null && Boolean.TRUE.equals(active)) {
-			sentence += " and active = true";
+			literalSentence += " and active = true";
 		}
 
-		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
-		query.setParameter("description", "%" + term + "%");
-		query.setParameter("gtin", StringUtility.removeLeadingZero(term));
-		query.setParameter("brand", "%" + term + "%");
-		query.setParameter("monodrug", "%" + term + "%");
+		Query gtinQuery = this.sessionFactory.getCurrentSession().createQuery(gtinSentence);
+		gtinQuery.setParameter("gtin", StringUtility.removeLeadingZero(term));
+		List<Product> gtinSentenceQuery = gtinQuery.list();
+
+		Query literalQuery = this.sessionFactory.getCurrentSession().createQuery(literalSentence);
+		literalQuery.setParameter("description", "%" + term + "%");
+		literalQuery.setParameter("brand", "%" + term + "%");
+		literalQuery.setParameter("monodrug", "%" + term + "%");
 
 		if (StringUtility.isInteger(term)) {
-			query.setParameter("code", "%" + term + "%");
+			literalQuery.setParameter("code", "%" + term + "%");
 		}
-		return query.list();
+		List<Product> literalSentenceQuery = literalQuery.list();
+
+		gtinSentenceQuery.addAll(literalSentenceQuery);
+
+		return gtinSentenceQuery;
 	}
 
 	@Override
