@@ -146,9 +146,10 @@ public class InputWSHelper {
 						toReturn = true;
 					} else {
 						String gtin = StringUtility.addLeadingZeros(inputDetail.getProduct().getLastGtin(), 14);
+                        String serie = inputDetail.getSerialNumber();
 						pendingTransactions = this.webService.getTransaccionesNoConfirmadas(this.PropertyService.get().getANMATName(),
 								EncryptionHelper.AESDecrypt(this.PropertyService.get().getANMATPassword()), nullValue, null, null, null, gtin, nullValue, null,
-								null, simpleDateFormat.format(date), simpleDateFormat.format(new Date()), null, null, null, null, nullValue, null, null,
+								null, simpleDateFormat.format(date), simpleDateFormat.format(new Date()), null, null, null, null, nullValue, null, serie,
 								new Long(1), new Long(100));
 						toReturn = this.checkPendingTransactions(pendingProducts, errors, pendingTransactions, inputDetail, found, gtin);
 					}
