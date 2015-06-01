@@ -451,13 +451,14 @@ Output = function() {
 		                $.blockUI({ message: 'Espere un Momento por favor...' });
 		             },
 					success: function(response) {
-						if (!response.concept.printDeliveryNote) {
+						//	TODO para que estaba este if ?? el pdf de resumen tiene que ir siempre me parece.
+						//if (!response.concept.printDeliveryNote) {
 							var doc = printIOPDF('output', response.id, response.outputDetails);
 							var string = doc.output('datauristring');
 							var x = window.open('','_blank', '', false);
 							x.document.open();
 							x.document.location=string;
-						}
+						//}
 						
 						myRedirect("success", "Se ha generado exitosamente el Egreso de Mercaderia: " + response.id, "output.do");
 					},
