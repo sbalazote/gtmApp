@@ -1,5 +1,7 @@
 package com.drogueria.model;
 
+import com.drogueria.helper.EncryptionHelper;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -274,5 +276,9 @@ public class Property implements Serializable {
 	public void setSupplyingConcept(Concept supplyingConcept) {
 		this.supplyingConcept = supplyingConcept;
 	}
+
+    public String getDecryptPassword(){
+        return EncryptionHelper.AESDecrypt(this.getANMATPassword());
+    }
 
 }

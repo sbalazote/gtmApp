@@ -51,7 +51,8 @@ public class InputWSHelper {
 
 		if (eventId != null) {
 			List<InputDetail> pendingTransations = new ArrayList<InputDetail>();
-			boolean hasChecked = this.getPendingTransactions(input.getInputDetails(), pendingTransations, errors);
+            Boolean isProducion = Boolean.valueOf(PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION));
+			boolean hasChecked = this.getPendingTransactions(input.getInputDetails(), pendingTransations, errors,isProducion);
 			// Si la lista esta vacia es porque de los productos que informan ninguno esta pendiente de informar por el agente de origen
 			if (((pendingTransations.isEmpty()) && hasChecked) || input.hasNotProviderSerialized()) {
 				webServiceResult = this.sendDrugs(input, medicines, errors, eventId);
@@ -126,7 +127,7 @@ public class InputWSHelper {
 		return drug;
 	}
 
-	public boolean getPendingTransactions(List<InputDetail> details, List<InputDetail> pendingProducts, List<String> errors) throws Exception {
+	public boolean getPendingTransactions(List<InputDetail> details, List<InputDetail> pendingProducts, List<String> errors, boolean isProduction) throws Exception {
 		long nullValue = -1;
 		boolean toReturn = false;
 		TransaccionesNoConfirmadasWSResult pendingTransactions = null;
@@ -137,18 +138,16 @@ public class InputWSHelper {
 			c.setTime(date);
 			c.add(Calendar.DATE, -this.PropertyService.get().getDaysAgoPendingTransactions());
 			date.setTime(c.getTime().getTime());
-			String isProducion = PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION);
 
 			for (InputDetail inputDetail : details) {
 				boolean found = false;
 				if (inputDetail.getProduct().isInformAnmat() && "PS".equals(inputDetail.getProduct().getType())) {
-					if (!isProducion.equals("true")) {
+					if (!isProduction) {
 						toReturn = true;
 					} else {
 						String gtin = StringUtility.addLeadingZeros(inputDetail.getProduct().getLastGtin(), 14);
                         String serie = inputDetail.getSerialNumber();
-						pendingTransactions = this.webService.getTransaccionesNoConfirmadas(this.PropertyService.get().getANMATName(),
-								EncryptionHelper.AESDecrypt(this.PropertyService.get().getANMATPassword()), nullValue, null, null, null, gtin, nullValue, null,
+						pendingTransactions = this.webService.getTransaccionesNoConfirmadas(this.PropertyService.get().getANMATName(), this.PropertyService.get().getDecryptPassword(), nullValue, null, null, null, gtin, nullValue, null,
 								null, simpleDateFormat.format(date), simpleDateFormat.format(new Date()), null, null, null, null, nullValue, null, serie,
 								new Long(1), new Long(100));
 						toReturn = this.checkPendingTransactions(pendingProducts, errors, pendingTransactions, inputDetail, found, gtin);
