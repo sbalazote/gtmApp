@@ -354,7 +354,10 @@ Input = function() {
 		parent.remove();
 		$(".alert").hide();
 		
-		providerSerialized.deleteSerials(tempSerialNumberGroup[productId]);
+		var productType = parent.find(".span-productType").html();
+		if (productType == "PS") {
+			providerSerialized.deleteSerials(tempSerialNumberGroup[productId]);
+		}
 	});
 	
 	$("#batchExpirationDateAcceptButton").click(function() {
