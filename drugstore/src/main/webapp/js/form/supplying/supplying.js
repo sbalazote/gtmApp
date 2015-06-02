@@ -446,8 +446,12 @@ var Supplying = function() {
 		"<span class='span-productId' style='display:none'>" + productId + "</c:out></span>" +
 		"<span class='span-productType' style='display:none'>" + productType + "</c:out></span>" + 
 		"<span class='span-productGtin' style='display:none'>" + productGtin + "</c:out></span>" +
-		"<a href='javascript:void(0);' class='edit-button'>Editar</a>  " +
-		"<a href='javascript:void(0);' class='delete-row'>Eliminar</a></td></tr>";
+		"<a href='javascript:void(0);' class='edit-button'>Editar</a>" +
+		"</td>" +
+		"<td>"+
+		"<a href='javascript:void(0);' class='delete-row'>Eliminar</a>" +
+		"</td>" +
+		"</tr>";
 		$("#productTableBody").append(tableRow);
 	};
 	
@@ -623,16 +627,21 @@ var Supplying = function() {
 		$('#amountModal').modal();
 	});
 
-	$("#provisoningDeleteRowConfirmationButton").click(
-			function() {
-				var parent = $(currentRowElement).parent().parent();
-				var currentRow = $(".delete-row").index(currentRowElement);
-				productDetails.splice(currentRow, 1);
-				parent.remove();
-				if (productDetails.length == 0) {
-					$('#agreementInput').prop('disabled', false).trigger("chosen:updated");
-				}
-			});
+	$("#inputDeleteRowConfirmationButton").click(function() {
+		var parent = $(currentRowElement).parent().parent();
+		var currentRow = $(".delete-row").index(currentRowElement);
+		supplyingDetailGroup.splice(currentRow, 1);
+		parent.remove();
+		if (supplyingDetailGroup.length == 0) {
+			$('#agreementInput').prop('disabled', false).trigger("chosen:updated");
+		}
+		
+		var productType = parent.find(".span-productType").html();
+		if (productType == "PS") {
+			serialized.deleteSerials(tempSerialNumberGroup[productId]);
+			outOfStockProviderSerialized.deleteSerials(tempSerialNumberGroup[productId]);
+		}
+	});
 
 	var commitSupplying = function() {
 		if (validateForm()) {

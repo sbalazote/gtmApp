@@ -117,7 +117,6 @@ Output = function() {
 		}
 	});
 	
-	
 	var currentRowElement = null;
 	
 	$('#productTableBody').on("click", ".delete-row", function(){
@@ -134,6 +133,11 @@ Output = function() {
 		productId = parent.find(".span-productId").html();
 		parent.remove();
 		$(".alert").hide();
+		
+		var productType = parent.find(".span-productType").html();
+		if (productType == "PS") {
+			serialized.deleteSerials(tempSerialNumberGroup[productId]);
+		}
 	});
 	
 	var productEntered = function(productId) {
@@ -345,14 +349,19 @@ Output = function() {
 	});
 	
 	var populateProductsDetailsTable = function() {
-		var tableRow = "<tr><td class='td-description'>" + productDescription + "</td>" +
+		var tableRow = "<tr>" +
+		"<td class='td-description'>" + productDescription + "</td>" +
 		"<td class='td-amount'>" + productAmount + "</td>" +
 		"<td>" +
-		"<span class='span-productId' style='display:none'>" + productId + "</c:out></span>" +
-		"<span class='span-productType' style='display:none'>" + productType + "</c:out></span>" + 
-		"<span class='span-productGtin' style='display:none'>" + productGtin + "</c:out></span>" +
-		"<a href='javascript:void(0);' class='edit-button'>Editar</a>  " +
-		"<a href='javascript:void(0);' class='delete-row'>Eliminar</a></td></tr>";
+		"<span class='span-productId' style='display:none'>" + productId + "</span>" +
+		"<span class='span-productType' style='display:none'>" + productType + "</span>" + 
+		"<span class='span-productGtin' style='display:none'>" + productGtin + "</span>" +
+		"<a href='javascript:void(0);' class='edit-button'>Editar</a>" +
+		"</td>" +
+		"<td>"+
+		"<a href='javascript:void(0);' class='delete-row'>Eliminar</a>" +
+		"</td>" +
+		"</tr>";
 		$("#productTableBody").append(tableRow);
 	};
 	
