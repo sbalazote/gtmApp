@@ -51,16 +51,16 @@ public class InputWSHelper {
 		String eventId = input.getEvent();
 
 		if (eventId != null) {
-			List<InputDetail> pendingTransations = new ArrayList<InputDetail>();
+			List<InputDetail> pendingProducts = new ArrayList<InputDetail>();
             Boolean isProducion = Boolean.valueOf(PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION));
-			boolean hasChecked = this.getPendingTransactions(input.getInputDetails(), pendingTransations, errors,isProducion);
+			boolean hasChecked = this.getPendingTransactions(input.getInputDetails(), pendingProducts, errors,isProducion);
 			// Si la lista esta vacia es porque de los productos que informan ninguno esta pendiente de informar por el agente de origen
-			if (((pendingTransations.isEmpty()) && hasChecked) || input.hasNotProviderSerialized()) {
+			if (((pendingProducts.isEmpty()) && hasChecked) || input.hasNotProviderSerialized()) {
 				webServiceResult = this.sendDrugs(input, medicines, errors, eventId);
 			} else {
 				if (hasChecked) {
 					errors.add(ERROR_AGENT_HAS_NOT_INFORM);
-					for (InputDetail inputDetail : pendingTransations) {
+					for (InputDetail inputDetail : pendingProducts) {
 						errors.add(inputDetail.toString());
 					}
 				} else {
@@ -74,7 +74,6 @@ public class InputWSHelper {
 					+ input.getClientOrProviderAgentDescription() + "'). El ingreso no fue informado.";
 			errors.add(error);
 		}
-
 		operationResult.setMyOwnErrors(errors);
 		if (webServiceResult != null) {
 			operationResult.setFromWebServiceResult(webServiceResult);
@@ -90,7 +89,7 @@ public class InputWSHelper {
 			if (inputDetail.getProduct().isInformAnmat()
 					&& ("PS".equals(inputDetail.getProduct().getType()) || "SS".equals(inputDetail.getProduct().getType()))) {
 				if (inputDetail.getGtin() != null) {
-					MedicamentosDTO drug = this.setDrug(input, medicines, eventId, inputDetail);
+					MedicamentosDTO drug = this.setDrug(input, eventId, inputDetail);
 					medicines.add(drug);
 				} else {
 					String error = "El producto " + inputDetail.getProduct().getDescription() + " no registra GTIN, no puede ser informado.";
@@ -101,7 +100,7 @@ public class InputWSHelper {
 		if (!medicines.isEmpty() && errors.isEmpty()) {
 			logger.info("Iniciando consulta con ANMAT");
 			webServiceResult = this.webServiceHelper.run(medicines, this.PropertyService.get().getANMATName(),
-					EncryptionHelper.AESDecrypt(this.PropertyService.get().getANMATPassword()), errors);
+					this.PropertyService.get().getDecryptPassword(), errors);
 			if (webServiceResult == null) {
 				errors.add(ERROR_CANNOT_CONNECT_TO_ANMAT);
 			}
@@ -110,7 +109,7 @@ public class InputWSHelper {
 		return webServiceResult;
 	}
 
-	private MedicamentosDTO setDrug(Input input, List<MedicamentosDTO> medicines, String eventId, InputDetail inputDetail) {
+	private MedicamentosDTO setDrug(Input input, String eventId, InputDetail inputDetail) {
 		MedicamentosDTO drug = new MedicamentosDTO();
 		String deliveryNote = "R" + StringUtility.addLeadingZeros(input.getDeliveryNoteNumber(), 12);
 		String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(inputDetail.getExpirationDate()).toString();
@@ -130,7 +129,6 @@ public class InputWSHelper {
 
 	public boolean getPendingTransactions(List<InputDetail> details, List<InputDetail> pendingProducts, List<String> errors, boolean isProduction) {
 		boolean toReturn = false;
-		TransaccionesNoConfirmadasWSResult pendingTransactions = null;
 		try {
 			for (InputDetail inputDetail : details) {
 				boolean found = false;
@@ -138,7 +136,7 @@ public class InputWSHelper {
 					if (!isProduction) {
 						toReturn = true;
 					} else {
-						toReturn = this.checkPendingTransactions(pendingProducts, errors, pendingTransactions, inputDetail, found);
+						toReturn = this.checkPendingTransactions(pendingProducts, errors, inputDetail, found);
 					}
 				}
 			}
@@ -148,9 +146,9 @@ public class InputWSHelper {
 		return toReturn;
 	}
 
-	private boolean checkPendingTransactions(List<InputDetail> pendingProducts, List<String> errors, TransaccionesNoConfirmadasWSResult pendingTransactions,
-			InputDetail inputDetail, boolean found) throws Exception {
+	private boolean checkPendingTransactions(List<InputDetail> pendingProducts, List<String> errors,InputDetail inputDetail, boolean found) throws Exception {
 		boolean toReturn = false;
+        TransaccionesNoConfirmadasWSResult pendingTransactions = null;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = DateUtils.getDateFrom(-this.PropertyService.get().getDaysAgoPendingTransactions());
         long nullValue = -1;
