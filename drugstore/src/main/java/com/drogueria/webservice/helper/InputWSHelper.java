@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import com.drogueria.util.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -127,30 +128,17 @@ public class InputWSHelper {
 		return drug;
 	}
 
-	public boolean getPendingTransactions(List<InputDetail> details, List<InputDetail> pendingProducts, List<String> errors, boolean isProduction) throws Exception {
-		long nullValue = -1;
+	public boolean getPendingTransactions(List<InputDetail> details, List<InputDetail> pendingProducts, List<String> errors, boolean isProduction) {
 		boolean toReturn = false;
 		TransaccionesNoConfirmadasWSResult pendingTransactions = null;
 		try {
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-			Date date = new Date();
-			Calendar c = Calendar.getInstance();
-			c.setTime(date);
-			c.add(Calendar.DATE, -this.PropertyService.get().getDaysAgoPendingTransactions());
-			date.setTime(c.getTime().getTime());
-
 			for (InputDetail inputDetail : details) {
 				boolean found = false;
 				if (inputDetail.getProduct().isInformAnmat() && "PS".equals(inputDetail.getProduct().getType())) {
 					if (!isProduction) {
 						toReturn = true;
 					} else {
-						String gtin = StringUtility.addLeadingZeros(inputDetail.getProduct().getLastGtin(), 14);
-                        String serie = inputDetail.getSerialNumber();
-						pendingTransactions = this.webService.getTransaccionesNoConfirmadas(this.PropertyService.get().getANMATName(), this.PropertyService.get().getDecryptPassword(), nullValue, null, null, null, gtin, nullValue, null,
-								null, simpleDateFormat.format(date), simpleDateFormat.format(new Date()), null, null, null, null, nullValue, null, serie,
-								new Long(1), new Long(100));
-						toReturn = this.checkPendingTransactions(pendingProducts, errors, pendingTransactions, inputDetail, found, gtin);
+						toReturn = this.checkPendingTransactions(pendingProducts, errors, pendingTransactions, inputDetail, found);
 					}
 				}
 			}
@@ -161,8 +149,16 @@ public class InputWSHelper {
 	}
 
 	private boolean checkPendingTransactions(List<InputDetail> pendingProducts, List<String> errors, TransaccionesNoConfirmadasWSResult pendingTransactions,
-			InputDetail inputDetail, boolean found, String gtin) {
+			InputDetail inputDetail, boolean found) throws Exception {
 		boolean toReturn = false;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = DateUtils.getDateFrom(-this.PropertyService.get().getDaysAgoPendingTransactions());
+        long nullValue = -1;
+        String gtin = StringUtility.addLeadingZeros(inputDetail.getProduct().getLastGtin(), 14);
+        String serie = inputDetail.getSerialNumber();
+        pendingTransactions = this.webService.getTransaccionesNoConfirmadas(this.PropertyService.get().getANMATName(), this.PropertyService.get().getDecryptPassword(), nullValue, null, null, null, gtin, nullValue, null,
+                null, simpleDateFormat.format(date), simpleDateFormat.format(new Date()), null, null, null, null, nullValue, null, serie,
+                new Long(1), new Long(100));
 		if (pendingTransactions != null) {
 			if (pendingTransactions.getErrores() == null) {
 				if (pendingTransactions.getList() != null) {
@@ -184,4 +180,5 @@ public class InputWSHelper {
 		}
 		return toReturn;
 	}
+
 }
