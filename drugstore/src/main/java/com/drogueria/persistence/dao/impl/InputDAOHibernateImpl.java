@@ -154,7 +154,7 @@ public class InputDAOHibernateImpl implements InputDAO {
 	@Override
 	public List<Input> getCancelables(InputQuery inputQuery) {
 
-		String sentence = "select i.*, id.*  from input as i, input_detail as id where i.cancelled = 0 and id.input_id = i.id and (i.inform_anmat = 0 or (i.inform_anmat = 1 and i.informed = 1)";
+		String sentence = "select i.*, id.*  from input as i, input_detail as id where i.cancelled = 0 and id.input_id = i.id and (i.inform_anmat = 0 or (i.inform_anmat = 1 and i.informed = 1))";
 
 		if (inputQuery.getId() != null) {
 			sentence += " and i.id =" + inputQuery.getId();
