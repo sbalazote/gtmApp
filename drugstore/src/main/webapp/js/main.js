@@ -257,7 +257,7 @@ $(document).ready(function() {
 
 	finishDownload = function() {
 		window.clearInterval(fileDownloadCheckTimer);
-		$.removeCookie('fileDownloadToken', { path: '/gtm-app/' }); //clears this cookie value
+		$.removeCookie('fileDownloadToken'/*, { path: '/gtm-app/' }*/); //clears this cookie value
 		$.unblockUI();
 	};
 	
