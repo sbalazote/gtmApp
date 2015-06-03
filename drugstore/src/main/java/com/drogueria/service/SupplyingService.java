@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.drogueria.dto.SupplyingDTO;
 import com.drogueria.model.Supplying;
+import com.drogueria.query.SupplyingQuery;
 
 public interface SupplyingService {
 
@@ -20,4 +21,8 @@ public interface SupplyingService {
 	void addSupplyingToStock(Supplying supplying);
 
 	void cancel(Supplying supplying);
+
+    List<Supplying> getSupplyingForSearch(SupplyingQuery supplyingQuery);
+
+    boolean getCountSupplyingSearch(SupplyingQuery supplyingQuery);
 }

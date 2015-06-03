@@ -116,4 +116,11 @@ public class ReportAdministrationController {
 		return "searchBatchExpirateDateProduct";
 	}
 
+    @RequestMapping(value = "/searchSupplying", method = RequestMethod.GET)
+    public String searchSupplying(ModelMap modelMap) throws Exception {
+        modelMap.put("clients", this.clientService.getAll());
+        modelMap.put("agreements", this.agreementService.getAll());
+        return "searchSupplying";
+    }
+
 }

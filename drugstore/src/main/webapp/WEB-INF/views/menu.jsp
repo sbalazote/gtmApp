@@ -123,6 +123,7 @@
 					<li><a href="searchAudit.do"><spring:message code="common.audits" /></a></li>
 					<li><a href="searchSerializedProduct.do"><spring:message code="common.searchSerializedProduct" /></a></li>
 					<li><a href="searchBatchExpirateDateProduct.do"><spring:message code="common.searchBatchExpirateDateProduct" /></a></li>
+                    <li><a href="searchSupplying.do"><spring:message code="common.title.searchSupplying" /></a></li>
 				</ul></li>
 
 			<sec:authorize access="hasAnyRole('ENTITY_ADMINISTRATION', 'USER_ADMINISTRATION')">

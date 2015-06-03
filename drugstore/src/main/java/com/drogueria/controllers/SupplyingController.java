@@ -2,9 +2,11 @@ package com.drogueria.controllers;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.drogueria.query.SupplyingQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -68,4 +70,40 @@ public class SupplyingController {
 	Supplying getSupplying(@RequestParam Integer supplyingId) {
 		return this.supplyingService.get(supplyingId);
 	}
+
+    @RequestMapping(value = "/getSupplyingForSearch", method = RequestMethod.POST)
+    public @ResponseBody
+    List<Supplying> getOutputForSearch(@RequestBody SupplyingQuery supplyingQuery) throws Exception {
+        return this.supplyingService.getOutputForSearch(supplyingQuery);
+    }
+
+    @RequestMapping(value = "/getCountSupplyingSearch", method = RequestMethod.POST)
+    public @ResponseBody
+    boolean getCountOutputSearch(@RequestBody SupplyingQuery supplyingQuery) throws Exception {
+        return this.supplyingService.getCountOutputSearch(supplyingQuery);
+    }
+
+    private SupplyingQuery getSupplyingQuery(HttpServletRequest request) {
+        Integer id = null;
+        if (!(request.getParameterValues("id")[0]).equals("null")) {
+            id = Integer.valueOf(request.getParameterValues("id")[0]);
+        }
+        Integer clientId = null;
+        if (!(request.getParameterValues("clientId")[0]).equals("null")) {
+            clientId = Integer.valueOf(request.getParameterValues("clientId")[0]);
+        }
+        Integer affiliateId = null;
+        if (!(request.getParameterValues("affiliateId")[0]).equals("null")) {
+            affiliateId = Integer.valueOf(request.getParameterValues("affiliateId")[0]);
+        }
+        Integer agreementId = null;
+        if (!(request.getParameterValues("agreementId")[0]).equals("null")) {
+            agreementId = Integer.valueOf(request.getParameterValues("agreementId")[0]);
+        }
+
+        SupplyingQuery outputQuery = SupplyingQuery.createFromParameters(id, request.getParameterValues("dateFrom")[0], request.getParameterValues("dateTo")[0],
+                clientId, affiliateId, agreementId);
+
+        return outputQuery;
+    }
 }
