@@ -9,7 +9,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 
-public final class EncryptionHelper {
+public class EncryptionHelper {
 
 	private EncryptionHelper() {
 	}
