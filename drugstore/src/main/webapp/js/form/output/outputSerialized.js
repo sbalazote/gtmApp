@@ -10,6 +10,10 @@ OutputSerialized = function() {
 	var preloadedProductId = null;
 	var preloadedProductType = null;
 	
+	var getTempSerialNumbers = function(value) {
+		return tempSerialNumbers;
+	};
+	
 	var setTempSerialNumbers = function(value) {
 		tempSerialNumbers = value || [];
 	};
@@ -36,12 +40,6 @@ OutputSerialized = function() {
 	
 	var setPreloadedProductId = function(value) {
 		preloadedProductId = value;
-	};
-	
-	var deleteSerials = function(serials) {
-		$.each(serials, function(index, serial) {
-			tempSerialNumbers.splice(tempSerialNumbers.indexOf(serial), 1);
-		});
 	};
 	
 	var setPreloadedProductType = function(value) {
@@ -274,6 +272,7 @@ OutputSerialized = function() {
 	});
 	
 	return {
+		getTempSerialNumbers: getTempSerialNumbers,
 		setTempSerialNumbers: setTempSerialNumbers,
 		setProductSelectedGtin: setProductSelectedGtin,
 		getPreloadedData: getPreloadedData,
@@ -282,8 +281,6 @@ OutputSerialized = function() {
 		setPreloadedProduct: setPreloadedProduct,
 		setPreloadedProductId: setPreloadedProductId,
 		setPreloadedProductType: setPreloadedProductType,
-		preloadModalData: preloadModalData,
-		deleteSerials: deleteSerials
+		preloadModalData: preloadModalData
 	};
-	
 };

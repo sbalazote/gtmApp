@@ -26,6 +26,10 @@ ProviderSerialized = function() {
 	var preloadedProduct = null;
 	var preloadedProductId = null;
 	
+	var getTempSerialNumbers = function(value) {
+		return tempSerialNumbers;
+	};
+	
 	var setTempSerialNumbers = function(value) {
 		tempSerialNumbers = value || [];
 	};
@@ -52,12 +56,6 @@ ProviderSerialized = function() {
 	
 	var setPreloadedProductId = function(value) {
 		preloadedProductId = value;
-	};
-	
-	var deleteSerials = function(serials) {
-		$.each(serials, function(index, serial) {
-			tempSerialNumbers.splice(tempSerialNumbers.indexOf(serial), 1);
-		});
 	};
 	
 	var formValidator = null;
@@ -321,6 +319,7 @@ ProviderSerialized = function() {
 	});
 	
 	return {
+		getTempSerialNumbers: getTempSerialNumbers,
 		setTempSerialNumbers: setTempSerialNumbers,
 		setProductSelectedGtin: setProductSelectedGtin,
 		getPreloadedData: getPreloadedData,
@@ -328,8 +327,6 @@ ProviderSerialized = function() {
 		setPreloadedAmount: setPreloadedAmount,
 		setPreloadedProduct: setPreloadedProduct,
 		setPreloadedProductId: setPreloadedProductId,
-		preloadModalData: preloadModalData,
-		deleteSerials: deleteSerials 
+		preloadModalData: preloadModalData
 	};
-	
 };

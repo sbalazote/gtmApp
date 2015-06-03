@@ -136,7 +136,14 @@ Output = function() {
 		
 		var productType = parent.find(".span-productType").html();
 		if (productType == "PS") {
-			serialized.deleteSerials(tempSerialNumberGroup[productId]);
+			var tempSerialNumbers = serialized.getTempSerialNumbers();
+			$.each(tempSerialNumberGroup[productId], function(idxSerialToDelete, serialToDelete) {
+				var idxSerialStored = $.inArray(serialToDelete, tempSerialNumbers);
+				if (idxSerialStored != -1) {
+					tempSerialNumbers.splice(idxSerialStored, 1);
+				}
+			});
+			serialized.setTempSerialNumbers(tempSerialNumbers);
 		}
 	});
 	
@@ -315,7 +322,6 @@ Output = function() {
 			serialized.setPreloadedAmount(productAmount);
 			serialized.setPreloadedData(preloadedData);
 			serialized.setProductSelectedGtin(productGtin);
-			serialized.setTempSerialNumbers(tempSerialNumberGroup[productId]);
 			
 			serialized.preloadModalData();
 			$('#serializedModal').modal('show');

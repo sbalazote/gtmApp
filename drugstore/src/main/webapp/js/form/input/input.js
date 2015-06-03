@@ -356,7 +356,14 @@ Input = function() {
 		
 		var productType = parent.find(".span-productType").html();
 		if (productType == "PS") {
-			providerSerialized.deleteSerials(tempSerialNumberGroup[productId]);
+			var tempSerialNumbers = serialized.getTempSerialNumbers();
+			$.each(tempSerialNumberGroup[productId], function(idxSerialToDelete, serialToDelete) {
+				var idxSerialStored = $.inArray(serialToDelete, tempSerialNumbers);
+				if (idxSerialStored != -1) {
+					tempSerialNumbers.splice(idxSerialStored, 1);
+				}
+			});
+			serialized.setTempSerialNumbers(tempSerialNumbers);
 		}
 	});
 	

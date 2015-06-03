@@ -54,12 +54,6 @@ ProviderSerialized = function() {
 		preloadedProductId = value;
 	};
 	
-	var deleteSerials = function(serials) {
-		$.each(serials, function(index, serial) {
-			tempSerialNumbers.splice(tempSerialNumbers.indexOf(serial), 1);
-		});
-	};
-	
 	var formValidator = null;
 	
 	var validateForm = function() {
@@ -328,8 +322,6 @@ ProviderSerialized = function() {
 		setPreloadedAmount: setPreloadedAmount,
 		setPreloadedProduct: setPreloadedProduct,
 		setPreloadedProductId: setPreloadedProductId,
-		preloadModalData: preloadModalData,
-		deleteSerials: deleteSerials
+		preloadModalData: preloadModalData
 	};
-	
 };

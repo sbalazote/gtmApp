@@ -446,6 +446,7 @@ var Supplying = function() {
 		"<span class='span-productId' style='display:none'>" + productId + "</c:out></span>" +
 		"<span class='span-productType' style='display:none'>" + productType + "</c:out></span>" + 
 		"<span class='span-productGtin' style='display:none'>" + productGtin + "</c:out></span>" +
+		"<span class='span-productOutOfStock' style='display:none'>" + assignOutOfStock + "</c:out></span>" +
 		"<a href='javascript:void(0);' class='edit-button'>Editar</a>" +
 		"</td>" +
 		"<td>"+
@@ -638,8 +639,15 @@ var Supplying = function() {
 		
 		var productType = parent.find(".span-productType").html();
 		if (productType == "PS") {
-			serialized.deleteSerials(tempSerialNumberGroup[productId]);
-			outOfStockProviderSerialized.deleteSerials(tempSerialNumberGroup[productId]);
+			var productOutOfStock = parent.find(".span-productOutOfStock").html();
+			var tempSerialNumbers = productOutOfStock ? serialized.getTempSerialNumbers() : outOfStockProviderSerialized.getTempSerialNumbers();
+			$.each(tempSerialNumberGroup[productId], function(idxSerialToDelete, serialToDelete) {
+				var idxSerialStored = $.inArray(serialToDelete, tempSerialNumbers);
+				if (idxSerialStored != -1) {
+					tempSerialNumbers.splice(idxSerialStored, 1);
+				}
+			});
+			productOutOfStock ? serialized.setTempSerialNumbers(tempSerialNumbers) : outOfStockProviderSerialized.setTempSerialNumbers(tempSerialNumbers);
 		}
 	});
 
