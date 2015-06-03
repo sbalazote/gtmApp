@@ -46,7 +46,7 @@ public abstract class AbstractExcelView extends AbstractView {
 
 		response.resetBuffer();
 		Cookie cookie = new Cookie("fileDownloadToken", request.getParameterValues("fileDownloadToken")[0]);
-		cookie.setPath("/drogueria/");
+		cookie.setPath("/gtm-app/");
 		response.addCookie(cookie);
 
 		workbook.write(baos);
