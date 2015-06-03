@@ -43,9 +43,10 @@
 									<sec:authorize access="hasRole('OUTPUT')">
 										<li class="activable"><a href="output.do"><spring:message code="common.do" /></a></li>
 									</sec:authorize>
+									<!-- 
 									<sec:authorize access="hasRole('OUTPUT_CANCELLATION')">
 										<li><a href="outputCancellation.do"><spring:message code="administration.cancelled.button" /> </a></li>
-									</sec:authorize>
+									</sec:authorize>-->
 								</ul></li>
 						</sec:authorize>
 
@@ -59,9 +60,9 @@
 									<sec:authorize access="hasRole('SUPPLYING')">
 										<li class="activable"><a href="supplying.do"><spring:message code="common.do" /></a></li>
 									</sec:authorize>
-									<sec:authorize access="hasRole('SUPPLYING_CANCELLATION')">
+									<!--<sec:authorize access="hasRole('SUPPLYING_CANCELLATION')">
 										<li><a href="supplyingCancellation.do"><spring:message code="administration.cancelled.button" /> </a></li>
-									</sec:authorize>
+									</sec:authorize>-->
 								</ul></li>
 						</sec:authorize>
 					</ul></li>

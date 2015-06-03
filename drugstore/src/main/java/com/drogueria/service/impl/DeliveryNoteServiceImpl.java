@@ -192,7 +192,9 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 			}
 			this.auditService.addAudit(username, RoleOperation.DELIVERY_NOTE_CANCELLATION.getId(), AuditState.CANCELLED, deliveryNote.getId());
 			Output output = this.getOutput(deliveryNote);
-			this.outputService.cancel(output);
+			if (output != null) {
+				this.outputService.cancel(output);
+			}
 		}
 	}
 
