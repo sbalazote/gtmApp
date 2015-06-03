@@ -53,7 +53,7 @@ public abstract class AbstractPdfView extends AbstractView {
 
 		response.resetBuffer();
 		Cookie cookie = new Cookie("fileDownloadToken", request.getParameterValues("fileDownloadToken")[0]);
-		cookie.setPath("/gtm-app/");
+		cookie.setPath(request.getContextPath());
 		response.addCookie(cookie);
 
 		// Flush to HTTP response.
