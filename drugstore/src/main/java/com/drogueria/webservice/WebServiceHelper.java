@@ -126,10 +126,10 @@ public class WebServiceHelper {
 				drug.setN_documento(document);
 			}
 			if (documentType != null) {
-				drug.setTipo_documento(documentType);
+				drug.setTipo_documento("1");
 			}
 			if (clientCode != null) {
-				drug.setId_obra_social(String.valueOf(clientCode));
+				drug.setId_obra_social(String.valueOf(2709));
 			}
 		}
 		if (deliveryNote != null) {

@@ -110,7 +110,7 @@
 					</ul></li>
 			</sec:authorize>
 
-			<sec:authorize access="hasRole('ORDER_ASSEMBLY')">
+			<sec:authorize access="hasAnyRole('DELIVERY_NOTE_PRINT', 'DELIVERY_NOTE_CANCELLATION')">
 				<li class="activable"><a href="pendingTransactions.do"><spring:message code="common.pendingTransactions" /></a></li>
 			</sec:authorize>
 

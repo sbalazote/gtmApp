@@ -111,11 +111,11 @@ public class DeliveryNoteWSHelper {
 								.getProduct().getType()))) {
 					String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(deliveryNoteDetail.getOrderDetail().getExpirationDate()).toString();
 
-					this.webServiceHelper.setDrug(drug, this.PropertyService.get().getGln(), order.getProvisioningRequest().getDeliveryLocation()
-							.getGln(), this.PropertyService.get().getTaxId(), order.getProvisioningRequest().getDeliveryLocation().getTaxId(),
-							deliveryNoteFormated, expirationDate, deliveryNoteDetail.getOrderDetail().getGtin().getNumber(), eventId, deliveryNoteDetail
-									.getOrderDetail().getSerialNumber(), deliveryNoteDetail.getOrderDetail().getBatch(), deliveryNote.getDate(), true, null,
-							null, null, null, null);
+					this.webServiceHelper.setDrug(drug, this.PropertyService.get().getGln(), order.getProvisioningRequest().getDeliveryLocation().getGln(),
+							this.PropertyService.get().getTaxId(), order.getProvisioningRequest().getDeliveryLocation().getTaxId(), deliveryNoteFormated,
+							expirationDate, deliveryNoteDetail.getOrderDetail().getGtin().getNumber(), eventId, deliveryNoteDetail.getOrderDetail()
+									.getSerialNumber(), deliveryNoteDetail.getOrderDetail().getBatch(), deliveryNote.getDate(), true, null, null, null, null,
+							null);
 					medicines.add(drug);
 				}
 			}
@@ -125,9 +125,9 @@ public class DeliveryNoteWSHelper {
 								.getProduct().getType()))) {
 					String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(deliveryNoteDetail.getOutputDetail().getExpirationDate()).toString();
 
-					this.webServiceHelper.setDrug(drug, this.PropertyService.get().getGln(), output.getDestinationGln(), this.PropertyService
-							.get().getTaxId(), output.getDestinationTax(), deliveryNoteFormated, expirationDate, deliveryNoteDetail.getOutputDetail().getGtin()
-							.getNumber(), eventId, deliveryNoteDetail.getOutputDetail().getSerialNumber(), deliveryNoteDetail.getOutputDetail().getBatch(),
+					this.webServiceHelper.setDrug(drug, this.PropertyService.get().getGln(), output.getDestinationGln(), this.PropertyService.get().getTaxId(),
+							output.getDestinationTax(), deliveryNoteFormated, expirationDate, deliveryNoteDetail.getOutputDetail().getGtin().getNumber(),
+							eventId, deliveryNoteDetail.getOutputDetail().getSerialNumber(), deliveryNoteDetail.getOutputDetail().getBatch(),
 							deliveryNote.getDate(), true, null, null, null, null, null);
 					medicines.add(drug);
 				}
@@ -138,10 +138,8 @@ public class DeliveryNoteWSHelper {
 								.getProduct().getType()))) {
 					String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(deliveryNoteDetail.getSupplyingDetail().getExpirationDate()).toString();
 
-					System.out.println("GLN del est asiss" + this.PropertyService.get().getGln());
-					System.out.println("CUIT del est asiss" + this.PropertyService.get().getTaxId());
-					this.webServiceHelper.setDrug(drug, this.PropertyService.get().getGln(), null, this.PropertyService.get().getTaxId(),
-							null, null, expirationDate, deliveryNoteDetail.getSupplyingDetail().getGtin().getNumber(), eventId, deliveryNoteDetail
+					this.webServiceHelper.setDrug(drug, this.PropertyService.get().getGln(), null, this.PropertyService.get().getTaxId(), null,
+							deliveryNoteFormated, expirationDate, deliveryNoteDetail.getSupplyingDetail().getGtin().getNumber(), eventId, deliveryNoteDetail
 									.getSupplyingDetail().getSerialNumber(), deliveryNoteDetail.getSupplyingDetail().getBatch(), deliveryNote.getDate(), true,
 							supplying.getAffiliate().getSurname(), supplying.getAffiliate().getName(), supplying.getAffiliate().getDocument(), supplying
 									.getAffiliate().getDocumentType(), supplying.getClient().getCode());
