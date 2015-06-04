@@ -20,6 +20,7 @@ import com.drogueria.query.DeliveryNoteQuery;
 import com.drogueria.service.AuditService;
 import com.drogueria.service.DeliveryNoteService;
 import com.drogueria.service.OutputService;
+import com.drogueria.service.SupplyingService;
 import com.drogueria.service.TraceabilityService;
 import com.drogueria.util.OperationResult;
 
@@ -37,6 +38,8 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	private AuditService auditService;
 	@Autowired
 	private OutputService outputService;
+	@Autowired
+	private SupplyingService supplyingService;
 
 	@Override
 	public DeliveryNote get(Integer id) {
@@ -171,7 +174,7 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 			}
 			Supplying supplying = this.getSupplying(deliveryNote);
 			if (supplying != null) {
-				// this.supplyingService.cancel(supplying);
+				this.supplyingService.cancel(supplying);
 			}
 		}
 	}

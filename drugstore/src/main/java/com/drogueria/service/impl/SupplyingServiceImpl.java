@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.drogueria.query.SupplyingQuery;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +18,7 @@ import com.drogueria.model.Stock;
 import com.drogueria.model.Supplying;
 import com.drogueria.model.SupplyingDetail;
 import com.drogueria.persistence.dao.SupplyingDAO;
+import com.drogueria.query.SupplyingQuery;
 import com.drogueria.service.AffiliateService;
 import com.drogueria.service.AgreementService;
 import com.drogueria.service.ClientService;
@@ -190,13 +190,13 @@ public class SupplyingServiceImpl implements SupplyingService {
 		this.supplyingDAO.save(supplying);
 	}
 
-    @Override
-    public List<Supplying> getSupplyingForSearch(SupplyingQuery supplyingQuery) {
-        return this.supplyingDAO.getSupplyingForSearch(supplyingQuery);
-    }
+	@Override
+	public List<Supplying> getSupplyingForSearch(SupplyingQuery supplyingQuery) {
+		return this.supplyingDAO.getSupplyingForSearch(supplyingQuery);
+	}
 
-    @Override
-    public boolean getCountSupplyingSearch(SupplyingQuery supplyingQuery) {
-        return this.supplyingDAO.getCountSupplyingSearch(supplyingQuery);
-    }
+	@Override
+	public boolean getCountSupplyingSearch(SupplyingQuery supplyingQuery) {
+		return this.supplyingDAO.getCountSupplyingSearch(supplyingQuery);
+	}
 }
