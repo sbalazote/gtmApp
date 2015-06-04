@@ -33,23 +33,33 @@
 	   	 	</thead>
 	   	 	<tbody id="deliveryNoteTableBody">
 				<c:forEach items="${orderDeliveryNotes}" var="orderDeliveryNotes">
-				<tr>
-					<td><c:out value="A${orderDeliveryNotes.key}"></c:out></td>
-					<td><c:out value="${orderDeliveryNotes.key}"></c:out></td>
-					<td><spring:message code="deliveryNote.class.orderAssembly"/></td>
-					<td><c:out value="${orderDeliveryNotes.value}"></c:out></td>
-					<td><spring:message code="common.view"/></td>
-				</tr>
+					<tr>
+						<td><c:out value="A${orderDeliveryNotes.key}"></c:out></td>
+						<td><c:out value="${orderDeliveryNotes.key}"></c:out></td>
+						<td><spring:message code="deliveryNote.class.orderAssembly"/></td>
+						<td><c:out value="${orderDeliveryNotes.value}"></c:out></td>
+						<td><spring:message code="common.view"/></td>
+					</tr>
 				</c:forEach>
 				
 				<c:forEach items="${outputDeliveryNotes}" var="outputDeliveryNotes">
-				<tr>
-					<td><c:out value="E${outputDeliveryNotes.key}"></c:out></td>
-					<td><c:out value="${outputDeliveryNotes.key}"></c:out></td>
-					<td><spring:message code="deliveryNote.class.output"/></td>
-					<td><c:out value="${outputDeliveryNotes.value}"></c:out></td>
-					<td><spring:message code="common.view"/></td>
-				</tr>
+					<tr>
+						<td><c:out value="E${outputDeliveryNotes.key}"></c:out></td>
+						<td><c:out value="${outputDeliveryNotes.key}"></c:out></td>
+						<td><spring:message code="deliveryNote.class.output"/></td>
+						<td><c:out value="${outputDeliveryNotes.value}"></c:out></td>
+						<td><spring:message code="common.view"/></td>
+					</tr>
+				</c:forEach>
+				
+				<c:forEach items="${supplyingDeliveryNotes}" var="supplyingDeliveryNotes">
+					<tr>
+						<td><c:out value="D${supplyingDeliveryNotes.key}"></c:out></td>
+						<td><c:out value="${supplyingDeliveryNotes.key}"></c:out></td>
+						<td><spring:message code="deliveryNote.class.supplying"/></td>
+						<td><c:out value="${supplyingDeliveryNotes.value}"></c:out></td>
+						<td><spring:message code="common.view"/></td>
+					</tr>
 				</c:forEach>
 			</tbody>
 		</table>

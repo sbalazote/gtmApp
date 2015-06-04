@@ -38,8 +38,6 @@ public interface DeliveryNoteService {
 
 	OperationResult saveAndInform(DeliveryNote deliveryNote) throws Exception;
 
-	void cancelDeliveryNoteTransaction(DeliveryNote deliveryNote) throws Exception;
-
 	void sendTrasactionAsync(DeliveryNote deliveryNote) throws Exception;
 
 	void authorizeWithoutInform(List<Integer> deliveryNoteIds, String name);

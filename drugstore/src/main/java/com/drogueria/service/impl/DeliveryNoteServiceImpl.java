@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.drogueria.constant.AuditState;
-import com.drogueria.constant.Constants;
 import com.drogueria.constant.RoleOperation;
 import com.drogueria.model.DeliveryNote;
 import com.drogueria.model.Order;
@@ -23,7 +22,6 @@ import com.drogueria.service.DeliveryNoteService;
 import com.drogueria.service.OutputService;
 import com.drogueria.service.TraceabilityService;
 import com.drogueria.util.OperationResult;
-import com.inssjp.mywebservice.business.WebServiceResult;
 
 @Service
 @Transactional
@@ -135,33 +133,6 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	}
 
 	@Override
-	public void cancelDeliveryNoteTransaction(DeliveryNote deliveryNote) throws Exception {
-		String transactionCodeANMAT = deliveryNote.getTransactionCodeANMAT();
-		if (deliveryNote.isInformAnmat() && transactionCodeANMAT != null) {
-			WebServiceResult result = this.traceabilityService.cancelDeliveryNoteTransaction(deliveryNote);
-			boolean alreadyCancelled = false;
-			if (result != null) {
-				if (result.getErrores() != null) {
-					if (result.getErrores(0).get_c_error().equals(Constants.ERROR_ANMAT_ALREADY_CANCELLED)) {
-						alreadyCancelled = true;
-					}
-				}
-				if (result.getResultado() || alreadyCancelled) {
-					deliveryNote.setInformAnmat(false);
-					// Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
-					deliveryNote.setTransactionCodeANMAT(result.getCodigoTransaccion());
-					this.save(deliveryNote);
-				}
-			}
-		} else {
-			if (deliveryNote.isInformAnmat()) {
-				deliveryNote.setInformAnmat(false);
-				this.save(deliveryNote);
-			}
-		}
-	}
-
-	@Override
 	public void authorizeWithoutInform(List<Integer> deliveryNoteIds, String name) {
 		for (Integer deliveryNoteId : deliveryNoteIds) {
 			DeliveryNote deliveryNote = this.get(deliveryNoteId);
@@ -180,20 +151,27 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 			DeliveryNote deliveryNote = this.getDeliveryNoteFromNumber(deliveryNoteNumber);
 			deliveryNote.setCancelled(true);
 			try {
+				try {
+					if (deliveryNote.isInformAnmat() && deliveryNote.isInformed()) {
+						this.traceabilityService.cancelDeliveryNoteTransaction(deliveryNote);
+					}
+				} catch (Exception e) {
+					logger.info("No se ha podido informar la cancelacion a ANMAT " + deliveryNote.getId());
+					e.printStackTrace();
+				}
 				this.save(deliveryNote);
 			} catch (Exception e) {
 				logger.info("No se ha podido actualizar el estado al remito " + deliveryNote.getId());
 			}
-			try {
-				this.traceabilityService.cancelDeliveryNoteTransaction(deliveryNote);
-			} catch (Exception e) {
-				logger.info("No se ha podido informar la cancelacion a ANMAT " + deliveryNote.getId());
-				e.printStackTrace();
-			}
+
 			this.auditService.addAudit(username, RoleOperation.DELIVERY_NOTE_CANCELLATION.getId(), AuditState.CANCELLED, deliveryNote.getId());
 			Output output = this.getOutput(deliveryNote);
 			if (output != null) {
 				this.outputService.cancel(output);
+			}
+			Supplying supplying = this.getSupplying(deliveryNote);
+			if (supplying != null) {
+				// this.supplyingService.cancel(supplying);
 			}
 		}
 	}

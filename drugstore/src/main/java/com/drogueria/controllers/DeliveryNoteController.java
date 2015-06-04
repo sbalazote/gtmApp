@@ -82,6 +82,9 @@ public class DeliveryNoteController {
 		Map<Integer, List<String>> outputDeliveryNotes = this.deliveryNoteService.getAssociatedOutputs(false);
 		modelMap.put("outputDeliveryNotes", outputDeliveryNotes);
 
+		Map<Integer, List<String>> supplyingDeliveryNotes = this.deliveryNoteService.getAssociatedSupplyings(true);
+		modelMap.put("supplyingDeliveryNotes", supplyingDeliveryNotes);
+
 		return "deliveryNoteCancellation";
 	}
 

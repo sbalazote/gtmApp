@@ -2,6 +2,7 @@ var DeliveryNoteCancellation = function() {
 	
 	var orderId = null;
 	var outputId = null;
+	var supplyingId = null;
 	var deliveryNotesToCancel = [];
 	var ordersToReassembly = [];
 	var outputsToReassembly = [];
@@ -16,6 +17,12 @@ var DeliveryNoteCancellation = function() {
 		var parent = $(this).parent().parent();
 		outputId = parent.children().eq(2).text();
 		showOutputModal(outputId);
+	});
+	
+	$('#deliveryNoteTableBody').on("click", ".view-supplying-row", function() {
+		var parent = $(this).parent().parent();
+		supplyingId = parent.children().eq(2).text();
+		showSupplyingModal(supplyingId);
 	});
 
 	$("#confirmButton").click(function() {
@@ -70,9 +77,14 @@ var DeliveryNoteCancellation = function() {
 	        "option": function(column, row)
 	        {
 	        	if (row.class === "ARMADO") {
-	        		return "<a href=\"#\" class='view-order-row'>Consulta</a>";
-	        	} else
-	        		return "<a href=\"#\" class='view-output-row'>Consulta</a>";
+	        		return "<a href=\"#\" class='view-order-row-deliveryNoteTable'>Consulta</a>";
+	        	}
+	        	if(row.class === "EGRESO") {
+	        		return "<a href=\"#\" class='view-output-row-deliveryNoteTable'>Consulta</a>";
+	        	}
+	        	if(row.class === "DISPENSA") {
+	        		return "<a href=\"#\" class='view-supplying-row-deliveryNoteTable'>Consulta</a>";
+	        	}
 	        }
 	    }
 	}).on("selected.rs.jquery.bootgrid", function(e, rows)
