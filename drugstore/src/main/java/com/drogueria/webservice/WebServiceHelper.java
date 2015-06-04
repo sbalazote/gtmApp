@@ -126,7 +126,7 @@ public class WebServiceHelper {
 				drug.setN_documento(document);
 			}
 			if (documentType != null) {
-				drug.setTipo_documento("1");
+				drug.setTipo_documento(documentType);
 			}
 			if (clientCode != null) {
 				drug.setId_obra_social(String.valueOf(2709));

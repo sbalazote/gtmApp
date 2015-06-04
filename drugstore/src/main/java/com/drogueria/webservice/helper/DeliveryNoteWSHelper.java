@@ -134,6 +134,7 @@ public class DeliveryNoteWSHelper {
 			}
 			if (deliveryNoteDetail.getSupplyingDetail() != null) {
 				if (deliveryNoteDetail.getSupplyingDetail().getProduct().isInformAnmat()
+						&& deliveryNoteDetail.getSupplyingDetail().getInStock()
 						&& ("PS".equals(deliveryNoteDetail.getSupplyingDetail().getProduct().getType()) || "SS".equals(deliveryNoteDetail.getSupplyingDetail()
 								.getProduct().getType()))) {
 					String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(deliveryNoteDetail.getSupplyingDetail().getExpirationDate()).toString();
