@@ -73,7 +73,7 @@ public class WebServiceHelper {
 
 	public void setDrug(MedicamentosDTO drug, String originGLN, String destinationGLN, String originTax, String destinationTax, String deliveryNote,
 			String expirationDate, String gtin, String eventId, String serialNumber, String batch, Date date, boolean isDeliveryNote, String affiliateSurname,
-			String affiliateName, String document, String documentType, Integer clientCode) {
+			String affiliateName, String document, String documentType, Integer medicalInsuranceCode) {
 		String dateFormatted = new SimpleDateFormat("dd/MM/yyyy").format(date).toString();
 		drug.setF_evento(dateFormatted);
 
@@ -104,8 +104,8 @@ public class WebServiceHelper {
 			if (documentType != null) {
 				drug.setTipo_documento(documentType);
 			}
-			if (clientCode != null) {
-				drug.setId_obra_social(String.valueOf(clientCode));
+			if (medicalInsuranceCode != null) {
+				drug.setId_obra_social(String.valueOf(medicalInsuranceCode));
 			}
 		} else {
 			drug.setGln_origen(Constants.TEST_DESTINATION_GLN);
@@ -128,8 +128,8 @@ public class WebServiceHelper {
 			if (documentType != null) {
 				drug.setTipo_documento(documentType);
 			}
-			if (clientCode != null) {
-				drug.setId_obra_social(String.valueOf(2709));
+			if (medicalInsuranceCode != null) {
+				drug.setId_obra_social(String.valueOf(medicalInsuranceCode));
 			}
 		}
 		if (deliveryNote != null) {

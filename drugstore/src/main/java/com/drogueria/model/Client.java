@@ -60,6 +60,9 @@ public class Client implements Serializable {
 	@Column(name = "active", nullable = false)
 	private boolean active;
 
+	@Column(name = "medical_insurance_code", unique = true, nullable = false)
+	private Integer medicalInsuranceCode;
+
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "client_delivery_location", joinColumns = @JoinColumn(name = "client_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "delivery_location_id", nullable = false))
 	private List<DeliveryLocation> deliveryLocations;
@@ -158,6 +161,14 @@ public class Client implements Serializable {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public Integer getMedicalInsuranceCode() {
+		return this.medicalInsuranceCode;
+	}
+
+	public void setMedicalInsuranceCode(Integer medicalInsuranceCode) {
+		this.medicalInsuranceCode = medicalInsuranceCode;
 	}
 
 	public List<DeliveryLocation> getDeliveryLocations() {

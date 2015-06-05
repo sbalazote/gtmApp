@@ -22,6 +22,7 @@ public class ClientDTO implements Serializable {
 	private String phone;
 	private List<Integer> deliveryLocations;
 	private boolean active;
+	private Integer medicalInsuranceCode;
 
 	public Integer getId() {
 		return this.id;
@@ -128,4 +129,13 @@ public class ClientDTO implements Serializable {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+
+	public Integer getMedicalInsuranceCode() {
+		return this.medicalInsuranceCode;
+	}
+
+	public void setMedicalInsuranceCode(Integer medicalInsuranceCode) {
+		this.medicalInsuranceCode = medicalInsuranceCode;
+	}
+
 }

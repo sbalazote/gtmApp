@@ -97,6 +97,7 @@ SaveClient = function() {
 					"phone": $("#phoneInput").val(),
 					"deliveryLocations": $("#my-select").val() || new Array(),
 					"active": $("#activeSelect option:selected").val(),
+					"medicalInsuranceCode": $("#medicalInsuranceCodeInput").val()
 			};
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.

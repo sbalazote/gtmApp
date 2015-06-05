@@ -222,6 +222,7 @@ CREATE TABLE `drugstore`.`client` (
   `VAT_liability_id` int(11) NOT NULL,
   `phone` varchar(45) DEFAULT NULL,
   `active` bit(1) NOT NULL,
+  `medical_insurance_code` int(11),
   PRIMARY KEY (`id`),
   UNIQUE KEY `code_UNIQUE` (`code`),
   KEY `fk_client_province_idx` (`province_id`),

@@ -143,7 +143,7 @@ public class DeliveryNoteWSHelper {
 							deliveryNoteFormated, expirationDate, deliveryNoteDetail.getSupplyingDetail().getGtin().getNumber(), eventId, deliveryNoteDetail
 									.getSupplyingDetail().getSerialNumber(), deliveryNoteDetail.getSupplyingDetail().getBatch(), deliveryNote.getDate(), true,
 							supplying.getAffiliate().getSurname(), supplying.getAffiliate().getName(), supplying.getAffiliate().getDocument(), supplying
-									.getAffiliate().getDocumentType(), supplying.getClient().getCode());
+									.getAffiliate().getDocumentType(), supplying.getClient().getMedicalInsuranceCode());
 					medicines.add(drug);
 				}
 			}

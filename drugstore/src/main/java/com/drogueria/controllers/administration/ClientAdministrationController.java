@@ -48,7 +48,8 @@ public class ClientAdministrationController {
 	}
 
 	@RequestMapping(value = "/saveClient", method = RequestMethod.POST)
-	public @ResponseBody Client saveClient(@RequestBody ClientDTO clientDTO) throws Exception {
+	public @ResponseBody
+	Client saveClient(@RequestBody ClientDTO clientDTO) throws Exception {
 		Client client = this.buildModel(clientDTO);
 		this.clientService.save(client);
 		return client;
@@ -81,6 +82,7 @@ public class ClientAdministrationController {
 		client.setZipCode(clientDTO.getZipCode());
 		client.setPhone(clientDTO.getPhone());
 		client.setActive(clientDTO.isActive());
+		client.setMedicalInsuranceCode(clientDTO.getMedicalInsuranceCode());
 
 		List<Integer> deliveryLocationsId = clientDTO.getDeliveryLocations();
 
@@ -94,7 +96,8 @@ public class ClientAdministrationController {
 	}
 
 	@RequestMapping(value = "/readClient", method = RequestMethod.GET)
-	public @ResponseBody Client readClient(ModelMap modelMap, @RequestParam Integer clientId) throws Exception {
+	public @ResponseBody
+	Client readClient(ModelMap modelMap, @RequestParam Integer clientId) throws Exception {
 		Client client = this.clientService.get(clientId);
 
 		modelMap.put("deliveryLocations", this.getSelectedDeliveryLocations(client));
@@ -141,17 +144,20 @@ public class ClientAdministrationController {
 	}
 
 	@RequestMapping(value = "/deleteClient", method = RequestMethod.POST)
-	public @ResponseBody boolean deleteClient(@RequestParam Integer clientId) throws Exception {
+	public @ResponseBody
+	boolean deleteClient(@RequestParam Integer clientId) throws Exception {
 		return this.clientService.delete(clientId);
 	}
 
 	@RequestMapping(value = "/existsClient", method = RequestMethod.GET)
-	public @ResponseBody Boolean existsClient(@RequestParam Integer code) throws Exception {
+	public @ResponseBody
+	Boolean existsClient(@RequestParam Integer code) throws Exception {
 		return this.clientService.exists(code);
 	}
 
 	@RequestMapping(value = "/getMatchedClients", method = RequestMethod.POST)
-	public @ResponseBody String getMatchedClients(@RequestParam Map<String, String> parametersMap) throws JSONException {
+	public @ResponseBody
+	String getMatchedClients(@RequestParam Map<String, String> parametersMap) throws JSONException {
 
 		String searchPhrase = parametersMap.get("searchPhrase");
 		Integer current = Integer.parseInt(parametersMap.get("current"));

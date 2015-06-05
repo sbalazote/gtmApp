@@ -16,6 +16,7 @@ $(document).ready(function() {
 		$("#phoneInput").val('');
 		$("#activeSelect").val($("#activeSelect option:first").val());
 		$('#my-select').multiSelect('deselect_all');
+		$("#medicalInsuranceCodeInput").val('');
 	};
 	
 	var deleteClient = function(clientId) {
@@ -60,6 +61,7 @@ $(document).ready(function() {
 				$("#zipCodeInput").val(response.zipCode);
 				$("#VATLiabilitySelect").val(response.vatliability.id).trigger('chosen:update');
 				$("#phoneInput").val(response.phone);
+				$("#medicalInsuranceCodeInput").val(response.medicalInsuranceCode);
 				var isActive = (response.active) ? "true" : "false";
 				$("#activeSelect").val(isActive).trigger('chosen:update');
 				$.each(response.deliveryLocations, function (idx, value) {
