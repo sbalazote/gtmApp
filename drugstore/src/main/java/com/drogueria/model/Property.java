@@ -1,7 +1,5 @@
 package com.drogueria.model;
 
-import com.drogueria.helper.EncryptionHelper;
-
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -11,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.drogueria.helper.EncryptionHelper;
 
 @Entity
 @Table(name = "property")
@@ -77,11 +77,11 @@ public class Property implements Serializable {
 	private String ANMATPassword;
 
 	@ManyToOne
-	@JoinColumn(name = "start_trace_concept_id", nullable = false)
+	@JoinColumn(name = "start_trace_concept_id")
 	private Concept startTraceConcept;
 
 	@ManyToOne
-	@JoinColumn(name = "supplying_concept_id", nullable = false)
+	@JoinColumn(name = "supplying_concept_id")
 	private Concept supplyingConcept;
 
 	@Column(name = "proxy")
@@ -277,8 +277,8 @@ public class Property implements Serializable {
 		this.supplyingConcept = supplyingConcept;
 	}
 
-    public String getDecryptPassword(){
-        return EncryptionHelper.AESDecrypt(this.getANMATPassword());
-    }
+	public String getDecryptPassword() {
+		return EncryptionHelper.AESDecrypt(this.getANMATPassword());
+	}
 
 }

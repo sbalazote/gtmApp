@@ -90,9 +90,12 @@ public class PropertyController {
 			property.setHasProxy(false);
 		}
 
-		property.setStartTraceConcept(this.conceptService.get(propertyDTO.getStartTraceConceptSelectId()));
-		property.setSupplyingConcept(this.conceptService.get(propertyDTO.getSupplyingConceptSelectId()));
-
+		if (propertyDTO.getStartTraceConceptSelectId() != null) {
+			property.setStartTraceConcept(this.conceptService.get(propertyDTO.getStartTraceConceptSelectId()));
+		}
+		if (propertyDTO.getSupplyingConceptSelectId() != null) {
+			property.setSupplyingConcept(this.conceptService.get(propertyDTO.getSupplyingConceptSelectId()));
+		}
 		property.setLastTag(Property.getLastTag());
 
 		return property;

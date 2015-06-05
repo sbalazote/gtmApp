@@ -88,12 +88,6 @@ UpdateProperty = function() {
 	                minlength: 5,
 					maxlength: 15,
 		        },
-				concept: {
-					required: true
-				},
-				startTraceConcept: {
-					required: true
-				},
 				proxyName: {
 					required: true, 
 				},
