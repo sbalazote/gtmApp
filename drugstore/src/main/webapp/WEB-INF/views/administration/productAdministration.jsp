@@ -315,15 +315,22 @@
 				<form class="form-inline">
 				<div class="form-group">
     				<label for="currentGtinInput">GTIN actual: </label>
-    				<input type="text" class="form-control" id="currentGtinInput" name="currentGtin">
+    				<input type="text" class="form-control" id="currentGtinInput" name="currentGtin" disabled>
   				</div>
+  				<br><br>
+  				<div class="form-inline">
+					<div class="form-group">
+    				<label for="addGtinInput">GTIN nuevo: </label>
+    				<input type="text" class="form-control" id="addGtinInput" name="addGtin">
+    				<button type="button" class="form-control btn btn-primary" id="addGtinButton"><span class="glyphicon glyphicon-plus"></span> Agregar</button>
+  				</div>
+				</div>
 				</form>
 				<br>
 				<table id="productGtinsTable" class="table table-condensed table-hover table-striped">				
 					<thead>
 						<tr>
-							<th data-column-id="id" data-type="numeric"><spring:message code="common.id"/></th>
-							<th data-column-id="number" data-type="numeric"><spring:message code="common.gtin"/></th>
+							<th data-identifier="true" data-column-id="number" data-type="numeric"><spring:message code="common.gtin"/></th>
 							<th data-column-id="date"><spring:message code="common.date"/></th>
 							<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
 						</tr>

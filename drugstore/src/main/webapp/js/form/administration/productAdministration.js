@@ -9,31 +9,52 @@ $(document).ready(function() {
 	
 	$('#productGtinsModal').on('shown.bs.modal', function () {
 		$("#currentGtinInput").val($("#gtinInput").val());
+		$("#addGtinInput").focus();
 		var aaData = [];
 		for (var i = 0, l = productGtins.length; i < l; ++i) {
 			var gtin = {
-				id: 0,
 				number: "",
 				date: "",
 				commands: ""
 			};
-			gtin.id = productGtins[i].id;
 			gtin.number= productGtins[i].number;
 			gtin.date = myParseDateTime(productGtins[i].date);
-			gtin.commands = "<button type=\"button\" class=\"btn btn-sm btn-default command-edit\" data-row-id=\"" + gtin.id + "\"><span class=\"glyphicon glyphicon-pencil\"></span></button> " +
-					"<button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"" + gtin.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button> " +
+			gtin.commands = "<button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"" + gtin.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button> " +
 					"<button type=\"button\" class=\"btn btn-sm btn-default command-saved\" data-row-id=\"" + gtin.id + "\"><span class=\"glyphicon glyphicon-saved\"></span></button>";
 			aaData.push(gtin);
 		}
 		$("#productGtinsTable").bootgrid().bootgrid("clear");
 		$("#productGtinsTable").bootgrid().bootgrid("append", aaData);
 	});
+
+	$('#productGtinsTableBody').on("click", ".command-delete", function() {
+		var parent = $(this).parent().parent();
+		var gtinNumber = parent.find("td:first").html();
+		var rows = Array();
+        rows[0] = gtinNumber;
+		$("#productGtinsTable").bootgrid("remove", rows);
+	});
 	
 	$('#productGtinsTableBody').on("click", ".command-saved", function() {
 		var parent = $(this).parent().parent();
-		gtinId = parent.find("td:first-child").html();
-		
-		alert(gtinId);
+		var gtinNumber = parent.find("td:first").html();
+		var modifiedDate = parent.find("td:nth-child(2)");
+		modifiedDate.html(myParseDateTime(new Date()));
+		$('#currentGtinInput').val(gtinNumber);
+	});
+	
+	$("#addGtinButton").click(function() {
+		var aaData = [];
+		var gtin = {
+				number: $("#addGtinInput").val(),
+				date: myParseDateTime(new Date()),
+				commands: "<button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"0\"><span class=\"glyphicon glyphicon-trash\"></span></button> " +
+					"<button type=\"button\" class=\"btn btn-sm btn-default command-saved\" data-row-id=\"0\"><span class=\"glyphicon glyphicon-saved\"></span></button>"
+		};
+		aaData.push(gtin);
+		$("#productGtinsTable").bootgrid().bootgrid("append", aaData);
+		$("#addGtinInput").val("");
+		$("#addGtinInput").focus();
 	});
 	
 	//Modulo Productos	
