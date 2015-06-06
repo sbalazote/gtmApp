@@ -3,12 +3,13 @@
 	<head>
 		<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 		<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+		<%@ page import="com.drogueria.config.PropertyProvider" %>
 		
 		<title><spring:message code="administration.drugManagement" /></title>
 		
 		<meta charset="UTF-8">
 		
-		<link rel="shortcut icon" href=images/oncomed-reno.png type="image/png">
+		<link rel="shortcut icon" href="<%= PropertyProvider.getInstance().getProp(PropertyProvider.LOGO) %>" type="image/png">
 	
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css">

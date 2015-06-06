@@ -3,11 +3,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page import="com.drogueria.config.PropertyProvider" %>
 
 <nav class="navbar navbar-default" role="navigation">
 	<!-- Brand and toggle get grouped for better mobile display -->
 	<div class="navbar-header">
-		<a class="navbar-brand" href="home.do"> <span><img alt="Brand" width="25" height="25" src="./images/oncomed-reno.png"></span></a>
+		<a class="navbar-brand" href="home.do"> <span><img alt="Brand" width="25" height="25" src="<%= PropertyProvider.getInstance().getProp(PropertyProvider.LOGO) %>"></span></a>
 	</div>
 
 	<!-- Collect the nav links, forms, and other content for toggling -->
