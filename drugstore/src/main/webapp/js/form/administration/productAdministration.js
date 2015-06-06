@@ -1,9 +1,39 @@
 $(document).ready(function() {
 	
 	var entity = "";
+	var productGtins;
 	
 	$("#alfabetaUpdateProducts").click(function() {
 		window.location="alfabetaUpdateProducts.do";
+	});
+	
+	$('#productGtinsModal').on('shown.bs.modal', function () {
+		$("#currentGtinInput").val($("#gtinInput").val());
+		var aaData = [];
+		for (var i = 0, l = productGtins.length; i < l; ++i) {
+			var gtin = {
+				id: 0,
+				number: "",
+				date: "",
+				commands: ""
+			};
+			gtin.id = productGtins[i].id;
+			gtin.number= productGtins[i].number;
+			gtin.date = myParseDateTime(productGtins[i].date);
+			gtin.commands = "<button type=\"button\" class=\"btn btn-sm btn-default command-edit\" data-row-id=\"" + gtin.id + "\"><span class=\"glyphicon glyphicon-pencil\"></span></button> " +
+					"<button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"" + gtin.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button> " +
+					"<button type=\"button\" class=\"btn btn-sm btn-default command-saved\" data-row-id=\"" + gtin.id + "\"><span class=\"glyphicon glyphicon-saved\"></span></button>";
+			aaData.push(gtin);
+		}
+		$("#productGtinsTable").bootgrid().bootgrid("clear");
+		$("#productGtinsTable").bootgrid().bootgrid("append", aaData);
+	});
+	
+	$('#productGtinsTableBody').on("click", ".command-saved", function() {
+		var parent = $(this).parent().parent();
+		gtinId = parent.find("td:first-child").html();
+		
+		alert(gtinId);
 	});
 	
 	//Modulo Productos	
@@ -13,7 +43,7 @@ $(document).ready(function() {
 	var resetProductForm = function() {
 		$("#productIdInput").val('');
 		$("#productCodeInput").val('');
-		$("#gtinInput").val('');
+		//$("#gtinInput").val('');
 		$("#productDescriptionInput").val('');
 		$('#brandSelect').val('').trigger('chosen:updated');
 		$('#monodrugSelect').val('').trigger('chosen:updated');
@@ -21,7 +51,7 @@ $(document).ready(function() {
 		$('#drugCategorySelect').val('').trigger('chosen:updated');
 		$("#typeSelect").val($("#typeSelect option:first").val());
 		$("#productActiveSelect").val($("#productActiveSelect option:first").val());
-		$('#priceInput').val('');
+		//$('#priceInput').val('');
 		$("#informAnmatSelect").val($("#informAnmatSelect option:first").val());
 		$("#coldSelect").val($("#coldSelect option:first").val());
 	};
@@ -60,6 +90,7 @@ $(document).ready(function() {
 				$("#productIdInput").val(response.id);
 				$("#productCodeInput").val(response.code);
 				$("#gtinInput").val(response.gtin);
+				productGtins = response.gtins;
 				$("#productDescriptionInput").val(response.description);
 				$('#brandSelect').val(response.brandId).trigger('chosen:updated');
 				$('#monodrugSelect').val(response.monodrugId).trigger('chosen:updated');
@@ -68,7 +99,9 @@ $(document).ready(function() {
 				$("#typeSelect").val(response.type);
 				var isActive = (response.active) ? "true" : "false";
 				$("#productActiveSelect").val(isActive).trigger('chosen:update');
-				$('#priceInput').val(response.price);
+				var price = new String(response.price);
+				$('#priceInput').val(price.slice(0,-2) + "," + price.slice(-2));
+				//productPrices = response.prices;
 				var isInformAnmat = (response.informAnmat) ? "true" : "false";
 				$("#informAnmatSelect").val(isInformAnmat).trigger('chosen:update');
 				var isCold = (response.cold) ? "true" : "false";
@@ -82,7 +115,8 @@ $(document).ready(function() {
 	
 	var toggleProductElements = function(hidden) {
 		$("#productCodeInput").attr('disabled', hidden);
-		$("#gtinInput").attr('disabled', hidden);
+		//$("#gtinInput").attr('disabled', hidden);
+		$("#editGtinsButton").attr('disabled', hidden);
 		$("#productDescriptionInput").attr('disabled', hidden);
 		$('#brandSelect').prop('disabled', hidden).trigger('chosen:update');
 		$('#monodrugSelect').prop('disabled', hidden).trigger('chosen:update');
@@ -90,7 +124,8 @@ $(document).ready(function() {
 		$('#drugCategorySelect').prop('disabled', hidden).trigger('chosen:update');
 		$("#typeSelect").prop('disabled', hidden).trigger('chosen:update');
 		$("#productActiveSelect").prop('disabled', hidden).trigger('chosen:update');
-		$('#priceInput').attr('disabled', hidden);
+		//$('#priceInput').attr('disabled', hidden);
+		$("#editPricesButton").attr('disabled', hidden);
 		$("#informAnmatSelect").prop('disabled', hidden).trigger('chosen:update');
 		$("#coldSelect").prop('disabled', hidden).trigger('chosen:update');
 	};
@@ -118,7 +153,12 @@ $(document).ready(function() {
 	            return "<button type=\"button\" class=\"btn btn-sm btn-default command-edit\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-pencil\"></span></button> " + 
 	                "<button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button>" +
 	                "<button type=\"button\" class=\"btn btn-sm btn-default command-view\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
-	        }
+	        },
+	        "price": function(column, row)
+	        {
+	        	var price = new String(row.price);
+	    		return price.slice(0,-2) + "," + price.slice(-2);
+	    	}
 	    }
 	}).on("loaded.rs.jquery.bootgrid", function() {
 		/* Executes after data is loaded and rendered */

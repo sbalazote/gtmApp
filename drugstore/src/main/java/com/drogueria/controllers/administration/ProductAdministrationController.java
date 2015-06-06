@@ -20,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.drogueria.dto.ProductDTO;
 import com.drogueria.model.Product;
-import com.drogueria.model.ProductGtin;
 import com.drogueria.model.ProductPrice;
 import com.drogueria.service.ProductBrandService;
 import com.drogueria.service.ProductDrugCategoryService;
@@ -74,15 +73,9 @@ public class ProductAdministrationController {
 
 		product.setCode(productDTO.getCode());
 		product.setDescription(productDTO.getDescription());
-		if (!product.existsGtin(productDTO.getGtin())) {
-			ProductGtin productGtin = new ProductGtin();
-			productGtin.setDate(new Date());
-			productGtin.setNumber(productDTO.getGtin());
-			if (product.getGtins() == null) {
-				product.setGtins(new ArrayList<ProductGtin>());
-			}
-			product.getGtins().add(productGtin);
-		}
+		/* if (!product.existsGtin(productDTO.getGtin())) { ProductGtin productGtin = new ProductGtin(); productGtin.setDate(new Date());
+		 * productGtin.setNumber(productDTO.getGtin()); if (product.getGtins() == null) { product.setGtins(new ArrayList<ProductGtin>()); }
+		 * product.getGtins().add(productGtin); } */
 
 		product.setBrand(this.productBrandService.get(productDTO.getBrandId()));
 		product.setMonodrug(this.productMonodrugService.get(productDTO.getMonodrugId()));
@@ -136,6 +129,7 @@ public class ProductAdministrationController {
 		productDTO.setInformAnmat(product.isInformAnmat());
 		productDTO.setType(product.getType());
 		productDTO.setActive(product.isActive());
+		productDTO.setGtins(product.getGtins());
 
 		return productDTO;
 	}

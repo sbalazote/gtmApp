@@ -45,7 +45,11 @@ public class SupplyingDAOHibernateImpl implements SupplyingDAO {
 	public List<Supplying> getCancelleables() {
 		Query query;
 
-		query = this.sessionFactory.getCurrentSession().createSQLQuery("select * from supplying where cancelled = 0").addEntity(Supplying.class);
+		query = this.sessionFactory
+				.getCurrentSession()
+				.createSQLQuery(
+						"select * from supplying as s where not exists (select * from supplying_detail as sd, delivery_note_detail as dnd, delivery_note dn where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and s.id = sd.supplying_id and dn.cancelled = 0) and s.cancelled = 0");
+
 		return query.list();
 	}
 

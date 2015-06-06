@@ -1,10 +1,10 @@
 package com.drogueria.dto;
 
-import com.drogueria.model.ProductGtin;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+
+import com.drogueria.model.ProductGtin;
 
 public class ProductDTO implements Serializable {
 
@@ -24,7 +24,7 @@ public class ProductDTO implements Serializable {
 	private String type;
 	private boolean active;
 
-    private List<ProductGtinDTO> gtins;
+	private List<ProductGtin> gtins;
 
 	public Integer getId() {
 		return this.id;
@@ -134,11 +134,11 @@ public class ProductDTO implements Serializable {
 		return serialVersionUID;
 	}
 
-    public List<ProductGtinDTO> getGtins() {
-        return gtins;
-    }
+	public List<ProductGtin> getGtins() {
+		return this.gtins;
+	}
 
-    public void setGtins(List<ProductGtinDTO> gtins) {
-        this.gtins = gtins;
-    }
+	public void setGtins(List<ProductGtin> gtins) {
+		this.gtins = gtins;
+	}
 }

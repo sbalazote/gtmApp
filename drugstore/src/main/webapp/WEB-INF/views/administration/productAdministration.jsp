@@ -54,7 +54,7 @@
 							<th data-column-id="code" data-type="numeric"><spring:message code="common.code"/></th>
 							<th data-column-id="description" data-header-css-class="descriptionColumn"><spring:message code="common.description"/></th>
 							<th data-column-id="gtin" data-header-css-class="gtinColumn" data-type="numeric"><spring:message code="common.gtin"/></th>
-							<th data-column-id="price" data-type="numeric"><spring:message code="common.price"/></th>
+							<th data-column-id="price" data-formatter="price"><spring:message code="common.price"/></th>
 							<th data-column-id="isCold"><spring:message code="common.cold"/></th>
 							<th data-column-id="commands" data-header-css-class="commandsColumn" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
 						</tr>
@@ -184,9 +184,13 @@
 							<label for="productCodeInput"><spring:message code="common.code" /></label>
 							<input type="text" class="form-control" id="productCodeInput" name="productCode">
 						</div>
-						<div class="col-md-6 form-group">
+						<div class="col-md-4 form-group">
 							<label for="gtinInput"><spring:message code="common.gtin" /></label>
-							<input type="text" class="form-control" id="gtinInput" name="gtin">
+							<input type="text" class="form-control" id="gtinInput" name="gtin" disabled>
+						</div>
+						<div class="col-md-2 form-group">
+							<label></label>
+							<button class="btn btn-default" id="editGtinsButton" data-toggle="modal" data-target="#productGtinsModal" disabled="disabled"><span class="glyphicon glyphicon-edit"></span> <spring:message code="administration.editGtins"/></button>
 						</div>
 					</div>
 
@@ -266,16 +270,20 @@
 					<div class="row">
 						<div class="col-md-4 form-group">
 							<label for="priceInput"><spring:message code="common.price" /></label>
-							<input type="text" class="form-control" id="priceInput" name="price">
+							<input type="text" class="form-control" id="priceInput" name="price" disabled>
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-2 form-group">
+							<label></label>
+							<button class="btn btn-default" id="editPricesButton" disabled="disabled"><span class="glyphicon glyphicon-edit"></span> <spring:message code="administration.editPrices"/></button>
+						</div>
+						<div class="col-md-3 form-group">
 							<label for="informAnmatSelect"><spring:message code="common.informAnmat" /></label>
 							<select class="form-control chosen-select" id="informAnmatSelect" name="informAnmat">
 								<option value="true"><spring:message code="common.yes" /></option>
 								<option value="false"><spring:message code="common.no" /></option>
 							</select>
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-3 form-group">
 							<label for="coldSelect"><spring:message code="common.cold" /></label>
 							<select class="form-control chosen-select" id="coldSelect" name="cold">
 								<option value="false"><spring:message code="common.no" /></option>
@@ -290,6 +298,46 @@
 				<button class="btn btn-success" id="addProductButton" style="display: none;"><span class="glyphicon glyphicon-ok"></span> <spring:message code="common.add.entity"/></button>
 				<button class="btn btn-success" id="updateProductButton" style="display: none;"><span class="glyphicon glyphicon-ok"></span> <spring:message code="common.confirm"/></button>
 			</div>
+		</div>
+	</div>
+</div>
+
+<%-- Modal de Edicion de GTINs --%>
+<div class="modal fade" data-backdrop="static" id="productGtinsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width:1000px">
+		<div class="modal-content">
+			<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        		<h4 class="modal-title">Edicion de GTINs</h4>
+      		</div>
+			<div class="modal-body">
+			<div class="container-fluid">
+				<form class="form-inline">
+				<div class="form-group">
+    				<label for="currentGtinInput">GTIN actual: </label>
+    				<input type="text" class="form-control" id="currentGtinInput" name="currentGtin">
+  				</div>
+				</form>
+				<br>
+				<table id="productGtinsTable" class="table table-condensed table-hover table-striped">				
+					<thead>
+						<tr>
+							<th data-column-id="id" data-type="numeric"><spring:message code="common.id"/></th>
+							<th data-column-id="number" data-type="numeric"><spring:message code="common.gtin"/></th>
+							<th data-column-id="date"><spring:message code="common.date"/></th>
+							<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
+						</tr>
+					</thead>
+					<tbody id="productGtinsTableBody">
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.back"/></button>
+				<button class="btn btn-success" id="addProductBrandButton" style="display: none;"><span class="glyphicon glyphicon-ok"></span> <spring:message code="common.add.entity"/></button>
+				<button class="btn btn-success" id="updateProductBrandButton" style="display: none;"><span class="glyphicon glyphicon-ok"></span> <spring:message code="common.confirm"/></button>
+			</div>
+		</div>
 		</div>
 	</div>
 </div>
