@@ -9,7 +9,7 @@
 <script type="text/javascript" src="js/form/administration/save/saveProductMonodrug.js" /></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		new SaveProduct();
+		new ProductAdministration();
 		new SaveProductBrand();
 		new SaveProductDrugCategory();
 		new SaveProductGroup();
@@ -274,7 +274,7 @@
 						</div>
 						<div class="col-md-2 form-group">
 							<label></label>
-							<button class="btn btn-default" id="editPricesButton" disabled="disabled"><span class="glyphicon glyphicon-edit"></span> <spring:message code="administration.editPrices"/></button>
+							<button class="btn btn-default" id="editPricesButton" data-toggle="modal" data-target="#productPricesModal" disabled="disabled"><span class="glyphicon glyphicon-edit"></span> <spring:message code="administration.editPrices"/></button>
 						</div>
 						<div class="col-md-3 form-group">
 							<label for="informAnmatSelect"><spring:message code="common.informAnmat" /></label>
@@ -312,7 +312,7 @@
       		</div>
 			<div class="modal-body">
 			<div class="container-fluid">
-				<form class="form-inline">
+				<form id="productGtinsForm" action="" onsubmit="return false;" class="form-inline">
 				<div class="form-group">
     				<label for="currentGtinInput">GTIN actual: </label>
     				<input type="text" class="form-control" id="currentGtinInput" name="currentGtin" disabled>
@@ -341,8 +341,53 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.back"/></button>
-				<button class="btn btn-success" id="addProductBrandButton" style="display: none;"><span class="glyphicon glyphicon-ok"></span> <spring:message code="common.add.entity"/></button>
-				<button class="btn btn-success" id="updateProductBrandButton" style="display: none;"><span class="glyphicon glyphicon-ok"></span> <spring:message code="common.confirm"/></button>
+        		<button type="button" class="btn btn-primary" id="updateProductGtinsButton"><spring:message code="common.confirm"/></button>
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+
+<%-- Modal de Edicion de Precios --%>
+<div class="modal fade" data-backdrop="static" id="productPricesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width:1000px">
+		<div class="modal-content">
+			<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        		<h4 class="modal-title">Edicion de Precios</h4>
+      		</div>
+			<div class="modal-body">
+			<div class="container-fluid">
+				<form id="productPricesForm" action="" onsubmit="return false;" class="form-inline">
+				<div class="form-group">
+    				<label for="currentPriceInput">Precio actual: </label>
+    				<input type="text" class="form-control" id="currentPriceInput" name="currentPrice" disabled>
+  				</div>
+  				<br><br>
+  				<div class="form-inline">
+					<div class="form-group">
+    				<label for="addPriceInput">Precio nuevo: </label>
+    				<input type="text" class="form-control" id="addPriceInput" name="addPrice">
+    				<button type="button" class="form-control btn btn-primary" id="addPriceButton"><span class="glyphicon glyphicon-plus"></span> Agregar</button>
+  				</div>
+				</div>
+				</form>
+				<br>
+				<table id="productPricesTable" class="table table-condensed table-hover table-striped">				
+					<thead>
+						<tr>
+							<th data-identifier="true" data-column-id="price" data-type="numeric"><spring:message code="common.price"/></th>
+							<th data-column-id="date"><spring:message code="common.date"/></th>
+							<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
+						</tr>
+					</thead>
+					<tbody id="productPricesTableBody">
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.back"/></button>
+        		<button type="button" class="btn btn-primary" id="updateProductPricesButton"><spring:message code="common.confirm"/></button>
 			</div>
 		</div>
 		</div>

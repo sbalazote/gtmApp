@@ -1,5 +1,25 @@
 SaveProduct = function() {
 	
+	// Atributos del objeto
+	var gtins = null;
+	var prices = null;
+
+	var getGtins = function() {
+		return gtins;
+	};
+	
+	var setGtins = function(value) {
+		gtins = value;
+	};
+	
+	var getPrices = function() {
+		return prices;
+	};
+	
+	var setPrices = function(value) {
+		prices = value;
+	};
+	
 	var validateForm = function() {
 		var form = $("#productAdministrationForm");
 		form.validate({
@@ -75,8 +95,11 @@ SaveProduct = function() {
 		  $('.chosen-select', this).chosen('destroy').chosen();
 	});
 	
-	$("#addProductButton, #updateProductButton").click(function(e) {
+	var confirm = function(e) {
 		if (validateForm()) {
+			for (var i = 0; i < prices.length; i++) {
+				prices[i].price = prices[i].price.replace(",","");
+			}
 			var jsonProduct = {
 					"id": $("#productIdInput").val(),
 					"code": $("#productCodeInput").val(),
@@ -86,11 +109,13 @@ SaveProduct = function() {
 					"monodrugId": $("#monodrugSelect").val(),
 					"groupId": $("#productGroupSelect").val(),
 					"drugCategoryId": $("#drugCategorySelect").val(),
-					"price": $("#priceInput").val(),
+					"price": $("#priceInput").val().replace(",",""),
 					"cold": $("#coldSelect option:selected").val(),
 					"informAnmat": $("#informAnmatSelect option:selected").val(),
 					"type": $("#typeSelect option:selected").val(),
-					"active": $("#productActiveSelect option:selected").val()
+					"active": $("#productActiveSelect option:selected").val(),
+					"gtins": gtins,
+					"prices": prices
 			};
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.
@@ -118,7 +143,7 @@ SaveProduct = function() {
 				});
 			}
 		}
-	});
+	};
 	
 	$(".alert .close").on('click', function(e) {
 	    $(this).parent().hide();
@@ -127,5 +152,12 @@ SaveProduct = function() {
 	$("#productAdministrationForm input, #productAdministrationForm select").keypress(function(event) {
 		return event.keyCode != 13;
 	});
-
+	
+	return {
+		getGtins: getGtins,
+		setGtins: setGtins,
+		getPrices: getPrices,
+		setPrices: setPrices,
+		confirm: confirm
+	};
 };

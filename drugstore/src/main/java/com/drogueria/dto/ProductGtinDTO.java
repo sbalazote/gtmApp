@@ -1,35 +1,37 @@
 package com.drogueria.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ProductGtinDTO {
-    private Integer id;
+public class ProductGtinDTO implements Serializable {
 
-    private String number;
+	private static final long serialVersionUID = 1L;
 
-    private Date date;
+	private Integer id;
+	private String number;
+	private Date date;
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return this.id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getNumber() {
-        return number;
-    }
+	public String getNumber() {
+		return this.number;
+	}
 
-    public void setNumber(String number) {
-        this.number = number;
-    }
+	public void setNumber(String number) {
+		this.number = number;
+	}
 
-    public Date getDate() {
-        return date;
-    }
+	public Date getDate() {
+		return this.date;
+	}
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+	public void setDate(Date date) {
+		this.date = date;
+	}
 }

@@ -20,7 +20,7 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 
 	@Override
 	public void save(Product product) {
-		this.sessionFactory.getCurrentSession().saveOrUpdate(product);
+		this.sessionFactory.getCurrentSession().merge(product);
 	}
 
 	@Override
