@@ -1,7 +1,7 @@
 package com.drogueria.controllers.administration;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.drogueria.dto.ProductDTO;
+import com.drogueria.dto.ProductGtinDTO;
 import com.drogueria.model.Product;
-import com.drogueria.model.ProductPrice;
+import com.drogueria.model.ProductGtin;
 import com.drogueria.service.ProductBrandService;
 import com.drogueria.service.ProductDrugCategoryService;
 import com.drogueria.service.ProductGroupService;
@@ -73,29 +74,58 @@ public class ProductAdministrationController {
 
 		product.setCode(productDTO.getCode());
 		product.setDescription(productDTO.getDescription());
-		/* if (!product.existsGtin(productDTO.getGtin())) { ProductGtin productGtin = new ProductGtin(); productGtin.setDate(new Date());
-		 * productGtin.setNumber(productDTO.getGtin()); if (product.getGtins() == null) { product.setGtins(new ArrayList<ProductGtin>()); }
-		 * product.getGtins().add(productGtin); } */
-
 		product.setBrand(this.productBrandService.get(productDTO.getBrandId()));
 		product.setMonodrug(this.productMonodrugService.get(productDTO.getMonodrugId()));
 		product.setGroup(this.productGroupService.get(productDTO.getGroupId()));
 		product.setDrugCategory(this.productDrugCategoryService.get(productDTO.getDrugCategoryId()));
-
-		if (!product.existsPrice(productDTO.getPrice())) {
-			ProductPrice productPrice = new ProductPrice();
-			productPrice.setDate(new Date());
-			productPrice.setPrice(productDTO.getPrice());
-			if (product.getPrices() == null) {
-				product.setPrices(new ArrayList<ProductPrice>());
-			}
-			product.getPrices().add(productPrice);
-		}
-
 		product.setCold(productDTO.isCold());
 		product.setInformAnmat(productDTO.isInformAnmat());
 		product.setType(productDTO.getType());
 		product.setActive(productDTO.isActive());
+
+		List<ProductGtin> productGtins = null;
+		if (product.getGtins() == null) {
+			productGtins = new ArrayList<ProductGtin>();
+		} else {
+			productGtins = product.getGtins();
+		}
+		Iterator<ProductGtinDTO> productGtinDTOIterator = productDTO.getGtins().iterator();
+		// Itero sobre los gtins que vienen de la UI.
+		while (productGtinDTOIterator.hasNext()) {
+			ProductGtinDTO productGtinDTO = productGtinDTOIterator.next();
+			ProductGtin productGtin = new ProductGtin();
+			productGtin.setId(productGtinDTO.getId());
+			productGtin.setNumber(productGtinDTO.getNumber());
+			productGtin.setDate(productGtinDTO.getDate());
+			// Si no existía el gtin en la db se agrega; caso contrario se actualizan unicamente sus valores.
+			if (!product.existsGtin(productGtinDTO.getNumber())) {
+				productGtins.add(productGtin);
+			} else {
+				productGtin = product.getGtinByNumber(productGtinDTO.getNumber());
+				productGtin.setNumber(productGtinDTO.getNumber());
+				productGtin.setDate(productGtinDTO.getDate());
+			}
+		}
+		// Se eliminan los gtins que estaban en la db pero fueron borrados.
+		Iterator<ProductGtin> productGtinIterator = productGtins.iterator();
+		while (productGtinIterator.hasNext()) {
+			ProductGtin productGtin = productGtinIterator.next();
+			if (!productDTO.existsGtin(productGtin.getNumber())) {
+				productGtinIterator.remove();
+			}
+		}
+
+		product.setGtins(productGtins);
+
+		/* List<ProductPrice> productPrices = null; if (product.getPrices() == null) { productPrices = new ArrayList<ProductPrice>(); } else { productPrices =
+		 * product.getPrices(); } productPrices.clear(); Iterator<ProductPriceDTO> it2 = productDTO.getPrices().iterator(); while (it2.hasNext()) {
+		 * ProductPriceDTO productGtinDTO = it2.next(); ProductPrice productPrice = new ProductPrice(); productPrice.setId(productGtinDTO.getId());
+		 * productPrice.setPrice(productGtinDTO.getPrice()); productPrice.setDate(productGtinDTO.getDate()); // if (!product.existsPrice(productDTO.getPrice()))
+		 * { productPrices.add(productPrice); // } } product.setPrices(productPrices); */
+
+		/* if (!product.existsPrice(productDTO.getPrice())) { ProductPrice productPrice = new ProductPrice(); productPrice.setDate(new Date());
+		 * productPrice.setPrice(productDTO.getPrice()); if (product.getPrices() == null) { product.setPrices(new ArrayList<ProductPrice>()); }
+		 * product.getPrices().add(productPrice); } */
 
 		return product;
 	}
@@ -129,7 +159,17 @@ public class ProductAdministrationController {
 		productDTO.setInformAnmat(product.isInformAnmat());
 		productDTO.setType(product.getType());
 		productDTO.setActive(product.isActive());
-		productDTO.setGtins(product.getGtins());
+		Iterator<ProductGtin> it = product.getGtins().iterator();
+		List<ProductGtinDTO> productGtinDTOs = new ArrayList<ProductGtinDTO>();
+		while (it.hasNext()) {
+			ProductGtin productGtin = it.next();
+			ProductGtinDTO productGtinDTO = new ProductGtinDTO();
+			productGtinDTO.setId(productGtin.getId());
+			productGtinDTO.setNumber(productGtin.getNumber());
+			productGtinDTO.setDate(productGtin.getDate());
+			productGtinDTOs.add(productGtinDTO);
+		}
+		productDTO.setGtins(productGtinDTOs);
 
 		return productDTO;
 	}

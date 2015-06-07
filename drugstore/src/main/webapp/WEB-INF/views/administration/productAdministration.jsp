@@ -9,7 +9,7 @@
 <script type="text/javascript" src="js/form/administration/save/saveProductMonodrug.js" /></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		new SaveProduct();
+		new ProductAdministration();
 		new SaveProductBrand();
 		new SaveProductDrugCategory();
 		new SaveProductGroup();
@@ -312,7 +312,7 @@
       		</div>
 			<div class="modal-body">
 			<div class="container-fluid">
-				<form class="form-inline">
+				<form id="productGtinsForm" action="" onsubmit="return false;" class="form-inline">
 				<div class="form-group">
     				<label for="currentGtinInput">GTIN actual: </label>
     				<input type="text" class="form-control" id="currentGtinInput" name="currentGtin" disabled>
@@ -341,8 +341,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.back"/></button>
-				<button class="btn btn-success" id="addProductBrandButton" style="display: none;"><span class="glyphicon glyphicon-ok"></span> <spring:message code="common.add.entity"/></button>
-				<button class="btn btn-success" id="updateProductBrandButton" style="display: none;"><span class="glyphicon glyphicon-ok"></span> <spring:message code="common.confirm"/></button>
+        		<button type="button" class="btn btn-primary" id="updateProductGtinsButton"><spring:message code="common.confirm"/></button>
 			</div>
 		</div>
 		</div>

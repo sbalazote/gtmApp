@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.drogueria.model.ProductGtin;
-
 public class ProductDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -24,7 +22,8 @@ public class ProductDTO implements Serializable {
 	private String type;
 	private boolean active;
 
-	private List<ProductGtin> gtins;
+	private List<ProductGtinDTO> gtins;
+	private List<ProductPriceDTO> prices;
 
 	public Integer getId() {
 		return this.id;
@@ -134,11 +133,43 @@ public class ProductDTO implements Serializable {
 		return serialVersionUID;
 	}
 
-	public List<ProductGtin> getGtins() {
+	public List<ProductGtinDTO> getGtins() {
 		return this.gtins;
 	}
 
-	public void setGtins(List<ProductGtin> gtins) {
+	public void setGtins(List<ProductGtinDTO> gtins) {
 		this.gtins = gtins;
+	}
+
+	public List<ProductPriceDTO> getPrices() {
+		return this.prices;
+	}
+
+	public void setPrices(List<ProductPriceDTO> prices) {
+		this.prices = prices;
+	}
+
+	public boolean existsGtin(String gtin) {
+		boolean found = false;
+		if (this.getGtins() != null) {
+			for (ProductGtinDTO productGtin : this.getGtins()) {
+				if (gtin.equals(productGtin.getNumber())) {
+					found = true;
+				}
+			}
+		}
+		return found;
+	}
+
+	public boolean existsPrice(BigDecimal price) {
+		boolean found = false;
+		if (this.getPrices() != null) {
+			for (ProductPriceDTO productPrice : this.getPrices()) {
+				if (price.equals(productPrice.getPrice())) {
+					found = true;
+				}
+			}
+		}
+		return found;
 	}
 }

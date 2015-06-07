@@ -1,4 +1,6 @@
-$(document).ready(function() {
+ProductAdministration = function() {
+
+	var saveProduct = new SaveProduct();
 	
 	var entity = "";
 	var productGtins;
@@ -6,6 +8,25 @@ $(document).ready(function() {
 	$("#alfabetaUpdateProducts").click(function() {
 		window.location="alfabetaUpdateProducts.do";
 	});
+	
+	var deleteGtin = function(gtin) {
+		var idx = 0;
+		for (var i = 0; i < productGtins.length; i++) {
+			if (productGtins[i].number === gtin) {
+				idx = i;
+			}
+		}
+		return productGtins.splice(idx, 1);
+	};
+	
+	var updateGtin = function(gtin, date) {
+		for (var i = 0; i < productGtins.length; i++) {
+			if (productGtins[i].number === gtin) {
+				productGtins[i].date = date;
+			}
+		}
+		return;
+	};
 	
 	$('#productGtinsModal').on('shown.bs.modal', function () {
 		$("#currentGtinInput").val($("#gtinInput").val());
@@ -26,13 +47,19 @@ $(document).ready(function() {
 		$("#productGtinsTable").bootgrid().bootgrid("clear");
 		$("#productGtinsTable").bootgrid().bootgrid("append", aaData);
 	});
+	
+	$("#updateProductGtinsButton").click(function() {
+		$('#productGtinsModal').modal('hide')
+		saveProduct.setGtins(productGtins);
+	});
 
 	$('#productGtinsTableBody').on("click", ".command-delete", function() {
 		var parent = $(this).parent().parent();
 		var gtinNumber = parent.find("td:first").html();
 		var rows = Array();
         rows[0] = gtinNumber;
-		$("#productGtinsTable").bootgrid("remove", rows);
+        $("#productGtinsTable").bootgrid("remove", rows);
+        deleteGtin(gtinNumber);
 	});
 	
 	$('#productGtinsTableBody').on("click", ".command-saved", function() {
@@ -41,20 +68,44 @@ $(document).ready(function() {
 		var modifiedDate = parent.find("td:nth-child(2)");
 		modifiedDate.html(myParseDateTime(new Date()));
 		$('#currentGtinInput').val(gtinNumber);
+		updateGtin(gtinNumber, new Date());
 	});
 	
 	$("#addGtinButton").click(function() {
-		var aaData = [];
-		var gtin = {
-				number: $("#addGtinInput").val(),
-				date: myParseDateTime(new Date()),
-				commands: "<button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"0\"><span class=\"glyphicon glyphicon-trash\"></span></button> " +
-					"<button type=\"button\" class=\"btn btn-sm btn-default command-saved\" data-row-id=\"0\"><span class=\"glyphicon glyphicon-saved\"></span></button>"
+		var validateForm = function() {
+			var form = $("#productGtinsForm");
+			form.validate({
+				rules: {
+					addGtin: {
+						digits: true,
+						exactLength: 13
+					}
+				},
+				showErrors: myShowErrors,
+				onsubmit: false
+			});
+			return form.valid();
 		};
-		aaData.push(gtin);
-		$("#productGtinsTable").bootgrid().bootgrid("append", aaData);
-		$("#addGtinInput").val("");
-		$("#addGtinInput").focus();
+		
+		if (validateForm()) {
+			var aaData = [];
+			var gtin = {
+					number: $("#addGtinInput").val(),
+					date: myParseDateTime(new Date()),
+					commands: "<button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"0\"><span class=\"glyphicon glyphicon-trash\"></span></button> " +
+					"<button type=\"button\" class=\"btn btn-sm btn-default command-saved\" data-row-id=\"0\"><span class=\"glyphicon glyphicon-saved\"></span></button>"
+			};
+			aaData.push(gtin);
+			$("#productGtinsTable").bootgrid("append", aaData);
+			var gt = {
+					id: "",
+					number: $("#addGtinInput").val(),
+					date: new Date()
+			};
+			productGtins.push(gt);
+			$("#addGtinInput").val("");
+			$("#addGtinInput").focus();
+		}
 	});
 	
 	//Modulo Productos	
@@ -703,4 +754,4 @@ $(document).ready(function() {
 			deleteProductGroup(productGroupId);
 		}
 	});
-});
+};
