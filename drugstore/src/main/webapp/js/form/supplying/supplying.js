@@ -253,7 +253,7 @@ var Supplying = function() {
 	});
 	
 	$('#productInput').keydown(function(e) {
-	    if(e.keyCode == 121){ // F10
+		if(e.keyCode == 13){ // Presiono Enter
 	    	$.ajax({
 				url: "getProductFromStockBySerialOrGtin.do",
 				type: "GET",

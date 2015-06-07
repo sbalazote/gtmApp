@@ -108,9 +108,26 @@
 		<div id="panel2" class="panel-collapse">
 			<div class="panel-body">
 				<div class="row">
-					<div class="col-md-6 form-group">	
+					<div class="col-md-12 form-group">	
 						<label for="selfSerializedTagFilepathInput"><spring:message code="configuration.selfSerializedTagFilepath"/></label>
 						<input type="text" class="form-control" id="selfSerializedTagFilepathInput" name="selfSerializedTagFilepath" value="${selfSerializedTagFilepath}">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 form-group">	
+						<label for="proxySelect"><spring:message code="configuration.informProxy"/></label>
+						<select class="form-control chosen-select" id="proxySelect" name="active">
+							<option value="true" ${informProxy == 'true' ? 'selected' : ''}><spring:message code="common.yes"/></option>
+							<option value="false" ${informProxy == 'false' ? 'selected' : ''}><spring:message code="common.no"/></option>
+						</select>
+					</div>
+					<div class="col-md-4 form-group">
+						<label for="proxyInput"><spring:message code="configuration.proxyName"/></label>
+						<input type="text" class="form-control" id="proxyNameInput" name="proxyName" value="${proxy}">
+					</div>
+					<div class="col-md-4 form-group">
+						<label for="proxyNumberInput"><spring:message code="configuration.proxyNumber"/></label>
+						<input type="text" class="form-control" id="proxyNumberInput" name="proxyNumber" value="${proxyPort}">
 					</div>
 				</div>
             </div>
@@ -139,7 +156,7 @@
 						</select>
 					</div>
 					<div class="col-md-4 form-group">
-						<label for="supplyingConceptSelect"><spring:message code="configuration.startTraceConcept"/></label>
+						<label for="supplyingConceptSelect"><spring:message code="configuration.supplyingConcept"/></label>
 						<select id="supplyingConceptSelect" name="supplyingConcept" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 							<option value=""></option>
 							<c:forEach items="${deliveryNoteconcepts}" var="concept">
@@ -149,37 +166,20 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-4 form-group">	
+					<div class="col-md-3 form-group">	
 						<label for="changePasswordSelect"><spring:message code="common.changePassword"/></label>
 						<select class="form-control chosen-select" id="changePasswordSelect" name="changePassword">
 							<option value="true"><spring:message code="common.yes"/></option>
 							<option value="false" selected><spring:message code="common.no"/></option>
 						</select>
 					</div>
-					<div class="col-md-4 form-group">
+					<div class="col-md-3 form-group">
 						<label for="ANMATPasswordInput"><spring:message code="configuration.ANMATPassword"/></label>
 						<input type="password" class="form-control" id="ANMATPasswordInput" name="ANMATPassword" disabled>
 					</div>
-					<div class="col-md-4 form-group">
+					<div class="col-md-3 form-group">
 						<label for="repeatANMATPasswordInput"><spring:message code="configuration.repeatANMATPassword"/></label>
 						<input type="password" class="form-control" id="repeatANMATPasswordInput" name="repeatANMATPassword" disabled>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-3 form-group">	
-						<label for="proxySelect"><spring:message code="configuration.informProxy"/></label>
-						<select class="form-control chosen-select" id="proxySelect" name="active">
-							<option value="true" ${informProxy == 'true' ? 'selected' : ''}><spring:message code="common.yes"/></option>
-							<option value="false" ${informProxy == 'false' ? 'selected' : ''}><spring:message code="common.no"/></option>
-						</select>
-					</div>
-					<div class="col-md-3 form-group">
-						<label for="proxyInput"><spring:message code="configuration.proxyName"/></label>
-						<input type="text" class="form-control" id="proxyNameInput" name="proxyName" value="${proxy}">
-					</div>
-					<div class="col-md-3 form-group">
-						<label for="proxyNumberInput"><spring:message code="configuration.proxyNumber"/></label>
-						<input type="text" class="form-control" id="proxyNumberInput" name="proxyNumber" value="${proxyPort}">
 					</div>
 					<div class="col-md-3 form-group">	
 						<label for="daysAgoPendingTransactionsInput"><spring:message code="configuration.daysAgoPendingTransactions"/></label>

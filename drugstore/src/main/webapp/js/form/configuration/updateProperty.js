@@ -89,10 +89,14 @@ UpdateProperty = function() {
 					maxlength: 15,
 		        },
 				proxyName: {
-					required: true, 
+			        required: function(element) {
+			            return $("#proxySelect").val() == "true";
+			        }
 				},
 				proxyNumber: {
-					required: true, 
+			        required: function(element) {
+			            return $("#proxySelect").val() == "true";
+			        },
 					digits: true
 				},
 			},
