@@ -98,11 +98,14 @@ public class WebServiceHelper {
 			if (affiliateName != null) {
 				drug.setNombres(affiliateName);
 			}
+			// if (document != null) {
+			// drug.setN_documento(document);
+			// }
+			// if (documentType != null) {
+			// drug.setTipo_documento(documentType);
+			// }
 			if (document != null) {
-				drug.setN_documento(document);
-			}
-			if (documentType != null) {
-				drug.setTipo_documento(documentType);
+				drug.setNro_asociado(document);
 			}
 			if (medicalInsuranceCode != null) {
 				drug.setId_obra_social(String.valueOf(medicalInsuranceCode));
@@ -122,11 +125,14 @@ public class WebServiceHelper {
 			if (affiliateName != null) {
 				drug.setNombres(affiliateName);
 			}
+			// if (document != null) {
+			// drug.setN_documento(document);
+			// }
+			// if (documentType != null) {
+			// drug.setTipo_documento("dni");
+			// }
 			if (document != null) {
-				drug.setN_documento(document);
-			}
-			if (documentType != null) {
-				drug.setTipo_documento(documentType);
+				drug.setNro_asociado("dni");
 			}
 			if (medicalInsuranceCode != null) {
 				drug.setId_obra_social(String.valueOf(medicalInsuranceCode));
