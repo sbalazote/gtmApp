@@ -20,8 +20,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.drogueria.dto.ProductDTO;
 import com.drogueria.dto.ProductGtinDTO;
+import com.drogueria.dto.ProductPriceDTO;
 import com.drogueria.model.Product;
 import com.drogueria.model.ProductGtin;
+import com.drogueria.model.ProductPrice;
 import com.drogueria.service.ProductBrandService;
 import com.drogueria.service.ProductDrugCategoryService;
 import com.drogueria.service.ProductGroupService;
@@ -117,15 +119,39 @@ public class ProductAdministrationController {
 
 		product.setGtins(productGtins);
 
-		/* List<ProductPrice> productPrices = null; if (product.getPrices() == null) { productPrices = new ArrayList<ProductPrice>(); } else { productPrices =
-		 * product.getPrices(); } productPrices.clear(); Iterator<ProductPriceDTO> it2 = productDTO.getPrices().iterator(); while (it2.hasNext()) {
-		 * ProductPriceDTO productGtinDTO = it2.next(); ProductPrice productPrice = new ProductPrice(); productPrice.setId(productGtinDTO.getId());
-		 * productPrice.setPrice(productGtinDTO.getPrice()); productPrice.setDate(productGtinDTO.getDate()); // if (!product.existsPrice(productDTO.getPrice()))
-		 * { productPrices.add(productPrice); // } } product.setPrices(productPrices); */
+		List<ProductPrice> productPrices = null;
+		if (product.getPrices() == null) {
+			productPrices = new ArrayList<ProductPrice>();
+		} else {
+			productPrices = product.getPrices();
+		}
+		Iterator<ProductPriceDTO> productPriceDTOIterator = productDTO.getPrices().iterator();
+		// Itero sobre los precios que vienen de la UI.
+		while (productPriceDTOIterator.hasNext()) {
+			ProductPriceDTO productPriceDTO = productPriceDTOIterator.next();
+			ProductPrice productPrice = new ProductPrice();
+			productPrice.setId(productPriceDTO.getId());
+			productPrice.setPrice(productPriceDTO.getPrice());
+			productPrice.setDate(productPriceDTO.getDate());
+			// Si no existía el precio en la db se agrega; caso contrario se actualizan unicamente sus valores.
+			if (!product.existsPrice(productPriceDTO.getPrice())) {
+				productPrices.add(productPrice);
+			} else {
+				productPrice = product.getPrice(productPriceDTO.getPrice());
+				productPrice.setPrice(productPriceDTO.getPrice());
+				productPrice.setDate(productPriceDTO.getDate());
+			}
+		}
+		// Se eliminan los precios que estaban en la db pero fueron borrados.
+		Iterator<ProductPrice> productPriceIterator = productPrices.iterator();
+		while (productPriceIterator.hasNext()) {
+			ProductPrice productPrice = productPriceIterator.next();
+			if (!productDTO.existsPrice(productPrice.getPrice())) {
+				productPriceIterator.remove();
+			}
+		}
 
-		/* if (!product.existsPrice(productDTO.getPrice())) { ProductPrice productPrice = new ProductPrice(); productPrice.setDate(new Date());
-		 * productPrice.setPrice(productDTO.getPrice()); if (product.getPrices() == null) { product.setPrices(new ArrayList<ProductPrice>()); }
-		 * product.getPrices().add(productPrice); } */
+		product.setPrices(productPrices);
 
 		return product;
 	}
@@ -159,10 +185,10 @@ public class ProductAdministrationController {
 		productDTO.setInformAnmat(product.isInformAnmat());
 		productDTO.setType(product.getType());
 		productDTO.setActive(product.isActive());
-		Iterator<ProductGtin> it = product.getGtins().iterator();
+		Iterator<ProductGtin> productGtinIterator = product.getGtins().iterator();
 		List<ProductGtinDTO> productGtinDTOs = new ArrayList<ProductGtinDTO>();
-		while (it.hasNext()) {
-			ProductGtin productGtin = it.next();
+		while (productGtinIterator.hasNext()) {
+			ProductGtin productGtin = productGtinIterator.next();
 			ProductGtinDTO productGtinDTO = new ProductGtinDTO();
 			productGtinDTO.setId(productGtin.getId());
 			productGtinDTO.setNumber(productGtin.getNumber());
@@ -170,6 +196,17 @@ public class ProductAdministrationController {
 			productGtinDTOs.add(productGtinDTO);
 		}
 		productDTO.setGtins(productGtinDTOs);
+		Iterator<ProductPrice> productPriceIterator = product.getPrices().iterator();
+		List<ProductPriceDTO> productPriceDTOs = new ArrayList<ProductPriceDTO>();
+		while (productPriceIterator.hasNext()) {
+			ProductPrice productPrice = productPriceIterator.next();
+			ProductPriceDTO productPriceDTO = new ProductPriceDTO();
+			productPriceDTO.setId(productPrice.getId());
+			productPriceDTO.setPrice(productPrice.getPrice());
+			productPriceDTO.setDate(productPrice.getDate());
+			productPriceDTOs.add(productPriceDTO);
+		}
+		productDTO.setPrices(productPriceDTOs);
 
 		return productDTO;
 	}

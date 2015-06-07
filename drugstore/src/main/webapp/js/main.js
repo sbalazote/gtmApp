@@ -125,6 +125,10 @@ $(document).ready(function() {
     jQuery.validator.addMethod("exactLength", function(value, element, param) {
    	 return this.optional(element) || value.length == param;
    	}, jQuery.format("La longitud debe ser exactamente {0} caracteres."));
+    
+    jQuery.validator.addMethod("priceWithCents", function (value, element) {
+        return this.optional(element) || /^\d{1,7}\,\d{2}$/i.test(value);
+    }, jQuery.format("El Precio debe ser del formato xxxxxxx,xx."));
 
 	// To activate chosen-select
 	$(".chosen-select").chosen({

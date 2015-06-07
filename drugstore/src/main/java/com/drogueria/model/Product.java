@@ -276,4 +276,14 @@ public class Product implements Serializable {
 		}
 		return gtin;
 	}
+
+	public ProductPrice getPrice(BigDecimal price) {
+		ProductPrice pp = null;
+		for (ProductPrice productPrice : this.prices) {
+			if (productPrice.getPrice().equals(price)) {
+				pp = productPrice;
+			}
+		}
+		return pp;
+	}
 }

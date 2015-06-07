@@ -4,6 +4,7 @@ ProductAdministration = function() {
 	
 	var entity = "";
 	var productGtins;
+	var productPrices;
 	
 	$("body").tooltip({ selector: '[data-toggle="tooltip"]' });
 	
@@ -21,10 +22,30 @@ ProductAdministration = function() {
 		return productGtins.splice(idx, 1);
 	};
 	
+	var deletePrice = function(id) {
+		var idx = 0;
+		for (var i = 0; i < productPrices.length; i++) {
+			if (productPrices[i].id === id) {
+				idx = i;
+			}
+		}
+		return productPrices.splice(idx, 1);
+	};
+	
 	var updateGtin = function(gtin, date) {
 		for (var i = 0; i < productGtins.length; i++) {
 			if (productGtins[i].number === gtin) {
 				productGtins[i].date = date;
+			}
+		}
+		return;
+	};
+	
+	var updatePrice = function(id, price, date) {
+		for (var i = 0; i < productPrices.length; i++) {
+			if (productPrices[i].id === id) {
+				productPrices[i].price = price;
+				productPrices[i].date = date;
 			}
 		}
 		return;
@@ -50,10 +71,40 @@ ProductAdministration = function() {
 		$("#productGtinsTable").bootgrid("append", aaData);
 	});
 	
+	$('#productPricesModal').on('shown.bs.modal', function () {
+		$("#currentPriceInput").val($("#priceInput").val());
+		$("#addPriceInput").focus();
+		var aaData = [];
+		for (var i = 0, l = productPrices.length; i < l; ++i) {
+			var price = {
+				price: "",
+				date: "",
+				commands: ""
+			};
+			price.price= productPrices[i].price.slice(0,-2) + "," + productPrices[i].price.slice(-2);
+			price.date = myParseDateTime(productPrices[i].date);
+			price.commands = "<button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"" + price.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button> " +
+					"<button type=\"button\" class=\"btn btn-sm btn-default command-saved\" data-toggle=\"tooltip\" data-placement=\"right\" title=\"Marcar como Precio Actual\" data-row-id=\"" + price.id + "\"><span class=\"glyphicon glyphicon-saved\"></span></button>";
+			aaData.push(price);
+		}
+		$("#productPricesTable").bootgrid("clear");
+		$("#productPricesTable").bootgrid("append", aaData);
+	});
+	
 	$("#updateProductGtinsButton").click(function() {
 		$('#productGtinsModal').modal('hide')
-		saveProduct.setGtins(productGtins);
 	});
+	
+	$("#updateProductPricesButton").click(function() {
+		$('#productPricesModal').modal('hide')
+	});
+	
+	$("#addProductButton, #updateProductButton").click(function(e) {
+		saveProduct.setGtins(productGtins);
+		saveProduct.setPrices(productPrices);
+		saveProduct.confirm(e);
+	});
+	
 
 	$('#productGtinsTableBody').on("click", ".command-delete", function() {
 		var parent = $(this).parent().parent();
@@ -64,6 +115,15 @@ ProductAdministration = function() {
         deleteGtin(gtinNumber);
 	});
 	
+	$('#productPricesTableBody').on("click", ".command-delete", function() {
+		var parent = $(this).parent().parent();
+		var price = parent.find("td:first").html();
+		var rows = Array();
+        rows[0] = price;
+        $("#productPricesTable").bootgrid("remove", rows);
+        deletePrice(price);
+	});
+	
 	$('#productGtinsTableBody').on("click", ".command-saved", function() {
 		var parent = $(this).parent().parent();
 		var gtinNumber = parent.find("td:first").html();
@@ -71,6 +131,15 @@ ProductAdministration = function() {
 		modifiedDate.html(myParseDateTime(new Date()));
 		$('#currentGtinInput').val(gtinNumber);
 		updateGtin(gtinNumber, new Date());
+	});
+	
+	$('#productPricesTableBody').on("click", ".command-saved", function() {
+		var parent = $(this).parent().parent();
+		var price = parent.find("td:first").html();
+		var modifiedDate = parent.find("td:nth-child(2)");
+		modifiedDate.html(myParseDateTime(new Date()));
+		$('#currentPriceInput').val(price);
+		updatePrice(price, new Date());
 	});
 	
 	$("#addGtinButton").click(function() {
@@ -107,6 +176,43 @@ ProductAdministration = function() {
 			productGtins.push(gt);
 			$("#addGtinInput").val("");
 			$("#addGtinInput").focus();
+		}
+	});
+	
+	$("#addPriceButton").click(function() {
+		var validateForm = function() {
+			var form = $("#productPricesForm");
+			form.validate({
+				rules: {
+					addPrice: {
+						priceWithCents: true,
+						required: true
+					}
+				},
+				showErrors: myShowErrors,
+				onsubmit: false
+			});
+			return form.valid();
+		};
+		
+		if (validateForm()) {
+			var aaData = [];
+			var price = {
+					price: $("#addPriceInput").val(),
+					date: myParseDateTime(new Date()),
+					commands: "<button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"0\"><span class=\"glyphicon glyphicon-trash\"></span></button> " +
+					"<button type=\"button\" class=\"btn btn-sm btn-default command-saved\" data-toggle=\"tooltip\" data-placement=\"right\" title=\"Marcar como Precio Actual\" data-row-id=\"0\"><span class=\"glyphicon glyphicon-saved\"></span></button>"
+			};
+			aaData.push(price);
+			$("#productPricesTable").bootgrid("append", aaData);
+			var gt = {
+					id: "",
+					price: $("#addPriceInput").val(),
+					date: new Date()
+			};
+			productPrices.push(gt);
+			$("#addPriceInput").val("");
+			$("#addPriceInput").focus();
 		}
 	});
 	
@@ -175,7 +281,10 @@ ProductAdministration = function() {
 				$("#productActiveSelect").val(isActive).trigger('chosen:update');
 				var price = new String(response.price);
 				$('#priceInput').val(price.slice(0,-2) + "," + price.slice(-2));
-				//productPrices = response.prices;
+				productPrices = response.prices;
+				for (var i = 0; i < productPrices.length; i++) {
+					productPrices[i].price = productPrices[i].price.toString();
+				}
 				var isInformAnmat = (response.informAnmat) ? "true" : "false";
 				$("#informAnmatSelect").val(isInformAnmat).trigger('chosen:update');
 				var isCold = (response.cold) ? "true" : "false";

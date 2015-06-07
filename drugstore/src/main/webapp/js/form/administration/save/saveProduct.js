@@ -95,8 +95,11 @@ SaveProduct = function() {
 		  $('.chosen-select', this).chosen('destroy').chosen();
 	});
 	
-	$("#addProductButton, #updateProductButton").click(function(e) {
+	var confirm = function(e) {
 		if (validateForm()) {
+			for (var i = 0; i < prices.length; i++) {
+				prices[i].price = prices[i].price.replace(",","");
+			}
 			var jsonProduct = {
 					"id": $("#productIdInput").val(),
 					"code": $("#productCodeInput").val(),
@@ -111,7 +114,8 @@ SaveProduct = function() {
 					"informAnmat": $("#informAnmatSelect option:selected").val(),
 					"type": $("#typeSelect option:selected").val(),
 					"active": $("#productActiveSelect option:selected").val(),
-					"gtins": gtins
+					"gtins": gtins,
+					"prices": prices
 			};
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.
@@ -139,7 +143,7 @@ SaveProduct = function() {
 				});
 			}
 		}
-	});
+	};
 	
 	$(".alert .close").on('click', function(e) {
 	    $(this).parent().hide();
@@ -153,6 +157,7 @@ SaveProduct = function() {
 		getGtins: getGtins,
 		setGtins: setGtins,
 		getPrices: getPrices,
-		setPrices: setPrices
+		setPrices: setPrices,
+		confirm: confirm
 	};
 };
