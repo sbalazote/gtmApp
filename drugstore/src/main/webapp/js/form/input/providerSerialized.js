@@ -227,7 +227,7 @@ ProviderSerialized = function() {
 							readSerialNumber.tooltip("destroy").data("title", "Serie existente en la base de datos").addClass("has-error").tooltip();
 							return;
 						}
-						
+
 						if (validateForm()) {
 							//	El serie no indica lte/vto. Lo leo de los inputs
 							if ((batch == "") && (expirationDate == "")) {
@@ -243,6 +243,12 @@ ProviderSerialized = function() {
 							formValidator.resetForm();
 							
 							readSerialNumber.focus();
+						} else {
+							if (batch == "") {
+								$("#providerSerializedBatchInput").focus();
+							} else if (expirationDate == "") {
+								$("#providerSerializedExpirationDateInput").focus();
+							}
 						}
 					},
 					error: function(jqXHR, textStatus, errorThrown) {
@@ -290,6 +296,30 @@ ProviderSerialized = function() {
 	
 	$('#providerSerializedModal').on('hidden.bs.modal', function () {
 	    myResetForm($("#providerSerializedModalForm")[0], formValidator);
+	});
+	
+	$('#readSerialNumberInput').on('keypress', function(e) {
+		//	Si la tecla presionada es 'ENTER'
+	    if (e.keyCode === 13) {
+	    	$("#providerSerializedAddButton").trigger('click');
+	    	return false;
+	    }
+	});
+	
+	$('#providerSerializedBatchInput').on('keypress', function(e) {
+		//	Si la tecla presionada es 'ENTER'
+		if (e.keyCode === 13) {
+			$('#providerSerializedExpirationDateInput').focus();
+			return false;
+		}
+	});
+	
+	$('#providerSerializedExpirationDateInput').on('keypress', function(e) {
+		//	Si la tecla presionada es 'ENTER'
+		if (e.keyCode === 13) {
+			$("#providerSerializedAddButton").trigger('click');
+			return false;
+		}
 	});
 	
 	$('#providerSerializedAddButton').on('keypress', function(e) {

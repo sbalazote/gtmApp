@@ -130,6 +130,7 @@ ProductAdministration = function() {
 		var modifiedDate = parent.find("td:nth-child(2)");
 		modifiedDate.html(myParseDateTime(new Date()));
 		$('#currentGtinInput').val(gtinNumber);
+		$("#gtinInput").val(gtinNumber);
 		updateGtin(gtinNumber, new Date());
 	});
 	
@@ -139,6 +140,7 @@ ProductAdministration = function() {
 		var modifiedDate = parent.find("td:nth-child(2)");
 		modifiedDate.html(myParseDateTime(new Date()));
 		$('#currentPriceInput').val(price);
+		$("#priceInput").val(price);
 		updatePrice(price, new Date());
 	});
 	
