@@ -5,6 +5,8 @@ ProductAdministration = function() {
 	var entity = "";
 	var productGtins;
 	
+	$("body").tooltip({ selector: '[data-toggle="tooltip"]' });
+	
 	$("#alfabetaUpdateProducts").click(function() {
 		window.location="alfabetaUpdateProducts.do";
 	});
@@ -41,11 +43,11 @@ ProductAdministration = function() {
 			gtin.number= productGtins[i].number;
 			gtin.date = myParseDateTime(productGtins[i].date);
 			gtin.commands = "<button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"" + gtin.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button> " +
-					"<button type=\"button\" class=\"btn btn-sm btn-default command-saved\" data-row-id=\"" + gtin.id + "\"><span class=\"glyphicon glyphicon-saved\"></span></button>";
+					"<button type=\"button\" class=\"btn btn-sm btn-default command-saved\" data-toggle=\"tooltip\" data-placement=\"right\" title=\"Marcar como GTIN Actual\" data-row-id=\"" + gtin.id + "\"><span class=\"glyphicon glyphicon-saved\"></span></button>";
 			aaData.push(gtin);
 		}
-		$("#productGtinsTable").bootgrid().bootgrid("clear");
-		$("#productGtinsTable").bootgrid().bootgrid("append", aaData);
+		$("#productGtinsTable").bootgrid("clear");
+		$("#productGtinsTable").bootgrid("append", aaData);
 	});
 	
 	$("#updateProductGtinsButton").click(function() {
@@ -93,7 +95,7 @@ ProductAdministration = function() {
 					number: $("#addGtinInput").val(),
 					date: myParseDateTime(new Date()),
 					commands: "<button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"0\"><span class=\"glyphicon glyphicon-trash\"></span></button> " +
-					"<button type=\"button\" class=\"btn btn-sm btn-default command-saved\" data-row-id=\"0\"><span class=\"glyphicon glyphicon-saved\"></span></button>"
+					"<button type=\"button\" class=\"btn btn-sm btn-default command-saved\" data-toggle=\"tooltip\" data-placement=\"right\" title=\"Marcar como GTIN Actual\" data-row-id=\"0\"><span class=\"glyphicon glyphicon-saved\"></span></button>"
 			};
 			aaData.push(gtin);
 			$("#productGtinsTable").bootgrid("append", aaData);
