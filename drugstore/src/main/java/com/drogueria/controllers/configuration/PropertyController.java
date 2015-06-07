@@ -136,11 +136,15 @@ public class PropertyController {
 
 		modelMap.put("ANMATName", property.getANMATName());
 
-		modelMap.put("selectedStartTraceConcept", property.getStartTraceConcept().getId());
+		if (property.getStartTraceConcept() != null) {
+			modelMap.put("selectedStartTraceConcept", property.getStartTraceConcept().getId());
+		}
 		modelMap.put("concepts", this.conceptService.getAllActives(true));
 
-		modelMap.put("selectedStartTraceConcept", property.getStartTraceConcept().getId());
-		modelMap.put("selectedSupplyingConcept", property.getSupplyingConcept().getId());
+		if (property.getSupplyingConcept() != null) {
+			modelMap.put("selectedSupplyingConcept", property.getSupplyingConcept().getId());
+		}
+
 		modelMap.put("deliveryNoteconcepts", this.conceptService.getAllActives(false));
 
 		modelMap.put("proxy", property.getProxy());

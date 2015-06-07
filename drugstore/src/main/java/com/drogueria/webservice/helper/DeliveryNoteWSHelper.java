@@ -183,7 +183,7 @@ public class DeliveryNoteWSHelper {
 		}
 		if (supplying != null) {
 			if (this.PropertyService.get().getSupplyingConcept().getEvents().size() > 0) {
-				eventId = this.PropertyService.get().getSupplyingConcept().getEvents().get(0).getId().toString();
+				eventId = this.PropertyService.get().getSupplyingConcept().getEvents().get(0).getCode().toString();
 			}
 		}
 		return eventId;
