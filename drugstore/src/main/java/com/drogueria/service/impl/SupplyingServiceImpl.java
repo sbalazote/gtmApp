@@ -181,7 +181,9 @@ public class SupplyingServiceImpl implements SupplyingService {
 	@Override
 	public void addSupplyingToStock(Supplying supplying) {
 		for (SupplyingDetail supplyingDetail : supplying.getSupplyingDetails()) {
-			this.addToStock(supplyingDetail, supplying.getAgreement());
+			if (supplyingDetail.getInStock()) {
+				this.addToStock(supplyingDetail, supplying.getAgreement());
+			}
 		}
 	}
 
