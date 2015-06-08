@@ -9,7 +9,7 @@
         new SearchSupplying();
     });
 </script>
-<jsp:include page="../modals/outputModal.jsp" />
+<jsp:include page="../modals/supplyingModal.jsp" />
 
 <form id="searchSupplyingForm" action="" onsubmit="return false;">
     <div class="row">
@@ -101,7 +101,7 @@
     <br>
 
     <div id="divTable">
-        <table class="table table-condensed table-hover table-striped" id="outputTable">
+        <table class="table table-condensed table-hover table-striped" id="supplyingTable">
             <thead>
             <tr>
                 <th data-column-id="id" data-type="numeric"><spring:message code="supplying.input.number"/></th>
