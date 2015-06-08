@@ -822,12 +822,7 @@ var Supplying = function() {
 	};
 
 	var hasChanged = function() {
-		if ($("#deliveryLocationInput").val() != ""
-				|| $("#agreementInput").val() != ""
-				|| $("#logisticsOperatorInput").val() != ""
-				|| $("#affiliateInput").val() != ""
-				|| $("#commentTextarea").val() != ""
-				|| $("#clientInput").val() != "" || productDetails.length > 0) {
+		if (productDetails.length > 0) {
 			return true;
 		} else {
 			return false;
@@ -850,7 +845,7 @@ var Supplying = function() {
 		}
 	});
 
-	$("#provisioningRequestForm input, #provisioningRequestForm select").keypress(function(event) {
+	$("#supplyingForm input, #supplyingForm select").keypress(function(event) {
 		return event.keyCode != 13;
 	});
 };

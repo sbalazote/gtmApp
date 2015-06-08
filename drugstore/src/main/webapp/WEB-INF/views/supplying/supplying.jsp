@@ -40,7 +40,7 @@
 	<div class="row">
 		<div class="col-md-4 form-group">
 			<label for="clientInput"><spring:message code="common.client" /></label>
-			<select id="clientInput" name="client" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
+			<select id="clientInput" name="client" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>" autofocus>
 				<option value=""></option>
 				<c:forEach items="${clients}" var="client">
 					<option value="${client.id}" ${clientId == client.id ? 'selected' : ''}><c:out value="${client.code}"></c:out> - <c:out value="${client.name}"></c:out></option>
@@ -88,16 +88,10 @@
 
 	<div class="row">
 		<div class="col-md-2 col-md-offset-8">
-			<button class="btn btn-danger btn-block" type="submit" id="abortButton" onclick="location.href='home.do'" >
-				<span class="glyphicon glyphicon-remove"></span>
-				<spring:message code="common.abort" />
-			</button>
+			<button class="btn btn-danger btn-block" onclick="myAbortWarning();" id="abortButton"><span class="glyphicon glyphicon-remove"></span> <spring:message code="common.abort"/></button>
 		</div>
 		<div class="col-md-2">
-			<button class="btn btn-success btn-block" type="button" id="confirmButton">
-				<span class="glyphicon glyphicon-ok"></span>
-				<spring:message code="common.confirm" />
-			</button>
+			<button type="submit" class="btn btn-success btn-block" id="confirmButton"><span class="glyphicon glyphicon-ok"></span> <spring:message code="common.confirm" /></button>
 		</div>
 	</div>
 
