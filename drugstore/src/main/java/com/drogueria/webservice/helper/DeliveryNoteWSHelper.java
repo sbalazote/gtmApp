@@ -142,7 +142,7 @@ public class DeliveryNoteWSHelper {
 					this.webServiceHelper.setDrug(drug, this.PropertyService.get().getGln(), null, this.PropertyService.get().getTaxId(), null,
 							deliveryNoteFormated, expirationDate, deliveryNoteDetail.getSupplyingDetail().getGtin().getNumber(), eventId, deliveryNoteDetail
 									.getSupplyingDetail().getSerialNumber(), deliveryNoteDetail.getSupplyingDetail().getBatch(), deliveryNote.getDate(), true,
-							supplying.getAffiliate().getSurname(), supplying.getAffiliate().getName(), supplying.getAffiliate().getDocument(), supplying
+							supplying.getAffiliate().getSurname(), supplying.getAffiliate().getName(), supplying.getAffiliate().getCode(), supplying
 									.getAffiliate().getDocumentType(), supplying.getClient().getMedicalInsuranceCode());
 					medicines.add(drug);
 				}

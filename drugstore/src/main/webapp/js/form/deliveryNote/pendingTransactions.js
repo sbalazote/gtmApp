@@ -49,7 +49,7 @@ var PendingTransactions = function() {
 									errors += response[i].myOwnErrors[j] + "<br />";
 								}
 								
-								if(response.errores != null){
+								if(response[i].errores != null){
 									errors += "<strong>Errores informados por ANMAT para egreso numero" + response[i].operationId + "</strong><br />";
 									for (var j = 0, lengthJ = response[i].errores.length; j < lengthJ; j++) {
 										errors += response[i].errores[j]._c_error + " - " + response[i].errores[j]._d_error + "<br />";
