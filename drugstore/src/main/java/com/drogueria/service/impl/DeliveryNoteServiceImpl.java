@@ -82,6 +82,11 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 		return this.deliveryNoteDAO.getDeliveryNoteFromOutputForSearch(deliveryNoteQuery);
 	}
 
+    @Override
+    public List<DeliveryNote> getDeliveryNoteFromSupplyingForSearch(DeliveryNoteQuery deliveryNoteQuery) {
+        return this.deliveryNoteDAO.getDeliveryNoteFromSupplyingForSearch(deliveryNoteQuery);
+    }
+
 	@Override
 	public Order getOrder(DeliveryNote deliveryNote) {
 		return this.deliveryNoteDAO.gerOrder(deliveryNote);

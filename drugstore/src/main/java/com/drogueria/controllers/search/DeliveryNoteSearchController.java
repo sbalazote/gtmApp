@@ -38,4 +38,10 @@ public class DeliveryNoteSearchController {
 	List<DeliveryNote> getDeliveryNoteFromOutputForSearch(@RequestBody DeliveryNoteQuery deliveryNoteQuery) throws Exception {
 		return this.deliveryNoteService.getDeliveryNoteFromOutputForSearch(deliveryNoteQuery);
 	}
+
+    @RequestMapping(value = "/getDeliveryNoteFromSupplyingForSearch", method = RequestMethod.POST)
+    public @ResponseBody
+    List<DeliveryNote> getDeliveryNoteFromSupplyingForSearch(@RequestBody DeliveryNoteQuery deliveryNoteQuery) throws Exception {
+        return this.deliveryNoteService.getDeliveryNoteFromSupplyingForSearch(deliveryNoteQuery);
+    }
 }

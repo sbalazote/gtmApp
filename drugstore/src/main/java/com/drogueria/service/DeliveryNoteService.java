@@ -30,7 +30,9 @@ public interface DeliveryNoteService {
 
 	List<DeliveryNote> getDeliveryNoteFromOutputForSearch(DeliveryNoteQuery deliveryNoteQuery);
 
-	Order getOrder(DeliveryNote deliveryNote);
+    List<DeliveryNote> getDeliveryNoteFromSupplyingForSearch(DeliveryNoteQuery deliveryNoteQuery);
+
+    Order getOrder(DeliveryNote deliveryNote);
 
 	Output getOutput(DeliveryNote deliveryNote);
 

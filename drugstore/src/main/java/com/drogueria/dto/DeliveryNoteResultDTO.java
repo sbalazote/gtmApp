@@ -3,12 +3,7 @@ package com.drogueria.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.drogueria.model.DeliveryNote;
-import com.drogueria.model.DeliveryNoteDetail;
-import com.drogueria.model.Order;
-import com.drogueria.model.OrderDetail;
-import com.drogueria.model.Output;
-import com.drogueria.model.OutputDetail;
+import com.drogueria.model.*;
 import com.ibm.icu.text.SimpleDateFormat;
 
 public class DeliveryNoteResultDTO {
@@ -76,7 +71,7 @@ public class DeliveryNoteResultDTO {
 		this.transactionCodeANMAT = transactionCodeANMAT;
 	}
 
-	public void setFromDeliveryNote(DeliveryNote deliveryNote, Order order, Output output) {
+	public void setFromDeliveryNote(DeliveryNote deliveryNote, Order order, Output output, Supplying supplying) {
 		SimpleDateFormat stringDate = new SimpleDateFormat("dd/MM/yyyy");
 		this.number = deliveryNote.getNumber();
 		List<OutputOrderDetailResultDTO> outpuOrderResultDTO = new ArrayList<OutputOrderDetailResultDTO>();
@@ -98,6 +93,11 @@ public class DeliveryNoteResultDTO {
 			this.setDate(stringDate.format(order.getProvisioningRequest().getDeliveryDate()));
 			this.setDeliveryLocation(order.getProvisioningRequest().getDeliveryLocation().getCorporateName());
 		}
+        if(supplying != null){
+            this.setAgreement(supplying.getAgreement().getDescription());
+            this.setDate(stringDate.format(supplying.getDate()));
+            this.setDeliveryLocation(supplying.getClient().getCorporateName());
+        }
 		for (DeliveryNoteDetail deliveryNoteDetail : deliveryNote.getDeliveryNoteDetails()) {
 			if (deliveryNoteDetail.getOutputDetail() != null) {
 				OutputDetail od = deliveryNoteDetail.getOutputDetail();
@@ -111,6 +111,12 @@ public class DeliveryNoteResultDTO {
 						od.getBatch(), stringDate.format(od.getExpirationDate()), od.getAmount());
 				outpuOrderResultDTO.add(outputDetailDTO);
 			}
+            if (deliveryNoteDetail.getSupplyingDetail() != null) {
+                SupplyingDetail sd = deliveryNoteDetail.getSupplyingDetail();
+                OutputOrderDetailResultDTO outputDetailDTO = new OutputOrderDetailResultDTO(sd.getProduct().getDescription(), sd.getSerialNumber(),
+                        sd.getBatch(), stringDate.format(sd.getExpirationDate()), sd.getAmount());
+                outpuOrderResultDTO.add(outputDetailDTO);
+            }
 		}
 		this.setOrderOutputDetails(outpuOrderResultDTO);
 	}

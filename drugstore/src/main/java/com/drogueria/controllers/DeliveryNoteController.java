@@ -141,11 +141,11 @@ public class DeliveryNoteController {
 
 	@RequestMapping(value = "/getDeliveryNote", method = RequestMethod.GET)
 	public @ResponseBody
-	DeliveryNoteResultDTO getInput(@RequestParam Integer deliveryNoteId) throws Exception {
-		DeliveryNote deliveryNote = this.deliveryNoteService.get(deliveryNoteId);
+	DeliveryNoteResultDTO getDeliveryNote(@RequestParam Integer deliveryNoteId) throws Exception {
+		DeliveryNote deliveryNote = this.deliveryNoteService.getDeliveryNoteFromNumber(String.valueOf(deliveryNoteId));
 		DeliveryNoteResultDTO deliveryNoteResultDTO = new DeliveryNoteResultDTO();
 		deliveryNoteResultDTO.setFromDeliveryNote(deliveryNote, this.deliveryNoteService.getOrder(deliveryNote),
-				this.deliveryNoteService.getOutput(deliveryNote));
+				this.deliveryNoteService.getOutput(deliveryNote),this.deliveryNoteService.getSupplying(deliveryNote));
 		return deliveryNoteResultDTO;
 	}
 

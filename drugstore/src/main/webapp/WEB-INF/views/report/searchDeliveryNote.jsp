@@ -22,7 +22,8 @@
 		<ul id="myTab" class="nav nav-tabs">
 			<li class="active"><a href="#deliveryNotesOutputs" data-toggle="tab"><spring:message code="common.outputs"/></a></li>
 			<li><a href="#deliveryNotesOrders" data-toggle="tab"><spring:message code="common.orders"/></a></li>
-		</ul>
+            <li><a href="#deliveryNotesSupplyings" data-toggle="tab"><spring:message code="common.supplyings"/></a></li>
+        </ul>
 		<br>
 		<div id="myTabContent" class="tab-content">
 			<div class="tab-pane fade in active" id="deliveryNotesOutputs">
@@ -90,47 +91,95 @@
 					</div>
 				</div>
 			</div>
-			<div class="tab-pane fade" id="deliveryNotesOrders">
+			<div class="tab-pane fade" id="deliveryNotesSupplyings">
 				<div>
 					<div class="row">
-						<div class="col-md-12 form-group">
-							<label for="affiliate"><spring:message code="common.affiliate"/></label>
-							<input id="affiliate" type="search" placeholder='<spring:message code="common.affiliate"/>' class="form-control" name="affiliate" autosave="" results="5" incremental="incremental" />
+						<div class="col-md-3 form-group">
+							<label for="deliveryNoteNumberSupplyingSearch"><spring:message code="common.deliveryNote"/></label>
+							<input type="text" class="form-control" name="deliveryNoteNumberSupplyingSearch" id="deliveryNoteNumberSupplyingSearch" >
 						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-8 form-group">
-							<label for="deliveryNoteNumberOrderSearch"><spring:message code="common.deliveryNote"/></label>
-							<input type="text" class="form-control" name="deliveryNoteNumberOrderSearch" id="deliveryNoteNumberOrderSearch" >
-						</div>
-						<div class="col-md-2 form-margin">
-							<button class="btn btn-success btn-block" type="submit" id="searchOrderButton">
+                        <div class="col-md-3 form-group">
+                            <label for="clientSearch"><spring:message code="common.client" /></label>
+                            <select id="clientSearch" name="client" style="width:100% !important;" class="form-control" data-placeholder="<spring:message code='common.select.option'/>">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label for="agreementSupplyingSearch"><spring:message code="common.agreement"/></label>
+                            <select id="agreementSupplyingSearch" name="agreement" class="form-control" data-placeholder="<spring:message code='common.select.option'/>">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 form-margin">
+							<button class="btn btn-success btn-block" type="submit" id="searchSupplyingButton">
 							<span class="glyphicon glyphicon-search"></span>
 							<spring:message code="common.search" />
 							</button>
 						</div>
 						<div class="col-md-2 form-margin">
-							<button class="btn btn-info btn-block" type="submit" id="cleanOrderButton">
+							<button class="btn btn-info btn-block" type="submit" id="cleanSupplyingButton">
 							<span class="glyphicon glyphicon-trash"></span>
 							<spring:message code="common.clean" />
 							</button>
 						</div>
-					</div>
-					<br>
-					<div id="divOrderTable">
-						<table class="table table-condensed table-hover table-striped" id="deliveryNoteTableOrder">
-							<thead>
-						        <tr>
-									<th data-column-id="number" data-type="numeric"><spring:message code="common.deliveryNote"/></th>
-						            <th data-column-id="date"><spring:message code="common.date"/></th>
-						          	<th data-column-id="action"><spring:message code="common.option"/></th>
-						        </tr>
-					   	 	</thead>
-					   	 	<tbody id="deliveryNoteTableOrderBody">
-							</tbody>
-						</table>
-					</div>
+                    </div>
+                    <br>
+                    <div id="divSupplyingTable">
+                        <table class="table table-condensed table-hover table-striped" id="deliveryNoteTableSupplying">
+                            <thead>
+                                <tr>
+                                    <th data-column-id="number" data-type="numeric"><spring:message code="common.deliveryNote"/></th>
+                                    <th data-column-id="date"><spring:message code="common.date"/></th>
+                                    <th data-column-id="action"><spring:message code="common.option"/></th>
+                                </tr>
+                            </thead>
+                            <tbody id="deliveryNoteTableSupplyingBody">
+                            </tbody>
+                        </table>
+                    </div>
 				</div>
+            </div>
+            <div class="tab-pane fade" id="deliveryNotesOrders">
+                <div>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label for="affiliate"><spring:message code="common.affiliate"/></label>
+                            <input id="affiliate" type="search" placeholder='<spring:message code="common.affiliate"/>' class="form-control" name="affiliate" autosave="" results="5" incremental="incremental" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 form-group">
+                            <label for="deliveryNoteNumberOrderSearch"><spring:message code="common.deliveryNote"/></label>
+                            <input type="text" class="form-control" name="deliveryNoteNumberOrderSearch" id="deliveryNoteNumberOrderSearch" >
+                        </div>
+                        <div class="col-md-2 form-margin">
+                            <button class="btn btn-success btn-block" type="submit" id="searchOrderButton">
+                                <span class="glyphicon glyphicon-search"></span>
+                                <spring:message code="common.search" />
+                            </button>
+                        </div>
+                        <div class="col-md-2 form-margin">
+                            <button class="btn btn-info btn-block" type="submit" id="cleanOrderButton">
+                                <span class="glyphicon glyphicon-trash"></span>
+                                <spring:message code="common.clean" />
+                            </button>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="divOrderTable">
+                        <table class="table table-condensed table-hover table-striped" id="deliveryNoteTableOrder">
+                            <thead>
+                            <tr>
+                                <th data-column-id="number" data-type="numeric"><spring:message code="common.deliveryNote"/></th>
+                                <th data-column-id="date"><spring:message code="common.date"/></th>
+                                <th data-column-id="action"><spring:message code="common.option"/></th>
+                            </tr>
+                            </thead>
+                            <tbody id="deliveryNoteTableOrderBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 			</div>
 		</div>
 	</div>

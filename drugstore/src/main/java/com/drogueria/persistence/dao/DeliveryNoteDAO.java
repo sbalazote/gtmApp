@@ -33,6 +33,8 @@ public interface DeliveryNoteDAO {
 
 	List<DeliveryNote> getDeliveryNoteFromOutputForSearch(DeliveryNoteQuery deliveryNoteQuery);
 
+    List<DeliveryNote> getDeliveryNoteFromSupplyingForSearch(DeliveryNoteQuery deliveryNoteQuery);
+
 	Map<Integer, List<String>> getAssociatedSupplyings(boolean informAnmat);
 
 }

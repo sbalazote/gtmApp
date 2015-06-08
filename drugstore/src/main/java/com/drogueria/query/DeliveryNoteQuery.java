@@ -8,6 +8,7 @@ public class DeliveryNoteQuery {
 	private Integer deliveryLocationId;
 	private Integer providerId;
 	private Integer agreementId;
+    private Integer clientId;
 
 	public Integer getAffiliateId() {
 		return this.affiliateId;
@@ -57,4 +58,11 @@ public class DeliveryNoteQuery {
 		this.agreementId = agreementId;
 	}
 
+    public Integer getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
+    }
 }
