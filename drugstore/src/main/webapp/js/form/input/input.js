@@ -222,6 +222,7 @@ Input = function() {
                     } else
                     {
                         $('#productInput').tooltip("destroy").data("title", "Producto Inexistente o Inactivo").addClass("has-error").tooltip();
+                        $('#productInput').val('');
                         $('#productInput').focus();
                     }
                     return false;
