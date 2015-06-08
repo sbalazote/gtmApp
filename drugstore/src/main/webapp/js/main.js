@@ -5,6 +5,13 @@ $(document).ready(function() {
         if (event.ctrlKey==true && (event.which == '107' || event.which == '109')) {
             event.preventDefault();
         }
+        $(window).bind('mousewheel DOMMouseScroll', function(event)
+        {
+            if(event.ctrlKey == true)
+            {
+                event.preventDefault();
+            }
+        });
     });
 
 	// To highlight menu options
