@@ -1,5 +1,19 @@
 $(document).ready(function() {
-	
+
+    if ($.browser == 'msie') {
+        BootstrapDialog.show({
+            type: BootstrapDialog.TYPE_SUCCESS,
+            title: 'Atencion',
+            message: 'No compatible con IE, use Chrome O Firefox',
+            buttons: [{
+                label: 'Cerrar',
+                action: function(dialogItself){
+                    dialogItself.close();
+                }
+            }]
+        });
+    }
+
 	// To highlight menu options
 	
 	var path = window.location.pathname.split("/");

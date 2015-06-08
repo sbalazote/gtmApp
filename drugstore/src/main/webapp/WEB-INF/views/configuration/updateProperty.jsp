@@ -105,7 +105,7 @@
 			<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#panel2"><spring:message code="configuration.settings"/></a>
 		</h3> 
 		</div>
-		<div id="panel2" class="panel-collapse">
+		<div id="panel2" class="panel-collapse collapse">
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-md-12 form-group">	
@@ -116,13 +116,13 @@
 				<div class="row">
 					<div class="col-md-4 form-group">	
 						<label for="proxySelect"><spring:message code="configuration.informProxy"/></label>
-						<select class="form-control chosen-select" id="proxySelect" name="active">
+						<select class="form-control" id="proxySelect" name="active">
 							<option value="true" ${informProxy == 'true' ? 'selected' : ''}><spring:message code="common.yes"/></option>
 							<option value="false" ${informProxy == 'false' ? 'selected' : ''}><spring:message code="common.no"/></option>
 						</select>
 					</div>
 					<div class="col-md-4 form-group">
-						<label for="proxyInput"><spring:message code="configuration.proxyName"/></label>
+						<label for="proxyNameInput"><spring:message code="configuration.proxyName"/></label>
 						<input type="text" class="form-control" id="proxyNameInput" name="proxyName" value="${proxy}">
 					</div>
 					<div class="col-md-4 form-group">
@@ -139,7 +139,7 @@
 		    	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#panel3"><spring:message code="configuration.ANMATInformation"/></a>
 		    </h3>
 		</div>
-		<div id="panel3" class="panel-collapse">
+		<div id="panel3" class="panel-collapse collapse">
 			<div class="panel-body">
                 <div class="row">
 					<div class="col-md-4 form-group">
@@ -148,7 +148,7 @@
 					</div>
 					<div class="col-md-4 form-group">
 						<label for="startTraceConceptSelect"><spring:message code="configuration.startTraceConcept"/></label>
-						<select id="startTraceConceptSelect" name="startTraceConcept" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
+						<select id="startTraceConceptSelect" name="startTraceConcept" class="form-control" data-placeholder="<spring:message code='common.select.option'/>">
 							<option value=""></option>
 							<c:forEach items="${concepts}" var="concept">
 								<option value="${concept.id}"  ${selectedStartTraceConcept == concept.id ? 'selected' : ''}><c:out value="${concept.code}"></c:out> - <c:out value="${concept.description}"></c:out></option>
@@ -157,7 +157,7 @@
 					</div>
 					<div class="col-md-4 form-group">
 						<label for="supplyingConceptSelect"><spring:message code="configuration.supplyingConcept"/></label>
-						<select id="supplyingConceptSelect" name="supplyingConcept" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
+						<select id="supplyingConceptSelect" name="supplyingConcept" class="form-control" data-placeholder="<spring:message code='common.select.option'/>">
 							<option value=""></option>
 							<c:forEach items="${deliveryNoteconcepts}" var="concept">
 								<option value="${concept.id}"  ${selectedSupplyingConcept == concept.id ? 'selected' : ''}><c:out value="${concept.code}"></c:out> - <c:out value="${concept.description}"></c:out></option>
@@ -168,7 +168,7 @@
 				<div class="row">
 					<div class="col-md-3 form-group">	
 						<label for="changePasswordSelect"><spring:message code="common.changePassword"/></label>
-						<select class="form-control chosen-select" id="changePasswordSelect" name="changePassword">
+						<select class="form-control" id="changePasswordSelect" name="changePassword">
 							<option value="true"><spring:message code="common.yes"/></option>
 							<option value="false" selected><spring:message code="common.no"/></option>
 						</select>

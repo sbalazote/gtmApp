@@ -94,7 +94,7 @@
 			<div class="tab-pane fade" id="deliveryNotesSupplyings">
 				<div>
 					<div class="row">
-						<div class="col-md-3 form-group">
+						<div class="col-md-2 form-group">
 							<label for="deliveryNoteNumberSupplyingSearch"><spring:message code="common.deliveryNote"/></label>
 							<input type="text" class="form-control" name="deliveryNoteNumberSupplyingSearch" id="deliveryNoteNumberSupplyingSearch" >
 						</div>

@@ -189,4 +189,22 @@ UpdateProperty = function() {
 	$('#accordion').on('show.bs.collapse', function () {
 	    $('#accordion .in').collapse('hide');
 	});
+
+    $("#supplyingConceptSelect").chosen(
+        {
+            width: '100%' /* desired width */
+        });
+    $("#startTraceConceptSelect").chosen(
+        {
+            width: '100%' /* desired width */
+        });
+    $("#changePasswordSelect").chosen(
+        {
+            width: '100%' /* desired width */
+        });
+    $("#proxySelect").chosen(
+        {
+            width: '100%' /* desired width */
+        });
+
 };
