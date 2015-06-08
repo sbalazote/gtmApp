@@ -6,7 +6,7 @@
 <script type="text/javascript" src="js/form/modals.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-        new SearchOutput();
+        new SearchSupplying();
     });
 </script>
 <jsp:include page="../modals/outputModal.jsp" />

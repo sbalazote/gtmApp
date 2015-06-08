@@ -36,35 +36,33 @@ public class OutputFakeDeliveryNoteSheetPrinter {
 
 		// Hago el corte de remitos por la cantidad items por pagina que se indique por parametro.
 
+		DeliveryNote deliveryNote = new DeliveryNote();
+		List<DeliveryNoteDetail> deliveryNoteDetails = new ArrayList<DeliveryNoteDetail>();
 		for (OutputDetail outputDetail : outputDetails) {
-			DeliveryNote deliveryNote = new DeliveryNote();
 			deliveryNote.setNumber(Integer.toString(deliveryNoteNumber));
-
-			List<DeliveryNoteDetail> deliveryNoteDetails = new ArrayList<DeliveryNoteDetail>();
 
 			DeliveryNoteDetail deliveryNoteDetail = new DeliveryNoteDetail();
 			deliveryNoteDetail.setOutputDetail(outputDetail);
 			deliveryNoteDetails.add(deliveryNoteDetail);
 
 			// Guardo el Remito en la base de datos
-			deliveryNote.setDeliveryNoteDetails(deliveryNoteDetails);
+		}
+		deliveryNote.setDeliveryNoteDetails(deliveryNoteDetails);
+		try {
+			if (output.hasProductThatInform() && output.getConcept().isInformAnmat()) {
+				deliveryNote.setInformAnmat(true);
+			} else {
+				deliveryNote.setInformAnmat(false);
+			}
 			deliveryNote.setDate(date);
 			deliveryNote.setFake(true);
-			try {
-				if (output.hasProductThatInform() && output.getConcept().isInformAnmat()) {
-					deliveryNote.setInformAnmat(true);
-				} else {
-					deliveryNote.setInformAnmat(false);
-				}
-				this.deliveryNoteService.save(deliveryNote);
-				this.deliveryNoteService.sendTrasactionAsync(deliveryNote);
-			} catch (Exception e1) {
-				logger.info("No se ha podido imprimir el remito numero: " + deliveryNoteNumber);
-			}
-
+			this.deliveryNoteService.save(deliveryNote);
+			this.deliveryNoteService.sendTrasactionAsync(deliveryNote);
 			logger.info("Se ha impreso el remito numero: " + deliveryNoteNumber);
-
+		} catch (Exception e1) {
+			logger.info("No se ha podido imprimir el remito numero: " + deliveryNoteNumber);
 		}
+
 		return deliveryNoteNumber;
 	}
 }
