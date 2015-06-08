@@ -1,5 +1,12 @@
 $(document).ready(function() {
 
+    // disabled zoom in
+    $(document).keydown(function(event) {
+        if (event.ctrlKey==true && (event.which == '107' || event.which == '109')) {
+            event.preventDefault();
+        }
+    });
+
 	// To highlight menu options
 	
 	var path = window.location.pathname.split("/");
