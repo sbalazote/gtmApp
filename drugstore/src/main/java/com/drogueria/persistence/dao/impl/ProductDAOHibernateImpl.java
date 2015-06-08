@@ -38,7 +38,7 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Product> getForAutocomplete(String term, Boolean active) {
-		String gtinSentence = "select p from Product as p inner join p.gtins as pg where pg.number = :gtin";
+		// String gtinSentence = "select p from Product as p inner join p.gtins as pg where pg.number = :gtin";
 
 		String literalSentence = "select p from Product as p where (description like :description or brand.description like :brand or monodrug.description like :monodrug";
 
@@ -50,9 +50,9 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 			literalSentence += " and active = true";
 		}
 
-		Query gtinQuery = this.sessionFactory.getCurrentSession().createQuery(gtinSentence);
-		gtinQuery.setParameter("gtin", StringUtility.removeLeadingZero(term));
-		List<Product> gtinSentenceQuery = gtinQuery.list();
+		// Query gtinQuery = this.sessionFactory.getCurrentSession().createQuery(gtinSentence);
+		// gtinQuery.setParameter("gtin", StringUtility.removeLeadingZero(term));
+		// List<Product> gtinSentenceQuery = gtinQuery.list();
 
 		Query literalQuery = this.sessionFactory.getCurrentSession().createQuery(literalSentence);
 		literalQuery.setParameter("description", "%" + term + "%");
@@ -64,9 +64,9 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 		}
 		List<Product> literalSentenceQuery = literalQuery.list();
 
-		gtinSentenceQuery.addAll(literalSentenceQuery);
+		// gtinSentenceQuery.addAll(literalSentenceQuery);
 
-		return gtinSentenceQuery;
+		return literalSentenceQuery;
 	}
 
 	@Override

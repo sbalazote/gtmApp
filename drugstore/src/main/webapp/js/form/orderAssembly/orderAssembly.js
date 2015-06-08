@@ -46,7 +46,7 @@ OrderAssembly = function() {
 							$('#productInput').focus();
 						}						
 					} else {
-						$('#productInput').tooltip("destroy").data("title", "Producto Inexistente").addClass("has-error").tooltip();
+						$('#productInput').tooltip("destroy").data("title", "Producto Inexistente o Inactivo").addClass("has-error").tooltip();
 						$('#productInput').focus();
 					}
 					return false;

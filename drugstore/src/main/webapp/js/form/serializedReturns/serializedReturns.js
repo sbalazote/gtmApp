@@ -261,7 +261,11 @@ SerializedReturns = function() {
 												myGenericError();
 											}
 										});
+									} else {
+										$('#serialNumberInput').tooltip("destroy").data("title", "Producto Inexistente o Inactivo").addClass("has-error").tooltip();
+										$('#serialNumberInput').focus();
 									}
+									return false;
 								}
 							});
 						}
