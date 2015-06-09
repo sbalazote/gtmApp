@@ -45,4 +45,6 @@
 	<bean id="provisionings" class="com.drogueria.helper.impl.ProvisioningExcelView"/>
 	
 	<bean id="audits" class="com.drogueria.helper.impl.AuditExcelView"/>
+	
+	<bean id="supplyings" class="com.drogueria.helper.impl.SupplyingsExcelView"/>
 </beans>

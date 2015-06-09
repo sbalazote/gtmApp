@@ -41,5 +41,7 @@
 	<bean id="outputs" class="com.drogueria.helper.impl.OutputsPdfView"/>
 	<bean id="provisionings" class="com.drogueria.helper.impl.ProvisioningPdfView"/>
 	<bean id="audits" class="com.drogueria.helper.impl.AuditPdfView"/>
+	<bean id="supplyings" class="com.drogueria.helper.impl.SupplyingsPdfView"/>
+	
 	
 </beans>

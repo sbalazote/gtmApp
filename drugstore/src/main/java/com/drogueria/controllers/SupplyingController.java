@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.drogueria.constant.AuditState;
 import com.drogueria.constant.RoleOperation;
@@ -58,7 +59,8 @@ public class SupplyingController {
 	}
 
 	@RequestMapping(value = "/saveSupplying", method = RequestMethod.POST)
-	public @ResponseBody Supplying saveSupplying(@RequestBody SupplyingDTO supplyingDTO, HttpServletRequest request) throws Exception {
+	public @ResponseBody
+	Supplying saveSupplying(@RequestBody SupplyingDTO supplyingDTO, HttpServletRequest request) throws Exception {
 		Supplying supplying = this.supplyingService.save(supplyingDTO);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
@@ -71,22 +73,26 @@ public class SupplyingController {
 	}
 
 	@RequestMapping(value = "/getSupplying", method = RequestMethod.GET)
-	public @ResponseBody Supplying getSupplying(@RequestParam Integer supplyingId) {
+	public @ResponseBody
+	Supplying getSupplying(@RequestParam Integer supplyingId) {
 		return this.supplyingService.get(supplyingId);
 	}
 
 	@RequestMapping(value = "/getSupplyingForSearch", method = RequestMethod.POST)
-	public @ResponseBody List<Supplying> getSupplyingForSearch(@RequestBody SupplyingQuery supplyingQuery) throws Exception {
+	public @ResponseBody
+	List<Supplying> getSupplyingForSearch(@RequestBody SupplyingQuery supplyingQuery) throws Exception {
 		return this.supplyingService.getSupplyingForSearch(supplyingQuery);
 	}
 
 	@RequestMapping(value = "/getCountSupplyingSearch", method = RequestMethod.POST)
-	public @ResponseBody boolean getCountSupplyingSearch(@RequestBody SupplyingQuery supplyingQuery) throws Exception {
+	public @ResponseBody
+	boolean getCountSupplyingSearch(@RequestBody SupplyingQuery supplyingQuery) throws Exception {
 		return this.supplyingService.getCountSupplyingSearch(supplyingQuery);
 	}
 
 	@RequestMapping(value = "/cancelSupplyings", method = RequestMethod.POST)
-	public @ResponseBody void cancelSupplyings(@RequestBody List<Integer> supplyingIds) throws Exception {
+	public @ResponseBody
+	void cancelSupplyings(@RequestBody List<Integer> supplyingIds) throws Exception {
 		// this.supplyingService.cancelSupplyings(supplyingIds);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
@@ -94,6 +100,12 @@ public class SupplyingController {
 				this.auditService.addAudit(auth.getName(), RoleOperation.SUPPLYING_CANCELLATION.getId(), AuditState.CANCELLED, supplyingId);
 			}
 		}
+	}
+
+	@RequestMapping(value = "/supplyings", method = RequestMethod.POST)
+	public ModelAndView supplyings(HttpServletRequest request) {
+		SupplyingQuery supplyingQuery = this.getSupplyingQuery(request);
+		return new ModelAndView("supplyings", "supplyings", this.supplyingService.getSupplyingForSearch(supplyingQuery));
 	}
 
 	private SupplyingQuery getSupplyingQuery(HttpServletRequest request) {
