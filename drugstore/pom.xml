@@ -74,12 +74,20 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>${javax.servlet.version}</version>
             <scope>provided</scope>
-		</dependency>
+		</dependency> -->
+		
+		<dependency>
+      		<groupId>javax.servlet</groupId>
+      		<artifactId>javax.servlet-api</artifactId>
+      		<version>3.1.0</version>
+      		<scope>provided</scope>
+      	</dependency>
+		
 
 		<dependency>
 			<groupId>commons-fileupload</groupId>
@@ -311,11 +319,11 @@
 			<version>1.1</version>
 		</dependency>
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-distribution-manifest</artifactId>
 			<version>2.2</version>
-			<!-- <scope>provided</scope> -->
+			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
@@ -326,7 +334,20 @@
 					<groupId>org.apache.geronimo.specs</groupId>
 				</exclusion>
 			</exclusions>
+		</dependency> -->
+		
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-distribution-manifest</artifactId>
+			<version>3.1.0</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>geronimo-servlet_2.5_spec</artifactId>
+					<groupId>org.apache.geronimo.specs</groupId>
+				</exclusion>
+				</exclusions>
 		</dependency>
+		
 
  		<dependency>
 			<groupId>commons-discovery</groupId>
@@ -357,8 +378,8 @@
             <artifactId>commons-digester</artifactId>
             <version>2.1</version>
         </dependency>
-
-        <dependency>
+        
+         <dependency>
             <groupId>eu.bitwalker</groupId>
             <artifactId>UserAgentUtils</artifactId>
             <version>1.15</version>

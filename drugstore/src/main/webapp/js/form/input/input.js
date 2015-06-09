@@ -536,7 +536,7 @@ Input = function() {
 										var x = window.open('','_blank', '', false);
 										x.document.open();
 										x.document.location=string;
-										myRedirect("success","Se ha autorizado el ingreso de mercader\u00eda n\u00famero: " + response.operationId, "searchInputToUpdate.do");
+										myRedirect("success","Se ha autorizado el ingreso de mercader\u00eda n\u00famero: " + response.id, "searchInputToUpdate.do");
 									},
 									error: function(jqXHR, textStatus, errorThrown) {
 										myGenericError();

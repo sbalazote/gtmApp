@@ -3,18 +3,17 @@ package com.drogueria.helper.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.tools.jxc.apt.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.drogueria.constant.Constants;
 import com.drogueria.dto.ProviderSerializedProductDTO;
 import com.drogueria.helper.SerialParser;
 import com.drogueria.model.ProviderSerializedFormat;
 import com.drogueria.model.ProviderSerializedFormatTokens;
 import com.drogueria.service.ProviderSerializedFormatService;
 import com.drogueria.service.ProviderSerializedFormatTokensService;
-import com.drogueria.constant.Constants;
 
 @Service
 @Transactional
@@ -49,22 +48,22 @@ public class SerialParserImpl implements SerialParser {
 		return serial.matches(regexp);
 	}
 
-    @Override
-    public ProviderSerializedProductDTO parseSelfSerial(String serial) {
-        ProviderSerializedProductDTO providerSerializedProductDTO = null;
-        if (serial.length() == Constants.SELF_SERIALIZED_LENGTH) {
-            Integer toIndexSerial =  Constants.SELF_SERIALIZED_CODE_LENGTH + Constants.GLN_LENGTH;
-            String gln = serial.substring(Constants.SELF_SERIALIZED_CODE_LENGTH, toIndexSerial);
+	@Override
+	public ProviderSerializedProductDTO parseSelfSerial(String serial) {
+		ProviderSerializedProductDTO providerSerializedProductDTO = null;
+		if (serial.length() == Constants.SELF_SERIALIZED_LENGTH) {
+			Integer toIndexSerial = Constants.SELF_SERIALIZED_CODE_LENGTH + Constants.GLN_LENGTH;
+			String gln = serial.substring(Constants.SELF_SERIALIZED_CODE_LENGTH, toIndexSerial);
 
-            Integer sinceSerialIndex = toIndexSerial + Constants.SELF_SERIALIZED_SEPARATOR_SERIAL_LENGTH;
-            Integer toSerialEndIndex = sinceSerialIndex + Constants.SELF_SERIALIZED_SERIAL_LENGTH;
-            String serialNumber = serial.substring(sinceSerialIndex, toSerialEndIndex);
-            providerSerializedProductDTO = new ProviderSerializedProductDTO();
-            providerSerializedProductDTO.setSerialNumber(gln + serialNumber);
-            providerSerializedProductDTO.setValue("S", gln + serialNumber);
-        }
-        return providerSerializedProductDTO;
-    }
+			Integer sinceSerialIndex = toIndexSerial + Constants.SELF_SERIALIZED_SEPARATOR_SERIAL_LENGTH;
+			Integer toSerialEndIndex = sinceSerialIndex + Constants.SELF_SERIALIZED_SERIAL_LENGTH;
+			String serialNumber = serial.substring(sinceSerialIndex, toSerialEndIndex);
+			providerSerializedProductDTO = new ProviderSerializedProductDTO();
+			providerSerializedProductDTO.setSerialNumber(gln + serialNumber);
+			providerSerializedProductDTO.setValue("S", gln + serialNumber);
+		}
+		return providerSerializedProductDTO;
+	}
 
 	private String getSeparators(String fieldType, List<ProviderSerializedFormatTokens> formatTokens) {
 		String separators = "";

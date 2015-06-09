@@ -19,8 +19,8 @@ import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
-import org.apache.ws.security.WSConstants;
-import org.apache.ws.security.handler.WSHandlerConstants;
+import org.apache.wss4j.common.ConfigurationConstants;
+import org.apache.wss4j.common.WSS4JConstants;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
@@ -121,6 +121,10 @@ public class WebService {
 				throw new RuntimeException(e);
 			}
 		}
+		// System.setProperty("javax.net.ssl.keyStore", "C:\\Users\\Usuario\\.keystore");
+		// System.setProperty("javax.net.ssl.keyStorePassword", "password");
+		// System.setProperty("javax.net.ssl.keyStore", System.getProperty("user.home") + "\\.keystore");
+		System.setProperty("javax.net.ssl.keyStorePassword", "password");
 		QName qname = new QName(WebService.targetNamespace, WebService.webServiceName);
 		Service service = Service.create(wsdlURL, qname);
 		IWebServicePortType webService = service.getPort(IWebServicePortType.class);
@@ -149,10 +153,10 @@ public class WebService {
 
 		@SuppressWarnings("rawtypes")
 		Map outProps = new HashMap();
-		outProps.put(WSHandlerConstants.ACTION, WSHandlerConstants.USERNAME_TOKEN);
-		outProps.put(WSHandlerConstants.USER, ConfigReader.getUsr());
-		outProps.put(WSHandlerConstants.PASSWORD_TYPE, WSConstants.PW_TEXT);
-		outProps.put(WSHandlerConstants.PW_CALLBACK_CLASS, ClientPasswordCallback.class.getName());
+		outProps.put(ConfigurationConstants.ACTION, ConfigurationConstants.USERNAME_TOKEN);
+		outProps.put(ConfigurationConstants.USER, ConfigReader.getUsr());
+		outProps.put(ConfigurationConstants.PASSWORD_TYPE, WSS4JConstants.PW_TEXT);
+		outProps.put(ConfigurationConstants.PW_CALLBACK_CLASS, ClientPasswordCallback.class.getName());
 		WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor(outProps);
 		Client client = ClientProxy.getClient(webService);
 		Endpoint cxfEndpoint = client.getEndpoint();

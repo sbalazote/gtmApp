@@ -2,19 +2,17 @@ package com.drogueria.webservice.helper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import com.drogueria.util.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.drogueria.config.PropertyProvider;
-import com.drogueria.helper.EncryptionHelper;
 import com.drogueria.model.Input;
 import com.drogueria.model.InputDetail;
 import com.drogueria.service.PropertyService;
+import com.drogueria.util.DateUtils;
 import com.drogueria.util.OperationResult;
 import com.drogueria.util.StringUtility;
 import com.drogueria.webservice.WebService;
@@ -52,8 +50,8 @@ public class InputWSHelper {
 
 		if (eventId != null) {
 			List<InputDetail> pendingProducts = new ArrayList<InputDetail>();
-            Boolean isProducion = Boolean.valueOf(PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION));
-			boolean hasChecked = this.getPendingTransactions(input.getInputDetails(), pendingProducts, errors,isProducion);
+			Boolean isProducion = Boolean.valueOf(PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION));
+			boolean hasChecked = this.getPendingTransactions(input.getInputDetails(), pendingProducts, errors, isProducion);
 			// Si la lista esta vacia es porque de los productos que informan ninguno esta pendiente de informar por el agente de origen
 			if (((pendingProducts.isEmpty()) && hasChecked) || input.hasNotProviderSerialized()) {
 				webServiceResult = this.sendDrugs(input, medicines, errors, eventId);
@@ -99,8 +97,8 @@ public class InputWSHelper {
 		}
 		if (!medicines.isEmpty() && errors.isEmpty()) {
 			logger.info("Iniciando consulta con ANMAT");
-			webServiceResult = this.webServiceHelper.run(medicines, this.PropertyService.get().getANMATName(),
-					this.PropertyService.get().getDecryptPassword(), errors);
+			webServiceResult = this.webServiceHelper.run(medicines, this.PropertyService.get().getANMATName(), this.PropertyService.get().getDecryptPassword(),
+					errors);
 			if (webServiceResult == null) {
 				errors.add(ERROR_CANNOT_CONNECT_TO_ANMAT);
 			}
@@ -146,17 +144,17 @@ public class InputWSHelper {
 		return toReturn;
 	}
 
-	private boolean checkPendingTransactions(List<InputDetail> pendingProducts, List<String> errors,InputDetail inputDetail, boolean found) throws Exception {
+	private boolean checkPendingTransactions(List<InputDetail> pendingProducts, List<String> errors, InputDetail inputDetail, boolean found) throws Exception {
 		boolean toReturn = false;
-        TransaccionesNoConfirmadasWSResult pendingTransactions = null;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = DateUtils.getDateFrom(-this.PropertyService.get().getDaysAgoPendingTransactions());
-        long nullValue = -1;
-        String gtin = StringUtility.addLeadingZeros(inputDetail.getProduct().getLastGtin(), 14);
-        String serie = inputDetail.getSerialNumber();
-        pendingTransactions = this.webService.getTransaccionesNoConfirmadas(this.PropertyService.get().getANMATName(), this.PropertyService.get().getDecryptPassword(), nullValue, null, null, null, gtin, nullValue, null,
-                null, simpleDateFormat.format(date), simpleDateFormat.format(new Date()), null, null, null, null, nullValue, null, serie,
-                new Long(1), new Long(100));
+		TransaccionesNoConfirmadasWSResult pendingTransactions = null;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Date date = DateUtils.getDateFrom(-this.PropertyService.get().getDaysAgoPendingTransactions());
+		long nullValue = -1;
+		String gtin = StringUtility.addLeadingZeros(inputDetail.getProduct().getLastGtin(), 14);
+		String serie = inputDetail.getSerialNumber();
+		pendingTransactions = this.webService.getTransaccionesNoConfirmadas(this.PropertyService.get().getANMATName(), this.PropertyService.get()
+				.getDecryptPassword(), nullValue, null, null, null, gtin, nullValue, null, null, simpleDateFormat.format(date), simpleDateFormat
+				.format(new Date()), null, null, null, null, nullValue, null, serie, new Long(1), new Long(100));
 		if (pendingTransactions != null) {
 			if (pendingTransactions.getErrores() == null) {
 				if (pendingTransactions.getList() != null) {
