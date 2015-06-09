@@ -343,7 +343,7 @@ var Supplying = function() {
 							openModal(null);
 							$("#amountModal").modal('hide');
 						} else {
-							$("#productAmountInput").tooltip("destroy").data("title", "Stock insuficiente").addClass("has-error").tooltip();
+							$("#productAmountInput").tooltip("destroy").data("title", "Stock disponible: " + response).addClass("has-error").tooltip();
 							return false;
 						}
 					},
