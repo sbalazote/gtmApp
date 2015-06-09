@@ -392,7 +392,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>gtm-app</finalName>
+		<finalName>${rp.build.warname}-${project.artifactId}-${project.version}</finalName>
         <filters>
             <filter>src/main/filters/filter-${env}.properties</filter>
         </filters>
@@ -433,6 +433,7 @@
             <id>development</id>
             <properties>
                 <env>dev</env>
+                <rp.build.warname>dev</rp.build.warname>
             </properties>
         </profile>
         <profile>
@@ -442,18 +443,21 @@
             </activation>
             <properties>
                 <env>test</env>
+                <rp.build.warname>test</rp.build.warname>
             </properties>
         </profile>
         <profile>
             <id>production</id>
             <properties>
                 <env>prod</env>
+                <rp.build.warname>prod</rp.build.warname>
             </properties>
         </profile>
         <profile>
             <id>hmoore</id>
             <properties>
                 <env>hmoore</env>
+                <rp.build.warname>hmoore</rp.build.warname>
             </properties>
         </profile>
     </profiles>
