@@ -25,7 +25,7 @@
 		          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#panel1"><spring:message code="configuration.info"/></a>
 			</h3>
 		</div>
-		<div id="panel1" class="panel-collapse">
+		<div id="panel1" class="panel-collapse collapse">
 			<div class="panel-body">
                 <div class="row">
 					<div class="col-md-4 form-group">
@@ -49,7 +49,7 @@
 					</div>
 					<div class="col-md-4 form-group">	
 						<label for="provinceSelect"><spring:message code="configuration.province"/></label>
-						<select class="form-control chosen-select" id="provinceSelect" name="province">
+						<select class="form-control" id="provinceSelect" name="province">
 							<option value="${selectedProvince.id}"><c:out value="${selectedProvince.name}"></c:out></option>
 							<c:forEach items="${provinces}" var="province" varStatus="status">
 								<option value="${province.id}"><c:out value="${province.name}"></c:out></option>
@@ -88,7 +88,7 @@
 					</div>
 					<div class="col-md-4 form-group">	
 						<label for="agentSelect"><spring:message code="configuration.agent"/></label>
-						<select class="form-control chosen-select" id="agentSelect" name="agent">
+						<select class="form-control" id="agentSelect" name="agent">
 							<option value="${selectedAgent.id}"><c:out value="${selectedAgent.description}"></c:out></option>
 							<c:forEach items="${agents}" var="agent" varStatus="status">
 								<option value="${agent.id}"><c:out value="${agent.description}"></c:out></option>

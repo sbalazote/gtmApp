@@ -206,5 +206,13 @@ UpdateProperty = function() {
         {
             width: '100%' /* desired width */
         });
+    $("#provinceSelect").chosen(
+        {
+            width: '100%' /* desired width */
+        });
+    $("#agentSelect").chosen(
+        {
+            width: '100%' /* desired width */
+        });
 
 };
