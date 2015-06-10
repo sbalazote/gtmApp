@@ -45,35 +45,9 @@
 
         <div class="row">
             <div class="col-md-4 form-group">
-                <label for="conceptSearch"><spring:message code="common.concept"/></label>
-                <select id="conceptSearch" name="conceptSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
-                    <option value=""></option>
-                    <c:forEach items="${concepts}" var="concept">
-                        <option value="${concept.id}"><c:out value="${concept.code}"></c:out> - <c:out value="${concept.description}"></c:out></option>
-                    </c:forEach>
-                </select>
+                <label for="affiliateInput"><spring:message code="common.affiliate" /></label>
+                <input type='hidden' id="affiliateInput" name="affiliate" class="form-control">
             </div>
-            <div class="col-md-4 form-group">
-                <label for="providerSearch"><spring:message code="common.provider"/></label>
-                <select id="providerSearch" name="providerSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
-                    <option value=""></option>
-                    <c:forEach items="${providers}" var="provider">
-                        <option value="${provider.id}"><c:out value="${provider.code}"></c:out> - <c:out value="${provider.name}"></c:out></option>
-                    </c:forEach>
-                </select>
-            </div>
-            <div class="col-md-4 form-group">
-                <label for="deliveryLocationSearch"><spring:message code="common.deliveryLocation"/></label>
-                <select id="deliveryLocationSearch" name="deliveryLocationSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
-                    <option value=""></option>
-                    <c:forEach items="${deliveryLocations}" var="deliveryLocation">
-                        <option value="${deliveryLocation.id}"><c:out value="${deliveryLocation.code}"></c:out> - <c:out value="${deliveryLocation.name}"></c:out></option>
-                    </c:forEach>
-                </select>
-            </div>
-
-        </div>
-        <div class="row">
             <div class="col-md-4 form-group">
                 <label for="agreementSearch"><spring:message code="common.agreement"/></label>
                 <select id="agreementSearch" name="agreementSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
@@ -83,7 +57,14 @@
                     </c:forEach>
                 </select>
             </div>
-            <div class="col-md-2 col-md-offset-4 form-margin">
+            <div class="col-md-4 checkbox form-margin">
+                <label>
+                    <input id="cancelledCheckbox" type="checkbox"><spring:message code="common.cancelled" />
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-8 form-margin">
                 <button class="btn btn-success btn-block" type="submit" id="searchButton">
                     <span class="glyphicon glyphicon-search"></span>
                     <spring:message code="common.search" />

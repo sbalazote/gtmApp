@@ -54,20 +54,27 @@ SearchSupplying = function() {
             $.datepicker._clearDate('#dateToSearch');
         }
         $("#idSearch").val('');
-        $('#clientSearch').val('').trigger('chosen:updated');
-        $('#affiliateSearch').val('').trigger('chosen:updated');
+        $("#affiliateInput").select2("val", "");
         $('#agreementSearch').val('').trigger('chosen:updated');
+        $('#cancelledCheckbox').attr('checked', false);
     });
 
     $("#searchButton").click(function() {
         if(validateForm()){
+            var cancelled;
+            if ($('#cancelledCheckbox').is(":checked"))
+            {
+                cancelled = true;
+            }else{
+                cancelled = false;
+            }
             var jsonSupplyingSearch = {
                 "id": $("#idSearch").val().trim() || null,
                 "dateFrom": $("#dateFromSearch").val(),
                 "dateTo": $("#dateToSearch").val(),
-                "clientId": $("#clientSearch").val() || null,
-                "affiliateId": $("#affiliateSearch").val() || null,
+                "affiliateId": $("#affiliateInput").val() || null,
                 "agreementId": $("#agreementSearch").val() || null,
+                "cancelled": cancelled
             };
 
             $.ajax({
@@ -131,7 +138,6 @@ SearchSupplying = function() {
                 var params = '&dateFrom=' + jsonSupplyingSearch.dateFrom +
                     '&id=' + jsonSupplyingSearch.id +
                     '&dateTo=' + jsonSupplyingSearch.dateTo +
-                    '&clientId=' + jsonSupplyingSearch.clientId +
                     '&affiliateId=' + jsonSupplyingSearch.affiliateId +
                     '&agreementId=' + jsonSupplyingSearch.agreementId;
 
@@ -150,4 +156,54 @@ SearchSupplying = function() {
         });
     };
 
+
+    $("#affiliateInput").select2({
+        //allowClear: true,
+        placeholder: "Buscar afiliado...",
+        minimumInputLength: 3,
+        initSelection : function (element, callback) {
+            var data = {
+                code: element.attr("code"),
+                name: element.attr("name"),
+                surname: element.attr("surname")
+            };
+            callback(data);
+        },
+        ajax: {
+            url: "getAffiliates.do",
+            dataType: 'json',
+            quietMillis: 250,
+            data: function (term, page) { // page is the one-based page number tracked by Select2
+                return {
+                    term: term, //search term
+                    pageNumber: page, // page number
+                    pageSize: 10, // page number
+                    active: true
+                };
+            },
+            results: function (data, page, query) {
+                var more = (data.length == 10); // whether or not there are more results available
+
+                var parsedResults = [];
+
+                $.each(data, function(index, value) {
+                    parsedResults.push({
+                        id: value.id,
+                        text:  value.code + "-" + value.name + " " + value.surname
+                    });
+                });
+
+                // notice we return the value of more so Select2 knows if more results can be loaded
+                return { results: parsedResults, more: more };
+            }
+        },
+        formatResult: function(data) {
+            return "<div class='select2-user-result'>" + data.text + "</div>";
+        },
+        formatSelection: function(data) {
+            return data.text;
+        }
+    });
+
+    $("#affiliateInput").select2("enable", true);
 };

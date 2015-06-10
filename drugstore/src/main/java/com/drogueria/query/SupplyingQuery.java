@@ -8,9 +8,9 @@ public class SupplyingQuery {
     private Integer id;
     private String dateFrom;
     private String dateTo;
-    private Integer clientId;
     private Integer affiliateId;
     private Integer agreementId;
+    private Boolean cancelled;
 
     public Integer getId() {
         return id;
@@ -36,14 +36,6 @@ public class SupplyingQuery {
         this.dateTo = dateTo;
     }
 
-    public Integer getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(Integer clientId) {
-        this.clientId = clientId;
-    }
-
     public Integer getAffiliateId() {
         return affiliateId;
     }
@@ -60,16 +52,23 @@ public class SupplyingQuery {
         this.agreementId = agreementId;
     }
 
+    public Boolean getCancelled() {
+        return cancelled;
+    }
 
-    public static SupplyingQuery createFromParameters(Integer id, String dateFrom, String dateTo, Integer clientId, Integer affiliateId,
-                                                   Integer agreementId) {
+    public void setCancelled(Boolean cancelled) {
+        this.cancelled = cancelled;
+    }
+
+    public static SupplyingQuery createFromParameters(Integer id, String dateFrom, String dateTo,Integer affiliateId,
+                                                   Integer agreementId, Boolean cancelled) {
         SupplyingQuery supplyingQuery = new SupplyingQuery();
         supplyingQuery.id = id;
         supplyingQuery.dateFrom = dateFrom;
         supplyingQuery.dateTo = dateTo;
-        supplyingQuery.clientId = clientId;
         supplyingQuery.affiliateId = affiliateId;
         supplyingQuery.agreementId = agreementId;
+        supplyingQuery.cancelled = cancelled;
         return supplyingQuery;
     }
 }

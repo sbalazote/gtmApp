@@ -83,13 +83,17 @@ public class SupplyingDAOHibernateImpl implements SupplyingDAO {
 			}
 		}
 
-		if (supplyingQuery.getClientId() != null) {
-			criteria.add(Restrictions.eq("client.id", supplyingQuery.getClientId()));
-		}
-
 		if (supplyingQuery.getAgreementId() != null) {
 			criteria.add(Restrictions.eq("agreement.id", supplyingQuery.getAgreementId()));
 		}
+
+        if (supplyingQuery.getAffiliateId() != null) {
+            criteria.add(Restrictions.eq("affiliate.id", supplyingQuery.getAffiliateId()));
+        }
+
+        if(supplyingQuery.getCancelled() == true) {
+            criteria.add(Restrictions.eq("cancelled",supplyingQuery.getCancelled()));
+        }
 
 		List<Supplying> results = criteria.list();
 
