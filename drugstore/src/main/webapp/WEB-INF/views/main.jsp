@@ -6,7 +6,7 @@
 		<%@ page import="com.drogueria.config.PropertyProvider" %>
 		
 		<title><spring:message code="administration.drugManagement" /></title>
-		
+        <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,user-scalable=no" />
 		<meta charset="UTF-8">
 		
 		<link rel="shortcut icon" href="<%= PropertyProvider.getInstance().getProp(PropertyProvider.LOGO) %>" type="image/png">

@@ -193,7 +193,6 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 					dateFormatter.format(audit.getDate()), audit.getUser().getName());
 			deliveryNoteAuditDTO.add(auditDTO);
 		}
-		auditResultDTO.setDeliveryNotes(deliveryNoteAuditDTO);
 
 		if (productId == null) {
 			sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, output_detail as od where (a.role_id = "
@@ -218,6 +217,32 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 					dateFormatter.format(audit.getDate()), audit.getUser().getName());
 			deliveryNoteAuditDTO.add(auditDTO);
 		}
+
+        if (productId == null) {
+            sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, supplying_detail as sd where (a.role_id = "
+                    + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and sd.serial_number = '" + serialNumber
+                    + "' and a.operation_id = dnd.delivery_note_id and dnd.output_detail_id = sd.id and dnd.order_detail_id is null) or (a.role_id = "
+                    + RoleOperation.DELIVERY_NOTE_CANCELLATION.getId() + " and sd.serial_number = '" + serialNumber
+                    + "' and a.operation_id = dnd.delivery_note_id and dnd.output_detail_id = sd.id and dnd.order_detail_id is null) order by a.`date` desc";
+        }
+        if (productId != null) {
+            sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, supplying_detail as sd where (a.role_id = "
+                    + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and sd.product_id = " + productId + " and sd.serial_number = '" + serialNumber
+                    + "' and a.operation_id = dnd.delivery_note_id and dnd.output_detail_id = sd.id and dnd.order_detail_id is null) or (a.role_id = "
+                    + RoleOperation.DELIVERY_NOTE_CANCELLATION.getId() + " and sd.product_id = " + productId + " and sd.serial_number = '" + serialNumber
+                    + "' and a.operation_id = dnd.delivery_note_id and dnd.output_detail_id = sd.id and dnd.order_detail_id is null) order by a.`date` desc";
+        }
+
+        query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
+        deliveryNoteAudit = query.list();
+        for (Audit audit : deliveryNoteAudit) {
+            dateFormatter.format(audit.getDate());
+            AuditDTO auditDTO = new AuditDTO(audit.getId(), audit.getRole().getDescription(), audit.getOperationId(), audit.getAuditAction().getDescription(),
+                    dateFormatter.format(audit.getDate()), audit.getUser().getName());
+            deliveryNoteAuditDTO.add(auditDTO);
+        }
+
+        auditResultDTO.setDeliveryNotes(deliveryNoteAuditDTO);
 
 		return auditResultDTO;
 	}
@@ -293,7 +318,6 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 					dateFormatter.format(audit.getDate()), audit.getUser().getName());
 			deliveryNoteAuditDTO.add(auditDTO);
 		}
-		auditResultDTO.setDeliveryNotes(deliveryNoteAuditDTO);
 
 		sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, output_detail as od where (a.role_id = "
 				+ RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.product_id = " + productId + " and od.batch = '" + batch
@@ -312,6 +336,25 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 			deliveryNoteAuditDTO.add(auditDTO);
 		}
 
+        sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, supplying_detail as sd where (a.role_id = "
+                + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and sd.product_id = " + productId + " and sd.batch = '" + batch
+                + "' and sd.expiration_date = '" + expirateDate
+                + "' and a.operation_id = dnd.delivery_note_id and dnd.supplying_detail_id = sd.id) or (a.role_id = "
+                + RoleOperation.DELIVERY_NOTE_CANCELLATION.getId() + " and sd.product_id = " + productId + " and sd.batch = '" + batch
+                + "' and sd.expiration_date = '" + expirateDate
+                + "' and a.operation_id = dnd.delivery_note_id and dnd.supplying_detail_id = sd.id) order by a.`date` desc";
+
+        System.out.println(sentence);
+        query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
+        deliveryNoteAudit = query.list();
+        for (Audit audit : deliveryNoteAudit) {
+            dateFormatter.format(audit.getDate());
+            AuditDTO auditDTO = new AuditDTO(audit.getId(), audit.getRole().getDescription(), audit.getOperationId(), audit.getAuditAction().getDescription(),
+                    dateFormatter.format(audit.getDate()), audit.getUser().getName());
+            deliveryNoteAuditDTO.add(auditDTO);
+        }
+
+        auditResultDTO.setDeliveryNotes(deliveryNoteAuditDTO);
 		return auditResultDTO;
 	}
 }
