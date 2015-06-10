@@ -420,9 +420,9 @@
                     <server>tomcat</server>
                     <path>/${project.artifactId}</path>
                   <httpPort>8080</httpPort>
-                  <httpsPort>8443</httpsPort>
+                  <!-- <httpsPort>8443</httpsPort>
                   <keystoreFile>${user.home}/.keystore</keystoreFile>
-                  <keystorePass>password</keystorePass>
+                  <keystorePass>password</keystorePass> -->
                 </configuration>
             </plugin>
 		</plugins>
