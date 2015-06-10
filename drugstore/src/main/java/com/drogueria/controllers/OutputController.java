@@ -7,6 +7,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.drogueria.model.Concept;
+import com.drogueria.model.Property;
+import com.drogueria.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,13 +29,6 @@ import com.drogueria.helper.impl.OutputDeliveryNoteSheetPrinter;
 import com.drogueria.helper.impl.OutputFakeDeliveryNoteSheetPrinter;
 import com.drogueria.model.Output;
 import com.drogueria.query.OutputQuery;
-import com.drogueria.service.AgreementService;
-import com.drogueria.service.AuditService;
-import com.drogueria.service.ConceptService;
-import com.drogueria.service.DeliveryLocationService;
-import com.drogueria.service.DeliveryNoteService;
-import com.drogueria.service.OutputService;
-import com.drogueria.service.ProviderService;
 import com.drogueria.util.OperationResult;
 
 @Controller
@@ -54,14 +50,19 @@ public class OutputController {
 	private OutputDeliveryNoteSheetPrinter outputDeliveryNoteSheetPrinter;
 	@Autowired
 	private OutputFakeDeliveryNoteSheetPrinter outputFakeDeliveryNoteSheetPrinter;
-	@Autowired
-	private DeliveryNoteService deliveryNoteService;
+    @Autowired
+    private PropertyService propertyService;
 
 	@RequestMapping(value = "/output", method = RequestMethod.GET)
 	public String output(ModelMap modelMap) throws Exception {
 		modelMap.put("currentDate", (new SimpleDateFormat("dd/MM/yyyy").format(new Date())).toString());
 
-		modelMap.put("concepts", this.conceptService.getAllActives(false));
+        List<Concept> concepts = this.conceptService.getAllActives(false);
+        Concept supplyingConcept = propertyService.get().getSupplyingConcept();
+        if(supplyingConcept != null) {
+            concepts.remove(supplyingConcept);
+        }
+		modelMap.put("concepts", concepts);
 		modelMap.put("deliveryLocations", this.deliveryLocationService.getAllActives());
 		modelMap.put("providers", this.providerService.getAllActives());
 		modelMap.put("agreements", this.agreementService.getAllActives());

@@ -117,15 +117,29 @@
 
 			<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="administration.lookUp" /> <b class="caret"></b></a>
 				<ul class="dropdown-menu">
-					<li><a href="searchInput.do"><spring:message code="common.inputs" /></a></li>
-					<li><a href="searchOutput.do"><spring:message code="common.outputs" /></a></li>
-					<li><a href="searchProvisioningRequest.do"><spring:message code="common.provisioningRequests" /></a></li>
-					<li><a href="searchStock.do"><spring:message code="common.stocks" /></a></li>
-					<li><a href="searchDeliveryNote.do"><spring:message code="common.deliveryNotes" /></a></li>
-					<li><a href="searchAudit.do"><spring:message code="common.audits" /></a></li>
-					<li><a href="searchSerializedProduct.do"><spring:message code="common.searchSerializedProduct" /></a></li>
-					<li><a href="searchBatchExpirateDateProduct.do"><spring:message code="common.searchBatchExpirateDateProduct" /></a></li>
-                    <li><a href="searchSupplying.do"><spring:message code="common.searchSupplyings" /></a></li>
+                    <sec:authorize access="hasAnyRole('INPUT', 'INPUT_AUTHORIZATION', 'INPUT_CANCELLATION')">
+					    <li><a href="searchInput.do"><spring:message code="common.inputs" /></a></li>
+                    </sec:authorize>
+                    <sec:authorize access="hasAnyRole('OUTPUT', 'OUTPUT_CANCELLATION')">
+					    <li><a href="searchOutput.do"><spring:message code="common.outputs" /></a></li>
+                    </sec:authorize>
+                    <sec:authorize access="hasAnyRole('PROVISIONING_REQUEST', 'PROVISIONING_REQUEST_UPDATE','PROVISIONING_REQUEST_PRINT', 'PROVISIONING_REQUEST_AUTHORIZATION', 'PROVISIONING_REQUEST_CANCELLATION')">
+					    <li><a href="searchProvisioningRequest.do"><spring:message code="common.provisioningRequests" /></a></li>
+                    </sec:authorize>
+                    <sec:authorize access="hasAnyRole('DELIVERY_NOTE_PRINT', 'DELIVERY_NOTE_CANCELLATION')">
+                        <li><a href="searchDeliveryNote.do"><spring:message code="common.deliveryNotes" /></a></li>
+                    </sec:authorize>
+                    <sec:authorize access="hasAnyRole('ENTITY_ADMINISTRATION', 'USER_ADMINISTRATION')">
+                        <li><a href="searchAudit.do"><spring:message code="common.audits" /></a></li>
+                    </sec:authorize>
+                    <sec:authorize access="hasAnyRole('INPUT', 'INPUT_AUTHORIZATION', 'INPUT_CANCELLATION','OUTPUT', 'OUTPUT_CANCELLATION','PROVISIONING_REQUEST', 'PROVISIONING_REQUEST_UPDATE','PROVISIONING_REQUEST_PRINT', 'PROVISIONING_REQUEST_AUTHORIZATION', 'PROVISIONING_REQUEST_CANCELLATION', 'ORDER_ASSEMBLY', 'ORDER_ASSEMBLY_CANCELLATION')">
+                        <li><a href="searchStock.do"><spring:message code="common.stocks" /></a></li>
+                        <li><a href="searchSerializedProduct.do"><spring:message code="common.searchSerializedProduct" /></a></li>
+                    	<li><a href="searchBatchExpirateDateProduct.do"><spring:message code="common.searchBatchExpirateDateProduct" /></a></li>
+                    </sec:authorize>
+                    <sec:authorize access="hasAnyRole('SUPPLYING', 'SUPPLYING_CANCELLATION')">
+                        <li><a href="searchSupplying.do"><spring:message code="common.searchSupplyings" /></a></li>
+                    </sec:authorize>
 				</ul></li>
 
 			<sec:authorize access="hasAnyRole('ENTITY_ADMINISTRATION', 'USER_ADMINISTRATION')">
