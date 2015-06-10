@@ -153,7 +153,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 			if (!deliveryNoteQuery.getDeliveryNoteNumber().equals("")) {
 				sentence += " and dn.number = " + deliveryNoteQuery.getDeliveryNoteNumber();
 			}
-
+            sentence += " order by dn.id desc";
 			Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("dn", DeliveryNote.class)
 					.addJoin("dnd", "dn.deliveryNoteDetails").addEntity("dn", DeliveryNote.class)
 					.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
@@ -182,7 +182,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 			if (!deliveryNoteQuery.getDeliveryNoteNumber().equals("")) {
 				sentence += " and dn.number = " + deliveryNoteQuery.getDeliveryNoteNumber();
 			}
-
+            sentence += " order by dn.id desc";
 			Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("dn", DeliveryNote.class)
 					.addJoin("dnd", "dn.deliveryNoteDetails").addEntity("dn", DeliveryNote.class)
 					.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
@@ -207,7 +207,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
             if (deliveryNoteQuery.getAgreementId() != null) {
                 sentence += " and s.agreement_id = " + deliveryNoteQuery.getAgreementId();
             }
-
+            sentence += " order by dn.id desc";
             Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("dn", DeliveryNote.class)
                     .addJoin("dnd", "dn.deliveryNoteDetails").addEntity("dn", DeliveryNote.class)
                     .setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);

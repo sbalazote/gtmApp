@@ -9,6 +9,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -85,6 +86,9 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		if (auditQuery.getUserId() != null) {
 			criteria.add(Restrictions.eq("user.id", auditQuery.getUserId()));
 		}
+
+        criteria.addOrder(Order.desc("id"));
+
 		List<Audit> results = criteria.list();
 
 		return results;

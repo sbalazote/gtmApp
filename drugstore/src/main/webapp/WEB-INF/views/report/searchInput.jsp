@@ -93,7 +93,12 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-2 col-md-offset-8">
+            <div class="col-md-4 checkbox form-margin">
+                <label>
+                    <input id="cancelledCheckbox" type="checkbox"><spring:message code="common.cancelled" />
+                </label>
+            </div>
+			<div class="col-md-2 col-md-offset-4">
 				<button class="btn btn-success btn-block" type="submit" id="searchButton">
 				<span class="glyphicon glyphicon-search"></span>
 				<spring:message code="common.search" />

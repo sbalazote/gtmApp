@@ -62,6 +62,7 @@ public class StockDAOHibernateImpl implements StockDAO {
 					sentence += "and gtin.number = :gtin";
 				}
 			}
+
 			Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
 			query.setParameter("productId", productId);
 			query.setParameter("serialNumber", serialNumber);

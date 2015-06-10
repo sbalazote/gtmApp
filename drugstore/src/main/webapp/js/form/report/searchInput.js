@@ -64,10 +64,18 @@ SearchInput = function() {
 		$('#agreementSearch').val('').trigger('chosen:updated');
 		$('#deliveryNoteNumberSearch').val('');
 		$('#purchaseOrderNumberSearch').val('');
+        $('#cancelledCheckbox').attr('checked', false);
 	});
 	
 	$("#searchButton").click(function() {
 		if(validateForm()){
+            var cancelled;
+            if ($('#cancelledCheckbox').is(":checked"))
+            {
+                cancelled = true;
+            }else{
+                cancelled = false;
+            }
 			var jsonInputSearch = {
 				"id": $("#idSearch").val().trim() || null,
 				"dateFrom": $("#dateFromSearch").val(),
@@ -78,7 +86,7 @@ SearchInput = function() {
 				"agreementId": $("#agreementSearch").val() || null,
 				"deliveryNoteNumber": $("#deliveryNoteNumberSearch").val().trim(),
 				"purchaseOrderNumber": $("#purchaseOrderNumberSearch").val().trim(),
-				"cancelled": null,
+				"cancelled": cancelled,
 			};
 			
 			$.ajax({
