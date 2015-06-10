@@ -1,5 +1,6 @@
 package com.drogueria.persistence.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -38,7 +39,15 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Product> getForAutocomplete(String term, Boolean active) {
-		// String gtinSentence = "select p from Product as p inner join p.gtins as pg where pg.number = :gtin";
+
+		// Si active es null significa que busco x activos y inactivos.
+		List<Product> gtinSentenceQuery = new ArrayList<Product>();
+		if (active == null) {
+			String gtinSentence = "select p from Product as p inner join p.gtins as pg where pg.number = :gtin";
+			Query gtinQuery = this.sessionFactory.getCurrentSession().createQuery(gtinSentence);
+			gtinQuery.setParameter("gtin", StringUtility.removeLeadingZero(term));
+			gtinSentenceQuery = gtinQuery.list();
+		}
 
 		String literalSentence = "select p from Product as p where (description like :description or brand.description like :brand or monodrug.description like :monodrug";
 
@@ -50,10 +59,6 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 			literalSentence += " and active = true";
 		}
 
-		// Query gtinQuery = this.sessionFactory.getCurrentSession().createQuery(gtinSentence);
-		// gtinQuery.setParameter("gtin", StringUtility.removeLeadingZero(term));
-		// List<Product> gtinSentenceQuery = gtinQuery.list();
-
 		Query literalQuery = this.sessionFactory.getCurrentSession().createQuery(literalSentence);
 		literalQuery.setParameter("description", "%" + term + "%");
 		literalQuery.setParameter("brand", "%" + term + "%");
@@ -64,7 +69,9 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 		}
 		List<Product> literalSentenceQuery = literalQuery.list();
 
-		// gtinSentenceQuery.addAll(literalSentenceQuery);
+		if (active == null) {
+			literalSentenceQuery.addAll(gtinSentenceQuery);
+		}
 
 		return literalSentenceQuery;
 	}
