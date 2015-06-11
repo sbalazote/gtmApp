@@ -14,6 +14,10 @@ $(document).ready(function() {
         });
     });
 
+    $(document).on('touchstart', function (evt) {
+        evt.preventDefault();
+    });
+
 	// To highlight menu options
 	
 	var path = window.location.pathname.split("/");
