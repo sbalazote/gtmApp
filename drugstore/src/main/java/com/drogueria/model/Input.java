@@ -195,6 +195,16 @@ public class Input implements Serializable {
 		return hasToInform;
 	}
 
+	public boolean hasSelfSerialized() throws Exception {
+		boolean hasToInform = false;
+		for (InputDetail inputDetail : this.getInputDetails()) {
+			if (inputDetail.getProduct().isInformAnmat() && ("SS".equals(inputDetail.getProduct().getType()))) {
+				hasToInform = true;
+			}
+		}
+		return hasToInform;
+	}
+
 	public String getEvent() {
 		String eventId = null;
 		if (this.getProvider() != null) {
@@ -261,4 +271,12 @@ public class Input implements Serializable {
 		return agentId;
 	}
 
+	public boolean hasBeenInformedAllProducts() {
+		for (InputDetail inputDetail : this.getInputDetails()) {
+			if (inputDetail.getProduct().isInformAnmat() && !inputDetail.isInformed()) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

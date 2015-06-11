@@ -33,11 +33,11 @@ import com.drogueria.exceptions.NullProviderAndDeliveryLocationIdsException;
 import com.drogueria.exceptions.NullSerialNumberException;
 import com.drogueria.helper.SelfSerializedTagsPrinter;
 import com.drogueria.model.Agreement;
-import com.drogueria.model.Property;
 import com.drogueria.model.Input;
 import com.drogueria.model.InputDetail;
 import com.drogueria.model.Product;
 import com.drogueria.model.ProductGtin;
+import com.drogueria.model.Property;
 import com.drogueria.model.Stock;
 import com.drogueria.persistence.dao.InputDAO;
 import com.drogueria.query.InputQuery;
@@ -45,12 +45,12 @@ import com.drogueria.service.AgreementService;
 import com.drogueria.service.AuditService;
 import com.drogueria.service.ConceptService;
 import com.drogueria.service.DeliveryLocationService;
-import com.drogueria.service.PropertyService;
 import com.drogueria.service.InputService;
 import com.drogueria.service.OrderService;
 import com.drogueria.service.OutputService;
 import com.drogueria.service.ProductGtinService;
 import com.drogueria.service.ProductService;
+import com.drogueria.service.PropertyService;
 import com.drogueria.service.ProviderService;
 import com.drogueria.service.StockService;
 import com.drogueria.service.TraceabilityService;
@@ -111,13 +111,10 @@ public class InputServiceImpl implements InputService {
 	public void sendAsyncTransaction(Input input) throws Exception {
 		// Se corre el proceso asyncronicamente
 		OperationResult result = this.traceabilityService.processInputPendingTransactions(input);
-		if (result != null) {
-			// Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
-			if (result.getResultado()) {
-				input.setTransactionCodeANMAT(result.getCodigoTransaccion());
-				this.saveAndUpdateStock(input);
-				input.setInformed(true);
-			}
+		this.save(input);
+		if (input.hasBeenInformedAllProducts()) {
+			input.setInformed(true);
+			this.saveAndUpdateStock(input);
 		}
 	}
 
@@ -196,8 +193,7 @@ public class InputServiceImpl implements InputService {
 		return (!selfSerializedDetails.isEmpty());
 	}
 
-	private List<InputDetailDTO> generateSelfSerializedDetails(Integer totalAmount, List<InputDetailDTO> selfSerializedDetails,
-			Property Property) {
+	private List<InputDetailDTO> generateSelfSerializedDetails(Integer totalAmount, List<InputDetailDTO> selfSerializedDetails, Property Property) {
 		List<InputDetailDTO> newSelfSerializedDetails = new ArrayList<>();
 		Integer currentSerialNumber = Property.getLastTag() - totalAmount + 1;
 
@@ -337,12 +333,17 @@ public class InputServiceImpl implements InputService {
 
 			if (("PS".equals(inputDetailDTO.getProductType())) || ("SS".equals(inputDetailDTO.getProductType()))) {
 				inputDetail.setSerialNumber(inputDetailDTO.getSerialNumber());
+				if (product.isInformAnmat() && input.getConcept().isInformAnmat()) {
+					inputDetail.setInformAnmat(true);
+				}
+			} else {
+				inputDetail.setInformAnmat(false);
 			}
 			inputDetail.setProduct(product);
 			details.add(inputDetail);
 		}
-		input.setInputDetails(details);
 
+		input.setInputDetails(details);
 		if (input.hasToInform()) {
 			input.setInformAnmat(true);
 		} else {
@@ -463,14 +464,14 @@ public class InputServiceImpl implements InputService {
 		if (input.isInformAnmat()) {
 			operationResult = this.traceabilityService.processInputPendingTransactions(input);
 		}
-		if (operationResult != null) {
-			// Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
-			if (operationResult.getResultado()) {
-				input.setTransactionCodeANMAT(operationResult.getCodigoTransaccion());
-				input.setInformed(true);
-				this.saveAndUpdateStock(input);
-			}
-			operationResult.setOperationId(input.getId());
+		this.save(input);
+		// Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
+		if (input.hasBeenInformedAllProducts()) {
+			input.setInformed(true);
+			this.saveAndUpdateStock(input);
+		}
+		if (input.isInformed()) {
+			operationResult.setResultado(true);
 		}
 		return operationResult;
 	}

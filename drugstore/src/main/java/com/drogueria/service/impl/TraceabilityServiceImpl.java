@@ -36,7 +36,7 @@ public class TraceabilityServiceImpl implements TraceabilityService {
 
 	@Override
 	public OperationResult processInputPendingTransactions(Input input) throws Exception {
-		OperationResult result = this.inputWSHelper.sendDrugInformationToAnmat(input);
+		OperationResult result = this.inputWSHelper.confirmPendings(input);
 		return result;
 	}
 

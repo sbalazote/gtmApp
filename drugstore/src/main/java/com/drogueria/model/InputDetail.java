@@ -42,6 +42,15 @@ public class InputDetail implements Serializable {
 	@Column(name = "amount", nullable = false)
 	private Integer amount;
 
+	@Column(name = "transaction_code_anmat")
+	private String transactionCodeANMAT;
+
+	@Column(name = "inform_anmat", nullable = false)
+	private boolean informAnmat;
+
+	@Column(name = "informed", nullable = false)
+	private boolean informed;
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -96,6 +105,30 @@ public class InputDetail implements Serializable {
 
 	public void setGtin(ProductGtin gtin) {
 		this.gtin = gtin;
+	}
+
+	public String getTransactionCodeANMAT() {
+		return this.transactionCodeANMAT;
+	}
+
+	public void setTransactionCodeANMAT(String transactionCodeANMAT) {
+		this.transactionCodeANMAT = transactionCodeANMAT;
+	}
+
+	public boolean isInformAnmat() {
+		return this.informAnmat;
+	}
+
+	public void setInformAnmat(boolean informAnmat) {
+		this.informAnmat = informAnmat;
+	}
+
+	public boolean isInformed() {
+		return this.informed;
+	}
+
+	public void setInformed(boolean informed) {
+		this.informed = informed;
 	}
 
 	@Override

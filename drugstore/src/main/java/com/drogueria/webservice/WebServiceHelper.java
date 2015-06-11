@@ -112,7 +112,7 @@ public class WebServiceHelper {
 			drug.setCuit_destino(Constants.TEST_DESTINATION_TAXID);
 			drug.setId_evento(Constants.TEST_EVENT);
 			drug.setGtin(Constants.TEST_GTIN);
-			/*if (affiliateSurname != null) { drug.setApellido(affiliateSurname); } if (affiliateName != null) { drug.setNombres(affiliateName); } */
+			/* if (affiliateSurname != null) { drug.setApellido(affiliateSurname); } if (affiliateName != null) { drug.setNombres(affiliateName); } */
 			// if (document != null) {
 			// drug.setN_documento(document);
 			// }
@@ -120,7 +120,7 @@ public class WebServiceHelper {
 			// drug.setTipo_documento("dni");
 			// }
 			if (document != null) {
-				drug.setNro_asociado("dni");
+				drug.setNro_asociado(document);
 			}
 			if (medicalInsuranceCode != null) {
 				drug.setId_obra_social(String.valueOf(medicalInsuranceCode));
