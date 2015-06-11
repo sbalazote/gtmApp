@@ -3,7 +3,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.drogueria</groupId>
-	<artifactId>gtm-app</artifactId>
+	<artifactId>gtmApp</artifactId>
 	<packaging>war</packaging>
 	<version>1.0.0-SNAPSHOT</version>
 	<name>gtm-app</name>
@@ -419,7 +419,7 @@
                 <configuration>
                     <server>tomcat</server>
                     <path>/${project.artifactId}</path>
-                  <httpPort>8080</httpPort>
+                  	<port>8081</port>
                   <!-- <httpsPort>8443</httpsPort>
                   <keystoreFile>${user.home}/.keystore</keystoreFile>
                   <keystorePass>password</keystorePass> -->

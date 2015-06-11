@@ -5,7 +5,7 @@
 		<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 		<%@ page import="com.drogueria.config.PropertyProvider" %>
 		
-		<title><spring:message code="administration.drugManagement" /></title>
+		<title><%= PropertyProvider.getInstance().getProp(PropertyProvider.ARTIFACT_ID) %> - <%= PropertyProvider.getInstance().getProp(PropertyProvider.DESCRIPTION) %></title>
         <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,user-scalable=no" />
 		<meta charset="UTF-8">
 		

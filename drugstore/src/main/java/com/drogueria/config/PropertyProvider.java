@@ -7,8 +7,10 @@ public class PropertyProvider {
 
 	public static final String WEB_SERVICE_URL = "webservice.url";
 	public static final String IS_PRODUCTION = "is.production";
+	public static final String ARTIFACT_ID = "artifactId";
 	public static final String VERSION = "version";
 	public static final String LOGO = "logo";
+	public static final String DESCRIPTION = "description";
 
 	private static PropertyProvider instance = null;
 
