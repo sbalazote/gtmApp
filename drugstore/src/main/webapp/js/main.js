@@ -23,7 +23,14 @@ $(document).ready(function() {
 	var path = window.location.pathname.split("/");
 	var href = path[path.length-1];
 	$("ul.navbar-nav li a[href='"+href+"'] ").closest("li.activable").addClass("active");
-	
+
+    // Disable backspace to go back
+    $(document).on("keydown", function (e) {
+        if (e.which === 8 && !$(e.target).is("input, textarea")) {
+            e.preventDefault();
+        }
+    });
+
 	// My Global Functions
 	
 	myShowErrors = function(errorMap, errorList) {
