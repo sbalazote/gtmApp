@@ -27,12 +27,12 @@ SearchStock = function() {
 	$("#productInput").autocomplete({
 		source: function(request, response) {
 			$.ajax({
-				url: "getProducts.do",
+				url: "getProductoFromStock.do",
 				type: "GET",
 				async: false,
 				data: {
 					term: request.term,
-					active: true
+                    agreementId: $("#agreementSearch").val() || null
 				},
 				success: function(data) {
 					var array = $.map(data, function(item) {
