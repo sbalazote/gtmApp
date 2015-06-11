@@ -32,7 +32,7 @@ SearchStock = function() {
 				async: false,
 				data: {
 					term: request.term,
-                    agreementId: null
+                    agreementId: $("#agreementSearch").val() || null
 				},
 				success: function(data) {
 					var array = $.map(data, function(item) {
