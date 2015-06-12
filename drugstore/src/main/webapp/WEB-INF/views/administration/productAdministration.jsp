@@ -41,7 +41,7 @@
 						<button class="btn btn-primary btn-block" id="addProduct"><span class="glyphicon glyphicon-plus"></span> <spring:message code="common.add.entity"/></button>
 					</div>
 					<div class="col-md-4">
-						<button class="btn btn-success btn-block" id="alfabetaUpdateProducts"><span class="glyphicon glyphicon-upload"></span> <spring:message code="common.update.alfabeta"/></button>
+						<button class="btn btn-success btn-block" id="alfabetaUpdateProducts" onclick="location.href='alfabetaUpdateProducts.do'"><span class="glyphicon glyphicon-upload"></span> <spring:message code="common.update.alfabeta"/></button>
 					</div>
 				</div>
 				
@@ -53,7 +53,7 @@
 							<th data-column-id="id" data-header-css-class="idColumn" data-type="numeric"><spring:message code="common.id"/></th>
 							<th data-column-id="code" data-type="numeric"><spring:message code="common.code"/></th>
 							<th data-column-id="description" data-header-css-class="descriptionColumn"><spring:message code="common.description"/></th>
-							<th data-column-id="gtin" data-header-css-class="gtinColumn" data-type="numeric"><spring:message code="common.gtin"/></th>
+							<th data-column-id="gtin" data-header-css-class="gtinColumn" data-formatter="gtin"><spring:message code="common.gtin"/></th>
 							<th data-column-id="price" data-formatter="price"><spring:message code="common.price"/></th>
 							<th data-column-id="isCold"><spring:message code="common.cold"/></th>
 							<th data-column-id="commands" data-header-css-class="commandsColumn" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>

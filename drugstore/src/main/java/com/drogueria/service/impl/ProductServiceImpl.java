@@ -57,17 +57,32 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public boolean updateFromAlfabeta(Integer code, String gtin, BigDecimal price) {
-		Product product = this.productDAO.getByCode(code);
-		ProductGtin productGtin = new ProductGtin();
-		productGtin.setDate(new Date());
-		productGtin.setNumber(gtin);
-		product.getGtins().add(productGtin);
-		ProductPrice productPrice = new ProductPrice();
-		productPrice.setDate(new Date());
-		productPrice.setPrice(price);
-		product.getPrices().add(productPrice);
+		Product product;
+		if (this.productDAO.exists(code)) {
+			product = this.productDAO.getByCode(code);
+			ProductGtin productGtin = new ProductGtin();
+			productGtin.setDate(new Date());
+			productGtin.setNumber(gtin);
+			List<ProductGtin> gtins = product.getGtins();
+			if (!gtins.contains(productGtin)) {
+				gtins.add(productGtin);
+			}
 
-		return this.productDAO.updateFromAlfabeta(product);
+			ProductPrice productPrice = new ProductPrice();
+			productPrice.setDate(new Date());
+			productPrice.setPrice(price);
+			List<ProductPrice> prices = product.getPrices();
+			if (!prices.contains(productPrice)) {
+				prices.add(productPrice);
+			}
+
+			this.productDAO.save(product);
+			return true;
+		} else {
+			// TODO y si no existe el producto?
+			logger.warn("El producto con codigo nro. " + code + "no existe.");
+			return false;
+		}
 	}
 
 	@Override

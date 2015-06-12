@@ -91,6 +91,7 @@ public class FileController {
 				Integer gtinFieldLength = alfabetaFileDTO.getGtinFieldLength();
 
 				BigDecimal updatedPrice = new BigDecimal(currentLineManualDat.substring(priceFieldByteOffset, priceFieldByteOffset + priceFieldLength));
+				updatedPrice = updatedPrice.divide(new BigDecimal(100));
 				Integer updatedCode = Integer.parseInt(currentLineManualDat.substring(codeFieldByteOffset, codeFieldByteOffset + codeFieldLength));
 				String updatedGtin = currentLineManualDat.substring(gtinFieldByteOffset, gtinFieldByteOffset + gtinFieldLength);
 

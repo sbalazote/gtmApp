@@ -27,6 +27,7 @@ import com.drogueria.model.ProductPrice;
 import com.drogueria.service.ProductBrandService;
 import com.drogueria.service.ProductDrugCategoryService;
 import com.drogueria.service.ProductGroupService;
+import com.drogueria.service.ProductGtinService;
 import com.drogueria.service.ProductMonodrugService;
 import com.drogueria.service.ProductService;
 
@@ -35,6 +36,9 @@ public class ProductAdministrationController {
 
 	@Autowired
 	private ProductService productService;
+
+	@Autowired
+	private ProductGtinService productGtinService;
 
 	@Autowired
 	private ProductBrandService productBrandService;
@@ -214,6 +218,11 @@ public class ProductAdministrationController {
 	@RequestMapping(value = "/deleteProduct", method = RequestMethod.POST)
 	public @ResponseBody boolean deleteProduct(@RequestParam Integer productId) throws Exception {
 		return this.productService.delete(productId);
+	}
+
+	@RequestMapping(value = "/isGtinUsed", method = RequestMethod.POST)
+	public @ResponseBody boolean isGtinUsed(@RequestParam String gtinNumber) throws Exception {
+		return this.productGtinService.isGtinUsed(gtinNumber);
 	}
 
 	@RequestMapping(value = "/existsProduct", method = RequestMethod.GET)

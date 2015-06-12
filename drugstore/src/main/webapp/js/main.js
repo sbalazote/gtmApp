@@ -5,6 +5,11 @@ $(document).ready(function() {
         if (event.ctrlKey==true && (event.which == '107' || event.which == '109')) {
             event.preventDefault();
         }
+        
+        if (event.which == '171' || event.which == '187') {
+            event.preventDefault();
+        }
+        
         $(window).bind('mousewheel DOMMouseScroll', function(event)
         {
             if(event.ctrlKey == true)

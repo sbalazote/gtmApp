@@ -109,7 +109,7 @@ public class InputDAOHibernateImpl implements InputDAO {
 		if (!StringUtils.isEmpty(inputQuery.getPurchaseOrderNumber())) {
 			criteria.add(Restrictions.eq("purchaseOrderNumber", inputQuery.getPurchaseOrderNumber()));
 		}
-		if (inputQuery.getCancelled() == true) {
+		if (inputQuery.getCancelled() != null) {
 			criteria.add(Restrictions.eq("cancelled", inputQuery.getCancelled()));
 		}
         criteria.addOrder(Order.desc("id"));

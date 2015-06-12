@@ -13,4 +13,6 @@ public interface ProductGtinDAO {
 	List<ProductGtin> getAll();
 
 	ProductGtin getByNumber(String number);
+
+	boolean isGtinUsed(String number);
 }

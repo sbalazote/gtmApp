@@ -51,4 +51,14 @@ public class ProductPrice implements Serializable {
 		this.date = date;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof ProductPrice) {
+			ProductPrice productPrice = (ProductPrice) o;
+			if (productPrice.getPrice().equals(this.price)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

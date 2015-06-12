@@ -139,7 +139,8 @@ SearchSupplying = function() {
                     '&id=' + jsonSupplyingSearch.id +
                     '&dateTo=' + jsonSupplyingSearch.dateTo +
                     '&affiliateId=' + jsonSupplyingSearch.affiliateId +
-                    '&agreementId=' + jsonSupplyingSearch.agreementId;
+                    '&agreementId=' + jsonSupplyingSearch.agreementId +
+                    '&cancelled=' + jsonSupplyingSearch.cancelled;
 
                 var exportHTML = exportQueryTableHTML("./rest/supplyings", params);
                 var searchHTML = $(".search");
