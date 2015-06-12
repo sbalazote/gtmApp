@@ -42,45 +42,60 @@ public class InputWSHelper {
 	private static String ERROR_CANNOT_CONNECT_TO_ANMAT = "No se ha podido conectar con el Servidor de ANMAT";
 
 	public OperationResult confirmPendings(Input input) throws Exception {
-		List<String> errors = new ArrayList<String>();
-		WebServiceResult webServiceResultSelfSerialized = null;
-		WebServiceResult webServiceResultProviderSerialized = null;
-		boolean selfSerializedCheck = false;
-		boolean providerSerializedCheck = false;
-		OperationResult operationResult = new OperationResult();
-		operationResult.setResultado(false);
-		if (input.hasSelfSerialized()) {
-			webServiceResultSelfSerialized = this.sendSelfSerializedDrugs(input, errors);
-		} else {
-			selfSerializedCheck = true;
-		}
-		if (!input.hasNotProviderSerialized()) {
-			webServiceResultProviderSerialized = this.confirmPendingTransactions(input, errors);
-		} else {
-			providerSerializedCheck = true;
-		}
-		if (input.hasSelfSerialized() && webServiceResultSelfSerialized != null && webServiceResultSelfSerialized.getResultado()) {
-			this.updateSelfSerializedDetails(input.getInputDetails(), webServiceResultSelfSerialized);
-			selfSerializedCheck = true;
-		} else {
-			if (input.hasSelfSerialized() && webServiceResultSelfSerialized == null) {
-				errors.add(ERROR_CANNOT_CONNECT_TO_ANMAT);
-			}
-		}
-		if (!input.hasNotProviderSerialized() && webServiceResultProviderSerialized != null && webServiceResultProviderSerialized.getResultado()) {
-			this.updateProviderSerializedDetails(input.getInputDetails(), webServiceResultProviderSerialized);
-			providerSerializedCheck = true;
-		}
-		if (!input.hasNotProviderSerialized() && webServiceResultProviderSerialized == null) {
-			errors.add(ERROR_CANNOT_CONNECT_TO_ANMAT);
-		}
-		if (providerSerializedCheck && selfSerializedCheck) {
-			operationResult.setResultado(true);
-		}
-		if (errors.size() > 0) {
-			operationResult.setMyOwnErrors(errors);
-		}
-		return operationResult;
+        List<String> errors = new ArrayList<String>();
+        WebServiceResult webServiceResultSelfSerialized = null;
+        WebServiceResult webServiceResultProviderSerialized = null;
+        boolean selfSerializedCheck = false;
+        boolean providerSerializedCheck = false;
+        OperationResult operationResult = new OperationResult();
+        operationResult.setResultado(false);
+
+        if (input.hasSelfSerialized()) {
+            webServiceResultSelfSerialized = this.sendSelfSerializedDrugs(input, errors);
+        } else {
+            selfSerializedCheck = true;
+        }
+        if (!input.hasNotProviderSerialized()) {
+            webServiceResultProviderSerialized = this.confirmPendingTransactions(input, errors);
+        } else {
+            providerSerializedCheck = true;
+        }
+
+        if (input.hasSelfSerialized() && webServiceResultSelfSerialized != null && webServiceResultSelfSerialized.getResultado()) {
+            this.updateSelfSerializedDetails(input.getInputDetails(), webServiceResultSelfSerialized);
+            selfSerializedCheck = true;
+        } else {
+            if (input.hasSelfSerialized()) {
+                if(webServiceResultSelfSerialized == null){
+                    errors.add(ERROR_CANNOT_CONNECT_TO_ANMAT);
+                }else{
+                    for(WebServiceError error : webServiceResultProviderSerialized.getErrores())
+                        errors.add(error.get_c_error() + " " + error.get_d_error());
+                }
+            }
+        }
+        if (!input.hasNotProviderSerialized() && webServiceResultProviderSerialized != null && webServiceResultProviderSerialized.getResultado()) {
+            this.updateProviderSerializedDetails(input.getInputDetails(), webServiceResultProviderSerialized);
+            providerSerializedCheck = true;
+        }else {
+            if (!input.hasNotProviderSerialized()) {
+                if (webServiceResultProviderSerialized == null) {
+                    errors.add(ERROR_CANNOT_CONNECT_TO_ANMAT);
+                } else {
+                    for (WebServiceError error : webServiceResultProviderSerialized.getErrores())
+                        errors.add(error.get_c_error() + " " + error.get_d_error());
+                }
+            }
+        }
+
+        if (providerSerializedCheck && selfSerializedCheck) {
+            operationResult.setResultado(true);
+        }
+
+        if (errors.size() > 0) {
+            operationResult.setMyOwnErrors(errors);
+        }
+        return operationResult;
 	}
 
 	private WebServiceResult sendSelfSerializedDrugs(Input input, List<String> errors) throws Exception {
