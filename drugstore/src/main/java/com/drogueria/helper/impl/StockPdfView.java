@@ -58,13 +58,13 @@ public class StockPdfView extends AbstractPdfView {
 
 			// 4.SERIE
 			document.add(new Chunk("SERIE: "));
-			Chunk active = new Chunk(stock.getSerialNumber(), fontTitle);
+			Chunk active = new Chunk(stock.getSerialNumber() != null ? stock.getSerialNumber() : "", fontTitle);
 			document.add(active);
 			document.add(new Chunk(" "));
 
 			// 5.LOTE
 			document.add(new Chunk("LOTE: "));
-			Chunk batch = new Chunk(stock.getSerialNumber(), fontTitle);
+			Chunk batch = new Chunk(stock.getBatch(), fontTitle);
 			document.add(batch);
 			document.add(new Chunk(" "));
 

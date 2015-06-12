@@ -132,7 +132,7 @@ public class InputsPdfView extends AbstractPdfView {
 
 				// 12.NUMERO DE SERIE
 				document.add(new Chunk("NUMERO DE SERIE: "));
-				Chunk serialNumber = new Chunk(inputDetail.getSerialNumber(), fontTitle);
+				Chunk serialNumber = new Chunk(inputDetail.getSerialNumber() != null ? inputDetail.getSerialNumber() : "", fontTitle);
 				document.add(serialNumber);
 				document.add(new Chunk(" "));
 
