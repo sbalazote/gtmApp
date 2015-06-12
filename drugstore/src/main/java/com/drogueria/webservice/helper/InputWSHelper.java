@@ -86,27 +86,31 @@ public class InputWSHelper {
 	private WebServiceResult sendSelfSerializedDrugs(Input input, List<String> errors) throws Exception {
 		WebServiceResult webServiceResult = null;
 		List<MedicamentosDTO> medicines = new ArrayList<>();
-		String eventId = this.PropertyService.get().getStartTraceConcept().getEventOnInput(input.getClientOrProviderAgent());
-		if (eventId != null) {
-			for (InputDetail inputDetail : input.getInputDetails()) {
-				if (inputDetail.isInformAnmat() && "SS".equals(inputDetail.getProduct().getType()) && !inputDetail.isInformed()) {
-					if (inputDetail.getGtin() != null) {
-						MedicamentosDTO drug = this.setDrug(input, eventId, inputDetail);
-						medicines.add(drug);
-					} else {
-						String error = "El producto " + inputDetail.getProduct().getDescription() + " no registra GTIN, no puede ser informado.";
-						errors.add(error);
-					}
-				}
-			}
-			if (!medicines.isEmpty() && errors.isEmpty()) {
-				logger.info("Iniciando consulta con ANMAT");
-				webServiceResult = this.webServiceHelper.run(medicines, this.PropertyService.get().getANMATName(), this.PropertyService.get()
-						.getDecryptPassword(), errors);
-			}
-		} else {
-			errors.add("No fue posible obtener el evento de inicio de traza.");
-		}
+        if(this.PropertyService.get().getStartTraceConcept() != null) {
+            String eventId = this.PropertyService.get().getStartTraceConcept().getEventOnInput(input.getClientOrProviderAgent());
+            if (eventId != null) {
+                for (InputDetail inputDetail : input.getInputDetails()) {
+                    if (inputDetail.isInformAnmat() && "SS".equals(inputDetail.getProduct().getType()) && !inputDetail.isInformed()) {
+                        if (inputDetail.getGtin() != null) {
+                            MedicamentosDTO drug = this.setDrug(input, eventId, inputDetail);
+                            medicines.add(drug);
+                        } else {
+                            String error = "El producto " + inputDetail.getProduct().getDescription() + " no registra GTIN, no puede ser informado.";
+                            errors.add(error);
+                        }
+                    }
+                }
+                if (!medicines.isEmpty() && errors.isEmpty()) {
+                    logger.info("Iniciando consulta con ANMAT");
+                    webServiceResult = this.webServiceHelper.run(medicines, this.PropertyService.get().getANMATName(), this.PropertyService.get()
+                            .getDecryptPassword(), errors);
+                }
+            } else {
+                errors.add("No fue posible obtener el evento de inicio de traza.");
+            }
+        }else{
+            errors.add("El concepto de inicio de traza no fue configurado.");
+        }
 
 		logger.info(errors);
 		return webServiceResult;
