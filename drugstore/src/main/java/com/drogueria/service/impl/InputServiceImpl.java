@@ -343,6 +343,8 @@ public class InputServiceImpl implements InputService {
 			details.add(inputDetail);
 		}
 
+		input.setForcedInput(false);
+
 		input.setInputDetails(details);
 		if (input.hasToInform()) {
 			input.setInformAnmat(true);
@@ -481,7 +483,7 @@ public class InputServiceImpl implements InputService {
 		if (canCancel && !hasNoSerials) {
 			// Si tiene serie tiene que informar a ANMAT la cancelacion.
 			try {
-				if (input.hasToInform()) {
+				if (input.hasToInform() && !input.isForcedInput()) {
 					WebServiceResult result = this.traceabilityService.cancelInputTransaction(input);
 					boolean alreadyCancelled = false;
 					if (result != null) {
@@ -524,6 +526,7 @@ public class InputServiceImpl implements InputService {
 		Input input = this.update(inputDTO);
 		if (input.isInformAnmat()) {
 			input.setInformed(true);
+			input.setForcedInput(true);
 		}
 		this.saveAndUpdateStock(input);
 		return input;

@@ -59,6 +59,9 @@ public class Input implements Serializable {
 	@Column(name = "informed", nullable = false)
 	private boolean informed;
 
+	@Column(name = "forced_input", nullable = false)
+	private boolean forcedInput;
+
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "input_id", referencedColumnName = "id", nullable = false)
 	private List<InputDetail> inputDetails;
@@ -157,6 +160,14 @@ public class Input implements Serializable {
 
 	public void setInformed(boolean informed) {
 		this.informed = informed;
+	}
+
+	public boolean isForcedInput() {
+		return this.forcedInput;
+	}
+
+	public void setForcedInput(boolean forcedInput) {
+		this.forcedInput = forcedInput;
 	}
 
 	public boolean hasToInform() throws Exception {

@@ -6,7 +6,7 @@ DROP SCHEMA IF EXISTS `institute`;
 /*DROP USER gtm;*/
 
 CREATE DATABASE institute;
-CREATE USER gtm IDENTIFIED BY 'Gtm4pPlsNt';
+/*CREATE USER gtm IDENTIFIED BY 'Gtm4pPlsNt';*/
 GRANT ALL PRIVILEGES ON `institute`.* TO `gtm`@`localhost` IDENTIFIED BY 'Gtm4pPlsNt';
 
 USE institute;
@@ -333,6 +333,7 @@ CREATE TABLE `institute`.`input` (
   `cancelled` bit(1) NOT NULL,
   `inform_anmat` bit(1) NOT NULL,
   `informed` bit(1) NOT NULL,
+  `forced_input` bit(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_input_concept_idx` (`concept_id`),
   KEY `fk_input_provider_idx` (`provider_id`),
