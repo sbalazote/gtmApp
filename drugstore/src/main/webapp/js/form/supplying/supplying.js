@@ -822,7 +822,7 @@ var Supplying = function() {
 	};
 
 	var hasChanged = function() {
-		if (productDetails.length > 0) {
+		if (supplyingDetailGroup.length > 0) {
 			return true;
 		} else {
 			return false;

@@ -1,6 +1,8 @@
 Output = function() {
 	var currentDate = new Date();
 	
+	var isButtonConfirm = false;
+	
 	var batchExpirationDate = new OutputBatchExpirationDate();
 	var serialized = new OutputSerialized();
 	
@@ -187,7 +189,6 @@ Output = function() {
 	});
 	
 	// 	Product autocomplete
-	
 	$("#productOutput").autocomplete({
 		source: function(request, response) {
 			$.ajax({
@@ -235,7 +236,7 @@ Output = function() {
 	
 	
 	$('#productOutput').keydown(function(e) {
-	    if(e.keyCode == 121){ // F10
+		 if(e.keyCode == 13){ // Presiono Enter
 	    	$.ajax({
 				url: "getProductFromStockBySerialOrGtin.do",
 				type: "GET",
@@ -486,5 +487,25 @@ Output = function() {
 				myShowAlert('danger', 'Por favor, ingrese al menos un producto.');
 			}
 		}
+	});
+	
+	var hasChanged = function() {
+		if (outputDetailGroup.length > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+
+	$(window).bind("beforeunload", function(event) {
+		if (hasChanged() && isButtonConfirm == false) {
+			return "Existen cambios que no fueron confirmados.";
+		} else {
+			isButtonConfirm = false;
+		}
+	});
+
+	$("#outputForm input, #outputForm select").keypress(function(event) {
+		return event.keyCode != 13;
 	});
 };
