@@ -2,11 +2,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.drogueria</groupId>
+	<groupId>com.lsntsolutions.gtmApp</groupId>
 	<artifactId>gtmApp</artifactId>
 	<packaging>war</packaging>
 	<version>1.0.0-SNAPSHOT</version>
 	<name>gtm-app</name>
+	<organization>
+    	<name>LS&amp;T Solutions</name>
+  	</organization>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

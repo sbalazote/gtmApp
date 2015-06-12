@@ -39,4 +39,9 @@ public class ProductGtinServiceImpl implements ProductGtinService {
 	public ProductGtin getByNumber(String number) {
 		return this.productGtinDAO.getByNumber(number);
 	}
+
+	@Override
+	public boolean isGtinUsed(String number) {
+		return this.productGtinDAO.isGtinUsed(number);
+	}
 }

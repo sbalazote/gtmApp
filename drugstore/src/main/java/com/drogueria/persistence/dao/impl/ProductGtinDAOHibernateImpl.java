@@ -43,4 +43,9 @@ public class ProductGtinDAOHibernateImpl implements ProductGtinDAO {
 		}
 	}
 
+	@Override
+	public boolean isGtinUsed(String number) {
+		// TODO
+		return false;
+	}
 }

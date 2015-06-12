@@ -109,19 +109,106 @@ ProductAdministration = function() {
 	$('#productGtinsTableBody').on("click", ".command-delete", function() {
 		var parent = $(this).parent().parent();
 		var gtinNumber = parent.find("td:first").html();
-		var rows = Array();
-        rows[0] = gtinNumber;
-        $("#productGtinsTable").bootgrid("remove", rows);
-        deleteGtin(gtinNumber);
+		// Si borro el gtin actual lanzo una alerta y verifico si esta en uso.
+		var message;
+		if ($("#currentGtinInput").val() === gtinNumber) {
+			message = 'Se va a eliminar el GTIN actual <strong>' + gtinNumber + '</strong>. Desea continuar?.';
+		} else {
+			message = 'Se va a eliminar el GTIN <strong>' + gtinNumber + '</strong>. Desea continuar?.';
+		}
+		BootstrapDialog.show({
+			type: BootstrapDialog.TYPE_WARNING,
+			message: message,
+			title: 'Advertencia!',
+			closable: false,
+			buttons: [{
+				id: "isGtinUsedCheckButton",
+				icon: 'glyphicon glyphicon-send',
+				label: ' Si',
+				cssClass: 'btn-primary',
+				autospin: true,
+				action: function(dialogRef){
+					var $button = this; // 'this' here is a jQuery object that wrapping the <button> DOM element.
+					dialogRef.enableButtons(false);
+					dialogRef.setClosable(false);
+					dialogRef.getModalBody().html('Verificando si se encuentra en uso...');
+					$.ajax({
+						url: "isGtinUsed.do",
+						type: "POST",
+						data: {
+							gtinNumber: gtinNumber
+						},
+						async: true,
+						success: function(response) {
+							if (response === true) {
+								dialogRef.getModalBody().html('<strong>No se puede eliminar el GTIN ya que se encuentra en uso.</strong>');
+							} else {
+								var rows = Array();
+								rows[0] = gtinNumber;
+								$("#productGtinsTable").bootgrid("remove", rows);
+								if ($("#currentGtinInput").val() === gtinNumber) {
+									$("#currentGtinInput").val('');
+									$("#gtinInput").val('');
+								}
+								deleteGtin(gtinNumber);
+								dialogRef.getModalBody().html('<strong>Se elimino el GTIN.</strong>');
+							}
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+							dialogRef.getModalBody().html('<strong>Error en la busqueda de GTINs. Reintente mas tarde.</strong>');
+						},
+						complete: function(jqXHR, textStatus) {
+							$button.stopSpin();
+							setTimeout(function() {
+								dialogRef.close();
+							}, 2000);
+						}
+					});
+				}
+			}, {
+				label: 'No',
+				action: function(dialogRef){
+					dialogRef.close();
+				}
+			}]
+		});
 	});
 	
 	$('#productPricesTableBody').on("click", ".command-delete", function() {
 		var parent = $(this).parent().parent();
 		var price = parent.find("td:first").html();
-		var rows = Array();
-        rows[0] = price;
-        $("#productPricesTable").bootgrid("remove", rows);
-        deletePrice(price);
+		// Si borro el precio actual lanzo una alerta
+		if ($("#currentPriceInput").val() === price) {
+			BootstrapDialog.show({
+				type: BootstrapDialog.TYPE_WARNING,
+		        message: 'Se va a eliminar el precio actual. Desea continuar?.',
+		        title: 'Advertencia!',
+		        closable: false,
+		        buttons: [{
+	                label: 'No',
+	                action: function(dialogItself) {
+	                    dialogItself.close();
+	                }
+	            }, {
+	                label: 'Si',
+	                cssClass: 'btn-primary',
+	                action: function(dialogItself) {
+	                	var rows = Array();
+	                    rows[0] = price;
+	                    $("#productPricesTable").bootgrid("remove", rows);
+	                    $("#currentPriceInput").val('');
+	                    $("#priceInput").val('');
+	                    deletePrice(price);
+	                    dialogItself.close();
+	                }
+	            }]
+			});
+		} else {
+			var rows = Array();
+            rows[0] = price;
+            $("#productPricesTable").bootgrid("remove", rows);
+			deletePrice(price);
+		}
 	});
 	
 	$('#productGtinsTableBody').on("click", ".command-saved", function() {
@@ -225,7 +312,7 @@ ProductAdministration = function() {
 	var resetProductForm = function() {
 		$("#productIdInput").val('');
 		$("#productCodeInput").val('');
-		//$("#gtinInput").val('');
+		$("#gtinInput").val('');
 		$("#productDescriptionInput").val('');
 		$('#brandSelect').val('').trigger('chosen:updated');
 		$('#monodrugSelect').val('').trigger('chosen:updated');
@@ -233,9 +320,11 @@ ProductAdministration = function() {
 		$('#drugCategorySelect').val('').trigger('chosen:updated');
 		$("#typeSelect").val($("#typeSelect option:first").val());
 		$("#productActiveSelect").val($("#productActiveSelect option:first").val());
-		//$('#priceInput').val('');
+		$('#priceInput').val('');
 		$("#informAnmatSelect").val($("#informAnmatSelect option:first").val());
 		$("#coldSelect").val($("#coldSelect option:first").val());
+		productPrices = [];
+		productGtins = [];
 	};
 	
 	var deleteProduct = function(productId) {
@@ -271,7 +360,11 @@ ProductAdministration = function() {
 			success: function(response) {
 				$("#productIdInput").val(response.id);
 				$("#productCodeInput").val(response.code);
-				$("#gtinInput").val(response.gtin);
+				if (response.gtin != null) {
+					$("#gtinInput").val(response.gtin);
+				} else {
+					$("#gtinInput").val('');
+				}
 				productGtins = response.gtins;
 				$("#productDescriptionInput").val(response.description);
 				$('#brandSelect').val(response.brandId).trigger('chosen:updated');
@@ -281,8 +374,12 @@ ProductAdministration = function() {
 				$("#typeSelect").val(response.type);
 				var isActive = (response.active) ? "true" : "false";
 				$("#productActiveSelect").val(isActive).trigger('chosen:update');
-				var price = new String(response.price);
-				$('#priceInput').val(price.slice(0,-2) + "," + price.slice(-2));
+				if (response.price != null) {
+					var price = new String(response.price);
+					$('#priceInput').val(price.slice(0,-2) + "," + price.slice(-2));
+				} else {
+					$("#priceInput").val('');
+				}
 				productPrices = response.prices;
 				for (var i = 0; i < productPrices.length; i++) {
 					productPrices[i].price = productPrices[i].price.toString();
@@ -339,10 +436,22 @@ ProductAdministration = function() {
 	                "<button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button>" +
 	                "<button type=\"button\" class=\"btn btn-sm btn-default command-view\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
 	        },
+	        "gtin": function(column, row)
+	        {
+	        	if (typeof row.gtin === "undefined") {
+	        		return "-";
+	        	} else {
+	        		return row.gtin;
+	        	}
+	    	},
 	        "price": function(column, row)
 	        {
-	        	var price = new String(row.price);
-	    		return price.slice(0,-2) + "," + price.slice(-2);
+	        	if (typeof row.price === "undefined") {
+	        		return "-";
+	        	} else {
+	        		var price = new String(row.price);
+	        		return price.slice(0,-2) + "," + price.slice(-2);
+	        	}
 	    	}
 	    }
 	}).on("loaded.rs.jquery.bootgrid", function() {
