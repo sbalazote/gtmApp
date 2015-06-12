@@ -139,44 +139,55 @@ public class InputWSHelper {
 		operationResult.setResultado(false);
 
 		List<InputDetail> pendingProducts = new ArrayList<InputDetail>();
-		Boolean isProducion = Boolean.valueOf(PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION));
-		boolean hasChecked = this.getPendingTransactions(input.getInputDetails(), pendingProducts, errors, isProducion);
+		Boolean isProduction = Boolean.valueOf(PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION));
+		boolean hasChecked = this.getPendingTransactions(input.getInputDetails(), pendingProducts, errors, isProduction);
 
 		if (hasChecked) {
-			for (InputDetail inputDetail : input.getInputDetails()) {
-				if (inputDetail.isInformAnmat() && "PS".equals(inputDetail.getProduct().getType()) && !inputDetail.isInformed()) {
-					if (inputDetail.getGtin() != null) {
-						ConfirmacionTransaccionDTO confirmacionTransaccionDTO = new ConfirmacionTransaccionDTO();
-						if (inputDetail.getTransactionCodeANMAT() == null) {
-							errors.add("No se encontro codigo de transaccion para el producto: " + inputDetail.getProduct().getDescription());
-						} else {
-							confirmacionTransaccionDTO.setF_operacion(simpleDateFormat.format(new Date()));
-							confirmacionTransaccionDTO.setP_ids_transac(Long.valueOf(inputDetail.getTransactionCodeANMAT()));
-						}
-						pendingConfirmation.add(confirmacionTransaccionDTO);
-					} else {
-						String error = "El producto " + inputDetail.getProduct().getDescription() + " no registra GTIN, no puede ser informado.";
-						errors.add(error);
-					}
-				}
-			}
-			if (!pendingConfirmation.isEmpty() && errors.isEmpty()) {
-				logger.info("Iniciando consulta con ANMAT");
-				ConfirmacionTransaccionDTO[] confirmations = new ConfirmacionTransaccionDTO[pendingConfirmation.size()];
-				confirmations = pendingConfirmation.toArray(confirmations);
-                if(!isProducion){
-                    webServiceResult = new WebServiceResult();
-                    webServiceResult.setResultado(false);
-                    WebServiceError webServiceError = new WebServiceError("9999", "error de prueba");
-                    WebServiceError[] errores = new WebServiceError[1];
-                    errores[0] = webServiceError;
-                    webServiceResult.setErrores(errores);
-                    webServiceResult.setCodigoTransaccion("1111111");
-                }else {
-                    webServiceResult = this.webService.confirmarTransaccion(confirmations, this.PropertyService.get().getANMATName(), this.PropertyService.get()
-                            .getDecryptPassword());
+            if(pendingProducts.isEmpty()) {
+                for (InputDetail inputDetail : input.getInputDetails()) {
+                    if (inputDetail.isInformAnmat() && "PS".equals(inputDetail.getProduct().getType()) && !inputDetail.isInformed()) {
+                        if (inputDetail.getGtin() != null) {
+                            ConfirmacionTransaccionDTO confirmacionTransaccionDTO = new ConfirmacionTransaccionDTO();
+                            if (inputDetail.getTransactionCodeANMAT() == null) {
+                                errors.add("No se encontro codigo de transaccion para el producto: " + inputDetail.getProduct().getDescription());
+                            } else {
+                                confirmacionTransaccionDTO.setF_operacion(simpleDateFormat.format(new Date()));
+                                confirmacionTransaccionDTO.setP_ids_transac(Long.valueOf(inputDetail.getTransactionCodeANMAT()));
+                            }
+                            pendingConfirmation.add(confirmacionTransaccionDTO);
+                        } else {
+                            String error = "El producto " + inputDetail.getProduct().getDescription() + " no registra GTIN, no puede ser informado.";
+                            errors.add(error);
+                        }
+                    }
                 }
-			}
+                if (!pendingConfirmation.isEmpty() && errors.isEmpty()) {
+                    logger.info("Iniciando consulta con ANMAT");
+                    ConfirmacionTransaccionDTO[] confirmations = new ConfirmacionTransaccionDTO[pendingConfirmation.size()];
+                    confirmations = pendingConfirmation.toArray(confirmations);
+                    if (!isProduction) {
+                        webServiceResult = new WebServiceResult();
+                        webServiceResult.setResultado(false);
+                        WebServiceError webServiceError = new WebServiceError("9999", "error de prueba");
+                        WebServiceError[] errores = new WebServiceError[1];
+                        errores[0] = webServiceError;
+                        webServiceResult.setErrores(errores);
+                        webServiceResult.setCodigoTransaccion("1111111");
+                    } else {
+                        webServiceResult = this.webService.confirmarTransaccion(confirmations, this.PropertyService.get().getANMATName(), this.PropertyService.get()
+                                .getDecryptPassword());
+                    }
+                }
+            }else{
+                errors.add(ERROR_AGENT_HAS_NOT_INFORM);
+                for(InputDetail inputDetail : pendingProducts){
+                    String error = "Producto: " + inputDetail.getProduct().getCode() +  inputDetail.getProduct().getDescription() + " Lote " + inputDetail.getBatch() + " Vencimiento: " + inputDetail.getExpirationDate();
+                    if(inputDetail.getSerialNumber() != null){
+                        error += " Serie " + inputDetail.getSerialNumber();
+                    }
+                    errors.add(error);
+                }
+            }
 		} else {
 			errors.add("No se han podido obtener las transacciones pendientes.");
 		}
