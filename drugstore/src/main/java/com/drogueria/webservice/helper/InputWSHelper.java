@@ -149,8 +149,18 @@ public class InputWSHelper {
 				logger.info("Iniciando consulta con ANMAT");
 				ConfirmacionTransaccionDTO[] confirmations = new ConfirmacionTransaccionDTO[pendingConfirmation.size()];
 				confirmations = pendingConfirmation.toArray(confirmations);
-				webServiceResult = this.webService.confirmarTransaccion(confirmations, this.PropertyService.get().getANMATName(), this.PropertyService.get()
-						.getDecryptPassword());
+                if(!isProducion){
+                    webServiceResult = new WebServiceResult();
+                    webServiceResult.setResultado(false);
+                    WebServiceError webServiceError = new WebServiceError("9999", "error de prueba");
+                    WebServiceError[] errores = new WebServiceError[1];
+                    errores[0] = webServiceError;
+                    webServiceResult.setErrores(errores);
+                    webServiceResult.setCodigoTransaccion("1111111");
+                }else {
+                    webServiceResult = this.webService.confirmarTransaccion(confirmations, this.PropertyService.get().getANMATName(), this.PropertyService.get()
+                            .getDecryptPassword());
+                }
 			}
 		} else {
 			errors.add("No se han podido obtener las transacciones pendientes.");
