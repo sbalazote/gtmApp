@@ -124,7 +124,7 @@
 					</td>
 					<td><c:out value="${inputDetail.serialNumber != null ? inputDetail.serialNumber : ''}"></c:out></td>
 					<td><c:out value="${inputDetail.batch != null ? inputDetail.batch : ''}"></c:out></td>
-					<td><c:out value="${inputDetail.expirationDate != null ? inputDetail.expirationDate : ''}"></c:out></td>
+                    <td><fmt:formatDate value="${inputDetail.expirationDate}" pattern="dd/MM/yyyy" /></td>
 				</tr>
 			</c:forEach>
 		</tbody>

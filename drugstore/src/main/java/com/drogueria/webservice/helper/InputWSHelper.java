@@ -181,7 +181,7 @@ public class InputWSHelper {
             }else{
                 errors.add(ERROR_AGENT_HAS_NOT_INFORM);
                 for(InputDetail inputDetail : pendingProducts){
-                    String error = "Producto: " + inputDetail.getProduct().getCode() +  inputDetail.getProduct().getDescription() + " Lote " + inputDetail.getBatch() + " Vencimiento: " + inputDetail.getExpirationDate();
+                    String error = "Producto: " + inputDetail.getProduct().getCode() +  inputDetail.getProduct().getDescription() + " Lote " + inputDetail.getBatch() + " Vencimiento: " + simpleDateFormat.format(inputDetail.getExpirationDate()).toString();
                     if(inputDetail.getSerialNumber() != null){
                         error += " Serie " + inputDetail.getSerialNumber();
                     }
