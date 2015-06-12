@@ -50,4 +50,15 @@ public class ProductGtin implements Serializable {
 		this.date = date;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof ProductGtin) {
+			ProductGtin productGtin = (ProductGtin) o;
+			if (productGtin.getNumber().equals(this.number)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

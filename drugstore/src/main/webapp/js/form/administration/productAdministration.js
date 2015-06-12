@@ -8,10 +8,6 @@ ProductAdministration = function() {
 	
 	$("body").tooltip({ selector: '[data-toggle="tooltip"]' });
 	
-	$("#alfabetaUpdateProducts").click(function() {
-		window.location="alfabetaUpdateProducts.do";
-	});
-	
 	var deleteGtin = function(gtin) {
 		var idx = 0;
 		for (var i = 0; i < productGtins.length; i++) {

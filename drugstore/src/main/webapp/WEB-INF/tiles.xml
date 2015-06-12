@@ -89,6 +89,10 @@
     <definition name="affiliateAdministration" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/administration/affiliateAdministration.jsp" />
     </definition>
+    
+    <definition name="alfabetaUpdateProducts" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/update/alfabetaUpdateProducts.jsp" />
+    </definition>
 
     <definition name="orderAssemblySelection" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/orderAssembly/orderAssemblySelection.jsp" />

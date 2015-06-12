@@ -41,7 +41,7 @@
 						<button class="btn btn-primary btn-block" id="addProduct"><span class="glyphicon glyphicon-plus"></span> <spring:message code="common.add.entity"/></button>
 					</div>
 					<div class="col-md-4">
-						<button class="btn btn-success btn-block" id="alfabetaUpdateProducts"><span class="glyphicon glyphicon-upload"></span> <spring:message code="common.update.alfabeta"/></button>
+						<button class="btn btn-success btn-block" id="alfabetaUpdateProducts" onclick="location.href='alfabetaUpdateProducts.do'"><span class="glyphicon glyphicon-upload"></span> <spring:message code="common.update.alfabeta"/></button>
 					</div>
 				</div>
 				
