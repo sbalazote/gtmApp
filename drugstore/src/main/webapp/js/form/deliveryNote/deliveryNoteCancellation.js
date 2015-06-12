@@ -77,13 +77,13 @@ var DeliveryNoteCancellation = function() {
 	        "option": function(column, row)
 	        {
 	        	if (row.class === "ARMADO") {
-	        		return "<a href=\"#\" class='view-order-row-deliveryNoteTable'>Consulta</a>";
+	        		return "<a href=\"#\" class='view-order-row'>Consulta</a>";
 	        	}
 	        	if(row.class === "EGRESO") {
-	        		return "<a href=\"#\" class='view-output-row-deliveryNoteTable'>Consulta</a>";
+	        		return "<a href=\"#\" class='view-output-row'>Consulta</a>";
 	        	}
 	        	if(row.class === "DISPENSA") {
-	        		return "<a href=\"#\" class='view-supplying-row-deliveryNoteTable'>Consulta</a>";
+	        		return "<a href=\"#\" class='view-supplying-row'>Consulta</a>";
 	        	}
 	        }
 	    }
