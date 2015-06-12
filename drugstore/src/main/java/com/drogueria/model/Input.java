@@ -50,9 +50,6 @@ public class Input implements Serializable {
 	@Column(name = "date", nullable = false)
 	private Date date;
 
-	@Column(name = "transaction_code_anmat")
-	private String transactionCodeANMAT;
-
 	@Column(name = "cancelled", nullable = false)
 	private boolean cancelled;
 
@@ -136,14 +133,6 @@ public class Input implements Serializable {
 
 	public void setDeliveryLocation(DeliveryLocation deliveryLocation) {
 		this.deliveryLocation = deliveryLocation;
-	}
-
-	public String getTransactionCodeANMAT() {
-		return this.transactionCodeANMAT;
-	}
-
-	public void setTransactionCodeANMAT(String transactionCodeANMAT) {
-		this.transactionCodeANMAT = transactionCodeANMAT;
 	}
 
 	public boolean isCancelled() {

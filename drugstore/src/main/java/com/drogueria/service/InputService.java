@@ -27,8 +27,6 @@ public interface InputService {
 
 	void save(Input input);
 
-	boolean canCancelInput(Input input);
-
 	Input update(InputDTO inputDTO);
 
 	void saveAndRemoveFromStock(Input input);

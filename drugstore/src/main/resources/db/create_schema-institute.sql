@@ -330,7 +330,6 @@ CREATE TABLE `institute`.`input` (
   `delivery_note_number` varchar(30) DEFAULT NULL,
   `purchase_order_number` varchar(30) DEFAULT NULL,
   `date` date NOT NULL,
-  `transaction_code_anmat` varchar(100),
   `cancelled` bit(1) NOT NULL,
   `inform_anmat` bit(1) NOT NULL,
   `informed` bit(1) NOT NULL,

@@ -354,7 +354,6 @@ public class InputServiceImpl implements InputService {
 		}
 
 		input.setCancelled(false);
-		input.setTransactionCodeANMAT(null);
 		input.setInformed(false);
 
 		return input;
@@ -395,15 +394,6 @@ public class InputServiceImpl implements InputService {
 	@Override
 	public void save(Input input) {
 		this.inputDAO.save(input);
-	}
-
-	@Override
-	public boolean canCancelInput(Input input) {
-		if ((input.getTransactionCodeANMAT() == null && input.isInformAnmat())) {
-			return true;
-		} else {
-			return !this.inputDAO.exitsMovements(input);
-		}
 	}
 
 	@Override
