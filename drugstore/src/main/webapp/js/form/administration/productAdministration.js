@@ -483,11 +483,21 @@ ProductAdministration = function() {
 			$('#productModal').modal('show');
 		});
 	});
+	var searchHTML = $('div#product .search');
+	var searchPhrase = '&searchPhrase=' + $('div#product .search-field').val(); 
+	var exportHTML = exportQueryTableHTML("./rest/products", searchPhrase);
+	searchHTML.before(exportHTML);
 	
-	var exportHTML = exportTableHTML("./rest/products");
-	$("#product").find(".search").before(exportHTML);
+	$('div#product .search-field').keyup(function(e) {
+		searchPhrase = '&searchPhrase=' + $('div#product .search-field').val(); 
+		exportHTML = exportQueryTableHTML("./rest/products", searchPhrase);
+		if (searchHTML.prev().length == 0) {
+			searchHTML.before(exportHTML);
+		} else {
+			searchHTML.prev().html(exportHTML);
+		}
+	});
 	//Fin Modulo Productos
-	
 	
 	//Modulo Marcas
 	

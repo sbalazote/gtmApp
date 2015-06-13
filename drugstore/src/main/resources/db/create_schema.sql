@@ -330,7 +330,6 @@ CREATE TABLE `drugstore`.`input` (
   `cancelled` bit(1) NOT NULL,
   `inform_anmat` bit(1) NOT NULL,
   `informed` bit(1) NOT NULL,
-  `inform_anmat` bit(1) NOT NULL,
   `forced_input` bit(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_input_concept_idx` (`concept_id`),
