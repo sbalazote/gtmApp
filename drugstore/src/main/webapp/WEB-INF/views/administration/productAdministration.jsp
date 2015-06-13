@@ -376,7 +376,8 @@
 				<table id="productPricesTable" class="table table-condensed table-hover table-striped">				
 					<thead>
 						<tr>
-							<th data-identifier="true" data-column-id="price" data-type="numeric"><spring:message code="common.price"/></th>
+							<th data-identifier="true" data-column-id="id" data-type="numeric"><spring:message code="common.id"/></th>
+							<th data-column-id="price" data-type="numeric"><spring:message code="common.price"/></th>
 							<th data-column-id="date"><spring:message code="common.date"/></th>
 							<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
 						</tr>

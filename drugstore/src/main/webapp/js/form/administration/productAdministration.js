@@ -21,7 +21,7 @@ ProductAdministration = function() {
 	var deletePrice = function(id) {
 		var idx = 0;
 		for (var i = 0; i < productPrices.length; i++) {
-			if (productPrices[i].id === id) {
+			if (productPrices[i].id == id) {
 				idx = i;
 			}
 		}
@@ -39,8 +39,8 @@ ProductAdministration = function() {
 	
 	var updatePrice = function(id, price, date) {
 		for (var i = 0; i < productPrices.length; i++) {
-			if (productPrices[i].id === id) {
-				productPrices[i].price = price;
+			if (productPrices[i].id == id) {
+				productPrices[i].price = price
 				productPrices[i].date = date;
 			}
 		}
@@ -73,10 +73,12 @@ ProductAdministration = function() {
 		var aaData = [];
 		for (var i = 0, l = productPrices.length; i < l; ++i) {
 			var price = {
+				id: "",
 				price: "",
 				date: "",
 				commands: ""
 			};
+			price.id= productPrices[i].id;
 			price.price= productPrices[i].price.slice(0,-2) + "," + productPrices[i].price.slice(-2);
 			price.date = myParseDateTime(productPrices[i].date);
 			price.commands = "<button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"" + price.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button> " +
@@ -172,7 +174,8 @@ ProductAdministration = function() {
 	
 	$('#productPricesTableBody').on("click", ".command-delete", function() {
 		var parent = $(this).parent().parent();
-		var price = parent.find("td:first").html();
+		var id = parent.find("td:first").html();
+		var price = parent.find("td:nth-child(2)").html();
 		// Si borro el precio actual lanzo una alerta
 		if ($("#currentPriceInput").val() === price) {
 			BootstrapDialog.show({
@@ -190,20 +193,20 @@ ProductAdministration = function() {
 	                cssClass: 'btn-primary',
 	                action: function(dialogItself) {
 	                	var rows = Array();
-	                    rows[0] = price;
+	                    rows[0] = parseInt(id);
 	                    $("#productPricesTable").bootgrid("remove", rows);
 	                    $("#currentPriceInput").val('');
 	                    $("#priceInput").val('');
-	                    deletePrice(price);
+	                    deletePrice(id);
 	                    dialogItself.close();
 	                }
 	            }]
 			});
 		} else {
 			var rows = Array();
-            rows[0] = price;
+			rows[0] = parseInt(id);
             $("#productPricesTable").bootgrid("remove", rows);
-			deletePrice(price);
+			deletePrice(id);
 		}
 	});
 	
@@ -219,12 +222,13 @@ ProductAdministration = function() {
 	
 	$('#productPricesTableBody').on("click", ".command-saved", function() {
 		var parent = $(this).parent().parent();
-		var price = parent.find("td:first").html();
-		var modifiedDate = parent.find("td:nth-child(2)");
+		var id = parent.find("td:first").html();
+		var price = parent.find("td:nth-child(2)").html();
+		var modifiedDate = parent.find("td:nth-child(3)");
 		modifiedDate.html(myParseDateTime(new Date()));
 		$('#currentPriceInput').val(price);
 		$("#priceInput").val(price);
-		updatePrice(price, new Date());
+		updatePrice(id, price.replace(",",""), new Date());
 	});
 	
 	$("#addGtinButton").click(function() {
@@ -283,6 +287,7 @@ ProductAdministration = function() {
 		if (validateForm()) {
 			var aaData = [];
 			var price = {
+					id: "-",
 					price: $("#addPriceInput").val(),
 					date: myParseDateTime(new Date()),
 					commands: "<button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"0\"><span class=\"glyphicon glyphicon-trash\"></span></button> " +

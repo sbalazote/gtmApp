@@ -19,35 +19,59 @@
 	</div>
 
 	<div class="row">
-		<div class="col-md-6 form-group">
-			<label for="priceFieldByteOffsetInput"><spring:message	code="administration.alfabetaUpdateProducts.priceFieldByteOffset" /></label> 
-			<input type="text" class="form-control" id="priceFieldByteOffsetInput" name="priceFieldByteOffset" value="101">
+		<div class="col-md-3 form-group">
+			<label for="nameFieldByteOffsetInput"><spring:message	code="administration.alfabetaUpdateProducts.nameFieldByteOffset" /></label> 
+			<input type="text" class="form-control" id="nameFieldByteOffsetInput" name="nameFieldByteOffset" value="7">
 		</div>
-		<div class="col-md-6 form-group">
-			<label for="priceFieldLengthInput"><spring:message code="administration.alfabetaUpdateProducts.priceFieldLength" /></label> 
-			<input type="text" class="form-control" id="priceFieldLengthInput" name="priceFieldLength" value="9">
+		<div class="col-md-3 form-group">
+			<label for="nameFieldLengthInput"><spring:message code="administration.alfabetaUpdateProducts.nameFieldLength" /></label> 
+			<input type="text" class="form-control" id="nameFieldLengthInput" name="nameFieldLength" value="44">
+		</div>
+		<div class="col-md-3 form-group">
+			<label for="presentationFieldByteOffsetInput"><spring:message code="administration.alfabetaUpdateProducts.presentationFieldByteOffset" /></label> 
+			<input type="text" class="form-control" id="presentationFieldByteOffsetInput" name="presentationFieldByteOffset" value="51">
+		</div>
+		<div class="col-md-3 form-group">
+			<label for="presentationFieldLengthInput"><spring:message code="administration.alfabetaUpdateProducts.presentationFieldLength" /></label> 
+			<input type="text" class="form-control" id="presentationFieldLengthInput" name="presentationFieldLength" value="24">
 		</div>
 	</div>
 
 	<div class="row">
-		<div class="col-md-6 form-group">
+		<div class="col-md-3 form-group">
+			<label for="priceFieldByteOffsetInput"><spring:message	code="administration.alfabetaUpdateProducts.priceFieldByteOffset" /></label> 
+			<input type="text" class="form-control" id="priceFieldByteOffsetInput" name="priceFieldByteOffset" value="101">
+		</div>
+		<div class="col-md-3 form-group">
+			<label for="priceFieldLengthInput"><spring:message code="administration.alfabetaUpdateProducts.priceFieldLength" /></label> 
+			<input type="text" class="form-control" id="priceFieldLengthInput" name="priceFieldLength" value="9">
+		</div>
+		<div class="col-md-3 form-group">
 			<label for="codeFieldByteOffsetInput"><spring:message code="administration.alfabetaUpdateProducts.codeFieldByteOffset" /></label> 
 			<input type="text" class="form-control" id="codeFieldByteOffsetInput" name="codeFieldByteOffset" value="126">
 		</div>
-		<div class="col-md-6 form-group">
+		<div class="col-md-3 form-group">
 			<label for="codeFieldLengthInput"><spring:message code="administration.alfabetaUpdateProducts.codeFieldLength" /></label> 
 			<input type="text" class="form-control" id="codeFieldLengthInput" name="codeFieldLength" value="5">
 		</div>
 	</div>
 
 	<div class="row">
-		<div class="col-md-6 form-group">
+		<div class="col-md-3 form-group">
 			<label for="gtinFieldByteOffsetInput"><spring:message code="administration.alfabetaUpdateProducts.gtinFieldByteOffset" /></label> 
 			<input type="text" class="form-control" id="gtinFieldByteOffsetInput" name="gtinFieldByteOffset" value="132">
 		</div>
-		<div class="col-md-6 form-group">
-			<label for="gtinFieldLengthInput"><spring:message code="administration.alfabetaUpdateProducts.GTINFieldLength" /></label> 
-			<input type="text" class="form-control" id="gtinFieldLengthInput" name="GTINFieldLength" value="13">
+		<div class="col-md-3 form-group">
+			<label for="gtinFieldLengthInput"><spring:message code="administration.alfabetaUpdateProducts.gtinFieldLength" /></label> 
+			<input type="text" class="form-control" id="gtinFieldLengthInput" name="gtinFieldLength" value="13">
+		</div>
+		<div class="col-md-3 form-group">
+			<label for="coldFieldByteOffsetInput"><spring:message code="administration.alfabetaUpdateProducts.coldFieldByteOffset" /></label> 
+			<input type="text" class="form-control" id="coldFieldByteOffsetInput" name="coldFieldByteOffset" value="150">
+		</div>
+		<div class="col-md-3 form-group">
+			<label for="coldFieldLengthInput"><spring:message code="administration.alfabetaUpdateProducts.coldFieldLength" /></label> 
+			<input type="text" class="form-control" id="coldFieldLengthInput" name="coldFieldLength" value="1">
 		</div>
 	</div>
 
