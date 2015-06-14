@@ -53,8 +53,13 @@ public class ProductAdministrationController {
 	private ProductDrugCategoryService productDrugCategoryService;
 
 	@RequestMapping(value = "/products", method = RequestMethod.POST)
-	public ModelAndView products() {
-		return new ModelAndView("products", "products", this.productService.getAll());
+	public ModelAndView products(@RequestParam Map<String, String> parametersMap) {
+		String searchPhrase = parametersMap.get("searchPhrase");
+		if (searchPhrase.matches("")) {
+			return new ModelAndView("products", "products", this.productService.getAll());
+		} else {
+			return new ModelAndView("products", "products", this.productService.getForAutocomplete(searchPhrase, null));
+		}
 	}
 
 	@RequestMapping(value = "/productAdministration", method = RequestMethod.GET)

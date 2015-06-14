@@ -1,6 +1,7 @@
 package com.drogueria.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,11 @@ import com.drogueria.model.Product;
 import com.drogueria.model.ProductGtin;
 import com.drogueria.model.ProductPrice;
 import com.drogueria.persistence.dao.ProductDAO;
+import com.drogueria.service.ProductBrandService;
+import com.drogueria.service.ProductDrugCategoryService;
+import com.drogueria.service.ProductGroupService;
+import com.drogueria.service.ProductGtinService;
+import com.drogueria.service.ProductMonodrugService;
 import com.drogueria.service.ProductService;
 
 @Service
@@ -23,6 +29,21 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private ProductDAO productDAO;
+
+	@Autowired
+	private ProductGtinService productGtinService;
+
+	@Autowired
+	private ProductBrandService productBrandService;
+
+	@Autowired
+	private ProductMonodrugService productMonodrugService;
+
+	@Autowired
+	private ProductGroupService productGroupService;
+
+	@Autowired
+	private ProductDrugCategoryService productDrugCategoryService;
 
 	@Override
 	public void save(Product product) {
@@ -56,7 +77,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public boolean updateFromAlfabeta(Integer code, String gtin, BigDecimal price) {
+	public void updateFromAlfabeta(String description, BigDecimal price, Integer code, String gtin, Boolean cold) {
 		Product product;
 		if (this.productDAO.exists(code)) {
 			product = this.productDAO.getByCode(code);
@@ -64,24 +85,53 @@ public class ProductServiceImpl implements ProductService {
 			productGtin.setDate(new Date());
 			productGtin.setNumber(gtin);
 			List<ProductGtin> gtins = product.getGtins();
-			if (!gtins.contains(productGtin)) {
+			if (!gtins.contains(productGtin) && (this.productGtinService.getByNumber(gtin) == null)) {
 				gtins.add(productGtin);
 			}
-
 			ProductPrice productPrice = new ProductPrice();
 			productPrice.setDate(new Date());
 			productPrice.setPrice(price);
 			List<ProductPrice> prices = product.getPrices();
-			if (!prices.contains(productPrice)) {
-				prices.add(productPrice);
-			}
-
+			prices.add(productPrice);
 			this.productDAO.save(product);
-			return true;
+			logger.info("El producto con codigo nro. " + code + " ha sido actualizado.");
+
 		} else {
-			// TODO y si no existe el producto?
-			logger.warn("El producto con codigo nro. " + code + "no existe.");
-			return false;
+			// si no existe el producto se da de alta pero como inactivo siempre y cuando el gtin no exista.
+			if (this.productGtinService.getByNumber(gtin) == null) {
+				product = new Product();
+				List<ProductGtin> productGtins = new ArrayList<ProductGtin>();
+				ProductGtin productGtin = new ProductGtin();
+				productGtin.setDate(new Date());
+				productGtin.setNumber(gtin);
+				productGtins.add(productGtin);
+				product.setGtins(productGtins);
+
+				List<ProductPrice> productPrices = new ArrayList<ProductPrice>();
+				ProductPrice productPrice = new ProductPrice();
+				productPrice.setDate(new Date());
+				productPrice.setPrice(price);
+				productPrices.add(productPrice);
+				product.setPrices(productPrices);
+
+				product.setCode(code);
+				product.setDescription(description);
+				product.setBrand(this.productBrandService.get(1));
+				product.setMonodrug(this.productMonodrugService.get(1));
+				product.setGroup(this.productGroupService.get(1));
+				product.setDrugCategory(this.productDrugCategoryService.get(1));
+				product.setCold(cold);
+				// TODO que va aca??
+				product.setInformAnmat(false);
+				// TODO que va aca??
+				product.setType("BE");
+				product.setActive(false);
+
+				this.productDAO.save(product);
+				logger.info("El producto con codigo nro. " + code + " no existe. Se ha dado de alta.");
+			} else {
+				logger.info("El producto con codigo nro. " + code + " no existe pero su GTIN " + gtin + " ya existe. No se puede dar de alta");
+			}
 		}
 	}
 

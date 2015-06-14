@@ -19,7 +19,7 @@ public interface ProductService {
 
 	boolean delete(Integer productId);
 
-	boolean updateFromAlfabeta(Integer code, String gtin, BigDecimal price);
+	void updateFromAlfabeta(String description, BigDecimal price, Integer code, String gtin, Boolean cold);
 
 	List<Product> getAll();
 

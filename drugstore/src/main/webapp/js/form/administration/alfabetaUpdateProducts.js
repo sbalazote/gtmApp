@@ -1,5 +1,23 @@
 AlfabetaUpdateProducts = function() {
 	
+	$("#nameFieldByteOffsetInput").numeric();
+	$("#nameFieldLengthInput").numeric();
+	
+	$("#presentationFieldByteOffsetInput").numeric();
+	$("#presentationFieldLengthInput").numeric();
+	
+	$("#priceFieldByteOffsetInput").numeric();
+	$("#priceFieldLengthInput").numeric();
+	
+	$("#codeFieldByteOffsetInput").numeric();
+	$("#codeFieldLengthInput").numeric();
+	
+	$("#gtinFieldByteOffsetInput").numeric();
+	$("#gtinFieldLengthInput").numeric();
+	
+	$("#coldFieldByteOffsetInput").numeric();
+	$("#coldFieldLengthInput").numeric();
+	
 	$('#alfabetaUpdateFileInput').fileupload({
 		add: function (e, data) {
             var uploadError = false;
@@ -40,26 +58,41 @@ AlfabetaUpdateProducts = function() {
 		var form = $("#alfabetaUpdateproductsAdministrationForm");
 		form.validate({
 			rules: {
+				nameFieldByteOffset: {
+					required: true
+				},
+				nameFieldLength: {
+					required: true
+				},
+				presentationFieldByteOffset: {
+					required: true
+				},
+				presentationFieldLength: {
+					required: true
+				},
 				priceFieldByteOffset: {
 					required: true
 				},
 				priceFieldLength: {
-					required: true,
-					digits: true
+					required: true
 				},
 				codeFieldByteOffset: {
 					required: true
 				},
 				codeFieldLength: {
-					required: true,
-					digits: true
+					required: true
 				},
 				gtinFieldByteOffset: {
 					required: true
 				},
-				GTINFieldLength: {
-					required: true,
-					digits: true
+				gtinFieldLength: {
+					required: true
+				},
+				coldFieldByteOffset: {
+					required: true
+				},
+				coldFieldLength: {
+					required: true
 				}
 			},
 			showErrors: myShowErrors,
@@ -72,12 +105,18 @@ AlfabetaUpdateProducts = function() {
 		var fileSelected = $("#uploaded-files tbody").html() != '';
 		if (validateForm() && fileSelected) {
 			var jsonAlfabetaFile = {
-				"priceFieldByteOffset": $("#priceFieldByteOffsetInput").val(),
-				"priceFieldLength": $("#priceFieldLengthInput").val(),
-                "codeFieldByteOffset": $("#codeFieldByteOffsetInput").val(),
-                "codeFieldLength": $("#codeFieldLengthInput").val(),
-                "gtinFieldByteOffset": $("#gtinFieldByteOffsetInput").val(),
-                "gtinFieldLength": $("#gtinFieldLengthInput").val()
+					"nameFieldByteOffset": $("#nameFieldByteOffsetInput").val(),
+					"nameFieldLength": $("#nameFieldLengthInput").val(),
+					"presentationFieldByteOffset": $("#presentationFieldByteOffsetInput").val(),
+					"presentationFieldLength": $("#presentationFieldLengthInput").val(),
+					"priceFieldByteOffset": $("#priceFieldByteOffsetInput").val(),
+					"priceFieldLength": $("#priceFieldLengthInput").val(),
+					"codeFieldByteOffset": $("#codeFieldByteOffsetInput").val(),
+					"codeFieldLength": $("#codeFieldLengthInput").val(),
+					"gtinFieldByteOffset": $("#gtinFieldByteOffsetInput").val(),
+					"gtinFieldLength": $("#gtinFieldLengthInput").val(),
+					"coldFieldByteOffset": $("#coldFieldByteOffsetInput").val(),
+					"coldFieldLength": $("#coldFieldLengthInput").val()
 			};
 
 			$.ajax({

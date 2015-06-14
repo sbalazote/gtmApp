@@ -78,9 +78,14 @@ public class FileController {
 
 		brManualDat = new BufferedReader(new FileReader(path + "/" + timestamp + ".dat"));
 
-		boolean result;
 		try {
 			while ((currentLineManualDat = brManualDat.readLine()) != null) {
+				Integer nameFieldByteOffset = alfabetaFileDTO.getNameFieldByteOffset();
+				Integer nameFieldLength = alfabetaFileDTO.getNameFieldLength();
+
+				Integer presentationFieldByteOffset = alfabetaFileDTO.getPresentationFieldByteOffset();
+				Integer presentationFieldLength = alfabetaFileDTO.getPresentationFieldLength();
+
 				Integer priceFieldByteOffset = alfabetaFileDTO.getPriceFieldByteOffset();
 				Integer priceFieldLength = alfabetaFileDTO.getPriceFieldLength();
 
@@ -90,16 +95,18 @@ public class FileController {
 				Integer gtinFieldByteOffset = alfabetaFileDTO.getGtinFieldByteOffset();
 				Integer gtinFieldLength = alfabetaFileDTO.getGtinFieldLength();
 
+				Integer coldFieldByteOffset = alfabetaFileDTO.getColdFieldByteOffset();
+				Integer coldFieldLength = alfabetaFileDTO.getColdFieldLength();
+
+				String updatedName = currentLineManualDat.substring(nameFieldByteOffset, nameFieldByteOffset + nameFieldLength);
+				String updatedPresentation = currentLineManualDat.substring(presentationFieldByteOffset, presentationFieldByteOffset + presentationFieldLength);
+				String updatedDescription = updatedName.trim().concat(" ").concat(updatedPresentation).trim();
 				BigDecimal updatedPrice = new BigDecimal(currentLineManualDat.substring(priceFieldByteOffset, priceFieldByteOffset + priceFieldLength));
-				updatedPrice = updatedPrice.divide(new BigDecimal(100));
 				Integer updatedCode = Integer.parseInt(currentLineManualDat.substring(codeFieldByteOffset, codeFieldByteOffset + codeFieldLength));
 				String updatedGtin = currentLineManualDat.substring(gtinFieldByteOffset, gtinFieldByteOffset + gtinFieldLength);
+				Boolean updatedCold = (currentLineManualDat.substring(coldFieldByteOffset, coldFieldByteOffset + coldFieldLength) == "1") ? true : false;
 
-				result = this.productService.updateFromAlfabeta(updatedCode, updatedGtin, updatedPrice);
-
-				if (!result) {
-					logger.error("Error en actualizacion alfabeta - Codigo de Producto: " + updatedCode);
-				}
+				this.productService.updateFromAlfabeta(updatedDescription, updatedPrice, updatedCode, updatedGtin, updatedCold);
 			}
 		} catch (IOException e) {
 			logger.error(e.getMessage());
