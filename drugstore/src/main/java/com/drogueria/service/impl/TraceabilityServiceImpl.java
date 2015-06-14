@@ -36,7 +36,7 @@ public class TraceabilityServiceImpl implements TraceabilityService {
 
 	@Override
 	public OperationResult processInputPendingTransactions(Input input) throws Exception {
-		OperationResult result = this.inputWSHelper.confirmPendings(input);
+		OperationResult result = this.inputWSHelper.sendDrugInformationToAnmat(input);
 		return result;
 	}
 
@@ -53,13 +53,10 @@ public class TraceabilityServiceImpl implements TraceabilityService {
 
 	@Override
 	public WebServiceResult cancelInputTransaction(Input input) throws Exception {
-		//TODO refactorizar esto.
-		/*String transactionCodeANMAT = input.getTransactionCodeANMAT();
-		WebServiceResult result = null;
-		if (transactionCodeANMAT != null) {
-			result = this.webServiceHelper.sendCancelacTransacc(Long.valueOf(transactionCodeANMAT), this.PropertyService.get().getANMATName(),
-					EncryptionHelper.AESDecrypt(this.PropertyService.get().getANMATPassword()));
-		}*/
+		// TODO refactorizar esto.
+		/* String transactionCodeANMAT = input.getTransactionCodeANMAT(); WebServiceResult result = null; if (transactionCodeANMAT != null) { result =
+		 * this.webServiceHelper.sendCancelacTransacc(Long.valueOf(transactionCodeANMAT), this.PropertyService.get().getANMATName(),
+		 * EncryptionHelper.AESDecrypt(this.PropertyService.get().getANMATPassword())); } */
 		return null;
 	}
 

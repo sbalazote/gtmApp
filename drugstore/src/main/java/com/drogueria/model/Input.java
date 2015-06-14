@@ -50,6 +50,9 @@ public class Input implements Serializable {
 	@Column(name = "date", nullable = false)
 	private Date date;
 
+	@Column(name = "transaction_code_anmat")
+	private String transactionCodeANMAT;
+
 	@Column(name = "cancelled", nullable = false)
 	private boolean cancelled;
 
@@ -138,6 +141,14 @@ public class Input implements Serializable {
 		this.deliveryLocation = deliveryLocation;
 	}
 
+	public String getTransactionCodeANMAT() {
+		return this.transactionCodeANMAT;
+	}
+
+	public void setTransactionCodeANMAT(String transactionCodeANMAT) {
+		this.transactionCodeANMAT = transactionCodeANMAT;
+	}
+
 	public boolean isCancelled() {
 		return this.cancelled;
 	}
@@ -190,16 +201,6 @@ public class Input implements Serializable {
 		for (InputDetail inputDetail : this.getInputDetails()) {
 			if (inputDetail.getProduct().isInformAnmat() && ("PS".equals(inputDetail.getProduct().getType()))) {
 				hasToInform = false;
-			}
-		}
-		return hasToInform;
-	}
-
-	public boolean hasSelfSerialized() throws Exception {
-		boolean hasToInform = false;
-		for (InputDetail inputDetail : this.getInputDetails()) {
-			if (inputDetail.getProduct().isInformAnmat() && ("SS".equals(inputDetail.getProduct().getType()))) {
-				hasToInform = true;
 			}
 		}
 		return hasToInform;
@@ -271,12 +272,4 @@ public class Input implements Serializable {
 		return agentId;
 	}
 
-	public boolean hasBeenInformedAllProducts() {
-		for (InputDetail inputDetail : this.getInputDetails()) {
-			if (inputDetail.getProduct().isInformAnmat() && !inputDetail.isInformed()) {
-				return false;
-			}
-		}
-		return true;
-	}
 }

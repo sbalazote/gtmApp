@@ -6,7 +6,7 @@ DROP SCHEMA IF EXISTS `institute`;
 /*DROP USER gtm;*/
 
 CREATE DATABASE institute;
-/*CREATE USER gtm IDENTIFIED BY 'Gtm4pPlsNt';*/
+CREATE USER gtm IDENTIFIED BY 'Gtm4pPlsNt';
 GRANT ALL PRIVILEGES ON `institute`.* TO `gtm`@`localhost` IDENTIFIED BY 'Gtm4pPlsNt';
 
 USE institute;
@@ -330,6 +330,7 @@ CREATE TABLE `institute`.`input` (
   `delivery_note_number` varchar(30) DEFAULT NULL,
   `purchase_order_number` varchar(30) DEFAULT NULL,
   `date` date NOT NULL,
+  `transaction_code_anmat` varchar(100),
   `cancelled` bit(1) NOT NULL,
   `inform_anmat` bit(1) NOT NULL,
   `informed` bit(1) NOT NULL,
@@ -353,9 +354,6 @@ CREATE TABLE `institute`.`input_detail` (
   `batch` varchar(30) NOT NULL,
   `expiration_date` date NOT NULL,
   `amount` int(11) NOT NULL,
-  `transaction_code_anmat` varchar(100),
-  `inform_anmat` bit(1) NOT NULL,
-  `informed` bit(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_input_detail_input_idx` (`input_id`),
   KEY `fk_input_detail_product_idx` (`product_id`),

@@ -64,6 +64,10 @@ public class InputExcelView extends AbstractExcelView {
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
+		cell.setCellValue("CODIGO TRANSC. ANMAT");
+
+		cell = row.createCell(c++);
+		cell.setCellStyle(style);
 		cell.setCellValue("ANULADO");
 
 		cell = row.createCell(c++);
@@ -98,21 +102,18 @@ public class InputExcelView extends AbstractExcelView {
 		cell.setCellStyle(style);
 		cell.setCellValue("CANTIDAD");
 
-        cell = row.createCell(c++);
-        cell.setCellStyle(style);
-        cell.setCellValue("CODIGO TRANSC. ANMAT");
-
 		// Create data cell
 		for (Input input : inputs) {
 			c = 0;
 			for (InputDetail inputDetail : input.getInputDetails()) {
 				row = sheet.createRow(r++);
 				c = 0;
-                row.createCell(c++).setCellValue(input.getId());
+				row.createCell(c++).setCellValue(input.getId());
 				row.createCell(c++).setCellValue(input.getConcept().getDescription());
 				row.createCell(c++).setCellValue(input.getAgreement().getDescription());
 				row.createCell(c++).setCellValue(input.getClientOrProviderDescription());
 				row.createCell(c++).setCellValue(input.getDate());
+				row.createCell(c++).setCellValue(input.getTransactionCodeANMAT() == null ? input.getTransactionCodeANMAT() : "");
 				row.createCell(c++).setCellValue(input.isCancelled() ? "SI" : "NO");
 				row.createCell(c++).setCellValue(input.getDeliveryNoteNumber());
 				row.createCell(c++).setCellValue(input.getPurchaseOrderNumber());
@@ -122,7 +123,6 @@ public class InputExcelView extends AbstractExcelView {
 				row.createCell(c++).setCellValue(inputDetail.getBatch());
 				row.createCell(c++).setCellValue(dateFormatter.format(inputDetail.getExpirationDate()));
 				row.createCell(c++).setCellValue(inputDetail.getAmount());
-                row.createCell(c++).setCellValue(inputDetail.getTransactionCodeANMAT() != null ? inputDetail.getTransactionCodeANMAT() : "");
 			}
 
 		}

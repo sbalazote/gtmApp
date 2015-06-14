@@ -111,10 +111,13 @@ public class InputServiceImpl implements InputService {
 	public void sendAsyncTransaction(Input input) throws Exception {
 		// Se corre el proceso asyncronicamente
 		OperationResult result = this.traceabilityService.processInputPendingTransactions(input);
-		this.save(input);
-		if (input.hasBeenInformedAllProducts()) {
-			input.setInformed(true);
-			this.saveAndUpdateStock(input);
+		if (result != null) {
+			// Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
+			if (result.getResultado()) {
+				input.setTransactionCodeANMAT(result.getCodigoTransaccion());
+				this.saveAndUpdateStock(input);
+				input.setInformed(true);
+			}
 		}
 	}
 
@@ -333,19 +336,14 @@ public class InputServiceImpl implements InputService {
 
 			if (("PS".equals(inputDetailDTO.getProductType())) || ("SS".equals(inputDetailDTO.getProductType()))) {
 				inputDetail.setSerialNumber(inputDetailDTO.getSerialNumber());
-				if (product.isInformAnmat() && input.getConcept().isInformAnmat()) {
-					inputDetail.setInformAnmat(true);
-				}
-			} else {
-				inputDetail.setInformAnmat(false);
 			}
 			inputDetail.setProduct(product);
 			details.add(inputDetail);
 		}
 
 		input.setForcedInput(false);
-
 		input.setInputDetails(details);
+
 		if (input.hasToInform()) {
 			input.setInformAnmat(true);
 		} else {
@@ -356,6 +354,7 @@ public class InputServiceImpl implements InputService {
 		}
 
 		input.setCancelled(false);
+		input.setTransactionCodeANMAT(null);
 		input.setInformed(false);
 
 		return input;
@@ -396,6 +395,15 @@ public class InputServiceImpl implements InputService {
 	@Override
 	public void save(Input input) {
 		this.inputDAO.save(input);
+	}
+
+	@Override
+	public boolean canCancelInput(Input input) {
+		if ((input.getTransactionCodeANMAT() == null && input.isInformAnmat())) {
+			return true;
+		} else {
+			return !this.inputDAO.exitsMovements(input);
+		}
 	}
 
 	@Override
@@ -456,14 +464,14 @@ public class InputServiceImpl implements InputService {
 		if (input.isInformAnmat()) {
 			operationResult = this.traceabilityService.processInputPendingTransactions(input);
 		}
-		this.save(input);
-		// Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
-		if (input.hasBeenInformedAllProducts()) {
-			input.setInformed(true);
-			this.saveAndUpdateStock(input);
-		}
-		if (input.isInformed()) {
-			operationResult.setResultado(true);
+		if (operationResult != null) {
+			// Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
+			if (operationResult.getResultado()) {
+				input.setTransactionCodeANMAT(operationResult.getCodigoTransaccion());
+				input.setInformed(true);
+				this.saveAndUpdateStock(input);
+			}
+			operationResult.setOperationId(input.getId());
 		}
 		return operationResult;
 	}

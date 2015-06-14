@@ -76,6 +76,12 @@ public class InputsPdfView extends AbstractPdfView {
 			// -- newline
 			document.add(Chunk.NEWLINE);
 
+			// 6.CODIGO TRANSC. ANMAT
+			document.add(new Chunk("CODIGO TRANSC. ANMAT: "));
+			Chunk anmatCode = new Chunk(input.getTransactionCodeANMAT() != null ? input.getTransactionCodeANMAT() : "", fontTitle);
+			document.add(anmatCode);
+			document.add(new Chunk(" "));
+
 			// -- newline
 			document.add(Chunk.NEWLINE);
 
@@ -143,22 +149,12 @@ public class InputsPdfView extends AbstractPdfView {
 				document.add(Chunk.NEWLINE);
 
 				// 14.VTO
-				document.add(new Chunk("VENCIMIENTO: "));
+				document.add(new Chunk("NUMERO DE SERIE: "));
 				Chunk expirateDate = new Chunk(dateFormatter.format(inputDetail.getExpirationDate()), fontTitle);
 				document.add(expirateDate);
 				document.add(new Chunk(" "));
 
-                // -- newline
-                document.add(Chunk.NEWLINE);
-
-                // 6.CODIGO TRANSC. ANMAT
-                document.add(new Chunk("CODIGO TRANSC. ANMAT: "));
-                Chunk anmatCode = new Chunk(inputDetail.getTransactionCodeANMAT() != null ? inputDetail.getTransactionCodeANMAT() : "", fontTitle);
-                document.add(anmatCode);
-                document.add(new Chunk(" "));
-
-
-                // -- newline
+				// -- newline
 				document.add(Chunk.NEWLINE);
 
 				// 15.CANTIDAD
