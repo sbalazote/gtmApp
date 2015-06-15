@@ -53,11 +53,11 @@ public class TraceabilityServiceImpl implements TraceabilityService {
 
 	@Override
 	public WebServiceResult cancelInputTransaction(Input input) throws Exception {
-		// TODO refactorizar esto.
-		/* String transactionCodeANMAT = input.getTransactionCodeANMAT(); WebServiceResult result = null; if (transactionCodeANMAT != null) { result =
-		 * this.webServiceHelper.sendCancelacTransacc(Long.valueOf(transactionCodeANMAT), this.PropertyService.get().getANMATName(),
-		 * EncryptionHelper.AESDecrypt(this.PropertyService.get().getANMATPassword())); } */
-		return null;
+		String transactionCodeANMAT = input.getTransactionCodeANMAT();
+        WebServiceResult result = null; if (transactionCodeANMAT != null) {
+            result = this.webServiceHelper.sendCancelacTransacc(Long.valueOf(transactionCodeANMAT), this.PropertyService.get().getANMATName(), EncryptionHelper.AESDecrypt(this.PropertyService.get().getANMATPassword()));
+        }
+		return result;
 	}
 
 	@Override
