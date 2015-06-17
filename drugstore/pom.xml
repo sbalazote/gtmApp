@@ -463,6 +463,13 @@
                 <rp.build.warname>hmoore</rp.build.warname>
             </properties>
         </profile>
+		<profile>
+			<id>hmoore-dev</id>
+			<properties>
+				<env>hmoore-dev</env>
+				<rp.build.warname>hmoore-dev</rp.build.warname>
+			</properties>
+		</profile>
     </profiles>
 
 </project> 

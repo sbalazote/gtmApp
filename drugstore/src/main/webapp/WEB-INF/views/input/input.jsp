@@ -99,7 +99,7 @@
 <br>
 
 <div>
-	<table id="productTable" class="table table-condensed table-hover table-striped" data-toggle="bootgrid">
+	<table id="productTable" class="table table-condensed table-hover table-striped">
 		<thead>
 	        <tr>
 	            <th data-identifier="true" data-column-id="description" data-css-class="td-description" data-sortable="false"><spring:message code="common.product"/></th>
