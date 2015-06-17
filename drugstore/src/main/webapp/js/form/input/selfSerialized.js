@@ -4,6 +4,8 @@
 
 SelfSerialized = function() {
 	
+	// Atributos del objeto
+	var rowId = 0;
 	var preloadedData = null;
 	var preloadedAmount = null;
 	var preloadedProduct = null;
@@ -91,12 +93,17 @@ SelfSerialized = function() {
 	};
 	
 	var addToTable = function(batch, expirationDate, amount) {
-		$("#selfSerializedTable tbody").append("<tr>"
-			+ "<td class='batch'>"+batch+"</td>"
-			+ "<td class='expirationDate'>"+expirationDate+"</td>"
-			+ "<td class='amount'>"+amount+"</td>"
-			+ "<td><button class='btnDelete' type='button'><span class='glyphicon glyphicon-remove'/></button></td>"
-			+ "</tr>");
+		var aaData = [];
+		var row = {
+			id: rowId,
+			batch: batch,
+			expirationDate: expirationDate,
+			amount: amount,
+			commands: "<button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"" + rowId + "\"><span class=\"glyphicon glyphicon-trash\"></span></button>"
+		};
+		aaData.push(row);
+		$("#selfSerializedTable").bootgrid("append", aaData);
+		rowId++;
 	};
 	
 	var generateRow = function() {
@@ -121,15 +128,18 @@ SelfSerialized = function() {
 		}
 	};
 	
-	$('#selfSerializedTable tbody').on("click", ".btnDelete", function() {
+	$('#selfSerializedTable tbody').on("click", ".command-delete", function() {
 		var parent = $(this).parent().parent();
-		var amount = parent.find(".amount");
-		subtractAmount(amount.text());
-		parent.remove();
+		var amount = parent.find("td:nth(2)").html();
+		subtractAmount(amount);
+		var rows = Array();
+		rows[0] = parseInt($(this).attr("data-row-id"));
+		$("#selfSerializedTable").bootgrid("remove", rows);
 	});
 	
 	var preloadModalData = function () {
-		$("#selfSerializedModal tbody").html("");
+		rowId = 0;
+		$("#selfSerializedTable").bootgrid("clear");
 		$('#selfSerializedProductLabel').text(preloadedProduct);
 		$('#selfSerializedRequestedAmountLabel').text(preloadedAmount);
 		
@@ -155,9 +165,25 @@ SelfSerialized = function() {
 	    myResetForm($("#selfSerializedModalForm")[0], formValidator);
 	});
 	
-	$('#selfSerializedGenerateButton').on('keypress', function(e) {
+	$('#selfSerializedBatchInput').on('keypress', function(e) {
 		//	Si la tecla presionada es 'ENTER'
-        if (e.keyCode === 13) {
+		if (e.keyCode === 13) {
+			$('#selfSerializedExpirationDateInput').focus();
+			return false;
+		}
+	});
+	
+	$('#selfSerializedExpirationDateInput').on('keypress', function(e) {
+		//	Si la tecla presionada es 'ENTER'
+		if (e.keyCode === 13) {
+			$('#selfSerializedAmountInput').focus();
+			return false;
+		}
+	});
+	
+	$('#selfSerializedAmountInput').on('keypress', function(e) {
+		//	Si la tecla presionada es 'ENTER'
+		if (e.keyCode === 13) {
         	var remainingAmount = $('#selfSerializedRemainingAmountLabel').text();
 			if (remainingAmount == 0) {
 				$("#selfSerializedAcceptButton").trigger('click');
@@ -172,10 +198,34 @@ SelfSerialized = function() {
 		var remainingAmount = $('#selfSerializedRemainingAmountLabel').text();
 		if (remainingAmount > 0) {
 			generateRow();
+			checkLast();
 		} else {
 			myShowAlert('danger', 'Ya se ha ingresado la totalidad de productos requeridos. Por favor presione el bot\u00f3n "Confirmar".', "selfSerializedModalAlertDiv");
 		}
 	});
+	
+	var checkLast = function() {
+		var remaining = parseInt($('#selfSerializedRemainingAmountLabel').text());
+		if (remaining == 0) {
+			BootstrapDialog.show({
+				title: 'Informacion',
+				message: 'Carga Completa. Continuar?',
+				buttons: [{
+					label: 'No',
+					action: function(dialogItself) {
+						dialogItself.close();
+					}
+				}, {
+					label: 'Si',
+					cssClass: 'btn-primary',
+					action: function(dialogItself) {
+						dialogItself.close();
+						$("#selfSerializedAcceptButton").trigger('click');
+					}
+				}]
+			});
+		}
+	};
 	
 	return {
 		getPreloadedData: getPreloadedData,

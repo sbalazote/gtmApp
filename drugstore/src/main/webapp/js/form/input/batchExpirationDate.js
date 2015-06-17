@@ -4,6 +4,7 @@
 BatchExpirationDate = function() {
 	
 	// Atributos del objeto
+	var rowId = 0;
 	var preloadedData = null;
 	var preloadedAmount = null;
 	var preloadedProduct = null;
@@ -32,14 +33,14 @@ BatchExpirationDate = function() {
 		var form = $("#batchExpirationDateModalForm");
 		formValidator = form.validate({
 			rules: {
-				batch: {
+				batchExpirationDateBatch: {
 					required: true
 				},
-				expirationDate: {
+				batchExpirationDateExpirationDate: {
 					required: true,
 					expirationDate: true
 				},
-				amount: {
+				batchExpirationDateAmount: {
 					required: true,
 					digits: true,
 					min: 1,
@@ -49,7 +50,7 @@ BatchExpirationDate = function() {
 			showErrors: myShowErrors
 		});
 		
-		$('input[name=amount]').rules("add", {
+		$('input[name=batchExpirationDateAmount]').rules("add", {
 			max: maxAmount
 		});
 		
@@ -79,24 +80,29 @@ BatchExpirationDate = function() {
 	};
 	
 	var disableInputs = function() {
-		$('#batchInput').attr("disabled", true);
-		$('#expirationDateInput').attr("disabled", true);
-		$('#amountInput').attr("disabled", true);
+		$('#batchExpirationDateBatchInput').attr("disabled", true);
+		$('#batchExpirationDateExpirationDateInput').attr("disabled", true);
+		$('#batchExpirationDateAmountInput').attr("disabled", true);
 	};
 	
 	var enableInputs = function() {
-		$('#batchInput').attr("disabled", false);
-		$('#expirationDateInput').attr("disabled", false);
-		$('#amountInput').attr("disabled", false);
+		$('#batchExpirationDateBatchInput').attr("disabled", false);
+		$('#batchExpirationDateExpirationDateInput').attr("disabled", false);
+		$('#batchExpirationDateAmountInput').attr("disabled", false);
 	};
 	
 	var addToTable = function(batch, expirationDate, amount) {
-		$("#batchExpirationDateTable tbody").append("<tr>"
-			+ "<td class='batch'>"+batch+"</td>"
-			+ "<td class='expirationDate'>"+expirationDate+"</td>"
-			+ "<td class='amount'>"+amount+"</td>"
-			+ "<td><button class='btnDelete' type='button'><span class='glyphicon glyphicon-remove'/></button></td>"
-			+ "</tr>");
+		var aaData = [];
+		var row = {
+			id: rowId,
+			batch: batch,
+			expirationDate: expirationDate,
+			amount: amount,
+			commands: "<button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"" + rowId + "\"><span class=\"glyphicon glyphicon-trash\"></span></button>"
+		};
+		aaData.push(row);
+		$("#batchExpirationDateTable").bootgrid("append", aaData);
+		rowId++;
 	};
 	
 	var generateRow = function() {
@@ -116,19 +122,22 @@ BatchExpirationDate = function() {
 			
 			formValidator.resetForm();
 			
-			$('#batchInput').focus();
+			$('#batchExpirationDateBatchInput').focus();
 		}
 	};
 	
-	$('#batchExpirationDateTable tbody').on("click", ".btnDelete", function() {
+	$('#batchExpirationDateTable tbody').on("click", ".command-delete", function() {
 		var parent = $(this).parent().parent();
-		var amount = parent.find(".amount");
-		subtractAmount(amount.text());
-		parent.remove();
+		var amount = parent.find("td:nth(2)").html();
+		subtractAmount(amount);
+		var rows = Array();
+		rows[0] = parseInt($(this).attr("data-row-id"));
+		$("#batchExpirationDateTable").bootgrid("remove", rows);
 	});
 	
 	var preloadModalData = function () {
-		$("#batchExpirationDateModal tbody").html("");
+		rowId = 0;
+		$("#batchExpirationDateTable").bootgrid("clear");
 		$('#batchExpirationDateProductLabel').text(preloadedProduct);
 		$('#batchExpirationDateRequestedAmountLabel').text(preloadedAmount);
 		
@@ -147,14 +156,14 @@ BatchExpirationDate = function() {
 	};
 	
 	$('#batchExpirationDateModal').on('shown.bs.modal', function () {
-	    $('#batchInput').focus();
+	    $('#batchExpirationDateBatchInput').focus();
 	});
 	
 	$('#batchExpirationDateModal').on('hidden.bs.modal', function () {
 	    myResetForm($("#batchExpirationDateModalForm")[0], formValidator);
 	});
 	
-	$('#batchInput').on('keypress', function(e) {
+	$('#batchExpirationDateBatchInput').on('keypress', function(e) {
 		//	Si la tecla presionada es 'ENTER'
 		if (e.keyCode === 13) {
 			$('#expirationDateInput').focus();
@@ -162,15 +171,15 @@ BatchExpirationDate = function() {
 		}
 	});
 	
-	$('#expirationDateInput').on('keypress', function(e) {
+	$('#batchExpirationDateExpirationDateInput').on('keypress', function(e) {
 		//	Si la tecla presionada es 'ENTER'
 		if (e.keyCode === 13) {
-			$('#amountInput').focus();
+			$('#batchExpirationDateAmountInput').focus();
 			return false;
 		}
 	});
 	
-	$('#amountInput').on('keypress', function(e) {
+	$('#batchExpirationDateAmountInput').on('keypress', function(e) {
 		//	Si la tecla presionada es 'ENTER'
 		if (e.keyCode === 13) {
         	var remainingAmount = $('#batchExpirationDateRemainingAmountLabel').text();
@@ -187,10 +196,35 @@ BatchExpirationDate = function() {
 		var remainingAmount = $('#batchExpirationDateRemainingAmountLabel').text();
 		if (remainingAmount > 0) {
 			generateRow();
+			checkLast();
 		} else {
 			myShowAlert('danger', 'Ya se ha ingresado la totalidad de productos requeridos. Por favor presione el bot\u00f3n "Confirmar".', "batchExpirationDateModalAlertDiv");
 		}
+		return false;
 	});
+	
+	var checkLast = function() {
+		var remaining = parseInt($('#batchExpirationDateRemainingAmountLabel').text());
+		if (remaining == 0) {
+			BootstrapDialog.show({
+				title: 'Informacion',
+				message: 'Carga Completa. Continuar?',
+				buttons: [{
+					label: 'No',
+					action: function(dialogItself) {
+						dialogItself.close();
+					}
+				}, {
+					label: 'Si',
+					cssClass: 'btn-primary',
+					action: function(dialogItself) {
+						dialogItself.close();
+						$("#batchExpirationDateAcceptButton").trigger('click');
+					}
+				}]
+			});
+		}
+	};
 	
 	return {
 		getPreloadedData: getPreloadedData,

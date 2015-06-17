@@ -339,11 +339,11 @@
 					</tbody>
 				</table>
 			</div>
+			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.back"/></button>
         		<button type="button" class="btn btn-primary" id="updateProductGtinsButton"><spring:message code="common.confirm"/></button>
 			</div>
-		</div>
 		</div>
 	</div>
 </div>
@@ -386,11 +386,11 @@
 					</tbody>
 				</table>
 			</div>
+			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.back"/></button>
         		<button type="button" class="btn btn-primary" id="updateProductPricesButton"><spring:message code="common.confirm"/></button>
 			</div>
-		</div>
 		</div>
 	</div>
 </div>
