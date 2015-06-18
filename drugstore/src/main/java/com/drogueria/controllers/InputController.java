@@ -81,7 +81,21 @@ public class InputController {
 		return result;
 	}
 
-	@RequestMapping(value = "/existsSerial", method = RequestMethod.GET)
+    @RequestMapping(value = "/updateForcedInput", method = RequestMethod.POST)
+    public @ResponseBody
+    OperationResult updateInput(@RequestBody Integer inputId, HttpServletRequest request) throws Exception {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Input input = this.inputService.get(inputId);
+        OperationResult result = null;
+        if (auth != null) {
+            result = this.inputService.updateForcedInput(input, auth.getName());
+        }
+
+        return result;
+    }
+
+
+    @RequestMapping(value = "/existsSerial", method = RequestMethod.GET)
 	public @ResponseBody
 	Boolean existsSerial(@RequestParam Map<String, String> parameters) {
 		Integer productId = Integer.valueOf(parameters.get("productId"));
@@ -175,6 +189,12 @@ public class InputController {
 		modelMap.put("inputs", this.inputService.getInputToAuthorize());
 		return "pendingInputs";
 	}
+
+    @RequestMapping(value = "/informForcedInputs", method = RequestMethod.GET)
+    public String informForcedInputs(ModelMap modelMap) throws Exception {
+        modelMap.put("inputs", this.inputService.getForcedInputs());
+        return "informForcedInputs";
+    }
 
 	@RequestMapping(value = "/getCancelables", method = RequestMethod.POST)
 	public @ResponseBody

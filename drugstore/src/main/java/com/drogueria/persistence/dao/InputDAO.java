@@ -21,6 +21,8 @@ public interface InputDAO {
 
 	List<Input> getInputToAuthorize();
 
+    List<Input> getForcedInputs();
+
 	boolean exitsMovements(Input input);
 
 	List<Input> getInputs(boolean cancelled);

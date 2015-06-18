@@ -10,34 +10,6 @@ PendingInputs = function() {
 		showInputModal(inputId);
 	});
 	
-	var validateForm = function() {
-		var form = $("#searchInputForm");
-		form.validate({
-			rules: {
-				idSearch: {
-					digits: true
-				},
-				deliveryNoteNumberSearch: {
-					digits: true
-				},
-				purchaseOrderNumberSearch: {
-					alphanumeric: true
-				},
-				dateFromSearch: {
-					dateITA: true,
-					maxDate: $("#dateToSearch")
-				},
-				dateToSearch: {
-					dateITA: true,
-					minDate: $("#dateFromSearch")
-				}
-			},
-			showErrors: myShowErrors,
-			onsubmit: false
-		});
-		return form.valid();
-	};
-	
 	$("#inputTable").bootgrid({
 		selection: true,
 		multiSelect: true,

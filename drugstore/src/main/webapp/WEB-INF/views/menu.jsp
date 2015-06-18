@@ -115,6 +115,14 @@
 				<li class="activable"><a href="pendingTransactions.do"><spring:message code="common.pendingTransactions" /></a></li>
 			</sec:authorize>
 
+            <sec:authorize access="hasAnyRole('INPUT_AUTHORIZATION')">
+                <li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="common.forcedMovements" /> <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="informForcedInputs.do"><spring:message code="common.informForcedInputs" /></a></li>
+                        <li><a href="home.do"><spring:message code="common.informForcedDeliveriesNotes" /> </a></li>
+                    </ul></li>
+            </sec:authorize>
+
 			<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="administration.lookUp" /> <b class="caret"></b></a>
 				<ul class="dropdown-menu">
                     <sec:authorize access="hasAnyRole('INPUT', 'INPUT_AUTHORIZATION', 'INPUT_CANCELLATION')">

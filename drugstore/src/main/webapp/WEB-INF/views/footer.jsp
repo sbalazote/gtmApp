@@ -1,10 +1,5 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ page import="java.util.Calendar" %>
-<%@ page import="com.drogueria.config.PropertyProvider" %>
 <div class="container">
-    <div >
-        <small>GTM-App - Version: <%= PropertyProvider.getInstance().getProp(PropertyProvider.VERSION) %></small>
-    </div>
 	<div class="text-center center-block">
 		<a target="_blank" href="https://www.facebook.com/pages/LSTSolutions/1048639105165861"><i id="social" class="fa fa-facebook-square fa-3x social-fb"></i></a>
 		<a target="_blank" href="https://twitter.com/LST_Solutions"><i id="social" class="fa fa-twitter-square fa-3x social-tw"></i></a>

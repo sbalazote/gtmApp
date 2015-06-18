@@ -23,6 +23,8 @@ public interface InputService {
 
 	List<Input> getInputToAuthorize();
 
+    List<Input> getForcedInputs();
+
 	void saveAndUpdateStock(Input input);
 
 	void save(Input input);
@@ -34,6 +36,8 @@ public interface InputService {
 	void saveAndRemoveFromStock(Input input);
 
 	OperationResult updateInput(InputDTO inputDTO, String username) throws Exception;
+
+    OperationResult updateForcedInput(Input input, String username) throws Exception;
 
 	Object getInputs(boolean cancelled);
 

@@ -134,6 +134,13 @@ public class InputDAOHibernateImpl implements InputDAO {
 		return query.list();
 	}
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Input> getForcedInputs() {
+        Query query = this.sessionFactory.getCurrentSession().createQuery("from Input where informAnmat = true and informed = true and cancelled = false and transactionCodeANMAT is null and forcedInput = false");
+        return query.list();
+    }
+
 	@Override
 	public boolean exitsMovements(Input input) {
 		// TODO hay que ver como se valida que no existen movimientos para un input

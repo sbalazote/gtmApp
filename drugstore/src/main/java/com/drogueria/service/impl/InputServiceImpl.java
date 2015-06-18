@@ -384,6 +384,11 @@ public class InputServiceImpl implements InputService {
 		return this.inputDAO.getInputToAuthorize();
 	}
 
+    @Override
+    public List<Input> getForcedInputs() {
+        return this.inputDAO.getForcedInputs();
+    }
+
 	@Override
 	public void saveAndUpdateStock(Input input) {
 		for (InputDetail inputDetail : input.getInputDetails()) {
@@ -534,7 +539,6 @@ public class InputServiceImpl implements InputService {
 		Input input = this.update(inputDTO);
 		if (input.isInformAnmat()) {
 			input.setInformed(true);
-			input.setForcedInput(true);
 		}
 		this.saveAndUpdateStock(input);
 		return input;
@@ -557,4 +561,22 @@ public class InputServiceImpl implements InputService {
 			}
 		}
 	}
+
+    @Override
+    public OperationResult updateForcedInput(Input input, String username) throws Exception {
+        this.auditService.addAudit(username, RoleOperation.INPUT.getId(), AuditState.AUTHORITED, input.getId());
+        OperationResult operationResult = null;
+        if (input.isInformAnmat()) {
+            operationResult = this.traceabilityService.processInputPendingTransactions(input);
+        }
+        if (operationResult != null) {
+            // Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
+            if (operationResult.getResultado()) {
+                input.setTransactionCodeANMAT(operationResult.getCodigoTransaccion());
+                input.setInformed(true);
+            }
+            operationResult.setOperationId(input.getId());
+        }
+        return operationResult;
+    }
 }

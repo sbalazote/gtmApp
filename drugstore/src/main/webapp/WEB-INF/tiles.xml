@@ -213,5 +213,11 @@
     <definition name="searchSupplying" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/report/searchSupplying.jsp" />
     </definition>
-    
+
+
+    <definition name="informForcedInputs" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/input/informForcedInputs.jsp" />
+    </definition>
+
+
 </tiles-definitions>

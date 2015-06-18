@@ -526,7 +526,7 @@ Input = function() {
 									type: "GET",
 									async: false,
 									data: {
-										inputId: response.operationId,
+										inputId: response.operationId
 									},
 									success: function(response) {
 										var doc = printIOPDF('input', response.id, response.inputDetails);
