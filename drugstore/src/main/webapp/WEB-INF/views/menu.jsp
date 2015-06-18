@@ -55,15 +55,11 @@
 							<li class="activable"><a href="agreementTransfer.do"><spring:message code="common.agreementTransfer" /></a></li>
 						</sec:authorize>
 
-						<sec:authorize access="hasAnyRole('SUPPLYING', 'SUPPLYING_CANCELLATION')">
-							<li class="dropdown-submenu"><a href="#"><spring:message code="administration.supplying" /></a>
-								<ul class="dropdown-menu">
-									<sec:authorize access="hasRole('SUPPLYING')">
-										<li class="activable"><a href="supplying.do"><spring:message code="common.supplying" /></a></li>
-									</sec:authorize>
-								</ul></li>
-						</sec:authorize>
 					</ul></li>
+			</sec:authorize>
+
+			<sec:authorize access="hasRole('SUPPLYING')">
+				<li class="activable"><a href="supplying.do"><spring:message code="common.supplying" /></a></li>
 			</sec:authorize>
 
 			<sec:authorize access="hasAnyRole('PROVISIONING_REQUEST', 'PROVISIONING_REQUEST_UPDATE','PROVISIONING_REQUEST_PRINT', 'PROVISIONING_REQUEST_AUTHORIZATION', 'ORDER_ASSEMBLY', 'PROVISIONING_REQUEST_CANCELLATION', 'ORDER_ASSEMBLY_CANCELLATION')">

@@ -4,6 +4,7 @@ SearchSerializedProduct = function() {
 	var orderId;
 	var outputId;
 	var deliveryNoteId;
+	var supplyingId;
 	
 	// Product autocomplete
 	
@@ -163,6 +164,26 @@ SearchSerializedProduct = function() {
 								aaData.push(audit);
 							}
 						}
+
+						if(response.supplyings != null){
+							for (var i = 0, l = response.supplyings.length; i < l; ++i) {
+								var audit = {
+									id: 0,
+									action: "",
+									operation: "",
+									user: "",
+									date: "",
+									view: ""
+								};
+								audit.id = response.supplyings[i].operationId;
+								audit.action = "Dispensa";
+								audit.operation = response.supplyings[i].auditAction;
+								audit.user = response.supplyings[i].username;
+								audit.date = response.supplyings[i].date;
+								audit.view = "<a href='javascript:void(0);' class='view-row-supplying'>Consulta</a>";
+								aaData.push(audit);
+							}
+						}
 						$("#movementsTable").bootgrid({
 							caseSensitive: false
 						});
@@ -223,8 +244,16 @@ SearchSerializedProduct = function() {
 	$('#movementsTableBody').on("click", ".view-row-deliveryNote", function() {
 		var parent = $(this).parent().parent();
 		deliveryNoteId = parent.find("td:first-child").html();
-		
+
 		showDeliveryNoteModal(deliveryNoteId);
+	});
+
+	//Consulta de Dispensa
+	$('#movementsTableBody').on("click", ".view-row-supplying", function() {
+		var parent = $(this).parent().parent();
+		supplyingId = parent.find("td:first-child").html();
+
+		showSupplyingModal(supplyingId);
 	});
 
 	$('#serialNumberSearch').keydown(function(e) {

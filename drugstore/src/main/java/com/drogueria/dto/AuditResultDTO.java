@@ -7,6 +7,7 @@ public class AuditResultDTO {
 	private List<AuditDTO> outputs;
 	private List<AuditDTO> orders;
 	private List<AuditDTO> deliveryNotes;
+	private List<AuditDTO> supplyings;
 
 	public List<AuditDTO> getInputs() {
 		return this.inputs;
@@ -40,4 +41,11 @@ public class AuditResultDTO {
 		this.deliveryNotes = deliveryNotes;
 	}
 
+	public List<AuditDTO> getSupplyings() {
+		return supplyings;
+	}
+
+	public void setSupplyings(List<AuditDTO> supplyings) {
+		this.supplyings = supplyings;
+	}
 }
