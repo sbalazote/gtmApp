@@ -167,7 +167,7 @@
 			</sec:authorize>
 
 			<sec:authorize access="hasRole('ENTITY_ADMINISTRATION')">
-				<li class="activable"><a href="updateProperty.do"><spring:message code="common.properties" /></a></li>
+				<li class="activable"><a href="updateProperty.do"><spring:message code="common.configuration" /></a></li>
 			</sec:authorize>
 		</ul>
 		<a role="button" class="btn btn-primary btn-lg logout-button" href="j_spring_security_logout"> <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Salir
