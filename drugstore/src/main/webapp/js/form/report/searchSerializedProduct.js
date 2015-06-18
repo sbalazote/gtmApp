@@ -226,4 +226,31 @@ SearchSerializedProduct = function() {
 		
 		showDeliveryNoteModal(deliveryNoteId);
 	});
+
+	$('#serialNumberSearch').keydown(function(e) {
+		if(e.keyCode == 13){ // Presiono Enter
+			var serial = $(this).val();
+			$.ajax({
+				url: "parseSerial.do",
+				type: "GET",
+				data: {
+					serial: serial
+				},
+				success: function(response) {
+					if (response != "") {
+						$('#serialNumberSearch').val(response.serialNumber);
+					} else
+					{
+						$('#serialNumberSearch').tooltip("destroy").data("title", "Producto Inexistente o Inactivo").addClass("has-error").tooltip();
+						$('#serialNumberSearch').val('');
+						$('#serialNumberSearch').focus();
+					}
+					return false;
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					myGenericError();
+				}
+			});
+		}
+	});
 };

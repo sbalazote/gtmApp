@@ -13,6 +13,7 @@ public class DeliveryNoteResultDTO {
 	private String number;
 	private String client;
 	private String transactionCodeANMAT;
+	private boolean cancelled;
 	private List<OutputOrderDetailResultDTO> orderOutputDetails;
 
 	public List<OutputOrderDetailResultDTO> getOrderOutputDetails() {
@@ -71,6 +72,14 @@ public class DeliveryNoteResultDTO {
 		this.transactionCodeANMAT = transactionCodeANMAT;
 	}
 
+	public boolean isCancelled() {
+		return cancelled;
+	}
+
+	public void setCancelled(boolean cancelled) {
+		this.cancelled = cancelled;
+	}
+
 	public void setFromDeliveryNote(DeliveryNote deliveryNote, Order order, Output output, Supplying supplying) {
 		SimpleDateFormat stringDate = new SimpleDateFormat("dd/MM/yyyy");
 		this.number = deliveryNote.getNumber();
@@ -88,6 +97,10 @@ public class DeliveryNoteResultDTO {
 		if (deliveryNote.getTransactionCodeANMAT() != null) {
 			this.setTransactionCodeANMAT(deliveryNote.getTransactionCodeANMAT());
 		}
+		if(deliveryNote.isCancelled()){
+			this.setCancelled(deliveryNote.isCancelled());
+		}
+
 		if (order != null) {
 			this.setAgreement(order.getProvisioningRequest().getAgreement().getDescription());
 			this.setDate(stringDate.format(order.getProvisioningRequest().getDeliveryDate()));

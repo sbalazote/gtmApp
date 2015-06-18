@@ -120,6 +120,12 @@ $(document).ready(function() {
 			$("#ANMATCode").hide();
 			$("#transactionCode").text("");
 		}
+
+		if(response.cancelled){
+			$("#cancelled").text("ANULADO");
+		}else{
+			$("#cancelled").text("");
+		}
 		
 		var found = false;
 		var tableRow;
