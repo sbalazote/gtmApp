@@ -185,7 +185,7 @@ OrderAssemblySerialized = function() {
 				productId: preloadedProductId,
 				serialNumber: serialNumber,
 				gtin: gtin,
-				agreementId: $("#agreementInput").val()
+				agreementId: $("#agreementId").val()
 			},
 			success: function(response) {
 				if (response) {
