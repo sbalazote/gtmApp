@@ -80,5 +80,43 @@ PendingInputs = function() {
         }
     });
 
+    $("#forcedInput").click(function() {
+        $('#forcedInputConfirmationModal').modal();
+    });
+
+
+    $("#authorizeWithoutInform").click(function() {
+        if(inputs.length == 1){
+            $.ajax({
+                url: "forceInputDefinitely.do",
+                type: "POST",
+                contentType:"application/json",
+                data: JSON.stringify(inputs[0]),
+                async: true,
+                beforeSend : function() {
+                    $.blockUI({ message: 'Espere un Momento por favor...' });
+                },
+                success: function(response, textStatus, jqXHR) {
+                    myRedirect("success","Se ha cerrado el ingreso de mercader\u00eda n\u00famero " + inputs[0] + " sin informar a ANMAT","informForcedInputs.do" );
+                },
+                error: function(response, jqXHR, textStatus, errorThrown) {
+                    $.unblockUI();
+                    myGenericError();
+                }
+            });
+        }else{
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_INFO,
+                title: 'Atenci\u00edn',
+                message: "Seleccione un elemento",
+                buttons: [{
+                    label: 'Cerrar',
+                    action: function(dialogItself){
+                        dialogItself.close();
+                    }
+                }]
+            });
+        }
+    });
 };
 	

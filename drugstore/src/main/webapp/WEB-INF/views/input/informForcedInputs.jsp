@@ -39,8 +39,27 @@
     </table>
 
     <div class="row">
-        <div class="col-md-2 col-md-offset-10">
+        <div class="col-md-2 col-md-offset-8">
+            <button class="btn btn-warning" id="forcedInput"><span class="glyphicon glyphicon glyphicon-saved"></span> <spring:message code="input.closeInputDefinitely.button"/></button>
+        </div>
+        <div class="col-md-2">
             <button type="submit" class="btn btn-success btn-block" id="confirmButton"><span class="glyphicon glyphicon-ok"></span> <spring:message code="common.authorize"/></button>
+        </div>
+    </div>
+</div>
+
+
+<%-- Confirmaci�n del delete de una row --%>
+<div class="modal fade" data-backdrop="static" id="forcedInputConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width:400px">
+        <div class="modal-content">
+            <div class="modal-body">
+                <strong><span style="color:red"><spring:message code="input.forcedInputConfirmationModal.text"/></span></strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.no"/></button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="authorizeWithoutInform"><spring:message code="common.yes"/></button>
+            </div>
         </div>
     </div>
 </div>

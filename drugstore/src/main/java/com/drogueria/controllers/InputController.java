@@ -196,6 +196,14 @@ public class InputController {
         return "informForcedInputs";
     }
 
+	@RequestMapping(value = "/forceInputDefinitely", method = RequestMethod.POST)
+	public @ResponseBody
+	void forceInputDefinitely(@RequestBody Integer inputId) throws Exception {
+		Input input = this.inputService.get(inputId);
+		input.setForcedInput(true);
+		this.inputService.save(input);
+	}
+
 	@RequestMapping(value = "/getCancelables", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Input> getCancelables(@RequestBody InputQuery inputQuery) throws Exception {
