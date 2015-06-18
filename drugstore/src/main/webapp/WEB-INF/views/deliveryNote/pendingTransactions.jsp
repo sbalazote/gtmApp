@@ -17,7 +17,7 @@
 <form action="" onsubmit="return false;">
 	<div class="row">
 		<div class="col-md-12 form-group">
-			<h3><spring:message code="common.pendingTransactions"/></h3>
+			<h3><spring:message code="common.pendingTransactions.label"/></h3>
 		</div>
 	</div>
 	<div>

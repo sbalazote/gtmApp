@@ -22,11 +22,11 @@
 							<li class="dropdown-submenu"><a href="#"><spring:message code="administration.input" /></a>
 								<ul class="dropdown-menu">
 									<sec:authorize access="hasRole('INPUT')">
-										<li class="activable"><a href="input.do"><spring:message code="common.do" /></a></li>
+										<li class="activable"><a href="input.do"><spring:message code="common.input" /></a></li>
 										<li class="activable"><a href="pendingInputs.do"><spring:message code="common.pendings" /></a></li>
 									</sec:authorize>
 									<sec:authorize access="hasRole('INPUT_AUTHORIZATION')">
-										<li class="activable"><a href="searchInputToUpdate.do"><spring:message code="common.authorize" /></a></li>
+										<li class="activable"><a href="searchInputToUpdate.do"><spring:message code="common.authorizeSNT" /></a></li>
 									</sec:authorize>
 									<sec:authorize access="hasRole('INPUT_CANCELLATION')">
 										<li><a href="inputCancellation.do"><spring:message code="administration.cancelled.button" /> </a></li>
@@ -42,16 +42,16 @@
 							<li class="dropdown-submenu"><a href="#"><spring:message code="administration.output" /></a>
 								<ul class="dropdown-menu">
 									<sec:authorize access="hasRole('OUTPUT')">
-										<li class="activable"><a href="output.do"><spring:message code="common.do" /></a></li>
+										<li class="activable"><a href="output.do"><spring:message code="common.output" /></a></li>
 									</sec:authorize>
-									<!-- 
-									<sec:authorize access="hasRole('OUTPUT_CANCELLATION')">
-										<li><a href="outputCancellation.do"><spring:message code="administration.cancelled.button" /> </a></li>
-									</sec:authorize>-->
 								</ul></li>
 						</sec:authorize>
 
-						<sec:authorize access="hasRole('AGREEMENT_TRANSFER')">
+                        <sec:authorize access="hasRole('INPUT_AUTHORIZATION')">
+                            <li><a href="informForcedInputs.do"><spring:message code="common.informForcedInputs" /></a></li>
+                        </sec:authorize>
+
+                        <sec:authorize access="hasRole('AGREEMENT_TRANSFER')">
 							<li class="activable"><a href="agreementTransfer.do"><spring:message code="common.agreementTransfer" /></a></li>
 						</sec:authorize>
 
@@ -59,11 +59,8 @@
 							<li class="dropdown-submenu"><a href="#"><spring:message code="administration.supplying" /></a>
 								<ul class="dropdown-menu">
 									<sec:authorize access="hasRole('SUPPLYING')">
-										<li class="activable"><a href="supplying.do"><spring:message code="common.do" /></a></li>
+										<li class="activable"><a href="supplying.do"><spring:message code="common.supplying" /></a></li>
 									</sec:authorize>
-									<!--<sec:authorize access="hasRole('SUPPLYING_CANCELLATION')">
-										<li><a href="supplyingCancellation.do"><spring:message code="administration.cancelled.button" /> </a></li>
-									</sec:authorize>-->
 								</ul></li>
 						</sec:authorize>
 					</ul></li>
@@ -108,20 +105,14 @@
 						<sec:authorize access="hasRole('DELIVERY_NOTE_CANCELLATION')">
 							<li><a href="deliveryNoteCancellation.do"><spring:message code="deliveryNote.cancellation.label" /> </a></li>
 						</sec:authorize>
+                        <sec:authorize access="hasAnyRole('DELIVERY_NOTE_PRINT', 'DELIVERY_NOTE_CANCELLATION')">
+                            <li class="activable"><a href="pendingTransactions.do"><spring:message code="common.pendingTransactions" /></a></li>
+                        </sec:authorize>
 					</ul></li>
 			</sec:authorize>
 
-			<sec:authorize access="hasAnyRole('DELIVERY_NOTE_PRINT', 'DELIVERY_NOTE_CANCELLATION')">
-				<li class="activable"><a href="pendingTransactions.do"><spring:message code="common.pendingTransactions" /></a></li>
-			</sec:authorize>
 
-            <sec:authorize access="hasAnyRole('INPUT_AUTHORIZATION')">
-                <li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="common.forcedMovements" /> <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="informForcedInputs.do"><spring:message code="common.informForcedInputs" /></a></li>
-                        <li><a href="home.do"><spring:message code="common.informForcedDeliveriesNotes" /> </a></li>
-                    </ul></li>
-            </sec:authorize>
+
 
 			<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="administration.lookUp" /> <b class="caret"></b></a>
 				<ul class="dropdown-menu">
