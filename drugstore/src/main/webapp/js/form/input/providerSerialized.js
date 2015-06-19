@@ -268,7 +268,7 @@ ProviderSerialized = function() {
 	$('#providerSerializedTable tbody').on("click", ".command-delete", function() {
 		subtractAmount(1);
 		var parent = $(this).parent().parent();
-		var serialNumberToDelete = parent.find("td:first").html();
+		var serialNumberToDelete = parent.find("td:nth(1)").html();
 		var indexOfSerialNumberToDelete = tempSerialNumbers.indexOf(serialNumberToDelete);
 		tempSerialNumbers.splice(indexOfSerialNumberToDelete,1);
 		var rows = Array();
