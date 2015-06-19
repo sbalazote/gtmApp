@@ -94,7 +94,7 @@ $(document).ready(function() {
 			type: "GET",
 			async: false,
 			data: {
-				deliveryNoteId: deliveryNoteId,
+                deliveryNoteNumber: deliveryNoteId
 			},
 			success: function(response) {
 				populateDeliveryNoteModal(response);

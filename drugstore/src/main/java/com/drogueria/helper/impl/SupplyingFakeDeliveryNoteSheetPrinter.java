@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.drogueria.util.StringUtility;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,8 +42,9 @@ public class SupplyingFakeDeliveryNoteSheetPrinter {
 
 		DeliveryNote deliveryNote = new DeliveryNote();
 		List<DeliveryNoteDetail> deliveryNoteDetails = new ArrayList<DeliveryNoteDetail>();
-		for (SupplyingDetail supplyingDetail : supplyingDetails) {
-			deliveryNote.setNumber(Integer.toString(deliveryNoteNumber));
+        String deliveryNoteComplete = concept.getDeliveryNotePOS() + "-" + StringUtility.addLeadingZeros(deliveryNoteNumber, 8);
+        deliveryNote.setNumber(deliveryNoteComplete);
+        for (SupplyingDetail supplyingDetail : supplyingDetails) {
 
 			DeliveryNoteDetail deliveryNoteDetail = new DeliveryNoteDetail();
 			deliveryNoteDetail.setSupplyingDetail(supplyingDetail);

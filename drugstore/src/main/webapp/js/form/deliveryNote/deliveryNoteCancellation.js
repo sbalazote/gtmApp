@@ -91,6 +91,9 @@ var DeliveryNoteCancellation = function() {
 	{
 	    for (var i = 0; i < rows.length; i++)
 	    {
+
+            var regExp = /\[([^)]+)\]/;
+            var matches = regExp.exec(rows[i].deliveryNoteNumbers);
 	    	var ids = JSON.parse(rows[i].deliveryNoteNumbers);
 	    	if (rows[i].class === "ARMADO") {
 	    		var orderId = rows[i].orderAssemblyOrOutputNumber;

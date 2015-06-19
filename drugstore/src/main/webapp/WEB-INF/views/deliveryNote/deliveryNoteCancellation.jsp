@@ -38,7 +38,7 @@
 						<td><c:out value="A${orderDeliveryNotes.key}"></c:out></td>
 						<td><c:out value="${orderDeliveryNotes.key}"></c:out></td>
 						<td><spring:message code="deliveryNote.class.orderAssembly"/></td>
-						<td><c:out value="${orderDeliveryNotes.value}"></c:out></td>
+						<td><c:out value="'${orderDeliveryNotes.value}'"></c:out></td>
 						<td><spring:message code="common.view"/></td>
 					</tr>
 				</c:forEach>

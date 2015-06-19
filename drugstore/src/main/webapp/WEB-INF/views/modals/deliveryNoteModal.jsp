@@ -12,7 +12,7 @@
 						<div class="col-md-4">
 							<h3><spring:message code="deliveryNote.title"/></h3>
 						</div>
-						<div class="col-md-2">
+						<div class="col-md-4">
 							<h3 id="deliveryNoteId"></h3>
 						</div>
 						<div class="col-md-2">

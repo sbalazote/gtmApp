@@ -68,7 +68,8 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 			int idx = 0;
 			while (remaining > 0) {
 				DeliveryNote deliveryNote = new DeliveryNote();
-				deliveryNote.setNumber(Integer.toString(deliveryNoteNumber));
+                String deliveryNoteComplete = concept.getDeliveryNotePOS() + "-" + StringUtility.addLeadingZeros(deliveryNoteNumber, 8);
+				deliveryNote.setNumber(deliveryNoteComplete);
 
 				List<DeliveryNoteDetail> deliveryNoteDetails = new ArrayList<DeliveryNoteDetail>();
 				List<OutputDetail> tempOutputDetails = new ArrayList<OutputDetail>();
