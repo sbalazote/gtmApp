@@ -149,6 +149,17 @@ public class DeliveryNoteController {
 		return deliveryNoteResultDTO;
 	}
 
+
+    @RequestMapping(value = "/getDeliveryNoteById", method = RequestMethod.GET)
+    public @ResponseBody
+    DeliveryNoteResultDTO getDeliveryNoteById(@RequestParam Integer deliveryNoteId) throws Exception {
+        DeliveryNote deliveryNote = this.deliveryNoteService.get(deliveryNoteId);
+        DeliveryNoteResultDTO deliveryNoteResultDTO = new DeliveryNoteResultDTO();
+        deliveryNoteResultDTO.setFromDeliveryNote(deliveryNote, this.deliveryNoteService.getOrder(deliveryNote),
+                this.deliveryNoteService.getOutput(deliveryNote),this.deliveryNoteService.getSupplying(deliveryNote));
+        return deliveryNoteResultDTO;
+    }
+
 	@RequestMapping(value = "/authorizeDeliveryNotesWithoutInform", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Integer> authorizeDeliveryNotesWithoutInform(@RequestBody List<Integer> deliveryNoteIds, HttpServletRequest request) throws Exception {

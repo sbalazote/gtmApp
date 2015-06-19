@@ -104,6 +104,23 @@ $(document).ready(function() {
 			}
 		});
 	};
+
+    showDeliveryNoteByIdModal = function(deliveryNoteId) {
+        $.ajax({
+            url: "getDeliveryNoteById.do",
+            type: "GET",
+            async: false,
+            data: {
+                deliveryNoteId: deliveryNoteId
+            },
+            success: function(response) {
+                populateDeliveryNoteModal(response);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                myGenericError();
+            }
+        });
+    };
 	
 	var populateDeliveryNoteModal = function(response) {
 		$('#productTableBodyDeliveryNote').empty();

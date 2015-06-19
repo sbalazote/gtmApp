@@ -245,7 +245,7 @@ SearchSerializedProduct = function() {
 		var parent = $(this).parent().parent();
 		deliveryNoteId = parent.find("td:first-child").html();
 
-		showDeliveryNoteModal(deliveryNoteId);
+        showDeliveryNoteByIdModal(deliveryNoteId);
 	});
 
 	//Consulta de Dispensa
