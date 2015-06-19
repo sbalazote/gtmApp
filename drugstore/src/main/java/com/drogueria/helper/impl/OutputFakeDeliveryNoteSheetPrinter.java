@@ -65,6 +65,6 @@ public class OutputFakeDeliveryNoteSheetPrinter {
 			logger.info("No se ha podido imprimir el remito numero: " + deliveryNoteNumber);
 		}
 
-		return deliveryNoteNumber;
+		return deliveryNote.getId();
 	}
 }

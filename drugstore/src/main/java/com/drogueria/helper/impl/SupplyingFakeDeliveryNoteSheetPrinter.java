@@ -65,6 +65,6 @@ public class SupplyingFakeDeliveryNoteSheetPrinter {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return deliveryNoteNumber;
+		return deliveryNote.getId();
 	}
 }
