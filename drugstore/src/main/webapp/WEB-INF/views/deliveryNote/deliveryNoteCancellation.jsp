@@ -25,10 +25,10 @@
 		<table class="table table-condensed table-hover table-striped" id="deliveryNoteTable">
 			<thead>
 		        <tr>
-		        	<th data-column-id="id" data-identifier="true"><spring:message code="common.id"/></th>
+		        	<th data-column-id="id" data-header-css-class="idColumn" data-identifier="true"><spring:message code="common.id"/></th>
 		            <th data-column-id="orderAssemblyOrOutputNumber"><spring:message code="deliveryNote.orderAssemblyOrOutputNumber"/></th>
 		            <th data-column-id="class"><spring:message code="deliveryNote.class"/></th>
-		            <th data-column-id="deliveryNoteNumbers"><spring:message code="deliveryNote.deliveryNoteNumbers"/></th>
+		            <th data-column-id="deliveryNoteNumbers" data-header-css-class="descriptionColumn"><spring:message code="deliveryNote.deliveryNoteNumbers"/></th>
 		          	<th data-column-id="option" data-formatter="option" data-sortable="false"><spring:message code="common.option"/></th>
 		        </tr>
 	   	 	</thead>
