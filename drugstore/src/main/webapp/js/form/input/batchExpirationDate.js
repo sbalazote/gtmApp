@@ -101,7 +101,7 @@ BatchExpirationDate = function() {
 			commands: "<button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"" + rowId + "\"><span class=\"glyphicon glyphicon-trash\"></span></button>"
 		};
 		aaData.push(row);
-		$("#batchExpirationDateTable").bootgrid("append", aaData);
+		$("#batchExpirationDateTable").bootgrid().bootgrid("append", aaData);
 		rowId++;
 	};
 	
@@ -166,7 +166,7 @@ BatchExpirationDate = function() {
 	$('#batchExpirationDateBatchInput').on('keypress', function(e) {
 		//	Si la tecla presionada es 'ENTER'
 		if (e.keyCode === 13) {
-			$('#expirationDateInput').focus();
+			$('#batchExpirationDateExpirationDateInput').focus();
 			return false;
 		}
 	});
