@@ -91,7 +91,7 @@ var DeliveryNoteCancellation = function() {
 	{
 	    for (var i = 0; i < rows.length; i++)
 	    {
-            var firstSplit = rows[i].deliveryNoteNumbers.split("[");
+            var firstSplit = rows[i].deliveryNoteNumbers.replace(/\s+/g, '').split("[");
             var secondSplit = firstSplit[1].split("]");
             var deliveryNotesNumbers = secondSplit[0].split(",");
 	    	var ids = deliveryNotesNumbers;
@@ -113,7 +113,7 @@ var DeliveryNoteCancellation = function() {
 	{
 	    for (var i = 0; i < rows.length; i++)
 	    {
-            var firstSplit = rows[i].deliveryNoteNumbers.split("[");
+            var firstSplit = rows[i].deliveryNoteNumbers.replace(/\s+/g, '').split("[");
             var secondSplit = firstSplit[1].split("]");
             var deliveryNotesNumbers = secondSplit[0].split(",");
             var ids = deliveryNotesNumbers;
