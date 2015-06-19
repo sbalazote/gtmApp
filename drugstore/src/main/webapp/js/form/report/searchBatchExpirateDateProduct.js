@@ -86,151 +86,134 @@ SearchBatchExpirateDateProduct = function() {
 					expirateDate: $("#dateSearch").val(),
 				},
 				success: function(response) {
-					$('#divInput').hide();
-					$('#divOutput').hide();
-					$('#divOrder').hide();
-					$('#divDeliveryNote').hide();
-					
-					if(response.inputs.length > 0 || response.outputs.length > 0 || response.orders.length > 0 || response.deliveryNotes.length > 0){
-						var aaData = [];
-						if(response.inputs != null){
-							if(response.inputs.length > 0){
-								$('#divInput').show();
-							}
-							for (var i = 0, l = response.inputs.length; i < l; ++i) {
-								var audit = {
-									id: 0,
-									operation: "",
-									user: "",
-									date: "",
-									action: ""
-								};
-								audit.id = response.inputs[i].operationId;
-								audit.operation = response.inputs[i].auditAction;
-								audit.user = response.inputs[i].username;
-								audit.date = response.inputs[i].date;
-								audit.action = "<a href='javascript:void(0);' class='view-row'>Consulta</a>";
-								aaData.push(audit);
-							}
-						}
-						$("#inputTable").bootgrid({
-							caseSensitive: false
-						});
-						$("#inputTable").bootgrid().bootgrid("clear");
-						$("#inputTable").bootgrid().bootgrid("append", aaData);
-						$("#inputTable").bootgrid().bootgrid("search", $(".search-field").val());
-				
-						var exportHTML = exportTableHTML("inputTable");
-						$("#divInput").find(".search").before(exportHTML);
-						
-						var aaData = [];
-						if(response.outputs != null){
-							if(response.outputs.length > 0){
-								$('#divOutput').show();
-							}
-							for (var i = 0, l = response.outputs.length; i < l; ++i) {
-								var audit = {
-									id: 0,
-									operation: "",
-									user: "",
-									date: "",
-									action: ""
-								};
-								audit.id = response.outputs[i].operationId;
-								audit.operation = response.outputs[i].auditAction;
-								audit.user = response.outputs[i].username;
-								audit.date = response.outputs[i].date;
-								audit.action = "<a href='javascript:void(0);' class='view-row'>Consulta</a>";
-								aaData.push(audit);
-							}
-						}
-						$("#outputTable").bootgrid({
-							caseSensitive: false
-						});
-						$("#outputTable").bootgrid().bootgrid("clear");
-						$("#outputTable").bootgrid().bootgrid("append", aaData);
-						$("#outputTable").bootgrid().bootgrid("search", $(".search-field").val());
-				
-						var exportHTML = exportTableHTML("outputTable");
-						$("#divOutput").find(".search").before(exportHTML);
-						
-						var aaData = [];
-						if(response.orders != null){
-							if(response.orders.length > 0){
-								$('#divOrder').show();
-							}
-							for (var i = 0, l = response.orders.length; i < l; ++i) {
-								var audit = {
-									id: 0,
-									operation: "",
-									user: "",
-									date: "",
-									action: ""
-								};
-								audit.id = response.orders[i].operationId;
-								audit.operation = response.orders[i].auditAction;
-								audit.user = response.orders[i].username;
-								audit.date = response.orders[i].date;
-								audit.action = "<a href='javascript:void(0);' class='view-row'>Consulta</a>";
-								aaData.push(audit);
-							}
-						}
-						$("#orderTable").bootgrid({
-							caseSensitive: false
-						});
-						$("#orderTable").bootgrid().bootgrid("clear");
-						$("#orderTable").bootgrid().bootgrid("append", aaData);
-						$("#orderTable").bootgrid().bootgrid("search", $(".search-field").val());
-				
-						var exportHTML = exportTableHTML("orderTable");
-						$("#divOrder").find(".search").before(exportHTML);
-						
-						var aaData = [];
-						if(response.deliveryNotes != null){
-							if(response.deliveryNotes.length > 0){
-								$('#divDeliveryNote').show();
-							}
-							for (var i = 0, l = response.deliveryNotes.length; i < l; ++i) {
-								var audit = {
-									id: 0,
-									operation: "",
-									user: "",
-									date: "",
-									action: ""
-								};
-								audit.id = response.deliveryNotes[i].operationId;
-								audit.operation = response.deliveryNotes[i].auditAction;
-								audit.user = response.deliveryNotes[i].username;
-								audit.date = response.deliveryNotes[i].date;
-								audit.action = "<a href='javascript:void(0);' class='view-row'>Consulta</a>";
-								aaData.push(audit);
-							}
-						}
-						$("#deliveryNoteTable").bootgrid({
-							caseSensitive: false
-						});
-						$("#deliveryNoteTable").bootgrid().bootgrid("clear");
-						$("#deliveryNoteTable").bootgrid().bootgrid("append", aaData);
-						$("#deliveryNoteTable").bootgrid().bootgrid("search", $(".search-field").val());
-				
-						var exportHTML = exportTableHTML("deliveryNoteTable");
-						$("#divDeliveryNote").find(".search").before(exportHTML);
-					}else{
-						
-						BootstrapDialog.show({
-							type: BootstrapDialog.TYPE_INFO,
-					        title: 'Atenci\u00f3n',
-					        message: "No se han encontrado elementos para la consulta realizada.",
-					        buttons: [{
-				                label: 'Cerrar',
-				                action: function(dialogItself){
-				                    dialogItself.close();
-				                }
-				            }]
-						});
-					}
-						
-				},
+                    $('#divMovements').hide();
+
+                    if(response.inputs.length > 0 || response.outputs.length > 0 || response.orders.length > 0 || response.deliveryNotes.length > 0){
+                        var aaData = [];
+                        if(response.inputs != null){
+                            if(response.inputs.length > 0){
+                                $('#divMovements').show();
+                            }
+                            for (var i = 0, l = response.inputs.length; i < l; ++i) {
+                                var audit = {
+                                    id: 0,
+                                    action: "",
+                                    operation: "",
+                                    user: "",
+                                    date: "",
+                                    view: ""
+                                };
+                                audit.id = response.inputs[i].operationId;
+                                audit.action = "Ingreso";
+                                audit.operation = response.inputs[i].auditAction;
+                                audit.user = response.inputs[i].username;
+                                audit.date = response.inputs[i].date;
+                                audit.view = "<a href='javascript:void(0);' class='view-row-input'>Consulta</a>";
+                                aaData.push(audit);
+                            }
+                        }
+
+                        if(response.outputs != null){
+                            for (var i = 0, l = response.outputs.length; i < l; ++i) {
+                                var audit = {
+                                    id: 0,
+                                    action: "",
+                                    operation: "",
+                                    user: "",
+                                    date: "",
+                                    view: ""
+                                };
+                                audit.id = response.outputs[i].operationId;
+                                audit.action = "Egreso";
+                                audit.operation = response.outputs[i].auditAction;
+                                audit.user = response.outputs[i].username;
+                                audit.date = response.outputs[i].date;
+                                audit.view = "<a href='javascript:void(0);' class='view-row-output'>Consulta</a>";
+                                aaData.push(audit);
+                            }
+                        }
+
+                        if(response.orders != null){
+                            for (var i = 0, l = response.orders.length; i < l; ++i) {
+                                var audit = {
+                                    id: 0,
+                                    action: "",
+                                    operation: "",
+                                    user: "",
+                                    date: "",
+                                    view: ""
+                                };
+                                audit.id = response.orders[i].operationId;
+                                audit.action = "Armado";
+                                audit.operation = response.orders[i].auditAction;
+                                audit.user = response.orders[i].username;
+                                audit.date = response.orders[i].date;
+                                audit.view = "<a href='javascript:void(0);' class='view-row-order'>Consulta</a>";
+                                aaData.push(audit);
+                            }
+                        }
+
+                        if(response.deliveryNotes != null){
+                            for (var i = 0, l = response.deliveryNotes.length; i < l; ++i) {
+                                var audit = {
+                                    id: 0,
+                                    action: "",
+                                    operation: "",
+                                    user: "",
+                                    date: "",
+                                    view: ""
+                                };
+                                audit.id = response.deliveryNotes[i].operationId;
+                                audit.action = "Remito";
+                                audit.operation = response.deliveryNotes[i].auditAction;
+                                audit.user = response.deliveryNotes[i].username;
+                                audit.date = response.deliveryNotes[i].date;
+                                audit.view = "<a href='javascript:void(0);' class='view-row-deliveryNote'>Consulta</a>";
+                                aaData.push(audit);
+                            }
+                        }
+
+                        if(response.supplyings != null){
+                            for (var i = 0, l = response.supplyings.length; i < l; ++i) {
+                                var audit = {
+                                    id: 0,
+                                    action: "",
+                                    operation: "",
+                                    user: "",
+                                    date: "",
+                                    view: ""
+                                };
+                                audit.id = response.supplyings[i].operationId;
+                                audit.action = "Dispensa";
+                                audit.operation = response.supplyings[i].auditAction;
+                                audit.user = response.supplyings[i].username;
+                                audit.date = response.supplyings[i].date;
+                                audit.view = "<a href='javascript:void(0);' class='view-row-supplying'>Consulta</a>";
+                                aaData.push(audit);
+                            }
+                        }
+                        $("#movementsTable").bootgrid({
+                            caseSensitive: false
+                        });
+                        $("#movementsTable").bootgrid().bootgrid("clear");
+                        $("#movementsTable").bootgrid().bootgrid("append", aaData);
+                        $("#movementsTable").bootgrid().bootgrid("search", $(".search-field").val());
+                    }else{
+
+                        BootstrapDialog.show({
+                            type: BootstrapDialog.TYPE_INFO,
+                            title: 'Atenci\u00f3n',
+                            message: "No se han encontrado elementos para la consulta realizada.",
+                            buttons: [{
+                                label: 'Cerrar',
+                                action: function(dialogItself){
+                                    dialogItself.close();
+                                }
+                            }]
+                        });
+                    }
+
+                },
 				error: function(jqXHR, textStatus, errorThrown) {
 					myGenericError();
 				}
@@ -238,38 +221,46 @@ SearchBatchExpirateDateProduct = function() {
 			
 		}
 	});
-	
-	//Consulta de Ingresos
-	
-	$('#inputTableBody').on("click", ".view-row", function() {
-		var parent = $(this).parent().parent();
-		inputId = parent.find("td:first-child").html();
-		
-		showInputModal(inputId);
-	});
-	
-	//Consulta de Egresos
-	
-	$('#outputTableBody').on("click", ".view-row", function() {
-		var parent = $(this).parent().parent();
-		outputId = parent.find("td:first-child").html();
-		
-		showOutputModal(outputId);
-	});
-	
-	//Consulta de Armado
-	
-	$('#orderTableBody').on("click", ".view-row", function() {
-		var parent = $(this).parent().parent();
-		orderId = parent.find("td:first-child").html();
-		showOrderModal(orderId);
-	});
-	
-	//Consulta de Remito
-	$('#deliveryNoteTableBody').on("click", ".view-row", function() {
-		var parent = $(this).parent().parent();
-		deliveryNoteId = parent.find("td:first-child").html();
-		
-		showDeliveryNoteModal(deliveryNoteId);
-	});
+
+    //Consulta de Ingresos
+
+    $('#movementsTableBody').on("click", ".view-row-input", function() {
+        var parent = $(this).parent().parent();
+        inputId = parent.find("td:first-child").html();
+
+        showInputModal(inputId);
+    });
+
+    //Consulta de Egresos
+
+    $('#movementsTableBody').on("click", ".view-row-output", function() {
+        var parent = $(this).parent().parent();
+        outputId = parent.find("td:first-child").html();
+
+        showOutputModal(outputId);
+    });
+
+    //Consulta de Armado
+
+    $('#movementsTableBody').on("click", ".view-row-order", function() {
+        var parent = $(this).parent().parent();
+        orderId = parent.find("td:first-child").html();
+        showOrderModal(orderId);
+    });
+
+    //Consulta de Remito
+    $('#movementsTableBody').on("click", ".view-row-deliveryNote", function() {
+        var parent = $(this).parent().parent();
+        deliveryNoteId = parent.find("td:first-child").html();
+
+        showDeliveryNoteByIdModal(deliveryNoteId);
+    });
+
+    //Consulta de Dispensa
+    $('#movementsTableBody').on("click", ".view-row-supplying", function() {
+        var parent = $(this).parent().parent();
+        supplyingId = parent.find("td:first-child").html();
+
+        showSupplyingModal(supplyingId);
+    });
 };

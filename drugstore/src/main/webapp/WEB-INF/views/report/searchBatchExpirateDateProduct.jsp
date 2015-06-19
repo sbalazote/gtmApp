@@ -57,69 +57,22 @@
 		</div>
 	</div>
 	<br>
-	<div id="divInput" style="display:none;">
-		<h4 style="color:blue"><spring:message code="common.inputs"/></h4>
-		<table class="table table-condensed table-hover table-striped" id="inputTable">
-			<thead>
-		        <tr>
-		        	<th data-column-id="id" data-type="numeric"><spring:message code="common.id"/></th>
-		            <th data-column-id="operation"><spring:message code="common.operation"/></th>
-		            <th data-column-id="user"><spring:message code="common.user"/></th>
-		            <th data-column-id="date"><spring:message code="common.date"/></th>
-		            <th data-column-id="action"><spring:message code="common.action"/></th>
-		        </tr>
-	   	 	</thead>
-	   	 	<tbody id="inputTableBody">
-			</tbody>
-		</table>
-	</div>
-	<div id="divOutput" style="display:none;">
-		<h4 style="color:blue"><spring:message code="common.outputs"/></h4>
-		<table class="table table-condensed table-hover table-striped" id="outputTable">
-			<thead>
-		        <tr>
-		        	<th data-column-id="id" data-type="numeric"><spring:message code="common.id"/></th>
-		            <th data-column-id="operation"><spring:message code="common.operation"/></th>
-		            <th data-column-id="user"><spring:message code="common.user"/></th>
-		            <th data-column-id="date"><spring:message code="common.date"/></th>
-		            <th data-column-id="action"><spring:message code="common.action"/></th>
-		        </tr>
-	   	 	</thead>
-	   	 	<tbody id="outputTableBody">
-			</tbody>
-		</table>
-	</div>
-	<div id="divOrder" style="display:none;">
-		<h4 style="color:blue"><spring:message code="common.orders"/></h4>
-		<table class="table table-condensed table-hover table-striped" id="orderTable">
-			<thead>
-		        <tr>
-		        	<th data-column-id="id" data-type="numeric"><spring:message code="common.id"/></th>
-		            <th data-column-id="operation"><spring:message code="common.operation"/></th>
-		            <th data-column-id="user"><spring:message code="common.user"/></th>
-		            <th data-column-id="date"><spring:message code="common.date"/></th>
-		            <th data-column-id="action"><spring:message code="common.action"/></th>
-		        </tr>
-	   	 	</thead>
-	   	 	<tbody id="orderTableBody">
-			</tbody>
-		</table>
-	</div>
-	<div id="divDeliveryNote" style="display:none;">
-		<h4 style="color:blue"><spring:message code="common.deliveryNotes"/></h4>
-		<table class="table table-condensed table-hover table-striped" id="deliveryNoteTable">
-			<thead>
-		        <tr>
-		        	<th data-column-id="id" data-type="numeric"><spring:message code="common.id"/></th>
-		            <th data-column-id="operation"><spring:message code="common.operation"/></th>
-		            <th data-column-id="user"><spring:message code="common.user"/></th>
-		            <th data-column-id="date"><spring:message code="common.date"/></th>
-		            <th data-column-id="action"><spring:message code="common.action"/></th>
-		        </tr>
-	   	 	</thead>
-	   	 	<tbody id="deliveryNoteTableBody">
-			</tbody>
-		</table>
-	</div>
+    <div id="divMovements" style="display:none;">
+        <h4 style="color:blue"><spring:message code="common.movements"/></h4>
+        <table class="table table-condensed table-hover table-striped" id="movementsTable">
+            <thead>
+            <tr>
+                <th data-column-id="id" data-type="numeric"><spring:message code="common.id"/></th>
+                <th data-column-id="action"><spring:message code="common.operation"/></th>
+                <th data-column-id="operation"><spring:message code="common.action"/></th>
+                <th data-column-id="user"><spring:message code="common.user"/></th>
+                <th data-column-id="date" data-order="asc"><spring:message code="common.date"/></th>
+                <th data-column-id="view"><spring:message code="common.action"/></th>
+            </tr>
+            </thead>
+            <tbody id="movementsTableBody">
+            </tbody>
+        </table>
+    </div>
 </form>
 
