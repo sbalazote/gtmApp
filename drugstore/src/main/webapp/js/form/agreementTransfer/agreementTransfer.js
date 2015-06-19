@@ -205,7 +205,7 @@ AgreementTransfer = function() {
 	
 	
 	$('#productOutput').keydown(function(e) {
-	    if(e.keyCode == 121){ // F10
+	    if(e.keyCode == 13){ // Presiono Enter
 	    	$.ajax({
 				url: "getProductFromStockBySerialOrGtin.do",
 				type: "GET",
@@ -231,6 +231,7 @@ AgreementTransfer = function() {
 						}
 					} else {
 						$('#productOutput').tooltip("destroy").data("title", "Producto Inexistente").addClass("has-error").tooltip();
+						$('#productOutput').val('');
 						$('#productOutput').focus();
 					}
 					return false;
@@ -431,5 +432,25 @@ AgreementTransfer = function() {
 				myShowAlert('danger', 'Por favor, ingrese al menos un producto.');
 			}
 		}
+	});
+	
+	var hasChanged = function() {
+		if (agreementTransferDetailGroup.length > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+
+	$(window).bind("beforeunload", function(event) {
+		if (hasChanged() && isButtonConfirm == false) {
+			return "Existen cambios que no fueron confirmados.";
+		} else {
+			isButtonConfirm = false;
+		}
+	});
+	
+	$("#agreementTransferForm input, #agreementTransferForm select").keypress(function(event) {
+		return event.keyCode != 13;
 	});
 };

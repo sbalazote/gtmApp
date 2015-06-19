@@ -33,52 +33,40 @@ public class StockSearchController {
 	private SerialParser serialParser;
 
 	@RequestMapping(value = "/getProductAmount", method = RequestMethod.GET)
-	public @ResponseBody
-	Long getProductAmount(@RequestParam Integer productId, Integer agreementId, Integer provisioningId) {
+	public @ResponseBody Long getProductAmount(@RequestParam Integer productId, Integer agreementId, Integer provisioningId) {
 		return this.stockService.getProductAmount(productId, agreementId, provisioningId);
 	}
 
 	@RequestMapping(value = "/getCountStockSearch", method = RequestMethod.POST)
-	public @ResponseBody
-	boolean getCountStockSearch(@RequestBody StockQuery stockQuery) throws Exception {
+	public @ResponseBody boolean getCountStockSearch(@RequestBody StockQuery stockQuery) throws Exception {
 		return this.stockService.getCountStockSearch(stockQuery);
 	}
 
 	@RequestMapping(value = "/getStockForSearch", method = RequestMethod.POST)
-	public @ResponseBody
-	List<Stock> getStockForSearch(@RequestBody StockQuery stockQuery) throws Exception {
+	public @ResponseBody List<Stock> getStockForSearch(@RequestBody StockQuery stockQuery) throws Exception {
 		return this.stockService.getStockForSearch(stockQuery);
 	}
 
 	@RequestMapping(value = "/getProductoFromStock", method = RequestMethod.GET)
-	public @ResponseBody
-	List<Product> getProductoFromStock(@RequestParam String term, Integer agreementId) throws Exception {
+	public @ResponseBody List<Product> getProductoFromStock(@RequestParam String term, Integer agreementId) throws Exception {
 		return this.stockService.getForAutocomplete(term, agreementId);
 	}
 
 	@RequestMapping(value = "/getProductFromStockBySerialOrGtin", method = RequestMethod.GET)
-	public @ResponseBody
-	Product getProductFromStockBySerialOrGtin(@RequestParam String serial, Integer agreementId) {
+	public @ResponseBody Product getProductFromStockBySerialOrGtin(@RequestParam String serial, Integer agreementId) {
 		if (serial != null && serial.length() > Constants.GTIN_LENGTH) {
 			ProviderSerializedProductDTO productDTO = this.serialParser.parse(serial);
 			if (productDTO != null && productDTO.getGtin() != null) {
 				return this.stockService.getByGtin(productDTO.getGtin(), agreementId);
-			} else {
-				Stock stock = this.stockService.getSerializedProductStock(serial.substring(3, 16) + serial.substring(18), agreementId);
-				if (stock != null) {
-					return this.productService.get(stock.getProduct().getId());
-				} else {
-					return null;
-				}
 			}
 		} else {
-			return null;
+			return this.stockService.getByGtin(serial, agreementId);
 		}
+		return null;
 	}
 
 	@RequestMapping(value = "/stocks", method = RequestMethod.POST)
-	public @ResponseBody
-	ModelAndView stocks(HttpServletRequest request) throws Exception {
+	public @ResponseBody ModelAndView stocks(HttpServletRequest request) throws Exception {
 		StockQuery stockQuery = this.getStockQuery(request);
 		return new ModelAndView("stocks", "stocks", this.stockService.getStockForSearch(stockQuery));
 	}

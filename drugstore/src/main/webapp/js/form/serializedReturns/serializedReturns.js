@@ -172,7 +172,7 @@ SerializedReturns = function() {
 	});
 	
 	$('#serialNumberInput').keydown(function(e) {
-		if(e.keyCode == 121){ // F10
+		if(e.keyCode == 13){ // Presiono Enter
 
 			if (!found) {
 
@@ -369,5 +369,25 @@ SerializedReturns = function() {
 				myShowAlert('danger', 'Por favor, lea al menos un producto.');
 			}
 		}
+	});
+	
+	var hasChanged = function() {
+		if (inputDetails.length > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+
+	$(window).bind("beforeunload", function(event) {
+		if (hasChanged() && isButtonConfirm == false) {
+			return "Existen cambios que no fueron confirmados.";
+		} else {
+			isButtonConfirm = false;
+		}
+	});
+
+	$("#serializedReturnsForm input, #serializedReturnsForm select").keypress(function(event) {
+		return event.keyCode != 13;
 	});
 };

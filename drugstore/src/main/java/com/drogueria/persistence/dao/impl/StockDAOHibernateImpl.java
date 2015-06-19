@@ -20,6 +20,7 @@ import com.drogueria.model.Stock;
 import com.drogueria.persistence.dao.StockDAO;
 import com.drogueria.query.StockQuery;
 import com.drogueria.service.ProductService;
+import com.drogueria.util.StringUtility;
 
 @Repository
 public class StockDAOHibernateImpl implements StockDAO {
@@ -210,9 +211,8 @@ public class StockDAOHibernateImpl implements StockDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Product> getForAutocomplete(String term, Integer agreementId) {
-		String sentence = "select distinct (p) from Stock as s inner join s.product as p where (p.description like :description or p.brand.description like :brand or p.monodrug.description like :monodrug "
-				+ "or exists (select prod from Product as prod inner join prod.gtins as g where g.number = :gtin)";
-		if (com.drogueria.util.StringUtility.isInteger(term)) {
+		String sentence = "select distinct (p) from Stock as s inner join s.product as p where (p.description like :description or p.brand.description like :brand or p.monodrug.description like :monodrug";
+		if (StringUtility.isInteger(term)) {
 			sentence += " or convert(p.code, CHAR) like :code";
 		}
 		sentence += ")";
@@ -222,13 +222,12 @@ public class StockDAOHibernateImpl implements StockDAO {
 
 		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
 		query.setParameter("description", "%" + term + "%");
-		query.setParameter("gtin", com.drogueria.util.StringUtility.removeLeadingZero(term));
 		query.setParameter("brand", "%" + term + "%");
 		query.setParameter("monodrug", "%" + term + "%");
 		if (agreementId != null) {
 			query.setParameter("agreementId", agreementId);
 		}
-		if (com.drogueria.util.StringUtility.isInteger(term)) {
+		if (StringUtility.isInteger(term)) {
 			query.setParameter("code", "%" + term + "%");
 		}
 		return query.list();

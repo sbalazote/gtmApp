@@ -124,10 +124,7 @@
 
 	<div class="row">
 		<div class="col-md-2 col-md-offset-8">
-			<button class="btn btn-danger btn-block" type="submit" id="abortButton" onclick="location.href='home.do'" >
-				<span class="glyphicon glyphicon-remove"></span>
-				<spring:message code="common.abort" />
-			</button>
+			<button class="btn btn-danger btn-block" onclick="myAbortWarning();" id="abortButton"><span class="glyphicon glyphicon-remove"></span> <spring:message code="common.abort"/></button>
 		</div>
 		<div class="col-md-2">
 			<button class="btn btn-success btn-block" type="submit" id="confirmButton">

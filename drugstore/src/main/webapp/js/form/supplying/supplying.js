@@ -279,6 +279,7 @@ var Supplying = function() {
 						}
 					} else {
 						$('#productInput').tooltip("destroy").data("title", "Producto Inexistente").addClass("has-error").tooltip();
+						$('#productInput').val('');
 						$('#productInput').focus();
 					}
 					return false;

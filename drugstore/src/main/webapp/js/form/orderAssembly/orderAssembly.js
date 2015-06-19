@@ -28,7 +28,7 @@ OrderAssembly = function() {
     $("#amountInput").numeric();
 	
 	$('#productInput').keydown(function(e) {
-	    if(e.keyCode == 121){ // F10
+	    if(e.keyCode == 13){ // Presiono Enter
 	    	$.ajax({
 				url: "getProductBySerialOrGtin.do",
 				type: "GET",
