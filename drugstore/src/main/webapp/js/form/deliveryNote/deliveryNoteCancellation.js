@@ -70,7 +70,6 @@ var DeliveryNoteCancellation = function() {
 	
 	$("#deliveryNoteTable").bootgrid({
 	    selection: true,
-	    multiSelect: true,
 	    rowSelect: true,
 	    keepSelection: true,
 	    formatters: {

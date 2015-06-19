@@ -82,10 +82,10 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 		return this.deliveryNoteDAO.getDeliveryNoteFromOutputForSearch(deliveryNoteQuery);
 	}
 
-    @Override
-    public List<DeliveryNote> getDeliveryNoteFromSupplyingForSearch(DeliveryNoteQuery deliveryNoteQuery) {
-        return this.deliveryNoteDAO.getDeliveryNoteFromSupplyingForSearch(deliveryNoteQuery);
-    }
+	@Override
+	public List<DeliveryNote> getDeliveryNoteFromSupplyingForSearch(DeliveryNoteQuery deliveryNoteQuery) {
+		return this.deliveryNoteDAO.getDeliveryNoteFromSupplyingForSearch(deliveryNoteQuery);
+	}
 
 	@Override
 	public Order getOrder(DeliveryNote deliveryNote) {
@@ -155,6 +155,9 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 
 	@Override
 	public void cancelDeliveryNotes(List<String> deliveryNoteNumbers, String username) {
+		Output output = null;
+		Supplying supplying = null;
+
 		for (String deliveryNoteNumber : deliveryNoteNumbers) {
 			DeliveryNote deliveryNote = this.getDeliveryNoteFromNumber(deliveryNoteNumber);
 			deliveryNote.setCancelled(true);
@@ -172,15 +175,21 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 				logger.info("No se ha podido actualizar el estado al remito " + deliveryNote.getId());
 			}
 
+			if (output == null) {
+				output = this.getOutput(deliveryNote);
+				if (output != null) {
+					this.outputService.cancel(output);
+				}
+			}
+
+			if (supplying == null) {
+				supplying = this.getSupplying(deliveryNote);
+				if (supplying != null) {
+					this.supplyingService.cancel(supplying);
+				}
+			}
+
 			this.auditService.addAudit(username, RoleOperation.DELIVERY_NOTE_CANCELLATION.getId(), AuditState.CANCELLED, deliveryNote.getId());
-			Output output = this.getOutput(deliveryNote);
-			if (output != null) {
-				this.outputService.cancel(output);
-			}
-			Supplying supplying = this.getSupplying(deliveryNote);
-			if (supplying != null) {
-				this.supplyingService.cancel(supplying);
-			}
 		}
 	}
 

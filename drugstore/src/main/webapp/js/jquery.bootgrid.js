@@ -1586,8 +1586,14 @@
 
                 if (!this.options.multiSelect)
                 {
-                    this.element.find("tbody > tr " + selectBoxSelector + ":checked")
-                        .trigger("click" + namespace);
+                	var lastId = this.selectedRows[this.selectedRows.length-1];
+                	var checkboxes = this.element.find("tbody > tr " + selectBoxSelector + ":checked");
+                	for (i = 0; i < checkboxes.length; i++) {
+                		var $checkbox = $(checkboxes[i]);
+                		if (lastId != $checkbox.val()) {
+                			$checkbox.trigger("click" + namespace);
+                		}
+                	}
                 }
 
                 for (i = 0; i < this.selectedRows.length; i++)
