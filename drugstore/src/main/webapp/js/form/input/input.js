@@ -358,12 +358,13 @@ Input = function() {
 		
 		var productType = parent.find(".span-productType").html();
 		if (productType == "PS") {
-			$.each(tempSerialNumberGroup[productId], function(idxSerialToDelete, serialToDelete) {
+			tempSerialNumberGroup[productId] = [];
+			/*$.each(tempSerialNumberGroup[productId], function(idxSerialToDelete, serialToDelete) {
 				var idxSerialStored = $.inArray(serialToDelete, tempSerialNumberGroup[productId]);
 				if (idxSerialStored != -1) {
 					tempSerialNumberGroup[productId].splice(idxSerialStored, 1);
 				}
-			});
+			});*/
 		}
 	});
 	

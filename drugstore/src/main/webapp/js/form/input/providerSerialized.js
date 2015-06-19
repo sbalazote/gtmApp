@@ -56,6 +56,11 @@ ProviderSerialized = function() {
 	
 	var formValidator = null;
 	
+	// TODO mejorar esto- ahora no hace el paginado.
+	$("#providerSerializedTable").bootgrid({
+		rowCount: -1
+	});
+	
 	var validateForm = function() {
 		var form = $("#providerSerializedModalForm");
 		formValidator = form.validate({

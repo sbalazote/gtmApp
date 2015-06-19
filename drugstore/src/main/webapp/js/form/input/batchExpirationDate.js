@@ -27,6 +27,11 @@ BatchExpirationDate = function() {
 	
 	var formValidator = null;
 	
+	// TODO mejorar esto- ahora no hace el paginado.
+	$("#batchExpirationDateTable").bootgrid({
+		rowCount: -1
+	});
+	
 	var validateForm = function() {
 		var maxAmount = parseInt($('#batchExpirationDateRemainingAmountLabel').text());
 		
@@ -101,7 +106,7 @@ BatchExpirationDate = function() {
 			commands: "<button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"" + rowId + "\"><span class=\"glyphicon glyphicon-trash\"></span></button>"
 		};
 		aaData.push(row);
-		$("#batchExpirationDateTable").bootgrid().bootgrid("append", aaData);
+		$("#batchExpirationDateTable").bootgrid("append", aaData);
 		rowId++;
 	};
 	

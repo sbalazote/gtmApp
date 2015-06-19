@@ -27,6 +27,11 @@ SelfSerialized = function() {
 	};
 	
 	var formValidator = null;
+	
+	// TODO mejorar esto- ahora no hace el paginado.
+	$("#selfSerializedTable").bootgrid({
+		rowCount: -1
+	});
 
 	var validateForm = function() {
 		var maxAmount = parseInt($('#selfSerializedRemainingAmountLabel').text());
