@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.drogueria.config.PropertyProvider;
 import com.drogueria.dto.PropertyDTO;
 import com.drogueria.helper.EncryptionHelper;
 import com.drogueria.model.Agent;
@@ -45,9 +46,9 @@ public class PropertyController {
 	private static final Logger logger = Logger.getLogger(PropertyController.class);
 
 	@RequestMapping(value = "/saveProperty", method = RequestMethod.POST)
-	public @ResponseBody
-	void saveProperty(@RequestBody PropertyDTO propertyDTO) throws Exception {
+	public @ResponseBody void saveProperty(@RequestBody PropertyDTO propertyDTO) throws Exception {
 		this.PropertyService.save(this.buildModel(propertyDTO));
+		PropertyProvider.getInstance().setProp(PropertyProvider.NAME, propertyDTO.getName());
 	}
 
 	private Property buildModel(PropertyDTO propertyDTO) {

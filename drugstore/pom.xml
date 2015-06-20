@@ -6,7 +6,7 @@
 	<artifactId>gtmApp</artifactId>
 	<packaging>war</packaging>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>gtm-app</name>
+	<name></name>
 	<organization>
     	<name>LS&amp;T Solutions</name>
   	</organization>

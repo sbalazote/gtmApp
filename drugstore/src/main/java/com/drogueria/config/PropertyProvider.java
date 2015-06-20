@@ -10,7 +10,10 @@ public class PropertyProvider {
 	public static final String ARTIFACT_ID = "artifactId";
 	public static final String VERSION = "version";
 	public static final String LOGO = "logo";
-	public static final String DESCRIPTION = "description";
+	public static final String NAME = "name";
+	public static final String DATABASE_URL = "persistence.database.url";
+	public static final String DATABASE_USERNAME = "persistence.database.username";
+	public static final String DATABASE_PASSWORD = "persistence.database.password";
 
 	private static PropertyProvider instance = null;
 
@@ -35,4 +38,7 @@ public class PropertyProvider {
 		return this.prop.getProperty(propName);
 	}
 
+	public void setProp(String propName, String propValue) {
+		this.prop.setProperty(propName, propValue);
+	}
 }

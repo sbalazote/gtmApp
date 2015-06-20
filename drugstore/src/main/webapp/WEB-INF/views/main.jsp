@@ -3,9 +3,27 @@
 	<head>
 		<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 		<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+		<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 		<%@ page import="com.drogueria.config.PropertyProvider" %>
-		
-		<title><%= PropertyProvider.getInstance().getProp(PropertyProvider.ARTIFACT_ID) %> - <%= PropertyProvider.getInstance().getProp(PropertyProvider.DESCRIPTION) %></title>
+		<%@ page import="java.sql.*" %>
+		<%
+			String artifactId = PropertyProvider.getInstance().getProp(PropertyProvider.ARTIFACT_ID);
+			String name = PropertyProvider.getInstance().getProp(PropertyProvider.NAME);
+			if (name.equals("")) {
+				Connection connection = DriverManager.getConnection(
+	            		PropertyProvider.getInstance().getProp(PropertyProvider.DATABASE_URL),
+	            		PropertyProvider.getInstance().getProp(PropertyProvider.DATABASE_USERNAME),
+	            		PropertyProvider.getInstance().getProp(PropertyProvider.DATABASE_PASSWORD));
+
+	            Statement statement = connection.createStatement();
+	            
+	            ResultSet resultset = statement.executeQuery("select * from property");
+	            resultset.first();
+	            PropertyProvider.getInstance().setProp(PropertyProvider.NAME, resultset.getString("name"));
+			}
+			name = PropertyProvider.getInstance().getProp(PropertyProvider.NAME);
+		%>
+		<title><%= artifactId + " - " + name %></title>
         <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,user-scalable=no" />
 		<meta charset="UTF-8">
 		
