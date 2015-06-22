@@ -1,5 +1,8 @@
 $(document).ready(function() {
 	
+	var serialsMap = {};
+	var serialDetails = {};
+	
 	showInputModal = function(inputId) {
 		$.ajax({
 			url: "getInput.do",
@@ -17,8 +20,34 @@ $(document).ready(function() {
 		});
 	};
 	
+	$('#productTable tbody').on("click", ".view-batchExpirationDateDetails-row", function(e) {
+		$("#batchExpirationDatesTable").bootgrid("clear");
+		var parent = $(this).parent().parent();
+		var productCode = parent.find("td:first-child").html();
+		var productDescription = parent.find("td:nth(1)").html();
+		$("#batchExpirationDateProductDescription").text(productCode + " - " + productDescription);
+		
+		var serialDetails = serialsMap[productCode];
+		$("#batchExpirationDatesTable").bootgrid("append", serialDetails);
+		
+		$('#batchExpirationDatesModal').modal('show');
+	});
+	
+	$('#productTable tbody').on("click", ".view-serializedDetails-row", function(e) {
+		$("#serialsTable").bootgrid("clear");
+		var parent = $(this).parent().parent();
+		var productCode = parent.find("td:first-child").html();
+		var productDescription = parent.find("td:nth(1)").html();
+		$("#serializedProductDescription").text(productCode + " - " + productDescription);
+		
+		var serialDetails = serialsMap[productCode];
+		$("#serialsTable").bootgrid("append", serialDetails);
+		
+		$('#serialsModal').modal('show');
+	});
+	
 	var populateInputModal = function(response) {
-		$('#productTableBody').empty();
+		$("#productTable").bootgrid("clear");
 		
 		$("#inputId").text("Numero: " + response.id);
 		if(response.cancelled){
@@ -45,8 +74,11 @@ $(document).ready(function() {
 		$('#deliveryNoteNumberModal').val(response.deliveryNoteNumber);
 		$('#purchaseOrderNumberModal').val(response.purchaseOrderNumber);
 		
+		var id = 0;
 		var found = false;
 		var inputDetails = [];
+		serialsMap = {};
+		serialDetails = {};
 
 		for (var i=0; i< response.inputDetails.length;i++) {
 			found = false;
@@ -59,31 +91,45 @@ $(document).ready(function() {
 			if(!found){
 				var inputDetail = {};
 				inputDetail.id = response.inputDetails[i].product.id;
-				inputDetail.amount = response.inputDetails[i].amount;
+				inputDetail.code = response.inputDetails[i].product.code;
 				inputDetail.description = response.inputDetails[i].product.description;
-				if(response.inputDetails[i].serialNumber != null){
-					inputDetail.serialNumber = response.inputDetails[i].serialNumber;
-				}else{
-					inputDetail.serialNumber = "";
-				}
-				inputDetail.batch = response.inputDetails[i].batch;
-				inputDetail.expirationDate = myParseDate(response.inputDetails[i].expirationDate)
+				inputDetail.amount = response.inputDetails[i].amount;
+				inputDetail.serialNumber = response.inputDetails[i].serialNumber;
 				inputDetails.push(inputDetail);
 			}
+			// Guardo lote/vte y series para mostrar los detalles.
+			serialDetails = {
+					id: id,
+					amount: response.inputDetails[i].amount,
+					serialNumber: response.inputDetails[i].serialNumber,
+					batch: response.inputDetails[i].batch,
+					expirationDate: myParseDate(response.inputDetails[i].expirationDate)
+			};
+			var item = serialsMap[response.inputDetails[i].product.code] || [];
+			item.push(serialDetails);
+			serialsMap[response.inputDetails[i].product.code] = item;
+			id++;
 		}
 		
 		var tableRow;
-		
+		var command;
+		var aaData = [];
 		for (var i=0; i< inputDetails.length;i++) {
-			tableRow = "<tr><td>" +  inputDetails[i].id + " - " + inputDetails[i].description + "</td>" +
-			"<td>" + inputDetails[i].amount + "</td>" +
-			"<td>" + inputDetails[i].serialNumber + "</td>" +
-			"<td>" + inputDetails[i].batch + "</td>" +
-			"<td>" + inputDetails[i].expirationDate + "</td>" +
-			+"</tr>";
-			$("#productTableBody").append(tableRow);
+			if (inputDetails[i].serialNumber == null) {
+				command = "<button type=\"button\" class=\"btn btn-sm btn-default view-batchExpirationDateDetails-row\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
+			} else {
+				command = "<button type=\"button\" class=\"btn btn-sm btn-default view-serializedDetails-row\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
+			}
+			tableRow = {
+					code: inputDetails[i].code,
+					description: inputDetails[i].description,
+					amount: inputDetails[i].amount,
+					command: command
+			};
+			aaData.push(tableRow);
 		}
-		
+		$("#productTable").bootgrid("append", aaData);
+
 		$('#inputModal').modal('show');
 	};
 
@@ -182,7 +228,7 @@ $(document).ready(function() {
 	};
 	
 	var populateOutputModal = function(response) {
-		$('#productOutputTableBody').empty();
+		$("#productTable").bootgrid("clear");
 		
 		$("#outputId").text("Numero: " + response.id);
 		if(response.cancelled){
@@ -209,22 +255,61 @@ $(document).ready(function() {
 		}
 		$('#agreementModalOutput').val(response.agreement.code + " - " + response.agreement.description);
 		
+		var id = 0;
 		var found = false;
-		var tableRow;
+		var outputDetails = [];
+		serialsMap = {};
+		serialDetails = {};
 		
 		for (var i=0; i< response.outputDetails.length;i++) {
-			var serialNumber = " ";
-			if(response.outputDetails[i].serialNumber != null){
-				serialNumber = response.outputDetails[i].serialNumber;
+			found = false;
+			for(var j=0;j<outputDetails.length;j++){
+				if( response.outputDetails[i].product.id == outputDetails[j].id){
+					outputDetails[j].amount += response.outputDetails[i].amount;
+					found=true;
+				}
 			}
-			tableRow = "<tr><td>" +  response.outputDetails[i].product.code + " - " + response.outputDetails[i].product.description + "</td>"+
-				"<td>" +  response.outputDetails[i].amount + "</td>" +
-				"<td>"  + serialNumber + "</td>" + 
-				"<td>"  + response.outputDetails[i].batch + "</td>" +
-				"<td>"  + myParseDate(response.outputDetails[i].expirationDate) + "</td>"+
-				"</tr>";
-			$("#productOutputTableBody").append(tableRow);
+			if(!found){
+				var outputDetail = {};
+				outputDetail.id = response.outputDetails[i].product.id;
+				outputDetail.code = response.outputDetails[i].product.code;
+				outputDetail.description = response.outputDetails[i].product.description;
+				outputDetail.amount = response.outputDetails[i].amount;
+				outputDetail.serialNumber = response.outputDetails[i].serialNumber;
+				outputDetails.push(outputDetail);
+			}
+			// Guardo lote/vte y series para mostrar los detalles.
+			serialDetails = {
+					id: id,
+					amount: response.outputDetails[i].amount,
+					serialNumber: response.outputDetails[i].serialNumber,
+					batch: response.outputDetails[i].batch,
+					expirationDate: myParseDate(response.outputDetails[i].expirationDate)
+			};
+			var item = serialsMap[response.outputDetails[i].product.code] || [];
+			item.push(serialDetails);
+			serialsMap[response.outputDetails[i].product.code] = item;
+			id++;
 		}
+		
+		var tableRow;
+		var command;
+		var aaData = [];
+		for (var i=0; i< outputDetails.length;i++) {
+			if (outputDetails[i].serialNumber == null) {
+				command = "<button type=\"button\" class=\"btn btn-sm btn-default view-batchExpirationDateDetails-row\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
+			} else {
+				command = "<button type=\"button\" class=\"btn btn-sm btn-default view-serializedDetails-row\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
+			}
+			tableRow = {
+					code: outputDetails[i].code,
+					description: outputDetails[i].description,
+					amount: outputDetails[i].amount,
+					command: command
+			};
+			aaData.push(tableRow);
+		}
+		$("#productTable").bootgrid("append", aaData);
 		
 		$('#outputModal').modal('show');
 	};
@@ -345,24 +430,62 @@ $(document).ready(function() {
 		$('#supplyingModalAffiliateInput').val(response.affiliate.code + " - " + response.affiliate.surname + " " + response.affiliate.name);
 		$('#supplyingModalClientInput').val(response.client.code + " - " + response.client.name);
 		
-		var tableRow;
-		
+		var id = 0;
+		var found = false;
+		var supplyingDetails = [];
+		serialsMap = {};
+		serialDetails = {};
+
 		for (var i=0; i< response.supplyingDetails.length;i++) {
-			var serialNumber = "";
-			if(response.supplyingDetails[i].serialNumber != null){
-				serialNumber = response.supplyingDetails[i].serialNumber;
+			found = false;
+			for(var j=0;j<supplyingDetails.length;j++){
+				if( response.supplyingDetails[i].product.id == supplyingDetails[j].id){
+					supplyingDetails[j].amount += response.supplyingDetails[i].amount;
+					found=true;
+				}
 			}
-			tableRow = "<tr><td>" +  response.supplyingDetails[i].product.code + " - " 
-			+ response.supplyingDetails[i].product.description + "</td>" +
-			"<td>"+  response.supplyingDetails[i].amount + "</td>" +
-			"<td>"+  serialNumber + "</td>" +
-			"<td>"+  response.supplyingDetails[i].batch + "</td>" +
-			"<td>"+  myParseDate(response.supplyingDetails[i].expirationDate) + "</td>" +
-			"</tr>";
-			$("#supplyingModalProductTableBody").append(tableRow);
+			if(!found){
+				var supplyingDetail = {};
+				supplyingDetail.id = response.supplyingDetails[i].product.id;
+				supplyingDetail.code = response.supplyingDetails[i].product.code;
+				supplyingDetail.description = response.supplyingDetails[i].product.description;
+				supplyingDetail.amount = response.supplyingDetails[i].amount;
+				supplyingDetail.serialNumber = response.supplyingDetails[i].serialNumber;
+				supplyingDetails.push(supplyingDetail);
+			}
+			// Guardo lote/vte y series para mostrar los detalles.
+			serialDetails = {
+					id: id,
+					amount: response.supplyingDetails[i].amount,
+					serialNumber: response.supplyingDetails[i].serialNumber,
+					batch: response.supplyingDetails[i].batch,
+					expirationDate: myParseDate(response.supplyingDetails[i].expirationDate)
+			};
+			var item = serialsMap[response.supplyingDetails[i].product.code] || [];
+			item.push(serialDetails);
+			serialsMap[response.supplyingDetails[i].product.code] = item;
+			id++;
 		}
+		
+		var tableRow;
+		var command;
+		var aaData = [];
+		for (var i=0; i< supplyingDetails.length;i++) {
+			if (supplyingDetails[i].serialNumber == null) {
+				command = "<button type=\"button\" class=\"btn btn-sm btn-default view-batchExpirationDateDetails-row\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
+			} else {
+				command = "<button type=\"button\" class=\"btn btn-sm btn-default view-serializedDetails-row\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
+			}
+			tableRow = {
+					code: supplyingDetails[i].code,
+					description: supplyingDetails[i].description,
+					amount: supplyingDetails[i].amount,
+					command: command
+			};
+			aaData.push(tableRow);
+		}
+		$("#productTable").bootgrid("append", aaData);
 		
 		$('#supplyingModal').modal('show');
 	};
-	
 });
