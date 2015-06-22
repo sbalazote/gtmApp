@@ -403,15 +403,6 @@ public class InputServiceImpl implements InputService {
 	}
 
 	@Override
-	public boolean canCancelInput(Input input) {
-		if ((input.getTransactionCodeANMAT() == null && input.isInformAnmat())) {
-			return true;
-		} else {
-			return !this.inputDAO.exitsMovements(input);
-		}
-	}
-
-	@Override
 	public Input update(InputDTO inputDTO) {
 		Input input = this.get(inputDTO.getId());
 		input.setConcept(this.conceptService.get(inputDTO.getConceptId()));
@@ -482,11 +473,6 @@ public class InputServiceImpl implements InputService {
 	}
 
 	@Override
-	public List<Input> getInputs(boolean cancelled) {
-		return this.inputDAO.getInputs(cancelled);
-	}
-
-	@Override
 	public boolean cancelInput(Integer inputId) {
 		boolean canCancel = true;
 		boolean hasNoSerials = false;
@@ -496,7 +482,7 @@ public class InputServiceImpl implements InputService {
 		if (canCancel && !hasNoSerials) {
 			// Si tiene serie tiene que informar a ANMAT la cancelacion.
 			try {
-				if (input.hasToInform() && !input.isForcedInput()) {
+				if (input.hasToInform() && !input.isForcedInput() && input.getTransactionCodeANMAT() != null) {
 					WebServiceResult result = this.traceabilityService.cancelInputTransaction(input);
 					boolean alreadyCancelled = false;
 					if (result != null) {

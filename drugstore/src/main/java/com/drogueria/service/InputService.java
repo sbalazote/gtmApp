@@ -29,8 +29,6 @@ public interface InputService {
 
 	void save(Input input);
 
-	boolean canCancelInput(Input input);
-
 	Input update(InputDTO inputDTO);
 
 	void saveAndRemoveFromStock(Input input);
@@ -38,8 +36,6 @@ public interface InputService {
 	OperationResult updateInput(InputDTO inputDTO, String username) throws Exception;
 
     OperationResult updateForcedInput(Input input, String username) throws Exception;
-
-	Object getInputs(boolean cancelled);
 
 	boolean cancelInput(Integer inputId);
 
