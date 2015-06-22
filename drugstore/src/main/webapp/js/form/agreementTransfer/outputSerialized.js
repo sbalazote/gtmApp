@@ -173,6 +173,7 @@ OutputSerialized = function() {
 		
 		// Si el serial existe en la tabla temporal del input
 		if ($.inArray(serialNumber, tempSerialNumbers) != -1) {
+			readSerialNumber.val("");
 			readSerialNumber.tooltip("destroy").data("title", "Serie ya ingresado").addClass("has-error").tooltip();
 			return;
 		}

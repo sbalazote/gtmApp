@@ -393,6 +393,7 @@ Input = function() {
 			
 			$('#batchExpirationDateModal').modal('hide');
 			$(".alert").hide();
+			$('#productInput').focus();
 		} else {
 			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "batchExpirationDateModalAlertDiv");
 		}
@@ -428,6 +429,7 @@ Input = function() {
 
 			$('#providerSerializedModal').modal('hide');
 			$(".alert").hide();
+			$('#productInput').focus();
 		} else {
 			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "providerSerializedModalAlertDiv");
 		}
@@ -458,6 +460,7 @@ Input = function() {
 			
 			$('#selfSerializedModal').modal('hide');
 			$(".alert").hide();
+			$('#productInput').focus();
 		} else {
 			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "selfSerializedModalAlertDiv");
 		}

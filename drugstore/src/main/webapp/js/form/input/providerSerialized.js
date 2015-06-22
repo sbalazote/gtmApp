@@ -178,6 +178,7 @@ ProviderSerialized = function() {
 				
 				// Si el serial existe en la tabla temporal del input
 				if ($.inArray(serialNumber, tempSerialNumbers) != -1) {
+					readSerialNumber.val("");
 					readSerialNumber.tooltip("destroy").data("title", "Serie ya ingresado").addClass("has-error").tooltip();
 					return;
 				}
@@ -232,6 +233,7 @@ ProviderSerialized = function() {
 						var duplicateSerial = response;
 						//	Si el serie existe marco la casilla input con error.
 						if (duplicateSerial) {
+							readSerialNumber.val("");
 							readSerialNumber.tooltip("destroy").data("title", "Serie existente en la base de datos").addClass("has-error").tooltip();
 							return;
 						}
@@ -360,7 +362,7 @@ ProviderSerialized = function() {
 		if (remaining == 0) {
 			BootstrapDialog.show({
 				title: 'Informacion',
-				message: 'Carga Completa. Continuar?',
+				message: '<strong>Carga Completa.</strong> Confirma Operaci\u00f3n?',
 				buttons: [{
 					label: 'No',
 					action: function(dialogItself) {

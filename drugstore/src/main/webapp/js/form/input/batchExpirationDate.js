@@ -213,7 +213,7 @@ BatchExpirationDate = function() {
 		if (remaining == 0) {
 			BootstrapDialog.show({
 				title: 'Informacion',
-				message: 'Carga Completa. Continuar?',
+				message: '<strong>Carga Completa.</strong> Confirma Operaci\u00f3n?',
 				buttons: [{
 					label: 'No',
 					action: function(dialogItself) {

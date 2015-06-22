@@ -484,6 +484,7 @@ var Supplying = function() {
 			
 			$("#batchExpirationDateModal").modal("hide");
 			$(".alert").hide();
+			$('#productInput').focus();
 		} else {
 			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "batchExpirationDateModalAlertDiv");
 		}
@@ -516,6 +517,7 @@ var Supplying = function() {
 			
 			$("#serializedModal").modal("hide");
 			$(".alert").hide();
+			$('#productInput').focus();
 		} else {
 			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "serializedModalAlertDiv");
 		}
@@ -546,6 +548,7 @@ var Supplying = function() {
 			
 			$('#outOfStockBatchExpirationDateModal').modal('hide');
 			$(".alert").hide();
+			$('#productInput').focus();
 		} else {
 			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "batchExpirationDateModalAlertDiv");
 		}
@@ -581,6 +584,7 @@ var Supplying = function() {
 
 			$('#outOfStockProviderSerializedModal').modal('hide');
 			$(".alert").hide();
+			$('#productInput').focus();
 		} else {
 			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "providerSerializedModalAlertDiv");
 		}
@@ -611,6 +615,7 @@ var Supplying = function() {
 			
 			$('#outOfStockSelfSerializedModal').modal('hide');
 			$(".alert").hide();
+			$('#productInput').focus();
 		} else {
 			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "selfSerializedModalAlertDiv");
 		}

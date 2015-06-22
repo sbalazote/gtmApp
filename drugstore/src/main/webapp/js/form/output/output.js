@@ -395,6 +395,7 @@ Output = function() {
 			
 			$("#batchExpirationDateModal").modal("hide");
 			$(".alert").hide();
+			$('#productOutput').focus();
 		} else {
 			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "batchExpirationDateModalAlertDiv");
 		}
@@ -427,6 +428,7 @@ Output = function() {
 			
 			$("#serializedModal").modal("hide");
 			$(".alert").hide();
+			$('#productOutput').focus();
 		} else {
 			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "serializedModalAlertDiv");
 		}
