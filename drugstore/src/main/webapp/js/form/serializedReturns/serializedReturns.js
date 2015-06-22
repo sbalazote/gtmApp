@@ -198,6 +198,7 @@ SerializedReturns = function() {
 								success: function(response) {
 									// No es un trazado propio, por lo tanto no es un serie v�lido.
 									if (!response) {
+										$('#serialNumberInput').val("");
 										myShowAlert('danger', 'Formato de Serie Inv\u00e1lido.');
 										return;
 									}
@@ -299,6 +300,7 @@ SerializedReturns = function() {
 								success: function(response) {
 									// No es un trazado propio, por lo tanto no es un serie v�lido.
 									if (!response) {
+										$('#serialNumberInput').val("");
 										myShowAlert('danger', 'Formato de Serie Inv\u00e1lido.');
 										return;
 									}

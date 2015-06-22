@@ -132,6 +132,7 @@ ProviderSerialized = function() {
 			},
 			success: function(response) {
 				if (response == "") {
+					readSerialNumber.val("");
 					readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Inv\u00e1lido").addClass("has-error").tooltip();
 					return;
 				}
@@ -166,6 +167,7 @@ ProviderSerialized = function() {
 				
 				//	Si el Gtin leido no coincide con el seleccionado en la pantalla de input.
 				if (gtinFound == false) {
+					readSerialNumber.val("");
 					readSerialNumber.tooltip("destroy").data("title", "GTIN le\u00eddo no coincide con el seleccionado").addClass("has-error").tooltip();
 					return;
 				}
@@ -202,6 +204,7 @@ ProviderSerialized = function() {
 					
 					// Si no es valida la fecha de vencimiento que viene en el serie, dado que es anterior al dia de la fecha o mal formado.
 					if (!validExpirationDate) {
+						readSerialNumber.val("");
 						readSerialNumber.tooltip("destroy").data("title", "Fecha de vencimiento inv\u00e1lida o anterior a la fecha del d\u00eda.").addClass("has-error").tooltip();
 						return;
 					}
