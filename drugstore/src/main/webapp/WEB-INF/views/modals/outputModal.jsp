@@ -61,7 +61,7 @@
 								<thead>
 									<tr>
 										<th data-identifier="true" data-column-id="code" data-type="numeric"><spring:message code="common.code" /></th>
-										<th data-column-id="description"><spring:message code="common.product" /></th>
+										<th data-column-id="description" data-header-css-class="descriptionColumn"><spring:message code="common.product" /></th>
 										<th data-column-id="amount" data-type="numeric"><spring:message code="common.amount" /></th>
 										<th data-column-id="command" data-sortable="false"><spring:message code="common.option" /></th>
 									</tr>
@@ -102,7 +102,7 @@
 					<table id="batchExpirationDatesTable" class="table table-condensed table-hover table-striped">
 						<thead>
 							<tr>
-								<th data-identifier="true" data-column-id="id" data-type="numeric" data-visible="false"><spring:message code="common.serialNumber" /></th>
+								<th data-identifier="true" data-column-id="id" data-type="numeric" data-visible="false"></th>
 								<th data-column-id="amount" data-type="numeric"><spring:message code="common.amount" /></th>
 								<th data-column-id="batch"><spring:message code="common.batch" /></th>
 								<th data-column-id="expirationDate"><spring:message code="common.expirationDate" /></th>

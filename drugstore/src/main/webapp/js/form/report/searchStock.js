@@ -1,10 +1,13 @@
-
 SearchStock = function() {
 	
 	var productId;
 	var productGtin;
 	var productDescription;
 	var productType;
+	
+	var id;
+	var serialsMap = {};
+	var serialDetails = {};
 	
 	$('#dateFromButton').click(function() {
 		var maxDate = $( "#dateToSearch" ).datepicker( "getDate" );
@@ -21,9 +24,35 @@ SearchStock = function() {
 	$("#dateFromSearch").datepicker();
 	$("#dateToSearch").datepicker();
 	
+	$('#stockTable tbody').on("click", ".view-batchExpirationDateDetails-row", function(e) {
+		$("#batchExpirationDatesTable").bootgrid("clear");
+		var parent = $(this).parent().parent();
+		var agreementId = parent.find(".span-agreementId").html();
+		var productCode = parent.find("td:first-child").html();
+		var productDescription = parent.find("td:nth(1)").html();
+		$("#batchExpirationDateProductDescription").text(productCode + " - " + productDescription);
+		
+		var serialDetails = serialsMap[agreementId + "-" + productCode];
+		$("#batchExpirationDatesTable").bootgrid("append", serialDetails);
+		
+		$('#batchExpirationDatesModal').modal('show');
+	});
+	
+	$('#stockTable tbody').on("click", ".view-serializedDetails-row", function(e) {
+		$("#serialsTable").bootgrid("clear");
+		var parent = $(this).parent().parent();
+		var agreementId = parent.find(".span-agreementId").html();
+		var productCode = parent.find("td:first-child").html();
+		var productDescription = parent.find("td:nth(1)").html();
+		$("#serializedProductDescription").text(productCode + " - " + productDescription);
+		
+		var serialDetails = serialsMap[agreementId + "-" + productCode];
+		$("#serialsTable").bootgrid("append", serialDetails);
+		
+		$('#serialsModal').modal('show');
+	});
 	
 	// Product autocomplete
-	
 	$("#productInput").autocomplete({
 		source: function(request, response) {
 			$.ajax({
@@ -142,42 +171,39 @@ SearchStock = function() {
 			data: JSON.stringify(jsonStockSearch),
 			success: function(response) {
 				var aaData = [];
-				
+				id = 0;
+				serialsMap = {};
+				serialDetails = {};
 				var stockList = [];
 				for (var i = 0, l = response.length; i < l; ++i) {
 					var stock = {
-						productId: "",
-						productDescription: "",
-						agreementId: "",
-						agreementDescription: "",
-						batch: "",
-						expirationDate: "",
-						amount: 0
+						productId: response[i].product.id,
+						productCode: response[i].product.code,
+						productDescription: response[i].product.description,
+						agreementId: response[i].agreement.id,
+						agreementDescription: response[i].agreement.description,
+						batch: response[i].batch,
+						expirationDate: response[i].expirationDate,
+						serialNumber: response[i].serialNumber,
+						amount: response[i].amount
 					};
-					stock.productId = response[i].product.id;
-					stock.productDescription = response[i].product.code + " - " + response[i].product.description;
-					stock.agreementId = response[i].agreement.id;
-					stock.agreementDescription = response[i].agreement.description;
-					stock.batch = response[i].batch;
-					stock.expirationDate = response[i].expirationDate;
-					stock.amount = response[i].amount;
 					searchAndAdd(stockList, stock);
 				}
 				
 				for (var i = 0, l = stockList.length; i < l; ++i) {
 					var stock = {
-						product: "",
-						agreement: "",
-						serialNumber: "",
-						batch: "",
-						expirationDate: "",
-						amount: 0
+						id: i,
+						code: stockList[i].productCode,
+						product: stockList[i].productDescription,
+						agreement: "<span class='span-agreementId' style='display:none'>" + stockList[i].agreementId + "</span>" + stockList[i].agreementDescription,
+						amount: stockList[i].amount,
+						command: ""
 					};
-					stock.product = stockList[i].productDescription;
-					stock.agreement = stockList[i].agreementDescription;
-					stock.batch = stockList[i].batch;
-					stock.expirationDate = myParseDate(stockList[i].expirationDate);
-					stock.amount = stockList[i].amount;
+					if (stockList[i].serialNumber == null) {
+						stock.command = "<button type=\"button\" class=\"btn btn-sm btn-default view-batchExpirationDateDetails-row\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
+					} else {
+						stock.command = "<button type=\"button\" class=\"btn btn-sm btn-default view-serializedDetails-row\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
+					}
 					aaData.push(stock);
 				}
 				$("#stockTable").bootgrid({
@@ -217,9 +243,7 @@ SearchStock = function() {
 			var found = false;
 			for(var i = 0, l = stockList.length; i < l; ++i){
 				if((stockList[i].productId == stock.productId) && 
-						(stockList[i].agreementId == stock.agreementId) &&
-						(stockList[i].batch == stock.batch) &&
-						(stockList[i].expirationDate == stock.expirationDate)){
+						(stockList[i].agreementId == stock.agreementId)){
 					stockList[i].amount += stock.amount;
 					found = true;
 				}
@@ -228,6 +252,17 @@ SearchStock = function() {
 				stockList.push(stock);
 			}
 		}
+		// Guardo lote/vte y series para mostrar los detalles.
+		serialDetails = {
+				id: id,
+				amount: stock.amount,
+				serialNumber: stock.serialNumber,
+				batch: stock.batch,
+				expirationDate: myParseDate(stock.expirationDate)
+		};
+		var item = serialsMap[stock.agreementId + "-" + stock.productCode] || [];
+		item.push(serialDetails);
+		serialsMap[stock.agreementId + "-" + stock.productCode] = item;
+		id++;
 	}
-	
 };
