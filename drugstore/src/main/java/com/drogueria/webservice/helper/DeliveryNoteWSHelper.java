@@ -99,13 +99,14 @@ public class DeliveryNoteWSHelper {
 		for (DeliveryNoteDetail deliveryNoteDetail : deliveryNote.getDeliveryNoteDetails()) {
 			// Solo si el producto informa anmat se hace el servicio
 			MedicamentosDTO drug = new MedicamentosDTO();
-			String deliveryNoteFormated;
-			if (deliveryNote.isFake()) {
-				deliveryNoteFormated = "X" + StringUtility.addLeadingZeros(deliveryNote.getNumber(), 12);
-			} else {
-				deliveryNoteFormated = "R" + StringUtility.addLeadingZeros(deliveryNote.getNumber(), 12);
-			}
-			if (deliveryNoteDetail.getOrderDetail() != null) {
+			String deliveryNoteFormated = deliveryNote.getNumber();
+            deliveryNoteFormated = deliveryNoteFormated.replace("-", "");
+            if (deliveryNote.isFake()) {
+                deliveryNoteFormated = "X" + deliveryNoteFormated;
+            } else {
+                deliveryNoteFormated = "R" + deliveryNoteFormated;
+            }
+            if (deliveryNoteDetail.getOrderDetail() != null) {
 				if (deliveryNoteDetail.getOrderDetail().getProduct().isInformAnmat()
 						&& ("PS".equals(deliveryNoteDetail.getOrderDetail().getProduct().getType()) || "SS".equals(deliveryNoteDetail.getOrderDetail()
 								.getProduct().getType()))) {

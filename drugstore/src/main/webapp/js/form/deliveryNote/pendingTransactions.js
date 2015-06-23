@@ -35,7 +35,7 @@ var PendingTransactions = function() {
 				async: true,
 	            beforeSend : function() {
 	            	$.blockUI({ message: 'Espere un Momento por favor...' });
-	             }, 
+	             },
 				success: function(response) {
 					if(response.length > 0 && response[0] != null){
 						for (var i = 0, lengthI = response.length; i < lengthI; i++) {
@@ -48,7 +48,7 @@ var PendingTransactions = function() {
 								for (var j = 0, lengthJ = response[i].myOwnErrors.length; j < lengthJ; j++) {
 									errors += response[i].myOwnErrors[j] + "<br />";
 								}
-								
+
 								if(response[i].errores != null){
 									errors += "<strong>Errores informados por ANMAT para egreso numero" + response[i].operationId + "</strong><br />";
 									for (var j = 0, lengthJ = response[i].errores.length; j < lengthJ; j++) {
@@ -158,7 +158,10 @@ var PendingTransactions = function() {
 	{
 	    for (var i = 0; i < rows.length; i++)
 	    {
-	    	var ids = JSON.parse(rows[i].deliveryNoteNumbers);
+            var firstSplit = rows[i].deliveryNoteNumbers.replace(/\s+/g, '').split("[");
+            var secondSplit = firstSplit[1].split("]");
+            var deliveryNotesNumbers = secondSplit[0].split(",");
+            var ids = deliveryNotesNumbers;
 	    	if (rows[i].class === "ARMADO") {
 	    		var orderId = rows[i].orderAssemblyOrOutputNumber;
 	    		ordersToReassembly.push(orderId);
@@ -177,7 +180,10 @@ var PendingTransactions = function() {
 	{
 	    for (var i = 0; i < rows.length; i++)
 	    {
-	    	var ids = JSON.parse(rows[i].deliveryNoteNumbers);
+            var firstSplit = rows[i].deliveryNoteNumbers.replace(/\s+/g, '').split("[");
+            var secondSplit = firstSplit[1].split("]");
+            var deliveryNotesNumbers = secondSplit[0].split(",");
+            var ids = deliveryNotesNumbers;
 	    	if (rows[i].class === "ARMADO") {
 	    		var orderId = rows[i].orderAssemblyOrOutputNumber;
 		    	ordersToReassembly.splice(ordersToReassembly.indexOf(orderId), 1);
