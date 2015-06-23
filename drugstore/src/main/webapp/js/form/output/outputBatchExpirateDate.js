@@ -2,6 +2,7 @@
 OutputBatchExpirationDate = function() {
 	
 	// Atributos del objeto
+	var rowId = 0;
 	var preloadedData = null;
 	var preloadedAmount = null;
 	var preloadedProduct = null;
@@ -35,6 +36,11 @@ OutputBatchExpirationDate = function() {
 	var formValidator = null;
 	var batchExpirationDates = null;
 	
+	// TODO mejorar esto- ahora no hace el paginado.
+	$("#batchExpirationDateTable").bootgrid({
+		rowCount: -1
+	});
+	
 	var validateForm = function() {
 		var maxAmount = parseInt($('#batchExpirationDateRemainingAmountLabel').text());
 		
@@ -54,7 +60,7 @@ OutputBatchExpirationDate = function() {
 			showErrors: myShowErrors
 		});
 		
-		$('input[name=amount]').rules("add", {
+		$('input[name=batchExpirationDateAmount]').rules("add", {
 			max: maxAmount
 		});
 		
@@ -85,30 +91,35 @@ OutputBatchExpirationDate = function() {
 	
 	var disableInputs = function() {
 		$('#batchExpirationDateSelect').prop('disabled', true).trigger("chosen:updated");
-		$('#amountInput').attr("disabled", true);
+		$('#batchExpirationDateAmountInput').attr("disabled", true);
 	};
 	
 	var enableInputs = function() {
 		$('#batchExpirationDateSelect').prop('disabled', false).trigger("chosen:updated");
-		$('#amountInput').attr("disabled", false);
+		$('#batchExpirationDateAmountInput').attr("disabled", false);
 	};
 	
 	var addToTable = function(batch, expirationDate, amount, stockId) {
-		$("#batchExpirationDateTable tbody").append("<tr>"
-			+ "<td class='batch'>"+batch+"</td>"
-			+ "<td class='expirationDate'>"+expirationDate+"</td>"
-			+ "<td class='amount'>"+amount+"</td>"
-			+ "<td><span class='stockId' style='display:none'>"+stockId+"</span><button class='btnDelete' type='button'><span class='glyphicon glyphicon-remove'/></button></td>"
-			+ "</tr>");
+		var aaData = [];
+		var row = {
+			id: rowId,
+			batch: batch,
+			expirationDate: expirationDate,
+			amount: amount,
+			commands: "<span class='stockId' style='display:none'>"+stockId+"</span><button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"" + rowId + "\"><span class=\"glyphicon glyphicon-trash\"></span></button>"
+		};
+		aaData.push(row);
+		$("#batchExpirationDateTable").bootgrid("append", aaData);
+		rowId++;
 	};
 	
 	var generateRow = function() {
 		if (validateForm()) {
 			var stockId = $('#batchExpirationDateSelect').val();
 			
-			var amount = $("#amountInput").val();
+			var amount = $("#batchExpirationDateAmountInput").val();
 			if (amount > batchExpirationDates[stockId]) {
-				$('#amountInput').tooltip("destroy").data("title", "El lote seleccionado no posee esa cantidad").addClass("has-error").tooltip();
+				$('#batchExpirationDateAmountInput').tooltip("destroy").data("title", "El lote seleccionado no posee esa cantidad").addClass("has-error").tooltip();
 				return false;
 			}
 			
@@ -122,7 +133,7 @@ OutputBatchExpirationDate = function() {
 	
 			$("#batchExpirationDateSelect").val("");
 			$("#batchExpirationDateSelect").trigger("chosen:updated");
-			$("#amountInput").val("");
+			$("#batchExpirationDateAmountInput").val("");
 			
 			formValidator.resetForm();
 
@@ -130,19 +141,21 @@ OutputBatchExpirationDate = function() {
 		}
 	};
 	
-	$('#batchExpirationDateTable tbody').on("click", ".btnDelete", function() {
+	$('#batchExpirationDateTable tbody').on("click", ".command-delete", function() {
 		var parent = $(this).parent().parent();
-		var amount = parent.find(".amount");
-		subtractAmount(amount.text());
+		var amount = parent.find("td:nth(2)").html();
+		subtractAmount(amount);
+		var rows = Array();
+		rows[0] = parseInt($(this).attr("data-row-id"));
+		$("#batchExpirationDateTable").bootgrid("remove", rows);
 		
 		var stockId = parent.find(".stockId").text();
-		updateOptionsFromDelete(stockId, parseInt(amount.text()), batchExpirationDates[stockId]);
-		
-		parent.remove();
+		updateOptionsFromDelete(stockId, parseInt(amount), batchExpirationDates[stockId]);
 	});
 	
 	var preloadModalData = function () {
-		$("#batchExpirationDateModal tbody").html("");
+		rowId = 0;
+		$("#batchExpirationDateTable").bootgrid("clear");
 		$('#batchExpirationDateProductLabel').text(preloadedProduct);
 		$('#batchExpirationDateRequestedAmountLabel').text(preloadedAmount);
 		
@@ -202,12 +215,12 @@ OutputBatchExpirationDate = function() {
 		var stockId = $(this).val();
 		var stockAmount = batchExpirationDates[stockId];
 		if (stockAmount >= remainingAmount) {
-			$('#amountInput').val(remainingAmount);
+			$('#batchExpirationDateAmountInput').val(remainingAmount);
 		} else {
-			$('#amountInput').val(stockAmount);
+			$('#batchExpirationDateAmountInput').val(stockAmount);
 		}
-		$('#amountInput').removeClass("has-error").tooltip("destroy");
-		$('#amountInput').focus();
+		$('#batchExpirationDateAmountInput').removeClass("has-error").tooltip("destroy");
+		$('#batchExpirationDateAmountInput').focus();
 	});
 	
 	$('#batchExpirationDateModal').on('hidden.bs.modal', function () {
@@ -237,10 +250,35 @@ OutputBatchExpirationDate = function() {
 		var remainingAmount = $('#batchExpirationDateRemainingAmountLabel').text();
 		if (remainingAmount > 0) {
 			generateRow();
+			checkLast();
 		} else {
 			myShowAlert('danger', 'Ya se ha ingresado la totalidad de productos requeridos. Por favor presione el bot\u00f3n "Confirmar".', "batchExpirationDateModalAlertDiv");
 		}
+		return false;
 	});
+	
+	var checkLast = function() {
+		var remaining = parseInt($('#batchExpirationDateRemainingAmountLabel').text());
+		if (remaining == 0) {
+			BootstrapDialog.show({
+				title: 'Informacion',
+				message: '<strong>Carga Completa.</strong> Confirma Operaci\u00f3n?',
+				buttons: [{
+					label: 'No',
+					action: function(dialogItself) {
+						dialogItself.close();
+					}
+				}, {
+					label: 'Si',
+					cssClass: 'btn-primary',
+					action: function(dialogItself) {
+						dialogItself.close();
+						$("#batchExpirationDateAcceptButton").trigger('click');
+					}
+				}]
+			});
+		}
+	};
 	
 	var updateOptionsFromAdd = function(stockId, requiredAmount, availableAmount) {
 		var selectedOption = $("#batchExpirationDateSelect option[value="+stockId+"]");

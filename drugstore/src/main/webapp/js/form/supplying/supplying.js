@@ -209,7 +209,7 @@ var Supplying = function() {
 
 	$("#productInput").autocomplete({
 		source : function(request, response) {
-			var url = assignOutOfStock ? "getProducts.do" : "getProductoFromStock.do";
+			var url = assignOutOfStock ? "getProducts.do" : "getProductFromStock.do";
 			var data = assignOutOfStock ? { term: request.term, active: true } : { term : request.term, agreementId : $("#agreementInput").val(), };
 			$.ajax({
 				url : url,

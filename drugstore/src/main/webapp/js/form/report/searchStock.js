@@ -56,7 +56,7 @@ SearchStock = function() {
 	$("#productInput").autocomplete({
 		source: function(request, response) {
 			$.ajax({
-				url: "getProductoFromStock.do",
+				url: "getProductFromStock.do",
 				type: "GET",
 				async: false,
 				data: {

@@ -47,8 +47,8 @@ public class StockSearchController {
 		return this.stockService.getStockForSearch(stockQuery);
 	}
 
-	@RequestMapping(value = "/getProductoFromStock", method = RequestMethod.GET)
-	public @ResponseBody List<Product> getProductoFromStock(@RequestParam String term, Integer agreementId) throws Exception {
+	@RequestMapping(value = "/getProductFromStock", method = RequestMethod.GET)
+	public @ResponseBody List<Product> getProductFromStock(@RequestParam String term, Integer agreementId) throws Exception {
 		return this.stockService.getForAutocomplete(term, agreementId);
 	}
 
