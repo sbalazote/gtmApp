@@ -74,7 +74,7 @@ SearchSerializedProduct = function() {
 	});
 	
 	$("#searchButton").click(function() {
-		if(validateForm() && productId != undefined){
+		if(validateForm() && $("#serialParserSearch").val() == ""){
             searchProduct(productId,$("#serialNumberSearch").val());
 		}
 	});
