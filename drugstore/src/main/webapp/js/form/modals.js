@@ -251,17 +251,17 @@ $(document).ready(function() {
 	var populateOutputModal = function (response) {
 		$("#outputId").text("Numero: " + response.id);
 		if (response.cancelled) {
-			$("#cancelled").text("ANULADO");
+			$("#outputModalCancelled").text("ANULADO");
 		} else {
-			$("#cancelled").text("");
+			$("#outputModalCancelled").text("");
 		}
 
 		if (response.transactionCodeANMAT != null) {
-			$("#ANMATCode").show();
-			$("#transactionCode").text(response.transactionCodeANMAT);
+			$("#outputModalANMATCode").show();
+			$("#outputModalTransactionCode").text(response.transactionCodeANMAT);
 		} else {
-			$("#ANMATCode").hide();
-			$("#transactionCode").text("");
+			$("#outputModalANMATCode").hide();
+			$("#outputModalTransactionCode").text("");
 		}
 
 		$('#dateModalOutput').val(myParseDate(response.date));
@@ -444,16 +444,16 @@ $(document).ready(function() {
 	var populateSupplyingModal = function (response) {
 		$("#supplyingId").text("Numero: " + response.id);
 		if (response.cancelled) {
-			$("#cancelled").text("ANULADO");
+			$("#supplyingModalCancelled").text("ANULADO");
 		} else {
-			$("#cancelled").text("");
+			$("#supplyingModalCancelled").text("");
 		}
 		if (response.transactionCodeANMAT != null) {
-			$("#ANMATCode").show();
-			$("#transactionCode").text(response.transactionCodeANMAT);
+			$("#supplyingModalANMATCode").show();
+			$("#supplyingModalTransactionCode").text(response.transactionCodeANMAT);
 		} else {
-			$("#ANMATCode").hide();
-			$("#transactionCode").text("");
+			$("#supplyingModalANMATCode").hide();
+			$("#supplyingModalTransactionCode").text("");
 		}
 
 		$('#supplyingModalAgreementInput').val(response.agreement.code + " - " + response.agreement.description);

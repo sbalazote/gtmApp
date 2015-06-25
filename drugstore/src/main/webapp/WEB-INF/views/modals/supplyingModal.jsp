@@ -18,18 +18,18 @@
 							<h3 id="supplyingId"></h3>
 						</div>
 						<div class="col-md-2">
-							<h3 id="cancelled" style="color: red; font-weight: bold"></h3>
+							<h3 id="supplyingModalCancelled" style="color: red; font-weight: bold"></h3>
 						</div>
 					</div>
-					<div id="ANMATCode">
+					<div id="supplyingModalANMATCode">
 						<div class="row">
 							<div class="col-md-4">
-								<h4 id="transactionCodeDescription">
+								<h4 id="supplyingModalTransactionCodeDescription">
 									<spring:message code="common.transactionCodeDescription" />
 								</h4>
 							</div>
 							<div class="col-md-2">
-								<h4 id="transactionCode" style="color: blue; font-weight: bold"></h4>
+								<h4 id="supplyingModalTransactionCode" style="color: blue; font-weight: bold"></h4>
 							</div>
 						</div>
 					</div>
@@ -42,7 +42,7 @@
 								<label for="supplyingModalAgreementInput"><spring:message code="common.agreement" /></label> <input id="supplyingModalAgreementInput" name="supplyingModalAgreement" class="form-control" disabled>
 							</div>
 							<div class="col-md-4 form-group">
-								<label for="supplyingModalClientInput"><spring:message code="common.client" /></label> <input id="supplyingModalClientInput" name="supplyingModalClientInput" class="form-control" disabled>
+								<label for="supplyingModalClientInput"><spring:message code="common.client" /></label> <input id="supplyingModalClientInput" name="supplyingModalClient" class="form-control" disabled>
 							</div>
 							<div class="col-md-4 form-group">
 								<label for="supplyingModalAffiliateInput"><spring:message code="common.affiliate" /></label> <input id="supplyingModalAffiliateInput" name="supplyingModalAffiliate" type="text" class="form-control" disabled />

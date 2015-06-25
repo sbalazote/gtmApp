@@ -18,18 +18,18 @@
 							<h3 id="outputId"></h3>
 						</div>
 						<div class="col-md-2">
-							<h3 id="cancelled" style="color: red; font-weight: bold"></h3>
+							<h3 id="outputModalCancelled" style="color: red; font-weight: bold"></h3>
 						</div>
 					</div>
-					<div id="ANMATCode">
+					<div id="outputModalANMATCode">
 						<div class="row">
 							<div class="col-md-4">
-								<h4 id="transactionCodeDescription">
+								<h4 id="outputModalTransactionCodeDescription">
 									<spring:message code="common.transactionCodeDescription" />
 								</h4>
 							</div>
 							<div class="col-md-2">
-								<h4 id="transactionCode" style="color: blue; font-weight: bold"></h4>
+								<h4 id="outputModalTransactionCode" style="color: blue; font-weight: bold"></h4>
 							</div>
 						</div>
 					</div>
