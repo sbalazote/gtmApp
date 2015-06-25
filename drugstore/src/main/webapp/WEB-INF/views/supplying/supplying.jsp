@@ -72,19 +72,18 @@
 	<br>
 
 	<div>
-		<table class="table table-striped my-table">
-			<thead>
-				<tr>
-					<th><spring:message code="common.product" /></th>
-					<th><spring:message code="common.amount" /></th>
-		            <th></th>
-		            <th></th>
-				</tr>
-			</thead>
-			<tbody id="productTableBody">
-			</tbody>
-		</table>
-	</div>
+	<table id="productTable" class="table table-condensed table-hover table-striped">
+		<thead>
+	        <tr>
+	            <th data-identifier="true" data-column-id="description" data-css-class="td-description" data-sortable="false"><spring:message code="common.product"/></th>
+	            <th data-column-id="amount" data-type="numeric" data-css-class="td-amount" data-sortable="false"><spring:message code="common.amount"/></th>
+	            <th data-column-id="command" data-sortable="false"><spring:message code="common.option"/></th>
+	        </tr>
+   	 	</thead>
+   	 	<tbody id="productTableBody">
+		</tbody>
+	</table>
+</div>
 
 	<div class="row">
 		<div class="col-md-2 col-md-offset-8">
@@ -172,7 +171,7 @@
 	</div>
 </form>
 
-<%-- Confirmación del delete de una row --%>
+<%-- Confirmaciï¿½n del delete de una row --%>
 <div class="modal fade" data-backdrop="static" id="deleteRowConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:250px">
 		<div class="modal-content">
@@ -190,7 +189,7 @@
 <%-- Modal Ingreso Lote y Vencimiento --%>
 <form id="batchExpirationDateModalForm" action="" onsubmit="return false;">
 	<div class="modal fade" data-backdrop="static" data-keyboard="false" id="batchExpirationDateModal">
-		<div class="modal-dialog" style="width: 900px">
+		<div class="modal-dialog" style="width: 1100px">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -198,6 +197,7 @@
 				</div>
 				<div id="batchExpirationDateModalAlertDiv"></div>
 				<div class="modal-body">
+				<div class="container-fluid">
 					<div class="row">
 						<div class="col-md-12 form-group">
 							<label><spring:message code="common.product"/>:&nbsp;&nbsp;</label>
@@ -223,23 +223,24 @@
 							<select id="batchExpirationDateSelect" name="batchExpirationDate" class="form-control chosen-select" data-placeholder="<spring:message code='orderAssembly.batchExpirationDate.placeholder'/>"></select>
 						</div>
 						<div class="col-md-3 form-group">
-							<input type="text" name="amount" id="amountInput" placeholder='<spring:message code="input.amount.placeholder"/>' class="form-control">
+							<input type="text" name="batchExpirationDateAmount" id="batchExpirationDateAmountInput" placeholder='<spring:message code="input.amount.placeholder"/>' class="form-control">
 						</div>
 						<div class="col-md-3 form-group">
 							<button id="batchExpirationDateAddButton" type="button" class="btn btn-warning"> <span class="glyphicon glyphicon-plus"></span>Asignar</button>
 						</div>
 					</div>
-					<div>
-						<table id="batchExpirationDateTable" class="table">
+					<br>
+						<table id="batchExpirationDateTable" class="table table-condensed table-hover table-striped">
 							<thead>
 								<tr>
-									<th><spring:message code="common.batch" /></th>
-									<th><spring:message code="common.expirationDate" /></th>
-									<th><spring:message code="common.amount" /></th>
-									<th></th>
+									<th data-identifier="true" data-column-id="id" data-type="numeric" data-visible="false" data-sortable="false"></th>
+									<th data-column-id="batch" data-css-class="batch" data-sortable="false"><spring:message code="common.batch" /></th>
+									<th data-column-id="expirationDate" data-css-class="expirationDate" data-sortable="false"><spring:message code="common.expirationDate" /></th>
+									<th data-column-id="amount" data-css-class="amount" data-sortable="false"><spring:message code="common.amount" /></th>
+									<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody id="batchExpirationDateTableBody">
 							</tbody>
 						</table>
 					</div>
@@ -264,6 +265,7 @@
 				</div>
 				<div id="serializedModalAlertDiv"></div>
 				<div class="modal-body">
+				<div class="container-fluid">
 					<div class="row">
 						<div class="col-md-12 form-group">
 							<label><spring:message code="common.product"/>:&nbsp;&nbsp;</label>
@@ -292,15 +294,15 @@
 							<button id="serializedAddButton" type="button" class="btn btn-warning"><span class="glyphicon glyphicon-plus"></span><spring:message code="common.add"/></button>
 						</div>
 					</div>
-					<div>
-						<table id="serializedTable" class="table">
+					<br>
+						<table id="serializedTable" class="table table-condensed table-hover table-striped">
 							<thead>
 								<tr>
-									<th style="display: none;" ><spring:message code="common.gtin"/></th>
-									<th><spring:message code="common.serialNumber"/></th>
-									<th><spring:message code="common.batch"/></th>
-									<th><spring:message code="common.expirationDate"/></th>
-									<th></th>
+									<th data-column-id="gtin" data-css-class="gtin" data-sortable="false"><spring:message code="common.gtin"/></th>
+									<th data-identifier="true" data-column-id="serialNumber" data-css-class="serialNumber" data-sortable="false"><spring:message code="common.serialNumber"/></th>
+									<th data-column-id="batch" data-css-class="batch" data-sortable="false"><spring:message code="common.batch"/></th>
+									<th data-column-id="expirationDate" data-css-class="expirationDate" data-sortable="false"><spring:message code="common.expirationDate"/></th>
+									<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -365,14 +367,15 @@
 					<div>
 						<table id="outOfStockBatchExpirationDateTable" class="table">
 							<thead>
-								<tr>
-									<th><spring:message code="common.batch" /></th>
-									<th><spring:message code="common.expirationDate" /></th>
-									<th><spring:message code="common.amount" /></th>
-									<th></th>
-								</tr>
+							<tr>
+								<th data-identifier="true" data-column-id="id" data-type="numeric" data-visible="false" data-sortable="false"></th>
+								<th data-column-id="batch" data-css-class="batch" data-sortable="false"><spring:message code="common.batch" /></th>
+								<th data-column-id="expirationDate" data-css-class="expirationDate" data-sortable="false"><spring:message code="common.expirationDate" /></th>
+								<th data-column-id="amount" data-css-class="amount" data-sortable="false"><spring:message code="common.amount" /></th>
+								<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
+							</tr>
 							</thead>
-							<tbody>
+							<tbody id="outOfStockBatchExpirationDateTableBody">
 							</tbody>
 						</table>
 					</div>
@@ -434,13 +437,13 @@
 					<div>
 						<table id="outOfStockProviderSerializedTable" class="table">
 							<thead>
-								<tr>
-									<th style="display: none;" ><spring:message code="common.gtin"/></th>
-									<th><spring:message code="common.serialNumber"/></th>
-									<th><spring:message code="common.batch"/></th>
-									<th><spring:message code="common.expirationDate"/></th>
-									<th></th>
-								</tr>
+							<tr>
+								<th data-column-id="gtin" data-css-class="gtin" data-sortable="false"><spring:message code="common.gtin"/></th>
+								<th data-identifier="true" data-column-id="serialNumber" data-css-class="serialNumber" data-sortable="false"><spring:message code="common.serialNumber"/></th>
+								<th data-column-id="batch" data-css-class="batch" data-sortable="false"><spring:message code="common.batch"/></th>
+								<th data-column-id="expirationDate" data-css-class="expirationDate" data-sortable="false"><spring:message code="common.expirationDate"/></th>
+								<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
+							</tr>
 							</thead>
 							<tbody>
 							</tbody>
@@ -504,12 +507,13 @@
 					<div>
 						<table id="outOfStockSelfSerializedTable" class="table">
 							<thead>
-								<tr>
-									<th><spring:message code="common.batch" /></th>
-									<th><spring:message code="common.expirationDate" /></th>
-									<th><spring:message code="common.amount" /></th>
-									<th></th>
-								</tr>
+							<tr>
+								<th data-identifier="true" data-column-id="id" data-type="numeric" data-visible="false" data-sortable="false"></th>
+								<th data-column-id="batch" data-css-class="batch" data-sortable="false"><spring:message code="common.batch" /></th>
+								<th data-column-id="expirationDate" data-css-class="expirationDate" data-sortable="false"><spring:message code="common.expirationDate" /></th>
+								<th data-column-id="amount" data-css-class="amount" data-sortable="false"><spring:message code="common.amount" /></th>
+								<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
+							</tr>
 							</thead>
 							<tbody>
 							</tbody>
@@ -524,18 +528,3 @@
 		</div>
 	</div>
 </form>
-
-<%-- Confirmación del delete de una row --%>
-<div class="modal fade" data-backdrop="static" id="deleteRowConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog" style="width:250px">
-		<div class="modal-content">
-			<div class="modal-body">
-				<strong><span style="color:red"><spring:message code="input.deleteRowConfirmationModal.text"/></span></strong>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.no"/></button>
-				<button type="button" class="btn btn-primary" data-dismiss="modal" id="inputDeleteRowConfirmationButton"><spring:message code="common.yes"/></button>
-			</div>
-		</div>
-	</div>
-</div>
