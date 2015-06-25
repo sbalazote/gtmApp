@@ -119,36 +119,6 @@ Output = function() {
 		}
 	});
 	
-	var currentRowElement = null;
-	
-	$('#productTableBody').on("click", ".delete-row", function(){
-		currentRowElement = this;
-		$('#deleteRowConfirmationModal').modal();
-	});
-	
-	$("#inputDeleteRowConfirmationButton").click(function() {
-		var parent = $(currentRowElement).parent().parent();
-		currentRow = $(".delete-row").index(currentRowElement);
-		outputDetailGroup.splice(currentRow, 1);
-		productIds.splice(currentRow, 1);
-		
-		productId = parent.find(".span-productId").html();
-		parent.remove();
-		$(".alert").hide();
-		
-		var productType = parent.find(".span-productType").html();
-		if (productType == "PS") {
-			var tempSerialNumbers = serialized.getTempSerialNumbers();
-			$.each(tempSerialNumberGroup[productId], function(idxSerialToDelete, serialToDelete) {
-				var idxSerialStored = $.inArray(serialToDelete, tempSerialNumbers);
-				if (idxSerialStored != -1) {
-					tempSerialNumbers.splice(idxSerialStored, 1);
-				}
-			});
-			serialized.setTempSerialNumbers(tempSerialNumbers);
-		}
-	});
-	
 	var productEntered = function(productId) {
 		for (var i = 0, l = productIds.length; i < l; ++i) {
 			if (productIds[i] == productId) {
@@ -192,7 +162,7 @@ Output = function() {
 	$("#productOutput").autocomplete({
 		source: function(request, response) {
 			$.ajax({
-				url: "getProductoFromStock.do",
+				url: "getProductFromStock.do",
 				type: "GET",
 				async: false,
 				data: {
@@ -313,6 +283,7 @@ Output = function() {
 			$('#batchExpirationDateModal').modal('show');
 			
 		} else {
+			serialized.setTempSerialNumbers(tempSerialNumberGroup[productId]);
 			serialized.setPreloadedProduct(productDescription);
 			serialized.setPreloadedProductId(productId);
 			serialized.setPreloadedProductType(productType);
@@ -337,10 +308,10 @@ Output = function() {
 		orderDetails.push(orderDetail);
 	};
 	
-	$('#productTableBody').on("click", ".edit-button", function() {
+	$('#productTableBody').on("click", ".edit-row", function(e) {
 		var parent = $(this).parent().parent();
-	
-		currentRow = $(".edit-button").index(this);
+
+		currentRow = $(".edit-row").index(this);
 		productDescription = parent.find(".td-description").html();
 		productAmount = parent.find(".td-amount").html();
 		productId = parent.find(".span-productId").html();
@@ -351,21 +322,51 @@ Output = function() {
 		openModal(outputDetailGroup[currentRow]);
 	});
 	
+	var currentRowElement = null;
+	
+	$('#productTableBody').on("click", ".delete-row", function(){
+		currentRowElement = this;
+		$('#deleteRowConfirmationModal').modal();
+	});
+	
+	$("#inputDeleteRowConfirmationButton").click(function() {
+		var parent = $(currentRowElement).parent().parent();
+		var rows = Array();
+		rows[0] = parent.attr("data-row-id");
+		$("#productTable").bootgrid("remove", rows);
+		
+		currentRow = $(".delete-row").index(currentRowElement);
+		outputDetailGroup.splice(currentRow, 1);
+		productIds.splice(currentRow, 1);
+		
+		productId = parent.find(".span-productId").html();
+		$(".alert").hide();
+		
+		var productType = parent.find(".span-productType").html();
+		if (productType == "PS") {
+			tempSerialNumberGroup[productId] = [];
+			/*$.each(tempSerialNumberGroup[productId], function(idxSerialToDelete, serialToDelete) {
+				var idxSerialStored = $.inArray(serialToDelete, tempSerialNumberGroup[productId]);
+				if (idxSerialStored != -1) {
+					tempSerialNumberGroup[productId].splice(idxSerialStored, 1);
+				}
+			});*/
+		}
+	});
+	
 	var populateProductsDetailsTable = function() {
-		var tableRow = "<tr>" +
-		"<td class='td-description'>" + productDescription + "</td>" +
-		"<td class='td-amount'>" + productAmount + "</td>" +
-		"<td>" +
-		"<span class='span-productId' style='display:none'>" + productId + "</span>" +
-		"<span class='span-productType' style='display:none'>" + productType + "</span>" + 
-		"<span class='span-productGtin' style='display:none'>" + productGtin + "</span>" +
-		"<a href='javascript:void(0);' class='edit-button'>Editar</a>" +
-		"</td>" +
-		"<td>"+
-		"<a href='javascript:void(0);' class='delete-row'>Eliminar</a>" +
-		"</td>" +
-		"</tr>";
-		$("#productTableBody").append(tableRow);
+		var aaData = [];
+		var row = {
+			description: productDescription,
+			amount: productAmount,
+			command: "<span class='span-productId' style='display:none'>" + productId + "</span>"+
+			"<span class='span-productType' style='display:none'>" + productType + "</span>"+
+			"<span class='span-productGtin' style='display:none'>" + productGtin + "</span>"+
+			"<button type=\"button\" class=\"btn btn-sm btn-default edit-row\"><span class=\"glyphicon glyphicon-pencil\"></span></button>"+
+			"<button type=\"button\" class=\"btn btn-sm btn-default delete-row\"><span class=\"glyphicon glyphicon-trash\"></span></button>"
+		};
+		aaData.push(row);
+		$("#productTable").bootgrid("append", aaData);
 	};
 	
 	$("#batchExpirationDateAcceptButton").click(function() {
