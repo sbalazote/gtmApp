@@ -9,7 +9,7 @@
 		new SearchDeliveryNote();
 	});
 </script>
-
+<jsp:include page="../modals/modals.jsp" />
 <jsp:include page="../modals/deliveryNoteModal.jsp" />
 
 <form id="searchDeliveryNoteForm" action="" onsubmit="return false;">

@@ -9,6 +9,7 @@
 		new SearchOutput();
 	});
 </script>
+<jsp:include page="../modals/modals.jsp" />
 <jsp:include page="../modals/outputModal.jsp" />
 
 <form id="searchOutputForm" action="" onsubmit="return false;">

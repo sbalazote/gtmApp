@@ -10,6 +10,7 @@
 	});
 </script>
 
+<jsp:include page="../modals/modals.jsp" />
 <jsp:include page="../modals/outputModal.jsp" />
 <jsp:include page="../modals/orderModal.jsp" />
 <jsp:include page="../modals/supplyingModal.jsp" />

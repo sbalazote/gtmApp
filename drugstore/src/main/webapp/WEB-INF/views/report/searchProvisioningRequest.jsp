@@ -9,6 +9,7 @@
 		new SearchProvisioningRequest();
 	});
 </script>
+<jsp:include page="../modals/modals.jsp" />
 <jsp:include page="../modals/provisioningRequestModal.jsp" />
 
 <form id="searchProvisioningRequestForm" action="" onsubmit="return false;">
