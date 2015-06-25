@@ -86,7 +86,7 @@ SearchInput = function() {
 				"agreementId": $("#agreementSearch").val() || null,
 				"deliveryNoteNumber": $("#deliveryNoteNumberSearch").val().trim(),
 				"purchaseOrderNumber": $("#purchaseOrderNumberSearch").val().trim(),
-				"cancelled": cancelled,
+				"cancelled": cancelled
 			};
 			
 			$.ajax({
@@ -165,12 +165,12 @@ SearchInput = function() {
 				'&cancelled=' + jsonInputSearch.cancelled; 
 				
 				var exportHTML = exportQueryTableHTML("./rest/inputs", params);
-				var searchHTML = $(".search");
+				var searchHTML = $("#divTable .search");
 				
 				if (searchHTML.prev().length == 0) {
-					$(".search").before(exportHTML);
+					searchHTML.before(exportHTML);
 				} else {
-					$(".search").prev().html(exportHTML);
+					searchHTML.prev().html(exportHTML);
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {

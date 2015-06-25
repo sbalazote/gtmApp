@@ -3,6 +3,9 @@ $(document).ready(function() {
 	var serialsMap = {};
 	var serialDetails = {};
 	var modal;
+	var dataSrc;
+	var dataCode;
+	var dataDescription;
 
 	$("#batchExpirationDatesTable").bootgrid()
 		.on("cleared.rs.jquery.bootgrid", function (e)
@@ -11,8 +14,7 @@ $(document).ready(function() {
 		})
 		.on("appended.rs.jquery.bootgrid", function (e)
 		{
-			var src = event.currentTarget.dataset.src;
-			$(src).modal('hide');
+			$(dataSrc).modal('hide');
 		});
 
 	$("#serialsTable").bootgrid()
@@ -22,14 +24,12 @@ $(document).ready(function() {
 		})
 		.on("appended.rs.jquery.bootgrid", function (e)
 		{
-			var src = event.currentTarget.dataset.src;
-			$(src).modal('hide');
+			$(dataSrc).modal('hide');
 		});
 
 	$('#batchExpirationDatesModal').on('show.bs.modal', function () {
-		var button = event.currentTarget; // Button that triggered the modal
-		var productCode = parseInt(button.dataset.code); // Extract info from data-* attributes
-		var productDescription = button.dataset.description;
+		var productCode = parseInt(dataCode);
+		var productDescription = dataDescription;
 
 		$("#batchExpirationDateProductDescription").text(productCode + " - " + productDescription);
 		serialDetails = serialsMap[productCode];
@@ -40,10 +40,9 @@ $(document).ready(function() {
 		$(modal).modal('show');
 	});
 
-	$('#serialsModal').on('show.bs.modal', function () {
-		var button = event.currentTarget; // Button that triggered the modal
-		var productCode = parseInt(button.dataset.code); // Extract info from data-* attributes
-		var productDescription = button.dataset.description;
+	$('#serialsModal').on('show.bs.modal', function (event) {
+		var productCode = parseInt(dataCode);
+		var productDescription = dataDescription;
 
 		$("#serializedProductDescription").text(productCode + " - " + productDescription);
 		serialDetails = serialsMap[productCode];
@@ -521,9 +520,10 @@ $(document).ready(function() {
 
 	};
 
-	$("#inputModalProductTable, #outputModalProductTable, #supplyingModalProductTable").bootgrid().on("loaded.rs.jquery.bootgrid", function () {
-		$(this).find(".command-view").on("click", function(e) {
-			$($(this).attr("data-target")).modal("show");
-		});
+	$("#inputModalProductTableBody, #outputModalProductTableBody, #supplyingModalProductTableBody").on("click", ".command-view", function(e) {
+		dataSrc = $(this).attr("data-src");
+		dataCode = $(this).attr("data-code");
+		dataDescription = $(this).attr("data-description");
+		$($(this).attr("data-target")).modal("show");
 	});
 });

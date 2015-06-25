@@ -68,7 +68,7 @@ SearchOutput = function() {
 				"conceptId": $("#conceptSearch").val() || null,
 				"providerId": $("#providerSearch").val() || null,
 				"deliveryLocationId": $("#deliveryLocationSearch").val() || null,
-				"agreementId": $("#agreementSearch").val() || null,
+				"agreementId": $("#agreementSearch").val() || null
 			};
 			
 			$.ajax({
@@ -143,12 +143,12 @@ SearchOutput = function() {
 				'&agreementId=' + jsonOutputSearch.agreementId;
 				
 				var exportHTML = exportQueryTableHTML("./rest/outputs", params);
-				var searchHTML = $(".search");
+				var searchHTML = $("#divTable .search");
 				
 				if (searchHTML.prev().length == 0) {
-					$(".search").before(exportHTML);
+					searchHTML.before(exportHTML);
 				} else {
-					$(".search").prev().html(exportHTML);
+					searchHTML.prev().html(exportHTML);
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
