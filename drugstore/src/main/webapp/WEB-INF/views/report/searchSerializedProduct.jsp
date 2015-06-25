@@ -22,11 +22,22 @@
 			<h3><spring:message code="common.searchSerializedProduct"/></h3>
 		</div>
 	</div>
+    <div class="row">
+        <div class="col-md-12 form-group">
+            <p><spring:message code="common.searchSerializedProduct.comment"/><p>
+        </div>
+    </div>
 	<div>
-		<div class="row">
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <label for="serialParserSearch"><spring:message code="common.searchProduct.reader"/></label>
+                <input type="text" class="form-control" name="serialParserSearch" id="serialParserSearch" placeholder='<spring:message code="common.searchProduct.placeholder"/>'>
+            </div>
+        </div>
+        <div class="row">
 			<div class="col-md-12 form-group">
 				<label for="productInput"><spring:message code="common.product"/></label>
-				<input id="productInput" name="productInput" type="search" placeholder='<spring:message code="input.product.placeholder"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental" />
+				<input id="productInput" name="productInput" type="search" placeholder='<spring:message code="common.searchProduct.description"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental" />
 			</div>
 		</div>
 		<div class="row">
