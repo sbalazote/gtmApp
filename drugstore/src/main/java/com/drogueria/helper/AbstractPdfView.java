@@ -7,6 +7,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.lowagie.text.PageSize;
 import org.springframework.web.servlet.view.AbstractView;
 
 import com.lowagie.text.Chunk;
@@ -39,7 +40,7 @@ public abstract class AbstractPdfView extends AbstractView {
 		ByteArrayOutputStream baos = this.createTemporaryOutputStream();
 
 		// Apply preferences and build metadata.
-		Document document = new Document();
+		Document document = new Document(PageSize.A4.rotate());
 		PdfWriter writer = PdfWriter.getInstance(document, baos);
 		this.prepareWriter(model, writer, request);
 		this.buildPdfMetadata(model, document, request);
