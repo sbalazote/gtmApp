@@ -154,6 +154,7 @@
 									<li><a href="eventAdministration.do"><spring:message code="common.events" /></a></li>
 									<li><a href="affiliateAdministration.do"><spring:message code="common.affiliates" /></a></li>
 									<li><a href="providerSerializedFormatAdministration.do"><spring:message code="common.serializations" /></a></li>
+									<li><a href="deliveryNoteEnumeratorAdministration.do"><spring:message code="common.deliveryNoteEnumerators" /></a></li>
 								</ul></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('USER_ADMINISTRATION')">

@@ -94,6 +94,10 @@
         <put-attribute name="body" value="/WEB-INF/views/administration/update/alfabetaUpdateProducts.jsp" />
     </definition>
 
+    <definition name="deliveryNoteEnumeratorAdministration" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/deliveryNoteEnumeratorAdministration.jsp" />
+    </definition>
+
     <definition name="orderAssemblySelection" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/orderAssembly/orderAssemblySelection.jsp" />
     </definition>
