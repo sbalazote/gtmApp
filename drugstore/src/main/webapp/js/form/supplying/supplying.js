@@ -696,7 +696,7 @@ var Supplying = function() {
 							var x = window.open('','_blank', '', false);
 							x.document.open();
 							x.document.location=string;
-							
+
 							myReload("success",	"Se ha registrado la dispensa n\u00famero: " + response.id);
 						},
 						error : function(jqXHR,	textStatus, errorThrown) {

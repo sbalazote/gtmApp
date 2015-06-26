@@ -7,7 +7,7 @@ $(document).ready(function() {
 			"message": message
 		};
 		sessionStorage.setItem("postSaveMessage", JSON.stringify(postObject));
-		window.location.reload();
+		window.location.reload(true);
 	};
 	
 	myRedirect = function(type, message, redirectLocation) {

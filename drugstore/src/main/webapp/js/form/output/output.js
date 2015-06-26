@@ -475,7 +475,7 @@ Output = function() {
 							x.document.location=string;
 						//}
 						
-						myRedirect("success", "Se ha generado exitosamente el Egreso de Mercaderia: " + response.id, "output.do");
+						myReload("success", "Se ha generado exitosamente el Egreso de Mercaderia: " + response.id);
 					},
 					error: function(jqXHR, textStatus, errorThrown) {
 						$.unblockUI();
