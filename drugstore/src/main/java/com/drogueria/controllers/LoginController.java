@@ -25,7 +25,8 @@ public class LoginController {
         String userAgent = request.getHeader("user-agent");
         UserAgent ua = UserAgent.parseUserAgentString(userAgent);
         String browserName = ua.getBrowser().toString();
-        modelMap.put("name",PropertyProvider.getInstance().getProp(PropertyProvider.ARTIFACT_ID) + " - " + propertyService.get().getName());
+        modelMap.put("sofwareName",PropertyProvider.getInstance().getProp(PropertyProvider.ARTIFACT_ID) );
+        modelMap.put("name", propertyService.get().getName());
         modelMap.put("logPath",PropertyProvider.getInstance().getProp(PropertyProvider.LOGO));
 
         if(browserName.indexOf(IE_BROWSER) >= 0){
