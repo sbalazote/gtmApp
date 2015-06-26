@@ -148,7 +148,7 @@ ProviderSerialized = function() {
                         type: "GET",
                         async: false,
                         data: {
-                            productId: preloadedProductId,
+                            productId: preloadedProductId
                         },
                         success: function(responseGtin) {
                             var gtins = responseGtin;

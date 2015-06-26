@@ -30,6 +30,7 @@ var Supplying = function() {
 	var productId = "";
 	var productType = "";
 	var productGtin = "";
+	var productOutOfStock = "";
 	
 	// Para validar que no ingrese 2 veces el mismo producto 
 	var productIds = [];
@@ -117,7 +118,7 @@ var Supplying = function() {
 				productAmount : {
 					required : true,
 					digits : true,
-					minValue : 0,
+					minValue : 0
 				}
 			},
 			showErrors : myShowErrors,
@@ -210,7 +211,7 @@ var Supplying = function() {
 	$("#productInput").autocomplete({
 		source : function(request, response) {
 			var url = assignOutOfStock ? "getProducts.do" : "getProductFromStock.do";
-			var data = assignOutOfStock ? { term: request.term, active: true } : { term : request.term, agreementId : $("#agreementInput").val(), };
+			var data = assignOutOfStock ? { term: request.term, active: true } : { term : request.term, agreementId : $("#agreementInput").val() };
 			$.ajax({
 				url : url,
 				type : "GET",
@@ -373,13 +374,13 @@ var Supplying = function() {
 			$('#batchExpirationDateModal').modal('show');
 			
 		} else {
+			serialized.setTempSerialNumbers(tempSerialNumberGroup[productId]);
 			serialized.setPreloadedProduct(productDescription);
 			serialized.setPreloadedProductId(productId);
 			serialized.setPreloadedProductType(productType);
 			serialized.setPreloadedAmount(productAmount);
 			serialized.setPreloadedData(preloadedData);
 			serialized.setProductSelectedGtin(productGtin);
-			serialized.setTempSerialNumbers(tempSerialNumberGroup[productId]);
 			
 			serialized.preloadModalData();
 			$('#serializedModal').modal('show');
@@ -426,37 +427,73 @@ var Supplying = function() {
 		productDetails.push(orderDetail);
 	};
 	
-	$('#productTableBody').on("click", ".edit-button", function() {
+	$('#productTableBody').on("click", ".edit-row", function(e) {
 		var parent = $(this).parent().parent();
-	
-		currentRow = $(".edit-button").index(this);
+
+		currentRow = $(".edit-row").index(this);
 		productDescription = parent.find(".td-description").html();
 		productAmount = parent.find(".td-amount").html();
 		productId = parent.find(".span-productId").html();
 		productType = parent.find(".span-productType").html();
 		productGtin = parent.find(".span-productGtin").html();
+		productOutOfStock = parent.find(".span-productOutOfStock").html();
 		isEdit = true;
 		
-		openModal(supplyingDetailGroup[currentRow]);
+		if(productOutOfStock === 'false') {
+			openModal(supplyingDetailGroup[currentRow]);
+		} else {
+			outOfStockOpenModal(supplyingDetailGroup[currentRow]);
+		}
+	});
+
+	var currentRowElement = null;
+
+	$('#productTableBody').on("click", ".delete-row", function(){
+		currentRowElement = this;
+		$('#deleteRowConfirmationModal').modal();
+	});
+
+	$("#inputDeleteRowConfirmationButton").click(function() {
+		var parent = $(currentRowElement).parent().parent();
+		var rows = Array();
+		rows[0] = parent.attr("data-row-id");
+		$("#productTable").bootgrid("remove", rows);
+
+		currentRow = $(".delete-row").index(currentRowElement);
+		supplyingDetailGroup.splice(currentRow, 1);
+		productIds.splice(currentRow, 1);
+
+		productId = parent.find(".span-productId").html();
+		$(".alert").hide();
+
+		var productType = parent.find(".span-productType").html();
+		if (productType == "PS") {
+			tempSerialNumberGroup[productId] = [];
+			/*$.each(tempSerialNumberGroup[productId], function(idxSerialToDelete, serialToDelete) {
+				var idxSerialStored = $.inArray(serialToDelete, tempSerialNumberGroup[productId]);
+				if (idxSerialStored != -1) {
+					tempSerialNumberGroup[productId].splice(idxSerialStored, 1);
+				}
+			});*/
+		}
 	});
 	
 	var populateProductsDetailsTable = function() {
-		var tableRow = "<tr><td class='td-description'>" + productDescription + "</td>" +
-		"<td class='td-amount'>" + productAmount + "</td>" +
-		"<td>" +
-		"<span class='span-productId' style='display:none'>" + productId + "</c:out></span>" +
-		"<span class='span-productType' style='display:none'>" + productType + "</c:out></span>" + 
-		"<span class='span-productGtin' style='display:none'>" + productGtin + "</c:out></span>" +
-		"<span class='span-productOutOfStock' style='display:none'>" + assignOutOfStock + "</c:out></span>" +
-		"<a href='javascript:void(0);' class='edit-button'>Editar</a>" +
-		"</td>" +
-		"<td>"+
-		"<a href='javascript:void(0);' class='delete-row'>Eliminar</a>" +
-		"</td>" +
-		"</tr>";
-		$("#productTableBody").append(tableRow);
+		var aaData = [];
+		var row = {
+			description: productDescription,
+			amount: productAmount,
+			command: "<span class='span-productId' style='display:none'>" + productId + "</span>"+
+			"<span class='span-productType' style='display:none'>" + productType + "</span>"+
+			"<span class='span-productGtin' style='display:none'>" + productGtin + "</span>"+
+			"<span class='span-productOutOfStock' style='display:none'>" + assignOutOfStock + "</span>" +
+			"<button type=\"button\" class=\"btn btn-sm btn-default edit-row\"><span class=\"glyphicon glyphicon-pencil\"></span></button>"+
+			"<button type=\"button\" class=\"btn btn-sm btn-default delete-row\"><span class=\"glyphicon glyphicon-trash\"></span></button>"
+		};
+		aaData.push(row);
+		$("#productTable").bootgrid("append", aaData);
 	};
-	
+
 	$("#batchExpirationDateAcceptButton").click(function() {
 		remainingAmount = $('#batchExpirationDateRemainingAmountLabel').text();
 		if (remainingAmount == 0) {
@@ -618,42 +655,6 @@ var Supplying = function() {
 			$('#productInput').focus();
 		} else {
 			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "selfSerializedModalAlertDiv");
-		}
-	});
-
-	$('#productTableBody').on("click", ".delete-row", function() {
-		currentRowElement = this;
-		$('#deleteRowConfirmationModal').modal();
-	});
-
-	$('#productTableBody').on("click", ".edit-row", function() {
-		currentRowElement = this;
-		isAdd = false;
-		var parent = $(currentRowElement).parent().parent();
-		productId = parent.find(".span-productId").text();
-		$('#amountModal').modal();
-	});
-
-	$("#inputDeleteRowConfirmationButton").click(function() {
-		var parent = $(currentRowElement).parent().parent();
-		var currentRow = $(".delete-row").index(currentRowElement);
-		supplyingDetailGroup.splice(currentRow, 1);
-		parent.remove();
-		if (supplyingDetailGroup.length == 0) {
-			$('#agreementInput').prop('disabled', false).trigger("chosen:updated");
-		}
-		
-		var productType = parent.find(".span-productType").html();
-		if (productType == "PS") {
-			var productOutOfStock = parent.find(".span-productOutOfStock").html();
-			var tempSerialNumbers = productOutOfStock ? serialized.getTempSerialNumbers() : outOfStockProviderSerialized.getTempSerialNumbers();
-			$.each(tempSerialNumberGroup[productId], function(idxSerialToDelete, serialToDelete) {
-				var idxSerialStored = $.inArray(serialToDelete, tempSerialNumbers);
-				if (idxSerialStored != -1) {
-					tempSerialNumbers.splice(idxSerialStored, 1);
-				}
-			});
-			productOutOfStock ? serialized.setTempSerialNumbers(tempSerialNumbers) : outOfStockProviderSerialized.setTempSerialNumbers(tempSerialNumbers);
 		}
 	});
 

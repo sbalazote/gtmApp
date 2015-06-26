@@ -60,6 +60,11 @@ ProviderSerialized = function() {
 	
 	var formValidator = null;
 	
+	// TODO mejorar esto- ahora no hace el paginado.
+	$("#outOfStockProviderSerializedTable").bootgrid({
+		rowCount: -1
+	});
+
 	var validateForm = function() {
 		var form = $("#outOfStockProviderSerializedModalForm");
 		formValidator = form.validate({
@@ -112,15 +117,18 @@ ProviderSerialized = function() {
 	};
 	
 	var addToTable = function(gtin, serialNumber, batch, expirationDate) {
-		$("#outOfStockProviderSerializedTable tbody").append("<tr>"
-			+ "<td class='gtin' style='display: none;'>"+gtin+"</td>"
-			+ "<td class='serialNumber'>"+serialNumber+"</td>"
-			+ "<td class='batch'>"+batch+"</td>"
-			+ "<td class='expirationDate'>"+expirationDate+"</td>"
-			+ "<td><button class='btnDelete' type='button'><span class='glyphicon glyphicon-remove'/></button></td>"
-			+ "</tr>");
+		var aaData = [];
+		var row = {
+			gtin: gtin,
+			serialNumber: serialNumber,
+			batch: batch,
+			expirationDate: expirationDate,
+			commands: "<button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"" + serialNumber + "\"><span class=\"glyphicon glyphicon-trash\"></span></button>"
+		};
+		aaData.push(row);
+		$("#outOfStockProviderSerializedTable").bootgrid("append", aaData);
 	};
-	
+
 	var generateRow = function() {
 		var readSerialNumber = $("#outOfStockReadSerialNumberInput");
 		$.ajax({
@@ -144,7 +152,7 @@ ProviderSerialized = function() {
                         type: "GET",
                         async: false,
                         data: {
-                            productId: preloadedProductId,
+                            productId: preloadedProductId
                         },
                         success: function(responseGtin) {
                             var gtins = responseGtin;
@@ -252,6 +260,12 @@ ProviderSerialized = function() {
 							formValidator.resetForm();
 							
 							readSerialNumber.focus();
+						} else {
+							if (batch == "") {
+								$("#outOfStockProviderSerializedBatchInput").focus();
+							} else if (expirationDate == "") {
+								$("#outOfstockProviderSerializedExpirationDateInput").focus();
+							}
 						}
 					},
 					error: function(jqXHR, textStatus, errorThrown) {
@@ -265,17 +279,19 @@ ProviderSerialized = function() {
 		});
 	};
 	
-	$('#outOfStockProviderSerializedTable tbody').on("click", ".btnDelete", function() {
+	$('#outOfStockProviderSerializedTable tbody').on("click", ".command-delete", function() {
 		subtractAmount(1);
 		var parent = $(this).parent().parent();
-		var serialNumberToDelete = parent.children().eq(1).text();
+		var serialNumberToDelete = parent.find("td:nth(1)").html();
 		var indexOfSerialNumberToDelete = tempSerialNumbers.indexOf(serialNumberToDelete);
 		tempSerialNumbers.splice(indexOfSerialNumberToDelete,1);
-		parent.remove();
+		var rows = Array();
+		rows[0] = $(this).attr("data-row-id");
+		$("#outOfStockProviderSerializedTable").bootgrid("remove", rows);
 	});
 	
 	var preloadModalData = function () {
-		$("#outOfStockProviderSerializedModal tbody").html("");
+		$("#outOfStockProviderSerializedTable").bootgrid("clear");
 		$('#outOfStockProviderSerializedProductLabel').text(preloadedProduct);
 		$('#outOfStockProviderSerializedRequestedAmountLabel').text(preloadedAmount);
 		
@@ -301,28 +317,76 @@ ProviderSerialized = function() {
 	    myResetForm($("#outOfStockProviderSerializedModalForm")[0], formValidator);
 	});
 	
-	$('#outOfStockProviderSerializedAddButton').on('keypress', function(e) {
+	$('#outOfStockReadSerialNumberInput').on('keypress', function(e) {
 		//	Si la tecla presionada es 'ENTER'
 	    if (e.keyCode === 13) {
-	    	var remainingAmount = $('#outOfStockProviderSerializedRemainingAmountLabel').text();
+			$("#outOfStockProviderSerializedAddButton").trigger('click');
+			return false;
+		}
+	});
+
+	$('#outOfStockProviderSerializedBatchInput').on('keypress', function(e) {
+		//	Si la tecla presionada es 'ENTER'
+		if (e.keyCode === 13) {
+			$('#outOfStockProviderSerializedExpirationDateInput').focus();
+			return false;
+		}
+	});
+
+	$('#outOfStockProviderSerializedExpirationDateInput').on('keypress', function(e) {
+		//	Si la tecla presionada es 'ENTER'
+		if (e.keyCode === 13) {
+			$("#outOfStockProviderSerializedAddButton").trigger('click');
+			return false;
+		}
+	});
+
+	$('#outOfStockProviderSerializedAddButton').on('keypress', function(e) {
+		//	Si la tecla presionada es 'ENTER'
+		if (e.keyCode === 13) {
+			var remainingAmount = $('#outOfStockProviderSerializedRemainingAmountLabel').text();
 			if (remainingAmount == 0) {
 				$("#outOfStockProviderSerializedAcceptButton").trigger('click');
 			} else {
 				$("#outOfStockProviderSerializedAddButton").trigger('click');
 			}
 			return false;
-	    }
+		}
 	});
 	
 	$("#outOfStockProviderSerializedAddButton").click(function() {
 		var remainingAmount = $('#outOfStockProviderSerializedRemainingAmountLabel').text();
 		if (remainingAmount > 0) {
 			generateRow();
+			checkLast();
 		} else {
 			myShowAlert('danger', 'Ya se ha ingresado la totalidad de productos requeridos. Por favor presione el bot\u00f3n "Confirmar".', "providerSerializedModalAlertDiv");
 		}
 	});
 	
+	var checkLast = function() {
+		var remaining = parseInt($('#outOfStockProviderSerializedRemainingAmountLabel').text());
+		if (remaining == 0) {
+			BootstrapDialog.show({
+				title: 'Informacion',
+				message: '<strong>Carga Completa.</strong> Confirma Operaci\u00f3n?',
+				buttons: [{
+					label: 'No',
+					action: function(dialogItself) {
+						dialogItself.close();
+					}
+				}, {
+					label: 'Si',
+					cssClass: 'btn-primary',
+					action: function(dialogItself) {
+						dialogItself.close();
+						$("#outOfStockProviderSerializedAcceptButton").trigger('click');
+					}
+				}]
+			});
+		}
+	};
+
 	return {
 		getTempSerialNumbers: getTempSerialNumbers,
 		setTempSerialNumbers: setTempSerialNumbers,

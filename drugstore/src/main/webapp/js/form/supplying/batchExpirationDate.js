@@ -4,6 +4,7 @@
 BatchExpirationDate = function() {
 	
 	// Atributos del objeto
+	var rowId = 0;
 	var preloadedData = null;
 	var preloadedAmount = null;
 	var preloadedProduct = null;
@@ -26,6 +27,11 @@ BatchExpirationDate = function() {
 	
 	var formValidator = null;
 	
+	// TODO mejorar esto- ahora no hace el paginado.
+	$("#outOfStockBatchExpirationDateTable").bootgrid({
+		rowCount: -1
+	});
+
 	var validateForm = function() {
 		var maxAmount = parseInt($('#outOfStockBatchExpirationDateRemainingAmountLabel').text());
 		
@@ -91,14 +97,19 @@ BatchExpirationDate = function() {
 	};
 	
 	var addToTable = function(batch, expirationDate, amount) {
-		$("#outOfStockBatchExpirationDateTable tbody").append("<tr>"
-			+ "<td class='batch'>"+batch+"</td>"
-			+ "<td class='expirationDate'>"+expirationDate+"</td>"
-			+ "<td class='amount'>"+amount+"</td>"
-			+ "<td><button class='btnDelete' type='button'><span class='glyphicon glyphicon-remove'/></button></td>"
-			+ "</tr>");
+		var aaData = [];
+		var row = {
+			id: rowId,
+			batch: batch,
+			expirationDate: expirationDate,
+			amount: amount,
+			commands: "<button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"" + rowId + "\"><span class=\"glyphicon glyphicon-trash\"></span></button>"
+		};
+		aaData.push(row);
+		$("#outOfStockBatchExpirationDateTable").bootgrid("append", aaData);
+		rowId++;
 	};
-	
+
 	var generateRow = function() {
 		if (validateForm()) {
 			var par = $("#outOfStockBatchExpirationDateAddButton").parent().parent().find("input");
@@ -120,15 +131,18 @@ BatchExpirationDate = function() {
 		}
 	};
 	
-	$('#outOfStockBatchExpirationDateTable tbody').on("click", ".btnDelete", function() {
+	$('#outOfStockBatchExpirationDateTable tbody').on("click", ".command-delete", function() {
 		var parent = $(this).parent().parent();
-		var amount = parent.find(".amount");
-		subtractAmount(amount.text());
-		parent.remove();
+		var amount = parent.find("td:nth(2)").html();
+		subtractAmount(amount);
+		var rows = Array();
+		rows[0] = parseInt($(this).attr("data-row-id"));
+		$("#outOfStockBatchExpirationDateTable").bootgrid("remove", rows);
 	});
 	
 	var preloadModalData = function () {
-		$("#outOfStockBatchExpirationDateModal tbody").html("");
+		rowId = 0;
+		$("#outOfStockBbatchExpirationDateTable").bootgrid("clear");
 		$('#outOfStockBatchExpirationDateProductLabel').text(preloadedProduct);
 		$('#outOfStockBatchExpirationDateRequestedAmountLabel').text(preloadedAmount);
 		
@@ -187,11 +201,36 @@ BatchExpirationDate = function() {
 		var remainingAmount = $('#outOfStockBatchExpirationDateRemainingAmountLabel').text();
 		if (remainingAmount > 0) {
 			generateRow();
+			checkLast();
 		} else {
 			myShowAlert('danger', 'Ya se ha ingresado la totalidad de productos requeridos. Por favor presione el bot\u00f3n "Confirmar".', "outOfStockBatchExpirationDateModalAlertDiv");
 		}
+		return false;
 	});
-	
+
+	var checkLast = function() {
+		var remaining = parseInt($('#outOfStockBatchExpirationDateRemainingAmountLabel').text());
+		if (remaining == 0) {
+			BootstrapDialog.show({
+				title: 'Informacion',
+				message: '<strong>Carga Completa.</strong> Confirma Operaci\u00f3n?',
+				buttons: [{
+					label: 'No',
+					action: function(dialogItself) {
+						dialogItself.close();
+					}
+				}, {
+					label: 'Si',
+					cssClass: 'btn-primary',
+					action: function(dialogItself) {
+						dialogItself.close();
+						$("#outOfStockBatchExpirationDateAcceptButton").trigger('click');
+					}
+				}]
+			});
+		}
+	};
+
 	return {
 		getPreloadedData: getPreloadedData,
 		setPreloadedData: setPreloadedData,
