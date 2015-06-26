@@ -15,7 +15,7 @@
 <form id="searchInputForm" action="" onsubmit="return false;">
 	<div class="row">
 		<div class="col-md-9 form-group">
-			<h3><spring:message code="input.search.title"/></h3>
+			<h3><spring:message code="search.title.input"/></h3>
 		</div>
 	</div>
 	<div>
@@ -94,18 +94,21 @@
 			</div>
 		</div>
 		<div class="row">
-            <div class="col-md-4 checkbox form-margin">
-                <label>
-                    <input id="cancelledCheckbox" type="checkbox"><spring:message code="common.cancelled" />
-                </label>
+            <div class="col-md-4">
+				<label for="cancelledSelect"><spring:message code="common.state"/></label>
+				<select class="form-control chosen-select" id="cancelledSelect" name="cancelled">
+					<option value="">Todos</option>
+					<option value="false">Confirmados</option>
+					<option value="true">Anulados</option>
+				</select>
             </div>
-			<div class="col-md-2 col-md-offset-4">
+			<div class="col-md-2 col-md-offset-4 form-margin">
 				<button class="btn btn-success btn-block" type="submit" id="searchButton">
 				<span class="glyphicon glyphicon-search"></span>
 				<spring:message code="common.search" />
 				</button>
 			</div>
-			<div class="col-md-2">
+			<div class="col-md-2 form-margin">
 				<button class="btn btn-info btn-block" type="submit" id="cleanButton">
 				<span class="glyphicon glyphicon-trash"></span>
 				<spring:message code="common.clean" />

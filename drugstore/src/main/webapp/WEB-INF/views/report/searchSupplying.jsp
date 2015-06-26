@@ -58,10 +58,13 @@
                     </c:forEach>
                 </select>
             </div>
-            <div class="col-md-4 checkbox form-margin">
-                <label>
-                    <input id="cancelledCheckbox" type="checkbox"><spring:message code="common.cancelled" />
-                </label>
+            <div class="col-md-4">
+                <label for="cancelledSelect"><spring:message code="common.state"/></label>
+                <select class="form-control chosen-select" id="cancelledSelect" name="cancelled">
+                    <option value="">Todos</option>
+                    <option value="false">Confirmados</option>
+                    <option value="true">Anulados</option>
+                </select>
             </div>
         </div>
         <div class="row">

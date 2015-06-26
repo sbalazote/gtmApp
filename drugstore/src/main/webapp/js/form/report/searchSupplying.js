@@ -56,25 +56,18 @@ SearchSupplying = function() {
         $("#idSearch").val('');
         $("#affiliateInput").select2("val", "");
         $('#agreementSearch').val('').trigger('chosen:updated');
-        $('#cancelledCheckbox').attr('checked', false);
+        $('#cancelledSelect').val('').trigger('chosen:updated');;
     });
 
     $("#searchButton").click(function() {
         if(validateForm()){
-            var cancelled;
-            if ($('#cancelledCheckbox').is(":checked"))
-            {
-                cancelled = true;
-            }else{
-                cancelled = false;
-            }
             var jsonSupplyingSearch = {
                 "id": $("#idSearch").val().trim() || null,
                 "dateFrom": $("#dateFromSearch").val(),
                 "dateTo": $("#dateToSearch").val(),
                 "affiliateId": $("#affiliateInput").val() || null,
                 "agreementId": $("#agreementSearch").val() || null,
-                "cancelled": cancelled
+                "cancelled": $("#cancelledSelect").val() || null
             };
 
             $.ajax({

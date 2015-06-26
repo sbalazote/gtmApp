@@ -92,9 +92,9 @@ public class SupplyingDAOHibernateImpl implements SupplyingDAO {
             criteria.add(Restrictions.eq("affiliate.id", supplyingQuery.getAffiliateId()));
         }
 
-        if(supplyingQuery.getCancelled() == true) {
-            criteria.add(Restrictions.eq("cancelled",supplyingQuery.getCancelled()));
-        }
+		if (supplyingQuery.getCancelled() != null) {
+			criteria.add(Restrictions.eq("cancelled", supplyingQuery.getCancelled()));
+		}
 
         criteria.addOrder(Order.desc("id"));
 
