@@ -14,7 +14,7 @@
 
 <div class="row">
 	<div class="col-md-9 form-group">
-		<h3><spring:message code="common.output"/></h3>
+		<h3><spring:message code="common.output.label"/></h3>
 	</div>
 	<div class="col-md-3 form-group">
 		<label for="currentDateInput"><spring:message code="common.date"/></label>
@@ -118,7 +118,7 @@
 	</div>
 </form>
 
-<%-- Confirmación del delete de una row --%>
+<%-- Confirmaciï¿½n del delete de una row --%>
 <div class="modal fade" data-backdrop="static" id="deleteRowConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:250px">
 		<div class="modal-content">

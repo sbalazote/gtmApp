@@ -36,6 +36,7 @@
 	            <value>WEB-INF/messages/output</value>
 	            <value>WEB-INF/messages/serializedReturns</value>
 	            <value>WEB-INF/messages/supplying</value>
+				<value>WEB-INF/messages/search</value>
 	        </list>
 	    </property>
 	</bean>

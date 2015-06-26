@@ -16,6 +16,17 @@
 		</div>
 	</c:if>
 
+    <div class="row">
+        <div class="form-group col-md-4 col-md-offset-4 text-center">
+            <h3 style="color: #0077b3; font-weight: bold">${name}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4 col-md-offset-4 text-center">
+            <img class="text-center" src="${logPath}" class="img-responsive" alt="Responsive image">
+        </div>
+    </div>
+
     <c:if test="${loginDisabled == null}">
         <div class="row">
             <div class="form-group col-md-4 col-md-offset-4">
