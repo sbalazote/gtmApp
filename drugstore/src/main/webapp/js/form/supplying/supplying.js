@@ -95,11 +95,9 @@ var Supplying = function() {
 				},
 				affiliateSurname : {
 					required : true,
-					letterswithbasicpunc : true
 				},
 				affiliateName : {
 					required : true,
-					letterswithbasicpunc : true
 				},
 				affiliateDocument : {
 					digits : true
