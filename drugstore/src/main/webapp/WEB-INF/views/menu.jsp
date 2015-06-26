@@ -42,7 +42,7 @@
 							<li class="dropdown-submenu"><a href="#"><spring:message code="administration.output" /></a>
 								<ul class="dropdown-menu">
 									<sec:authorize access="hasRole('OUTPUT')">
-										<li class="activable"><a href="output.do"><spring:message code="common.output" /></a></li>
+										<li class="activable"><a href="output.do"><spring:message code="common.output.label" /></a></li>
 									</sec:authorize>
 								</ul></li>
 						</sec:authorize>
@@ -118,9 +118,12 @@
                     <sec:authorize access="hasAnyRole('OUTPUT', 'OUTPUT_CANCELLATION')">
 					    <li><a href="searchOutput.do"><spring:message code="common.outputs" /></a></li>
                     </sec:authorize>
-                    <sec:authorize access="hasAnyRole('PROVISIONING_REQUEST', 'PROVISIONING_REQUEST_UPDATE','PROVISIONING_REQUEST_PRINT', 'PROVISIONING_REQUEST_AUTHORIZATION', 'PROVISIONING_REQUEST_CANCELLATION')">
-					    <li><a href="searchProvisioningRequest.do"><spring:message code="common.provisioningRequests" /></a></li>
-                    </sec:authorize>
+					<sec:authorize access="hasAnyRole('PROVISIONING_REQUEST', 'PROVISIONING_REQUEST_UPDATE','PROVISIONING_REQUEST_PRINT', 'PROVISIONING_REQUEST_AUTHORIZATION', 'PROVISIONING_REQUEST_CANCELLATION')">
+						<li><a href="searchProvisioningRequest.do"><spring:message code="common.provisioningRequests" /></a></li>
+					</sec:authorize>
+					<sec:authorize access="hasAnyRole('SUPPLYING', 'SUPPLYING_CANCELLATION')">
+						<li><a href="searchSupplying.do"><spring:message code="search.title.supplyings" /></a></li>
+					</sec:authorize>
                     <sec:authorize access="hasAnyRole('DELIVERY_NOTE_PRINT', 'DELIVERY_NOTE_CANCELLATION')">
                         <li><a href="searchDeliveryNote.do"><spring:message code="common.deliveryNotes" /></a></li>
                     </sec:authorize>
@@ -129,11 +132,8 @@
                     </sec:authorize>
                     <sec:authorize access="hasAnyRole('INPUT', 'INPUT_AUTHORIZATION', 'INPUT_CANCELLATION','OUTPUT', 'OUTPUT_CANCELLATION','PROVISIONING_REQUEST', 'PROVISIONING_REQUEST_UPDATE','PROVISIONING_REQUEST_PRINT', 'PROVISIONING_REQUEST_AUTHORIZATION', 'PROVISIONING_REQUEST_CANCELLATION', 'ORDER_ASSEMBLY', 'ORDER_ASSEMBLY_CANCELLATION')">
                         <li><a href="searchStock.do"><spring:message code="common.stocks" /></a></li>
-                        <li><a href="searchSerializedProduct.do"><spring:message code="common.searchSerializedProduct" /></a></li>
-                    	<li><a href="searchBatchExpirateDateProduct.do"><spring:message code="common.searchBatchExpirateDateProduct" /></a></li>
-                    </sec:authorize>
-                    <sec:authorize access="hasAnyRole('SUPPLYING', 'SUPPLYING_CANCELLATION')">
-                        <li><a href="searchSupplying.do"><spring:message code="common.searchSupplyings" /></a></li>
+                        <li><a href="searchSerializedProduct.do"><spring:message code="search.menu.serializedProduct" /></a></li>
+                    	<li><a href="searchBatchExpirateDateProduct.do"><spring:message code="search.menu.batchExpirateDateProduct" /></a></li>
                     </sec:authorize>
 				</ul></li>
 

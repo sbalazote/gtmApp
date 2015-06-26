@@ -15,7 +15,7 @@
 <form id="searchDeliveryNoteForm" action="" onsubmit="return false;">
 	<div class="row">
 		<div class="col-md-9 form-group">
-			<h3><spring:message code="common.title.searchDeliveryNote"/></h3>
+			<h3><spring:message code="search.title.deliveryNote"/></h3>
 		</div>
 	</div>
 	<div class="bs-example bs-example-tabs">

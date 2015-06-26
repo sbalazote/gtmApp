@@ -12,7 +12,7 @@
 <form id="searchAuditForm" action="" onsubmit="return false;">
 	<div class="row">
 		<div class="col-md-9 form-group">
-			<h3><spring:message code="common.title.searchAudit"/></h3>
+			<h3><spring:message code="search.title.audit"/></h3>
 		</div>
 	</div>
 	<div>

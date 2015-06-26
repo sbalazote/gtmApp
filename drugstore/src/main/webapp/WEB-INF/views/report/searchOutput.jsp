@@ -21,7 +21,7 @@
 	<div>
 		<div class="row">
 			<div class="col-md-4 form-group">
-				<label for="idSearch"><spring:message code="output.input.number"/></label>
+				<label for="idSearch"><spring:message code="output.number"/></label>
 				<input id="idSearch" name="idSearch" class="form-control" >
 			</div>
 			<div class="col-md-4 form-group">
@@ -105,7 +105,7 @@
 		<table class="table table-condensed table-hover table-striped" id="outputTable">
 			<thead>
 		        <tr>
-		            <th data-column-id="id" data-type="numeric"><spring:message code="output.input.number"/></th>
+		            <th data-column-id="id" data-type="numeric"><spring:message code="output.number"/></th>
 		            <th data-column-id="agreement"><spring:message code="common.agreement"/></th>
 		            <th data-column-id="clientOrProvider"><spring:message code="common.clientOrProvider"/></th>
 		            <th data-column-id="date"><spring:message code="common.date"/></th>

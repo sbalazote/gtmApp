@@ -19,25 +19,25 @@
 <form id="searchSerializedProductForm" action="" onsubmit="return false;">
 	<div class="row">
 		<div class="col-md-9 form-group">
-			<h3><spring:message code="common.searchSerializedProduct"/></h3>
+			<h3><spring:message code="search.title.serializedProduct"/></h3>
 		</div>
 	</div>
     <div class="row">
         <div class="col-md-12 form-group">
-            <p><spring:message code="common.searchSerializedProduct.comment"/><p>
+            <p><spring:message code="search.serializedProduct.comment"/><p>
         </div>
     </div>
 	<div>
         <div class="row">
             <div class="col-md-12 form-group">
-                <label for="serialParserSearch"><spring:message code="common.searchProduct.reader"/></label>
-                <input type="text" class="form-control" name="serialParserSearch" id="serialParserSearch" placeholder='<spring:message code="common.searchProduct.placeholder"/>'>
+                <label for="serialParserSearch"><spring:message code="search.product.reader"/></label>
+                <input type="text" class="form-control" name="serialParserSearch" id="serialParserSearch" placeholder='<spring:message code="search.product.placeholder"/>'>
             </div>
         </div>
         <div class="row">
 			<div class="col-md-12 form-group">
 				<label for="productInput"><spring:message code="common.product"/></label>
-				<input id="productInput" name="productInput" type="search" placeholder='<spring:message code="common.searchProduct.description"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental" />
+				<input id="productInput" name="productInput" type="search" placeholder='<spring:message code="search.product.description"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental" />
 			</div>
 		</div>
 		<div class="row">
