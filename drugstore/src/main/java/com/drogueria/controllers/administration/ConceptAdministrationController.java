@@ -178,7 +178,13 @@ public class ConceptAdministrationController {
 			dataJson.put("id", concept.getId());
 			dataJson.put("code", concept.getCode());
 			dataJson.put("description", concept.getDescription());
-			String deliveryNoteEnumerator = StringUtility.addLeadingZeros(concept.getDeliveryNoteEnumerator().getDeliveryNotePOS(), 4);
+			String deliveryNoteEnumerator;
+			if(concept.getDeliveryNoteEnumerator() != null) {
+				 deliveryNoteEnumerator = StringUtility.addLeadingZeros(concept.getDeliveryNoteEnumerator().getDeliveryNotePOS(), 4);
+			}else{
+				deliveryNoteEnumerator = "No definido";
+			}
+
 			dataJson.put("deliveryNotePOS", deliveryNoteEnumerator);
 			dataJson.put("isClient", concept.isClient() == true ? "Si" : "No");
 			dataJson.put("isPrintDeliveryNote", concept.isPrintDeliveryNote() == true ? "Si" : "No");

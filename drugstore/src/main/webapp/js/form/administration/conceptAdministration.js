@@ -67,7 +67,9 @@ $(document).ready(function() {
 				$("#clientSelect").val(isClient).trigger('chosen:update');
 				getEvents();
 				getDeliveryNoteEnumeratos();
-				$("#deliveryNoteEnumeratorSelect").val(response.deliveryNoteEnumerator.id).trigger('chosen:update');
+				if(response.deliveryNoteEnumerator != null){
+					$("#deliveryNoteEnumeratorSelect").val(response.deliveryNoteEnumerator.id).trigger('chosen:update');
+				}
 				$.each(response.events, function (idx, value) {
 					$('#my-select').multiSelect('select', value.id.toString());
 				});

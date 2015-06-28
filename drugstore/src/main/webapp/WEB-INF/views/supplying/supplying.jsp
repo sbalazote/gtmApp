@@ -132,14 +132,14 @@
 
 					<div class="row">
 						<div class="col-md-4 form-group">
-							<label for="affiliateDocumentTypeInput"><spring:message code="common.documentType"/></label>
+							<label for="affiliateDocumentTypeSelect"><spring:message code="common.documentType"/></label>
 							<select class="form-control" id="affiliateDocumentTypeSelect" name="documentType">
-								<option value="0">CI Policía Federal</option>
+								<option value="0">CI Policï¿½a Federal</option>
 								<option value="1">CI Buenos Aires</option>
 								<option value="2">CI Catamarca</option>
-								<option value="3">CI Córdoba</option>
+								<option value="3">CI Cï¿½rdoba</option>
 								<option value="4">CI Corrientes</option>
-								<option value="5">CI Entre Ríos</option>
+								<option value="5">CI Entre Rï¿½os</option>
 								<option value="6">CI Jujuy</option>
 								<option value="7">CI Mendoza</option>
 								<option value="8">CI La Rioja</option>
@@ -148,14 +148,14 @@
 								<option value="11">CI San Luis</option>
 								<option value="12">CI Santa Fe</option>
 								<option value="13">CI Santiago del Estero</option>
-								<option value="14">CI Tucumán</option>
+								<option value="14">CI Tucumï¿½n</option>
 								<option value="16">CI Chaco</option>
 								<option value="17">CI Chubut</option>
 								<option value="18">CI Formosa</option>
 								<option value="19">CI Misiones</option>
-								<option value="20">CI Neuquén</option>
+								<option value="20">CI Neuquï¿½n</option>
 								<option value="21">CI La Pampa</option>
-								<option value="22">CI Río Negro</option>
+								<option value="22">CI Rï¿½o Negro</option>
 								<option value="23">CI Santa Cruz</option>
 								<option value="24">CI Tierra del Fuego</option>
 								<option value="80">CUIT</option>
@@ -164,7 +164,7 @@
 								<option value="89">LE</option>
 								<option value="90">LC</option>
 								<option value="91">CI extranjera</option>
-								<option value="92">en trámite</option>
+								<option value="92">en trï¿½mite</option>
 								<option value="93">Acta nacimiento</option>
 								<option value="94">Pasaporte</option>
 								<option value="95">CI Bs. As. RNP</option>
