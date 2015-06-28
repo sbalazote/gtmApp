@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -29,12 +30,6 @@ public class Concept implements Serializable {
 
 	@Column(name = "description", nullable = false)
 	private String description;
-
-	@Column(name = "delivery_note_POS", nullable = false)
-	private String deliveryNotePOS;
-
-	@Column(name = "last_delivery_note_number", nullable = false)
-	private Integer lastDeliveryNoteNumber;
 
 	@Column(name = "input", nullable = false)
 	private boolean input;
@@ -56,6 +51,10 @@ public class Concept implements Serializable {
 
 	@Column(name = "client", nullable = false)
 	private boolean client;
+
+	@ManyToOne
+	@JoinColumn(name = "delivery_note_enumerator_id")
+	private DeliveryNoteEnumerator deliveryNoteEnumerator;
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "concept_event", joinColumns = @JoinColumn(name = "concept_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "event_id", nullable = false))
@@ -83,22 +82,6 @@ public class Concept implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getDeliveryNotePOS() {
-		return this.deliveryNotePOS;
-	}
-
-	public void setDeliveryNotePOS(String deliveryNotePOS) {
-		this.deliveryNotePOS = deliveryNotePOS;
-	}
-
-	public Integer getLastDeliveryNoteNumber() {
-		return this.lastDeliveryNoteNumber;
-	}
-
-	public void setLastDeliveryNoteNumber(Integer newLastNumber) {
-		this.lastDeliveryNoteNumber = newLastNumber;
 	}
 
 	public boolean isInput() {
@@ -163,6 +146,14 @@ public class Concept implements Serializable {
 
 	public void setEvents(List<Event> events) {
 		this.events = events;
+	}
+
+	public DeliveryNoteEnumerator getDeliveryNoteEnumerator() {
+		return this.deliveryNoteEnumerator;
+	}
+
+	public void setDeliveryNoteEnumerator(DeliveryNoteEnumerator deliveryNoteEnumerator) {
+		this.deliveryNoteEnumerator = deliveryNoteEnumerator;
 	}
 
 	public String getEventOnInput(Integer agentId) {

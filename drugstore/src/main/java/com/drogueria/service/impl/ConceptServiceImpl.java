@@ -74,9 +74,9 @@ public class ConceptServiceImpl implements ConceptService {
 	@Override
 	public Concept getAndUpdateDeliveryNote(Integer id, Integer amount) {
 		Concept concept = this.conceptDAO.getForUpdate(id);
-		Integer lastNumber = concept.getLastDeliveryNoteNumber();
+		Integer lastNumber = concept.getDeliveryNoteEnumerator().getLastDeliveryNoteNumber();
 		Integer newLastNumber = lastNumber + amount;
-		concept.setLastDeliveryNoteNumber(newLastNumber);
+		concept.getDeliveryNoteEnumerator().setLastDeliveryNoteNumber(newLastNumber);
 		this.conceptDAO.save(concept);
 		return concept;
 	}

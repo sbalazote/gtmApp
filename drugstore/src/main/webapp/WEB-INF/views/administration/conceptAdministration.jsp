@@ -79,8 +79,10 @@
 							<input type="text" class="form-control" id="descriptionInput" name="description">
 						</div>
 						<div class="col-md-4 form-group">
-							<label for="deliveryNotePOSInput"><spring:message code="common.deliveryNote.POS" /></label>
-							<input type="text" class="form-control" id="deliveryNotePOSInput" name="deliveryNotePOS">
+							<label for="deliveryNoteEnumeratorSelect"><spring:message code="configuration.deliveryNote.POS" /></label> 
+							<select class="form-control chosen-select" id="deliveryNoteEnumeratorSelect" name="deliveryNoteEnumerator">
+								<option value="">- <spring:message code="common.select.option"/> -</option>
+							</select>
 						</div>
 					</div>
 

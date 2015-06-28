@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.drogueria.util.StringUtility;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +15,7 @@ import com.drogueria.model.Output;
 import com.drogueria.model.OutputDetail;
 import com.drogueria.service.ConceptService;
 import com.drogueria.service.DeliveryNoteService;
+import com.drogueria.util.StringUtility;
 
 @Service
 public class OutputFakeDeliveryNoteSheetPrinter {
@@ -31,17 +31,18 @@ public class OutputFakeDeliveryNoteSheetPrinter {
 		Date date = new Date();
 
 		List<OutputDetail> outputDetails = output.getOutputDetails();
-		Integer conceptId = output.getAgreement().getDeliveryNoteConcept().getId();
+		Integer conceptId = output.getConcept().getId();
 		Concept concept = this.conceptService.getAndUpdateDeliveryNote(conceptId, 1);
-		Integer deliveryNoteNumber = concept.getLastDeliveryNoteNumber() + 1;
+		Integer deliveryNoteNumber = concept.getDeliveryNoteEnumerator().getLastDeliveryNoteNumber() + 1;
 
 		// Hago el corte de remitos por la cantidad items por pagina que se indique por parametro.
 
 		DeliveryNote deliveryNote = new DeliveryNote();
 		List<DeliveryNoteDetail> deliveryNoteDetails = new ArrayList<DeliveryNoteDetail>();
-        String deliveryNoteComplete = concept.getDeliveryNotePOS() + "-" + StringUtility.addLeadingZeros(deliveryNoteNumber, 8);
-        deliveryNote.setNumber(deliveryNoteComplete);
-        for (OutputDetail outputDetail : outputDetails) {
+		String deliveryNoteComplete = StringUtility.addLeadingZeros(concept.getDeliveryNoteEnumerator().getDeliveryNotePOS(), 4) + "-"
+				+ StringUtility.addLeadingZeros(deliveryNoteNumber, 8);
+		deliveryNote.setNumber(deliveryNoteComplete);
+		for (OutputDetail outputDetail : outputDetails) {
 
 			DeliveryNoteDetail deliveryNoteDetail = new DeliveryNoteDetail();
 			deliveryNoteDetail.setOutputDetail(outputDetail);

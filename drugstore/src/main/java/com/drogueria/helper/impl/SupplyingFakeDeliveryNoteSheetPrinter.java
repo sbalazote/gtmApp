@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.drogueria.util.StringUtility;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +16,7 @@ import com.drogueria.model.SupplyingDetail;
 import com.drogueria.service.ConceptService;
 import com.drogueria.service.DeliveryNoteService;
 import com.drogueria.service.PropertyService;
+import com.drogueria.util.StringUtility;
 
 @Service
 public class SupplyingFakeDeliveryNoteSheetPrinter {
@@ -28,23 +28,24 @@ public class SupplyingFakeDeliveryNoteSheetPrinter {
 	@Autowired
 	private ConceptService conceptService;
 	@Autowired
-	private PropertyService PropertyService;
+	private PropertyService propertyService;
 
 	public Integer print(Supplying supplying) {
 		Date date = new Date();
 
 		List<SupplyingDetail> supplyingDetails = supplying.getSupplyingDetails();
-		Integer conceptId = supplying.getAgreement().getDeliveryNoteConcept().getId();
+		Integer conceptId = this.propertyService.get().getSupplyingConcept().getId();
 		Concept concept = this.conceptService.getAndUpdateDeliveryNote(conceptId, 1);
-		Integer deliveryNoteNumber = concept.getLastDeliveryNoteNumber() + 1;
+		Integer deliveryNoteNumber = concept.getDeliveryNoteEnumerator().getLastDeliveryNoteNumber() + 1;
 
 		// Hago el corte de remitos por la cantidad items por pagina que se indique por parametro.
 
 		DeliveryNote deliveryNote = new DeliveryNote();
 		List<DeliveryNoteDetail> deliveryNoteDetails = new ArrayList<DeliveryNoteDetail>();
-        String deliveryNoteComplete = concept.getDeliveryNotePOS() + "-" + StringUtility.addLeadingZeros(deliveryNoteNumber, 8);
-        deliveryNote.setNumber(deliveryNoteComplete);
-        for (SupplyingDetail supplyingDetail : supplyingDetails) {
+		String deliveryNoteComplete = StringUtility.addLeadingZeros(concept.getDeliveryNoteEnumerator().getDeliveryNotePOS(), 4) + "-"
+				+ StringUtility.addLeadingZeros(deliveryNoteNumber, 8);
+		deliveryNote.setNumber(deliveryNoteComplete);
+		for (SupplyingDetail supplyingDetail : supplyingDetails) {
 
 			DeliveryNoteDetail deliveryNoteDetail = new DeliveryNoteDetail();
 			deliveryNoteDetail.setSupplyingDetail(supplyingDetail);
@@ -52,7 +53,7 @@ public class SupplyingFakeDeliveryNoteSheetPrinter {
 		}
 		deliveryNote.setDeliveryNoteDetails(deliveryNoteDetails);
 		try {
-			if (supplying.hasProductThatInform() && this.PropertyService.get().getSupplyingConcept().isInformAnmat()) {
+			if (supplying.hasProductThatInform() && this.propertyService.get().getSupplyingConcept().isInformAnmat()) {
 				deliveryNote.setInformAnmat(true);
 			} else {
 				deliveryNote.setInformAnmat(false);

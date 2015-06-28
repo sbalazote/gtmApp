@@ -13,11 +13,8 @@ SaveConcept = function() {
 					required: true,
 					maxlength: 45,
 				},
-				deliveryNotePOS: {
+				deliveryNoteEnumerator: {
 					required: true,
-					digits: true,
-					maxlength: 4,
-					minlength: 4,
 				},
 				input: {
 					required: true
@@ -83,7 +80,7 @@ SaveConcept = function() {
 					"id": $("#idInput").val(),
 					"code": $("#codeInput").val(),
 					"description": $("#descriptionInput").val(),
-					"deliveryNotePOS": $("#deliveryNotePOSInput").val(),
+					"deliveryNoteEnumeratorId": $("#deliveryNoteEnumeratorSelect").val(),
 					"input": $("#inputSelect").val(),
 					"printDeliveryNote": $("#printDeliveryNoteSelect").val(),
 					"refund": $("#refundSelect").val(),

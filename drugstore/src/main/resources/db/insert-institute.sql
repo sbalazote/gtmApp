@@ -97,8 +97,10 @@ insert into provider_type (id, code, description, active) values (1, 1,'MEDICAME
 insert into provider_type (id, code, description, active) values (2, 2,'DESCARTABLES', true);
 insert into provider_type (id, code, description, active) values (3, 3,'EMBALAJES', true);
 
+insert into `delivery_note_enumerator` values (1,'0006','00000000',1,0); 
+
 INSERT INTO `concept` VALUES 
-(1,102,'MAN:INGRESO POR COMPRAS','0006','00000000',1,1,1,'\0',1,1,0);
+(1,102,'MAN:INGRESO POR COMPRAS',1,1,1,'\0',1,1,0,1);
 /*
 INSERT INTO `agreement` (id, code, description, order_label_filepath, delivery_note_filepath, picking_filepath, delivery_note_concept_id, destruction_concept_id, active) VALUES 
 (1,1,'ONCOMED','C:/ONCOMED/rotulo/','C:/ONCOMED/deliveryNotes/','C:/ONCOMED/pickingSheets/',23,31,1);

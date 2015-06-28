@@ -22,6 +22,7 @@ import com.drogueria.dto.EventDTO;
 import com.drogueria.model.Concept;
 import com.drogueria.model.Event;
 import com.drogueria.service.ConceptService;
+import com.drogueria.service.DeliveryNoteEnumeratorService;
 import com.drogueria.service.EventService;
 
 @Controller
@@ -33,6 +34,9 @@ public class ConceptAdministrationController {
 	@Autowired
 	private EventService eventService;
 
+	@Autowired
+	private DeliveryNoteEnumeratorService deliveryNoteEnumeratorService;
+
 	@RequestMapping(value = "/concepts", method = RequestMethod.POST)
 	public ModelAndView concepts() {
 		return new ModelAndView("concepts", "concepts", this.conceptService.getAll());
@@ -41,6 +45,7 @@ public class ConceptAdministrationController {
 	@RequestMapping(value = "/conceptAdministration", method = RequestMethod.GET)
 	public String conceptAdministration(ModelMap modelMap) throws Exception {
 		modelMap.put("events", this.eventService.getAll());
+		modelMap.put("deliveryNoteEnumerators", this.deliveryNoteEnumeratorService.getAll());
 		return "conceptAdministration";
 	}
 
@@ -57,13 +62,10 @@ public class ConceptAdministrationController {
 
 		if (conceptDTO.getId() != null) {
 			concept.setId(conceptDTO.getId());
-			concept.setLastDeliveryNoteNumber(this.conceptService.get(conceptDTO.getId()).getLastDeliveryNoteNumber());
-		} else {
-			concept.setLastDeliveryNoteNumber(new Integer(0));
 		}
 		concept.setCode(conceptDTO.getCode());
 		concept.setDescription(conceptDTO.getDescription());
-		concept.setDeliveryNotePOS(conceptDTO.getDeliveryNotePOS());
+		concept.setDeliveryNoteEnumerator(this.deliveryNoteEnumeratorService.get(conceptDTO.getDeliveryNoteEnumeratorId()));
 		concept.setInput(conceptDTO.isInput());
 		concept.setPrintDeliveryNote(conceptDTO.isPrintDeliveryNote());
 		concept.setRefund(conceptDTO.isRefund());
@@ -175,7 +177,7 @@ public class ConceptAdministrationController {
 			dataJson.put("id", concept.getId());
 			dataJson.put("code", concept.getCode());
 			dataJson.put("description", concept.getDescription());
-			dataJson.put("deliveryNotePOS", concept.getDeliveryNotePOS());
+			dataJson.put("deliveryNotePOS", concept.getDeliveryNoteEnumerator().getDeliveryNotePOS());
 			dataJson.put("isClient", concept.isClient() == true ? "Si" : "No");
 			dataJson.put("isPrintDeliveryNote", concept.isPrintDeliveryNote() == true ? "Si" : "No");
 			dataJson.put("deliveryNoteCopies", concept.getDeliveryNoteCopies());

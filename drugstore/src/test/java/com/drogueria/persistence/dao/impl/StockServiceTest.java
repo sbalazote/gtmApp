@@ -68,13 +68,11 @@ public class StockServiceTest {
 		this.concept.setCode(1);
 		this.concept.setActive(true);
 		this.concept.setDeliveryNoteCopies(1);
-		this.concept.setDeliveryNotePOS("");
 		this.concept.setDescription("Test Concept");
 		this.concept.setClient(true);
 		this.concept.setEvents(null);
 		this.concept.setInformAnmat(true);
 		this.concept.setInput(true);
-		this.concept.setLastDeliveryNoteNumber(1);
 		this.concept.setPrintDeliveryNote(false);
 		this.concept.setRefund(true);
 		this.concept.setId(1);

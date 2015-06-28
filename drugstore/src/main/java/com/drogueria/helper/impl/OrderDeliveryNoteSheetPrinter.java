@@ -24,8 +24,8 @@ import com.drogueria.model.ProvisioningRequest;
 import com.drogueria.model.ProvisioningRequestState;
 import com.drogueria.service.ConceptService;
 import com.drogueria.service.DeliveryNoteService;
-import com.drogueria.service.PropertyService;
 import com.drogueria.service.OrderService;
+import com.drogueria.service.PropertyService;
 import com.drogueria.service.ProvisioningRequestService;
 import com.drogueria.service.ProvisioningRequestStateService;
 import com.drogueria.util.StringUtility;
@@ -74,7 +74,7 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 			Concept concept = this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
 			DeliveryNoteConfigFile deliveryNoteConfigFile = new DeliveryNoteConfigFile(provisioningRequest.getAgreement().getDeliveryNoteFilepath());
 			String drugstoreGln = this.PropertyService.get().getGln();
-			Integer deliveryNoteNumber = concept.getLastDeliveryNoteNumber() - deliveryNoteNumbersRequired + 1;
+			Integer deliveryNoteNumber = concept.getDeliveryNoteEnumerator().getLastDeliveryNoteNumber() - deliveryNoteNumbersRequired + 1;
 
 			// Hago el corte de remitos por la cantidad items por pagina que se indique por parametro.
 
@@ -82,7 +82,8 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 			int idx = 0;
 			while (remaining > 0) {
 				DeliveryNote deliveryNote = new DeliveryNote();
-                String deliveryNoteComplete = concept.getDeliveryNotePOS() + "-" + StringUtility.addLeadingZeros(deliveryNoteNumber, 8);
+				String deliveryNoteComplete = StringUtility.addLeadingZeros(concept.getDeliveryNoteEnumerator().getDeliveryNotePOS(), 4) + "-"
+						+ StringUtility.addLeadingZeros(deliveryNoteNumber, 8);
 				deliveryNote.setNumber(deliveryNoteComplete);
 
 				List<DeliveryNoteDetail> deliveryNoteDetails = new ArrayList<DeliveryNoteDetail>();
@@ -140,16 +141,16 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 	private void generateDeliveryNoteSheet(ProvisioningRequest provisioningRequest, Integer deliveryNoteNumber, DeliveryNoteConfigFile deliveryNoteConfigFile,
 			String pdfPath, String drugstoreGln, List<OrderDetail> orderDetails) {
 		try {
-			/*PdfReader reader = new PdfReader(pdfPath + "Estimate_035931_blank.pdf");
-			PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream(pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf"));*/
+			/* PdfReader reader = new PdfReader(pdfPath + "Estimate_035931_blank.pdf"); PdfStamper pdfStamper = new PdfStamper(reader, new
+			 * FileOutputStream(pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf")); */
 
 			Document document = new Document(PageSize.A4);
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf"));
 			document.addAuthor("REMITO-" + deliveryNoteNumber);
 			document.addTitle("LS&T Solutions");
 			document.open();
-			
-			//PdfContentByte overContent = pdfStamper.getOverContent(1);
+
+			// PdfContentByte overContent = pdfStamper.getOverContent(1);
 			PdfContentByte overContent = writer.getDirectContent();
 
 			BaseFont bf = BaseFont.createFont(BaseFont.TIMES_BOLD, BaseFont.WINANSI, false);
@@ -282,7 +283,7 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 			overContent.endText();
 			overContent.restoreState();
 
-			//pdfStamper.close();
+			// pdfStamper.close();
 			document.close();
 
 			// TODO obtener IP desde el concepto o drugstore property, el archivo se guardaria en una carpeta del servidor.

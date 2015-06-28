@@ -77,12 +77,19 @@ CREATE TABLE `drugstore`.`provider_type` (
   UNIQUE KEY `code_UNIQUE` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `drugstore`.`delivery_note_enumerator` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `deliveryNotePOS` int(11) NOT NULL,
+  `lastDeliveryNoteNumber`  int(11) NOT NULL,
+  `active` bit(1) NOT NULL,
+  `fake` bit(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `drugstore`.`concept` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(45) NOT NULL,
-  `delivery_note_POS` varchar(30) NOT NULL,
-  `last_delivery_note_number` int(7) NOT NULL,
   `input` bit(1) NOT NULL,
   `print_delivery_note` bit(1) NOT NULL,
   `delivery_note_copies` int(11) NOT NULL DEFAULT '0',
@@ -90,8 +97,11 @@ CREATE TABLE `drugstore`.`concept` (
   `inform_anmat` bit(1) NOT NULL,
   `active` bit(1) NOT NULL,
   `client` bit(1) NOT NULL,
+  `delivery_note_enumerator_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `code_UNIQUE` (`code`)
+  UNIQUE KEY `code_UNIQUE` (`code`),
+  KEY `fk_concept_delivery_note_enumerator` (`delivery_note_enumerator_id`),
+  CONSTRAINT `fk_concept_delivery_note_enumerator` FOREIGN KEY (`delivery_note_enumerator_id`) REFERENCES `delivery_note_enumerator` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `drugstore`.`agreement` (
@@ -651,15 +661,6 @@ CREATE TABLE `drugstore`.`agreement_transfer_detail` (
   CONSTRAINT `fk_agreement_transfer_detail_agreement_transfer` FOREIGN KEY (`agreement_transfer_id`) REFERENCES `agreement_transfer` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_agreement_transfer_detail_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_agreement_transfer_detail_product_gtin` FOREIGN KEY (`gtin_id`) REFERENCES `product_gtin` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `drugstore`.`delivery_note_enumerator` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `deliveryNotePOS` int(11) NOT NULL,
-  `lastDeliveryNoteNumber`  int(11) NOT NULL,
-  `active` bit(1) NOT NULL,
-  `fake` bit(1) NOT NULL,
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 COMMIT;

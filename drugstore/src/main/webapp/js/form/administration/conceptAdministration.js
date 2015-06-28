@@ -6,7 +6,7 @@ $(document).ready(function() {
 		$("#idInput").val('');
 		$("#codeInput").val('');
 		$("#descriptionInput").val('');
-		$("#deliveryNotePOSInput").val('');
+		$("#deliveryNoteEnumeratorSelect").val($("#inputSelect option:first").val());
 		$("#inputSelect").val($("#inputSelect option:first").val());
 		$("#printDeliveryNoteSelect").val($("#printDeliveryNoteSelect option:first").val());
 		$("#refundSelect").val($("#refundSelect option:first").val());
@@ -52,7 +52,6 @@ $(document).ready(function() {
 				$("#idInput").val(response.id);
 				$("#codeInput").val(response.code);
 				$("#descriptionInput").val(response.description);
-				$("#deliveryNotePOSInput").val(response.deliveryNotePOS);
 				var isInput = (response.input) ? "true" : "false";
 				$("#inputSelect").val(isInput).trigger('chosen:update');
 				var isPrintDeliveryNote = (response.printDeliveryNote) ? "true" : "false";
@@ -67,6 +66,8 @@ $(document).ready(function() {
 				var isClient = (response.client) ? "true" : "false";
 				$("#clientSelect").val(isClient).trigger('chosen:update');
 				getEvents();
+				getDeliveryNoteEnumeratos();
+				$("#deliveryNoteEnumeratorSelect").val(response.deliveryNoteEnumerator.deliveryNotePOS).trigger('chosen:update');
 				$.each(response.events, function (idx, value) {
 					$('#my-select').multiSelect('select', value.id.toString());
 				});
@@ -96,6 +97,34 @@ $(document).ready(function() {
 			}
 		});
 	};
+	
+	var getDeliveryNoteEnumeratos = function() {
+		var fake;
+		if($("#printDeliveryNoteSelect").val() == "true"){
+			fake = false;
+		}else{
+			fake = true;
+		}
+		$.ajax({
+			url: "getDeliveryNoteEnumerators.do",
+			type: "GET",
+			data: {
+				fake: fake
+			},
+			async: false,
+			success: function(response) {
+				$('#deliveryNoteEnumeratorSelect').empty();
+				for(var i = response.length-1; i >= 0 ; i--){
+					var enumerator = response[i];
+					$('#deliveryNoteEnumeratorSelect').append('<option value="'+ enumerator.id + ' ">' + enumerator.deliveryNotePOS +'</option>');
+				}
+				$('#deliveryNoteEnumeratorSelect').trigger('chosen:updated');
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myGenericError();
+			}
+		});
+	};
 
     $('#my-select').multiSelect({
         afterSelect: function(value, text){
@@ -114,11 +143,15 @@ $(document).ready(function() {
         $('#my-select').multiSelect('deselect_all');
         getEvents();
     });
-
+    
+    $('#printDeliveryNoteSelect').on('change', function(evt, params) {
+    	getDeliveryNoteEnumeratos();
+    });
+    
 	var toggleElements = function(hidden) {
 		$("#codeInput").attr('disabled', hidden);
 		$("#descriptionInput").attr('disabled', hidden);
-		$("#deliveryNotePOSInput").attr('disabled', hidden);
+		$("#deliveryNoteEnumeratorSelect").prop('disabled', hidden).trigger('chosen:update');
 		$("#inputSelect").prop('disabled', hidden).trigger('chosen:update');
 		$("#printDeliveryNoteSelect").prop('disabled', hidden).trigger('chosen:update');
 		$("#refundSelect").prop('disabled', hidden).trigger('chosen:update');
@@ -140,6 +173,7 @@ $(document).ready(function() {
 		$('#readConceptLabel').hide();
 		$('#updateConceptLabel').hide();
 		getEvents();
+    	getDeliveryNoteEnumeratos();
 		$('#conceptModal').modal('show');
 	});
 	
@@ -205,11 +239,8 @@ $(document).ready(function() {
                     required: true,
                     maxlength: 45,
                 },
-                deliveryNotePOS: {
+                deliveryNoteEnumerator: {
                     required: true,
-                    digits: true,
-                    maxlength: 4,
-                    minlength: 4,
                 },
                 input: {
                     required: true
@@ -275,7 +306,7 @@ $(document).ready(function() {
                 "id": $("#idInput").val(),
                 "code": $("#codeInput").val(),
                 "description": $("#descriptionInput").val(),
-                "deliveryNotePOS": $("#deliveryNotePOSInput").val(),
+                "deliveryNoteEnumeratorId": $("#deliveryNoteEnumeratorSelect").val(),
                 "input": $("#inputSelect").val(),
                 "printDeliveryNote": $("#printDeliveryNoteSelect").val(),
                 "refund": $("#refundSelect").val(),
