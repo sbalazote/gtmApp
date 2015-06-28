@@ -67,7 +67,7 @@ $(document).ready(function() {
 				$("#clientSelect").val(isClient).trigger('chosen:update');
 				getEvents();
 				getDeliveryNoteEnumeratos();
-				$("#deliveryNoteEnumeratorSelect").val(response.deliveryNoteEnumerator.deliveryNotePOS).trigger('chosen:update');
+				$("#deliveryNoteEnumeratorSelect").val(response.deliveryNoteEnumerator.id).trigger('chosen:update');
 				$.each(response.events, function (idx, value) {
 					$('#my-select').multiSelect('select', value.id.toString());
 				});
@@ -116,7 +116,8 @@ $(document).ready(function() {
 				$('#deliveryNoteEnumeratorSelect').empty();
 				for(var i = response.length-1; i >= 0 ; i--){
 					var enumerator = response[i];
-					$('#deliveryNoteEnumeratorSelect').append('<option value="'+ enumerator.id + ' ">' + enumerator.deliveryNotePOS +'</option>');
+					var deliveryNotePOS = addLeadingZeros(enumerator.deliveryNotePOS, 4);
+					$('#deliveryNoteEnumeratorSelect').append('<option value='+ enumerator.id + '>' + deliveryNotePOS +'</option>');
 				}
 				$('#deliveryNoteEnumeratorSelect').trigger('chosen:updated');
 			},

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.drogueria.dto.DeliveryNoteEnumeratorDTO;
 import com.drogueria.model.DeliveryNoteEnumerator;
 import com.drogueria.service.DeliveryNoteEnumeratorService;
+import com.drogueria.util.StringUtility;
 
 @Controller
 public class DeliveryNoteEnumeratorController {
@@ -101,14 +102,15 @@ public class DeliveryNoteEnumeratorController {
 			}
 		}
 
-		for (DeliveryNoteEnumerator agent : deliveryNoteEnumerators) {
+		for (DeliveryNoteEnumerator enumerator : deliveryNoteEnumerators) {
 			JSONObject dataJson = new JSONObject();
 
-			dataJson.put("id", agent.getId());
-			dataJson.put("deliveryNotePOS", agent.getDeliveryNotePOS());
-			dataJson.put("lastDeliveryNoteNumber", agent.getLastDeliveryNoteNumber());
-			dataJson.put("isActive", agent.isActive() == true ? "Si" : "No");
-			dataJson.put("isFake", agent.isFake() == true ? "Si" : "No");
+			dataJson.put("id", enumerator.getId());
+			String deliveryNoteEnumerator = StringUtility.addLeadingZeros(enumerator.getDeliveryNotePOS(), 4);
+			dataJson.put("deliveryNotePOS", deliveryNoteEnumerator);
+			dataJson.put("lastDeliveryNoteNumber", enumerator.getLastDeliveryNoteNumber());
+			dataJson.put("isActive", enumerator.isActive() == true ? "Si" : "No");
+			dataJson.put("isFake", enumerator.isFake() == true ? "Si" : "No");
 			jsonArray.put(dataJson);
 		}
 

@@ -24,6 +24,7 @@ import com.drogueria.model.Event;
 import com.drogueria.service.ConceptService;
 import com.drogueria.service.DeliveryNoteEnumeratorService;
 import com.drogueria.service.EventService;
+import com.drogueria.util.StringUtility;
 
 @Controller
 public class ConceptAdministrationController {
@@ -177,7 +178,8 @@ public class ConceptAdministrationController {
 			dataJson.put("id", concept.getId());
 			dataJson.put("code", concept.getCode());
 			dataJson.put("description", concept.getDescription());
-			dataJson.put("deliveryNotePOS", concept.getDeliveryNoteEnumerator().getDeliveryNotePOS());
+			String deliveryNoteEnumerator = StringUtility.addLeadingZeros(concept.getDeliveryNoteEnumerator().getDeliveryNotePOS(), 4);
+			dataJson.put("deliveryNotePOS", deliveryNoteEnumerator);
 			dataJson.put("isClient", concept.isClient() == true ? "Si" : "No");
 			dataJson.put("isPrintDeliveryNote", concept.isPrintDeliveryNote() == true ? "Si" : "No");
 			dataJson.put("deliveryNoteCopies", concept.getDeliveryNoteCopies());
