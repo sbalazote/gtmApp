@@ -44,9 +44,14 @@ var Supplying = function() {
 	
 	$("#productInput").attr("disabled", true);
 
+    $("#affiliateDocumentTypeSelect").chosen(
+            {
+                width: '100%' /* desired width */
+            });
 	var cleanAddAffiliateModal = function() {
 		$("#addAffiliateModal input").val("");
 		$("#addAffiliateModal select").val("");
+		$('#affiliateDocumentTypeSelect').val($("#affiliateDocumentTypeSelect option:first").val());
 		myResetForm($("#addAffiliateModalForm")[0],
 				addAffiliateModalFormValidator);
 	};
@@ -192,6 +197,7 @@ var Supplying = function() {
 		if (e.keyCode === 121) {
 			cleanAddAffiliateModal();
 			$("#affiliateClientInput").val($("#clientInput option:selected").html());
+			$("#affiliateInput").select2("close");
 			$('#addAffiliateModal').modal('show');
 		}
 	});
@@ -289,7 +295,7 @@ var Supplying = function() {
 			});
 	    }
 	});
-
+/*
 	$("#affiliateDocumentTypeInput").autocomplete({
 		source : [ "DNI", "LC", "LE" ],
 		minLength : 0,
@@ -298,6 +304,8 @@ var Supplying = function() {
 	}).focus(function() {
 		$(this).autocomplete("search", $("#affiliateDocumentTypeInput").val());
 	});
+	
+	*/
 
 	$('#amountModal').on('shown.bs.modal', function() {
 		$('#productAmountInput').focus();
@@ -779,7 +787,7 @@ var Supplying = function() {
 					"code" : $("#affiliateCodeInput").val(),
 					"name" : $("#affiliateNameInput").val(),
 					"surname" : $("#affiliateSurnameInput").val(),
-					"documentType" : $("#affiliateDocumentTypeInput").val(),
+					"documentType" : $("#affiliateDocumentTypeSelect option:selected").val(),
 					"document" : $("#affiliateDocumentInput").val(),
 					"clientId" : $("#clientInput").val(),
 					"active" : true
