@@ -212,4 +212,10 @@ public class InputDAOHibernateImpl implements InputDAO {
 
 		return results;
 	}
+
+	public boolean isConceptInUse(Integer conceptId){
+		Query query = this.sessionFactory.getCurrentSession().createQuery("from Input where concept.id = :conceptId");
+        query.setParameter("conceptId", conceptId);
+        return !query.list().isEmpty();
+	}
 }

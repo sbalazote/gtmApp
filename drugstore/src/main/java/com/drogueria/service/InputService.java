@@ -41,7 +41,9 @@ public interface InputService {
 
 	List<Input> getCancelables(InputQuery inputQuery);
 
-	public void sendAsyncTransaction(Input input) throws Exception;
+	void sendAsyncTransaction(Input input) throws Exception;
 
 	Input authorizeWithoutInform(InputDTO inputDTO, String name);
+
+	boolean isConceptInUse(Integer conceptId);
 }

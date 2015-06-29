@@ -28,4 +28,6 @@ public interface InputDAO {
 	List<Input> getInputs(boolean cancelled);
 
 	List<Input> getCancelables(InputQuery inputQuery);
+
+	boolean isConceptInUse(Integer conceptId);
 }

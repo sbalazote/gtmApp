@@ -65,4 +65,9 @@ public class AgreementServiceImpl implements AgreementService {
 	public Long getTotalNumber() {
 		return this.agreementDAO.getTotalNumber();
 	}
+
+	@Override
+	public boolean isConceptInUse(Integer conceptId){
+		return this.agreementDAO.isConceptInUse(conceptId);
+	}
 }

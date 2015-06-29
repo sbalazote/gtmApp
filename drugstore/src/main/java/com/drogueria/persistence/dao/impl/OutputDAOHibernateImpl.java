@@ -103,21 +103,6 @@ public class OutputDAOHibernateImpl implements OutputDAO {
 		}
 	}
 
-	@Override
-	public boolean existSerial(Integer productId, String serial) {
-		try {
-			Query query = this.sessionFactory
-					.getCurrentSession()
-					.createQuery(
-							"from Output as o inner join o.outputDetails as od where o.cancelled = false and od.serialNumber = :serialNumber and od.product.id = :productId ");
-			query.setParameter("serialNumber", serial);
-			query.setParameter("productId", productId);
-			return !query.list().isEmpty();
-		} catch (IndexOutOfBoundsException e) {
-			return true;
-		}
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Output> getCancelleables() {
@@ -132,14 +117,9 @@ public class OutputDAOHibernateImpl implements OutputDAO {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public List<Integer> getAllHasToPrint() {
-		Query query;
-
-		query = this.sessionFactory
-				.getCurrentSession()
-				.createSQLQuery(
-						"select o.id from output as o, concept as c where not exists (select * from output_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.output_detail_id and dn.id = dnd.delivery_note_id and o.id = od.output_id and dn.cancelled = 0) and o.cancelled = 0 and o.concept_id = c.id and c.print_delivery_note = false");
-		return query.list();
+	public boolean isConceptInUse(Integer conceptId){
+		Query query = this.sessionFactory.getCurrentSession().createQuery("from Output where concept.id = :conceptId");
+		query.setParameter("conceptId", conceptId);
+		return !query.list().isEmpty();
 	}
 }

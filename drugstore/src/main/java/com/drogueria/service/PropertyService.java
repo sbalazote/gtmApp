@@ -10,4 +10,5 @@ public interface PropertyService {
 
 	Property getAndUpdateSelfSerializedTag(Integer amount);
 
+	boolean isConceptInUse(Integer conceptId);
 }

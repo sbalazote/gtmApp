@@ -98,6 +98,12 @@ public class ConceptAdministrationController {
 		return concept;
 	}
 
+	@RequestMapping(value = "/isConceptInUse", method = RequestMethod.GET)
+	public @ResponseBody
+	boolean isConceptInUse(ModelMap modelMap, @RequestParam Integer conceptId) throws Exception {
+		return this.conceptService.isAlreadyInUse(conceptId);
+	}
+
 	private List<EventDTO> getSelectedEvents(Concept concept) {
 		List<Event> selectedEvents = concept.getEvents();
 		List<Event> allEvents = this.eventService.getAll();

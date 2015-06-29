@@ -65,6 +65,7 @@
 						<h2 id="addConceptLabel" style="display: none;"><spring:message code="common.concept"/></h2>
 						<h2 id="readConceptLabel" style="display: none;"><spring:message code="administration.readConcept"/></h2>
 						<h2 id="updateConceptLabel" style="display: none;"><spring:message code="administration.updateConcept"/></h2>
+						<h5 id="conceptAlreadyInUseLabel" style="display: none;color: blue; font-weight: bold"><spring:message code="administration.concept.alreadyInUse"/></h5>
 						<input type="hidden" class="form-control" id="idInput">
 					</div>
 				</div>

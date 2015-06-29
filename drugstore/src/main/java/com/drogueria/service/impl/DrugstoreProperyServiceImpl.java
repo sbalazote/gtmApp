@@ -36,4 +36,17 @@ public class DrugstoreProperyServiceImpl implements PropertyService {
 		return Property;
 	}
 
+	public boolean isConceptInUse(Integer conceptId){
+		Property property = this.get();
+		boolean isUseAsStartTraceConcept = false;
+		boolean isUseAsSupplyingConcept= false;
+		if(property.getStartTraceConcept() != null){
+			isUseAsStartTraceConcept = (conceptId == property.getStartTraceConcept().getId());
+		}
+		if(property.getSupplyingConcept() != null){
+			isUseAsSupplyingConcept = (conceptId == property.getSupplyingConcept().getId());
+		}
+		return (isUseAsStartTraceConcept || isUseAsSupplyingConcept);
+	}
+
 }

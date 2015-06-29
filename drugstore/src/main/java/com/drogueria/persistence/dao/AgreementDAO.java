@@ -23,4 +23,6 @@ public interface AgreementDAO {
 	List<Agreement> getPaginated(int start, int length);
 
 	Long getTotalNumber();
+
+	boolean isConceptInUse(Integer conceptId);
 }

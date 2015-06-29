@@ -2,6 +2,7 @@ $(document).ready(function() {
 	
 	var conceptId;
 	var events = [];
+    var conceptInUse;
 	var resetForm = function() {
 		$("#idInput").val('');
 		$("#codeInput").val('');
@@ -73,6 +74,25 @@ $(document).ready(function() {
 				$.each(response.events, function (idx, value) {
 					$('#my-select').multiSelect('select', value.id.toString());
 				});
+
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myDeleteError();
+			}
+		});
+	};
+
+
+	var isConceptInUse = function(conceptId) {
+		$.ajax({
+			url: "isConceptInUse.do",
+			type: "GET",
+			data: {
+				conceptId: conceptId
+			},
+			async: false,
+			success: function(response) {
+                conceptInUse = response;
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myDeleteError();
@@ -200,6 +220,14 @@ $(document).ready(function() {
 			resetForm();
 			toggleElements(false);
 			readConcept($(this).data("row-id"));
+            conceptInUse = false;
+            isConceptInUse($(this).data("row-id"));
+            if(conceptInUse == true){
+                toggleElementsForInUseConcept(true);
+                $('#conceptAlreadyInUseLabel').show();
+            }else{
+                $('#conceptAlreadyInUseLabel').hide();
+            }
 			$('#addButton').hide();
 			$('#updateButton').show();
 			$('#addConceptLabel').hide();
@@ -221,13 +249,23 @@ $(document).ready(function() {
 			$('#conceptModal').modal('show');
 		});
 	});
-	
+
 	var exportHTML = exportTableHTML("./rest/concepts");
 	$(".search").before(exportHTML);
 	
 	$("#deleteEntityButton").click(function() {
 		deleteConcept(conceptId);
 	});
+
+
+    var toggleElementsForInUseConcept = function(hidden) {
+        $("#codeInput").attr('disabled', hidden);
+        $("#deliveryNoteEnumeratorSelect").prop('disabled', hidden).trigger('chosen:update');
+        $("#inputSelect").prop('disabled', hidden).trigger('chosen:update');
+        $("#printDeliveryNoteSelect").prop('disabled', hidden).trigger('chosen:update');
+        $("#refundSelect").prop('disabled', hidden).trigger('chosen:update');
+        $("#informAnmatSelect").prop('disabled', hidden).trigger('chosen:update');
+    };
 
     var validateForm = function() {
         var form = $("#conceptAdministrationForm");

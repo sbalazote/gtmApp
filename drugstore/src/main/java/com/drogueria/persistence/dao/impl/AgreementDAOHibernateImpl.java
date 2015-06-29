@@ -93,4 +93,15 @@ public class AgreementDAOHibernateImpl implements AgreementDAO {
 		Long count = (Long) this.sessionFactory.getCurrentSession().createQuery("select count(*) from Agreement").uniqueResult();
 		return count;
 	}
+	@Override
+	public boolean isConceptInUse(Integer conceptId){
+        boolean isUseAsDeliveryNoteConcept = false;
+        boolean isUseAsDestructionConcept = false;
+		Query query = this.sessionFactory.getCurrentSession().createQuery("from Agreement where deliveryNoteConcept.id = :conceptId");
+		query.setParameter("conceptId", conceptId);
+        isUseAsDestructionConcept = !query.list().isEmpty();
+        query = this.sessionFactory.getCurrentSession().createQuery("from Agreement where destructionConcept.id = :conceptId");
+        query.setParameter("conceptId", conceptId);
+        return (isUseAsDeliveryNoteConcept || isUseAsDestructionConcept);
+	}
 }

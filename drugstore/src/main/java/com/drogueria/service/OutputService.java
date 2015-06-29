@@ -18,15 +18,13 @@ public interface OutputService {
 
 	boolean getCountOutputSearch(OutputQuery outputQuery);
 
-	boolean existSerial(Integer productId, String serial);
-
 	List<Output> getCancelleables();
-
-	public List<Integer> getAllHasToPrint();
 
 	void addOutputToStock(Output output);
 
 	void save(Output output);
 
 	void cancel(Output output);
+
+	boolean isConceptInUse(Integer conceptId);
 }

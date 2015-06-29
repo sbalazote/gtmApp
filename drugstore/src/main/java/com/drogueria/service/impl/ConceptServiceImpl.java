@@ -2,6 +2,7 @@ package com.drogueria.service.impl;
 
 import java.util.List;
 
+import com.drogueria.service.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.drogueria.model.Concept;
 import com.drogueria.persistence.dao.ConceptDAO;
-import com.drogueria.service.ConceptService;
 
 @Service
 @Transactional
@@ -19,6 +19,18 @@ public class ConceptServiceImpl implements ConceptService {
 
 	@Autowired
 	private ConceptDAO conceptDAO;
+
+    @Autowired
+    private InputService inputService;
+
+    @Autowired
+    private OutputService outputService;
+
+    @Autowired
+    private AgreementService agreementService;
+
+    @Autowired
+    private PropertyService propertyService;
 
 	@Override
 	public void save(Concept concept) {
@@ -80,4 +92,21 @@ public class ConceptServiceImpl implements ConceptService {
 		this.conceptDAO.save(concept);
 		return concept;
 	}
+
+	@Override
+    public boolean isAlreadyInUse(Integer conceptId){
+        boolean toReturn;
+
+        boolean inUseOnInput = inputService.isConceptInUse(conceptId);
+
+        boolean isUseOnAgreements = agreementService.isConceptInUse(conceptId);
+
+        boolean isUseOnOutput = outputService.isConceptInUse(conceptId);
+
+        boolean isUseOnProperty = propertyService.isConceptInUse(conceptId);
+
+        toReturn =(inUseOnInput || isUseOnAgreements || isUseOnOutput || isUseOnProperty);
+
+        return toReturn;
+    }
 }

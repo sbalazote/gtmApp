@@ -54,7 +54,7 @@ public class OutputServiceImpl implements OutputService {
 	public Output save(OutputDTO outputDTO) {
 		Output output = this.buildInput(outputDTO);
 		this.outputDAO.save(output);
-		logger.info("Se ha generado exitosamente el Egreso de Mercadería número: " + output.getId());
+		logger.info("Se ha generado exitosamente el Egreso de Mercaderï¿½a nï¿½mero: " + output.getId());
 
 		return output;
 	}
@@ -182,20 +182,12 @@ public class OutputServiceImpl implements OutputService {
 		this.stockService.addToStock(stock);
 	}
 
-	@Override
-	public boolean existSerial(Integer productId, String serial) {
-		return this.outputDAO.existSerial(productId, serial);
-	}
 
 	@Override
 	public List<Output> getCancelleables() {
 		return this.outputDAO.getCancelleables();
 	}
 
-	@Override
-	public List<Integer> getAllHasToPrint() {
-		return this.outputDAO.getAllHasToPrint();
-	}
 
 	@Override
 	public void addOutputToStock(Output output) {
@@ -209,4 +201,8 @@ public class OutputServiceImpl implements OutputService {
 		this.outputDAO.save(output);
 	}
 
+	@Override
+	public boolean isConceptInUse(Integer conceptId){
+		return this.outputDAO.isConceptInUse(conceptId);
+	}
 }

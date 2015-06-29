@@ -17,11 +17,7 @@ public interface OutputDAO {
 
 	boolean getCountOutputSearch(OutputQuery outputQuery);
 
-	boolean existSerial(Integer productId, String serial);
-
 	List<Output> getCancelleables();
 
-	public List<Integer> getAllHasToPrint();
-
-	// List<Output> getPendings();
+	boolean isConceptInUse(Integer conceptId);
 }

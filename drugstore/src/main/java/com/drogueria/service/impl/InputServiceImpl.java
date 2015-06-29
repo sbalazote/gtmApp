@@ -565,4 +565,9 @@ public class InputServiceImpl implements InputService {
         }
         return operationResult;
     }
+
+	@Override
+	public boolean isConceptInUse(Integer conceptId){
+		return this.inputDAO.isConceptInUse(conceptId);
+	}
 }
