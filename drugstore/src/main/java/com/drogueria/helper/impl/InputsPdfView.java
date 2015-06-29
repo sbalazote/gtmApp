@@ -78,7 +78,7 @@ public class InputsPdfView extends AbstractPdfView {
 			BaseFont bf_times = BaseFont.createFont(BaseFont.TIMES_ROMAN, "Cp1252", false);
 			// NOMBRE MEMBRETE
 			cb.beginText();
-			cb.setFontAndSize(bf_times, 11f);
+			cb.setFontAndSize(bf_times, 16f);
 			cb.setTextMatrix(40f * 2.8346f, 195f * 2.8346f);
 			cb.showText(name);
 			cb.endText();
@@ -107,6 +107,7 @@ public class InputsPdfView extends AbstractPdfView {
 			document.add(logo);
 
 			document.add(Chunk.NEWLINE);
+
 
 			LineSeparator ls = new LineSeparator();
 			document.add(new Chunk(ls));

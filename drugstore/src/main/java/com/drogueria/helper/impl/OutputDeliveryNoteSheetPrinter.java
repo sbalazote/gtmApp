@@ -68,7 +68,7 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 			int idx = 0;
 			while (remaining > 0) {
 				DeliveryNote deliveryNote = new DeliveryNote();
-				String deliveryNoteComplete = concept.getDeliveryNoteEnumerator().getDeliveryNotePOS() + "-"
+				String deliveryNoteComplete = StringUtility.addLeadingZeros(concept.getDeliveryNoteEnumerator().getDeliveryNotePOS(), 4) + "-"
 						+ StringUtility.addLeadingZeros(deliveryNoteNumber, 8);
 				deliveryNote.setNumber(deliveryNoteComplete);
 

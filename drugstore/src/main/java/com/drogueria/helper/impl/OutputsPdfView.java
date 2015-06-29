@@ -8,13 +8,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.drogueria.config.PropertyProvider;
 import com.drogueria.helper.AbstractPdfView;
 import com.drogueria.model.Output;
 import com.drogueria.model.OutputDetail;
-import com.lowagie.text.Chunk;
-import com.lowagie.text.Document;
-import com.lowagie.text.Font;
-import com.lowagie.text.pdf.PdfWriter;
+import com.drogueria.util.StringUtility;
+import com.lowagie.text.*;
+import com.lowagie.text.pdf.*;
+import com.lowagie.text.pdf.draw.LineSeparator;
 
 public class OutputsPdfView extends AbstractPdfView {
 
@@ -24,127 +25,140 @@ public class OutputsPdfView extends AbstractPdfView {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		@SuppressWarnings("unchecked")
 		List<Output> outputs = (List<Output>) model.get("outputs");
+		Map<Integer, List<String>> associatedOutputs = (Map<Integer, List<String>>) model.get("associatedOutputs"); ;
 
-		// Fonts
-		Font fontTitle = new Font(2, 14, Font.BOLD, Color.BLACK);
-		Font fontTag = new Font(2, 10, Font.BOLD, Color.WHITE);
+		// Fuentes
+		Font fontHeader = new Font(Font.TIMES_ROMAN, 11f, Font.NORMAL, Color.BLACK);
+		Font fontDetails = new Font(Font.TIMES_ROMAN, 8f, Font.NORMAL, Color.BLACK);
+		// Logo
+		String relativeWebPath = PropertyProvider.getInstance().getProp(PropertyProvider.LOGO);
+		String absoluteDiskPath = getServletContext().getRealPath(relativeWebPath.substring(1));
+		Image logo = Image.getInstance(absoluteDiskPath);
+		logo.scaleToFit(50f, 50f);
+		logo.setAbsolutePosition(10f * 2.8346f, 190f * 2.8346f);
+
+		String name = PropertyProvider.getInstance().getProp("name");
 
 		for (Output output : outputs) {
 
-			// 1.ID
-			document.add(new Chunk("ID: "));
-			Chunk id = new Chunk(output.getId().toString(), fontTitle);
-			document.add(id);
-			document.add(new Chunk(" "));
+			PdfPTable table = new PdfPTable(6); // 6 columnas
+			table.setWidthPercentage(95);
+			table.setSpacingBefore(10f);
 
-			// -- newline
-			document.add(Chunk.NEWLINE);
+			table.setSpacingAfter(10f);
+			float[] columnWidths = {2f, 4f, 3f, 2f, 3f, 1f};
 
-			// 2.CONCEPTO
-			document.add(new Chunk("CONCEPTO: "));
-			Chunk code = new Chunk(output.getConcept().getDescription(), fontTitle);
-			document.add(code);
-			document.add(new Chunk(" "));
+			table.setWidths(columnWidths);
 
-			// -- newline
-			document.add(Chunk.NEWLINE);
+			//Encabezado
 
-			// 3.CONVENIO
-			document.add(new Chunk("CONVENIO: "));
-			Chunk description = new Chunk(output.getAgreement().getDescription(), fontTitle);
-			document.add(description);
-			document.add(new Chunk(" "));
+			PdfPCell productCodeHeader = new PdfPCell(new Paragraph("GTIN."));
+			PdfPCell productDescriptionHeader = new PdfPCell(new Paragraph("Descripcion (Cod.)"));
+			PdfPCell productBatchHeader = new PdfPCell(new Paragraph("Lote"));
+			PdfPCell productExpirationDateHeader = new PdfPCell(new Paragraph("Vto."));
+			PdfPCell productSerialNumberHeader = new PdfPCell(new Paragraph("Serie"));
+			PdfPCell productAmountHeader = new PdfPCell(new Paragraph("Cant."));
 
-			// -- newline
-			document.add(Chunk.NEWLINE);
+			productCodeHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+			productCodeHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+			productDescriptionHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+			productBatchHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+			productExpirationDateHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+			productSerialNumberHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+			productAmountHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 
-			// 4.CLIENTE/PROVEEDOR
-			document.add(new Chunk("CLIENTE/PROVEEDOR: "));
-			Chunk active = new Chunk(output.getClientOrProviderDescription(), fontTitle);
-			document.add(active);
-			document.add(new Chunk(" "));
+			table.addCell(productCodeHeader);
+			table.addCell(productDescriptionHeader);
+			table.addCell(productBatchHeader);
+			table.addCell(productExpirationDateHeader);
+			table.addCell(productSerialNumberHeader);
+			table.addCell(productAmountHeader);
 
-			// -- newline
-			document.add(Chunk.NEWLINE);
+			// add text at an absolute position
+			PdfContentByte cb = writer.getDirectContent();
+			BaseFont bf_times = BaseFont.createFont(BaseFont.TIMES_ROMAN, "Cp1252", false);
+			// NOMBRE MEMBRETE
+			cb.beginText();
+			cb.setFontAndSize(bf_times, 16f);
+			cb.setTextMatrix(40f * 2.8346f, 195f * 2.8346f);
+			cb.showText(name);
+			cb.endText();
 
-			// 5.FECHA
-			document.add(new Chunk("FECHA: "));
-			Chunk date = new Chunk(dateFormatter.format(output.getDate()), fontTitle);
-			document.add(date);
-			document.add(new Chunk(" "));
+			// FECHA
+			cb.beginText();
+			cb.setFontAndSize(bf_times, 11f);
+			cb.setTextMatrix(230 * 2.8346f, 200 * 2.8346f);
+			cb.showText("Fecha: " + dateFormatter.format(output.getDate()));
+			cb.endText();
 
-			// -- newline
-			document.add(Chunk.NEWLINE);
+			// INGRESO NRO
+			cb.beginText();
+			cb.setTextMatrix(230 * 2.8346f, 195 * 2.8346f);
+			cb.showText("Egreso Nro.: " + StringUtility.addLeadingZeros(output.getId().toString(), 8));
+			cb.endText();
 
-			// 6.ANULADO
-			document.add(new Chunk("ANULADO: "));
-			Chunk cancelled = new Chunk(output.isCancelled() ? "SI" : "NO", fontTitle);
-			document.add(cancelled);
-			document.add(new Chunk(" "));
-
-			// -- newline
-			document.add(Chunk.NEWLINE);
-
-			for (OutputDetail outputDetail : output.getOutputDetails()) {
-				// 10.PRODUCTO
-				document.add(new Chunk("PRODUCTO: "));
-				Chunk product = new Chunk(outputDetail.getProduct().getCode() + " - " + outputDetail.getProduct().getDescription(), fontTitle);
-				document.add(product);
-				document.add(new Chunk(" "));
-
-				// -- newline
-				document.add(Chunk.NEWLINE);
-
-				// 11.GTIN
-				document.add(new Chunk("GTIN: "));
-				Chunk gtin = new Chunk(outputDetail.getGtin() != null ? outputDetail.getGtin().getNumber() : "", fontTitle);
-				document.add(gtin);
-				document.add(new Chunk(" "));
-
-				// -- newline
-				document.add(Chunk.NEWLINE);
-
-				// 12.NUMERO DE SERIE
-				document.add(new Chunk("NUMERO DE SERIE: "));
-				Chunk serialNumber = new Chunk(outputDetail.getSerialNumber() != null ? outputDetail.getSerialNumber() : "", fontTitle);
-				document.add(serialNumber);
-				document.add(new Chunk(" "));
-
-				// -- newline
-				document.add(Chunk.NEWLINE);
-
-				// 13.LOTE
-				document.add(new Chunk("LOTE: "));
-				Chunk batch = new Chunk(outputDetail.getBatch(), fontTitle);
-				document.add(batch);
-				document.add(new Chunk(" "));
-
-				// -- newline
-				document.add(Chunk.NEWLINE);
-
-				// 14.VTO
-				document.add(new Chunk("VTO: "));
-				Chunk expirateDate = new Chunk(dateFormatter.format(outputDetail.getExpirationDate()), fontTitle);
-				document.add(expirateDate);
-				document.add(new Chunk(" "));
-
-				// -- newline
-				document.add(Chunk.NEWLINE);
-
-				// 15.CANTIDAD
-				document.add(new Chunk("CANTIDAD: "));
-				Chunk amount = new Chunk(dateFormatter.format(outputDetail.getAmount()), fontTitle);
-				document.add(amount);
-				document.add(new Chunk(" "));
-
-				// -- newline
-				document.add(Chunk.NEWLINE);
+			// DOC. NRO
+			cb.beginText();
+			cb.setTextMatrix(230 * 2.8346f, 190 * 2.8346f);
+			List<String> outputDeliveryNotes = associatedOutputs.get(new Integer(output.getId()));
+			String dnNumbers = "";
+			for(String elem : outputDeliveryNotes){
+				System.out.println(elem);
+				dnNumbers = dnNumbers.concat("X" + elem).concat("\n");
 			}
 
-			// -- newline
+			cb.showText("Doc. Nro.: " + dnNumbers);
+			cb.endText();
+
+			document.add(logo);
+
 			document.add(Chunk.NEWLINE);
 
-		}
+			LineSeparator ls = new LineSeparator();
+			document.add(new Chunk(ls));
 
+			document.add(Chunk.NEWLINE);
+
+			document.add(new Chunk("Convenio: ", fontHeader));
+			Chunk description = new Chunk(output.getAgreement().getCode() + " - " + output.getAgreement().getDescription(), fontHeader);
+			document.add(description);
+			document.add(Chunk.NEWLINE);
+
+			document.add(new Chunk("Cliente/Proveedor: ", fontHeader));
+			Chunk active = new Chunk(output.getClientOrProviderDescription(), fontHeader);
+			document.add(active);
+			document.add(Chunk.NEWLINE);
+
+			document.add(new Chunk("Concepto: ", fontHeader));
+			Chunk code = new Chunk(output.getConcept().getCode() + " - " + output.getConcept().getDescription(), fontHeader);
+			document.add(code);
+			document.add(Chunk.NEWLINE);
+
+
+			for (OutputDetail outputDetail : output.getOutputDetails()) {
+				PdfPCell productCodeDetail = new PdfPCell(new Paragraph(outputDetail.getProduct().getLastGtin(), fontDetails));
+				PdfPCell productDescriptionDetail = new PdfPCell(new Paragraph(outputDetail.getProduct().getDescription() + " (" + String.valueOf(outputDetail.getProduct().getCode()) + ")", fontDetails));
+				PdfPCell productBatchDetail = new PdfPCell(new Paragraph(outputDetail.getBatch(), fontDetails));
+				PdfPCell productExpirationDateDetail = (new PdfPCell(new Paragraph(dateFormatter.format(outputDetail.getExpirationDate()), fontDetails)));
+				PdfPCell productSerialNumberDetail = new PdfPCell(new Paragraph(outputDetail.getSerialNumber(), fontDetails));
+				PdfPCell productAmountDetail = new PdfPCell(new Paragraph(String.valueOf(outputDetail.getAmount()), fontDetails));
+
+				productCodeDetail.setBorder(Rectangle.NO_BORDER);
+				productDescriptionDetail.setBorder(Rectangle.NO_BORDER);
+				productBatchDetail.setBorder(Rectangle.NO_BORDER);
+				productExpirationDateDetail.setBorder(Rectangle.NO_BORDER);
+				productSerialNumberDetail.setBorder(Rectangle.NO_BORDER);
+				productAmountDetail.setBorder(Rectangle.NO_BORDER);
+
+				table.addCell(productCodeDetail);
+				table.addCell(productDescriptionDetail);
+				table.addCell(productBatchDetail);
+				table.addCell(productExpirationDateDetail);
+				table.addCell(productSerialNumberDetail);
+				table.addCell(productAmountDetail);
+			}
+			document.add(table);
+			document.newPage();
+		}
 	}
 }

@@ -1,14 +1,13 @@
 package com.drogueria.controllers;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.drogueria.model.Concept;
 import com.drogueria.model.Property;
+import com.drogueria.model.Supplying;
 import com.drogueria.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -48,6 +47,8 @@ public class OutputController {
 	private AuditService auditService;
 	@Autowired
 	private OutputDeliveryNoteSheetPrinter outputDeliveryNoteSheetPrinter;
+	@Autowired
+	private DeliveryNoteService deliveryNoteService;
 	@Autowired
 	private OutputFakeDeliveryNoteSheetPrinter outputFakeDeliveryNoteSheetPrinter;
     @Autowired
@@ -148,7 +149,12 @@ public class OutputController {
 	@RequestMapping(value = "/outputs", method = RequestMethod.POST)
 	public ModelAndView inputs(HttpServletRequest request) {
 		OutputQuery outputQuery = this.getOutputQuery(request);
-		return new ModelAndView("outputs", "outputs", this.outputService.getOutputForSearch(outputQuery));
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<Integer, List<String>> outputDeliveryNotes = this.deliveryNoteService.getAssociatedOutputs(false);
+		List<Output> outputs = this.outputService.getOutputForSearch(outputQuery);
+		map.put("associatedOutputs", outputDeliveryNotes);
+		map.put("outputs", outputs);
+		return new ModelAndView("outputs", map);
 	}
 
 	private OutputQuery getOutputQuery(HttpServletRequest request) {

@@ -2,10 +2,13 @@ package com.drogueria.controllers;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.drogueria.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,6 +43,8 @@ public class SupplyingController {
 	private ClientService clientService;
 	@Autowired
 	private AgreementService agreementService;
+	@Autowired
+	private DeliveryNoteService deliveryNoteService;
 	@Autowired
 	private SupplyingFakeDeliveryNoteSheetPrinter supplyingFakeDeliveryNoteSheetPrinter;
 
@@ -105,7 +110,13 @@ public class SupplyingController {
 	@RequestMapping(value = "/supplyings", method = RequestMethod.POST)
 	public ModelAndView supplyings(HttpServletRequest request) {
 		SupplyingQuery supplyingQuery = this.getSupplyingQuery(request);
-		return new ModelAndView("supplyings", "supplyings", this.supplyingService.getSupplyingForSearch(supplyingQuery));
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<Integer, List<String>> supplyingDeliveryNotes = this.deliveryNoteService.getAssociatedSupplyings(false);
+		List<Supplying> supplyings = this.supplyingService.getSupplyingForSearch(supplyingQuery);
+		map.put("associatedSupplyings", supplyingDeliveryNotes);
+		map.put("supplyings", supplyings);
+		return new ModelAndView("supplyings", map);
+
 	}
 
 	private SupplyingQuery getSupplyingQuery(HttpServletRequest request) {

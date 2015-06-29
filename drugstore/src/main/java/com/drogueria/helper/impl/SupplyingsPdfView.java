@@ -21,6 +21,7 @@ import com.lowagie.text.pdf.draw.LineSeparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+@Component
 public class SupplyingsPdfView extends AbstractPdfView {
 
 	@Autowired
@@ -32,6 +33,7 @@ public class SupplyingsPdfView extends AbstractPdfView {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		@SuppressWarnings("unchecked")
 		List<Supplying> supplyings = (List<Supplying>) model.get("supplyings");
+		Map<Integer, List<String>> associatedSupplyings = (Map<Integer, List<String>>) model.get("associatedSupplyings"); ;
 
 		// Fuentes
 		Font fontHeader = new Font(Font.TIMES_ROMAN, 11f, Font.NORMAL, Color.BLACK);
@@ -58,8 +60,8 @@ public class SupplyingsPdfView extends AbstractPdfView {
 
 			//Encabezado
 
-			PdfPCell productCodeHeader = new PdfPCell(new Paragraph("Cod."));
-			PdfPCell productDescriptionHeader = new PdfPCell(new Paragraph("Descripcion"));
+			PdfPCell productCodeHeader = new PdfPCell(new Paragraph("GTIN."));
+			PdfPCell productDescriptionHeader = new PdfPCell(new Paragraph("Descripcion (Cod.)"));
 			PdfPCell productBatchHeader = new PdfPCell(new Paragraph("Lote"));
 			PdfPCell productExpirationDateHeader = new PdfPCell(new Paragraph("Vto."));
 			PdfPCell productSerialNumberHeader = new PdfPCell(new Paragraph("Serie"));
@@ -85,7 +87,7 @@ public class SupplyingsPdfView extends AbstractPdfView {
 			BaseFont bf_times = BaseFont.createFont(BaseFont.TIMES_ROMAN, "Cp1252", false);
 			// NOMBRE MEMBRETE
 			cb.beginText();
-			cb.setFontAndSize(bf_times, 11f);
+			cb.setFontAndSize(bf_times, 16f);
 			cb.setTextMatrix(40f * 2.8346f, 195f * 2.8346f);
 			cb.showText(name);
 			cb.endText();
@@ -104,17 +106,17 @@ public class SupplyingsPdfView extends AbstractPdfView {
 			cb.endText();
 
 			// DOC. NRO
-			// TODO me da null el servicio aca
-			/*cb.beginText();
+			cb.beginText();
 			cb.setTextMatrix(230 * 2.8346f, 190 * 2.8346f);
-			Map<Integer, List<String>> supplyingDeliveryNotes = this.deliveryNoteService.getAssociatedSupplyings(false);
-			Iterator<String> it = supplyingDeliveryNotes.get(supplying.getId()).iterator();
+			List<String> supplyingDeliveryNotes = associatedSupplyings.get(new Integer(supplying.getId()));
 			String dnNumbers = "";
-			while (it.hasNext()) {
-				dnNumbers.concat(it.next()).concat("\n");
+			for(String elem : supplyingDeliveryNotes){
+				System.out.println(elem);
+				dnNumbers = dnNumbers.concat("X" + elem).concat("\n");
 			}
+
 			cb.showText("Doc. Nro.: " + dnNumbers);
-			cb.endText();*/
+			cb.endText();
 
 			document.add(logo);
 
@@ -142,8 +144,8 @@ public class SupplyingsPdfView extends AbstractPdfView {
 
 
 			for (SupplyingDetail supplyingDetail : supplying.getSupplyingDetails()) {
-				PdfPCell productCodeDetail = new PdfPCell(new Paragraph(String.valueOf(supplyingDetail.getProduct().getCode()), fontDetails));
-				PdfPCell productDescriptionDetail = new PdfPCell(new Paragraph(supplyingDetail.getProduct().getDescription(), fontDetails));
+				PdfPCell productCodeDetail = new PdfPCell(new Paragraph(supplyingDetail.getProduct().getLastGtin(), fontDetails));
+				PdfPCell productDescriptionDetail = new PdfPCell(new Paragraph(supplyingDetail.getProduct().getDescription() + " (" + String.valueOf(supplyingDetail.getProduct().getCode()) + ")", fontDetails));
 				PdfPCell productBatchDetail = new PdfPCell(new Paragraph(supplyingDetail.getBatch(), fontDetails));
 				PdfPCell productExpirationDateDetail = (new PdfPCell(new Paragraph(dateFormatter.format(supplyingDetail.getExpirationDate()), fontDetails)));
 				PdfPCell productSerialNumberDetail = new PdfPCell(new Paragraph(supplyingDetail.getSerialNumber(), fontDetails));

@@ -99,10 +99,10 @@ var Supplying = function() {
 					required : true
 				},
 				affiliateSurname : {
-					required : true,
+					required : true
 				},
 				affiliateName : {
-					required : true,
+					required : true
 				},
 				affiliateDocument : {
 					digits : true

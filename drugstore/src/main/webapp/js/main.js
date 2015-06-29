@@ -368,4 +368,18 @@ $(document).ready(function() {
 			}
 		}, 1000);
 	}
+
+	var fileDownloadCheckTimer;
+	generateOutputPDFReport = function(outputId) {
+		var token = new Date().getTime(); //use the current timestamp as the token value
+		$.download('./rest/outputs.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + outputId + '&dateTo=&conceptId=null&providerId=null&deliveryLocationId=null&agreementId=null', 'POST');
+		$.blockUI({message: 'Generando Reporte de Dispensa. Espere un Momento por favor...'});
+		fileDownloadCheckTimer = window.setInterval(function () {
+			var cookieValue = $.cookie('fileDownloadToken');
+			if (cookieValue == token) {
+				finishDownload();
+				myReload("success", "Se ha registrado el egreso de mercader\u00eda n\u00famero: " + outputId);
+			}
+		}, 1000);
+	}
 });

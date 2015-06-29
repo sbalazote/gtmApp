@@ -42,7 +42,7 @@ Output = function() {
 				productAmount: {
 					required: true,
 					digits: true,
-					minValue: 0,
+					minValue: 0
 				}
 			},
 			showErrors: myShowErrors,
@@ -73,7 +73,7 @@ Output = function() {
 					required: function(element) {
 			            return $("#providerInput").val() == "";
 			        }
-				},
+				}
 			},
 			showErrors: myShowErrors,
 			onsubmit: false
@@ -139,7 +139,7 @@ Output = function() {
 				async: false,
 				data: {
 					productId: productId,
-					agreementId: $("#agreementInput").val(),
+					agreementId: $("#agreementInput").val()
 				},
 				success: function(response) {
 					if (response != "" && response >= productAmount) {
@@ -251,7 +251,7 @@ Output = function() {
 				type: "GET",
 				async: false,
 				data: {
-					conceptId: $("#conceptInput").val(),
+					conceptId: $("#conceptInput").val()
 				},
 				success: function(response) {
 					if(response == true){
@@ -466,21 +466,16 @@ Output = function() {
 		                $.blockUI({ message: 'Espere un Momento por favor...' });
 		             },
 					success: function(response) {
-						//	TODO para que estaba este if ?? el pdf de resumen tiene que ir siempre me parece.
-						//if (!response.concept.printDeliveryNote) {
-							var doc = printIOPDF('output', response.id, response.outputDetails);
-							var string = doc.output('datauristring');
-							var x = window.open('','_blank', '', false);
-							x.document.open();
-							x.document.location=string;
-						//}
-						
-						myReload("success", "Se ha generado exitosamente el Egreso de Mercaderia: " + response.id);
 					},
 					error: function(jqXHR, textStatus, errorThrown) {
-						$.unblockUI();
 						myGenericError();
-					}
+					},
+					complete: function(jqXHR, textStatus) {
+					    $.unblockUI();
+					    if (textStatus === 'success') {
+						    generateOutputPDFReport(jqXHR.responseJSON.id);
+					    }
+				    }
 				});
 			} else {
 				myShowAlert('danger', 'Por favor, ingrese al menos un producto.');
@@ -499,9 +494,9 @@ Output = function() {
 	$(window).bind("beforeunload", function(event) {
 		if (hasChanged() && isButtonConfirm == false) {
 			return "Existen cambios que no fueron confirmados.";
-		} else {
+		} /*else {
 			isButtonConfirm = false;
-		}
+		}*/
 	});
 
 	$("#outputForm input, #outputForm select").keypress(function(event) {
