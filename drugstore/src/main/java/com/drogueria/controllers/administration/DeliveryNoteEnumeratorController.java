@@ -108,7 +108,8 @@ public class DeliveryNoteEnumeratorController {
 			dataJson.put("id", enumerator.getId());
 			String deliveryNoteEnumerator = StringUtility.addLeadingZeros(enumerator.getDeliveryNotePOS(), 4);
 			dataJson.put("deliveryNotePOS", deliveryNoteEnumerator);
-			dataJson.put("lastDeliveryNoteNumber", enumerator.getLastDeliveryNoteNumber());
+			String lastDeliveryNoteNumber = StringUtility.addLeadingZeros(enumerator.getLastDeliveryNoteNumber(), 8);
+			dataJson.put("lastDeliveryNoteNumber",lastDeliveryNoteNumber);
 			dataJson.put("isActive", enumerator.isActive() == true ? "Si" : "No");
 			dataJson.put("isFake", enumerator.isFake() == true ? "Si" : "No");
 			jsonArray.put(dataJson);

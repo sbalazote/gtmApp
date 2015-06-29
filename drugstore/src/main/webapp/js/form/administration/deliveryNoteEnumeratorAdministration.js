@@ -49,8 +49,8 @@ $(document).ready(function() {
             async: false,
             success: function(response) {
                 $("#idInput").val(response.id);
-                $("#deliveryNotePOSInput").val(response.deliveryNotePOS);
-                $("#lastDeliveryNoteNumberInput").val(response.lastDeliveryNoteNumber);
+                $("#deliveryNotePOSInput").val(addLeadingZeros(response.deliveryNotePOS, 4));
+                $("#lastDeliveryNoteNumberInput").val(addLeadingZeros(response.lastDeliveryNoteNumber, 8));
                 var isActive = (response.active) ? "true" : "false";
                 $("#activeSelect").val(isActive).trigger('chosen:update');
                 var isFake = (response.fake) ? "true" : "false";
