@@ -696,18 +696,15 @@ var Supplying = function() {
 			                $.blockUI({ message: 'Espere un Momento por favor...' });
 			             },
 						success : function(response) {
-							var doc = printIOPDF('supplying', response.id, response.supplyingDetails);
-							
-							var string = doc.output('datauristring');
-							var x = window.open('','_blank', '', false);
-							x.document.open();
-							x.document.location=string;
-
-							myReload("success",	"Se ha registrado la dispensa n\u00famero: " + response.id);
 						},
 						error : function(jqXHR,	textStatus, errorThrown) {
-							$.unblockUI();
 							myGenericError();
+						},
+						complete: function(jqXHR, textStatus) {
+							$.unblockUI();
+							if (textStatus === 'success') {
+								generateSupplyingPDFReport(jqXHR.responseJSON.id);
+							}
 						}
 					});
 				} else {
@@ -845,9 +842,9 @@ var Supplying = function() {
 	$(window).bind("beforeunload", function(event) {
 		if (hasChanged() && isButtonConfirm == false) {
 			return "Existen cambios que no fueron confirmados.";
-		} else {
+		} /*else {
 			isButtonConfirm = false;
-		}
+		}*/
 	});
 
 	$('#clientInput').on('change', function(evt, params) {
