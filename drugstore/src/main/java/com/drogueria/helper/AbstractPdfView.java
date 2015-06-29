@@ -30,8 +30,8 @@ public abstract class AbstractPdfView extends AbstractView {
 	protected void prepareResponse(HttpServletRequest request, HttpServletResponse response) {
 		String filename = request.getPathInfo().substring(1);
 
-		response.setContentType("application/pdf"); //
-		response.setHeader("Content-Disposition", "attachment; filename=" + filename);
+		response.setContentType("application/pdf");
+		response.setHeader("Content-Disposition", "inline; filename=" + filename);
 	}
 
 	@Override

@@ -26,19 +26,21 @@ public class InputsPdfView extends AbstractPdfView {
 		@SuppressWarnings("unchecked")
 		List<Input> inputs = (List<Input>) model.get("inputs");
 
-		// Fonts
+		// Fuentes
 		Font fontHeader = new Font(Font.TIMES_ROMAN, 11f, Font.NORMAL, Color.BLACK);
 		Font fontDetails = new Font(Font.TIMES_ROMAN, 8f, Font.NORMAL, Color.BLACK);
-
+		// Logo
 		String relativeWebPath = PropertyProvider.getInstance().getProp(PropertyProvider.LOGO);
 		String absoluteDiskPath = getServletContext().getRealPath(relativeWebPath.substring(1));
 		Image logo = Image.getInstance(absoluteDiskPath);
 		logo.scaleToFit(50f, 50f);
-		logo.setAbsolutePosition(10f * 2.8346f, 200f * 2.8346f);
+		logo.setAbsolutePosition(10f * 2.8346f, 190f * 2.8346f);
+
+		String name = PropertyProvider.getInstance().getProp("name");
 
 		for (Input input : inputs) {
 
-			PdfPTable table = new PdfPTable(6); // 6 columna
+			PdfPTable table = new PdfPTable(6); // 6 columnas
 			table.setWidthPercentage(95);
 			table.setSpacingBefore(10f);
 
@@ -73,30 +75,37 @@ public class InputsPdfView extends AbstractPdfView {
 
 			// add text at an absolute position
 			PdfContentByte cb = writer.getDirectContent();
-			cb.beginText();
 			BaseFont bf_times = BaseFont.createFont(BaseFont.TIMES_ROMAN, "Cp1252", false);
+			// NOMBRE MEMBRETE
+			cb.beginText();
+			cb.setFontAndSize(bf_times, 11f);
+			cb.setTextMatrix(40f * 2.8346f, 195f * 2.8346f);
+			cb.showText(name);
+			cb.endText();
+
+			// FECHA
+			cb.beginText();
 			cb.setFontAndSize(bf_times, 11f);
 			cb.setTextMatrix(230 * 2.8346f, 200 * 2.8346f);
-			cb.showText("Text at position 100, 300.");
+			cb.showText("Fecha: " + dateFormatter.format(input.getDate()));
+			cb.endText();
+
+			// INGRESO NRO
+			cb.beginText();
+			cb.setTextMatrix(230 * 2.8346f, 195 * 2.8346f);
+			cb.showText("Ingreso Nro.: " + StringUtility.addLeadingZeros(input.getId().toString(), 8));
+			cb.endText();
+
+			// DOC. NRO
+			cb.beginText();
+			cb.setTextMatrix(230 * 2.8346f, 190 * 2.8346f);
+			String POS = input.getDeliveryNoteNumber().substring(0, 4);
+			String number = input.getDeliveryNoteNumber().substring(4, 12);
+			cb.showText("Doc. Nro.: R" + POS + "-" + number);
 			cb.endText();
 
 			document.add(logo);
 
-			document.add(new Chunk("Fecha: "));
-			Chunk date = new Chunk(dateFormatter.format(input.getDate()), fontHeader);
-			document.add(date);
-			document.add(Chunk.NEWLINE);
-
-			document.add(new Chunk("Ingreso Nro.: "));
-			Chunk id = new Chunk(StringUtility.addLeadingZeros(input.getId().toString(), 8), fontHeader);
-			document.add(id);
-			document.add(Chunk.NEWLINE);
-
-			document.add(new Chunk("Doc. Nro.: "));
-			String POS = input.getDeliveryNoteNumber().substring(0, 4);
-			String number = input.getDeliveryNoteNumber().substring(4, 12);
-			Chunk deliveryNoteNumber = new Chunk("R" + POS + "-" + number , fontHeader);
-			document.add(deliveryNoteNumber);
 			document.add(Chunk.NEWLINE);
 
 			LineSeparator ls = new LineSeparator();
@@ -104,22 +113,22 @@ public class InputsPdfView extends AbstractPdfView {
 
 			document.add(Chunk.NEWLINE);
 
-			document.add(new Chunk("Convenio: "));
+			document.add(new Chunk("Convenio: ", fontHeader));
 			Chunk description = new Chunk(input.getAgreement().getCode() + " - " + input.getAgreement().getDescription(), fontHeader);
 			document.add(description);
 			document.add(Chunk.NEWLINE);
 
-			document.add(new Chunk("Cliente/Proveedor: "));
+			document.add(new Chunk("Cliente/Proveedor: ", fontHeader));
 			Chunk active = new Chunk(input.getClientOrProviderDescription(), fontHeader);
 			document.add(active);
 			document.add(Chunk.NEWLINE);
 
-			document.add(new Chunk("Concepto: "));
+			document.add(new Chunk("Concepto: ", fontHeader));
 			Chunk code = new Chunk(input.getConcept().getCode() + " - " + input.getConcept().getDescription(), fontHeader);
 			document.add(code);
 			document.add(Chunk.NEWLINE);
 
-			document.add(new Chunk("Orden de Compra: "));
+			document.add(new Chunk("Orden de Compra: ", fontHeader));
 			Chunk purchaseNumber = new Chunk(input.getPurchaseOrderNumber(), fontHeader);
 			document.add(purchaseNumber);
 			document.add(Chunk.NEWLINE);

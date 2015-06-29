@@ -21,7 +21,7 @@ jQuery.download = function(url, data, method){
 			inputs+='<input type="hidden" name="'+ pair[0] +'" value="'+ pair[1] +'" />'; 
 		});
 		//send request
-		jQuery('<form action="'+ url +'" method="'+ (method||'post') +'">'+inputs+'</form>')
+		jQuery('<form action="'+ url +'" method="'+ (method||'post') +'" target="_blank">'+inputs+'</form>')
 		.appendTo('body').submit().remove();
 	};
 };

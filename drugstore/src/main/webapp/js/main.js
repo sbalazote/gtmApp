@@ -340,5 +340,18 @@ $(document).ready(function() {
 				finishDownload();
 		}, 1000);
 	};
-	
+
+	var fileDownloadCheckTimer;
+	generateInputPDFReport = function(inputId) {
+		var token = new Date().getTime(); //use the current timestamp as the token value
+		$.download('./rest/inputs.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + inputId + '&dateTo=&conceptId=null&providerId=null&deliveryLocationId=null&agreementId=null&deliveryNoteNumber=&purchaseOrderNumber=&cancelled=null', 'POST');
+		$.blockUI({message: 'Generando Reporte de Ingreso. Espere un Momento por favor...'});
+		fileDownloadCheckTimer = window.setInterval(function () {
+			var cookieValue = $.cookie('fileDownloadToken');
+			if (cookieValue == token) {
+				finishDownload();
+				myReload("success", "Se ha registrado el ingreso de mercader\u00eda n\u00famero: " + inputId);
+			}
+		}, 1000);
+	}
 });

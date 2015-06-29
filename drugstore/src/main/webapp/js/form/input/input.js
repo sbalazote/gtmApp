@@ -78,7 +78,7 @@ Input = function() {
 				productAmount: {
 					required: true,
 					digits: true,
-					minValue: 0,
+					minValue: 0
 				}
 			},
 			showErrors: myShowErrors,
@@ -322,7 +322,7 @@ Input = function() {
 		};
 		inputDetails.push(inputDetail);
 	};
-	
+
 	$('#productTableBody').on("click", ".edit-row", function(e) {
 		var parent = $(this).parent().parent();
 
@@ -465,7 +465,7 @@ Input = function() {
 			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "selfSerializedModalAlertDiv");
 		}
 	});
-	
+
 	$("#confirmButton").click(function() {
 		if (validateForm()) {
 			if (inputDetailGroup.length > 0 || isUpdate ) {
@@ -497,19 +497,17 @@ Input = function() {
 						async: true,
 			            beforeSend : function() {
 			                $.blockUI({ message: 'Espere un Momento por favor...' });
-			             }, 
+			             },
 						success: function(response, textStatus, jqXHR) {
-							var doc = printIOPDF('input', response.id, response.inputDetails);
-							var string = doc.output('datauristring');
-							var x = window.open('','_blank', '', false);
-							x.document.open();
-							x.document.location=string;
-							
-							myReload("success", "Se ha registrado el ingreso de mercader\u00eda n\u00famero: " + response.id);
 						},
 						error: function(response, jqXHR, textStatus, errorThrown) {
-							$.unblockUI();
 							myGenericError();
+						},
+						complete: function(jqXHR, textStatus) {
+							$.unblockUI();
+							if (textStatus === 'success') {
+								generateInputPDFReport(jqXHR.responseJSON.id);
+							}
 						}
 					});
 				}else{
@@ -649,13 +647,13 @@ Input = function() {
 			return false;
 		}
 	};
-	
+
 	$(window).bind("beforeunload",function(event) {
 	    if(hasChanged() && isButtonConfirm == false) {
 	    	return "Existen cambios que no fueron confirmados.";
-	    } else {
+	    } /*else {
 	    	isButtonConfirm = false;
-	    }
+	    }*/
 	});
 	
 	$("input").blur(function() {
@@ -677,7 +675,7 @@ Input = function() {
 				type: "GET",
 				async: false,
 				data: {
-					conceptId: $("#conceptInput").val(),
+					conceptId: $("#conceptInput").val()
 				},
 				success: function(response) {
 					if(response == true){
@@ -718,7 +716,7 @@ Input = function() {
 			type: "GET",
 			contentType:"application/json",
 			data: {
-				inputId: $("#inputId").val(),
+				inputId: $("#inputId").val()
 				},
 			async: true,
 			success: function(response) {
