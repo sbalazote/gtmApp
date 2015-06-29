@@ -51,8 +51,8 @@ public class InputsPdfView extends AbstractPdfView {
 
 			//Encabezado
 
-			PdfPCell productCodeHeader = new PdfPCell(new Paragraph("Cod."));
-			PdfPCell productDescriptionHeader = new PdfPCell(new Paragraph("Descripcion"));
+			PdfPCell productCodeHeader = new PdfPCell(new Paragraph("GTIN."));
+			PdfPCell productDescriptionHeader = new PdfPCell(new Paragraph("Descripcion (Cod.)"));
 			PdfPCell productBatchHeader = new PdfPCell(new Paragraph("Lote"));
 			PdfPCell productExpirationDateHeader = new PdfPCell(new Paragraph("Vto."));
 			PdfPCell productSerialNumberHeader = new PdfPCell(new Paragraph("Serie"));
@@ -134,8 +134,8 @@ public class InputsPdfView extends AbstractPdfView {
 			document.add(Chunk.NEWLINE);
 
 			for (InputDetail inputDetail : input.getInputDetails()) {
-				PdfPCell productCodeDetail = new PdfPCell(new Paragraph(String.valueOf(inputDetail.getProduct().getCode()), fontDetails));
-				PdfPCell productDescriptionDetail = new PdfPCell(new Paragraph(inputDetail.getProduct().getDescription(), fontDetails));
+				PdfPCell productCodeDetail = new PdfPCell(new Paragraph(inputDetail.getProduct().getLastGtin(), fontDetails));
+				PdfPCell productDescriptionDetail = new PdfPCell(new Paragraph(inputDetail.getProduct().getDescription() + " (" + String.valueOf(inputDetail.getProduct().getCode()) + ")", fontDetails));
 				PdfPCell productBatchDetail = new PdfPCell(new Paragraph(inputDetail.getBatch(), fontDetails));
 				PdfPCell productExpirationDateDetail = (new PdfPCell(new Paragraph(dateFormatter.format(inputDetail.getExpirationDate()), fontDetails)));
 				PdfPCell productSerialNumberDetail = new PdfPCell(new Paragraph(inputDetail.getSerialNumber(), fontDetails));
