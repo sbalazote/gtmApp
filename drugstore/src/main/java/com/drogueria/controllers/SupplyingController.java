@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.drogueria.constant.DocumentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,7 +49,7 @@ public class SupplyingController {
 		modelMap.put("currentDate", (new SimpleDateFormat("dd/MM/yyyy").format(new Date())).toString());
 		modelMap.put("clients", this.clientService.getAllActives());
 		modelMap.put("agreements", this.agreementService.getAllActives());
-
+		modelMap.put("documentTypes", DocumentType.types);
 		return "supplying";
 	}
 
