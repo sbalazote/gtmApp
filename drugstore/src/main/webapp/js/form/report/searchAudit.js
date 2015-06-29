@@ -44,9 +44,9 @@ SearchAudit = function() {
 		if($("#dateToSearch").val()!= ""){
 			$.datepicker._clearDate('#dateToSearch');
 		}
+		$('#roleSearch').val('').trigger('chosen:updated');
 		$('#userSearch').val('').trigger('chosen:updated');
-		$('#userSearch').val('').trigger('chosen:updated');
-		
+		$("#auditActionSearch").val('').trigger('chosen:updated');
 		$('#operationNumberSearch').val('');
 	});
 	
