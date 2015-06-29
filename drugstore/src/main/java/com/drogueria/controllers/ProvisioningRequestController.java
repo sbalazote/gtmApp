@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.drogueria.constant.DocumentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -58,6 +59,7 @@ public class ProvisioningRequestController {
 		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAllActives());
 		modelMap.put("clients", this.clientService.getAllActives());
 		modelMap.put("deliveryDate", new Date());
+		modelMap.put("documentTypes", DocumentType.types);
 		return "provisioningRequest";
 	}
 

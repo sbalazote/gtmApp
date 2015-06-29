@@ -3,6 +3,7 @@ package com.drogueria.controllers.administration;
 import java.util.List;
 import java.util.Map;
 
+import com.drogueria.constant.DocumentType;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -38,6 +39,7 @@ public class AffiliateAdministrationController {
 	@RequestMapping(value = "/affiliateAdministration", method = RequestMethod.GET)
 	public String affiliateAdministration(ModelMap modelMap) throws Exception {
 		modelMap.put("clients", this.clientService.getAll());
+		modelMap.put("documentTypes", DocumentType.types);
 		return "affiliateAdministration";
 	}
 

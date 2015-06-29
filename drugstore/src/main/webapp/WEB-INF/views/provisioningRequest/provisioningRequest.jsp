@@ -174,42 +174,9 @@
 						<div class="col-md-4 form-group">
 							<label for="documentTypeSelect"><spring:message code="common.documentType"/></label>
 								<select class="form-control chosen-select" id="documentTypeSelect" name="documentType">
-									<option value="0">CI Polic&iacute;a Federal</option>
-									<option value="1">CI Buenos Aires</option>
-									<option value="10">CI San Juan</option>
-									<option value="11">CI San Luis</option>
-									<option value="12">CI Santa Fe</option>
-									<option value="13">CI Santiago del Estero</option>
-									<option value="14">CI Tucum&aacute;n</option>
-									<option value="16">CI Chaco</option>
-									<option value="17">CI Chubut</option>
-									<option value="18">CI Formosa</option>
-									<option value="19">CI Misiones</option>
-									<option value="2">CI Catamarca</option>
-									<option value="20">CI Neuqu&eacute;n</option>
-									<option value="21">CI La Pampa</option>
-									<option value="22">CI R&iacute;o Negro</option>
-									<option value="23">CI Santa Cruz</option>
-									<option value="24">CI Tierra del Fuego</option>
-									<option value="3">CI C&oacute;rdoba</option>
-									<option value="4">CI Corrientes</option>
-									<option value="5">CI Entre R&iacute;os</option>
-									<option value="6">CI Jujuy</option>
-									<option value="7">CI Mendoza</option>
-									<option value="8">CI La Rioja</option>
-									<option value="80">CUIT</option>
-									<option value="86">CUIL</option>
-									<option value="87">CDI</option>
-									<option value="89">LE</option>
-									<option value="9">CI Salta</option>
-									<option value="90">LC</option>
-									<option value="91">CI extranjera</option>
-									<option value="92">en tr&aacute;mite</option>
-									<option value="93">Acta nacimiento</option>
-									<option value="94">Pasaporte</option>
-									<option value="95">CI Bs. As. RNP</option>
-									<option value="96">DNI</option>
-									<option value="99">Sin identificar</option>
+									<c:forEach items="${clients}" var="client" varStatus="status">
+										<option value="${client.id}"><c:out value="${client.name}"></c:out></option>
+									</c:forEach>
 								</select>
 						</div>
 					
