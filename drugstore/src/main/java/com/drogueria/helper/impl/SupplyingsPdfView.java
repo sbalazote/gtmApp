@@ -111,7 +111,6 @@ public class SupplyingsPdfView extends AbstractPdfView {
 			List<String> supplyingDeliveryNotes = associatedSupplyings.get(new Integer(supplying.getId()));
 			String dnNumbers = "";
 			for(String elem : supplyingDeliveryNotes){
-				System.out.println(elem);
 				dnNumbers = dnNumbers.concat("X" + elem).concat("\n");
 			}
 

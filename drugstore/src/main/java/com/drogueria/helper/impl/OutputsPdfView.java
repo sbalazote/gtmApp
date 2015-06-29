@@ -103,7 +103,6 @@ public class OutputsPdfView extends AbstractPdfView {
 			List<String> outputDeliveryNotes = associatedOutputs.get(new Integer(output.getId()));
 			String dnNumbers = "";
 			for(String elem : outputDeliveryNotes){
-				System.out.println(elem);
 				dnNumbers = dnNumbers.concat("X" + elem).concat("\n");
 			}
 
