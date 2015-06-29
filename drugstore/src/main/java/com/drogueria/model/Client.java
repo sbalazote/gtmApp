@@ -60,7 +60,7 @@ public class Client implements Serializable {
 	@Column(name = "active", nullable = false)
 	private boolean active;
 
-	@Column(name = "medical_insurance_code", unique = true, nullable = false)
+	@Column(name = "medical_insurance_code", unique = true)
 	private Integer medicalInsuranceCode;
 
 	@ManyToMany(cascade = CascadeType.ALL)
