@@ -18,26 +18,24 @@
 
     <div class="row">
         <div class="form-group col-md-4 col-md-offset-4 text-center">
-            <h3 style="color: #0077b3; font-weight: bold">${sofwareName}</h3>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group col-md-4 col-md-offset-4 text-center">
             <img class="text-center" src="${logPath}" class="img-responsive" alt="Responsive image">
         </div>
     </div>
+
     <div class="row">
         <div class="form-group col-md-4 col-md-offset-4 text-center">
-            <h3 style="color: #0077b3; font-weight: bold">${name}</h3>
+            <h3 style="color: #0077b3; font-weight: bold">${sofwareName} - ${name}</h3>
         </div>
     </div>
 
     <c:if test="${loginDisabled == null}">
-        <div class="row">
+        <%--<div class="row">
             <div class="form-group col-md-4 col-md-offset-4">
                 <h2 class="form-signin-heading"><spring:message code="login.enter.data"/></h2>
             </div>
-        </div>
+        </div>--%>
+        <br/>
+        <br/>
         <div class="row">
             <div class="form-group col-md-4 col-md-offset-4">
                 <input type="text" class="form-control" name="j_username" placeholder="<spring:message code="login.user.placeholder"/>" autofocus >
