@@ -77,8 +77,8 @@ SaveDeliveryNoteEnumerator = function() {
                         } else {
                             myCreateSuccessful();
                         }
-                        $('#agentModal').modal('hide');
-                        $("#agentsTable").bootgrid("reload");
+                        $('#deliveryNoteEnumeratorModal').modal('hide');
+                        $("#deliveryNoteEnumeratorsTable").bootgrid("reload");
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         myGenericError();
