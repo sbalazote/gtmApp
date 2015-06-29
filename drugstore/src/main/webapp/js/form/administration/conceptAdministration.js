@@ -136,6 +136,7 @@ $(document).ready(function() {
 			async: false,
 			success: function(response) {
 				$('#deliveryNoteEnumeratorSelect').empty();
+				$('#deliveryNoteEnumeratorSelect').append('<option value="">Punto de Venta...</option>');
 				for(var i = response.length-1; i >= 0 ; i--){
 					var enumerator = response[i];
 					var deliveryNotePOS = addLeadingZeros(enumerator.deliveryNotePOS, 4);
