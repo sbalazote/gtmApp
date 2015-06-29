@@ -23,8 +23,14 @@
     </div>
 
     <div class="row">
-        <div class="form-group col-md-4 col-md-offset-4 text-center">
-            <h3 style="color: #0077b3; font-weight: bold">${sofwareName} - ${name}</h3>
+        <div class="form-group col-md-12 text-center">
+            <h3 style="color: #0077b3; font-weight: bold">${name}</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-12 text-center">
+            <h3 style="color: #0077b3; font-weight: bold">${sofwareName}</h3>
         </div>
     </div>
 
