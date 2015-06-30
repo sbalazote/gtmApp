@@ -74,6 +74,11 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 		return associatedOrders;
 	}
 
+	@Override
+	public Map<Integer, List<DeliveryNote>> getAssociatedOrders() {
+		return null;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<Integer, List<String>> getAssociatedOutputs(boolean informAnmat) {
@@ -104,6 +109,34 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 		return associatedOutputs;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public Map<Integer, List<DeliveryNote>> getAssociatedOutputs() {
+		Map<Integer, List<DeliveryNote>> associatedOutputs = new HashMap<Integer, List<DeliveryNote>>();
+		String sentence = "select distinct od.output_id, dn from output_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.output_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
+
+		Query query;
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+
+		Iterator<Object[]> it = query.list().iterator();
+		while (it.hasNext()) {
+			Object[] outputDeliveryNotePair = it.next();
+			Integer outputId = (Integer) outputDeliveryNotePair[0];
+			DeliveryNote deliveryNote = (DeliveryNote) outputDeliveryNotePair[1];
+			List<DeliveryNote> deliveryNotes = null;
+			if (!associatedOutputs.containsKey(outputId)) {
+				deliveryNotes = new ArrayList<DeliveryNote>();
+				deliveryNotes.add(deliveryNote);
+				associatedOutputs.put(outputId, deliveryNotes);
+			} else {
+				deliveryNotes = associatedOutputs.get(outputId);
+				deliveryNotes.add(deliveryNote);
+				associatedOutputs.put(outputId, deliveryNotes);
+			}
+		}
+		return associatedOutputs;
+	}
+
 	@Override
 	public Map<Integer, List<String>> getAssociatedSupplyings(boolean informAnmat) {
 		Map<Integer, List<String>> associatedSupplyings = new HashMap<Integer, List<String>>();
@@ -117,17 +150,44 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 		Iterator<Object[]> it = query.list().iterator();
 		while (it.hasNext()) {
 			Object[] supplyingDeliveryNotePair = it.next();
-			Integer outputId = (Integer) supplyingDeliveryNotePair[0];
+			Integer supplyingId = (Integer) supplyingDeliveryNotePair[0];
 			String deliveryNoteNumber = (String) supplyingDeliveryNotePair[1];
 			List<String> deliveryNotes = null;
-			if (!associatedSupplyings.containsKey(outputId)) {
+			if (!associatedSupplyings.containsKey(supplyingId)) {
 				deliveryNotes = new ArrayList<String>();
 				deliveryNotes.add(deliveryNoteNumber);
-				associatedSupplyings.put(outputId, deliveryNotes);
+				associatedSupplyings.put(supplyingId, deliveryNotes);
 			} else {
-				deliveryNotes = associatedSupplyings.get(outputId);
+				deliveryNotes = associatedSupplyings.get(supplyingId);
 				deliveryNotes.add(deliveryNoteNumber);
-				associatedSupplyings.put(outputId, deliveryNotes);
+				associatedSupplyings.put(supplyingId, deliveryNotes);
+			}
+		}
+		return associatedSupplyings;
+	}
+
+	@Override
+	public Map<Integer, List<DeliveryNote>> getAssociatedSupplyings() {
+		Map<Integer, List<DeliveryNote>> associatedSupplyings = new HashMap<Integer, List<DeliveryNote>>();
+		String sentence = "select distinct sd.supplying_id, dn from supplying_detail as sd, delivery_note_detail as dnd, delivery_note dn where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
+
+		Query query;
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+
+		Iterator<Object[]> it = query.list().iterator();
+		while (it.hasNext()) {
+			Object[] supplyingDeliveryNotePair = it.next();
+			Integer supplyingId = (Integer) supplyingDeliveryNotePair[0];
+			DeliveryNote deliveryNote = (DeliveryNote) supplyingDeliveryNotePair[1];
+			List<DeliveryNote> deliveryNotes = null;
+			if (!associatedSupplyings.containsKey(supplyingId)) {
+				deliveryNotes = new ArrayList<DeliveryNote>();
+				deliveryNotes.add(deliveryNote);
+				associatedSupplyings.put(supplyingId, deliveryNotes);
+			} else {
+				deliveryNotes = associatedSupplyings.get(supplyingId);
+				deliveryNotes.add(deliveryNote);
+				associatedSupplyings.put(supplyingId, deliveryNotes);
 			}
 		}
 		return associatedSupplyings;

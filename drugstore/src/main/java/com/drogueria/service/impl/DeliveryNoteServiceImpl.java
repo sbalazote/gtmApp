@@ -57,8 +57,18 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	}
 
 	@Override
+	public Map<Integer, List<DeliveryNote>> getAssociatedOrders() {
+		return this.deliveryNoteDAO.getAssociatedOrders();
+	}
+
+	@Override
 	public Map<Integer, List<String>> getAssociatedOutputs(boolean informAnmat) {
 		return this.deliveryNoteDAO.getAssociatedOutputs(informAnmat);
+	}
+
+	@Override
+	public Map<Integer, List<DeliveryNote>> getAssociatedOutputs() {
+		return this.deliveryNoteDAO.getAssociatedOutputs();
 	}
 
 	@Override
@@ -197,6 +207,12 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	public Map<Integer, List<String>> getAssociatedSupplyings(boolean informAnmat) {
 		return this.deliveryNoteDAO.getAssociatedSupplyings(informAnmat);
 	}
+
+	@Override
+	public Map<Integer, List<DeliveryNote>> getAssociatedSupplyings() {
+		return this.deliveryNoteDAO.getAssociatedSupplyings();
+	}
+
 	@Override
 	public List<String> getSupplyingsDeliveriesNoteNumbers(Integer supplyingId){
 		return this.deliveryNoteDAO.getSupplyingsDeliveriesNoteNumbers(supplyingId);

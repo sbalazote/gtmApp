@@ -18,9 +18,15 @@ public interface DeliveryNoteService {
 
 	Map<Integer, List<String>> getAssociatedOrders(boolean informAnmat);
 
+	Map<Integer, List<DeliveryNote>> getAssociatedOrders();
+
 	Map<Integer, List<String>> getAssociatedOutputs(boolean informAnmat);
 
+	Map<Integer, List<DeliveryNote>> getAssociatedOutputs();
+
 	Map<Integer, List<String>> getAssociatedSupplyings(boolean informAnmat);
+
+	Map<Integer, List<DeliveryNote>> getAssociatedSupplyings();
 
 	void save(DeliveryNote deliveryNote) throws Exception;
 

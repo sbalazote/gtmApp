@@ -17,7 +17,11 @@ public interface DeliveryNoteDAO {
 
 	Map<Integer, List<String>> getAssociatedOrders(boolean informAnmat);
 
+	Map<Integer, List<DeliveryNote>> getAssociatedOrders();
+
 	Map<Integer, List<String>> getAssociatedOutputs(boolean informAnmat);
+
+	Map<Integer, List<DeliveryNote>> getAssociatedOutputs();
 
 	void save(DeliveryNote deliveryNote);
 
@@ -36,6 +40,8 @@ public interface DeliveryNoteDAO {
     List<DeliveryNote> getDeliveryNoteFromSupplyingForSearch(DeliveryNoteQuery deliveryNoteQuery);
 
 	Map<Integer, List<String>> getAssociatedSupplyings(boolean informAnmat);
+
+	Map<Integer, List<DeliveryNote>> getAssociatedSupplyings();
 
 	List<String> getSupplyingsDeliveriesNoteNumbers(Integer supplyingId);
 }
