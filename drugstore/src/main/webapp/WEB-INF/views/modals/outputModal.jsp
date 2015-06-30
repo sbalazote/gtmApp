@@ -14,11 +14,11 @@
 								<spring:message code="output.label" />
 							</h3>
 						</div>
-						<div class="col-md-2">
+						<div class="col-md-3">
 							<h3 id="outputId"></h3>
 						</div>
-						<div class="col-md-2">
-							<h3 id="outputModalCancelled" style="color: red; font-weight: bold"></h3>
+						<div class="col-md-2"  id="outputCancelled">
+							<h3 style="color:red;font-weight: bold">ANULADO</h3>
 						</div>
 					</div>
 					<div id="outputModalANMATCode">
@@ -33,7 +33,13 @@
 							</div>
 						</div>
 					</div>
-				</div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12  text-center">
+                            <h3 id="outputDeliveriesNotesNumbers"></h3>
+                        </div>
+                    </div>
+                </div>
 				<div class="modal-body">
 					<div class="container-fluid">
 						<div class="row">

@@ -38,4 +38,6 @@ public interface DeliveryNoteDAO {
 	Map<Integer, List<String>> getAssociatedSupplyings(boolean informAnmat);
 
 	List<String> getSupplyingsDeliveriesNoteNumbers(Integer supplyingId);
+
+    List<String> getOutputsDeliveriesNoteNumbers(Integer outputId);
 }

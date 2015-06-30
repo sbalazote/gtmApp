@@ -106,6 +106,12 @@ public class OutputController {
 		return output;
 	}
 
+	@RequestMapping(value = "/getOutputsDeliveriesNoteNumbers", method = RequestMethod.GET)
+	public @ResponseBody
+	List<String> getOutputsDeliveriesNoteNumbers(@RequestParam Integer outputId) {
+		return this.deliveryNoteService.getOutputsDeliveriesNoteNumbers(outputId);
+	}
+
 	@RequestMapping(value = "/getOutputForSearch", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Output> getOutputForSearch(@RequestBody OutputQuery outputQuery) throws Exception {

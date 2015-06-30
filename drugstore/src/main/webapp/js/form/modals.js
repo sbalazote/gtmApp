@@ -249,12 +249,35 @@ $(document).ready(function() {
 	};
 
 	var populateOutputModal = function (response) {
-		$("#outputId").text("Numero: " + response.id);
-		if (response.cancelled) {
-			$("#outputModalCancelled").text("ANULADO");
-		} else {
-			$("#outputModalCancelled").text("");
-		}
+
+        var deliveriesNotesNumbers = [];
+        $.ajax({
+            url: "getOutputsDeliveriesNoteNumbers.do",
+            type: "GET",
+            async: false,
+            data: {
+                outputId: response.id
+            },
+            success: function (res) {
+                deliveriesNotesNumbers = res;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                myGenericError();
+            }
+        });
+
+        var id = addLeadingZeros(response.id,6);
+        $("#outputId").text("Numero: " + id);
+
+        if (response.cancelled) {
+            $("#outputCancelled").show();
+        } else {
+            $("#outputCancelled").hide();
+        }
+
+        if(deliveriesNotesNumbers.length > 0){
+            $("#outputDeliveriesNotesNumbers").text("Remito: "+ deliveriesNotesNumbers);
+        }
 
 		if (response.transactionCodeANMAT != null) {
 			$("#outputModalANMATCode").show();
@@ -463,13 +486,13 @@ $(document).ready(function() {
 		$("#supplyingId").text("Numero: " + id);
 
 		if (response.cancelled) {
-            $("#cancelled").show();
+            $("#supplyingCancelled").show();
 		} else {
-			$("#cancelled").hide();
+			$("#supplyingCancelled").hide();
 		}
 
         if(deliveriesNotesNumbers.length > 0){
-            $("#deliveriesNotesNumbers").text("Remito: "+ deliveriesNotesNumbers);
+            $("#supplyingDeliveriesNotesNumbers").text("Remito: "+ deliveriesNotesNumbers);
         }
 
 		if (response.transactionCodeANMAT != null) {
