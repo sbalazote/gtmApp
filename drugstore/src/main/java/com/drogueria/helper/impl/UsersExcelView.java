@@ -50,7 +50,7 @@ public class UsersExcelView extends AbstractExcelView {
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
-		cell.setCellValue("CONTRASEÑA");
+		cell.setCellValue("CONTRASENIA");
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);

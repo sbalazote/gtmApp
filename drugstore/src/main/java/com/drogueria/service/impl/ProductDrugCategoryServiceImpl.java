@@ -23,7 +23,7 @@ public class ProductDrugCategoryServiceImpl implements ProductDrugCategoryServic
 	@Override
 	public void save(ProductDrugCategory productDrugCategory) {
 		this.productDrugCategoryDAO.save(productDrugCategory);
-		logger.info("Se han guardado los cambios exitosamente. Id de Acción Farmacológica: " + productDrugCategory.getId());
+		logger.info("Se han guardado los cambios exitosamente. Id de Accionn Farmacologica: " + productDrugCategory.getId());
 	}
 
 	@Override

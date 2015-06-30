@@ -48,7 +48,7 @@ public class UsersPdfView extends AbstractPdfView {
 			document.add(Chunk.NEWLINE);
 
 			// 3.DESCRIPCION
-			document.add(new Chunk("CONTRASEÑA: "));
+			document.add(new Chunk("CONTRASENIA: "));
 			Chunk description = new Chunk(user.getPassword(), fontTitle);
 			document.add(description);
 			document.add(new Chunk(" "));

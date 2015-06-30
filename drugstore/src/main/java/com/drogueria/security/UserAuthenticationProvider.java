@@ -47,13 +47,13 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 						throw new BadCredentialsException("Usuario inhabilitado. Consulte con el Administrador del Sistema.");
 					}
 				} else {
-					logger.info("Usuario o contraseña incorrectos.");
-					throw new BadCredentialsException("Usuario o contraseña incorrectos");
+					logger.info("Usuario o contraseï¿½a incorrectos.");
+					throw new BadCredentialsException("Usuario o contrasenia incorrectos");
 				}
 
 			} else {
-				logger.info("Usuario o contraseña incorrectos.");
-				throw new BadCredentialsException("Usuario o contraseña incorrectos");
+				logger.info("Usuario o contrasenia incorrectos.");
+				throw new BadCredentialsException("Usuario o contrasenia incorrectos");
 			}
 		}
 		return authentication;
