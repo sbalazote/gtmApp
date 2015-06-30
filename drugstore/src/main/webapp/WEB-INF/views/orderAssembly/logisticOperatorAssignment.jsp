@@ -10,6 +10,7 @@
 	});
 </script>
 
+<jsp:include page="../modals/modals.jsp" />
 <jsp:include page="../modals/orderModal.jsp" />
 
 <div class="row">

@@ -9,6 +9,8 @@
 		new OutputCancellation();
 	});
 </script>
+
+<jsp:include page="../modals/modals.jsp" />
 <jsp:include page="../modals/outputModal.jsp" />
 
 <form action="" onsubmit="return false;">

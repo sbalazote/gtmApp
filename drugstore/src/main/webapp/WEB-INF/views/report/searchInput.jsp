@@ -9,6 +9,7 @@
 		new SearchInput();
 	});
 </script>
+
 <jsp:include page="../modals/modals.jsp" />
 <jsp:include page="../modals/inputModal.jsp" />
 
