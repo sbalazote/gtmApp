@@ -9,6 +9,8 @@
 		new ProvisioningRequestAuthorization();
 	});
 </script>
+
+<jsp:include page="../modals/modals.jsp" />
 <jsp:include page="../modals/provisioningRequestModal.jsp" />
 
 <div class="row">

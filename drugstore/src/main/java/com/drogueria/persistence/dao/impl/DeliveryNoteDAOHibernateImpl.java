@@ -264,7 +264,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 	@Override
 	public Supplying getSupplying(DeliveryNote deliveryNote) {
 		try {
-			String sentence = "select s.id from supplying_detail as sd, delivery_note_detail as dnd, delivery_note as dn, supplying as s where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and sd.supplying_id = s.id and dnd.delivery_note_id = "
+			String sentence = "select distinct s.id from supplying_detail as sd, delivery_note_detail as dnd, delivery_note as dn, supplying as s where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and sd.supplying_id = s.id and dnd.delivery_note_id = "
 					+ deliveryNote.getId();
 
 			Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
@@ -277,7 +277,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 	@Override
 	public List<String> getSupplyingsDeliveriesNoteNumbers(Integer supplyingId){
 		try {
-		String sentence = "select dn.number from supplying_detail as sd, delivery_note_detail as dnd, delivery_note as dn, supplying as s where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and sd.supplying_id = s.id and s.id ="
+		String sentence = "select distinct dn.number from supplying_detail as sd, delivery_note_detail as dnd, delivery_note as dn, supplying as s where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and sd.supplying_id = s.id and s.id ="
 				+ supplyingId;
 		Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
 		return query.list();

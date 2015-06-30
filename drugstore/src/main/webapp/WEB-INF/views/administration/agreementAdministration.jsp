@@ -30,8 +30,8 @@
 <table id="agreementsTable" class="table table-condensed table-hover table-striped">
 	<thead>
 		<tr>
-			<th data-column-id="id" data-type="numeric"><spring:message code="common.id" /></th>
-			<th data-column-id="code" data-type="numeric"><spring:message code="common.code" /></th>
+			<th data-column-id="id" data-header-css-class="idColumn" data-type="numeric"><spring:message code="common.id" /></th>
+			<th data-column-id="code" data-header-css-class="codeColumn" data-type="numeric"><spring:message code="common.code" /></th>
 			<th data-column-id="description"><spring:message code="common.description" /></th>
 			<th data-column-id="numberOfDeliveryNoteDetailsPerPage"><spring:message code="configuration.numberOfDeliveryNoteDetailsPerPage" /></th>
 			<th data-column-id="pickingFilepath"><spring:message code="configuration.pickingFilepath" /></th>
@@ -45,7 +45,7 @@
 	</thead>
 </table>
 
-<%-- Confirmación de que se borrará definitivamente --%>
+<%-- Confirmaciï¿½n de que se borrarï¿½ definitivamente --%>
 <div class="modal fade" data-backdrop="static" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:250px">
 		<div class="modal-content">

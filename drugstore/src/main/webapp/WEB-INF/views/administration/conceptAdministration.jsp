@@ -24,16 +24,16 @@
 <table id="conceptsTable" class="table table-condensed table-hover table-striped">
 	<thead>
 		<tr>
-			<th data-column-id="id" data-type="numeric"><spring:message code="common.id" /></th>
-			<th data-column-id="code" data-type="numeric"><spring:message code="common.code" /></th>
-			<th data-column-id="description"><spring:message code="common.description" /></th>
-			<th data-column-id="deliveryNotePOS"><spring:message code="common.deliveryNote.POS" /></th>
+			<th data-column-id="id" data-header-css-class="idColumn" data-type="numeric"><spring:message code="common.id" /></th>
+			<th data-column-id="code" data-header-css-class="codeColumn" data-type="numeric"><spring:message code="common.code" /></th>
+			<th data-column-id="description" data-header-css-class="idDescription" ><spring:message code="common.description" /></th>
+			<th data-column-id="deliveryNotePOS" data-header-css-class="codeColumn"><spring:message code="common.deliveryNote.POS" /></th>
 			<%-- <th data-column-id="isInput"><spring:message code="common.isInput" /></th>
 			<th data-column-id="printDeliveryNote"><spring:message code="common.printDeliveryNote" /></th>
 			<th data-column-id="deliveryNotesCopies"><spring:message code="common.deliveryNotesCopies" /></th>
 			<th data-column-id="isRefund"><spring:message code="common.refund" /></th> --%>
-			<th data-column-id="isInformAnmat"><spring:message code="common.informAnmat" /></th>
-			<th data-column-id="isActive"><spring:message code="common.active" /></th>
+			<th data-column-id="isInformAnmat" data-header-css-class="codeColumn"><spring:message code="common.informAnmat" /></th>
+			<th data-column-id="isActive" data-header-css-class="codeColumn" ><spring:message code="common.active" /></th>
 			<%-- <th data-column-id="isClient"><spring:message code="common.isClient" /></th> --%>
 			<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
 		</tr>

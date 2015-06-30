@@ -30,8 +30,8 @@
 <table id="affiliatesTable" class="table table-condensed table-hover table-striped">
 	<thead>
 		<tr>
-			<th data-column-id="id" data-type="numeric"><spring:message code="common.id" /></th>
-			<th data-column-id="code" data-type="numeric"><spring:message code="common.code" /></th>
+			<th data-column-id="id" data-header-css-class="idColumn" data-type="numeric"><spring:message code="common.id" /></th>
+			<th data-column-id="code" data-header-css-class="codeColumn" data-type="numeric"><spring:message code="common.code" /></th>
 			<th data-column-id="name"><spring:message code="common.entity.name" /></th>
 			<th data-column-id="surname"><spring:message code="common.surname" /></th>
 			<th data-column-id="documentType"><spring:message code="common.documentType" /></th>

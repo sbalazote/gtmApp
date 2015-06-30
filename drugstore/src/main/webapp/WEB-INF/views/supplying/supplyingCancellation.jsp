@@ -9,6 +9,8 @@
 		new SupplyingCancellation();
 	});
 </script>
+
+<jsp:include page="../modals/modals.jsp" />
 <jsp:include page="../modals/supplyingModal.jsp" />
 
 <form action="" onsubmit="return false;">

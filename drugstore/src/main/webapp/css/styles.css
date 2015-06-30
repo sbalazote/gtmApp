@@ -260,6 +260,15 @@ div.blockMsg {
 .idColumn{
     width: 5%
 }
+
+.codeColumn{
+	width: 10%
+}
+
+.nameColumn{
+	width: 30%
+}
+
 .descriptionColumn{
     width: 45%
 }

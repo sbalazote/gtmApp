@@ -9,6 +9,8 @@
 		new ProvisioningRequestCancellation();
 	});
 </script>
+
+<jsp:include page="../modals/modals.jsp" />
 <jsp:include page="../modals/provisioningRequestModal.jsp" />
 
 <form action="" onsubmit="return false;">
