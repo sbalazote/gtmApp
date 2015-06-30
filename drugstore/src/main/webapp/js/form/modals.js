@@ -442,12 +442,36 @@ $(document).ready(function() {
 	};
 
 	var populateSupplyingModal = function (response) {
-		$("#supplyingId").text("Numero: " + response.id);
+
+        var deliveriesNotesNumbers = [];
+        $.ajax({
+            url: "getSupplyingsDeliveriesNoteNumbers.do",
+            type: "GET",
+            async: false,
+            data: {
+                supplyingId: response.id
+            },
+            success: function (res) {
+                deliveriesNotesNumbers = res;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                myGenericError();
+            }
+        });
+
+        var id = addLeadingZeros(response.id,6);
+		$("#supplyingId").text("Numero: " + id);
+
 		if (response.cancelled) {
-			$("#supplyingModalCancelled").text("ANULADO");
+            $("#cancelled").show();
 		} else {
-			$("#supplyingModalCancelled").text("");
+			$("#cancelled").hide();
 		}
+
+        if(deliveriesNotesNumbers.length > 0){
+            $("#deliveriesNotesNumbers").text("Remito: "+ deliveriesNotesNumbers);
+        }
+
 		if (response.transactionCodeANMAT != null) {
 			$("#supplyingModalANMATCode").show();
 			$("#supplyingModalTransactionCode").text(response.transactionCodeANMAT);

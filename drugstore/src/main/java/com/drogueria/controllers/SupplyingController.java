@@ -96,6 +96,12 @@ public class SupplyingController {
 		return this.supplyingService.getCountSupplyingSearch(supplyingQuery);
 	}
 
+	@RequestMapping(value = "/getSupplyingsDeliveriesNoteNumbers", method = RequestMethod.GET)
+	public @ResponseBody
+	List<String> getSupplyingsDeliveriesNoteNumbers(@RequestParam Integer supplyingId) {
+		return this.deliveryNoteService.getSupplyingsDeliveriesNoteNumbers(supplyingId);
+	}
+
 	@RequestMapping(value = "/cancelSupplyings", method = RequestMethod.POST)
 	public @ResponseBody
 	void cancelSupplyings(@RequestBody List<Integer> supplyingIds) throws Exception {

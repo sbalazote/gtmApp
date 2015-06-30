@@ -14,11 +14,11 @@
 								<spring:message code="deliveryNote.supplyingModal.label" />
 							</h3>
 						</div>
-						<div class="col-md-2">
+						<div class="col-md-3">
 							<h3 id="supplyingId"></h3>
 						</div>
-						<div class="col-md-2">
-							<h3 id="supplyingModalCancelled" style="color: red; font-weight: bold"></h3>
+						<div class="col-md-2"  id="cancelled">
+							<h3 style="color:red;font-weight: bold">ANULADO</h3>
 						</div>
 					</div>
 					<div id="supplyingModalANMATCode">
@@ -29,8 +29,14 @@
 								</h4>
 							</div>
 							<div class="col-md-2">
-								<h4 id="supplyingModalTransactionCode" style="color: blue; font-weight: bold"></h4>
+								<h4 id="supplyingModalTransactionCode" style="color: darkred; font-weight: bold"></h4>
 							</div>
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-md-12  text-center">
+							<h3 id="deliveriesNotesNumbers"></h3>
 						</div>
 					</div>
 				</div>
@@ -47,7 +53,6 @@
 							<div class="col-md-4 form-group">
 								<label for="supplyingModalAffiliateInput"><spring:message code="common.affiliate" /></label> <input id="supplyingModalAffiliateInput" name="supplyingModalAffiliate" type="text" class="form-control" disabled />
 							</div>
-
 						</div>
 						<br>
 						<div>

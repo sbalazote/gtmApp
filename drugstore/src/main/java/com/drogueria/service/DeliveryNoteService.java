@@ -45,4 +45,6 @@ public interface DeliveryNoteService {
 	void authorizeWithoutInform(List<Integer> deliveryNoteIds, String name);
 
 	void cancelDeliveryNotes(List<String> deliveryNoteNumbers, String username);
+
+	List<String> getSupplyingsDeliveriesNoteNumbers(Integer supplyingId);
 }

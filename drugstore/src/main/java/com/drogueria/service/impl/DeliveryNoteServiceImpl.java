@@ -197,4 +197,8 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	public Map<Integer, List<String>> getAssociatedSupplyings(boolean informAnmat) {
 		return this.deliveryNoteDAO.getAssociatedSupplyings(informAnmat);
 	}
+	@Override
+	public List<String> getSupplyingsDeliveriesNoteNumbers(Integer supplyingId){
+		return this.deliveryNoteDAO.getSupplyingsDeliveriesNoteNumbers(supplyingId);
+	}
 }
