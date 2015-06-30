@@ -18,7 +18,7 @@
 							<h3 id="supplyingId"></h3>
 						</div>
 						<div class="col-md-2"  id="supplyingCancelled">
-							<h3 style="color:red;font-weight: bold">ANULADO</h3>
+							<h3><span class="label label-danger">ANULADO</span></h3>
 						</div>
 					</div>
 					<div id="supplyingModalANMATCode">
