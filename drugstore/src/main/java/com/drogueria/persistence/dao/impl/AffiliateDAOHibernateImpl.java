@@ -38,7 +38,7 @@ public class AffiliateDAOHibernateImpl implements AffiliateDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Affiliate> getForAutocomplete(String term, Boolean active) {
-		String sentence = "from Affiliate where (name like :name or surname = :surname";
+		String sentence = "from Affiliate where (name like :name or surname like :surname";
 		if (StringUtility.isInteger(term)) {
 			sentence += " or convert(code, CHAR) like :code";
 		}
