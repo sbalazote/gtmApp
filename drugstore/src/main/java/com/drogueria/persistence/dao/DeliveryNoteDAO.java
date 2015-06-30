@@ -44,4 +44,6 @@ public interface DeliveryNoteDAO {
 	Map<Integer, List<DeliveryNote>> getAssociatedSupplyings();
 
 	List<String> getSupplyingsDeliveriesNoteNumbers(Integer supplyingId);
+
+    List<String> getOutputsDeliveriesNoteNumbers(Integer outputId);
 }

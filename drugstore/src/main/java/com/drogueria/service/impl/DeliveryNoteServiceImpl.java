@@ -213,6 +213,7 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 		return this.deliveryNoteDAO.getAssociatedSupplyings();
 	}
 
+
 	@Override
 	public List<String> getSupplyingsDeliveriesNoteNumbers(Integer supplyingId){
 		return this.deliveryNoteDAO.getSupplyingsDeliveriesNoteNumbers(supplyingId);

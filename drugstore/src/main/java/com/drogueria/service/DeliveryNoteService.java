@@ -53,4 +53,6 @@ public interface DeliveryNoteService {
 	void cancelDeliveryNotes(List<String> deliveryNoteNumbers, String username);
 
 	List<String> getSupplyingsDeliveriesNoteNumbers(Integer supplyingId);
+
+	List<String> getOutputsDeliveriesNoteNumbers(Integer supplyingId);
 }

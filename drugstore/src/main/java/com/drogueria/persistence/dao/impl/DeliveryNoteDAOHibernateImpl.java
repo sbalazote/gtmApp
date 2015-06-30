@@ -345,4 +345,17 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
             return null;
         }
 	}
+
+
+    @Override
+    public List<String> getOutputsDeliveriesNoteNumbers(Integer outputId){
+        try {
+            String sentence = "select dn.number from output_detail as od, delivery_note_detail as dnd, delivery_note as dn, output as o where od.id = dnd.output_detail_id and dn.id = dnd.delivery_note_id and od.output_id = o.id and o.id ="
+                    + outputId;
+            Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+            return query.list();
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+    }
 }
