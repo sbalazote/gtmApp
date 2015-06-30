@@ -32,11 +32,11 @@
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-md-4 form-group">
+						<div class="col-md-2 form-group">
 							<label for="dateDeliveryNoteModal"><spring:message code="common.date"/></label>
 							<input id="dateDeliveryNoteModal" name="dateDeliveryNoteModal" class="form-control" disabled>
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-6 form-group">
 							<label for="clientOrProviderDeliveryNoteModal"><spring:message code="common.clientOrProvider"/></label>
 							<input id="clientOrProviderDeliveryNoteModal" name="clientOrProviderDeliveryNoteModal" class="form-control" disabled>
 						</div>

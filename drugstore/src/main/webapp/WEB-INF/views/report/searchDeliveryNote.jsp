@@ -80,7 +80,8 @@
 						<table class="table table-condensed table-hover table-striped" id="deliveryNoteTableOutput">
 							<thead>
 						        <tr>
-						            <th data-column-id="number" data-type="numeric"><spring:message code="common.deliveryNote"/></th>
+									<th data-column-id="id" data-header-css-class="idColumn" data-type="numeric"><spring:message code="common.id"/></th>
+						            <th data-column-id="number" data-header-css-class="descriptionColumn" data-type="numeric"><spring:message code="common.deliveryNote"/></th>
 						            <th data-column-id="date"><spring:message code="common.date"/></th>
 						          	<th data-column-id="action"><spring:message code="common.option"/></th>
 						        </tr>
@@ -128,7 +129,8 @@
                         <table class="table table-condensed table-hover table-striped" id="deliveryNoteTableSupplying">
                             <thead>
                                 <tr>
-                                    <th data-column-id="number" data-type="numeric"><spring:message code="common.deliveryNote"/></th>
+									<th data-column-id="id" data-header-css-class="idColumn" data-type="numeric"><spring:message code="common.id"/></th>
+                                    <th data-column-id="number" data-header-css-class="descriptionColumn" data-type="numeric"><spring:message code="common.deliveryNote"/></th>
                                     <th data-column-id="date"><spring:message code="common.date"/></th>
                                     <th data-column-id="action"><spring:message code="common.option"/></th>
                                 </tr>
@@ -170,7 +172,8 @@
                         <table class="table table-condensed table-hover table-striped" id="deliveryNoteTableOrder">
                             <thead>
                             <tr>
-                                <th data-column-id="number" data-type="numeric"><spring:message code="common.deliveryNote"/></th>
+								<th data-column-id="id" data-header-css-class="idColumn" data-type="numeric"><spring:message code="common.id"/></th>
+                                <th data-column-id="number" data-header-css-class="descriptionColumn" data-type="numeric"><spring:message code="common.deliveryNote"/></th>
                                 <th data-column-id="date"><spring:message code="common.date"/></th>
                                 <th data-column-id="action"><spring:message code="common.option"/></th>
                             </tr>

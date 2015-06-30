@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.drogueria.model.*;
+import com.drogueria.util.StringUtility;
 import com.ibm.icu.text.SimpleDateFormat;
 
 public class DeliveryNoteResultDTO {
@@ -85,13 +86,16 @@ public class DeliveryNoteResultDTO {
 		this.number = deliveryNote.getNumber();
 		List<OutputOrderDetailResultDTO> outpuOrderResultDTO = new ArrayList<OutputOrderDetailResultDTO>();
 		if (output != null) {
-			this.setAgreement(output.getAgreement().getDescription());
+			String code = StringUtility.addLeadingZeros(output.getAgreement().getCode().toString(), 4);
+			this.setAgreement(code + " - " + output.getAgreement().getDescription());
 			this.setDate(stringDate.format(output.getDate()));
 			if (output.getDeliveryLocation() != null) {
-				this.setDeliveryLocation(output.getDeliveryLocation().getCorporateName());
+				code = StringUtility.addLeadingZeros(output.getDeliveryLocation().getCode().toString(), 5);
+				this.setDeliveryLocation(code + " - " +  output.getDeliveryLocation().getCorporateName());
 			}
 			if (output.getProvider() != null) {
-				this.setDeliveryLocation(output.getProvider().getCorporateName());
+				code = StringUtility.addLeadingZeros(output.getProvider().getCode().toString(), 5);
+				this.setDeliveryLocation(code + " - " +output.getProvider().getCorporateName());
 			}
 		}
 		if (deliveryNote.getTransactionCodeANMAT() != null) {
@@ -102,14 +106,18 @@ public class DeliveryNoteResultDTO {
 		}
 
 		if (order != null) {
-			this.setAgreement(order.getProvisioningRequest().getAgreement().getDescription());
+			String code = StringUtility.addLeadingZeros(order.getProvisioningRequest().getAgreement().getCode().toString(), 4);
+			this.setAgreement(code + " - " + order.getProvisioningRequest().getAgreement().getDescription());
 			this.setDate(stringDate.format(order.getProvisioningRequest().getDeliveryDate()));
-			this.setDeliveryLocation(order.getProvisioningRequest().getDeliveryLocation().getCorporateName());
+			code = StringUtility.addLeadingZeros(order.getProvisioningRequest().getDeliveryLocation().getCode().toString(), 5);
+			this.setDeliveryLocation(code + " - " + order.getProvisioningRequest().getDeliveryLocation().getCorporateName());
 		}
         if(supplying != null){
-            this.setAgreement(supplying.getAgreement().getDescription());
+			String code = StringUtility.addLeadingZeros(supplying.getAgreement().getCode().toString(), 4);
+            this.setAgreement(code + " - " + supplying.getAgreement().getDescription());
             this.setDate(stringDate.format(supplying.getDate()));
-            this.setDeliveryLocation(supplying.getClient().getCorporateName());
+			code = StringUtility.addLeadingZeros(supplying.getClient().getCode().toString(), 5);
+            this.setDeliveryLocation(code + " - " +supplying.getClient().getCorporateName());
         }
 		for (DeliveryNoteDetail deliveryNoteDetail : deliveryNote.getDeliveryNoteDetails()) {
 			if (deliveryNoteDetail.getOutputDetail() != null) {

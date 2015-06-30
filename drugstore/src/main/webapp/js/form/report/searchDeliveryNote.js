@@ -50,8 +50,8 @@ SearchDeliveryNote = function() {
 	$('#deliveryNoteTableOrderBody').on("click", ".view-row", function() {
 		var parent = $(this).parent().parent();
 		deliveryNoteId = parent.find("td:first-child").html();
-		
-		showDeliveryNoteModal(deliveryNoteId);
+
+		showDeliveryNoteByIdModal(deliveryNoteId);
 	});
 	
 	$("#searchOrderButton").click(function() {
@@ -72,10 +72,12 @@ SearchDeliveryNote = function() {
 					var aaData = [];
 					for (var i = 0, l = response.length; i < l; ++i) {
 						var order = {
+							id:"",
 							number: 0,
 							date: "",
 							action: ""
 						};
+						output.id= response[i].id;
 						order.number = response[i].number;
 						order.date = myParseDate(response[i].date);
 						order.action = "<a href='javascript:void(0);' class='view-row'>Consulta</a>";
@@ -107,8 +109,8 @@ SearchDeliveryNote = function() {
 	$('#deliveryNoteTableOutputBody').on("click", ".view-row", function() {
 		var parent = $(this).parent().parent();
 		deliveryNoteId = parent.find("td:first-child").html();
-		
-		showDeliveryNoteModal(deliveryNoteId);
+
+		showDeliveryNoteByIdModal(deliveryNoteId);
 	});
 	
 	
@@ -131,10 +133,12 @@ SearchDeliveryNote = function() {
 					var aaData = [];
 					for (var i = 0, l = response.length; i < l; ++i) {
 						var output = {
+							id:"",
 							number: 0,
 							date: "",
 							action: ""
 						};
+						output.id= response[i].id;
 						output.number = response[i].number;
 						output.date = myParseDate(response[i].date);
 						output.action = "<a href='javascript:void(0);' class='view-row'>Consulta</a>";
@@ -181,10 +185,12 @@ SearchDeliveryNote = function() {
                     var aaData = [];
                     for (var i = 0, l = response.length; i < l; ++i) {
                         var output = {
+							id:"",
                             number: 0,
                             date: "",
                             action: ""
                         };
+						output.id= response[i].id;
                         output.number = response[i].number;
                         output.date = myParseDate(response[i].date);
                         output.action = "<a href='javascript:void(0);' class='view-row'>Consulta</a>";
@@ -217,7 +223,7 @@ SearchDeliveryNote = function() {
         var parent = $(this).parent().parent();
         deliveryNoteId = parent.find("td:first-child").html();
 
-        showDeliveryNoteModal(deliveryNoteId);
+		showDeliveryNoteByIdModal(deliveryNoteId);
     });
 
      $('.nav-tabs > li > a').click(function(event){
