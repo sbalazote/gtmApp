@@ -276,8 +276,15 @@ $(document).ready(function() {
         }
 
         if(deliveriesNotesNumbers.length > 0){
-            $("#outputDeliveriesNotesNumbers").text("Remito: "+ deliveriesNotesNumbers);
-        }
+			$("#outputDeliveriesNotesLabel").show();
+			$("#outputDeliveriesNotesNumbers").html("");
+			$.each(deliveriesNotesNumbers, function( index, value ) {
+				$("#outputDeliveriesNotesNumbers").append("<span class=\"label label-info\">" + value + "</span> ");
+			});
+        } else {
+			$("#outputDeliveriesNotesLabel").hide();
+			$("#outputDeliveriesNotesNumbers").html("");
+		}
 
 		if (response.transactionCodeANMAT != null) {
 			$("#outputModalANMATCode").show();
@@ -491,9 +498,16 @@ $(document).ready(function() {
 			$("#supplyingCancelled").hide();
 		}
 
-        if(deliveriesNotesNumbers.length > 0){
-            $("#supplyingDeliveriesNotesNumbers").text("Remito: "+ deliveriesNotesNumbers);
-        }
+		if(deliveriesNotesNumbers.length > 0){
+			$("#supplyingDeliveriesNotesLabel").show();
+			$("#supplyingDeliveriesNotesNumbers").html("");
+			$.each(deliveriesNotesNumbers, function( index, value ) {
+				$("#supplyingDeliveriesNotesNumbers").append("<span class=\"label label-info\">" + value + "</span> ");
+			});
+		} else {
+			$("#supplyingDeliveriesNotesLabel").hide();
+			$("#supplyingDeliveriesNotesNumbers").html("");
+		}
 
 		if (response.transactionCodeANMAT != null) {
 			$("#supplyingModalANMATCode").show();

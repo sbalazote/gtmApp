@@ -33,12 +33,6 @@
 							</div>
 						</div>
 					</div>
-					<br>
-					<div class="row">
-						<div class="col-md-12  text-center">
-							<h3 id="supplyingDeliveriesNotesNumbers"></h3>
-						</div>
-					</div>
 				</div>
 
 				<div class="modal-body">
@@ -54,7 +48,15 @@
 								<label for="supplyingModalAffiliateInput"><spring:message code="common.affiliate" /></label> <input id="supplyingModalAffiliateInput" name="supplyingModalAffiliate" type="text" class="form-control" disabled />
 							</div>
 						</div>
-						<br>
+
+						<div class="row">
+							<div class="col-md-12 form-group">
+								<br>
+								<h4 id="supplyingDeliveriesNotesLabel" style="display: none"><label><spring:message code="common.deliveryNotes"/></label></h4>
+								<h3 id="supplyingDeliveriesNotesNumbers"></h3>
+							</div>
+						</div>
+
 						<div>
 							<table id="supplyingModalProductTable" class="table table-condensed table-hover table-striped">
 								<thead>

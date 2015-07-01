@@ -33,12 +33,6 @@
 							</div>
 						</div>
 					</div>
-                    <br>
-                    <div class="row">
-                        <div class="col-md-12  text-center">
-                            <h3 id="outputDeliveriesNotesNumbers"></h3>
-                        </div>
-                    </div>
                 </div>
 				<div class="modal-body">
 					<div class="container-fluid">
@@ -60,7 +54,13 @@
 							</div>
 						</div>
 
-						<br>
+						<div class="row">
+							<div class="col-md-12 form-group">
+								<br>
+								<h4 id="outputDeliveriesNotesLabel" style="display: none"><label><spring:message code="common.deliveryNotes"/></label></h4>
+								<h3 id="outputDeliveriesNotesNumbers"></h3>
+							</div>
+						</div>
 
 						<div>
 							<table id="outputModalProductTable" class="table table-condensed table-hover table-striped">

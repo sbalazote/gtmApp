@@ -76,7 +76,28 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 
 	@Override
 	public Map<Integer, List<DeliveryNote>> getAssociatedOrders() {
-		return null;
+		Map<Integer, List<DeliveryNote>> associatedOrders = new HashMap<Integer, List<DeliveryNote>>();
+		Query query;
+		String sentence = "select distinct od.order_id, dn from order_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.order_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
+
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+		Iterator<Object[]> it = query.list().iterator();
+		while (it.hasNext()) {
+			Object[] orderDeliveryNotePair = it.next();
+			Integer orderId = (Integer) orderDeliveryNotePair[0];
+			DeliveryNote deliveryNoteNumber = (DeliveryNote) orderDeliveryNotePair[1];
+			List<DeliveryNote> deliveryNoteNumbers = null;
+			if (!associatedOrders.containsKey(orderId)) {
+				deliveryNoteNumbers = new ArrayList<DeliveryNote>();
+				deliveryNoteNumbers.add(deliveryNoteNumber);
+				associatedOrders.put(orderId, deliveryNoteNumbers);
+			} else {
+				deliveryNoteNumbers = associatedOrders.get(orderId);
+				deliveryNoteNumbers.add(deliveryNoteNumber);
+				associatedOrders.put(orderId, deliveryNoteNumbers);
+			}
+		}
+		return associatedOrders;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -337,7 +358,9 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 	@Override
 	public List<String> getSupplyingsDeliveriesNoteNumbers(Integer supplyingId){
 		try {
-		String sentence = "select distinct dn.number from supplying_detail as sd, delivery_note_detail as dnd, delivery_note as dn, supplying as s where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and sd.supplying_id = s.id and s.id ="
+		String sentence = "select distinct concat(case fake when true THEN 'X' when false then 'R' END, dn.number) " +
+				"from supplying_detail as sd, delivery_note_detail as dnd, delivery_note as dn, supplying as s " +
+				"where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and sd.supplying_id = s.id and s.id ="
 				+ supplyingId;
 		Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
 		return query.list();
@@ -350,7 +373,9 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
     @Override
     public List<String> getOutputsDeliveriesNoteNumbers(Integer outputId){
         try {
-            String sentence = "select dn.number from output_detail as od, delivery_note_detail as dnd, delivery_note as dn, output as o where od.id = dnd.output_detail_id and dn.id = dnd.delivery_note_id and od.output_id = o.id and o.id ="
+            String sentence = "select distinct concat(case fake when true THEN 'X' when false then 'R' END, dn.number) " +
+					"from output_detail as od, delivery_note_detail as dnd, delivery_note as dn, output as o " +
+					"where od.id = dnd.output_detail_id and dn.id = dnd.delivery_note_id and od.output_id = o.id and o.id ="
                     + outputId;
             Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
             return query.list();
