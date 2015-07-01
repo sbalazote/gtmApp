@@ -23,7 +23,7 @@ public class ProductGroupServiceImpl implements ProductGroupService {
 	@Override
 	public void save(ProductGroup productGroup) {
 		this.productGroupDAO.save(productGroup);
-		logger.info("Se han guardado los cambios exitosamente. Id de Agrupación: " + productGroup.getId());
+		logger.info("Se han guardado los cambios exitosamente. Id de Agrupacion: " + productGroup.getId());
 	}
 
 	@Override

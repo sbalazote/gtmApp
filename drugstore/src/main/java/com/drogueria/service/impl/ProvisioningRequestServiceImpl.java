@@ -61,7 +61,7 @@ public class ProvisioningRequestServiceImpl implements ProvisioningRequestServic
 		ProvisioningRequest provisioningRequest = this.buildModel(provisioningRequestDTO);
 		this.provisioningRequestDAO.save(provisioningRequest);
 
-		logger.info("Se han guardado los cambios exitosamente. Solicitud de Abastecimiento número: " + provisioningRequest.getId());
+		logger.info("Se han guardado los cambios exitosamente. Solicitud de Abastecimiento numero: " + provisioningRequest.getId());
 
 		return provisioningRequest;
 	}
@@ -166,7 +166,7 @@ public class ProvisioningRequestServiceImpl implements ProvisioningRequestServic
 			provisioningRequest.setState(state);
 			this.save(provisioningRequest);
 
-			logger.info("Se ha autorizado la Solicitud de Abastecimiento número: " + id);
+			logger.info("Se ha autorizado la Solicitud de Abastecimiento numero: " + id);
 		}
 	}
 
@@ -178,7 +178,7 @@ public class ProvisioningRequestServiceImpl implements ProvisioningRequestServic
 			provisioningRequest.setState(state);
 			this.save(provisioningRequest);
 
-			logger.info("Se ha anulado la Solicitud de Abastecimiento número: " + id);
+			logger.info("Se ha anulado la Solicitud de Abastecimiento numero: " + id);
 		}
 	}
 

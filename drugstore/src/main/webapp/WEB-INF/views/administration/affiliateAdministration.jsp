@@ -101,6 +101,7 @@
 					<div class="col-md-4 form-group">
 						<label for="documentTypeSelect"><spring:message code="common.documentType"/></label> 
 						<select class="form-control chosen-select" id="documentTypeSelect" name="documentType">
+							<option value="">- <spring:message code="common.select.option"/> -</option>
 							<c:forEach items="${documentTypes}" var="documentType">
 								<option value="${documentType.key}">${documentType.value}</option>
 							</c:forEach>
