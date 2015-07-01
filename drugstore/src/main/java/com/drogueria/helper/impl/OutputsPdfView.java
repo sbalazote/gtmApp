@@ -99,19 +99,30 @@ public class OutputsPdfView extends AbstractPdfView {
 			cb.endText();
 
 			// DOC. NRO
-			cb.beginText();
-			cb.setTextMatrix(230 * 2.8346f, 190 * 2.8346f);
 			List<DeliveryNote> outputDeliveryNotes = associatedOutputs.get(new Integer(output.getId()));
 			String dnNumbers = "";
 			if (outputDeliveryNotes != null) {
+				int offsetY = 190;
+				cb.beginText();
+				cb.setTextMatrix(230 * 2.8346f, offsetY * 2.8346f);
+				cb.showText("Doc. Nro.: " + dnNumbers);
+				cb.endText();
 				for (DeliveryNote elem : outputDeliveryNotes) {
+					cb.beginText();
+					cb.setTextMatrix(250 * 2.8346f, offsetY * 2.8346f);
 					String pre = elem.isFake() ? "X" : "R";
-					dnNumbers = dnNumbers.concat(pre + elem.getNumber()).concat("\n");
+					dnNumbers = pre.concat(elem.getNumber());
+					cb.showText(dnNumbers);
+					cb.endText();
+					offsetY-=5;
+					document.add(Chunk.NEWLINE);
 				}
+			} else {
+				cb.beginText();
+				cb.setTextMatrix(230 * 2.8346f, 190 * 2.8346f);
+				cb.showText("Doc. Nro.: NO IMPRIME" );
+				cb.endText();
 			}
-
-			cb.showText("Doc. Nro.: " + dnNumbers);
-			cb.endText();
 
 			document.add(logo);
 
