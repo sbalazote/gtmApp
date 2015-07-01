@@ -62,7 +62,10 @@ public class AuditServiceImpl implements AuditService {
 		Audit audit = new Audit();
 		AuditAction auditAction = this.auditActionService.get(action.getId());
 		audit.setAuditAction(auditAction);
-		audit.setDate(new Date());
+		Date date = new Date();
+		java.sql.Timestamp timestamp = new java.sql.Timestamp(date.getTime());
+		audit.setDate(timestamp);
+		//audit.setDate(new Date());
 		audit.setOperationId(operationId);
 		Role role = this.roleService.get(roleId);
 		audit.setRole(role);

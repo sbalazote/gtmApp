@@ -51,12 +51,12 @@ SearchSerializedProduct = function() {
 				serialNumberSearch: {
 					digits: true,
                     required: function(element) {
-                        return $("#serialParserSearch").val() == "true";
+                        return $("#serialParserSearch").val() == "";
                     }
 				},
 				productInput: {
                     required: function(element) {
-                        return $("#serialParserSearch").val() == "true";
+                        return $("#serialParserSearch").val() == "";
                     }
 				}
 			},
