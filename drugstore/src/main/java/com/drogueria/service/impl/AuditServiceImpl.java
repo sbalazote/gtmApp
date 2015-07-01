@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.drogueria.constant.RoleOperation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,9 +64,10 @@ public class AuditServiceImpl implements AuditService {
 		AuditAction auditAction = this.auditActionService.get(action.getId());
 		audit.setAuditAction(auditAction);
 		Date date = new Date();
-		java.sql.Timestamp timestamp = new java.sql.Timestamp(date.getTime());
-		audit.setDate(timestamp);
-		//audit.setDate(new Date());
+		if(roleId == RoleOperation.DELIVERY_NOTE_PRINT.getId()){
+			date = new Date( System.currentTimeMillis() + 1000L);
+		}
+		audit.setDate(date);
 		audit.setOperationId(operationId);
 		Role role = this.roleService.get(roleId);
 		audit.setRole(role);

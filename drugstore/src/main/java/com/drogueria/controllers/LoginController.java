@@ -35,7 +35,7 @@ public class LoginController {
             return "login";
         }else {
             if (error != null) {
-                modelMap.put("error", "Usuario / Contrasenia incorrecta, vuelva a intentar");
+                modelMap.put("error", "Usuario / Contraseña incorrecta, vuelva a intentar");
             }
         }
 		return "login";
