@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.drogueria.config.PropertyProvider;
 import com.drogueria.helper.AbstractPdfView;
+import com.drogueria.model.DeliveryNote;
 import com.drogueria.model.Supplying;
 import com.drogueria.model.SupplyingDetail;
 import com.drogueria.service.DeliveryNoteService;
@@ -33,7 +34,7 @@ public class SupplyingsPdfView extends AbstractPdfView {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		@SuppressWarnings("unchecked")
 		List<Supplying> supplyings = (List<Supplying>) model.get("supplyings");
-		Map<Integer, List<String>> associatedSupplyings = (Map<Integer, List<String>>) model.get("associatedSupplyings"); ;
+		Map<Integer, List<DeliveryNote>> associatedSupplyings = (Map<Integer, List<DeliveryNote>>) model.get("associatedSupplyings"); ;
 
 		// Fuentes
 		Font fontHeader = new Font(Font.TIMES_ROMAN, 11f, Font.NORMAL, Color.BLACK);
@@ -108,10 +109,13 @@ public class SupplyingsPdfView extends AbstractPdfView {
 			// DOC. NRO
 			cb.beginText();
 			cb.setTextMatrix(230 * 2.8346f, 190 * 2.8346f);
-			List<String> supplyingDeliveryNotes = associatedSupplyings.get(new Integer(supplying.getId()));
+			List<DeliveryNote> supplyingDeliveryNotes = associatedSupplyings.get(new Integer(supplying.getId()));
 			String dnNumbers = "";
-			for(String elem : supplyingDeliveryNotes){
-				dnNumbers = dnNumbers.concat("X" + elem).concat("\n");
+			if (supplyingDeliveryNotes != null) {
+				for (DeliveryNote elem : supplyingDeliveryNotes) {
+					String pre = elem.isFake() ? "X" : "R";
+					dnNumbers = dnNumbers.concat(pre + elem.getNumber()).concat("\n");
+				}
 			}
 
 			cb.showText("Doc. Nro.: " + dnNumbers);

@@ -5,9 +5,7 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.drogueria.model.Concept;
-import com.drogueria.model.Property;
-import com.drogueria.model.Supplying;
+import com.drogueria.model.*;
 import com.drogueria.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -26,7 +24,6 @@ import com.drogueria.constant.RoleOperation;
 import com.drogueria.dto.OutputDTO;
 import com.drogueria.helper.impl.OutputDeliveryNoteSheetPrinter;
 import com.drogueria.helper.impl.OutputFakeDeliveryNoteSheetPrinter;
-import com.drogueria.model.Output;
 import com.drogueria.query.OutputQuery;
 import com.drogueria.util.OperationResult;
 
@@ -156,7 +153,7 @@ public class OutputController {
 	public ModelAndView inputs(HttpServletRequest request) {
 		OutputQuery outputQuery = this.getOutputQuery(request);
 		Map<String, Object> map = new HashMap<String, Object>();
-		Map<Integer, List<String>> outputDeliveryNotes = this.deliveryNoteService.getAssociatedOutputs(false);
+		Map<Integer, List<DeliveryNote>> outputDeliveryNotes = this.deliveryNoteService.getAssociatedOutputs();
 		List<Output> outputs = this.outputService.getOutputForSearch(outputQuery);
 		map.put("associatedOutputs", outputDeliveryNotes);
 		map.put("outputs", outputs);

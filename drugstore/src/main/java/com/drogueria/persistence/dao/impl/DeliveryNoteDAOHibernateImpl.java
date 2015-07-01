@@ -1,10 +1,6 @@
 package com.drogueria.persistence.dao.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -78,22 +74,30 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 	public Map<Integer, List<DeliveryNote>> getAssociatedOrders() {
 		Map<Integer, List<DeliveryNote>> associatedOrders = new HashMap<Integer, List<DeliveryNote>>();
 		Query query;
-		String sentence = "select distinct od.order_id, dn from order_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.order_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
+		String sentence = "select distinct od.order_id, dn.* from order_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.order_detail_id and dn.id = dnd.delivery_note_id";
 
 		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
 		Iterator<Object[]> it = query.list().iterator();
 		while (it.hasNext()) {
 			Object[] orderDeliveryNotePair = it.next();
 			Integer orderId = (Integer) orderDeliveryNotePair[0];
-			DeliveryNote deliveryNoteNumber = (DeliveryNote) orderDeliveryNotePair[1];
+			DeliveryNote deliveryNote = new DeliveryNote();
+			deliveryNote.setId((Integer) orderDeliveryNotePair[1]);
+			deliveryNote.setNumber((String) orderDeliveryNotePair[2]);
+			deliveryNote.setDate((Date) orderDeliveryNotePair[3]);
+			deliveryNote.setTransactionCodeANMAT((String) orderDeliveryNotePair[4]);
+			deliveryNote.setCancelled((Boolean) orderDeliveryNotePair[5]);
+			deliveryNote.setInformAnmat((Boolean) orderDeliveryNotePair[6]);
+			deliveryNote.setInformed((Boolean) orderDeliveryNotePair[7]);
+			deliveryNote.setFake((Boolean) orderDeliveryNotePair[8]);
 			List<DeliveryNote> deliveryNoteNumbers = null;
 			if (!associatedOrders.containsKey(orderId)) {
 				deliveryNoteNumbers = new ArrayList<DeliveryNote>();
-				deliveryNoteNumbers.add(deliveryNoteNumber);
+				deliveryNoteNumbers.add(deliveryNote);
 				associatedOrders.put(orderId, deliveryNoteNumbers);
 			} else {
 				deliveryNoteNumbers = associatedOrders.get(orderId);
-				deliveryNoteNumbers.add(deliveryNoteNumber);
+				deliveryNoteNumbers.add(deliveryNote);
 				associatedOrders.put(orderId, deliveryNoteNumbers);
 			}
 		}
@@ -134,7 +138,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 	@Override
 	public Map<Integer, List<DeliveryNote>> getAssociatedOutputs() {
 		Map<Integer, List<DeliveryNote>> associatedOutputs = new HashMap<Integer, List<DeliveryNote>>();
-		String sentence = "select distinct od.output_id, dn from output_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.output_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
+		String sentence = "select distinct od.output_id, dn.* from output_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.output_detail_id and dn.id = dnd.delivery_note_id";
 
 		Query query;
 		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
@@ -143,7 +147,15 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 		while (it.hasNext()) {
 			Object[] outputDeliveryNotePair = it.next();
 			Integer outputId = (Integer) outputDeliveryNotePair[0];
-			DeliveryNote deliveryNote = (DeliveryNote) outputDeliveryNotePair[1];
+			DeliveryNote deliveryNote = new DeliveryNote();
+			deliveryNote.setId((Integer) outputDeliveryNotePair[1]);
+			deliveryNote.setNumber((String) outputDeliveryNotePair[2]);
+			deliveryNote.setDate((Date) outputDeliveryNotePair[3]);
+			deliveryNote.setTransactionCodeANMAT((String) outputDeliveryNotePair[4]);
+			deliveryNote.setCancelled((Boolean) outputDeliveryNotePair[5]);
+			deliveryNote.setInformAnmat((Boolean) outputDeliveryNotePair[6]);
+			deliveryNote.setInformed((Boolean) outputDeliveryNotePair[7]);
+			deliveryNote.setFake((Boolean) outputDeliveryNotePair[8]);
 			List<DeliveryNote> deliveryNotes = null;
 			if (!associatedOutputs.containsKey(outputId)) {
 				deliveryNotes = new ArrayList<DeliveryNote>();
@@ -190,16 +202,23 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 	@Override
 	public Map<Integer, List<DeliveryNote>> getAssociatedSupplyings() {
 		Map<Integer, List<DeliveryNote>> associatedSupplyings = new HashMap<Integer, List<DeliveryNote>>();
-		String sentence = "select distinct sd.supplying_id, dn from supplying_detail as sd, delivery_note_detail as dnd, delivery_note dn where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
+		String sentence = "select distinct sd.supplying_id, dn.* from supplying_detail as sd, delivery_note_detail as dnd, delivery_note dn where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id";
 
 		Query query;
 		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
-
-		Iterator<Object[]> it = query.list().iterator();
+		Iterator it = query.list().iterator();
 		while (it.hasNext()) {
-			Object[] supplyingDeliveryNotePair = it.next();
+			Object[] supplyingDeliveryNotePair = (Object[]) it.next();
 			Integer supplyingId = (Integer) supplyingDeliveryNotePair[0];
-			DeliveryNote deliveryNote = (DeliveryNote) supplyingDeliveryNotePair[1];
+			DeliveryNote deliveryNote = new DeliveryNote();
+			deliveryNote.setId((Integer) supplyingDeliveryNotePair[1]);
+			deliveryNote.setNumber((String) supplyingDeliveryNotePair[2]);
+			deliveryNote.setDate((Date) supplyingDeliveryNotePair[3]);
+			deliveryNote.setTransactionCodeANMAT((String) supplyingDeliveryNotePair[4]);
+			deliveryNote.setCancelled((Boolean) supplyingDeliveryNotePair[5]);
+			deliveryNote.setInformAnmat((Boolean) supplyingDeliveryNotePair[6]);
+			deliveryNote.setInformed((Boolean) supplyingDeliveryNotePair[7]);
+			deliveryNote.setFake((Boolean) supplyingDeliveryNotePair[8]);
 			List<DeliveryNote> deliveryNotes = null;
 			if (!associatedSupplyings.containsKey(supplyingId)) {
 				deliveryNotes = new ArrayList<DeliveryNote>();

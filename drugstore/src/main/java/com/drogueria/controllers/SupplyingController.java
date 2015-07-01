@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.drogueria.constant.DocumentType;
+import com.drogueria.model.DeliveryNote;
 import com.drogueria.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -118,7 +119,7 @@ public class SupplyingController {
 	public ModelAndView supplyings(HttpServletRequest request) {
 		SupplyingQuery supplyingQuery = this.getSupplyingQuery(request);
 		Map<String, Object> map = new HashMap<String, Object>();
-		Map<Integer, List<String>> supplyingDeliveryNotes = this.deliveryNoteService.getAssociatedSupplyings(false);
+		Map<Integer, List<DeliveryNote>> supplyingDeliveryNotes = this.deliveryNoteService.getAssociatedSupplyings();
 		List<Supplying> supplyings = this.supplyingService.getSupplyingForSearch(supplyingQuery);
 		map.put("associatedSupplyings", supplyingDeliveryNotes);
 		map.put("supplyings", supplyings);
