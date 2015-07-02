@@ -1,11 +1,29 @@
 package com.drogueria.dto;
 
 public class OutputOrderDetailResultDTO {
+	private Integer id;
+	private Integer code;
 	private String product;
 	private String serialNumber;
 	private String batch;
 	private String expirationDate;
 	private Integer amount;
+
+	public Integer getId() {
+		return this.id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getCode() {
+		return this.code;
+	}
+
+	public void setCode(Integer code) {
+		this.code = code;
+	}
 
 	public String getProduct() {
 		return this.product;
@@ -47,8 +65,10 @@ public class OutputOrderDetailResultDTO {
 		this.amount = amount;
 	}
 
-	public OutputOrderDetailResultDTO(String product, String serialNumber, String batch, String expirationDate, Integer amount) {
+	public OutputOrderDetailResultDTO(Integer id, Integer code, String product, String serialNumber, String batch, String expirationDate, Integer amount) {
 		super();
+		this.id = id;
+		this.code = code;
 		this.product = product;
 		this.serialNumber = serialNumber;
 		this.batch = batch;

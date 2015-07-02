@@ -155,23 +155,6 @@ $(document).ready(function() {
 		$('#inputModal').modal('show');
 	};
 
-	showDeliveryNoteModal = function (deliveryNoteId) {
-		$.ajax({
-			url: "getDeliveryNote.do",
-			type: "GET",
-			async: false,
-			data: {
-				deliveryNoteNumber: deliveryNoteId
-			},
-			success: function (response) {
-				populateDeliveryNoteModal(response);
-			},
-			error: function (jqXHR, textStatus, errorThrown) {
-				myGenericError();
-			}
-		});
-	};
-
 	showDeliveryNoteByIdModal = function (deliveryNoteId) {
 		$.ajax({
 			url: "getDeliveryNoteById.do",
@@ -190,7 +173,12 @@ $(document).ready(function() {
 	};
 
 	var populateDeliveryNoteModal = function (response) {
-		$('#productTableBodyDeliveryNote').empty();
+		if (response.cancelled) {
+			$("#deliveryNoteCancelled").show();
+		} else {
+			$("#deliveryNoteCancelled").hide();
+		}
+
 		$("#deliveryNoteId").text("Numero: " + response.number);
 
 		$('#dateDeliveryNoteModal').val(response.date);
@@ -198,35 +186,69 @@ $(document).ready(function() {
 		$('#agreementDeliveryNoteModal').val(response.agreement);
 
 		if (response.transactionCodeANMAT != null) {
-			$("#ANMATCode").show();
-			$("#transactionCode").text(response.transactionCodeANMAT);
+			$("#deliveryNoteModalANMATCode").show();
+			$("#deliveryNoteModalTransactionCode").text(response.transactionCodeANMAT);
 		} else {
-			$("#ANMATCode").hide();
-			$("#transactionCode").text("");
+			$("#deliveryNoteModalANMATCode").hide();
+			$("#deliveryNoteModalTransactionCode").text("");
 		}
 
-		if (response.cancelled) {
-			$("#cancelled").text("ANULADO");
-		} else {
-			$("#cancelled").text("");
-		}
-
+		var id = 0;
 		var found = false;
-		var tableRow;
+		var orderOutputDetails = [];
+		serialsMap = {};
+		serialDetails = {};
 
 		for (var i = 0; i < response.orderOutputDetails.length; i++) {
-			var serialNumber = " ";
-			if (response.orderOutputDetails[i].serialNumber != null) {
-				serialNumber = response.orderOutputDetails[i].serialNumber;
+			found = false;
+			for (var j = 0; j < orderOutputDetails.length; j++) {
+				if (response.orderOutputDetails[i].product.id == orderOutputDetails[j].id) {
+					orderOutputDetails[j].amount += response.orderOutputDetails[i].amount;
+					found = true;
+				}
 			}
-			tableRow = "<tr><td>" + response.orderOutputDetails[i].product + "</td>" +
-			"<td>" + response.orderOutputDetails[i].amount + "</td>" +
-			"<td>" + serialNumber + "</td>" +
-			"<td>" + response.orderOutputDetails[i].batch + "</td>" +
-			"<td>" + response.orderOutputDetails[i].expirationDate + "</td>" +
-			"</tr>";
-			$("#productTableBodyDeliveryNote").append(tableRow);
+			if (!found) {
+				var deliveryNoteDetail = {};
+				deliveryNoteDetail.id = response.orderOutputDetails[i].id;
+				deliveryNoteDetail.code = response.orderOutputDetails[i].code;
+				deliveryNoteDetail.description = response.orderOutputDetails[i].product;
+				deliveryNoteDetail.amount = response.orderOutputDetails[i].amount;
+				deliveryNoteDetail.serialNumber = response.orderOutputDetails[i].serialNumber;
+				orderOutputDetails.push(deliveryNoteDetail);
+			}
+			// Guardo lote/vte y series para mostrar los detalles.
+			serialDetails = {
+				id: id,
+				amount: response.orderOutputDetails[i].amount,
+				serialNumber: response.orderOutputDetails[i].serialNumber,
+				batch: response.orderOutputDetails[i].batch,
+				expirationDate: response.orderOutputDetails[i].expirationDate
+			};
+			var item = serialsMap[response.orderOutputDetails[i].code] || [];
+			item.push(serialDetails);
+			serialsMap[response.orderOutputDetails[i].code] = item;
+			id++;
 		}
+
+		var tableRow;
+		var command;
+		var aaData = [];
+		for (var i = 0; i < orderOutputDetails.length; i++) {
+			if (orderOutputDetails[i].serialNumber == null) {
+				command = "<button type=\"button\" data-toggle=\"modal\" data-src=\"#deliveryNoteModal\" data-target=\"#batchExpirationDatesModal\" data-code=\"" + orderOutputDetails[i].code + "\" data-description=\"" + orderOutputDetails[i].description + "\" class=\"btn btn-sm btn-default command-view\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
+			} else {
+				command = "<button type=\"button\" data-toggle=\"modal\" data-src=\"#deliveryNoteModal\" data-target=\"#serialsModal\" data-code=\"" + orderOutputDetails[i].code + "\" data-description=\"" + orderOutputDetails[i].description + "\" class=\"btn btn-sm btn-default command-view\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
+			}
+			tableRow = {
+				code: orderOutputDetails[i].code,
+				description: orderOutputDetails[i].description,
+				amount: orderOutputDetails[i].amount,
+				command: command
+			};
+			aaData.push(tableRow);
+		}
+		$("#deliveryNoteModalProductTable").bootgrid("clear").bootgrid("append", aaData);
+		modal = '#deliveryNoteModal';
 
 		$('#deliveryNoteModal').modal('show');
 	};
@@ -581,7 +603,7 @@ $(document).ready(function() {
 
 	};
 
-	$("#inputModalProductTableBody, #outputModalProductTableBody, #supplyingModalProductTableBody").on("click", ".command-view", function(e) {
+	$("#inputModalProductTableBody, #outputModalProductTableBody, #supplyingModalProductTableBody, #deliveryNoteModalProductTableBody").on("click", ".command-view", function(e) {
 		dataSrc = $(this).attr("data-src");
 		dataCode = $(this).attr("data-code");
 		dataDescription = $(this).attr("data-description");
