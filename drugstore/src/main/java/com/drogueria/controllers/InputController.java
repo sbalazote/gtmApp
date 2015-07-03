@@ -7,6 +7,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.drogueria.constant.AuditState;
+import com.drogueria.constant.RoleOperation;
+import com.drogueria.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,11 +25,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.drogueria.dto.InputDTO;
 import com.drogueria.model.Input;
 import com.drogueria.query.InputQuery;
-import com.drogueria.service.AgreementService;
-import com.drogueria.service.ConceptService;
-import com.drogueria.service.DeliveryLocationService;
-import com.drogueria.service.InputService;
-import com.drogueria.service.ProviderService;
 import com.drogueria.util.OperationResult;
 
 @Controller
@@ -42,6 +40,8 @@ public class InputController {
 	private AgreementService agreementService;
 	@Autowired
 	private DeliveryLocationService deliveryLocationService;
+	@Autowired
+	private AuditService auditService;
 
 	@RequestMapping(value = "/input", method = RequestMethod.GET)
 	public String input(ModelMap modelMap) throws Exception {
@@ -163,9 +163,13 @@ public class InputController {
 	@RequestMapping(value = "/cancelInputWithoutStock", method = RequestMethod.GET)
 	public @ResponseBody
 	boolean cancelInputWithoutStock(@RequestParam Integer inputId) throws Exception {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Input input = this.inputService.get(inputId);
 		input.setCancelled(true);
 		this.inputService.save(input);
+		if (auth != null) {
+			this.auditService.addAudit(auth.getName(), RoleOperation.INPUT_CANCELLATION.getId(), AuditState.COMFIRMED, input.getId());
+		}
 		return true;
 	}
 
@@ -181,7 +185,12 @@ public class InputController {
 	@RequestMapping(value = "/cancelInput", method = RequestMethod.POST)
 	public @ResponseBody
 	boolean cancelInputs(@RequestBody Integer inputId) throws Exception {
-		return this.inputService.cancelInput(inputId);
+		boolean result = this.inputService.cancelInput(inputId);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null && result) {
+			this.auditService.addAudit(auth.getName(), RoleOperation.INPUT_CANCELLATION.getId(), AuditState.COMFIRMED, inputId);
+		}
+		return  result;
 	}
 
 	@RequestMapping(value = "/pendingInputs", method = RequestMethod.GET)
@@ -199,9 +208,13 @@ public class InputController {
 	@RequestMapping(value = "/forceInputDefinitely", method = RequestMethod.POST)
 	public @ResponseBody
 	void forceInputDefinitely(@RequestBody Integer inputId) throws Exception {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Input input = this.inputService.get(inputId);
 		input.setForcedInput(true);
 		this.inputService.save(input);
+		if (auth != null) {
+			this.auditService.addAudit(auth.getName(), RoleOperation.INPUT_AUTHORIZATION.getId(), AuditState.FORCED, inputId);
+		}
 	}
 
 	@RequestMapping(value = "/getCancelables", method = RequestMethod.POST)
