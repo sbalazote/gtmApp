@@ -1,14 +1,13 @@
 package com.drogueria.controllers.file;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -63,6 +62,67 @@ public class FileController {
 
 		} else {
 			logger.error("No se ha podido subir el archivo porque éste estaba vacío");
+		}
+		return fileMeta;
+	}
+
+	public byte[] convertToPNG(byte[] imageInByte) {
+		try {
+		// read a jpeg from a inputFileInputStream
+		InputStream in = new ByteArrayInputStream(imageInByte);
+		BufferedImage bufferedImage = ImageIO.read(in);
+
+		// write the bufferedImage back to outputFile
+		//ImageIO.write(bufferedImage, "png", new File(outputFile));
+
+		// this writes the bufferedImage into a byte array called resultingBytes
+		ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
+		ImageIO.write(bufferedImage, "png", byteArrayOut);
+
+			return byteArrayOut.toByteArray();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@RequestMapping(value = "/uploadLogo", method = RequestMethod.POST)
+	public @ResponseBody FileMeta uploadLogo(MultipartHttpServletRequest request) {
+
+		MultipartFile mpf = request.getFile("uploadLogo");
+		FileMeta fileMeta = null;
+
+		if (!mpf.isEmpty()) {
+			fileMeta = new FileMeta();
+			fileMeta.setFileName(mpf.getOriginalFilename());
+			fileMeta.setFileSize(mpf.getSize() + " bytes");
+
+			try {
+				fileMeta.setBytes(mpf.getBytes());
+
+				String path = request.getSession().getServletContext().getRealPath("/images/");
+				String name = mpf.getOriginalFilename();
+				String extension = name.substring(name.lastIndexOf('.'));
+
+				new File(path).mkdirs();
+
+				byte[] imageBytes;
+				if (!extension.equals(".png")) {
+					imageBytes = convertToPNG(mpf.getBytes());
+				} else{
+					imageBytes = mpf.getBytes();
+				}
+
+				FileCopyUtils.copy(imageBytes, new FileOutputStream(path + "/logo.png"));
+				logger.info("Logo subido! ");
+
+			} catch (IOException e) {
+				logger.error(e.getMessage());
+				throw new RuntimeException("No se ha podido subir el logo " + request.getFile("uploadLogo").toString(), e);
+			}
+
+		} else {
+			logger.error("No se ha podido subir el logo porque éste estaba vacío");
 		}
 		return fileMeta;
 	}

@@ -26,8 +26,8 @@
 		<title><%= artifactId + " - " + name %></title>
         <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,user-scalable=no" />
 		<meta charset="UTF-8">
-		
-		<link rel="shortcut icon" href="<%= PropertyProvider.getInstance().getProp(PropertyProvider.LOGO) %>" type="image/png">
+
+		<link rel="shortcut icon" href="./images/logo.png" type="image/png">
 	
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css">
@@ -59,9 +59,12 @@
 		<script type="text/javascript" src="js/main.js"></script>
 		<script type="text/javascript" src="js/alerts.js"></script>
 		<script type="text/javascript" src="js/jquery.multi-select.js"></script>
+		<script type="text/javascript" src="js/canvas-to-blob.min.js"></script>
+		<script type="text/javascript" src="js/load-image.all.min.js"></script>
 		<script type="text/javascript" src="js/jquery.iframe-transport.js"></script>
 		<script type="text/javascript" src="js/jquery.fileupload.js"></script>
 		<script type="text/javascript" src="js/jquery.fileupload-process.js"></script>
+		<script type="text/javascript" src="js/jquery.fileupload-image.js"></script>
 		<script type="text/javascript" src="js/jquery.fileupload-validate.js"></script>
 		<script type="text/javascript" src="js/bootstrap-dialog.js"></script>
 		<script type="text/javascript" src="js/select2.js"></script>

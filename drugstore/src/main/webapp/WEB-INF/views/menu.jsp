@@ -8,7 +8,7 @@
 <nav class="navbar navbar-default" role="navigation">
 	<!-- Brand and toggle get grouped for better mobile display -->
 	<div class="navbar-header">
-		<a class="navbar-brand" href="home.do"> <span><img alt="Brand" width="25" height="25" src="<%= PropertyProvider.getInstance().getProp(PropertyProvider.LOGO) %>"></span></a>
+		<a class="navbar-brand" href="home.do"> <span><img alt="Brand" width="25" height="25" src="./images/logo.png"></span></a>
 	</div>
 
 	<!-- Collect the nav links, forms, and other content for toggling -->

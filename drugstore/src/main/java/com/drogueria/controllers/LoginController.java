@@ -27,7 +27,7 @@ public class LoginController {
         String browserName = ua.getBrowser().toString();
         modelMap.put("sofwareName",PropertyProvider.getInstance().getProp(PropertyProvider.ARTIFACT_ID) );
         modelMap.put("name", propertyService.get().getName());
-        modelMap.put("logPath",PropertyProvider.getInstance().getProp(PropertyProvider.LOGO));
+        modelMap.put("logPath", "./images/logo.png");
 
         if(browserName.indexOf(IE_BROWSER) >= 0){
             modelMap.put("error", "Internet Explorer no es compatible con la aplicacion, utilice Chrome o Firefox");

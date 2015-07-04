@@ -32,8 +32,7 @@ public class OutputsPdfView extends AbstractPdfView {
 		Font fontHeader = new Font(Font.TIMES_ROMAN, 11f, Font.NORMAL, Color.BLACK);
 		Font fontDetails = new Font(Font.TIMES_ROMAN, 8f, Font.NORMAL, Color.BLACK);
 		// Logo
-		String relativeWebPath = PropertyProvider.getInstance().getProp(PropertyProvider.LOGO);
-		String absoluteDiskPath = getServletContext().getRealPath(relativeWebPath.substring(1));
+		String absoluteDiskPath = getServletContext().getRealPath("/images/logo.png");
 		Image logo = Image.getInstance(absoluteDiskPath);
 		logo.scaleToFit(50f, 50f);
 		logo.setAbsolutePosition(10f * 2.8346f, 190f * 2.8346f);

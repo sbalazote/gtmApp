@@ -96,6 +96,20 @@
 						</select>
 					</div>
 				</div>
+				<div class="row">
+					<div class="col-md-4 form-group">
+					<span class="btn btn-success fileinput-button">
+        				<i class="glyphicon glyphicon-upload"></i><span><spring:message code="configuration.uploadLogo"/></span>
+        				<input id="uploadLogoInput" type="file" name="uploadLogo" data-url="uploadLogo.do">
+    				</span>
+					</div>
+					<br>
+					<br>
+					<div id="progress" class="progress col-md-12 form-group">
+						<div class="progress-bar progress-bar-striped" aria-valuemin="0" aria-valuemax="100" role="progressbar"></div>
+					</div>
+					<div id="files" class="files col-md-4 form-group"></div>
+				</div>
 			</div>
 		</div>
     </div>
