@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.drogueria.config.PropertyProvider;
+import com.drogueria.constant.DocumentType;
 import com.drogueria.helper.AbstractPdfView;
 import com.drogueria.model.DeliveryNote;
 import com.drogueria.model.Supplying;
@@ -152,7 +153,7 @@ public class SupplyingsPdfView extends AbstractPdfView {
 			document.add(Chunk.NEWLINE);
 
 			document.add(new Chunk("Afiliado: ", fontHeader));
-			Chunk code = new Chunk("(Cod. " + StringUtility.addLeadingZeros(supplying.getAffiliate().getCode(), 5) + " ) - " + supplying.getAffiliate().getDocumentType() + " " + supplying.getAffiliate().getDocument() + " - " + supplying.getAffiliate().getName() + " " + supplying.getAffiliate().getSurname(), fontHeader);
+			Chunk code = new Chunk("(Cod. " + StringUtility.addLeadingZeros(supplying.getAffiliate().getCode(), 5) + " ) - " + DocumentType.types.get(supplying.getAffiliate().getDocumentType()) + " " + supplying.getAffiliate().getDocument() + " - " + supplying.getAffiliate().getName() + " " + supplying.getAffiliate().getSurname(), fontHeader);
 			document.add(code);
 			document.add(Chunk.NEWLINE);
 

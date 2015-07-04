@@ -115,7 +115,7 @@ public class AffiliateAdministrationController {
 			dataJson.put("code", affiliate.getCode());
 			dataJson.put("name", affiliate.getName());
 			dataJson.put("surname", affiliate.getSurname());
-			dataJson.put("documentType", affiliate.getDocumentType());
+			dataJson.put("documentType", DocumentType.types.get(affiliate.getDocumentType()));
 			dataJson.put("document", affiliate.getDocument());
 			dataJson.put("client", affiliate.getClient().getCorporateName());
 			dataJson.put("isActive", affiliate.isActive() == true ? "Si" : "No");

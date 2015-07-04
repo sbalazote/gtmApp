@@ -2,7 +2,7 @@ package com.drogueria.constant;
 
 public enum AuditState {
 
-	COMFIRMED("Confirmado", 1), MODIFIED("Modificado", 2), AUTHORITED("Autorizado", 3), CANCELLED("Anulado", 4),FORCED("Forzado",5);
+	COMFIRMED("Confirmado", 1), MODIFIED("Modificado", 2), AUTHORITED("Autorizado", 3), CANCELLED("Anulado", 4);
 
 	private Integer id;
 	private String description;

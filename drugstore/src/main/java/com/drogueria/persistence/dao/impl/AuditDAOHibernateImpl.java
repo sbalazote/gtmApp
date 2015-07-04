@@ -113,6 +113,19 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		if (productId != null) {
 			sentence += " and id.product_id = " + productId;
 		}
+
+        sentence+= ") or (a.role_id = " + RoleOperation.INPUT_AUTHORIZATION.getId()
+                + " and id.serial_number = '" + serialNumber + "' and a.operation_id = id.input_id";
+        if (productId != null) {
+            sentence += " and id.product_id = " + productId;
+        }
+
+        sentence+= ") or (a.role_id = " + RoleOperation.INPUT_CANCELLATION.getId()
+                + " and id.serial_number = '" + serialNumber + "' and a.operation_id = id.input_id";
+        if (productId != null) {
+            sentence += " and id.product_id = " + productId;
+        }
+
 		sentence += ") order by a.`date` desc";
 
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -274,7 +287,11 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 
 		String sentence = "select distinct a.* from audit as a, input_detail as id where (a.role_id = " + RoleOperation.INPUT.getId() + " and id.product_id = "
 				+ productId + " and id.batch = '" + batch + "' and id.expiration_date = '" + expirateDate
-				+ "' and a.operation_id = id.input_id) order by a.`date` desc";
+				+ "' and a.operation_id = id.input_id) or (a.role_id = " + RoleOperation.INPUT_CANCELLATION.getId() + " and id.product_id = " +
+				productId + " and id.batch = " + batch + " and id.expiration_date = " + expirateDate +" and a.operation_id = id.input_id) " +
+                "(a.role_id = " + RoleOperation.INPUT_AUTHORIZATION.getId() + " and id.product_id = " +
+                productId + " and id.batch = " + batch + " and id.expiration_date = " + expirateDate +" and a.operation_id = id.input_id) " +
+				"or  order by a.`date` desc";
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
 		Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);

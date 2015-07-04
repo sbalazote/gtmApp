@@ -527,6 +527,8 @@ public class InputServiceImpl implements InputService {
 			input.setInformed(true);
 		}
 		this.saveAndUpdateStock(input);
+		this.auditService.addAudit(name, RoleOperation.INPUT_AUTHORIZATION.getId(), AuditState.COMFIRMED, input.getId());
+
 		return input;
 	}
 

@@ -150,7 +150,7 @@ SearchSerializedProduct = function() {
                                 view: ""
                             };
                             audit.id = response.inputs[i].operationId;
-                            audit.action = "Ingreso";
+                            audit.action = response.inputs[i].role;
                             audit.operation = response.inputs[i].auditAction;
                             audit.user = response.inputs[i].username;
                             audit.date = response.inputs[i].date;
@@ -170,7 +170,7 @@ SearchSerializedProduct = function() {
                                 view: ""
                             };
                             audit.id = response.outputs[i].operationId;
-                            audit.action = "Egreso";
+                            audit.action = response.outputs[i].role;
                             audit.operation = response.outputs[i].auditAction;
                             audit.user = response.outputs[i].username;
                             audit.date = response.outputs[i].date;
@@ -190,7 +190,7 @@ SearchSerializedProduct = function() {
                                 view: ""
                             };
                             audit.id = response.orders[i].operationId;
-                            audit.action = "Armado";
+                            audit.action = response.orders[i].role;
                             audit.operation = response.orders[i].auditAction;
                             audit.user = response.orders[i].username;
                             audit.date = response.orders[i].date;
@@ -210,7 +210,7 @@ SearchSerializedProduct = function() {
                                 view: ""
                             };
                             audit.id = response.deliveryNotes[i].operationId;
-                            audit.action = "Remito";
+                            audit.action = response.deliveryNotes[i].role;
                             audit.operation = response.deliveryNotes[i].auditAction;
                             audit.user = response.deliveryNotes[i].username;
                             audit.date = response.deliveryNotes[i].date;
@@ -230,7 +230,7 @@ SearchSerializedProduct = function() {
                                 view: ""
                             };
                             audit.id = response.supplyings[i].operationId;
-                            audit.action = "Dispensa";
+                            audit.action = response.supplyings[i].role;
                             audit.operation = response.supplyings[i].auditAction;
                             audit.user = response.supplyings[i].username;
                             audit.date = response.supplyings[i].date;

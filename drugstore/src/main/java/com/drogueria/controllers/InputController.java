@@ -168,7 +168,7 @@ public class InputController {
 		input.setCancelled(true);
 		this.inputService.save(input);
 		if (auth != null) {
-			this.auditService.addAudit(auth.getName(), RoleOperation.INPUT_CANCELLATION.getId(), AuditState.COMFIRMED, input.getId());
+			this.auditService.addAudit(auth.getName(), RoleOperation.INPUT_CANCELLATION.getId(), AuditState.CANCELLED, input.getId());
 		}
 		return true;
 	}
@@ -213,7 +213,7 @@ public class InputController {
 		input.setForcedInput(true);
 		this.inputService.save(input);
 		if (auth != null) {
-			this.auditService.addAudit(auth.getName(), RoleOperation.INPUT_AUTHORIZATION.getId(), AuditState.FORCED, inputId);
+			this.auditService.addAudit(auth.getName(), RoleOperation.INPUT_AUTHORIZATION.getId(), AuditState.AUTHORITED, inputId);
 		}
 	}
 
