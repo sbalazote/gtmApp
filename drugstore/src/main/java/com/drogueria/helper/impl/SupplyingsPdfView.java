@@ -153,7 +153,20 @@ public class SupplyingsPdfView extends AbstractPdfView {
 			document.add(Chunk.NEWLINE);
 
 			document.add(new Chunk("Afiliado: ", fontHeader));
-			Chunk code = new Chunk("(Cod. " + StringUtility.addLeadingZeros(supplying.getAffiliate().getCode(), 5) + " ) - " + DocumentType.types.get(supplying.getAffiliate().getDocumentType()) + " " + supplying.getAffiliate().getDocument() + " - " + supplying.getAffiliate().getName() + " " + supplying.getAffiliate().getSurname(), fontHeader);
+			String documentType;
+			if(supplying.getAffiliate().getDocumentType() != null){
+				documentType = DocumentType.types.get(Integer.valueOf(supplying.getAffiliate().getDocumentType()));
+			}else{
+				documentType = "";
+			}
+			String documentNumber;
+			if(supplying.getAffiliate().getDocument() != null){
+				documentNumber = supplying.getAffiliate().getDocument();
+			}else{
+				documentNumber = "";
+			}
+
+			Chunk code = new Chunk("(Cod. " + StringUtility.addLeadingZeros(supplying.getAffiliate().getCode(), 5) + " ) - " + documentType + " " + documentNumber + " - " + supplying.getAffiliate().getName() + " " + supplying.getAffiliate().getSurname(), fontHeader);
 			document.add(code);
 			document.add(Chunk.NEWLINE);
 
