@@ -123,19 +123,19 @@ public class DeliveryNoteResultDTO {
 			if (deliveryNoteDetail.getOutputDetail() != null) {
 				OutputDetail od = deliveryNoteDetail.getOutputDetail();
 				OutputOrderDetailResultDTO outputDetailDTO = new OutputOrderDetailResultDTO(od.getProduct().getId(), od.getProduct().getCode(), od.getProduct().getDescription(), od.getSerialNumber(),
-						od.getBatch(), stringDate.format(od.getExpirationDate()), od.getAmount());
+						od.getBatch(), stringDate.format(od.getExpirationDate()), od.getAmount(), od.getProduct().getId());
 				outpuOrderResultDTO.add(outputDetailDTO);
 			}
 			if (deliveryNoteDetail.getOrderDetail() != null) {
 				OrderDetail od = deliveryNoteDetail.getOrderDetail();
 				OutputOrderDetailResultDTO outputDetailDTO = new OutputOrderDetailResultDTO(od.getProduct().getId(), od.getProduct().getCode(), od.getProduct().getDescription(), od.getSerialNumber(),
-						od.getBatch(), stringDate.format(od.getExpirationDate()), od.getAmount());
+						od.getBatch(), stringDate.format(od.getExpirationDate()), od.getAmount(), od.getProduct().getId());
 				outpuOrderResultDTO.add(outputDetailDTO);
 			}
             if (deliveryNoteDetail.getSupplyingDetail() != null) {
                 SupplyingDetail sd = deliveryNoteDetail.getSupplyingDetail();
                 OutputOrderDetailResultDTO outputDetailDTO = new OutputOrderDetailResultDTO(sd.getProduct().getId(), sd.getProduct().getCode(), sd.getProduct().getDescription(), sd.getSerialNumber(),
-                        sd.getBatch(), stringDate.format(sd.getExpirationDate()), sd.getAmount());
+                        sd.getBatch(), stringDate.format(sd.getExpirationDate()), sd.getAmount(), sd.getProduct().getId());
                 outpuOrderResultDTO.add(outputDetailDTO);
             }
 		}

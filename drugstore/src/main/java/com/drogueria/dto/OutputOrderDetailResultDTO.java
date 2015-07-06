@@ -4,6 +4,7 @@ public class OutputOrderDetailResultDTO {
 	private Integer id;
 	private Integer code;
 	private String product;
+	private Integer productId;
 	private String serialNumber;
 	private String batch;
 	private String expirationDate;
@@ -31,6 +32,14 @@ public class OutputOrderDetailResultDTO {
 
 	public void setProduct(String product) {
 		this.product = product;
+	}
+
+	public Integer getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Integer productId) {
+		this.productId = productId;
 	}
 
 	public String getSerialNumber() {
@@ -65,15 +74,17 @@ public class OutputOrderDetailResultDTO {
 		this.amount = amount;
 	}
 
-	public OutputOrderDetailResultDTO(Integer id, Integer code, String product, String serialNumber, String batch, String expirationDate, Integer amount) {
+	public OutputOrderDetailResultDTO(Integer id, Integer code, String product, String serialNumber, String batch, String expirationDate, Integer amount, Integer productId) {
 		super();
 		this.id = id;
 		this.code = code;
 		this.product = product;
+		this.productId = productId;
 		this.serialNumber = serialNumber;
 		this.batch = batch;
 		this.expirationDate = expirationDate;
 		this.amount = amount;
 	}
+
 
 }

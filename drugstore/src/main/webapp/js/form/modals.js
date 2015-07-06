@@ -224,7 +224,7 @@ $(document).ready(function() {
 				serialNumber: response.orderOutputDetails[i].serialNumber,
 				batch: response.orderOutputDetails[i].batch,
 				expirationDate: response.orderOutputDetails[i].expirationDate,
-                viewTraceability: "<a href='searchSerializedProduct.do?productId="+ response.orderOutputDetails[i].product.id + "&serial=" + response.orderOutputDetails[i].serialNumber + "' target='_blank'>Ver Traza" + "<//a>"
+                viewTraceability: "<a href='searchSerializedProduct.do?productId="+ response.orderOutputDetails[i].productId + "&serial=" + response.orderOutputDetails[i].serialNumber + "' target='_blank'>Ver Traza" + "<//a>"
 			};
 			var item = serialsMap[response.orderOutputDetails[i].code] || [];
 			item.push(serialDetails);
