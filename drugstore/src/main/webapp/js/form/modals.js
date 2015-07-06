@@ -122,6 +122,7 @@ $(document).ready(function() {
 			// Guardo lote/vte y series para mostrar los detalles.
 			serialDetails = {
 				id: id,
+                gtin: response.inputDetails[i].gtin.number,
 				amount: response.inputDetails[i].amount,
 				serialNumber: response.inputDetails[i].serialNumber,
 				batch: response.inputDetails[i].batch,
@@ -220,6 +221,7 @@ $(document).ready(function() {
 			// Guardo lote/vte y series para mostrar los detalles.
 			serialDetails = {
 				id: id,
+                gtin: response.orderOutputDetails[i].gtinNumber,
 				amount: response.orderOutputDetails[i].amount,
 				serialNumber: response.orderOutputDetails[i].serialNumber,
 				batch: response.orderOutputDetails[i].batch,
@@ -354,6 +356,7 @@ $(document).ready(function() {
 			// Guardo lote/vte y series para mostrar los detalles.
 			serialDetails = {
 				id: id,
+                gtin: response.outputDetails[i].gtin.number,
 				amount: response.outputDetails[i].amount,
 				serialNumber: response.outputDetails[i].serialNumber,
 				batch: response.outputDetails[i].batch,
@@ -573,6 +576,7 @@ $(document).ready(function() {
 			// Guardo lote/vte y series para mostrar los detalles.
 			serialDetails = {
 				id: id,
+                gtin: response.supplyingDetails[i].gtin.number,
 				amount: response.supplyingDetails[i].amount,
 				serialNumber: response.supplyingDetails[i].serialNumber,
 				batch: response.supplyingDetails[i].batch,

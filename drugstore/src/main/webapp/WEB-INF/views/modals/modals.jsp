@@ -63,6 +63,7 @@
             <thead>
             <tr>
               <th data-identifier="true" data-column-id="serialNumber"><spring:message code="common.serialNumber" /></th>
+              <th data-column-id="gtin"><spring:message code="common.gtin" /></th>
               <th data-column-id="batch"><spring:message code="common.batch" /></th>
               <th data-column-id="expirationDate"><spring:message code="common.expirationDate" /></th>
               <th data-column-id="viewTraceability"><spring:message code="common.view" /></th>

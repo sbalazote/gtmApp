@@ -202,6 +202,10 @@ var Supplying = function() {
 		}
 	});
 
+	$('#addAffiliateModal').on('shown.bs.modal', function () {
+		$('#affiliateCodeInput').focus();
+	});
+
 	$('#currentDateButton').click(function() {
 		$("#currentDateInput").datepicker().focus();
 	});

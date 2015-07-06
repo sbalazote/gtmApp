@@ -5,6 +5,7 @@ public class OutputOrderDetailResultDTO {
 	private Integer code;
 	private String product;
 	private Integer productId;
+	private String gtinNumber;
 	private String serialNumber;
 	private String batch;
 	private String expirationDate;
@@ -74,12 +75,21 @@ public class OutputOrderDetailResultDTO {
 		this.amount = amount;
 	}
 
-	public OutputOrderDetailResultDTO(Integer id, Integer code, String product, String serialNumber, String batch, String expirationDate, Integer amount, Integer productId) {
+	public String getGtinNumber() {
+		return gtinNumber;
+	}
+
+	public void setGtinNumber(String gtinNumber) {
+		this.gtinNumber = gtinNumber;
+	}
+
+	public OutputOrderDetailResultDTO(Integer id, Integer code, String product, String serialNumber, String batch, String expirationDate, Integer amount, Integer productId, String gtinNumber) {
 		super();
 		this.id = id;
 		this.code = code;
 		this.product = product;
 		this.productId = productId;
+		this.gtinNumber = gtinNumber;
 		this.serialNumber = serialNumber;
 		this.batch = batch;
 		this.expirationDate = expirationDate;
