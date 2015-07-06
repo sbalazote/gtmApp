@@ -50,14 +50,10 @@ SearchSerializedProduct = function() {
 			rules: {
 				serialNumberSearch: {
 					digits: true,
-                    required: function(element) {
-                        return $("#serialParserSearch").val() == "";
-                    }
+                    required: true
 				},
 				productInput: {
-                    required: function(element) {
-                        return $("#serialParserSearch").val() == "";
-                    }
+                    required: true
 				}
 			},
 			showErrors: myShowErrors,
@@ -65,19 +61,30 @@ SearchSerializedProduct = function() {
 		});
 		return form.valid();
 	};
-	
-	$("#cleanButton").click(function() {
-		$('#productInput').val('');
-		productId = "";
-		$('#serialNumberSearch').val('');
-        $("#serialParserSearch").val('');
-	});
-	
 	$("#searchButton").click(function() {
-		if(validateForm() && $("#serialParserSearch").val() == ""){
+        if(validateForm()){
             searchProduct(productId,$("#serialNumberSearch").val());
-		}
+        }
 	});
+
+    $("#cleanButton").click(function() {
+        $('#productInput').val('');
+        $('#serialNumberSearch').val('');
+        productId = "";
+        $("#movementsTable").bootgrid().bootgrid("clear");
+        $('#divMovements').hide();
+    });
+
+    $("#searchSerialButton").click(function() {
+        searchSerialParsed();
+    });
+
+    $("#cleanSerialButton").click(function() {
+        productId = "";
+        $('#serialParserSearch').val('');
+        $("#movementsTable").bootgrid().bootgrid("clear");
+        $('#divMovements').hide();
+    });
 
 	//Consulta de Ingresos
 	
@@ -269,51 +276,77 @@ SearchSerializedProduct = function() {
 
 	$('#serialParserSearch').keydown(function(e) {
 		if(e.keyCode == 13){ // Presiono Enter
-			var serial = $(this).val();
-			$.ajax({
-				url: "parseSerial.do",
-				type: "GET",
-				data: {
-					serial: serial
-				},
-				success: function(response) {
-                    var serialFound = response.serialNumber;
-					if (response != "") {
-                        $.ajax({
-                            url: "getProductBySerialOrGtin.do",
-                            type: "GET",
-                            data: {
-                                serial: serial
-                            },
-                            success: function(response) {
-                                if (response != "") {
-                                    productId = response.id;
-                                    $('#serialParserSearch').val(response.description + " Serie: " + serialFound);
-                                    searchProduct(productId,serialFound);
-                                } else
-                                {
-                                    $('#serialParserSearch').tooltip("destroy").data("title", "Producto Inexistente o Inactivo").addClass("has-error").tooltip();
-                                    $('#serialParserSearch').val('');
-                                    $('#serialParserSearch').focus();
-                                }
-                                return false;
-                            },
-                            error: function(jqXHR, textStatus, errorThrown) {
-                                myGenericError();
-                            }
-                        });
-					} else
-					{
-						$('#serialParserSearch').tooltip("destroy").data("title", "Producto Inexistente o Inactivo").addClass("has-error").tooltip();
-						$('#serialParserSearch').val('');
-						$('#serialParserSearch').focus();
-					}
-					return false;
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					myGenericError();
-				}
-			});
+            searchSerialParsed($(this).val());
 		}
 	});
+
+    var searchSerialParsed = function(serial){
+        $.ajax({
+            url: "parseSerial.do",
+            type: "GET",
+            data: {
+                serial: $('#serialParserSearch').val()
+            },
+            success: function(response) {
+                var serialFound = response.serialNumber;
+                if (response != "") {
+                    $.ajax({
+                        url: "getProductBySerialOrGtin.do",
+                        type: "GET",
+                        data: {
+                            serial: $('#serialParserSearch').val()
+                        },
+                        success: function(response) {
+                            if (response != "") {
+                                productId = response.id;
+                                $('#serialParserSearch').val(response.description + " Serie: " + serialFound);
+                                searchProduct(productId,serialFound);
+                            } else
+                            {
+                                $('#serialParserSearch').tooltip("destroy").data("title", "Producto Inexistente o Inactivo").addClass("has-error").tooltip();
+                                $('#serialParserSearch').val('');
+                                $('#serialParserSearch').focus();
+                            }
+                            return false;
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            myGenericError();
+                        }
+                    });
+                } else
+                {
+                    $('#serialParserSearch').tooltip("destroy").data("title", "Producto Inexistente o Inactivo").addClass("has-error").tooltip();
+                    $('#serialParserSearch').val('');
+                    $('#serialParserSearch').focus();
+                }
+                return false;
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                myGenericError();
+            }
+        });
+    };
+
+    var productIdByUrl = getURLParameter("productId");
+    var serialByUrl = getURLParameter("serial");
+
+    if(productIdByUrl != undefined && serialByUrl != undefined){
+        $.ajax({
+            url: "getProduct.do",
+            type: "GET",
+            async: false,
+            data: {
+                productId: productIdByUrl,
+            },
+            success: function(response) {
+                $("#productInput").val(response.code + " - " + response.description + " - " + response.brand.description + " - " + response.monodrug.description);
+                $("#serialNumberSearch").val(serialByUrl);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                myGenericError();
+            }
+        });
+        searchProduct(productIdByUrl,serialByUrl);
+    }
+
 };

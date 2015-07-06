@@ -35,6 +35,20 @@
                 <input type="text" class="form-control" name="serialParserSearch" id="serialParserSearch" placeholder='<spring:message code="search.product.placeholder"/>'>
             </div>
         </div>
+		<div class="row">
+			<div class="col-md-2 col-md-offset-8">
+				<button class="btn btn-success btn-block" type="submit" id="searchSerialButton">
+					<span class="glyphicon glyphicon-search"></span>
+					<spring:message code="common.search" />
+				</button>
+			</div>
+			<div class="col-md-2">
+				<button class="btn btn-info btn-block" type="submit" id="cleanSerialButton">
+					<span class="glyphicon glyphicon-trash"></span>
+					<spring:message code="common.clean" />
+				</button>
+			</div>
+		</div>
         <div class="row">
 			<div class="col-md-12 form-group">
 				<label for="productInput"><spring:message code="common.product"/></label>

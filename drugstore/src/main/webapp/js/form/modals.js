@@ -125,7 +125,8 @@ $(document).ready(function() {
 				amount: response.inputDetails[i].amount,
 				serialNumber: response.inputDetails[i].serialNumber,
 				batch: response.inputDetails[i].batch,
-				expirationDate: myParseDate(response.inputDetails[i].expirationDate)
+				expirationDate: myParseDate(response.inputDetails[i].expirationDate),
+				viewTraceability: "<a href='searchSerializedProduct.do?productId="+ response.inputDetails[i].product.id + "&serial=" + response.inputDetails[i].serialNumber + "' target='_blank'>Ver Traza" + "<//a>"
 			};
 			var item = serialsMap[response.inputDetails[i].product.code] || [];
 			item.push(serialDetails);
@@ -222,7 +223,8 @@ $(document).ready(function() {
 				amount: response.orderOutputDetails[i].amount,
 				serialNumber: response.orderOutputDetails[i].serialNumber,
 				batch: response.orderOutputDetails[i].batch,
-				expirationDate: response.orderOutputDetails[i].expirationDate
+				expirationDate: response.orderOutputDetails[i].expirationDate,
+                viewTraceability: "<a href='searchSerializedProduct.do?productId="+ response.orderOutputDetails[i].product.id + "&serial=" + response.orderOutputDetails[i].serialNumber + "' target='_blank'>Ver Traza" + "<//a>"
 			};
 			var item = serialsMap[response.orderOutputDetails[i].code] || [];
 			item.push(serialDetails);
@@ -355,7 +357,9 @@ $(document).ready(function() {
 				amount: response.outputDetails[i].amount,
 				serialNumber: response.outputDetails[i].serialNumber,
 				batch: response.outputDetails[i].batch,
-				expirationDate: myParseDate(response.outputDetails[i].expirationDate)
+				expirationDate: myParseDate(response.outputDetails[i].expirationDate),
+                viewTraceability: "<a href='searchSerializedProduct.do?productId="+ response.outputDetails[i].product.id + "&serial=" + response.outputDetails[i].serialNumber + "' target='_blank'>Ver Traza" + "<//a>"
+
 			};
 			var item = serialsMap[response.outputDetails[i].product.code] || [];
 			item.push(serialDetails);
@@ -572,7 +576,8 @@ $(document).ready(function() {
 				amount: response.supplyingDetails[i].amount,
 				serialNumber: response.supplyingDetails[i].serialNumber,
 				batch: response.supplyingDetails[i].batch,
-				expirationDate: myParseDate(response.supplyingDetails[i].expirationDate)
+				expirationDate: myParseDate(response.supplyingDetails[i].expirationDate),
+                viewTraceability: "<a href='searchSerializedProduct.do?productId="+ response.supplyingDetails[i].product.id + "&serial=" + response.supplyingDetails[i].serialNumber + "' target='_blank'>Ver Traza" + "<//a>"
 			};
 			var item = serialsMap[response.supplyingDetails[i].product.code] || [];
 			item.push(serialDetails);

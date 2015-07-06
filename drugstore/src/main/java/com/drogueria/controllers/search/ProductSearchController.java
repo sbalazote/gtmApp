@@ -30,6 +30,12 @@ public class ProductSearchController {
 		return this.productService.getForAutocomplete(term, active);
 	}
 
+	@RequestMapping(value = "/getProduct", method = RequestMethod.GET)
+	public @ResponseBody
+	Product getProduct(@RequestParam Integer productId) {
+		return this.productService.get(productId);
+	}
+
 	@RequestMapping(value = "/getProductBySerialOrGtin", method = RequestMethod.GET)
 	public @ResponseBody
 	Product getProductBySerialOrGtin(@RequestParam String serial) {
