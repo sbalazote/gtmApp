@@ -648,8 +648,8 @@ insert into provider_serialized_format (id,gtin_length,serial_number_length,expi
 INSERT INTO `property` (id, code, name, tax_id, corporate_name, province_id, locality, address, zip_code, phone, mail, gln, agent_id, last_tag, self_serialized_tag_filepath, ANMAT_password, start_trace_concept_id, proxy,proxy_port,inform_proxy,supplying_concept_id)
 VALUES (1,86,'ONCOMED RENO','30686437228','ONCOMED RENO SA',1,'C.A.B.A.','AGUERO 1223','1425','4963-1500',NULL,'7798169170001',3,0,'C:/selfSerializedTagsPrinter/',"ZrFFnPSO9FCCOwRq7/DYzg==",23,"","",0,1);
 
-insert into `drugstore`.`role` values (1, 'INPUT', 'Recepción de Mercadería');
-insert into `drugstore`.`role` values (2, 'OUTPUT', 'Egreso de Mercadería');
+insert into `drugstore`.`role` values (1, 'INPUT', 'Ingreso');
+insert into `drugstore`.`role` values (2, 'OUTPUT', 'Egreso');
 insert into `drugstore`.`role` values (3, 'PROVISIONING_REQUEST', 'Solicitud de Abastecimiento');
 insert into `drugstore`.`role` values (4, 'PROVISIONING_REQUEST_UPDATE', 'Modificación de Solicitudes');
 insert into `drugstore`.`role` values (5, 'PROVISIONING_REQUEST_AUTHORIZATION', 'Autorización de Solicitudes');
@@ -657,7 +657,7 @@ insert into `drugstore`.`role` values (6, 'PROVISIONING_REQUEST_CANCELLATION', '
 insert into `drugstore`.`role` values (7, 'PROVISIONING_REQUEST_PRINT', 'Impresión de Hojas de Picking');
 insert into `drugstore`.`role` values (8, 'ORDER_ASSEMBLY', 'Armado de Pedido');
 insert into `drugstore`.`role` values (9, 'ORDER_ASSEMBLY_CANCELLATION', 'Anulación de Armado de Pedido');
-insert into `drugstore`.`role` values (10, 'DELIVERY_NOTE_PRINT', 'Impresión de Remitos');
+insert into `drugstore`.`role` values (10, 'DELIVERY_NOTE_PRINT', 'Emitir Remito');
 insert into `drugstore`.`role` values (11, 'DELIVERY_NOTE_CANCELLATION', 'Anulación de Remitos');
 insert into `drugstore`.`role` values (12, 'ENTITY_ADMINISTRATION', 'Administración de Entidades');
 insert into `drugstore`.`role` values (13, 'USER_ADMINISTRATION', 'Administración de Usuarios');

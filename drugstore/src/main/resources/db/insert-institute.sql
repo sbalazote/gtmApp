@@ -219,9 +219,9 @@ insert into provider_serialized_format (id,gtin_length,serial_number_length,expi
 INSERT INTO `property` (id, code, name, tax_id, corporate_name, province_id, locality, address, zip_code, phone, mail, gln, agent_id, last_tag, self_serialized_tag_filepath, ANMAT_password, start_trace_concept_id, proxy,proxy_port,inform_proxy,supplying_concept_id)
 VALUES (1,86,'ONCOMED RENO','30686437228','ONCOMED RENO SA',1,'C.A.B.A.','AGUERO 1223','1425','4963-1500',NULL,'7798169170001',3,0,'C:/selfSerializedTagsPrinter/',"ZrFFnPSO9FCCOwRq7/DYzg==",1,"","",0,1);
 
-insert into `institute`.`role` values (1, 'INPUT', 'Recepción de Mercadería');
-insert into `institute`.`role` values (2, 'OUTPUT', 'Egreso de Mercadería');
-insert into `institute`.`role` values (10, 'DELIVERY_NOTE_PRINT', 'Impresión de Remitos');
+insert into `institute`.`role` values (1, 'INPUT', 'Ingreso');
+insert into `institute`.`role` values (2, 'OUTPUT', 'Egreso');
+insert into `institute`.`role` values (10, 'DELIVERY_NOTE_PRINT', 'Emitir Remito');
 insert into `institute`.`role` values (11, 'DELIVERY_NOTE_CANCELLATION', 'Anulación de Remitos');
 insert into `institute`.`role` values (12, 'ENTITY_ADMINISTRATION', 'Administración de Entidades');
 insert into `institute`.`role` values (13, 'USER_ADMINISTRATION', 'Administración de Usuarios');
