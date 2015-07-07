@@ -71,7 +71,9 @@ $(document).ready(function() {
 	};
 
 	var populateInputModal = function (response) {
-		$("#inputId").text("Numero: " + response.id);
+		var id = addLeadingZeros(response.id,8);
+		$("#inputId").text("Numero: " + id);
+
 		if (response.cancelled) {
 			$("#cancelled").text("ANULADO");
 		} else {
@@ -85,14 +87,19 @@ $(document).ready(function() {
 			$("#transactionCode").text("");
 		}
 		$('#dateModal').val(myParseDate(response.date));
-		$('#conceptModal').val(response.concept.code + " - " + response.concept.description);
+		var conceptCode = addLeadingZeros(response.concept.code,4);
+		$('#conceptModal').val(conceptCode + " - " + response.concept.description);
+		var clientOrProviderCode;
 		if (response.provider != null) {
-			$('#clientOrProviderModal').val(response.provider.code + " - " + response.provider.name);
+			clientOrProviderCode= addLeadingZeros(response.provider.code,4);
+			$('#clientOrProviderModal').val(clientOrProviderCode + " - " + response.provider.name);
 		}
 		if (response.deliveryLocation != null) {
-			$('#clientOrProviderModal').val(response.deliveryLocation.code + " - " + response.deliveryLocation.name);
+			clientOrProviderCode= response.deliveryLocation.code;
+			$('#clientOrProviderModal').val(clientOrProviderCode + " - " + response.deliveryLocation.name);
 		}
-		$('#agreementModal').val(response.agreement.code + " - " + response.agreement.description);
+        var code = addLeadingZeros(response.agreement.code,5);
+		$('#agreementModal').val(code + " - " + response.agreement.description);
 		$('#deliveryNoteNumberModal').val(response.deliveryNoteNumber);
 		$('#purchaseOrderNumberModal').val(response.purchaseOrderNumber);
 
@@ -188,7 +195,8 @@ $(document).ready(function() {
 		$("#deliveryNoteId").text("Numero: " + response.number);
 
 		$('#dateDeliveryNoteModal').val(response.date);
-		$('#clientOrProviderDeliveryNoteModal').val(response.deliveryLocation);
+		var clientCode = addLeadingZeros(response.deliveryLocation.code, 4);
+		$('#clientOrProviderDeliveryNoteModal').val(clientCode + " - " + response.deliveryLocation);
 		$('#agreementDeliveryNoteModal').val(response.agreement);
 
 		if (response.transactionCodeANMAT != null) {
@@ -300,7 +308,7 @@ $(document).ready(function() {
             }
         });
 
-        var id = addLeadingZeros(response.id,6);
+        var id = addLeadingZeros(response.id,8);
         $("#outputId").text("Numero: " + id);
 
         if (response.cancelled) {
@@ -329,14 +337,19 @@ $(document).ready(function() {
 		}
 
 		$('#dateModalOutput').val(myParseDate(response.date));
-		$('#conceptModalOutput').val(response.concept.code + " - " + response.concept.description);
+		var conceptCode = addLeadingZeros(response.concept.code,4);
+		$('#conceptModalOutput').val(conceptCode + " - " + response.concept.description);
+		var clientOrProviderCode;
 		if (response.provider != null) {
-			$('#clientOrProviderModalOutput').val(response.provider.code + " - " + response.provider.name);
+			clientOrProviderCode = addLeadingZeros(response.provider.code,4);
+			$('#clientOrProviderModalOutput').val(clientOrProviderCode + " - " + response.provider.name);
 		}
 		if (response.deliveryLocation != null) {
-			$('#clientOrProviderModalOutput').val(response.deliveryLocation.code + " - " + response.deliveryLocation.name);
+			clientOrProviderCode = addLeadingZeros(response.deliveryLocation.code,4);
+			$('#clientOrProviderModalOutput').val(clientOrProviderCode + " - " + response.deliveryLocation.name);
 		}
-		$('#agreementModalOutput').val(response.agreement.code + " - " + response.agreement.description);
+        var code = addLeadingZeros(response.agreement.code,5);
+		$('#agreementModalOutput').val(code + " - " + response.agreement.description);
 
 		var id = 0;
 		var found = false;
@@ -425,14 +438,16 @@ $(document).ready(function() {
 		$('#orderModalProductTableBody').empty();
 
 		$('#orderModalDeliveryLocationInput').val(response.provisioningRequest.deliveryLocation.code + " - " + response.provisioningRequest.deliveryLocation.name);
-		$('#orderModalAgreementInput').val(response.provisioningRequest.agreement.code + " - " + response.provisioningRequest.agreement.description);
+        var code = addLeadingZeros(response.provisioningRequest.agreement.code,5);
+		$('#orderModalAgreementInput').val(code + " - " + response.provisioningRequest.agreement.description);
 		if (response.provisioningRequest.logisticsOperator) {
 			$('#orderModalLogisticsOperatorInput').val(response.provisioningRequest.logisticsOperator.code + " - " + response.provisioningRequest.logisticsOperator.name);
 		}
 		$('#orderModalAffiliateInput').val(response.provisioningRequest.affiliate.code + " - " + response.provisioningRequest.affiliate.surname + " " + response.provisioningRequest.affiliate.name);
 		$('#orderModalDeliveryDateInput').val(myParseDate(response.provisioningRequest.deliveryDate));
 		$('#orderModalCommentTextarea').val(response.provisioningRequest.comment);
-		$('#orderModalClientInput').val(response.provisioningRequest.client.code + " - " + response.provisioningRequest.client.name);
+		var clientCode = addLeadingZeros(response.provisioningRequest.client.code,4);
+		$('#orderModalClientInput').val(clientCode + " - " + response.provisioningRequest.client.name);
 
 		var tableRow;
 
@@ -475,14 +490,16 @@ $(document).ready(function() {
 		$('#productTableBodyProvisioningRequest').empty();
 
 		$('#deliveryLocationProvisioningRequestModal').val(response.deliveryLocation.code + " - " + response.deliveryLocation.name);
-		$('#agreementProvisioningRequestModal').val(response.agreement.code + " - " + response.agreement.description);
+        var code = addLeadingZeros(response.agreement.code,5);
+		$('#agreementProvisioningRequestModal').val(code + " - " + response.agreement.description);
 		if (response.logisticsOperator) {
 			$('#logisticsOperatorProvisioningRequestModal').val(response.logisticsOperator.code + " - " + response.logisticsOperator.name);
 		}
 		$('#affiliateProvisioningRequestModal').val(response.affiliate.code + " - " + response.affiliate.surname + " " + response.affiliate.name);
 		$('#deliveryDateProvisioningRequestModal').val(myParseDate(response.deliveryDate));
 		$('#commentProvisioningRequestModalTextArea').val(response.comment);
-		$('#clientProvisioningRequestModal').val(response.client.code + " - " + response.client.name);
+		var clientCode = addLeadingZeros(response.client.code,4);
+		$('#clientProvisioningRequestModal').val(clientCode + " - " + response.client.name);
 
 		var tableRow;
 
@@ -530,7 +547,7 @@ $(document).ready(function() {
             }
         });
 
-        var id = addLeadingZeros(response.id,6);
+        var id = addLeadingZeros(response.id,8);
 		$("#supplyingId").text("Numero: " + id);
 
 		if (response.cancelled) {
@@ -557,10 +574,11 @@ $(document).ready(function() {
 			$("#supplyingModalANMATCode").hide();
 			$("#supplyingModalTransactionCode").text("");
 		}
-
-		$('#supplyingModalAgreementInput').val(response.agreement.code + " - " + response.agreement.description);
+        var code = addLeadingZeros(response.agreement.code,5);
+		$('#supplyingModalAgreementInput').val(code + " - " + response.agreement.description);
 		$('#supplyingModalAffiliateInput').val(response.affiliate.code + " - " + response.affiliate.surname + " " + response.affiliate.name);
-		$('#supplyingModalClientInput').val(response.client.code + " - " + response.client.name);
+		var clientCode = addLeadingZeros(response.client.code,4);
+		$('#supplyingModalClientInput').val(clientCode + " - " + response.client.name);
 
 		var id = 0;
 		var found = false;

@@ -86,7 +86,7 @@ public class DeliveryNoteResultDTO {
 		this.number = deliveryNote.getNumber();
 		List<OutputOrderDetailResultDTO> outpuOrderResultDTO = new ArrayList<OutputOrderDetailResultDTO>();
 		if (output != null) {
-			String code = StringUtility.addLeadingZeros(output.getAgreement().getCode().toString(), 4);
+			String code = StringUtility.addLeadingZeros(output.getAgreement().getCode().toString(), 5);
 			this.setAgreement(code + " - " + output.getAgreement().getDescription());
 			this.setDate(stringDate.format(output.getDate()));
 			if (output.getDeliveryLocation() != null) {
@@ -106,14 +106,14 @@ public class DeliveryNoteResultDTO {
 		}
 
 		if (order != null) {
-			String code = StringUtility.addLeadingZeros(order.getProvisioningRequest().getAgreement().getCode().toString(), 4);
+			String code = StringUtility.addLeadingZeros(order.getProvisioningRequest().getAgreement().getCode().toString(), 5);
 			this.setAgreement(code + " - " + order.getProvisioningRequest().getAgreement().getDescription());
 			this.setDate(stringDate.format(order.getProvisioningRequest().getDeliveryDate()));
 			code = StringUtility.addLeadingZeros(order.getProvisioningRequest().getDeliveryLocation().getCode().toString(), 5);
 			this.setDeliveryLocation(code + " - " + order.getProvisioningRequest().getDeliveryLocation().getCorporateName());
 		}
         if(supplying != null){
-			String code = StringUtility.addLeadingZeros(supplying.getAgreement().getCode().toString(), 4);
+			String code = StringUtility.addLeadingZeros(supplying.getAgreement().getCode().toString(), 5);
             this.setAgreement(code + " - " + supplying.getAgreement().getDescription());
             this.setDate(stringDate.format(supplying.getDate()));
 			code = StringUtility.addLeadingZeros(supplying.getClient().getCode().toString(), 5);

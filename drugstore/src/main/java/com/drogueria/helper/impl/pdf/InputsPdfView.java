@@ -114,7 +114,8 @@ public class InputsPdfView extends AbstractPdfView {
 			document.add(Chunk.NEWLINE);
 
 			document.add(new Chunk("Convenio: ", fontHeader));
-			Chunk description = new Chunk(input.getAgreement().getCode() + " - " + input.getAgreement().getDescription(), fontHeader);
+			String codeAgreement = StringUtility.addLeadingZeros(String.valueOf(input.getAgreement().getCode()),5);
+			Chunk description = new Chunk(codeAgreement + " - " + input.getAgreement().getDescription(), fontHeader);
 			document.add(description);
 			document.add(Chunk.NEWLINE);
 
@@ -124,7 +125,8 @@ public class InputsPdfView extends AbstractPdfView {
 			document.add(Chunk.NEWLINE);
 
 			document.add(new Chunk("Concepto: ", fontHeader));
-			Chunk code = new Chunk(input.getConcept().getCode() + " - " + input.getConcept().getDescription(), fontHeader);
+			String conceptCode = StringUtility.addLeadingZeros(input.getConcept().getCode(),4);
+			Chunk code = new Chunk(conceptCode + " - " + input.getConcept().getDescription(), fontHeader);
 			document.add(code);
 			document.add(Chunk.NEWLINE);
 

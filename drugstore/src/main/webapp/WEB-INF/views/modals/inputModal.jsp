@@ -14,7 +14,7 @@
 								<spring:message code="input.label" />
 							</h3>
 						</div>
-						<div class="col-md-2">
+						<div class="col-md-3">
 							<h3 id="inputId"></h3>
 						</div>
 						<div class="col-md-2">

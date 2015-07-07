@@ -142,12 +142,14 @@ public class SupplyingsPdfView extends AbstractPdfView {
 			document.add(Chunk.NEWLINE);
 
 			document.add(new Chunk("Convenio: ", fontHeader));
-			Chunk description = new Chunk(supplying.getAgreement().getCode() + " - " + supplying.getAgreement().getDescription(), fontHeader);
+			String codeAgreement = StringUtility.addLeadingZeros(String.valueOf(supplying.getAgreement().getCode()),5);
+			Chunk description = new Chunk(codeAgreement + " - " + supplying.getAgreement().getDescription(), fontHeader);
 			document.add(description);
 			document.add(Chunk.NEWLINE);
 
 			document.add(new Chunk("Cliente: ", fontHeader));
-			Chunk active = new Chunk(supplying.getClient().getCode() + " - " + supplying.getClient().getName(), fontHeader);
+			String clientCode = StringUtility.addLeadingZeros(String.valueOf(supplying.getClient().getCode()),4);
+			Chunk active = new Chunk(clientCode + " - " + supplying.getClient().getName(), fontHeader);
 			document.add(active);
 			document.add(Chunk.NEWLINE);
 
