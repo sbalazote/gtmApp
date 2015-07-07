@@ -22,8 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.drogueria.constant.AuditState;
 import com.drogueria.constant.RoleOperation;
 import com.drogueria.dto.OutputDTO;
-import com.drogueria.helper.impl.OutputDeliveryNoteSheetPrinter;
-import com.drogueria.helper.impl.OutputFakeDeliveryNoteSheetPrinter;
+import com.drogueria.helper.impl.printer.OutputDeliveryNoteSheetPrinter;
+import com.drogueria.helper.impl.printer.OutputFakeDeliveryNoteSheetPrinter;
 import com.drogueria.query.OutputQuery;
 import com.drogueria.util.OperationResult;
 

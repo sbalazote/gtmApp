@@ -21,7 +21,7 @@ import com.drogueria.constant.AuditState;
 import com.drogueria.constant.RoleOperation;
 import com.drogueria.constant.State;
 import com.drogueria.dto.DeliveryNoteResultDTO;
-import com.drogueria.helper.impl.OrderDeliveryNoteSheetPrinter;
+import com.drogueria.helper.impl.printer.OrderDeliveryNoteSheetPrinter;
 import com.drogueria.model.DeliveryNote;
 import com.drogueria.model.Order;
 import com.drogueria.model.ProvisioningRequest;

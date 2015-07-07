@@ -9,39 +9,39 @@
     					http://www.springframework.org/schema/mvc
     					http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 	
-    <bean id="affiliates" class="com.drogueria.helper.impl.AffiliatesPdfView"/>
+    <bean id="affiliates" class="com.drogueria.helper.impl.pdf.AffiliatesPdfView"/>
 	
-	<bean id="agents" class="com.drogueria.helper.impl.AgentsPdfView"/>
+	<bean id="agents" class="com.drogueria.helper.impl.pdf.AgentsPdfView"/>
 	
-	<bean id="agreements" class="com.drogueria.helper.impl.AgreementsPdfView"/>
+	<bean id="agreements" class="com.drogueria.helper.impl.pdf.AgreementsPdfView"/>
 	
-	<bean id="clients" class="com.drogueria.helper.impl.ClientsPdfView"/>
+	<bean id="clients" class="com.drogueria.helper.impl.pdf.ClientsPdfView"/>
 	
-	<bean id="concepts" class="com.drogueria.helper.impl.ConceptsPdfView"/>
+	<bean id="concepts" class="com.drogueria.helper.impl.pdf.ConceptsPdfView"/>
 	
-	<bean id="deliveryLocations" class="com.drogueria.helper.impl.DeliveryLocationsPdfView"/>
+	<bean id="deliveryLocations" class="com.drogueria.helper.impl.pdf.DeliveryLocationsPdfView"/>
 	
-	<bean id="events" class="com.drogueria.helper.impl.EventsPdfView"/>
+	<bean id="events" class="com.drogueria.helper.impl.pdf.EventsPdfView"/>
 	
-	<bean id="logisticsOperators" class="com.drogueria.helper.impl.LogisticsOperatorsPdfView"/>
+	<bean id="logisticsOperators" class="com.drogueria.helper.impl.pdf.LogisticsOperatorsPdfView"/>
     
-	<bean id="products" class="com.drogueria.helper.impl.ProductsPdfView"/>
-	<bean id="productBrands" class="com.drogueria.helper.impl.ProductBrandsPdfView"/>
-	<bean id="productDrugCategories" class="com.drogueria.helper.impl.ProductDrugCategoriesPdfView"/>
-	<bean id="productGroups" class="com.drogueria.helper.impl.ProductGroupsPdfView"/>
-	<bean id="productMonodrugs" class="com.drogueria.helper.impl.ProductMonodrugsPdfView"/>
+	<bean id="products" class="com.drogueria.helper.impl.pdf.ProductsPdfView"/>
+	<bean id="productBrands" class="com.drogueria.helper.impl.pdf.ProductBrandsPdfView"/>
+	<bean id="productDrugCategories" class="com.drogueria.helper.impl.pdf.ProductDrugCategoriesPdfView"/>
+	<bean id="productGroups" class="com.drogueria.helper.impl.pdf.ProductGroupsPdfView"/>
+	<bean id="productMonodrugs" class="com.drogueria.helper.impl.pdf.ProductMonodrugsPdfView"/>
 	
-	<bean id="providers" class="com.drogueria.helper.impl.ProvidersPdfView"/>
-	<bean id="providerTypes" class="com.drogueria.helper.impl.ProviderTypesPdfView"/>
+	<bean id="providers" class="com.drogueria.helper.impl.pdf.ProvidersPdfView"/>
+	<bean id="providerTypes" class="com.drogueria.helper.impl.pdf.ProviderTypesPdfView"/>
 	
-	<bean id="users" class="com.drogueria.helper.impl.UsersPdfView"/>
+	<bean id="users" class="com.drogueria.helper.impl.pdf.UsersPdfView"/>
 	
-	<bean id="stocks" class="com.drogueria.helper.impl.StockPdfView"/>
-	<bean id="inputs" class="com.drogueria.helper.impl.InputsPdfView"/>
-	<bean id="outputs" class="com.drogueria.helper.impl.OutputsPdfView"/>
-	<bean id="provisionings" class="com.drogueria.helper.impl.ProvisioningPdfView"/>
-	<bean id="audits" class="com.drogueria.helper.impl.AuditPdfView"/>
-	<bean id="supplyings" class="com.drogueria.helper.impl.SupplyingsPdfView"/>
+	<bean id="stocks" class="com.drogueria.helper.impl.pdf.StockPdfView"/>
+	<bean id="inputs" class="com.drogueria.helper.impl.pdf.InputsPdfView"/>
+	<bean id="outputs" class="com.drogueria.helper.impl.pdf.OutputsPdfView"/>
+	<bean id="provisionings" class="com.drogueria.helper.impl.pdf.ProvisioningPdfView"/>
+	<bean id="audits" class="com.drogueria.helper.impl.pdf.AuditPdfView"/>
+	<bean id="supplyings" class="com.drogueria.helper.impl.pdf.SupplyingsPdfView"/>
 	
 	
 </beans>
