@@ -134,11 +134,20 @@ public class InputsPdfView extends AbstractPdfView {
 			document.add(Chunk.NEWLINE);
 
 			for (InputDetail inputDetail : input.getInputDetails()) {
-				PdfPCell productCodeDetail = new PdfPCell(new Paragraph(inputDetail.getProduct().getLastGtin(), fontDetails));
+				String gtin = "-";
+				if(inputDetail.getGtin() != null){
+					gtin = inputDetail.getGtin().getNumber();
+				}
+				PdfPCell productCodeDetail = new PdfPCell(new Paragraph(gtin, fontDetails));
 				PdfPCell productDescriptionDetail = new PdfPCell(new Paragraph(inputDetail.getProduct().getDescription() + " (" + String.valueOf(inputDetail.getProduct().getCode()) + ")", fontDetails));
 				PdfPCell productBatchDetail = new PdfPCell(new Paragraph(inputDetail.getBatch(), fontDetails));
 				PdfPCell productExpirationDateDetail = (new PdfPCell(new Paragraph(dateFormatter.format(inputDetail.getExpirationDate()), fontDetails)));
-				PdfPCell productSerialNumberDetail = new PdfPCell(new Paragraph(inputDetail.getSerialNumber(), fontDetails));
+
+				String serialNumber = "-";
+				if(inputDetail.getSerialNumber() != null){
+					serialNumber = inputDetail.getSerialNumber();
+				}
+				PdfPCell productSerialNumberDetail = new PdfPCell(new Paragraph(serialNumber, fontDetails));
 				PdfPCell productAmountDetail = new PdfPCell(new Paragraph(String.valueOf(inputDetail.getAmount()), fontDetails));
 
 				productCodeDetail.setBorder(Rectangle.NO_BORDER);

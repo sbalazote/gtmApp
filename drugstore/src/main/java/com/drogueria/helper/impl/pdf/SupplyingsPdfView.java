@@ -171,12 +171,24 @@ public class SupplyingsPdfView extends AbstractPdfView {
 
 
 			for (SupplyingDetail supplyingDetail : supplying.getSupplyingDetails()) {
-				PdfPCell productCodeDetail = new PdfPCell(new Paragraph(supplyingDetail.getProduct().getLastGtin(), fontDetails));
+                String gtin = "-";
+                if(supplyingDetail.getGtin() != null){
+                    gtin = supplyingDetail.getGtin().getNumber();
+                }
+				PdfPCell productCodeDetail = new PdfPCell(new Paragraph(gtin, fontDetails));
 				PdfPCell productDescriptionDetail = new PdfPCell(new Paragraph(supplyingDetail.getProduct().getDescription() + " (" + String.valueOf(supplyingDetail.getProduct().getCode()) + ")", fontDetails));
 				PdfPCell productBatchDetail = new PdfPCell(new Paragraph(supplyingDetail.getBatch(), fontDetails));
 				PdfPCell productExpirationDateDetail = (new PdfPCell(new Paragraph(dateFormatter.format(supplyingDetail.getExpirationDate()), fontDetails)));
-				PdfPCell productSerialNumberDetail = new PdfPCell(new Paragraph(supplyingDetail.getSerialNumber(), fontDetails));
-				PdfPCell productAmountDetail = new PdfPCell(new Paragraph(String.valueOf(supplyingDetail.getAmount()), fontDetails));
+                String serialNumber = "-";
+                if(supplyingDetail.getSerialNumber() != null){
+                    serialNumber = supplyingDetail.getSerialNumber();
+                }
+				PdfPCell productSerialNumberDetail = new PdfPCell(new Paragraph(serialNumber, fontDetails));
+				String amount = String.valueOf(supplyingDetail.getAmount());
+				if(!supplyingDetail.getInStock()){
+					amount += " *";
+				}
+				PdfPCell productAmountDetail = new PdfPCell(new Paragraph(amount, fontDetails));
 
 				productCodeDetail.setBorder(Rectangle.NO_BORDER);
 				productDescriptionDetail.setBorder(Rectangle.NO_BORDER);
