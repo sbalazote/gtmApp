@@ -467,7 +467,7 @@ public class InputServiceImpl implements InputService {
 				input.setInformed(true);
 				this.saveAndUpdateStock(input);
 			}
-			operationResult.setOperationId(input.getId());
+			operationResult.setOperationId(String.valueOf(input.getId()));
 		}
 		return operationResult;
 	}
@@ -563,7 +563,7 @@ public class InputServiceImpl implements InputService {
                 input.setTransactionCodeANMAT(operationResult.getCodigoTransaccion());
                 input.setInformed(true);
             }
-            operationResult.setOperationId(input.getId());
+            operationResult.setOperationId(String.valueOf(input.getId()));
         }
         return operationResult;
     }

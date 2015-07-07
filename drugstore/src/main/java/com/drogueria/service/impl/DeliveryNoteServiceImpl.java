@@ -146,7 +146,7 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 				this.save(deliveryNote);
 			}
 		}
-		result.setOperationId(deliveryNote.getId());
+		result.setOperationId(deliveryNote.getNumber());
 		return result;
 	}
 
