@@ -120,9 +120,13 @@ $(document).ready(function() {
 				inputDetails.push(inputDetail);
 			}
 			// Guardo lote/vte y series para mostrar los detalles.
+            var gtinNumber = "";
+            if(response.inputDetails[i].gtin != null){
+                gtinNumber = response.inputDetails[i].gtin.number;
+            }
 			serialDetails = {
 				id: id,
-                gtin: response.inputDetails[i].gtin.number,
+                gtin: gtinNumber,
 				amount: response.inputDetails[i].amount,
 				serialNumber: response.inputDetails[i].serialNumber,
 				batch: response.inputDetails[i].batch,
@@ -219,9 +223,13 @@ $(document).ready(function() {
 				orderOutputDetails.push(deliveryNoteDetail);
 			}
 			// Guardo lote/vte y series para mostrar los detalles.
+            var gtinNumber = "";
+            if(response.orderOutputDetails[i].gtin != null){
+                gtinNumber = response.orderOutputDetails[i].gtinNumber;
+            }
 			serialDetails = {
 				id: id,
-                gtin: response.orderOutputDetails[i].gtinNumber,
+                gtin: gtinNumber,
 				amount: response.orderOutputDetails[i].amount,
 				serialNumber: response.orderOutputDetails[i].serialNumber,
 				batch: response.orderOutputDetails[i].batch,
@@ -354,9 +362,13 @@ $(document).ready(function() {
 				outputDetails.push(outputDetail);
 			}
 			// Guardo lote/vte y series para mostrar los detalles.
+            var gtinNumber = "";
+            if(response.outputDetails[i].gtin != null){
+                gtinNumber = response.outputDetails[i].gtin.number;
+            }
 			serialDetails = {
 				id: id,
-                gtin: response.outputDetails[i].gtin.number,
+                gtin: gtinNumber,
 				amount: response.outputDetails[i].amount,
 				serialNumber: response.outputDetails[i].serialNumber,
 				batch: response.outputDetails[i].batch,
@@ -574,9 +586,13 @@ $(document).ready(function() {
 				supplyingDetails.push(supplyingDetail);
 			}
 			// Guardo lote/vte y series para mostrar los detalles.
+            var gtinNumber = "";
+            if(response.supplyingDetails[i].gtin != null){
+                gtinNumber = response.supplyingDetails[i].gtin.number;
+            }
 			serialDetails = {
 				id: id,
-                gtin: response.supplyingDetails[i].gtin.number,
+                gtin: gtinNumber,
 				amount: response.supplyingDetails[i].amount,
 				serialNumber: response.supplyingDetails[i].serialNumber,
 				batch: response.supplyingDetails[i].batch,

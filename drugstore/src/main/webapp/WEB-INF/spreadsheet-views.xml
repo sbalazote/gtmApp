@@ -9,42 +9,42 @@
     					http://www.springframework.org/schema/mvc
     					http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 	
-	<bean id="affiliates" class="com.drogueria.helper.impl.AffiliatesExcelView"/>
+	<bean id="affiliates" class="com.drogueria.helper.impl.excel.AffiliatesExcelView"/>
 	
-	<bean id="agents" class="com.drogueria.helper.impl.AgentsExcelView"/>
+	<bean id="agents" class="com.drogueria.helper.impl.excel.AgentsExcelView"/>
 	
-	<bean id="agreements" class="com.drogueria.helper.impl.AgreementsExcelView"/>
+	<bean id="agreements" class="com.drogueria.helper.impl.excel.AgreementsExcelView"/>
 	
-	<bean id="clients" class="com.drogueria.helper.impl.ClientsExcelView"/>
+	<bean id="clients" class="com.drogueria.helper.impl.excel.ClientsExcelView"/>
 	
-	<bean id="concepts" class="com.drogueria.helper.impl.ConceptsExcelView"/>
+	<bean id="concepts" class="com.drogueria.helper.impl.excel.ConceptsExcelView"/>
 	
-	<bean id="deliveryLocations" class="com.drogueria.helper.impl.DeliveryLocationsExcelView"/>
+	<bean id="deliveryLocations" class="com.drogueria.helper.impl.excel.DeliveryLocationsExcelView"/>
 	
-	<bean id="events" class="com.drogueria.helper.impl.EventsExcelView"/>
+	<bean id="events" class="com.drogueria.helper.impl.excel.EventsExcelView"/>
 	
-	<bean id="logisticsOperators" class="com.drogueria.helper.impl.LogisticsOperatorsExcelView"/>
+	<bean id="logisticsOperators" class="com.drogueria.helper.impl.excel.LogisticsOperatorsExcelView"/>
     
-	<bean id="products" class="com.drogueria.helper.impl.ProductsExcelView"/>
-	<bean id="productBrands" class="com.drogueria.helper.impl.ProductBrandsExcelView"/>
-	<bean id="productDrugCategories" class="com.drogueria.helper.impl.ProductDrugCategoriesExcelView"/>
-	<bean id="productGroups" class="com.drogueria.helper.impl.ProductGroupsExcelView"/>
-	<bean id="productMonodrugs" class="com.drogueria.helper.impl.ProductMonodrugsExcelView"/>
+	<bean id="products" class="com.drogueria.helper.impl.excel.ProductsExcelView"/>
+	<bean id="productBrands" class="com.drogueria.helper.impl.excel.ProductBrandsExcelView"/>
+	<bean id="productDrugCategories" class="com.drogueria.helper.impl.excel.ProductDrugCategoriesExcelView"/>
+	<bean id="productGroups" class="com.drogueria.helper.impl.excel.ProductGroupsExcelView"/>
+	<bean id="productMonodrugs" class="com.drogueria.helper.impl.excel.ProductMonodrugsExcelView"/>
 	
-	<bean id="providers" class="com.drogueria.helper.impl.ProvidersExcelView"/>
-	<bean id="providerTypes" class="com.drogueria.helper.impl.ProviderTypesExcelView"/>
+	<bean id="providers" class="com.drogueria.helper.impl.excel.ProvidersExcelView"/>
+	<bean id="providerTypes" class="com.drogueria.helper.impl.excel.ProviderTypesExcelView"/>
 	
-	<bean id="users" class="com.drogueria.helper.impl.UsersExcelView"/>
+	<bean id="users" class="com.drogueria.helper.impl.excel.UsersExcelView"/>
 	
-	<bean id="stocks" class="com.drogueria.helper.impl.StockExcelView"/>
+	<bean id="stocks" class="com.drogueria.helper.impl.excel.StockExcelView"/>
 	
-	<bean id="inputs" class="com.drogueria.helper.impl.InputExcelView"/>
+	<bean id="inputs" class="com.drogueria.helper.impl.excel.InputExcelView"/>
 	
-	<bean id="outputs" class="com.drogueria.helper.impl.OutputExcelView"/>
+	<bean id="outputs" class="com.drogueria.helper.impl.excel.OutputExcelView"/>
 	
-	<bean id="provisionings" class="com.drogueria.helper.impl.ProvisioningExcelView"/>
+	<bean id="provisionings" class="com.drogueria.helper.impl.excel.ProvisioningExcelView"/>
 	
-	<bean id="audits" class="com.drogueria.helper.impl.AuditExcelView"/>
+	<bean id="audits" class="com.drogueria.helper.impl.excel.AuditExcelView"/>
 	
-	<bean id="supplyings" class="com.drogueria.helper.impl.SupplyingsExcelView"/>
+	<bean id="supplyings" class="com.drogueria.helper.impl.excel.SupplyingsExcelView"/>
 </beans>

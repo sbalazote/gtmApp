@@ -23,7 +23,7 @@
 	<bean id="webServiceHelper" class="com.drogueria.webservice.WebServiceHelper" />
 	<bean id="inputWSHelper" class="com.drogueria.webservice.helper.InputWSHelper" />
 	<bean id="deliveryNoteWSHelper" class="com.drogueria.webservice.helper.DeliveryNoteWSHelper" />
-    <bean id="supplyingsPdfView" class="com.drogueria.helper.impl.SupplyingsPdfView" />
+    <bean id="supplyingsPdfView" class="com.drogueria.helper.impl.pdf.SupplyingsPdfView" />
 	
 	<bean id="webService" class="com.drogueria.webservice.WebService" />
 
