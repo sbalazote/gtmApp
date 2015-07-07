@@ -251,7 +251,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 				sentence += " and p.id = " + deliveryNoteQuery.getProvisioningRequestId();
 			}
 			if (!deliveryNoteQuery.getDeliveryNoteNumber().equals("")) {
-				sentence += " and dn.number = " + deliveryNoteQuery.getDeliveryNoteNumber();
+				sentence += " and dn.number = '" + deliveryNoteQuery.getDeliveryNoteNumber() + "'";
 			}
             sentence += " order by dn.id desc";
 			Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("dn", DeliveryNote.class)
@@ -280,7 +280,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 				sentence += " and o.provider_id = " + deliveryNoteQuery.getProviderId();
 			}
 			if (!deliveryNoteQuery.getDeliveryNoteNumber().equals("")) {
-				sentence += " and dn.number = " + deliveryNoteQuery.getDeliveryNoteNumber();
+				sentence += " and dn.number = '" + deliveryNoteQuery.getDeliveryNoteNumber() + "'";
 			}
             sentence += " order by dn.id desc";
 			Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("dn", DeliveryNote.class)
@@ -302,7 +302,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
                 sentence += " and s.client_id = " + deliveryNoteQuery.getClientId();
             }
             if (!deliveryNoteQuery.getDeliveryNoteNumber().equals("")) {
-                sentence += " and dn.number = " + deliveryNoteQuery.getDeliveryNoteNumber();
+                sentence += " and dn.number = '" + deliveryNoteQuery.getDeliveryNoteNumber() + "'";
             }
             if (deliveryNoteQuery.getAgreementId() != null) {
                 sentence += " and s.agreement_id = " + deliveryNoteQuery.getAgreementId();
