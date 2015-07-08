@@ -3,7 +3,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page import="com.drogueria.config.PropertyProvider" %>
+
+<script type="text/javascript" src="js/form/changePassword.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        new ChangePassword();
+    });
+</script>
 
 <nav class="navbar navbar-default" role="navigation">
 	<!-- Brand and toggle get grouped for better mobile display -->
@@ -167,8 +173,52 @@
 				<li class="activable"><a href="updateProperty.do"><spring:message code="common.configuration" /></a></li>
 			</sec:authorize>
 		</ul>
-		<a role="button" class="btn btn-primary btn-lg logout-button" href="j_spring_security_logout"> <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Salir
-		</a>
 
+		<ul class="nav navbar-nav navbar-right">
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><sec:authentication property="principal" /><span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li id="changePassword"><a href="#"><spring:message code="administration.changePassword" /></a></li>
+				</ul>
+			</li>
+			<a role="button" class="btn btn-primary btn-lg logout-button" href="j_spring_security_logout"> <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Salir</a>
+		</ul>
 	</div>
 </nav>
+
+<form id="changePasswordForm" action="" onsubmit="return false;">
+	<div class="modal fade" data-backdrop="static" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width:400px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title"><spring:message code="administration.changePassword.title"/></h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+                        <div class="col-md-12 form-group">
+						    <label for="actualPasswordInput"><spring:message code="administration.actualPassword"/></label>
+						    <input type="password" class="form-control" name="actualPassword" id="actualPasswordInput"/>
+                        </div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 form-group">
+							<label for="passwordInput"><spring:message code="administration.newPassword" /></label>
+							<input type="password" class="form-control" id="passwordInput" name="password">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 form-group">
+							<label for="passwordInputCheck"><spring:message code="common.repeatPassword" /></label>
+							<input type="password" class="form-control" id="passwordInputCheck" name="passwordCheck">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.abort"/></button>
+					<button type="button" class="btn btn-primary" id="amountModalAcceptButton"><spring:message code="common.accept"/></button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
