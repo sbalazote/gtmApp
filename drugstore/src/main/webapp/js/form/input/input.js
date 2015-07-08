@@ -649,7 +649,7 @@ Input = function() {
 	};
 
 	$(window).bind("beforeunload",function(event) {
-	    if(hasChanged() && isButtonConfirm == false) {
+	    if (hasChanged() && isButtonConfirm == false && isUpdate == false) {
 	    	return "Existen cambios que no fueron confirmados.";
 	    } /*else {
 	    	isButtonConfirm = false;
@@ -710,7 +710,6 @@ Input = function() {
 	});
 	
 	$("#delete").click(function() {
-		
 		$.ajax({
 			url: "cancelInputWithoutStock.do",
 			type: "GET",
