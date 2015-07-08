@@ -146,6 +146,30 @@ SearchDeliveryNote = function() {
 		var form = $("#searchDeliveryNoteForm");
 		form.validate({
 			rules: {
+				outputDateFromSearch: {
+					dateITA: true,
+					maxDate: $("#outputDateToSearch")
+				},
+				outputDateToSearch: {
+					dateITA: true,
+					minDate: $("#outputDateFromSearch")
+				},
+				orderDateFromSearch: {
+					dateITA: true,
+					maxDate: $("#orderDateToSearch")
+				},
+				orderDateToSearch: {
+					dateITA: true,
+					minDate: $("#orderDateFromSearch")
+				},
+				supplyingDateFromSearch: {
+					dateITA: true,
+					maxDate: $("#supplyingDateToSearch")
+				},
+				supplyingDateToSearch: {
+					dateITA: true,
+					minDate: $("#supplyingDateFromSearch")
+				},
 				/*outputDeliveryNoteNumberSearch: {
 					digits: true
 				},*/
