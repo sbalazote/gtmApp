@@ -8,6 +8,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,7 +99,7 @@ public class SupplyingDAOHibernateImpl implements SupplyingDAO {
 		if (supplyingQuery.getCancelled() != null) {
 			criteria.add(Restrictions.eq("cancelled", supplyingQuery.getCancelled()));
 		}
-        criteria.addOrder(Order.desc("id"));
+        criteria.addOrder(Order.desc("id")).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 
 		List<Supplying> results = criteria.list();
 

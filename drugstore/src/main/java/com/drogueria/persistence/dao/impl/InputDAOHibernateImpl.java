@@ -116,7 +116,7 @@ public class InputDAOHibernateImpl implements InputDAO {
 		if (inputQuery.getCancelled() != null) {
 			criteria.add(Restrictions.eq("cancelled", inputQuery.getCancelled()));
 		}
-        criteria.addOrder(Order.desc("id"));
+        criteria.addOrder(Order.desc("id")).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 		List<Input> results = criteria.list();
 
 		return results;
