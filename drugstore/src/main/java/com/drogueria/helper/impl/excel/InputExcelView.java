@@ -112,7 +112,7 @@ public class InputExcelView extends AbstractExcelView {
 				row.createCell(c++).setCellValue(input.getConcept().getDescription());
 				row.createCell(c++).setCellValue(input.getAgreement().getDescription());
 				row.createCell(c++).setCellValue(input.getClientOrProviderDescription());
-				row.createCell(c++).setCellValue(input.getDate());
+				row.createCell(c++).setCellValue(dateFormatter.format(input.getDate()));
 				row.createCell(c++).setCellValue(input.getTransactionCodeANMAT() == null ? input.getTransactionCodeANMAT() : "");
 				row.createCell(c++).setCellValue(input.isCancelled() ? "SI" : "NO");
 				row.createCell(c++).setCellValue(input.getDeliveryNoteNumber());

@@ -94,7 +94,7 @@ public class SupplyingsExcelView extends AbstractExcelView {
 				row.createCell(c++).setCellValue(supplying.getId());
 				row.createCell(c++).setCellValue(supplying.getAgreement().getDescription());
 				row.createCell(c++).setCellValue(supplying.getClient().getCorporateName());
-				row.createCell(c++).setCellValue(supplying.getDate());
+				row.createCell(c++).setCellValue(dateFormatter.format(supplying.getDate()));
 				row.createCell(c++).setCellValue(supplying.isCancelled() ? "SI" : "NO");
 				row.createCell(c++).setCellValue(supplyingDetail.getProduct().getCode() + " - " + supplyingDetail.getProduct().getDescription());
 				row.createCell(c++).setCellValue(supplyingDetail.getGtin() != null ? supplyingDetail.getGtin().getNumber() : "");
