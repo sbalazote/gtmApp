@@ -9,6 +9,7 @@ public class InputQuery {
 	private Integer providerId;
 	private Integer deliveryLocationId;
 	private Integer agreementId;
+	private Integer productId;
 	private String deliveryNoteNumber;
 	private String purchaseOrderNumber;
 	private Boolean cancelled;
@@ -59,6 +60,14 @@ public class InputQuery {
 
 	public void setAgreementId(Integer agreementId) {
 		this.agreementId = agreementId;
+	}
+
+	public Integer getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Integer productId) {
+		this.productId = productId;
 	}
 
 	public String getDeliveryNoteNumber() {

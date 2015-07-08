@@ -32,7 +32,7 @@
 					<div class="row">
 						<div class="col-md-4 form-group">
 							<label for="outputDeliveryNoteNumberSearch"><spring:message code="common.deliveryNote"/></label>
-							<input type="text" class="form-control" name="outputDeliveryNoteNumberSearch" id="outputDeliveryNoteNumberSearch" >
+							<input type="text" class="form-control" name="outputDeliveryNoteNumberSearch" id="outputDeliveryNoteNumberSearch" placeholder='<spring:message code="search.deliveryNote.deliveryNoteFormat"/>'>
 						</div>
 						<div class="col-md-4 form-group">
 							<label for="outputDateFromSearch"><spring:message code="common.dateFrom"/></label>
@@ -137,7 +137,7 @@
 					<div class="row">
 						<div class="col-md-4 form-group">
 							<label for="supplyingDeliveryNoteNumberSearch"><spring:message code="common.deliveryNote"/></label>
-							<input type="text" class="form-control" name="supplyingDeliveryNoteNumberSearch" id="supplyingDeliveryNoteNumberSearch" >
+							<input type="text" class="form-control" name="supplyingDeliveryNoteNumberSearch" id="supplyingDeliveryNoteNumberSearch" placeholder='<spring:message code="search.deliveryNote.deliveryNoteFormat"/>'>
 						</div>
 						<div class="col-md-4 form-group">
 							<label for="supplyingDateFromSearch"><spring:message code="common.dateFrom"/></label>
@@ -228,7 +228,7 @@
                     <div class="row">
                         <div class="col-md-4 form-group">
                             <label for="orderDeliveryNoteNumberSearch"><spring:message code="common.deliveryNote"/></label>
-                            <input type="text" class="form-control" name="orderDeliveryNoteNumberSearch" id="orderDeliveryNoteNumberSearch" >
+                            <input type="text" class="form-control" name="orderDeliveryNoteNumberSearch" id="orderDeliveryNoteNumberSearch" placeholder='<spring:message code="search.deliveryNote.deliveryNoteFormat"/>'>
                         </div>
 						<div class="col-md-4 form-group">
 							<label for="orderDateFromSearch"><spring:message code="common.dateFrom"/></label>

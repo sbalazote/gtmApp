@@ -8,6 +8,8 @@ public class OutputQuery {
 	private Integer providerId;
 	private Integer deliveryLocationId;
 	private Integer agreementId;
+	private Integer productId;
+	private Boolean cancelled;
 
 	public Integer getId() {
 		return this.id;
@@ -63,6 +65,22 @@ public class OutputQuery {
 
 	public void setAgreementId(Integer agreementId) {
 		this.agreementId = agreementId;
+	}
+
+	public Integer getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Integer productId) {
+		this.productId = productId;
+	}
+
+	public Boolean getCancelled() {
+		return this.cancelled;
+	}
+
+	public void setCancelled(Boolean cancelled) {
+		this.cancelled = cancelled;
 	}
 
 	public static OutputQuery createFromParameters(Integer id, String dateFrom, String dateTo, Integer conceptId, Integer providerId,

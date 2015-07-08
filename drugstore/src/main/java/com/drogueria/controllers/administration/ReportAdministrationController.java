@@ -121,6 +121,7 @@ public class ReportAdministrationController {
     @RequestMapping(value = "/searchSupplying", method = RequestMethod.GET)
     public String searchSupplying(ModelMap modelMap) throws Exception {
         modelMap.put("agreements", this.agreementService.getAll());
+		modelMap.put("clients", this.clientService.getAll());
         return "searchSupplying";
     }
 

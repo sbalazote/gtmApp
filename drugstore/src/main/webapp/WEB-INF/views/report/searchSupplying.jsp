@@ -47,6 +47,15 @@
 
         <div class="row">
             <div class="col-md-4 form-group">
+                <label for="clientSearch"><spring:message code="common.client" /></label>
+                <select id="clientSearch" name="clientSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
+                    <option value=""></option>
+                    <c:forEach items="${clients}" var="client">
+                        <option value="${client.id}"><c:out value="${client.code}"></c:out> - <c:out value="${client.name}"></c:out></option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="col-md-4 form-group">
                 <label for="affiliateInput"><spring:message code="common.affiliate" /></label>
                 <input type='hidden' id="affiliateInput" name="affiliate" class="form-control">
             </div>
@@ -59,6 +68,8 @@
                     </c:forEach>
                 </select>
             </div>
+        </div>
+        <div class="row">
             <div class="col-md-4">
                 <label for="cancelledSelect"><spring:message code="common.state"/></label>
                 <select class="form-control chosen-select" id="cancelledSelect" name="cancelled">
@@ -69,7 +80,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-2 col-md-offset-8 form-margin">
+            <div class="col-md-8 form-group">
+                <label for="productInput"><spring:message code="common.product"/></label>
+                <input id="productInput" name="productInput" type="search" placeholder='<spring:message code="search.product.description"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental" />
+            </div>
+            <div class="col-md-2 form-margin">
                 <button class="btn btn-success btn-block" type="submit" id="searchButton">
                     <span class="glyphicon glyphicon-search"></span>
                     <spring:message code="common.search" />

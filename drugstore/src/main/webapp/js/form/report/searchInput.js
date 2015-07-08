@@ -13,7 +13,43 @@ SearchInput = function() {
 
 	$("#dateFromSearch").datepicker();
 	$("#dateToSearch").datepicker();
-	
+
+	$("#productInput").autocomplete({
+		source: function(request, response) {
+			$.ajax({
+				url: "getProducts.do",
+				type: "GET",
+				async: false,
+				data: {
+					term: request.term,
+					active: true
+				},
+				success: function(data) {
+					var array = $.map(data, function(item) {
+						return {
+							id:	item.id,
+							label: item.code + " - " + item.description + " - " + item.brand.description + " - " + item.monodrug.description,
+							value: item.code + " - " + item.description,
+							gtin: item.lastGtin,
+							type: item.type
+						};
+					});
+					response(array);
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					myGenericError();
+				}
+			});
+		},
+		select: function(event, ui) {
+			$("#productInput").attr('productId', ui.item.id);
+			$("#productInput").val(ui.item.value);
+			return false;
+		},
+		minLength: 3,
+		autoFocus: true
+	});
+
 	var inputId = null;
 	
 	$('#inputTableBody').on("click", ".view-row", function() {
@@ -60,11 +96,14 @@ SearchInput = function() {
 		}
 		$("#idSearch").val('');
 		$('#providerSearch').val('').trigger('chosen:updated');
+		$('#deliveryLocationSearch').val('').trigger('chosen:updated');
 		$('#conceptSearch').val('').trigger('chosen:updated');
 		$('#agreementSearch').val('').trigger('chosen:updated');
 		$('#deliveryNoteNumberSearch').val('');
 		$('#purchaseOrderNumberSearch').val('');
-		$('#cancelledSelect').val('').trigger('chosen:updated');;
+		$('#cancelledSelect').val('').trigger('chosen:updated');
+		$("#productInput").removeAttr("productId");
+		$("#productInput").val('');
 	});
 	
 	$("#searchButton").click(function() {
@@ -77,6 +116,7 @@ SearchInput = function() {
 				"providerId": $("#providerSearch").val() || null,
 				"deliveryLocationId": $("#deliveryLocationSearch").val() || null,
 				"agreementId": $("#agreementSearch").val() || null,
+				"productId": $("#productInput").attr("productId") || null,
 				"deliveryNoteNumber": $("#deliveryNoteNumberSearch").val().trim(),
 				"purchaseOrderNumber": $("#purchaseOrderNumberSearch").val().trim(),
 				"cancelled": $("#cancelledSelect").val() || null

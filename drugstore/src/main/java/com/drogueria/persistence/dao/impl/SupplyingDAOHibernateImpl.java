@@ -58,7 +58,8 @@ public class SupplyingDAOHibernateImpl implements SupplyingDAO {
 	@Override
 	public List<Supplying> getSupplyingForSearch(SupplyingQuery supplyingQuery) {
 
-		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Supplying.class);
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Supplying.class, "supplying");
+		criteria.createAlias("supplying.supplyingDetails", "supplyingDetail");
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		Date dateFromFormated = null;
 		Date dateToFormated = null;
@@ -66,7 +67,6 @@ public class SupplyingDAOHibernateImpl implements SupplyingDAO {
 		if (supplyingQuery.getId() != null) {
 			criteria.add(Restrictions.eq("id", supplyingQuery.getId()));
 		}
-
 		if (!StringUtils.isEmpty(supplyingQuery.getDateFrom())) {
 			try {
 				dateFromFormated = dateFormatter.parse(supplyingQuery.getDateFrom());
@@ -83,19 +83,21 @@ public class SupplyingDAOHibernateImpl implements SupplyingDAO {
 				throw new RuntimeException("El formato de la fecha ingresada no es valido.", e);
 			}
 		}
-
+		if (supplyingQuery.getClientId() != null) {
+			criteria.add(Restrictions.eq("client.id", supplyingQuery.getClientId()));
+		}
+		if (supplyingQuery.getAffiliateId() != null) {
+            criteria.add(Restrictions.eq("affiliate.id", supplyingQuery.getAffiliateId()));
+        }
 		if (supplyingQuery.getAgreementId() != null) {
 			criteria.add(Restrictions.eq("agreement.id", supplyingQuery.getAgreementId()));
 		}
-
-        if (supplyingQuery.getAffiliateId() != null) {
-            criteria.add(Restrictions.eq("affiliate.id", supplyingQuery.getAffiliateId()));
-        }
-
+		if (supplyingQuery.getProductId() != null) {
+			criteria.add(Restrictions.eq("supplyingDetail.product.id", supplyingQuery.getProductId()));
+		}
 		if (supplyingQuery.getCancelled() != null) {
 			criteria.add(Restrictions.eq("cancelled", supplyingQuery.getCancelled()));
 		}
-
         criteria.addOrder(Order.desc("id"));
 
 		List<Supplying> results = criteria.list();

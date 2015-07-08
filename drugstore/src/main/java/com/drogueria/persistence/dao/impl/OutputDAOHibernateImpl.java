@@ -45,7 +45,8 @@ public class OutputDAOHibernateImpl implements OutputDAO {
 	@Override
 	public List<Output> getOutputForSearch(OutputQuery outputQuery) {
 
-		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Output.class);
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Output.class, "output");
+		criteria.createAlias("output.outputDetails", "outputDetail");
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		Date dateFromFormated = null;
 		Date dateToFormated = null;
@@ -86,7 +87,12 @@ public class OutputDAOHibernateImpl implements OutputDAO {
 		if (outputQuery.getAgreementId() != null) {
 			criteria.add(Restrictions.eq("agreement.id", outputQuery.getAgreementId()));
 		}
-
+		if (outputQuery.getProductId() != null) {
+			criteria.add(Restrictions.eq("outputDetail.product.id", outputQuery.getProductId()));
+		}
+		if (outputQuery.getCancelled() != null) {
+			criteria.add(Restrictions.eq("cancelled", outputQuery.getCancelled()));
+		}
         criteria.addOrder(Order.desc("id"));
 
 		List<Output> results = criteria.list();

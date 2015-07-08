@@ -65,7 +65,7 @@
 				</select>
 			</div>
 			<div class="col-md-4 form-group">
-				<label for="deliveryLocationSearch"><spring:message code="common.client"/></label>
+				<label for="deliveryLocationSearch"><spring:message code="common.deliveryLocation"/></label>
 				<select id="deliveryLocationSearch" name="deliveryLocationSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 					<option value=""></option>
 					<c:forEach items="${deliveryLocations}" var="deliveryLocation">
@@ -87,7 +87,7 @@
 			</div>
 			<div class="col-md-4 form-group">
 				<label for="deliveryNoteNumberSearch"><spring:message code="common.deliveryNote"/></label>
-				<input type="text" class="form-control" name="deliveryNoteNumberSearch" id="deliveryNoteNumberSearch" >
+				<input type="text" class="form-control" name="deliveryNoteNumberSearch" id="deliveryNoteNumberSearch" placeholder='<spring:message code="search.input.deliveryNoteFormat"/>'>
 			</div>
 			<div class="col-md-4 form-group">
 				<label for="purchaseOrderNumberSearch"><spring:message code="common.purchaseOrder"/></label>
@@ -103,7 +103,13 @@
 					<option value="true">Anulados</option>
 				</select>
             </div>
-			<div class="col-md-2 col-md-offset-4 form-margin">
+		</div>
+		<div class="row">
+			<div class="col-md-8 form-group">
+				<label for="productInput"><spring:message code="common.product"/></label>
+				<input id="productInput" name="productInput" type="search" placeholder='<spring:message code="search.product.description"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental" />
+			</div>
+			<div class="col-md-2 form-margin">
 				<button class="btn btn-success btn-block" type="submit" id="searchButton">
 				<span class="glyphicon glyphicon-search"></span>
 				<spring:message code="common.search" />

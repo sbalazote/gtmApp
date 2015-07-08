@@ -8,8 +8,10 @@ public class SupplyingQuery {
     private Integer id;
     private String dateFrom;
     private String dateTo;
+    private Integer clientId;
     private Integer affiliateId;
     private Integer agreementId;
+    private Integer productId;
     private Boolean cancelled;
 
     public Integer getId() {
@@ -36,6 +38,14 @@ public class SupplyingQuery {
         this.dateTo = dateTo;
     }
 
+    public Integer getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
+    }
+
     public Integer getAffiliateId() {
         return affiliateId;
     }
@@ -50,6 +60,14 @@ public class SupplyingQuery {
 
     public void setAgreementId(Integer agreementId) {
         this.agreementId = agreementId;
+    }
+
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 
     public Boolean getCancelled() {

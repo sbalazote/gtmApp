@@ -15,6 +15,42 @@ SearchSupplying = function() {
     $("#dateFromSearch").datepicker();
     $("#dateToSearch").datepicker();
 
+    $("#productInput").autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                url: "getProducts.do",
+                type: "GET",
+                async: false,
+                data: {
+                    term: request.term,
+                    active: true
+                },
+                success: function(data) {
+                    var array = $.map(data, function(item) {
+                        return {
+                            id:	item.id,
+                            label: item.code + " - " + item.description + " - " + item.brand.description + " - " + item.monodrug.description,
+                            value: item.code + " - " + item.description,
+                            gtin: item.lastGtin,
+                            type: item.type
+                        };
+                    });
+                    response(array);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    myGenericError();
+                }
+            });
+        },
+        select: function(event, ui) {
+            $("#productInput").attr('productId', ui.item.id);
+            $("#productInput").val(ui.item.value);
+            return false;
+        },
+        minLength: 3,
+        autoFocus: true
+    });
+
     var supplyingId = null;
 
     $('#supplyingTableBody').on("click", ".view-row", function() {
@@ -54,9 +90,12 @@ SearchSupplying = function() {
             $.datepicker._clearDate('#dateToSearch');
         }
         $("#idSearch").val('');
+        $("#clientSearch").val('').trigger('chosen:updated');
         $("#affiliateInput").select2("val", "");
         $('#agreementSearch').val('').trigger('chosen:updated');
-        $('#cancelledSelect').val('').trigger('chosen:updated');;
+        $('#cancelledSelect').val('').trigger('chosen:updated');
+        $("#productInput").removeAttr("productId");
+        $("#productInput").val('');
     });
 
     $("#searchButton").click(function() {
@@ -66,7 +105,9 @@ SearchSupplying = function() {
                 "dateFrom": $("#dateFromSearch").val(),
                 "dateTo": $("#dateToSearch").val(),
                 "affiliateId": $("#affiliateInput").val() || null,
+                "clientId": $("#clientSearch").val() || null,
                 "agreementId": $("#agreementSearch").val() || null,
+                "productId": $("#productInput").attr("productId") || null,
                 "cancelled": $("#cancelledSelect").val() || null
             };
 

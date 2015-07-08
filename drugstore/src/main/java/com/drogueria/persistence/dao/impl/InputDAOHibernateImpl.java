@@ -60,7 +60,8 @@ public class InputDAOHibernateImpl implements InputDAO {
 	@Override
 	public List<Input> getInputForSearch(InputQuery inputQuery) {
 
-		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Input.class);
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Input.class, "input");
+		criteria.createAlias("input.inputDetails", "inputDetail");
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		Date dateFromFormated = null;
 		Date dateToFormated = null;
@@ -108,6 +109,9 @@ public class InputDAOHibernateImpl implements InputDAO {
 
 		if (!StringUtils.isEmpty(inputQuery.getPurchaseOrderNumber())) {
 			criteria.add(Restrictions.eq("purchaseOrderNumber", inputQuery.getPurchaseOrderNumber()));
+		}
+		if (inputQuery.getProductId() != null) {
+			criteria.add(Restrictions.eq("inputDetail.product.id", inputQuery.getProductId()));
 		}
 		if (inputQuery.getCancelled() != null) {
 			criteria.add(Restrictions.eq("cancelled", inputQuery.getCancelled()));
