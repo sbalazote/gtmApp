@@ -83,8 +83,8 @@ SearchDeliveryNote = function() {
 	var affiliateId = null;
 	var deliveryNoteId = null;
 
-	$("#affiliate").select2({
-		// allowClear: true,
+	$("#orderAffiliate, #supplyingAffiliate").select2({
+		allowClear: true,
 		placeholder : "Buscar afiliado...",
 		minimumInputLength : 3,
 		//theme: "classic",
@@ -146,18 +146,21 @@ SearchDeliveryNote = function() {
 		var form = $("#searchDeliveryNoteForm");
 		form.validate({
 			rules: {
-				outputDeliveryNoteNumberSearch: {
+				/*outputDeliveryNoteNumberSearch: {
+					digits: true
+				},*/
+				outputIdSearch: {
 					digits: true
 				},
-				orderDeliveryNoteNumberSearch: {
+				/*orderDeliveryNoteNumberSearch: {
 					digits: true
-				},
+				},*/
 				orderIdSearch: {
 					digits: true
 				},
-				supplyingDeliveryNoteNumberSearch: {
+				/*supplyingDeliveryNoteNumberSearch: {
 					digits: true
-				},
+				},*/
 				supplyingIdSearch: {
 					digits: true
 				}
@@ -182,6 +185,7 @@ SearchDeliveryNote = function() {
 		$("#outputAgreementSearch").val('').trigger('chosen:updated');
 		$("#outputProductInput").removeAttr("productId");
 		$("#outputProductInput").val('');
+		$("#outputIdSearch").val('');
 	});
 
 	$("#cleanOrderButton").click(function() {
@@ -197,6 +201,8 @@ SearchDeliveryNote = function() {
 		$("#orderProductInput").removeAttr("productId");
 		$("#orderProductInput").val('');
 		$("#orderClientSearch").val('').trigger('chosen:updated');
+		$("#orderAffiliate").select2("val", "");
+		affiliateId = null;
 		$("#orderIdSearch").val('');
 	});
 
@@ -212,7 +218,7 @@ SearchDeliveryNote = function() {
 		$("#supplyingProductInput").removeAttr("productId");
 		$("#supplyingProductInput").val('');
 		$("#supplyingClientSearch").val('').trigger('chosen:updated');
-		$("#affiliate").select2("val", "");
+		$("#supplyingAffiliate").select2("val", "");
 		affiliateId = null;
 		$("#supplyingIdSearch").val('');
 	});
@@ -238,6 +244,7 @@ SearchDeliveryNote = function() {
 				"productId": $("#outputProductInput").attr("productId") || null,
 				"clientId": null,
 				"affiliateId": null,
+				"outputId": $("#outputIdSearch").val(),
 				"supplyingId": null,
 				"provisioningRequestId": null
 			};
@@ -296,7 +303,8 @@ SearchDeliveryNote = function() {
 				"agreementId": $("#orderAgreementSearch").val() || null,
 				"productId": $("#orderProductInput").attr("productId") || null,
 				"clientId": $("#orderClientSearch").val() || null,
-				"affiliateId": null,
+				"affiliateId": $("#orderAffiliate").val() || null,
+				"outputId": null,
 				"supplyingId": null,
 				"provisioningRequestId": $("#orderIdSearch").val() || null
 			};
@@ -355,7 +363,8 @@ SearchDeliveryNote = function() {
 				"agreementId": $("#supplyingAgreementSearch").val() || null,
 				"productId": $("#supplyingProductInput").attr("productId") || null,
 				"clientId": $("#supplyingClientSearch").val() || null,
-				"affiliateId": $("#affiliate").val() || null,
+				"affiliateId": $("#supplyingAffiliate").val() || null,
+				"outputId": null,
 				"supplyingId": $("#supplyingIdSearch").val() || null,
 				"provisioningRequestId": null
 			};

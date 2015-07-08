@@ -314,6 +314,9 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 				dateToFormated = StringUtility.toUSDateFormat(deliveryNoteQuery.getDateTo());
 				sentence += " and date(dn.date) <= '" + dateToFormated + "'";
 			}
+			if (deliveryNoteQuery.getOutputId() != null) {
+				sentence += " and o.id = " + deliveryNoteQuery.getOutputId();
+			}
 			if (deliveryNoteQuery.getConceptId() != null) {
 				sentence += " and o.concept_id = " + deliveryNoteQuery.getConceptId();
 			}

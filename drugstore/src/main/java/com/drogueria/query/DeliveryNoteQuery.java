@@ -12,6 +12,7 @@ public class DeliveryNoteQuery {
 	private Integer productId;
 	private Integer deliveryLocationId;
 	private Integer agreementId;
+	private Integer outputId;
 	private Integer supplyingId;
 	private Integer provisioningRequestId;
 
@@ -21,14 +22,6 @@ public class DeliveryNoteQuery {
 
 	public void setDeliveryNoteNumber(String deliveryNoteNumber) {
 		this.deliveryNoteNumber = deliveryNoteNumber;
-	}
-
-	public Integer getProvisioningRequestId() {
-		return provisioningRequestId;
-	}
-
-	public void setProvisioningRequestId(Integer provisioningRequestId) {
-		this.provisioningRequestId = provisioningRequestId;
 	}
 
 	public String getDateFrom() {
@@ -101,6 +94,22 @@ public class DeliveryNoteQuery {
 
 	public void setProductId(Integer productId) {
 		this.productId = productId;
+	}
+
+	public Integer getOutputId() {
+		return outputId;
+	}
+
+	public void setOutputId(Integer outputId) {
+		this.outputId = outputId;
+	}
+
+	public Integer getProvisioningRequestId() {
+		return provisioningRequestId;
+	}
+
+	public void setProvisioningRequestId(Integer provisioningRequestId) {
+		this.provisioningRequestId = provisioningRequestId;
 	}
 
 	public Integer getSupplyingId() {
