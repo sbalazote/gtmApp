@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.drogueria.dto.NewPasswordDTO;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,6 +57,12 @@ public class UserAdministrationController {
 		User user = this.buildModel(userDTO);
 		this.userService.save(user);
 		return user;
+	}
+
+	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+	public @ResponseBody Boolean changePassword(@RequestBody NewPasswordDTO newPasswordDTO) throws Exception {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		return this.userService.changePassword(auth.getName(),newPasswordDTO);
 	}
 
 	private User buildModel(UserDTO userDTO) {

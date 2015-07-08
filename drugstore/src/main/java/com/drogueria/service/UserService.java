@@ -2,6 +2,7 @@ package com.drogueria.service;
 
 import java.util.List;
 
+import com.drogueria.dto.NewPasswordDTO;
 import com.drogueria.model.User;
 
 public interface UserService {
@@ -23,4 +24,6 @@ public interface UserService {
 	List<User> getPaginated(int start, int length);
 
 	Long getTotalNumber();
+
+	Boolean changePassword(String username,NewPasswordDTO newPasswordDTO);
 }

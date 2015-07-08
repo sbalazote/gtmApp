@@ -2,6 +2,8 @@ package com.drogueria.service.impl;
 
 import java.util.List;
 
+import com.drogueria.dto.NewPasswordDTO;
+import com.drogueria.helper.EncryptionHelper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,5 +66,19 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Long getTotalNumber() {
 		return this.userDAO.getTotalNumber();
+	}
+
+	@Override
+	public Boolean changePassword(String username,NewPasswordDTO newPasswordDTO) {
+		User user = this.userDAO.getByName(username);
+        String hashedPassword = EncryptionHelper.generateHash(username + newPasswordDTO.getActualPassword());
+
+        if (hashedPassword.equals(user.getPassword())) {
+            user.setPassword(EncryptionHelper.generateHash(username + newPasswordDTO.getNewPassword()));
+			this.save(user);
+			return true;
+		}else{
+			return false;
+		}
 	}
 }

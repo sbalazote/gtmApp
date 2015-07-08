@@ -194,6 +194,7 @@
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h4 class="modal-title"><spring:message code="administration.changePassword.title"/></h4>
 				</div>
+				<div id="changePasswordModalAlertDiv"></div>
 				<div class="modal-body">
 					<div class="row">
                         <div class="col-md-12 form-group">
@@ -216,7 +217,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.abort"/></button>
-					<button type="button" class="btn btn-primary" id="amountModalAcceptButton"><spring:message code="common.accept"/></button>
+					<button type="button" class="btn btn-primary" id="confirmChangePassword"><spring:message code="common.accept"/></button>
 				</div>
 			</div>
 		</div>
