@@ -6,6 +6,11 @@
 
 	<display-name>Drogueria</display-name>
 
+	<welcome-file-list>
+		<welcome-file>home.do</welcome-file>
+	</welcome-file-list>
+
+
 	<filter>
 		<filter-name>hibernateFilter</filter-name>
 		<filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class>
