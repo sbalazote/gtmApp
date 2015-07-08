@@ -97,6 +97,7 @@ OutputBatchExpirationDate = function() {
 	var enableInputs = function() {
 		$('#batchExpirationDateSelect').prop('disabled', false).trigger("chosen:updated");
 		$('#batchExpirationDateAmountInput').attr("disabled", false);
+		$('#batchExpirationDateAmountInput').focus();
 	};
 	
 	var addToTable = function(batch, expirationDate, amount, stockId) {
@@ -174,6 +175,7 @@ OutputBatchExpirationDate = function() {
 	};
 	
 	$('#batchExpirationDateModal').on('shown.bs.modal', function () {
+		$('#batchExpirationDateAmountInput').focus();
 		batchExpirationDates = {};
 		$('#batchExpirationDateSelect', this).chosen('destroy').chosen();
 		$.ajax({
@@ -220,7 +222,6 @@ OutputBatchExpirationDate = function() {
 			$('#batchExpirationDateAmountInput').val(stockAmount);
 		}
 		$('#batchExpirationDateAmountInput').removeClass("has-error").tooltip("destroy");
-		$('#batchExpirationDateAmountInput').focus();
 	});
 	
 	$('#batchExpirationDateModal').on('hidden.bs.modal', function () {
