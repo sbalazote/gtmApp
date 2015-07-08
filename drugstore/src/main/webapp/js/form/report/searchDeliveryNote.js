@@ -210,6 +210,8 @@ SearchDeliveryNote = function() {
 		$("#outputProductInput").removeAttr("productId");
 		$("#outputProductInput").val('');
 		$("#outputIdSearch").val('');
+		$("#deliveryNoteTableOutput").bootgrid().bootgrid("clear");
+		$('#divOutputTable').hide();
 	});
 
 	$("#cleanOrderButton").click(function() {
@@ -228,6 +230,8 @@ SearchDeliveryNote = function() {
 		$("#orderAffiliate").select2("val", "");
 		affiliateId = null;
 		$("#orderIdSearch").val('');
+		$("#deliveryNoteTableOrder").bootgrid().bootgrid("clear");
+		$('#divOrderTable').hide();
 	});
 
 	$("#cleanSupplyingButton").click(function() {
@@ -245,6 +249,8 @@ SearchDeliveryNote = function() {
 		$("#supplyingAffiliate").select2("val", "");
 		affiliateId = null;
 		$("#supplyingIdSearch").val('');
+		$("#deliveryNoteTableSupplying").bootgrid().bootgrid("clear");
+		$('#divSupplyingTable').hide();
 	});
 
 	

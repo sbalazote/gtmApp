@@ -96,6 +96,8 @@ SearchSupplying = function() {
         $('#cancelledSelect').val('').trigger('chosen:updated');
         $("#productInput").removeAttr("productId");
         $("#productInput").val('');
+        $("#supplyingTable").bootgrid().bootgrid("clear");
+        $('#divTable').hide();
     });
 
     $("#searchButton").click(function() {

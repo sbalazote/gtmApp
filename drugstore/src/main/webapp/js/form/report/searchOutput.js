@@ -97,6 +97,8 @@ SearchOutput = function() {
 		$('#cancelledSelect').val('').trigger('chosen:updated');
 		$("#productInput").removeAttr("productId");
 		$("#productInput").val('');
+		$("#outputTable").bootgrid().bootgrid("clear");
+		$('#divTable').hide();
 	});
 	
 	$("#searchButton").click(function() {
