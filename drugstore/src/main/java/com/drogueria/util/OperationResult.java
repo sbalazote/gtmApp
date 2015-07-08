@@ -8,14 +8,14 @@ public class OperationResult extends WebServiceResult {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer operationId;
+	private String operationId;
 	private List<String> myOwnErrors;
 
-	public Integer getOperationId() {
-		return this.operationId;
+	public String getOperationId() {
+		return operationId;
 	}
 
-	public void setOperationId(Integer operationId) {
+	public void setOperationId(String operationId) {
 		this.operationId = operationId;
 	}
 
