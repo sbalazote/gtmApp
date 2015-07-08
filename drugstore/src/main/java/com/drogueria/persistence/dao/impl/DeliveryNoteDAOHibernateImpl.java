@@ -1,10 +1,14 @@
 package com.drogueria.persistence.dao.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.drogueria.util.StringUtility;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +21,9 @@ import com.drogueria.query.DeliveryNoteQuery;
 import com.drogueria.service.OrderService;
 import com.drogueria.service.OutputService;
 import com.drogueria.service.SupplyingService;
+import org.springframework.util.StringUtils;
+
+import static com.drogueria.util.StringUtility.toUSDateFormat;
 
 @Repository
 public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
@@ -241,17 +248,40 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<DeliveryNote> getDeliveryNoteFromOrderForSearch(DeliveryNoteQuery deliveryNoteQuery) {
+		String dateFromFormated = null;
+		String dateToFormated = null;
+
 		try {
 			String sentence = "select dn.*, dnd.* from order_detail as od, delivery_note_detail as dnd, delivery_note as dn,`order` as o, provisioning_request as p where od.id = dnd.order_detail_id and dn.id = dnd.delivery_note_id and od.order_id = o.id and o.provisioning_request_id = p.id";
 
-			if (deliveryNoteQuery.getAffiliateId() != null) {
-				sentence += " and p.affiliate_id = " + deliveryNoteQuery.getAffiliateId();
+			if (!deliveryNoteQuery.getDeliveryNoteNumber().equals("")) {
+				sentence += " and dn.number = '" + deliveryNoteQuery.getDeliveryNoteNumber() + "'";
+			}
+			if (!StringUtils.isEmpty(deliveryNoteQuery.getDateFrom())) {
+				dateFromFormated = StringUtility.toUSDateFormat(deliveryNoteQuery.getDateFrom());
+				sentence += " and date(dn.date) >= '" + dateFromFormated + "'";
+			}
+			if (!StringUtils.isEmpty(deliveryNoteQuery.getDateTo())) {
+				dateToFormated = StringUtility.toUSDateFormat(deliveryNoteQuery.getDateTo());
+				sentence += " and date(dn.date) <= '" + dateToFormated + "'";
 			}
 			if (deliveryNoteQuery.getProvisioningRequestId() != null) {
 				sentence += " and p.id = " + deliveryNoteQuery.getProvisioningRequestId();
 			}
-			if (!deliveryNoteQuery.getDeliveryNoteNumber().equals("")) {
-				sentence += " and dn.number = '" + deliveryNoteQuery.getDeliveryNoteNumber() + "'";
+			if (deliveryNoteQuery.getClientId() != null) {
+				sentence += " and p.client_id = " + deliveryNoteQuery.getClientId();
+			}
+			if (deliveryNoteQuery.getAffiliateId() != null) {
+				sentence += " and p.affiliate_id = " + deliveryNoteQuery.getAffiliateId();
+			}
+			if (deliveryNoteQuery.getDeliveryLocationId() != null) {
+				sentence += " and p.delivery_location_id = " + deliveryNoteQuery.getDeliveryLocationId();
+			}
+			if (deliveryNoteQuery.getAgreementId() != null) {
+				sentence += " and p.agreement_id = " + deliveryNoteQuery.getAgreementId();
+			}
+			if (deliveryNoteQuery.getProductId() != null) {
+				sentence += " and od.product_id = " + deliveryNoteQuery.getProductId();
 			}
             sentence += " order by dn.id desc";
 			Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("dn", DeliveryNote.class)
@@ -267,20 +297,37 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<DeliveryNote> getDeliveryNoteFromOutputForSearch(DeliveryNoteQuery deliveryNoteQuery) {
+		String dateFromFormated = null;
+		String dateToFormated = null;
+
 		try {
 			String sentence = "select dn.*, dnd.* from output_detail as od, delivery_note_detail as dnd, delivery_note as dn,output as o where od.id = dnd.output_detail_id and dn.id = dnd.delivery_note_id and od.output_id = o.id";
 
+			if (!deliveryNoteQuery.getDeliveryNoteNumber().equals("")) {
+				sentence += " and dn.number = '" + deliveryNoteQuery.getDeliveryNoteNumber() + "'";
+			}
+			if (!StringUtils.isEmpty(deliveryNoteQuery.getDateFrom())) {
+				dateFromFormated = StringUtility.toUSDateFormat(deliveryNoteQuery.getDateFrom());
+				sentence += " and date(dn.date) >= '" + dateFromFormated + "'";
+			}
+			if (!StringUtils.isEmpty(deliveryNoteQuery.getDateTo())) {
+				dateToFormated = StringUtility.toUSDateFormat(deliveryNoteQuery.getDateTo());
+				sentence += " and date(dn.date) <= '" + dateToFormated + "'";
+			}
+			if (deliveryNoteQuery.getConceptId() != null) {
+				sentence += " and o.concept_id = " + deliveryNoteQuery.getConceptId();
+			}
+			if (deliveryNoteQuery.getProviderId() != null) {
+				sentence += " and o.provider_id = " + deliveryNoteQuery.getProviderId();
+			}
 			if (deliveryNoteQuery.getDeliveryLocationId() != null) {
 				sentence += " and o.delivery_location_id = " + deliveryNoteQuery.getDeliveryLocationId();
 			}
 			if (deliveryNoteQuery.getAgreementId() != null) {
 				sentence += " and o.agreement_id = " + deliveryNoteQuery.getAgreementId();
 			}
-			if (deliveryNoteQuery.getProviderId() != null) {
-				sentence += " and o.provider_id = " + deliveryNoteQuery.getProviderId();
-			}
-			if (!deliveryNoteQuery.getDeliveryNoteNumber().equals("")) {
-				sentence += " and dn.number = '" + deliveryNoteQuery.getDeliveryNoteNumber() + "'";
+			if (deliveryNoteQuery.getProductId() != null) {
+				sentence += " and od.product_id = " + deliveryNoteQuery.getProductId();
 			}
             sentence += " order by dn.id desc";
 			Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("dn", DeliveryNote.class)
@@ -295,18 +342,38 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
     @SuppressWarnings("unchecked")
     @Override
     public List<DeliveryNote> getDeliveryNoteFromSupplyingForSearch(DeliveryNoteQuery deliveryNoteQuery) {
+		String dateFromFormated = null;
+		String dateToFormated = null;
+
         try {
             String sentence = "select dn.*, dnd.* from supplying_detail as sd, delivery_note_detail as dnd, delivery_note as dn,supplying as s where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and sd.supplying_id = s.id";
 
-            if (deliveryNoteQuery.getClientId() != null) {
+			if (!deliveryNoteQuery.getDeliveryNoteNumber().equals("")) {
+				sentence += " and dn.number = '" + deliveryNoteQuery.getDeliveryNoteNumber() + "'";
+			}
+			if (!StringUtils.isEmpty(deliveryNoteQuery.getDateFrom())) {
+				dateFromFormated = StringUtility.toUSDateFormat(deliveryNoteQuery.getDateFrom());
+				sentence += " and date(dn.date) >= '" + dateFromFormated + "'";
+			}
+			if (!StringUtils.isEmpty(deliveryNoteQuery.getDateTo())) {
+				dateToFormated = StringUtility.toUSDateFormat(deliveryNoteQuery.getDateTo());
+				sentence += " and date(dn.date) <= '" + dateToFormated + "'";
+			}
+			if (deliveryNoteQuery.getSupplyingId() != null) {
+				sentence += " and s.id = " + deliveryNoteQuery.getSupplyingId();
+			}
+			if (deliveryNoteQuery.getClientId() != null) {
                 sentence += " and s.client_id = " + deliveryNoteQuery.getClientId();
             }
-            if (!deliveryNoteQuery.getDeliveryNoteNumber().equals("")) {
-                sentence += " and dn.number = '" + deliveryNoteQuery.getDeliveryNoteNumber() + "'";
-            }
+			if (deliveryNoteQuery.getAffiliateId() != null) {
+				sentence += " and s.affiliate_id = " + deliveryNoteQuery.getAffiliateId();
+			}
             if (deliveryNoteQuery.getAgreementId() != null) {
                 sentence += " and s.agreement_id = " + deliveryNoteQuery.getAgreementId();
             }
+			if (deliveryNoteQuery.getProductId() != null) {
+				sentence += " and sd.product_id = " + deliveryNoteQuery.getProductId();
+			}
             sentence += " order by dn.id desc";
             Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("dn", DeliveryNote.class)
                     .addJoin("dnd", "dn.deliveryNoteDetails").addEntity("dn", DeliveryNote.class)

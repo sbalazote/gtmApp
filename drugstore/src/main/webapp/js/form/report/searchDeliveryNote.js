@@ -1,28 +1,164 @@
-
 SearchDeliveryNote = function() {
+	$('#outputDateFromButton').click(function() {
+		var maxDate = $( "#outputDateToSearch" ).datepicker( "getDate" );
+		$("#outputDateFromSearch").datepicker("option", "maxDate", maxDate);
+		$("#outputDateFromSearch").datepicker().focus();
+	});
+
+	$('#outputDateToButton').click(function() {
+		var minDate = $( "#outputDateFromSearch" ).datepicker( "getDate" );
+		$("#outputDateToSearch").datepicker("option", "minDate", minDate);
+		$("#outputDateToSearch").datepicker().focus();
+	});
+
+	$('#supplyingDateFromButton').click(function() {
+		var maxDate = $( "#supplyingDateToSearch" ).datepicker( "getDate" );
+		$("#supplyingDateFromSearch").datepicker("option", "maxDate", maxDate);
+		$("#supplyingDateFromSearch").datepicker().focus();
+	});
+
+	$('#supplyingDateToButton').click(function() {
+		var minDate = $( "#supplyingDateFromSearch" ).datepicker( "getDate" );
+		$("#supplyingDateToSearch").datepicker("option", "minDate", minDate);
+		$("#supplyingDateToSearch").datepicker().focus();
+	});
+
+	$('#orderDateFromButton').click(function() {
+		var maxDate = $( "#orderDateToSearch" ).datepicker( "getDate" );
+		$("#orderDateFromSearch").datepicker("option", "maxDate", maxDate);
+		$("#orderDateFromSearch").datepicker().focus();
+	});
+
+	$('#orderDateToButton').click(function() {
+		var minDate = $( "#orderDateFromSearch" ).datepicker( "getDate" );
+		$("#orderDateToSearch").datepicker("option", "minDate", minDate);
+		$("#orderDateToSearch").datepicker().focus();
+	});
+
+	$("#outputDateFromSearch").datepicker();
+	$("#outputDateToSearch").datepicker();
+
+	$("#supplyingDateFromSearch").datepicker();
+	$("#supplyingDateToSearch").datepicker();
+
+	$("#orderDateFromSearch").datepicker();
+	$("#orderDateToSearch").datepicker();
+
+	$("#outputProductInput, #supplyingProductInput, #orderProductInput").autocomplete({
+		source: function(request, response) {
+			$.ajax({
+				url: "getProducts.do",
+				type: "GET",
+				async: false,
+				data: {
+					term: request.term,
+					active: true
+				},
+				success: function(data) {
+					var array = $.map(data, function(item) {
+						return {
+							id:	item.id,
+							label: item.code + " - " + item.description + " - " + item.brand.description + " - " + item.monodrug.description,
+							value: item.code + " - " + item.description,
+							gtin: item.lastGtin,
+							type: item.type
+						};
+					});
+					response(array);
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					myGenericError();
+				}
+			});
+		},
+		select: function(event, ui) {
+			$("#"+this.id).attr('productId', ui.item.id);
+			$("#"+this.id).val(ui.item.value);
+			return false;
+		},
+		minLength: 3,
+		autoFocus: true
+	});
+
 	var affiliateId = null;
 	var deliveryNoteId = null;
 
-	$("#affiliate").autocomplete({
-		source: "getAffiliates.do",
-		minLength: 3,
-		select: function(event, ui) {
-			affiliateId = ui.item.id;
-			$("#affiliate").val(ui.item.code + ' - ' + ui.item.surname + ' ' + ui.item.name);
-			return false;
-	    }
-	}).data("uiAutocomplete")._renderItem = function(ul, item) {
-		return $("<li>").attr("data-value", item.id).append($("<a>").text(item.code + " - " + item.surname + " " + item.name)).appendTo(ul);
-	};
+	$("#affiliate").select2({
+		// allowClear: true,
+		placeholder : "Buscar afiliado...",
+		minimumInputLength : 3,
+		//theme: "classic",
+		initSelection : function(element, callback) {
+			var data = {
+				code : element.attr("code"),
+				name : element.attr("name"),
+				surname : element.attr("surname")
+			};
+			callback(data);
+		},
+		ajax : {
+			url : "getAffiliates.do",
+			dataType : 'json',
+			quietMillis : 250,
+			data : function(term, page) { // page is the one-based
+				// page number tracked by
+				// Select2
+				return {
+					term : term, // search term
+					pageNumber : page, // page number
+					pageSize : 10, // page number
+					active : true
+				};
+			},
+			results : function(data, page, query) {
+				var more = (data.length == 10); // whether or not there
+				// are more results
+				// available
+
+				var parsedResults = [];
+
+				$.each(data, function(index, value) {
+					parsedResults.push({
+						id : value.id,
+						text : value.code + "-" + value.name + " "
+						+ value.surname
+					});
+				});
+
+				// notice we return the value of more so Select2 knows
+				// if more results can be loaded
+				return {
+					results : parsedResults,
+					more : more
+				};
+			}
+		},
+		formatResult : function(data) {
+			return "<div class='select2-user-result'>" + data.text
+				+ "</div>";
+		},
+		formatSelection : function(data) {
+			return data.text;
+		}
+	});
 	
 	var validateForm = function() {
 		var form = $("#searchDeliveryNoteForm");
 		form.validate({
 			rules: {
-				deliveryNoteNumberSearch: {
+				outputDeliveryNoteNumberSearch: {
 					digits: true
 				},
-				provisioningRequestSearch: {
+				orderDeliveryNoteNumberSearch: {
+					digits: true
+				},
+				orderIdSearch: {
+					digits: true
+				},
+				supplyingDeliveryNoteNumberSearch: {
+					digits: true
+				},
+				supplyingIdSearch: {
 					digits: true
 				}
 			},
@@ -32,79 +168,55 @@ SearchDeliveryNote = function() {
 		return form.valid();
 	};
 	
-	$("#cleanOrderButton").click(function() {
-		$('#affiliate').val('');
-		affiliateId = null;
-		$('#deliveryNoteNumberOrderSearch').val('');
-		$('#provisioningRequestSearch').val('');
-	});
-	
 	$("#cleanOutputButton").click(function() {
-		$('#deliveryLocationSearch').val('').trigger('chosen:updated');
-		$('#providerSearch').val('').trigger('chosen:updated');
-		$('#agreementSearch').val('').trigger('chosen:updated');
-		$('#deliveryNoteNumberOutputSearch').val('');
-	});
-	
-	
-	$('#deliveryNoteTableOrderBody').on("click", ".view-row", function() {
-		var parent = $(this).parent().parent();
-		deliveryNoteId = parent.find("td:first-child").html();
-
-		showDeliveryNoteByIdModal(deliveryNoteId);
-	});
-	
-	$("#searchOrderButton").click(function() {
-		if(validateForm()){
-			var jsonDeliveryNoteSearch = {
-				"affiliateId": affiliateId,
-				"deliveryNoteNumber": $("#deliveryNoteNumberOrderSearch").val(),
-				"provisioningRequestId": $("#provisioningRequestSearch").val(),
-			};
-			
-			$.ajax({
-				url: "getDeliveryNoteFromOrderForSearch.do",
-				type: "POST",
-				contentType:"application/json",
-				async: false,
-				data: JSON.stringify(jsonDeliveryNoteSearch),
-				success: function(response) {
-					var aaData = [];
-					for (var i = 0, l = response.length; i < l; ++i) {
-						var order = {
-							id:"",
-							number: 0,
-							date: "",
-							action: ""
-						};
-						output.id= response[i].id;
-						order.number = response[i].number;
-						order.date = myParseDate(response[i].date);
-						order.action = "<a href='javascript:void(0);' class='view-row'>Consulta</a>";
-						aaData.push(order);
-					}
-					$("#deliveryNoteTableOrder").bootgrid({
-							caseSensitive: false
-						});
-						$("#deliveryNoteTableOrder").bootgrid().bootgrid("clear");
-						$("#deliveryNoteTableOrder").bootgrid().bootgrid("append", aaData);
-						$("#deliveryNoteTableOrder").bootgrid().bootgrid("search", $(".search-field").val());
-				
-						var exportHTML = exportTableHTML("deliveryNoteTableOrder");			
-						var searchHTML = $("#divOrderTable").find(".search");
-						
-						if (searchHTML.prev().length == 0) {
-							searchHTML.before(exportHTML);
-						} else {
-							searchHTML.prev().html(exportHTML);
-						}
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					myGenericError();
-				}
-			});
+		$("#outputDeliveryNoteNumberSearch").val('');
+		if($("#outputDateFromSearch").val()!= ""){
+			$.datepicker._clearDate('#outputDateFromSearch');
 		}
+		if($("#outputDateToSearch").val()!= ""){
+			$.datepicker._clearDate('#outputDateToSearch');
+		}
+		$("#outputConceptSearch").val('').trigger('chosen:updated');
+		$("#outputProviderSearch").val('').trigger('chosen:updated');
+		$("#outputDeliveryLocationSearch").val('').trigger('chosen:updated');
+		$("#outputAgreementSearch").val('').trigger('chosen:updated');
+		$("#outputProductInput").removeAttr("productId");
+		$("#outputProductInput").val('');
 	});
+
+	$("#cleanOrderButton").click(function() {
+		$("#orderDeliveryNoteNumberSearch").val('');
+		if($("#orderDateFromSearch").val()!= ""){
+			$.datepicker._clearDate('#orderDateFromSearch');
+		}
+		if($("#orderDateToSearch").val()!= ""){
+			$.datepicker._clearDate('#orderDateToSearch');
+		}
+		$("#orderDeliveryLocationSearch").val('').trigger('chosen:updated');
+		$("#orderAgreementSearch").val('').trigger('chosen:updated');
+		$("#orderProductInput").removeAttr("productId");
+		$("#orderProductInput").val('');
+		$("#orderClientSearch").val('').trigger('chosen:updated');
+		$("#orderIdSearch").val('');
+	});
+
+	$("#cleanSupplyingButton").click(function() {
+		$("#supplyingDeliveryNoteNumberSearch").val('');
+		if($("#supplyingDateFromSearch").val()!= ""){
+			$.datepicker._clearDate('#supplyingDateFromSearch');
+		}
+		if($("#supplyingDateToSearch").val()!= ""){
+			$.datepicker._clearDate('#supplyingDateToSearch');
+		}
+		$("#supplyingAgreementSearch").val('').trigger('chosen:updated');
+		$("#supplyingProductInput").removeAttr("productId");
+		$("#supplyingProductInput").val('');
+		$("#supplyingClientSearch").val('').trigger('chosen:updated');
+		$("#affiliate").select2("val", "");
+		affiliateId = null;
+		$("#supplyingIdSearch").val('');
+	});
+
 	
 	$('#deliveryNoteTableOutputBody').on("click", ".view-row", function() {
 		var parent = $(this).parent().parent();
@@ -112,15 +224,22 @@ SearchDeliveryNote = function() {
 
 		showDeliveryNoteByIdModal(deliveryNoteId);
 	});
-	
-	
+
 	$("#searchOutputButton").click(function() {
 		if(validateForm()){
 			var jsonDeliveryNoteSearch = {
-				"deliveryNoteNumber": $("#deliveryNoteNumberOutputSearch").val(),
-				"deliveryLocationId": $("#deliveryLocationSearch").val(),
-				"providerId": $("#providerSearch").val(),
-				"agreementId": $("#agreementSearch").val(),
+				"deliveryNoteNumber": $("#outputDeliveryNoteNumberSearch").val(),
+				"dateFrom": $("#outputDateFromSearch").val(),
+				"dateTo": $("#outputDateToSearch").val(),
+				"conceptId": $("#outputConceptSearch").val() || null,
+				"providerId": $("#outputProviderSearch").val() || null,
+				"deliveryLocationId": $("#outputDeliveryLocationSearch").val() || null,
+				"agreementId": $("#outputAgreementSearch").val() || null,
+				"productId": $("#outputProductInput").attr("productId") || null,
+				"clientId": null,
+				"affiliateId": null,
+				"supplyingId": null,
+				"provisioningRequestId": null
 			};
 			
 			$.ajax({
@@ -150,15 +269,6 @@ SearchDeliveryNote = function() {
 						$("#deliveryNoteTableOutput").bootgrid().bootgrid("clear");
 						$("#deliveryNoteTableOutput").bootgrid().bootgrid("append", aaData);
 						$("#deliveryNoteTableOutput").bootgrid().bootgrid("search", $(".search-field").val());
-				
-						var exportHTML = exportTableHTML("deliveryNoteTableOutput");
-						var searchHTML = $("#divOutputTable").find(".search");
-						
-						if (searchHTML.prev().length == 0) {
-							searchHTML.before(exportHTML);
-						} else {
-							searchHTML.prev().html(exportHTML);
-						}
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					myGenericError();
@@ -167,116 +277,160 @@ SearchDeliveryNote = function() {
 		}
 	});
 
-    $("#searchSupplyingButton").click(function() {
-        if(validateForm()){
-            var jsonDeliveryNoteSearch = {
-                "deliveryNoteNumber": $("#deliveryNoteNumberSupplyingSearch").val(),
-                "clientId": $("#clientSearch").val(),
-                "agreementId": $("#agreementSupplyingSearch").val()
-            };
-
-            $.ajax({
-                url: "getDeliveryNoteFromSupplyingForSearch.do",
-                type: "POST",
-                contentType:"application/json",
-                async: false,
-                data: JSON.stringify(jsonDeliveryNoteSearch),
-                success: function(response) {
-                    var aaData = [];
-                    for (var i = 0, l = response.length; i < l; ++i) {
-                        var output = {
-							id:"",
-                            number: 0,
-                            date: "",
-                            action: ""
-                        };
-						output.id= response[i].id;
-                        output.number = response[i].number;
-                        output.date = myParseDate(response[i].date);
-                        output.action = "<a href='javascript:void(0);' class='view-row'>Consulta</a>";
-                        aaData.push(output);
-                    }
-                    $("#deliveryNoteTableSupplying").bootgrid({
-                        caseSensitive: false
-                    });
-                    $("#deliveryNoteTableSupplying").bootgrid().bootgrid("clear");
-                    $("#deliveryNoteTableSupplying").bootgrid().bootgrid("append", aaData);
-                    $("#deliveryNoteTableSupplying").bootgrid().bootgrid("search", $(".search-field").val());
-
-                    var exportHTML = exportTableHTML("deliveryNoteTableSupplying");
-                    var searchHTML = $("#divSupplyingTable").find(".search");
-
-                    if (searchHTML.prev().length == 0) {
-                        searchHTML.before(exportHTML);
-                    } else {
-                        searchHTML.prev().html(exportHTML);
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    myGenericError();
-                }
-            });
-        }
-    });
-
-    $('#deliveryNoteTableSupplyingBody').on("click", ".view-row", function() {
-        var parent = $(this).parent().parent();
-        deliveryNoteId = parent.find("td:first-child").html();
+	$('#deliveryNoteTableOrderBody').on("click", ".view-row", function() {
+		var parent = $(this).parent().parent();
+		deliveryNoteId = parent.find("td:first-child").html();
 
 		showDeliveryNoteByIdModal(deliveryNoteId);
-    });
+	});
+
+	$("#searchOrderButton").click(function() {
+		if(validateForm()){
+			var jsonDeliveryNoteSearch = {
+				"deliveryNoteNumber": $("#orderDeliveryNoteNumberSearch").val(),
+				"dateFrom": $("#orderDateFromSearch").val(),
+				"dateTo": $("#orderDateToSearch").val(),
+				"conceptId": null,
+				"providerId": null,
+				"deliveryLocationId": $("#orderDeliveryLocationSearch").val() || null,
+				"agreementId": $("#orderAgreementSearch").val() || null,
+				"productId": $("#orderProductInput").attr("productId") || null,
+				"clientId": $("#orderClientSearch").val() || null,
+				"affiliateId": null,
+				"supplyingId": null,
+				"provisioningRequestId": $("#orderIdSearch").val() || null
+			};
+
+			$.ajax({
+				url: "getDeliveryNoteFromOrderForSearch.do",
+				type: "POST",
+				contentType:"application/json",
+				async: false,
+				data: JSON.stringify(jsonDeliveryNoteSearch),
+				success: function(response) {
+					var aaData = [];
+					for (var i = 0, l = response.length; i < l; ++i) {
+						var order = {
+							id:"",
+							number: 0,
+							date: "",
+							action: ""
+						};
+						output.id= response[i].id;
+						order.number = response[i].number;
+						order.date = myParseDate(response[i].date);
+						order.action = "<a href='javascript:void(0);' class='view-row'>Consulta</a>";
+						aaData.push(order);
+					}
+					$("#deliveryNoteTableOrder").bootgrid({
+						caseSensitive: false
+					});
+					$("#deliveryNoteTableOrder").bootgrid().bootgrid("clear");
+					$("#deliveryNoteTableOrder").bootgrid().bootgrid("append", aaData);
+					$("#deliveryNoteTableOrder").bootgrid().bootgrid("search", $(".search-field").val());
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					myGenericError();
+				}
+			});
+		}
+	});
+
+	$('#deliveryNoteTableSupplyingBody').on("click", ".view-row", function() {
+		var parent = $(this).parent().parent();
+		deliveryNoteId = parent.find("td:first-child").html();
+
+		showDeliveryNoteByIdModal(deliveryNoteId);
+	});
+
+	$("#searchSupplyingButton").click(function() {
+		if(validateForm()){
+			var jsonDeliveryNoteSearch = {
+				"deliveryNoteNumber": $("#supplyingDeliveryNoteNumberSearch").val(),
+				"dateFrom": $("#supplyingDateFromSearch").val(),
+				"dateTo": $("#supplyingDateToSearch").val(),
+				"conceptId": null,
+				"providerId": null,
+				"deliveryLocationId": null,
+				"agreementId": $("#supplyingAgreementSearch").val() || null,
+				"productId": $("#supplyingProductInput").attr("productId") || null,
+				"clientId": $("#supplyingClientSearch").val() || null,
+				"affiliateId": $("#affiliate").val() || null,
+				"supplyingId": $("#supplyingIdSearch").val() || null,
+				"provisioningRequestId": null
+			};
+
+			$.ajax({
+				url: "getDeliveryNoteFromSupplyingForSearch.do",
+				type: "POST",
+				contentType:"application/json",
+				async: false,
+				data: JSON.stringify(jsonDeliveryNoteSearch),
+				success: function(response) {
+					var aaData = [];
+					for (var i = 0, l = response.length; i < l; ++i) {
+						var output = {
+							id:"",
+							number: 0,
+							date: "",
+							action: ""
+						};
+						output.id= response[i].id;
+						output.number = response[i].number;
+						output.date = myParseDate(response[i].date);
+						output.action = "<a href='javascript:void(0);' class='view-row'>Consulta</a>";
+						aaData.push(output);
+					}
+					$("#deliveryNoteTableSupplying").bootgrid({
+						caseSensitive: false
+					});
+					$("#deliveryNoteTableSupplying").bootgrid().bootgrid("clear");
+					$("#deliveryNoteTableSupplying").bootgrid().bootgrid("append", aaData);
+					$("#deliveryNoteTableSupplying").bootgrid().bootgrid("search", $(".search-field").val());
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					myGenericError();
+				}
+			});
+		}
+	});
 
      $('.nav-tabs > li > a').click(function(event){
          event.preventDefault();//stop browser to take action for clicked anchor
 
          //get displaying tab content jQuery selector
          var active_tab_selector = $('.nav-tabs > li.active > a').attr('href');
-
-         if($(this).text() == "Dispensas"){
-             getClients();
-             getAgreements();
-         }
      });
 
+	$("#supplyingAgreementSearch").chosen({
+		width: '100%'
+	});
 
-    var getClients = function() {
-        $.ajax({
-            url: "getClients.do",
-            type: "GET",
-            success: function(response) {
-                for(var i = response.length - 1; i >= 0; i--) {
-                    $('#clientSearch').append("<option value='"+ response[i].id + "'>" + response[i].code + " " + response[i].name + "</option>");
-                    $('#clientSearch').trigger('chosen:updated');
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                myGenericError();
-            }
-        });
-    };
+	$("#orderAgreementSearch").chosen({
+		width: '100%'
+	});
 
-    var getAgreements = function() {
-        $.ajax({
-            url: "getAgreements.do",
-            type: "GET",
-            success: function(response) {
-                for(var i = response.length - 1; i >= 0; i--) {
-                    $('#agreementSupplyingSearch').append("<option value='"+ response[i].id + "'>" + response[i].code + " " + response[i].description + "</option>");
-                    $('#agreementSupplyingSearch').trigger('chosen:updated');
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                myGenericError();
-            }
-        });
-    };
+	$("#orderDeliveryLocationSearch").chosen({
+		width: '100%'
+	});
 
-    $("#clientSearch").chosen(
-        {
-            width: '100%' /* desired width */
-        });
-    $("#agreementSupplyingSearch").chosen(
-        {
-            width: '100%' /* desired width */
-        });
+	$("#supplyingClientSearch").chosen({
+		width: '100%'
+	});
+
+	$("#orderClientSearch").chosen({
+		width: '100%'
+	});
+
+	$("#supplyingAgreementSearch").chosen({
+		width: '100%'
+	});
+
+	$("#outputAgreementSearch").chosen({
+		width: '100%'
+	});
+
+	$("#orderAgreementSearch").chosen({
+		width: '100%'
+	});
 };

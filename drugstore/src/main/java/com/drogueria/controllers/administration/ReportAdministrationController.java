@@ -80,6 +80,7 @@ public class ReportAdministrationController {
 
 	@RequestMapping(value = "/searchDeliveryNote", method = RequestMethod.GET)
 	public String searchDeliveryNote(ModelMap modelMap) throws Exception {
+		modelMap.put("concepts", this.conceptService.getAll());
 		modelMap.put("providers", this.providerService.getAll());
 		modelMap.put("agreements", this.agreementService.getAll());
 		modelMap.put("deliveryLocations", this.deliveryLocationService.getAll());

@@ -2,24 +2,21 @@ package com.drogueria.query;
 
 public class DeliveryNoteQuery {
 
-	private Integer affiliateId;
 	private String deliveryNoteNumber;
-	private Integer provisioningRequestId;
-	private Integer deliveryLocationId;
+	private String dateFrom;
+	private String dateTo;
+	private Integer conceptId;
 	private Integer providerId;
+	private Integer clientId;
+	private Integer affiliateId;
+	private Integer productId;
+	private Integer deliveryLocationId;
 	private Integer agreementId;
-    private Integer clientId;
-
-	public Integer getAffiliateId() {
-		return this.affiliateId;
-	}
-
-	public void setAffiliateId(Integer affiliateId) {
-		this.affiliateId = affiliateId;
-	}
+	private Integer supplyingId;
+	private Integer provisioningRequestId;
 
 	public String getDeliveryNoteNumber() {
-		return this.deliveryNoteNumber;
+		return deliveryNoteNumber;
 	}
 
 	public void setDeliveryNoteNumber(String deliveryNoteNumber) {
@@ -27,42 +24,90 @@ public class DeliveryNoteQuery {
 	}
 
 	public Integer getProvisioningRequestId() {
-		return this.provisioningRequestId;
+		return provisioningRequestId;
 	}
 
 	public void setProvisioningRequestId(Integer provisioningRequestId) {
 		this.provisioningRequestId = provisioningRequestId;
 	}
 
-	public Integer getDeliveryLocationId() {
-		return this.deliveryLocationId;
+	public String getDateFrom() {
+		return dateFrom;
 	}
 
-	public void setDeliveryLocationId(Integer deliveryLocationId) {
-		this.deliveryLocationId = deliveryLocationId;
+	public void setDateFrom(String dateFrom) {
+		this.dateFrom = dateFrom;
+	}
+
+	public String getDateTo() {
+		return dateTo;
+	}
+
+	public void setDateTo(String dateTo) {
+		this.dateTo = dateTo;
+	}
+
+	public Integer getConceptId() {
+		return conceptId;
+	}
+
+	public void setConceptId(Integer conceptId) {
+		this.conceptId = conceptId;
 	}
 
 	public Integer getProviderId() {
-		return this.providerId;
+		return providerId;
 	}
 
 	public void setProviderId(Integer providerId) {
 		this.providerId = providerId;
 	}
 
+	public Integer getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(Integer clientId) {
+		this.clientId = clientId;
+	}
+
+	public Integer getAffiliateId() {
+		return affiliateId;
+	}
+
+	public void setAffiliateId(Integer affiliateId) {
+		this.affiliateId = affiliateId;
+	}
+
+	public Integer getDeliveryLocationId() {
+		return deliveryLocationId;
+	}
+
+	public void setDeliveryLocationId(Integer deliveryLocationId) {
+		this.deliveryLocationId = deliveryLocationId;
+	}
+
 	public Integer getAgreementId() {
-		return this.agreementId;
+		return agreementId;
 	}
 
 	public void setAgreementId(Integer agreementId) {
 		this.agreementId = agreementId;
 	}
 
-    public Integer getClientId() {
-        return clientId;
-    }
+	public Integer getProductId() {
+		return productId;
+	}
 
-    public void setClientId(Integer clientId) {
-        this.clientId = clientId;
-    }
+	public void setProductId(Integer productId) {
+		this.productId = productId;
+	}
+
+	public Integer getSupplyingId() {
+		return supplyingId;
+	}
+
+	public void setSupplyingId(Integer supplyingId) {
+		this.supplyingId = supplyingId;
+	}
 }
