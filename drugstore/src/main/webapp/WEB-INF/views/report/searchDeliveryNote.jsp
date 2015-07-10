@@ -32,7 +32,11 @@
 					<div class="row">
 						<div class="col-md-4 form-group">
 							<label for="outputDeliveryNoteNumberSearch"><spring:message code="common.deliveryNote"/></label>
-							<input type="text" class="form-control" name="outputDeliveryNoteNumberSearch" id="outputDeliveryNoteNumberSearch" placeholder='<spring:message code="search.deliveryNote.deliveryNoteFormat"/>'>
+							<div class="input-group">
+								<input type="text" class="form-control" name="outputPOSDeliveryNoteNumberSearch" id="outputPOSDeliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.POS"/>'>
+								<span class="input-group-addon">-</span>
+								<input type="text" class="form-control" name="outputDeliveryNoteNumberSearch" id="outputDeliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.number"/>' >
+							</div>
 						</div>
 						<div class="col-md-4 form-group">
 							<label for="outputDateFromSearch"><spring:message code="common.dateFrom"/></label>
@@ -137,7 +141,11 @@
 					<div class="row">
 						<div class="col-md-4 form-group">
 							<label for="supplyingDeliveryNoteNumberSearch"><spring:message code="common.deliveryNote"/></label>
-							<input type="text" class="form-control" name="supplyingDeliveryNoteNumberSearch" id="supplyingDeliveryNoteNumberSearch" placeholder='<spring:message code="search.deliveryNote.deliveryNoteFormat"/>'>
+							<div class="input-group">
+								<input type="text" class="form-control" name="supplyingPOSDeliveryNoteNumberSearch" id="supplyingPOSDeliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.POS"/>'>
+								<span class="input-group-addon">-</span>
+								<input type="text" class="form-control" name="supplyingDeliveryNoteNumberSearch" id="supplyingDeliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.number"/>' >
+							</div>
 						</div>
 						<div class="col-md-4 form-group">
 							<label for="supplyingDateFromSearch"><spring:message code="common.dateFrom"/></label>
@@ -226,10 +234,14 @@
             <div class="tab-pane fade" id="deliveryNotesOrders">
                 <div>
                     <div class="row">
-                        <div class="col-md-4 form-group">
-                            <label for="orderDeliveryNoteNumberSearch"><spring:message code="common.deliveryNote"/></label>
-                            <input type="text" class="form-control" name="orderDeliveryNoteNumberSearch" id="orderDeliveryNoteNumberSearch" placeholder='<spring:message code="search.deliveryNote.deliveryNoteFormat"/>'>
-                        </div>
+						<div class="col-md-4 form-group">
+							<label for="orderDeliveryNoteNumberSearch"><spring:message code="common.deliveryNote"/></label>
+							<div class="input-group">
+								<input type="text" class="form-control" name="orderPOSDeliveryNoteNumberSearch" id="orderPOSDeliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.POS"/>'>
+								<span class="input-group-addon">-</span>
+								<input type="text" class="form-control" name="orderDeliveryNoteNumberSearch" id="orderDeliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.number"/>' >
+							</div>
+						</div>
 						<div class="col-md-4 form-group">
 							<label for="orderDateFromSearch"><spring:message code="common.dateFrom"/></label>
 							<div class="input-group">

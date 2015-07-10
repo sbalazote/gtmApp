@@ -44,6 +44,33 @@ SearchDeliveryNote = function() {
 	$("#orderDateFromSearch").datepicker();
 	$("#orderDateToSearch").datepicker();
 
+    $("#outputPOSDeliveryNoteNumberSearch").numeric();
+    $("#outputDeliveryNoteNumberSearch").numeric();
+
+    $("#supplyingPOSDeliveryNoteNumberSearch").numeric();
+    $("#supplyingDeliveryNoteNumberSearch").numeric();
+
+    $("#orderPOSDeliveryNoteNumberSearch").numeric();
+    $("#orderDeliveryNoteNumberSearch").numeric();
+
+    $("input").blur(function() {
+        if ($("#outputPOSDeliveryNoteNumberSearch").val() != "")
+            $("#outputPOSDeliveryNoteNumberSearch").val(addLeadingZeros($("#outputPOSDeliveryNoteNumberSearch").val(), 4));
+        if ($("#outputDeliveryNoteNumberSearch").val() != "")
+            $("#outputDeliveryNoteNumberSearch").val(addLeadingZeros($("#outputDeliveryNoteNumberSearch").val(), 8));
+
+        if ($("#supplyingPOSDeliveryNoteNumberSearch").val() != "")
+            $("#supplyingPOSDeliveryNoteNumberSearch").val(addLeadingZeros($("#supplyingPOSDeliveryNoteNumberSearch").val(), 4));
+        if ($("#supplyingDeliveryNoteNumberSearch").val() != "")
+            $("#supplyingDeliveryNoteNumberSearch").val(addLeadingZeros($("#supplyingDeliveryNoteNumberSearch").val(), 8));
+
+        if ($("#orderPOSDeliveryNoteNumberSearch").val() != "")
+            $("#orderPOSDeliveryNoteNumberSearch").val(addLeadingZeros($("#orderPOSDeliveryNoteNumberSearch").val(), 4));
+        if ($("#orderDeliveryNoteNumberSearch").val() != "")
+            $("#orderDeliveryNoteNumberSearch").val(addLeadingZeros($("#orderDeliveryNoteNumberSearch").val(), 8));
+
+    });
+
 	$("#outputProductInput, #supplyingProductInput, #orderProductInput").autocomplete({
 		source: function(request, response) {
 			$.ajax({
@@ -197,6 +224,7 @@ SearchDeliveryNote = function() {
 	
 	$("#cleanOutputButton").click(function() {
 		$("#outputDeliveryNoteNumberSearch").val('');
+        $("#outputPOSDeliveryNoteNumberSearch").val('');
 		if($("#outputDateFromSearch").val()!= ""){
 			$.datepicker._clearDate('#outputDateFromSearch');
 		}
@@ -211,11 +239,11 @@ SearchDeliveryNote = function() {
 		$("#outputProductInput").val('');
 		$("#outputIdSearch").val('');
 		$("#deliveryNoteTableOutput").bootgrid().bootgrid("clear");
-		$('#divOutputTable').hide();
 	});
 
 	$("#cleanOrderButton").click(function() {
 		$("#orderDeliveryNoteNumberSearch").val('');
+        $("#orderPOSDeliveryNoteNumberSearch").val('');
 		if($("#orderDateFromSearch").val()!= ""){
 			$.datepicker._clearDate('#orderDateFromSearch');
 		}
@@ -231,11 +259,11 @@ SearchDeliveryNote = function() {
 		affiliateId = null;
 		$("#orderIdSearch").val('');
 		$("#deliveryNoteTableOrder").bootgrid().bootgrid("clear");
-		$('#divOrderTable').hide();
 	});
 
 	$("#cleanSupplyingButton").click(function() {
 		$("#supplyingDeliveryNoteNumberSearch").val('');
+        $("#supplyingPOSDeliveryNoteNumberSearch").val('');
 		if($("#supplyingDateFromSearch").val()!= ""){
 			$.datepicker._clearDate('#supplyingDateFromSearch');
 		}
@@ -250,7 +278,6 @@ SearchDeliveryNote = function() {
 		affiliateId = null;
 		$("#supplyingIdSearch").val('');
 		$("#deliveryNoteTableSupplying").bootgrid().bootgrid("clear");
-		$('#divSupplyingTable').hide();
 	});
 
 	
@@ -263,8 +290,12 @@ SearchDeliveryNote = function() {
 
 	$("#searchOutputButton").click(function() {
 		if(validateForm()){
+			var deliveryNoteNumber = "";
+			if($("#outputPOSDeliveryNoteNumberSearch").val() != "" && $("#outputDeliveryNoteNumberSearch").val() != ""){
+				deliveryNoteNumber = $("#outputPOSDeliveryNoteNumberSearch").val() + "-" + $("#outputDeliveryNoteNumberSearch").val();
+			}
 			var jsonDeliveryNoteSearch = {
-				"deliveryNoteNumber": $("#outputDeliveryNoteNumberSearch").val(),
+				"deliveryNoteNumber": deliveryNoteNumber,
 				"dateFrom": $("#outputDateFromSearch").val(),
 				"dateTo": $("#outputDateToSearch").val(),
 				"conceptId": $("#outputConceptSearch").val() || null,
@@ -323,8 +354,12 @@ SearchDeliveryNote = function() {
 
 	$("#searchOrderButton").click(function() {
 		if(validateForm()){
+            var deliveryNoteNumber = "";
+            if($("#orderPOSDeliveryNoteNumberSearch").val() != "" && $("#orderDeliveryNoteNumberSearch").val() != ""){
+                deliveryNoteNumber = $("#orderPOSDeliveryNoteNumberSearch").val() + "-" + $("#orderDeliveryNoteNumberSearch").val();
+            }
 			var jsonDeliveryNoteSearch = {
-				"deliveryNoteNumber": $("#orderDeliveryNoteNumberSearch").val(),
+				"deliveryNoteNumber": deliveryNoteNumber,
 				"dateFrom": $("#orderDateFromSearch").val(),
 				"dateTo": $("#orderDateToSearch").val(),
 				"conceptId": null,
@@ -383,8 +418,12 @@ SearchDeliveryNote = function() {
 
 	$("#searchSupplyingButton").click(function() {
 		if(validateForm()){
+            var deliveryNoteNumber = "";
+            if($("#supplyingPOSDeliveryNoteNumberSearch").val() != "" && $("#supplyingDeliveryNoteNumberSearch").val() != ""){
+                deliveryNoteNumber = $("#supplyingPOSDeliveryNoteNumberSearch").val() + "-" + $("#supplyingDeliveryNoteNumberSearch").val();
+            }
 			var jsonDeliveryNoteSearch = {
-				"deliveryNoteNumber": $("#supplyingDeliveryNoteNumberSearch").val(),
+				"deliveryNoteNumber": deliveryNoteNumber,
 				"dateFrom": $("#supplyingDateFromSearch").val(),
 				"dateTo": $("#supplyingDateToSearch").val(),
 				"conceptId": null,
