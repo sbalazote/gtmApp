@@ -204,14 +204,14 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12 form-group">
-							<label for="passwordInput"><spring:message code="administration.newPassword" /></label>
-							<input type="password" class="form-control" id="passwordInput" name="password">
+							<label for="passwordToChangeInput"><spring:message code="administration.newPassword" /></label>
+							<input type="password" class="form-control" id="passwordToChangeInput" name="passwordToChange">
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12 form-group">
-							<label for="passwordInputCheck"><spring:message code="common.repeatPassword" /></label>
-							<input type="password" class="form-control" id="passwordInputCheck" name="passwordCheck">
+							<label for="passwordToChangeInputCheck"><spring:message code="common.repeatPassword" /></label>
+							<input type="password" class="form-control" id="passwordToChangeInputCheck" name="passwordToChangeCheck">
 						</div>
 					</div>
 				</div>

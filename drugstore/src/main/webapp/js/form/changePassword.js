@@ -11,13 +11,13 @@ ChangePassword = function() {
                 actualPassword:{
                     required: true
                 },
-                password: {
+                passwordToChange: {
                     required: true,
                     minlength: 5,
                     maxlength: 15,
                 },
-                passwordCheck: {
-                    required: true, equalTo: "#passwordInput",
+                passwordToChangeCheck: {
+                    required: true, equalTo: "#passwordToChangeInput",
                     minlength: 5,
                     maxlength: 15,
                 },
@@ -32,7 +32,7 @@ ChangePassword = function() {
         if (validateForm()) {
                 var jsonNewPassword = {
                     "actualPassword" : $("#actualPasswordInput").val(),
-                    "newPassword" : $("#passwordInput").val(),
+                    "newPassword" : $("#passwordToChangeInput").val(),
                 };
                 $.ajax({
                     url : "changePassword.do",
