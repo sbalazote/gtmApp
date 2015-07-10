@@ -65,7 +65,6 @@ SearchProvisioningRequest = function() {
 		$('#affiliateSearch').val("");
 		$('#stateSearch').val('').trigger('chosen:updated');
 		$("#provisioningTable").bootgrid().bootgrid("clear");
-		$('#divTable').hide();
 	});
 	
 	var validateForm = function() {

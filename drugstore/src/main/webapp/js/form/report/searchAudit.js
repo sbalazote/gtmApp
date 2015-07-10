@@ -49,7 +49,6 @@ SearchAudit = function() {
 		$("#auditActionSearch").val('').trigger('chosen:updated');
 		$('#operationNumberSearch').val('');
 		$("#auditTable").bootgrid().bootgrid("clear");
-		$('#divTable').hide();
 	});
 	
 	$("#searchButton").click(function() {

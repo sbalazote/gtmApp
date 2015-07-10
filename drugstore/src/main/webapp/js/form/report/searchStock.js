@@ -128,8 +128,7 @@ SearchStock = function() {
 		
 		$('#serialNumberSearch').val('');
 		$('#batchNumberSearch').val('');
-		$("#auditTable").bootgrid().bootgrid("clear");
-		$('#divTable').hide();
+		$("#stockTable").bootgrid().bootgrid("clear");
 	});
 	
 	$("#searchButton").click(function() {
