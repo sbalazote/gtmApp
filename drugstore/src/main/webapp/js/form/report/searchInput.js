@@ -104,6 +104,7 @@ SearchInput = function() {
 		$('#cancelledSelect').val('').trigger('chosen:updated');
 		$("#productInput").removeAttr("productId");
 		$("#productInput").val('');
+		$("#inputTable").bootgrid().bootgrid("clear");
 	});
 	
 	$("#searchButton").click(function() {

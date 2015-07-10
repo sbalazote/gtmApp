@@ -98,7 +98,6 @@ SearchOutput = function() {
 		$("#productInput").removeAttr("productId");
 		$("#productInput").val('');
 		$("#outputTable").bootgrid().bootgrid("clear");
-		$('#divTable').hide();
 	});
 	
 	$("#searchButton").click(function() {
