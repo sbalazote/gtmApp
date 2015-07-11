@@ -261,11 +261,11 @@ public class InputController {
 			agreementId = Integer.valueOf(request.getParameterValues("agreementId")[0]);
 		}
 		String deliveryNoteNumber = null;
-		if ((request.getParameterValues("deliveryNoteNumber")) != null) {
+		if (!(request.getParameterValues("deliveryNoteNumber")[0]).equals("")) {
 			deliveryNoteNumber = request.getParameterValues("deliveryNoteNumber")[0];
 		}
 		String purchaseOrderNumber = null;
-		if (request.getParameterValues("purchaseOrderNumber") != null) {
+		if (!(request.getParameterValues("purchaseOrderNumber")[0]).equals("")) {
 			purchaseOrderNumber = request.getParameterValues("purchaseOrderNumber")[0];
 		}
 

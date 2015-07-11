@@ -113,7 +113,7 @@ public class InputQuery {
 		inputQuery.deliveryLocationId = deliveryLocationId;
 		inputQuery.agreementId = agreementId;
 		inputQuery.deliveryNoteNumber = deliveryNoteNumber;
-		inputQuery.purchaseOrderNumber = deliveryNoteNumber;
+		inputQuery.purchaseOrderNumber = purchaseOrderNumber;
 		inputQuery.cancelled = cancelled;
 		return inputQuery;
 	}
