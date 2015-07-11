@@ -195,8 +195,9 @@ $(document).ready(function() {
 		$("#deliveryNoteId").text("Numero: " + response.number);
 
 		$('#dateDeliveryNoteModal').val(response.date);
-		var clientCode = addLeadingZeros(response.deliveryLocation.code, 4);
-		$('#clientOrProviderDeliveryNoteModal').val(clientCode + " - " + response.deliveryLocation);
+		//var clientCode = addLeadingZeros(response.deliveryLocation.code, 4);
+		//$('#clientOrProviderDeliveryNoteModal').val(clientCode + " - " + response.deliveryLocation);
+		$('#clientOrProviderDeliveryNoteModal').val(response.deliveryLocation);
 		$('#agreementDeliveryNoteModal').val(response.agreement);
 
 		if (response.transactionCodeANMAT != null) {
