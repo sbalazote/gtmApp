@@ -1,13 +1,5 @@
 package com.drogueria.webservice.helper;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.drogueria.config.PropertyProvider;
 import com.drogueria.model.Input;
 import com.drogueria.model.InputDetail;
@@ -17,11 +9,14 @@ import com.drogueria.util.OperationResult;
 import com.drogueria.util.StringUtility;
 import com.drogueria.webservice.WebService;
 import com.drogueria.webservice.WebServiceHelper;
-import com.inssjp.mywebservice.business.MedicamentosDTO;
-import com.inssjp.mywebservice.business.TransaccionPlainWS;
-import com.inssjp.mywebservice.business.TransaccionesNoConfirmadasWSResult;
-import com.inssjp.mywebservice.business.WebServiceError;
-import com.inssjp.mywebservice.business.WebServiceResult;
+import com.inssjp.mywebservice.business.*;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class InputWSHelper {
 
@@ -44,17 +39,17 @@ public class InputWSHelper {
 		OperationResult operationResult = new OperationResult();
 		operationResult.setResultado(false);
 		WebServiceResult webServiceResult = null;
-		List<MedicamentosDTO> medicines = new ArrayList<>();
 		List<String> errors = new ArrayList<>();
 		String eventId = input.getEvent();
 
 		if (eventId != null) {
 			List<InputDetail> pendingProducts = new ArrayList<InputDetail>();
+			List<ConfirmacionTransaccionDTO> toConfirm = new ArrayList<>();
 			Boolean isProducion = Boolean.valueOf(PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION));
-			boolean hasChecked = this.getPendingTransactions(input.getInputDetails(), pendingProducts, errors, isProducion);
+			boolean hasChecked = this.getPendingTransactions(input.getInputDetails(), pendingProducts, errors, isProducion,toConfirm);
 			// Si la lista esta vacia es porque de los productos que informan ninguno esta pendiente de informar por el agente de origen
-			if (((pendingProducts.isEmpty()) && hasChecked) || input.hasNotProviderSerialized()) {
-				webServiceResult = this.sendDrugs(input, medicines, errors, eventId);
+			if ((pendingProducts.isEmpty()) && hasChecked) {
+				webServiceResult = this.confirmDrugs(toConfirm,errors);
 			} else {
 				if (hasChecked) {
 					errors.add(ERROR_AGENT_HAS_NOT_INFORM);
@@ -107,6 +102,26 @@ public class InputWSHelper {
 		return webServiceResult;
 	}
 
+	private WebServiceResult confirmDrugs(List<ConfirmacionTransaccionDTO> toConfirm, List<String> errors) {
+		WebServiceResult webServiceResult = null;
+		if (!toConfirm.isEmpty() && errors.isEmpty()) {
+			logger.info("Iniciando consulta con ANMAT");
+			ConfirmacionTransaccionDTO[] toConfirmArray = new ConfirmacionTransaccionDTO[toConfirm.size()];
+            toConfirmArray = toConfirm.toArray(toConfirmArray);
+            try {
+                webServiceResult = this.webService.confirmarTransaccion(toConfirmArray,this.PropertyService.get().getANMATName(),this.PropertyService.get().getDecryptPassword());
+            } catch (Exception e) {
+                errors.add(ERROR_CANNOT_CONNECT_TO_ANMAT);
+                e.printStackTrace();
+            }
+            if (webServiceResult == null) {
+				errors.add(ERROR_CANNOT_CONNECT_TO_ANMAT);
+			}
+		}
+		logger.info(errors);
+		return webServiceResult;
+	}
+
 	private MedicamentosDTO setDrug(Input input, String eventId, InputDetail inputDetail) {
 		MedicamentosDTO drug = new MedicamentosDTO();
 		String deliveryNote = "R" + StringUtility.addLeadingZeros(input.getDeliveryNoteNumber(), 12);
@@ -125,7 +140,7 @@ public class InputWSHelper {
 		return drug;
 	}
 
-	public boolean getPendingTransactions(List<InputDetail> details, List<InputDetail> pendingProducts, List<String> errors, boolean isProduction) {
+	public boolean getPendingTransactions(List<InputDetail> details, List<InputDetail> pendingProducts, List<String> errors, boolean isProduction, List<ConfirmacionTransaccionDTO> toConfirm) {
 		boolean toReturn = false;
 		try {
 			for (InputDetail inputDetail : details) {
@@ -134,7 +149,7 @@ public class InputWSHelper {
 					if (!isProduction) {
 						toReturn = true;
 					} else {
-						toReturn = this.checkPendingTransactions(pendingProducts, errors, inputDetail, found);
+						toReturn = this.checkPendingTransactions(pendingProducts, errors, inputDetail, found, toConfirm);
 					}
 				}
 			}
@@ -144,7 +159,7 @@ public class InputWSHelper {
 		return toReturn;
 	}
 
-	private boolean checkPendingTransactions(List<InputDetail> pendingProducts, List<String> errors, InputDetail inputDetail, boolean found) throws Exception {
+	private boolean checkPendingTransactions(List<InputDetail> pendingProducts, List<String> errors, InputDetail inputDetail, boolean found, List<ConfirmacionTransaccionDTO> toConfirm) throws Exception {
 		boolean toReturn = false;
 		TransaccionesNoConfirmadasWSResult pendingTransactions = null;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -161,6 +176,10 @@ public class InputWSHelper {
 					for (TransaccionPlainWS transaccionPlainWS : pendingTransactions.getList()) {
 						if (transaccionPlainWS.get_numero_serial().equals(inputDetail.getSerialNumber()) && transaccionPlainWS.get_gtin().equals(gtin)) {
 							found = true;
+							ConfirmacionTransaccionDTO confirmacionTransaccionDTO = new ConfirmacionTransaccionDTO();
+							confirmacionTransaccionDTO.setF_operacion(simpleDateFormat.format(new Date()));
+							confirmacionTransaccionDTO.setP_ids_transac(Long.valueOf(transaccionPlainWS.get_id_transaccion()));
+							toConfirm.add(confirmacionTransaccionDTO);
 						}
 					}
 					toReturn = true;
