@@ -225,53 +225,28 @@ ProviderSerialized = function() {
 				} else {
 					$("#outOfStockProviderSerializedExpirationDateInput").attr("disabled", false);
 				}
-				//TODO agregar en la consulta el gtin
-				//	Busco en el historial de inputs de la db para ver si existe o no el serie.
-				$.ajax({
-					url: "existsSerial.do",
-					type: "GET",
-					async: false,
-					data: {
-						serialNumber: serialNumber,
-						productId: preloadedProductId,
-						gtin: gtin
-					},
-					success: function(response) {
-						var duplicateSerial = response;
-						//	Si el serie existe marco la casilla input con error.
-						if (duplicateSerial) {
-							readSerialNumber.val("");
-							readSerialNumber.tooltip("destroy").data("title", "Serie existente en la base de datos").addClass("has-error").tooltip();
-							return;
-						}
-						
-						if (validateForm()) {
-							//	El serie no indica lte/vto. Lo leo de los inputs
-							if ((batch == "") && (expirationDate == "")) {
-								batch = $("#outOfStockProviderSerializedBatchInput").val(); 
-								expirationDate = $("#outOfStockProviderSerializedExpirationDateInput").val();
-							}
-
-							addAmount(1);
-							addToTable(gtin, serialNumber, batch, expirationDate);
-							tempSerialNumbers.push(serialNumber);
-							
-							readSerialNumber.val("");
-							formValidator.resetForm();
-							
-							readSerialNumber.focus();
-						} else {
-							if (batch == "") {
-								$("#outOfStockProviderSerializedBatchInput").focus();
-							} else if (expirationDate == "") {
-								$("#outOfstockProviderSerializedExpirationDateInput").focus();
-							}
-						}
-					},
-					error: function(jqXHR, textStatus, errorThrown) {
-						myGenericError("outOfStockProviderSerializedModalAlertDiv");
+				if (validateForm()) {
+					//	El serie no indica lte/vto. Lo leo de los inputs
+					if ((batch == "") && (expirationDate == "")) {
+						batch = $("#outOfStockProviderSerializedBatchInput").val();
+						expirationDate = $("#outOfStockProviderSerializedExpirationDateInput").val();
 					}
-				});
+
+					addAmount(1);
+					addToTable(gtin, serialNumber, batch, expirationDate);
+					tempSerialNumbers.push(serialNumber);
+
+					readSerialNumber.val("");
+					formValidator.resetForm();
+
+					readSerialNumber.focus();
+				} else {
+					if (batch == "") {
+						$("#outOfStockProviderSerializedBatchInput").focus();
+					} else if (expirationDate == "") {
+						$("#outOfstockProviderSerializedExpirationDateInput").focus();
+					}
+				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myGenericError("outOfStockProviderSerializedModalAlertDiv");
