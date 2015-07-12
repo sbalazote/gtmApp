@@ -46,7 +46,7 @@ public class InputWSHelper {
 			List<InputDetail> pendingProducts = new ArrayList<InputDetail>();
 			List<ConfirmacionTransaccionDTO> toConfirm = new ArrayList<>();
 			Boolean isProducion = Boolean.valueOf(PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION));
-			boolean hasChecked = this.getPendingTransactions(input.getInputDetails(), pendingProducts, errors, isProducion,toConfirm);
+			boolean hasChecked = this.getPendingTransactions(input.getInputDetails(), pendingProducts, errors, isProducion,toConfirm,input.getDate());
 			// Si la lista esta vacia es porque de los productos que informan ninguno esta pendiente de informar por el agente de origen
 			if ((pendingProducts.isEmpty()) && hasChecked) {
 				webServiceResult = this.confirmDrugs(toConfirm,errors);
@@ -140,7 +140,7 @@ public class InputWSHelper {
 		return drug;
 	}
 
-	public boolean getPendingTransactions(List<InputDetail> details, List<InputDetail> pendingProducts, List<String> errors, boolean isProduction, List<ConfirmacionTransaccionDTO> toConfirm) {
+	public boolean getPendingTransactions(List<InputDetail> details, List<InputDetail> pendingProducts, List<String> errors, boolean isProduction, List<ConfirmacionTransaccionDTO> toConfirm, Date eventDate) {
 		boolean toReturn = false;
 		try {
 			for (InputDetail inputDetail : details) {
@@ -149,7 +149,7 @@ public class InputWSHelper {
 					if (!isProduction) {
 						toReturn = true;
 					} else {
-						toReturn = this.checkPendingTransactions(pendingProducts, errors, inputDetail, found, toConfirm);
+						toReturn = this.checkPendingTransactions(pendingProducts, errors, inputDetail, found, toConfirm, eventDate);
 					}
 				}
 			}
@@ -159,7 +159,7 @@ public class InputWSHelper {
 		return toReturn;
 	}
 
-	private boolean checkPendingTransactions(List<InputDetail> pendingProducts, List<String> errors, InputDetail inputDetail, boolean found, List<ConfirmacionTransaccionDTO> toConfirm) throws Exception {
+	private boolean checkPendingTransactions(List<InputDetail> pendingProducts, List<String> errors, InputDetail inputDetail, boolean found, List<ConfirmacionTransaccionDTO> toConfirm, Date eventDate) throws Exception {
 		boolean toReturn = false;
 		TransaccionesNoConfirmadasWSResult pendingTransactions = null;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -177,7 +177,7 @@ public class InputWSHelper {
 						if (transaccionPlainWS.get_numero_serial().equals(inputDetail.getSerialNumber()) && transaccionPlainWS.get_gtin().equals(gtin)) {
 							found = true;
 							ConfirmacionTransaccionDTO confirmacionTransaccionDTO = new ConfirmacionTransaccionDTO();
-							confirmacionTransaccionDTO.setF_operacion(simpleDateFormat.format(new Date()));
+							confirmacionTransaccionDTO.setF_operacion(simpleDateFormat.format(eventDate));
 							confirmacionTransaccionDTO.setP_ids_transac(Long.valueOf(transaccionPlainWS.get_id_transaccion()));
 							toConfirm.add(confirmacionTransaccionDTO);
 						}
