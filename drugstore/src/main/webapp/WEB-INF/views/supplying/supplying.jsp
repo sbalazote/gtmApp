@@ -98,7 +98,7 @@
 
 <!-- Modal Agregar Afiliados -->
 <form id="addAffiliateModalForm" action="" onsubmit="return false;">
-	<div class="modal fade" data-backdrop="static" id="addAffiliateModal" tabindex="2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal fade" data-backdrop="static" data-keyboard="false" id="addAffiliateModal">
 		<div class="modal-dialog" style="width:900px">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -109,7 +109,7 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-md-4 form-group">
-							<label for="affiliateCodeInput"><spring:message code="common.code"/></label> 
+							<label for="affiliateCodeInput"><spring:message code="common.code"/></label>
 							<input type="text" class="form-control" id="affiliateCodeInput" name="affiliateCode">
 						</div>
 						<div class="col-md-8 form-group">	

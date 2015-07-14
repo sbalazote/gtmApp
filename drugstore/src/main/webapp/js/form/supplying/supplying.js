@@ -202,7 +202,7 @@ var Supplying = function() {
 		}
 	});
 
-	$('#addAffiliateModal').on('shown.bs.modal', function () {
+	$('#addAffiliateModal').on('show.bs.modal', function () {
 		$('#affiliateCodeInput').focus();
 	});
 
@@ -816,6 +816,7 @@ var Supplying = function() {
 							+ ' '
 							+ response.name
 								});
+                        $("#agreementInput").trigger('chosen:activate');
 					},
 					error : function(jqXHR, textStatus,
 							errorThrown) {
