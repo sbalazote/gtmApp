@@ -42,6 +42,8 @@ public class InputController {
 	private DeliveryLocationService deliveryLocationService;
 	@Autowired
 	private AuditService auditService;
+	@Autowired
+	private PropertyService propertyService;
 
 	@RequestMapping(value = "/input", method = RequestMethod.GET)
 	public String input(ModelMap modelMap) throws Exception {
@@ -236,7 +238,9 @@ public class InputController {
 	@RequestMapping(value = "/inputs", method = RequestMethod.POST)
 	public ModelAndView inputs(HttpServletRequest request) {
 		InputQuery inputQuery = this.getInputQuery(request);
-		return new ModelAndView("inputs", "inputs", this.inputService.getInputForSearch(inputQuery));
+		ModelAndView modelAndView = new ModelAndView("inputs", "inputs", this.inputService.getInputForSearch(inputQuery));
+		modelAndView.addObject("destinationGln",this.propertyService.get().getGln());
+		return modelAndView;
 	}
 
 	private InputQuery getInputQuery(HttpServletRequest request) {

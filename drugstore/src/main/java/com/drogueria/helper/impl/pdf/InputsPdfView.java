@@ -12,10 +12,13 @@ import com.drogueria.config.PropertyProvider;
 import com.drogueria.helper.AbstractPdfView;
 import com.drogueria.model.Input;
 import com.drogueria.model.InputDetail;
+import com.drogueria.service.PropertyService;
 import com.drogueria.util.StringUtility;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.*;
 import com.lowagie.text.pdf.draw.LineSeparator;
+import com.lowagie.text.pdf.draw.VerticalPositionMark;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class InputsPdfView extends AbstractPdfView {
 
@@ -133,6 +136,27 @@ public class InputsPdfView extends AbstractPdfView {
 			document.add(new Chunk("Orden de Compra: ", fontHeader));
 			Chunk purchaseNumber = new Chunk(input.getPurchaseOrderNumber(), fontHeader);
 			document.add(purchaseNumber);
+			document.add(Chunk.NEWLINE);
+
+			Chunk tab = new Chunk(new VerticalPositionMark(), 150, true);
+
+			document.add(new Chunk("GLN Origen: ", fontHeader));
+			String originGLNString = input.getOriginGln();
+			if(originGLNString == null){
+				originGLNString = " - ";
+			}
+			Chunk originGLN = new Chunk(originGLNString, fontHeader);
+			document.add(originGLN);
+
+			document.add(tab);
+
+			document.add(new Chunk("GLN Destino: ", fontHeader));
+			String destinationGLNString = (String)model.get("destinationGln");
+			if(destinationGLNString == null){
+				destinationGLNString = " - ";
+			}
+			Chunk destinationGLN = new Chunk(destinationGLNString, fontHeader);
+			document.add(destinationGLN);
 			document.add(Chunk.NEWLINE);
 
 			for (InputDetail inputDetail : input.getInputDetails()) {
