@@ -196,8 +196,9 @@ SearchInput = function() {
 				'&agreementId=' + jsonInputSearch.agreementId + 
 				'&deliveryNoteNumber=' + jsonInputSearch.deliveryNoteNumber +
 				'&purchaseOrderNumber=' + jsonInputSearch.purchaseOrderNumber +
-				'&cancelled=' + jsonInputSearch.cancelled; 
-				
+				'&cancelled=' + jsonInputSearch.cancelled +
+				'&productId=' + jsonInputSearch.productId;
+
 				var exportHTML = exportQueryTableHTML("./rest/inputs", params);
 				var searchHTML = $("#divTable .search");
 				

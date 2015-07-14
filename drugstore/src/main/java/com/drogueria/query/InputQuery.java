@@ -103,7 +103,7 @@ public class InputQuery {
 	}
 
 	public static InputQuery createFromParameters(Integer id, String dateFrom, String dateTo, Integer conceptId, Integer providerId,
-			Integer deliveryLocationId, Integer agreementId, String deliveryNoteNumber, String purchaseOrderNumber, Boolean cancelled) {
+												  Integer deliveryLocationId, Integer agreementId, String deliveryNoteNumber, String purchaseOrderNumber, Boolean cancelled, Integer productId) {
 		InputQuery inputQuery = new InputQuery();
 		inputQuery.id = id;
 		inputQuery.dateFrom = dateFrom;
@@ -115,6 +115,7 @@ public class InputQuery {
 		inputQuery.deliveryNoteNumber = deliveryNoteNumber;
 		inputQuery.purchaseOrderNumber = purchaseOrderNumber;
 		inputQuery.cancelled = cancelled;
+		inputQuery.productId = productId;
 		return inputQuery;
 	}
 }

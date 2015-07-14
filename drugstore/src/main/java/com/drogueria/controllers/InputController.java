@@ -272,9 +272,17 @@ public class InputController {
 		if (!(request.getParameterValues("purchaseOrderNumber")[0]).equals("")) {
 			purchaseOrderNumber = request.getParameterValues("purchaseOrderNumber")[0];
 		}
+		Boolean cancelled = null;
+		if (!(request.getParameterValues("cancelled")[0]).equals("")) {
+			cancelled = Boolean.valueOf(request.getParameterValues("cancelled")[0]);
+		}
+		Integer productId = null;
+		if (!(request.getParameterValues("productId")[0]).equals("null")) {
+			productId = Integer.valueOf(request.getParameterValues("productId")[0]);
+		}
 
 		InputQuery inputQuery = InputQuery.createFromParameters(id, request.getParameterValues("dateFrom")[0], request.getParameterValues("dateTo")[0],
-				conceptId, providerId, deliveryLocationId, agreementId, deliveryNoteNumber, purchaseOrderNumber, null);
+				conceptId, providerId, deliveryLocationId, agreementId, deliveryNoteNumber, purchaseOrderNumber, cancelled, productId);
 
 		return inputQuery;
 	}
