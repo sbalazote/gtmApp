@@ -107,7 +107,7 @@
             <tr>
                 <th data-column-id="id" data-type="numeric"><spring:message code="supplying.number"/></th>
                 <th data-column-id="agreement"><spring:message code="common.agreement"/></th>
-                <th data-column-id="clientOrProvider"><spring:message code="common.clientOrProvider"/></th>
+                <th data-column-id="client"><spring:message code="common.clientOrProvider"/></th>
                 <th data-column-id="date"><spring:message code="common.date"/></th>
                 <th data-column-id="cancelled"><spring:message code="common.cancelled"/></th>
                 <th data-column-id="option"><spring:message code="common.option"/></th>
