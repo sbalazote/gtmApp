@@ -48,7 +48,7 @@ public interface DeliveryNoteService {
 
 	void sendTrasactionAsync(DeliveryNote deliveryNote) throws Exception;
 
-	void authorizeWithoutInform(List<Integer> deliveryNoteIds, String name);
+	void authorizeWithoutInform(List<String> deliveryNoteIds, String name);
 
 	void cancelDeliveryNotes(List<String> deliveryNoteNumbers, String username);
 

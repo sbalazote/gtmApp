@@ -151,9 +151,9 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	}
 
 	@Override
-	public void authorizeWithoutInform(List<Integer> deliveryNoteIds, String name) {
-		for (Integer deliveryNoteId : deliveryNoteIds) {
-			DeliveryNote deliveryNote = this.get(deliveryNoteId);
+	public void authorizeWithoutInform(List<String> deliveryNoteIds, String name) {
+		for (String deliveryNoteId : deliveryNoteIds) {
+			DeliveryNote deliveryNote = this.getDeliveryNoteFromNumber(deliveryNoteId);
 			deliveryNote.setInformed(true);
 			try {
 				this.save(deliveryNote);

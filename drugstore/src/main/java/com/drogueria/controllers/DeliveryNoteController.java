@@ -162,7 +162,7 @@ public class DeliveryNoteController {
 
 	@RequestMapping(value = "/authorizeDeliveryNotesWithoutInform", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Integer> authorizeDeliveryNotesWithoutInform(@RequestBody List<Integer> deliveryNoteIds, HttpServletRequest request) throws Exception {
+	List<String> authorizeDeliveryNotesWithoutInform(@RequestBody List<String> deliveryNoteIds, HttpServletRequest request) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
 			this.deliveryNoteService.authorizeWithoutInform(deliveryNoteIds, auth.getName());
