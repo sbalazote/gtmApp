@@ -15,6 +15,10 @@ public class DeliveryNoteResultDTO {
 	private String client;
 	private String transactionCodeANMAT;
 	private boolean cancelled;
+
+	private String supplyingId;
+	private String outputId;
+	private String orderId;
 	private List<OutputOrderDetailResultDTO> orderOutputDetails;
 
 	public List<OutputOrderDetailResultDTO> getOrderOutputDetails() {
@@ -81,6 +85,31 @@ public class DeliveryNoteResultDTO {
 		this.cancelled = cancelled;
 	}
 
+
+	public String getSupplyingId() {
+		return supplyingId;
+	}
+
+	public void setSupplyingId(String supplyingId) {
+		this.supplyingId = supplyingId;
+	}
+
+	public String getOutputId() {
+		return outputId;
+	}
+
+	public void setOutputId(String outputId) {
+		this.outputId = outputId;
+	}
+
+	public String getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
+
 	public void setFromDeliveryNote(DeliveryNote deliveryNote, Order order, Output output, Supplying supplying) {
 		SimpleDateFormat stringDate = new SimpleDateFormat("dd/MM/yyyy");
 		this.number = deliveryNote.getNumber();
@@ -97,6 +126,8 @@ public class DeliveryNoteResultDTO {
 				code = StringUtility.addLeadingZeros(output.getProvider().getCode().toString(), 5);
 				this.setDeliveryLocation(code + " - " +output.getProvider().getCorporateName());
 			}
+			String id = StringUtility.addLeadingZeros(output.getId(),8);
+			this.setOutputId(id);
 		}
 		if (deliveryNote.getTransactionCodeANMAT() != null) {
 			this.setTransactionCodeANMAT(deliveryNote.getTransactionCodeANMAT());
@@ -111,6 +142,8 @@ public class DeliveryNoteResultDTO {
 			this.setDate(stringDate.format(order.getProvisioningRequest().getDeliveryDate()));
 			code = StringUtility.addLeadingZeros(order.getProvisioningRequest().getDeliveryLocation().getCode().toString(), 5);
 			this.setDeliveryLocation(code + " - " + order.getProvisioningRequest().getDeliveryLocation().getCorporateName());
+			String id = StringUtility.addLeadingZeros(order.getId(),8);
+			this.setOrderId(id);
 		}
         if(supplying != null){
 			String code = StringUtility.addLeadingZeros(supplying.getAgreement().getCode().toString(), 5);
@@ -118,6 +151,8 @@ public class DeliveryNoteResultDTO {
             this.setDate(stringDate.format(supplying.getDate()));
 			code = StringUtility.addLeadingZeros(supplying.getClient().getCode().toString(), 5);
             this.setDeliveryLocation(code + " - " +supplying.getClient().getCorporateName());
+			String id = StringUtility.addLeadingZeros(supplying.getId(),8);
+			this.setSupplyingId(id);
         }
 		for (DeliveryNoteDetail deliveryNoteDetail : deliveryNote.getDeliveryNoteDetails()) {
 			String gtin = "";

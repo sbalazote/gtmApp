@@ -33,6 +33,13 @@
 				<div class="modal-body">
 					<div class="container-fluid">
 					<div class="row">
+						<div class="col-md-12 form-group">
+							<h3 id="entityId"></h3>
+							<br>
+						</div>
+					</div>
+
+					<div class="row">
 						<div class="col-md-2 form-group">
 							<label for="dateDeliveryNoteModal"><spring:message code="common.date"/></label>
 							<input id="dateDeliveryNoteModal" name="dateDeliveryNoteModal" class="form-control" disabled>

@@ -199,6 +199,22 @@ $(document).ready(function() {
 		//$('#clientOrProviderDeliveryNoteModal').val(clientCode + " - " + response.deliveryLocation);
 		$('#clientOrProviderDeliveryNoteModal').val(response.deliveryLocation);
 		$('#agreementDeliveryNoteModal').val(response.agreement);
+		var value;
+		var entity;
+		if(response.supplyingId != null){
+			value = response.supplyingId;
+			entity = "Dispensa: ";
+		}
+		if(response.outputId != null){
+			value = response.outputId;
+			entity = "Egreso: ";
+		}
+		if(response.orderId != null){
+			value = response.orderId;
+			entity = "Armado: ";
+		}
+		$("#entityId").empty();
+		$("#entityId").append("<span class=\"label label-info\">" + entity + value + "</span> ");
 
 		if (response.transactionCodeANMAT != null) {
 			$("#deliveryNoteModalANMATCode").show();
