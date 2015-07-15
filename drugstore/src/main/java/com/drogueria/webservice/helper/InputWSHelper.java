@@ -48,7 +48,7 @@ public class InputWSHelper {
 			Boolean isProducion = Boolean.valueOf(PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION));
 			boolean hasChecked = this.getPendingTransactions(input.getInputDetails(), pendingProducts, errors, isProducion,toConfirm,input.getDate());
 			// Si la lista esta vacia es porque de los productos que informan ninguno esta pendiente de informar por el agente de origen
-			if ((pendingProducts.isEmpty()) && hasChecked) {
+			if ((pendingProducts.isEmpty()) && hasChecked && errors.isEmpty()) {
 				webServiceResult = this.confirmDrugs(toConfirm,errors);
 			} else {
 				if (hasChecked) {
@@ -155,6 +155,7 @@ public class InputWSHelper {
 			}
 		} catch (Exception e) {
 			logger.info(ERROR_CANNOT_CONNECT_TO_ANMAT_PENDING_TRANSACTION);
+			errors.add(ERROR_CANNOT_CONNECT_TO_ANMAT_PENDING_TRANSACTION);
 		}
 		return toReturn;
 	}
