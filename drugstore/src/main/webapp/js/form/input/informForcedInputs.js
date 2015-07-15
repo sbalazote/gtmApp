@@ -12,7 +12,7 @@ PendingInputs = function() {
 
     $("#inputTable").bootgrid({
         selection: true,
-        multiSelect: true,
+        multiSelect: false,
         rowSelect: true,
         keepSelection: true,
         formatters: {
@@ -36,48 +36,34 @@ PendingInputs = function() {
 
 
     $("#confirmButton").click(function() {
-        if(inputs.length == 1){
-            $.ajax({
-                url: "updateForcedInput.do",
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify(inputs[0]),
-                async: false,
-                success: function(response) {
-                    if(response.resultado == true){
-                            myRedirect("success","Se ha informado el ingreso de mercader\u00eda n\u00famero: " + response.id, "informForcedInputs.do");
-                    }else{
-                        var errors = "";
-                        for (var i = 0, lengthI = response.myOwnErrors.length; i < lengthI; i++) {
-                            errors += response.myOwnErrors[i] + "<br />";
-                        }
+        $.ajax({
+            url: "updateForcedInput.do",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(inputs[0]),
+            async: false,
+            success: function(response) {
+                if(response.resultado == true){
+                        myRedirect("success","Se ha informado el ingreso de mercader\u00eda n\u00famero: " + response.id, "informForcedInputs.do");
+                }else{
+                    var errors = "";
+                    for (var i = 0, lengthI = response.myOwnErrors.length; i < lengthI; i++) {
+                        errors += response.myOwnErrors[i] + "<br />";
+                    }
 
-                        if(response.errores != null){
-                            errors += "<strong>Errores informados por ANMAT:</strong><br />";
-                            for (var i = 0, lengthI = response.errores.length; i < lengthI; i++) {
-                                errors += response.errores[i]._c_error + " - " + response.errores[i]._d_error + "<br />";
-                            }
+                    if(response.errores != null){
+                        errors += "<strong>Errores informados por ANMAT:</strong><br />";
+                        for (var i = 0, lengthI = response.errores.length; i < lengthI; i++) {
+                            errors += response.errores[i]._c_error + " - " + response.errores[i]._d_error + "<br />";
                         }
-                        myShowAlert("danger", errors,null);
                     }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    myGenericError();
+                    myShowAlert("danger", errors,null);
                 }
-            });
-        }else{
-            BootstrapDialog.show({
-                type: BootstrapDialog.TYPE_INFO,
-                title: 'Atenci\u00edn',
-                message: "Seleccione un elemento",
-                buttons: [{
-                    label: 'Cerrar',
-                    action: function(dialogItself){
-                        dialogItself.close();
-                    }
-                }]
-            });
-        }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                myGenericError();
+            }
+        });
     });
 
     $("#forcedInput").click(function() {
