@@ -150,7 +150,7 @@ public class InputWSHelper {
 						SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 						ConfirmacionTransaccionDTO confirmacionTransaccionDTO = new ConfirmacionTransaccionDTO();
 						confirmacionTransaccionDTO.setF_operacion(simpleDateFormat.format(eventDate));
-						confirmacionTransaccionDTO.setP_ids_transac(Long.valueOf("21020348"));
+						confirmacionTransaccionDTO.setP_ids_transac(Long.valueOf("21035990"));
 						toConfirm.add(confirmacionTransaccionDTO);
 						toReturn = true;
 					} else {

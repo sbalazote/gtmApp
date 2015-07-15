@@ -523,25 +523,9 @@ Input = function() {
 						success: function(response, textStatus, jqXHR) {
 							$.unblockUI();
 							if(response.resultado == true){
-								$.ajax({
-									url: "getInput.do",
-									type: "GET",
-									async: false,
-									data: {
-										inputId: response.operationId
-									},
-									success: function(response) {
-										var doc = printIOPDF('input', response.id, response.inputDetails);
-										var string = doc.output('datauristring');
-										var x = window.open('','_blank', '', false);
-										x.document.open();
-										x.document.location=string;
-										myRedirect("success","Se ha autorizado el ingreso de mercader\u00eda n\u00famero: " + response.id, "searchInputToUpdate.do");
-									},
-									error: function(jqXHR, textStatus, errorThrown) {
-										myGenericError();
-									}
-								});
+								if (textStatus === 'success') {
+									generateInputPDFReport(response.operationId);
+								}
 							}else{
 								var errors = "";
 								for (var i = 0, lengthI = response.myOwnErrors.length; i < lengthI; i++) {
