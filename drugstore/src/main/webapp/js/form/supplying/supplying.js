@@ -48,6 +48,7 @@ var Supplying = function() {
             {
                 width: '100%' /* desired width */
             });
+
 	var cleanAddAffiliateModal = function() {
 		$("#addAffiliateModal input").val("");
 		$("#addAffiliateModal select").val("");
@@ -198,12 +199,18 @@ var Supplying = function() {
 			cleanAddAffiliateModal();
 			$("#affiliateClientInput").val($("#clientInput option:selected").html());
 			$("#affiliateInput").select2("close");
-			$('#addAffiliateModal').modal('show');
+			//$('#addAffiliateModal').modal('show');
 		}
 	});
 
-	$('#addAffiliateModal').on('show.bs.modal', function () {
-		$('#affiliateCodeInput').focus();
+	$('#addAffiliateModal').on('shown.bs.modal', function () {
+		setTimeout(function (){
+			$('#affiliateCodeInput').focus();
+		}, 1000);
+	});
+
+	$("#affiliateInput").on("select2-close", function (e) {
+		$('#addAffiliateModal').modal('show');
 	});
 
 	$('#currentDateButton').click(function() {
@@ -788,8 +795,8 @@ var Supplying = function() {
 					"code" : $("#affiliateCodeInput").val(),
 					"name" : $("#affiliateNameInput").val(),
 					"surname" : $("#affiliateSurnameInput").val(),
-					"documentType" : $("#affiliateDocumentTypeSelect option:selected").val(),
-					"document" : $("#affiliateDocumentInput").val(),
+					"documentType" : $("#affiliateDocumentTypeSelect option:selected").val() || null,
+					"document" : $("#affiliateDocumentInput").val() || null,
 					"clientId" : $("#clientInput").val(),
 					"active" : true
 			};

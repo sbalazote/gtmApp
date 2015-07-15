@@ -64,8 +64,8 @@ SaveAffiliate = function() {
 					"code": $("#codeInput").val(),
 					"name": $("#nameInput").val(),
 					"surname": $("#surnameInput").val(),
-					"documentType": $("#documentTypeSelect option:selected").val(),
-					"document": $("#documentInput").val(),
+					"documentType": $("#documentTypeSelect option:selected").val() || null ,
+					"document": $("#documentInput").val() || null,
 					"clientId": $("#clientSelect option:selected").val(),
 					"active": $("#activeSelect option:selected").val(),
 			};

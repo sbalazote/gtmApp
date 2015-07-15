@@ -409,8 +409,8 @@ var ProvisioningRequest = function() {
 				"code": $("#affiliateCodeInput").val(),
 				"name": $("#affiliateNameInput").val(),
 				"surname": $("#affiliateSurnameInput").val(),
-				"documentType": $("#affiliateDocumentTypeInput").val(),
-				"document": $("#affiliateDocumentInput").val(),
+				"documentType": $("#affiliateDocumentTypeInput").val() || null,
+				"document": $("#affiliateDocumentInput").val() || null,
 				"clientId": $("#clientInput").val(),
 				"active": true
 			};
