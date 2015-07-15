@@ -2,6 +2,7 @@ package com.drogueria.util;
 
 import java.util.List;
 
+import com.inssjp.mywebservice.business.WebServiceConfirmResult;
 import com.inssjp.mywebservice.business.WebServiceResult;
 
 public class OperationResult extends WebServiceResult {
@@ -29,6 +30,12 @@ public class OperationResult extends WebServiceResult {
 
 	public void setFromWebServiceResult(WebServiceResult webServiceResult) {
 		super.setCodigoTransaccion(webServiceResult.getCodigoTransaccion());
+		super.setErrores(webServiceResult.getErrores());
+		super.setResultado(webServiceResult.getResultado());
+	}
+
+	public void setFromWebServiceConfirmResult(WebServiceConfirmResult webServiceResult) {
+		super.setCodigoTransaccion(webServiceResult.getId_transac_asociada());
 		super.setErrores(webServiceResult.getErrores());
 		super.setResultado(webServiceResult.getResultado());
 	}

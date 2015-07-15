@@ -38,7 +38,7 @@ public class InputWSHelper {
 	public OperationResult sendDrugInformationToAnmat(Input input) throws Exception {
 		OperationResult operationResult = new OperationResult();
 		operationResult.setResultado(false);
-		WebServiceResult webServiceResult = null;
+		WebServiceConfirmResult webServiceResult = null;
 		List<String> errors = new ArrayList<>();
 		String eventId = input.getEvent();
 
@@ -69,7 +69,7 @@ public class InputWSHelper {
 		}
 		operationResult.setMyOwnErrors(errors);
 		if (webServiceResult != null) {
-			operationResult.setFromWebServiceResult(webServiceResult);
+			operationResult.setFromWebServiceConfirmResult(webServiceResult);
 		}
 		logger.info(errors);
 		return operationResult;
@@ -102,8 +102,8 @@ public class InputWSHelper {
 		return webServiceResult;
 	}
 
-	private WebServiceResult confirmDrugs(List<ConfirmacionTransaccionDTO> toConfirm, List<String> errors) {
-		WebServiceResult webServiceResult = null;
+	private WebServiceConfirmResult confirmDrugs(List<ConfirmacionTransaccionDTO> toConfirm, List<String> errors) {
+		WebServiceConfirmResult webServiceResult = null;
 		if (!toConfirm.isEmpty() && errors.isEmpty()) {
 			logger.info("Iniciando consulta con ANMAT");
 			ConfirmacionTransaccionDTO[] toConfirmArray = new ConfirmacionTransaccionDTO[toConfirm.size()];
@@ -147,6 +147,11 @@ public class InputWSHelper {
 				boolean found = false;
 				if (inputDetail.getProduct().isInformAnmat() && "PS".equals(inputDetail.getProduct().getType())) {
 					if (!isProduction) {
+						SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+						ConfirmacionTransaccionDTO confirmacionTransaccionDTO = new ConfirmacionTransaccionDTO();
+						confirmacionTransaccionDTO.setF_operacion(simpleDateFormat.format(eventDate));
+						confirmacionTransaccionDTO.setP_ids_transac(Long.valueOf("21020348"));
+						toConfirm.add(confirmacionTransaccionDTO);
 						toReturn = true;
 					} else {
 						toReturn = this.checkPendingTransactions(pendingProducts, errors, inputDetail, found, toConfirm, eventDate);
