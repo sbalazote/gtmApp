@@ -42,10 +42,15 @@ PendingInputs = function() {
             contentType: "application/json",
             data: JSON.stringify(inputs[0]),
             async: false,
+            beforeSend : function() {
+                $.blockUI({ message: 'Espere un Momento por favor...' });
+            },
             success: function(response) {
                 if(response.resultado == true){
-                        myRedirect("success","Se ha informado el ingreso de mercader\u00eda n\u00famero: " + response.id, "informForcedInputs.do");
+                    $.unblockUI();
+                    myRedirect("success","Se ha informado el ingreso de mercader\u00eda n\u00famero: " + response.operationId, "informForcedInputs.do");
                 }else{
+                    $.unblockUI();
                     var errors = "";
                     for (var i = 0, lengthI = response.myOwnErrors.length; i < lengthI; i++) {
                         errors += response.myOwnErrors[i] + "<br />";
