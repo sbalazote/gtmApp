@@ -249,7 +249,7 @@ $(document).ready(function() {
 			}
 			// Guardo lote/vte y series para mostrar los detalles.
             var gtinNumber = "";
-            if(response.orderOutputDetails[i].gtin != null){
+            if(response.orderOutputDetails[i].gtinNumber != null){
                 gtinNumber = response.orderOutputDetails[i].gtinNumber;
             }
 			serialDetails = {

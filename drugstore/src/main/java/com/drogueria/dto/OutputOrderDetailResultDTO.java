@@ -94,6 +94,7 @@ public class OutputOrderDetailResultDTO {
 		this.batch = batch;
 		this.expirationDate = expirationDate;
 		this.amount = amount;
+		this.gtinNumber = gtinNumber;
 	}
 
 
