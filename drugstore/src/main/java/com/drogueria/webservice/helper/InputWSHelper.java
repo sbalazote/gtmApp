@@ -46,7 +46,7 @@ public class InputWSHelper {
 			List<InputDetail> pendingProducts = new ArrayList<InputDetail>();
 			List<ConfirmacionTransaccionDTO> toConfirm = new ArrayList<>();
 			Boolean isProducion = Boolean.valueOf(PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION));
-			boolean hasChecked = this.getPendingTransactions(input.getInputDetails(), pendingProducts, errors, isProducion,toConfirm,input.getDate());
+			boolean hasChecked = this.getPendingTransactions(input.getInputDetails(), pendingProducts, errors, isProducion,toConfirm,input);
 			// Si la lista esta vacia es porque de los productos que informan ninguno esta pendiente de informar por el agente de origen
 			if ((pendingProducts.isEmpty()) && hasChecked && errors.isEmpty()) {
 				webServiceResult = this.confirmDrugs(toConfirm,errors);
@@ -140,7 +140,7 @@ public class InputWSHelper {
 		return drug;
 	}
 
-	public boolean getPendingTransactions(List<InputDetail> details, List<InputDetail> pendingProducts, List<String> errors, boolean isProduction, List<ConfirmacionTransaccionDTO> toConfirm, Date eventDate) {
+	public boolean getPendingTransactions(List<InputDetail> details, List<InputDetail> pendingProducts, List<String> errors, boolean isProduction, List<ConfirmacionTransaccionDTO> toConfirm, Input input) {
 		boolean toReturn = false;
 		try {
 			for (InputDetail inputDetail : details) {
@@ -149,12 +149,12 @@ public class InputWSHelper {
 					if (!isProduction) {
 						SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 						ConfirmacionTransaccionDTO confirmacionTransaccionDTO = new ConfirmacionTransaccionDTO();
-						confirmacionTransaccionDTO.setF_operacion(simpleDateFormat.format(eventDate));
-						confirmacionTransaccionDTO.setP_ids_transac(Long.valueOf("21035990"));
+						confirmacionTransaccionDTO.setF_operacion(simpleDateFormat.format(input.getDate()));
+						confirmacionTransaccionDTO.setP_ids_transac(Long.valueOf("21184607"));
 						toConfirm.add(confirmacionTransaccionDTO);
 						toReturn = true;
 					} else {
-						toReturn = this.checkPendingTransactions(pendingProducts, errors, inputDetail, found, toConfirm, eventDate);
+						toReturn = this.checkPendingTransactions(pendingProducts, errors, inputDetail, found, toConfirm,input);
 					}
 				}
 			}
@@ -165,7 +165,7 @@ public class InputWSHelper {
 		return toReturn;
 	}
 
-	private boolean checkPendingTransactions(List<InputDetail> pendingProducts, List<String> errors, InputDetail inputDetail, boolean found, List<ConfirmacionTransaccionDTO> toConfirm, Date eventDate) throws Exception {
+	private boolean checkPendingTransactions(List<InputDetail> pendingProducts, List<String> errors, InputDetail inputDetail, boolean found, List<ConfirmacionTransaccionDTO> toConfirm, Input input) throws Exception {
 		boolean toReturn = false;
 		TransaccionesNoConfirmadasWSResult pendingTransactions = null;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -182,10 +182,15 @@ public class InputWSHelper {
 					for (TransaccionPlainWS transaccionPlainWS : pendingTransactions.getList()) {
 						if (transaccionPlainWS.get_numero_serial().equals(inputDetail.getSerialNumber()) && transaccionPlainWS.get_gtin().equals(gtin)) {
 							found = true;
-							ConfirmacionTransaccionDTO confirmacionTransaccionDTO = new ConfirmacionTransaccionDTO();
-							confirmacionTransaccionDTO.setF_operacion(simpleDateFormat.format(eventDate));
-							confirmacionTransaccionDTO.setP_ids_transac(Long.valueOf(transaccionPlainWS.get_id_transaccion()));
-							toConfirm.add(confirmacionTransaccionDTO);
+							if(transaccionPlainWS.get_gln_origen().equals(input.getOriginGln())){
+								ConfirmacionTransaccionDTO confirmacionTransaccionDTO = new ConfirmacionTransaccionDTO();
+								confirmacionTransaccionDTO.setF_operacion(simpleDateFormat.format(input.getDate()));
+								confirmacionTransaccionDTO.setP_ids_transac(Long.valueOf(transaccionPlainWS.get_id_transaccion()));
+								toConfirm.add(confirmacionTransaccionDTO);
+							}else{
+								String error = "El GLN que informo la transaccion fue : " + transaccionPlainWS.get_gln_origen() + " y el del proveedor seleccionado es: " + input.getOriginGln();
+								errors.add(error);
+							}
 						}
 					}
 					toReturn = true;
