@@ -89,14 +89,15 @@ $(document).ready(function() {
                 'callback': callback
             },*/
             buttons: [{
-                    label: 'Cancelar',
+                    label: 'No',
+					cssClass: 'btn btn-danger',
                     action: function(dialogItself) {
                         //typeof dialogItself.getData('callback') === 'function' && dialogItself.getData('callback')(false);
                         dialogItself.close();
                     }
                 }, {
-                    label: 'OK',
-                    cssClass: 'btn-primary',
+                    label: 'Si',
+                    cssClass: 'btn btn-success',
                     action: function(dialogItself) {
                         //typeof dialogItself.getData('callback') === 'function' && dialogItself.getData('callback')(true);
                         dialogItself.close();
