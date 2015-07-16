@@ -199,19 +199,14 @@ var Supplying = function() {
 			cleanAddAffiliateModal();
 			$("#affiliateClientInput").val($("#clientInput option:selected").html());
 			$("#affiliateInput").select2("close");
-			//$('#addAffiliateModal').modal('show');
+			$('#addAffiliateModal').modal('show');
 		}
 	});
 
-	$('#addAffiliateModal').on('shown.bs.modal', function () {
-		setTimeout(function (){
-			$('#affiliateCodeInput').focus();
-		}, 1000);
+	$('#addAffiliateModal').on('show.bs.modal', function () {
+		$('#affiliateCodeInput').focus();
 	});
 
-	$("#affiliateInput").on("select2-close", function (e) {
-		$('#addAffiliateModal').modal('show');
-	});
 
 	$('#currentDateButton').click(function() {
 		$("#currentDateInput").datepicker().focus();
