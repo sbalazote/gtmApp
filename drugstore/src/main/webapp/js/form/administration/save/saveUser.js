@@ -9,12 +9,11 @@ SaveUser = function() {
 					maxlength: 45,
 				},
 				password: {
-					required: true, 
 					minlength: 5,
 					maxlength: 15,
 				},
 				passwordCheck: { 
-	                required: true, equalTo: "#passwordInput", 
+	                equalTo: "#passwordInput",
 	                minlength: 5,
 					maxlength: 15,
 		        },

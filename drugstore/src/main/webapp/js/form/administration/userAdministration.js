@@ -44,8 +44,8 @@ $(document).ready(function() {
 			success: function(response) {
 				$("#idInput").val(response.id);
 				$("#nameInput").val(response.name);
-				$("#passwordInput").val(response.password);
-				$("#passwordInputCheck").val(response.password);
+				$("#passwordInput").val('');
+				$("#passwordInputCheck").val('');
 				var isActive = (response.active) ? "true" : "false";
 				$("#activeSelect").val(isActive).trigger('chosen:update');
 				$.each(response.roles, function (idx, value) {
