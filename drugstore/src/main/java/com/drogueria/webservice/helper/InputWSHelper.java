@@ -53,7 +53,7 @@ public class InputWSHelper {
 			} else {
 				if (hasChecked) {
 					for (InputDetail inputDetail : pendingProducts) {
-						errors.add("Gtin: " + inputDetail.getGtin().getNumber() + " Serie: " + inputDetail.getSerialNumber() + " NO INFORMADO");
+						errors.add("Gtin: " + inputDetail.getGtin().getNumber() + " Serie: " + inputDetail.getSerialNumber() + " SERIE NO INFORMADO");
 					}
 				} else {
 					errors.add(ERROR_CANNOT_CONNECT_TO_ANMAT_PENDING_TRANSACTION);
