@@ -84,7 +84,7 @@ public class OutputQuery {
 	}
 
 	public static OutputQuery createFromParameters(Integer id, String dateFrom, String dateTo, Integer conceptId, Integer providerId,
-			Integer deliveryLocationId, Integer agreementId) {
+												   Integer deliveryLocationId, Integer agreementId, Integer productId, Boolean cancelled) {
 		OutputQuery outputQuery = new OutputQuery();
 		outputQuery.id = id;
 		outputQuery.dateFrom = dateFrom;
@@ -93,6 +93,8 @@ public class OutputQuery {
 		outputQuery.providerId = providerId;
 		outputQuery.deliveryLocationId = deliveryLocationId;
 		outputQuery.agreementId = agreementId;
+		outputQuery.productId = productId;
+		outputQuery.cancelled = cancelled;
 		return outputQuery;
 	}
 

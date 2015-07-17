@@ -182,8 +182,18 @@ public class OutputController {
 			agreementId = Integer.valueOf(request.getParameterValues("agreementId")[0]);
 		}
 
+		Integer productId = null;
+		if (!(request.getParameterValues("productId")[0]).equals("null")) {
+			productId = Integer.valueOf(request.getParameterValues("productId")[0]);
+		}
+
+		Boolean cancelled = null;
+		if (!(request.getParameterValues("cancelled")[0]).equals("null")) {
+			cancelled = Boolean.valueOf(request.getParameterValues("cancelled")[0]);
+		}
+
 		OutputQuery outputQuery = OutputQuery.createFromParameters(id, request.getParameterValues("dateFrom")[0], request.getParameterValues("dateTo")[0],
-				conceptId, providerId, deliveryLocationId, agreementId);
+				conceptId, providerId, deliveryLocationId, agreementId, productId,cancelled );
 
 		return outputQuery;
 	}

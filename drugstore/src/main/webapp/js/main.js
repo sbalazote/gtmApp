@@ -372,7 +372,7 @@ $(document).ready(function() {
 	var fileDownloadCheckTimer;
 	generateOutputPDFReport = function(outputId) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
-		$.download('./rest/outputs.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + outputId + '&dateTo=&conceptId=null&providerId=null&deliveryLocationId=null&agreementId=null', 'POST');
+		$.download('./rest/outputs.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + outputId + '&dateTo=&conceptId=null&providerId=null&deliveryLocationId=null&agreementId=null&productId=null&cancelled=null', 'POST');
 		$.blockUI({message: 'Generando Reporte de Dispensa. Espere un Momento por favor...'});
 		fileDownloadCheckTimer = window.setInterval(function () {
 			var cookieValue = $.cookie('fileDownloadToken');

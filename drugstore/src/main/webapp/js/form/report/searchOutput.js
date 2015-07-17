@@ -183,7 +183,9 @@ SearchOutput = function() {
 				'&conceptId=' + jsonOutputSearch.conceptId +
 				'&providerId=' + jsonOutputSearch.providerId +
 				'&deliveryLocationId=' + jsonOutputSearch.deliveryLocationId +
-				'&agreementId=' + jsonOutputSearch.agreementId;
+				'&agreementId=' + jsonOutputSearch.agreementId +
+				'&productId='+ jsonOutputSearch.productId +
+				'&cancelled='	+ jsonOutputSearch.cancelled;
 				
 				var exportHTML = exportQueryTableHTML("./rest/outputs", params);
 				var searchHTML = $("#divTable .search");
