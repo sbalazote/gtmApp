@@ -15,6 +15,7 @@ public class DeliveryNoteResultDTO {
 	private String client;
 	private String transactionCodeANMAT;
 	private boolean cancelled;
+	private String affiliate;
 
 	private String supplyingId;
 	private String outputId;
@@ -110,6 +111,14 @@ public class DeliveryNoteResultDTO {
 		this.orderId = orderId;
 	}
 
+	public String getAffiliate() {
+		return affiliate;
+	}
+
+	public void setAffiliate(String affiliate) {
+		this.affiliate = affiliate;
+	}
+
 	public void setFromDeliveryNote(DeliveryNote deliveryNote, Order order, Output output, Supplying supplying) {
 		SimpleDateFormat stringDate = new SimpleDateFormat("dd/MM/yyyy");
 		this.number = deliveryNote.getNumber();
@@ -120,29 +129,28 @@ public class DeliveryNoteResultDTO {
 			this.setDate(stringDate.format(output.getDate()));
 			if (output.getDeliveryLocation() != null) {
 				code = StringUtility.addLeadingZeros(output.getDeliveryLocation().getCode().toString(), 5);
-				this.setDeliveryLocation(code + " - " +  output.getDeliveryLocation().getCorporateName());
+				this.setDeliveryLocation(code + " - " +  output.getDeliveryLocation().getName());
 			}
 			if (output.getProvider() != null) {
 				code = StringUtility.addLeadingZeros(output.getProvider().getCode().toString(), 5);
-				this.setDeliveryLocation(code + " - " +output.getProvider().getCorporateName());
+				this.setDeliveryLocation(code + " - " +output.getProvider().getName());
 			}
 			String id = StringUtility.addLeadingZeros(output.getId(),8);
+			String affiliate = "NO SE INFORMA";
+			this.setAffiliate(affiliate);
 			this.setOutputId(id);
 		}
-		if (deliveryNote.getTransactionCodeANMAT() != null) {
-			this.setTransactionCodeANMAT(deliveryNote.getTransactionCodeANMAT());
-		}
-		if(deliveryNote.isCancelled()){
-			this.setCancelled(deliveryNote.isCancelled());
-		}
-
 		if (order != null) {
 			String code = StringUtility.addLeadingZeros(order.getProvisioningRequest().getAgreement().getCode().toString(), 5);
 			this.setAgreement(code + " - " + order.getProvisioningRequest().getAgreement().getDescription());
 			this.setDate(stringDate.format(order.getProvisioningRequest().getDeliveryDate()));
 			code = StringUtility.addLeadingZeros(order.getProvisioningRequest().getDeliveryLocation().getCode().toString(), 5);
-			this.setDeliveryLocation(code + " - " + order.getProvisioningRequest().getDeliveryLocation().getCorporateName());
+			this.setDeliveryLocation(code + " - " + order.getProvisioningRequest().getDeliveryLocation().getName());
 			String id = StringUtility.addLeadingZeros(order.getId(),8);
+
+			String affiliate = order.getProvisioningRequest().getAffiliate().getCode() + " - " + order.getProvisioningRequest().getAffiliate().getSurname() + " " +
+					order.getProvisioningRequest().getAffiliate().getName();
+			this.setAffiliate(affiliate);
 			this.setOrderId(id);
 		}
         if(supplying != null){
@@ -150,10 +158,21 @@ public class DeliveryNoteResultDTO {
             this.setAgreement(code + " - " + supplying.getAgreement().getDescription());
             this.setDate(stringDate.format(supplying.getDate()));
 			code = StringUtility.addLeadingZeros(supplying.getClient().getCode().toString(), 5);
-            this.setDeliveryLocation(code + " - " +supplying.getClient().getCorporateName());
+            this.setDeliveryLocation(code + " - " +supplying.getClient().getName());
 			String id = StringUtility.addLeadingZeros(supplying.getId(),8);
+			String affiliate = supplying.getAffiliate().getCode() + " - " + supplying.getAffiliate().getSurname() + " " +
+					supplying.getAffiliate().getName();
+			this.setAffiliate(affiliate);
 			this.setSupplyingId(id);
         }
+
+		if (deliveryNote.getTransactionCodeANMAT() != null) {
+			this.setTransactionCodeANMAT(deliveryNote.getTransactionCodeANMAT());
+		}
+		if(deliveryNote.isCancelled()){
+			this.setCancelled(deliveryNote.isCancelled());
+		}
+
 		for (DeliveryNoteDetail deliveryNoteDetail : deliveryNote.getDeliveryNoteDetails()) {
 			String gtin = "";
 			if (deliveryNoteDetail.getOutputDetail() != null) {

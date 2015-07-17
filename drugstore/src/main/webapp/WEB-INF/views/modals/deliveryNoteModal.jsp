@@ -53,7 +53,13 @@
 							<input id="agreementDeliveryNoteModal" name="agreementDeliveryNoteModal" class="form-control" disabled>
 						</div>
 					</div>
-					
+
+					<div class="row">
+						<div class="col-md-4 form-group">
+							<label for="affiliateDeliveryNoteModal"><spring:message code="common.affiliate"/></label>
+							<input id="affiliateDeliveryNoteModal" name="affiliateDeliveryNoteModal" class="form-control" disabled>
+						</div>
+					</div>
 					<br>
 					
 					<div>

@@ -199,6 +199,9 @@ $(document).ready(function() {
 		//$('#clientOrProviderDeliveryNoteModal').val(clientCode + " - " + response.deliveryLocation);
 		$('#clientOrProviderDeliveryNoteModal').val(response.deliveryLocation);
 		$('#agreementDeliveryNoteModal').val(response.agreement);
+
+		$('#affiliateDeliveryNoteModal').val(response.affiliate);
+
 		var value;
 		var entity;
 		if(response.supplyingId != null){
