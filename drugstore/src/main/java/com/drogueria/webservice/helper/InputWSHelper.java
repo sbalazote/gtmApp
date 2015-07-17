@@ -140,7 +140,7 @@ public class InputWSHelper {
 	}
 
 	public boolean getPendingTransactions(List<InputDetail> details, List<InputDetail> pendingProducts, List<String> errors, boolean isProduction, List<ConfirmacionTransaccionDTO> toConfirm, Input input) {
-		boolean toReturn = false;
+		boolean toReturn = true;
 		try {
 			for (InputDetail inputDetail : details) {
 				boolean found = false;
@@ -153,7 +153,7 @@ public class InputWSHelper {
 						toConfirm.add(confirmacionTransaccionDTO);
 						toReturn = true;
 					} else {
-						toReturn = this.checkPendingTransactions(pendingProducts, errors, inputDetail, found, toConfirm,input);
+						toReturn = (toReturn && this.checkPendingTransactions(pendingProducts, errors, inputDetail, found, toConfirm,input));
 					}
 				}
 			}
