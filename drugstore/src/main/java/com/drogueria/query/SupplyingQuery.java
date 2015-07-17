@@ -78,8 +78,8 @@ public class SupplyingQuery {
         this.cancelled = cancelled;
     }
 
-    public static SupplyingQuery createFromParameters(Integer id, String dateFrom, String dateTo,Integer affiliateId,
-                                                   Integer agreementId, Boolean cancelled) {
+    public static SupplyingQuery createFromParameters(Integer id, String dateFrom, String dateTo, Integer affiliateId,
+                                                      Integer agreementId, Boolean cancelled, Integer productId, Integer clientId) {
         SupplyingQuery supplyingQuery = new SupplyingQuery();
         supplyingQuery.id = id;
         supplyingQuery.dateFrom = dateFrom;
@@ -87,6 +87,8 @@ public class SupplyingQuery {
         supplyingQuery.affiliateId = affiliateId;
         supplyingQuery.agreementId = agreementId;
         supplyingQuery.cancelled = cancelled;
+        supplyingQuery.productId = productId;
+        supplyingQuery.clientId = clientId;
         return supplyingQuery;
     }
 }

@@ -140,13 +140,24 @@ public class SupplyingController {
 		if (!(request.getParameterValues("agreementId")[0]).equals("null")) {
 			agreementId = Integer.valueOf(request.getParameterValues("agreementId")[0]);
 		}
+
+		Integer productId = null;
+		if (!(request.getParameterValues("productId")[0]).equals("null")) {
+			productId = Integer.valueOf(request.getParameterValues("productId")[0]);
+		}
+
+		Integer clientId = null;
+		if (!(request.getParameterValues("clientId")[0]).equals("null")) {
+			clientId = Integer.valueOf(request.getParameterValues("clientId")[0]);
+		}
+
         Boolean cancelled = null;
         if (!(request.getParameterValues("cancelled")[0]).equals("null")) {
             cancelled = Boolean.valueOf(request.getParameterValues("cancelled")[0]);
         }
 
 		SupplyingQuery outputQuery = SupplyingQuery.createFromParameters(id, request.getParameterValues("dateFrom")[0],
-				request.getParameterValues("dateTo")[0],affiliateId, agreementId,cancelled);
+				request.getParameterValues("dateTo")[0],affiliateId, agreementId,cancelled,productId,clientId);
 
 		return outputQuery;
 	}

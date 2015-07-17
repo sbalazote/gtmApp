@@ -358,7 +358,7 @@ $(document).ready(function() {
 	var fileDownloadCheckTimer;
 	generateSupplyingPDFReport = function(supplyingId) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
-		$.download('./rest/supplyings.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + supplyingId + '&dateTo=&affiliateId=null&agreementId=null&cancelled=null', 'POST');
+		$.download('./rest/supplyings.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + supplyingId + '&dateTo=&affiliateId=null&clientId=null&agreementId=null&productId=null&cancelled=null', 'POST');
 		$.blockUI({message: 'Generando Reporte de Dispensa. Espere un Momento por favor...'});
 		fileDownloadCheckTimer = window.setInterval(function () {
 			var cookieValue = $.cookie('fileDownloadToken');
