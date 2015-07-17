@@ -333,7 +333,9 @@ public class InputServiceImpl implements InputService {
 					inputDetail.setGtin(product.getLastProductGtin());
 				}
 			}
-
+			String error = "Gtin:" +  inputDetail.getGtin().getNumber() + " Serie: " + inputDetail.getSerialNumber() + " GLN: " + "111111" + " (" + "saraza" + ")" +  ", Asignado: " + input.getOriginGln();
+			System.out.println(error);
+			logger.debug(error);
 			if (("PS".equals(inputDetailDTO.getProductType())) || ("SS".equals(inputDetailDTO.getProductType()))) {
 				inputDetail.setSerialNumber(inputDetailDTO.getSerialNumber());
 			}

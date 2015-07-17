@@ -351,7 +351,7 @@ $(document).ready(function() {
 			if (cookieValue == token) {
 				finishDownload();
 				if(isUpdate == true){
-					myRedirect("success", "Se ha autorizado el ingreso de mercader\u00eda n\u00famero: " + inputId, "searchInputToUpdate");
+					myRedirect("success", "Se ha autorizado el ingreso de mercader\u00eda n\u00famero: " + inputId, "searchInputToUpdate.do");
 				}else{
 					myReload("success", "Se ha registrado el ingreso de mercader\u00eda n\u00famero: " + inputId);
 				}

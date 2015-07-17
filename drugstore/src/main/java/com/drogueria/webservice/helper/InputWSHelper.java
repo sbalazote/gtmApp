@@ -52,9 +52,8 @@ public class InputWSHelper {
 				webServiceResult = this.confirmDrugs(toConfirm,errors);
 			} else {
 				if (hasChecked) {
-					errors.add(ERROR_AGENT_HAS_NOT_INFORM);
 					for (InputDetail inputDetail : pendingProducts) {
-						errors.add(inputDetail.toString());
+						errors.add("Gtin: " + inputDetail.getGtin().getNumber() + " Serie: " + inputDetail.getSerialNumber() + " NO INFORMADO");
 					}
 				} else {
 					errors.add(ERROR_CANNOT_CONNECT_TO_ANMAT_PENDING_TRANSACTION);
@@ -188,7 +187,7 @@ public class InputWSHelper {
 								confirmacionTransaccionDTO.setP_ids_transac(Long.valueOf(transaccionPlainWS.get_id_transaccion()));
 								toConfirm.add(confirmacionTransaccionDTO);
 							}else{
-								String error = "El GLN que informo la transaccion fue : " + transaccionPlainWS.get_gln_origen() + " y el del proveedor seleccionado es: " + input.getOriginGln();
+								String error = "Gtin:" +  inputDetail.getGtin().getNumber() + " Serie: " + inputDetail.getSerialNumber() + " GLN: " + transaccionPlainWS.get_gln_origen() + " (" + transaccionPlainWS.get_razon_social_origen() + ")" +  ", Asignado: " + input.getOriginGln();
 								errors.add(error);
 							}
 						}
