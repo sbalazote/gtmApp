@@ -219,12 +219,15 @@ $(document).ready(function() {
 		$("#entityId").empty();
 		$("#entityId").append("<span class=\"label label-info\">" + entity + value + "</span> ");
 
-		if (response.transactionCodeANMAT != null) {
+		if(response.informAnmat == true){
 			$("#deliveryNoteModalANMATCode").show();
+		}else{
+			$("#deliveryNoteModalANMATCode").hide();
+		}
+		if (response.transactionCodeANMAT != null) {
 			$("#deliveryNoteModalTransactionCode").text(response.transactionCodeANMAT);
 		} else {
-			$("#deliveryNoteModalANMATCode").hide();
-			$("#deliveryNoteModalTransactionCode").text("");
+			$("#deliveryNoteModalTransactionCode").text("Pendiente");
 		}
 
 		var id = 0;

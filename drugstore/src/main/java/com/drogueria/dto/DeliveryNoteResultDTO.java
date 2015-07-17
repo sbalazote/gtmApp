@@ -13,6 +13,7 @@ public class DeliveryNoteResultDTO {
 	private String date;
 	private String number;
 	private String client;
+	private Boolean informAnmat;
 	private String transactionCodeANMAT;
 	private boolean cancelled;
 	private String affiliate;
@@ -119,6 +120,14 @@ public class DeliveryNoteResultDTO {
 		this.affiliate = affiliate;
 	}
 
+	public Boolean getInformAnmat() {
+		return informAnmat;
+	}
+
+	public void setInformAnmat(Boolean informAnmat) {
+		this.informAnmat = informAnmat;
+	}
+
 	public void setFromDeliveryNote(DeliveryNote deliveryNote, Order order, Output output, Supplying supplying) {
 		SimpleDateFormat stringDate = new SimpleDateFormat("dd/MM/yyyy");
 		this.number = deliveryNote.getNumber();
@@ -172,6 +181,7 @@ public class DeliveryNoteResultDTO {
 		if(deliveryNote.isCancelled()){
 			this.setCancelled(deliveryNote.isCancelled());
 		}
+		this.setInformAnmat(deliveryNote.isInformAnmat());
 
 		for (DeliveryNoteDetail deliveryNoteDetail : deliveryNote.getDeliveryNoteDetails()) {
 			String gtin = "";
