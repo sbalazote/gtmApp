@@ -23,11 +23,6 @@
 			<h3><spring:message code="search.title.serializedProduct"/></h3>
 		</div>
 	</div>
-    <div class="row">
-        <div class="col-md-12 form-group">
-            <p><spring:message code="search.serializedProduct.comment"/><p>
-        </div>
-    </div>
 	<div>
         <div class="row">
             <div class="col-md-12 form-group">

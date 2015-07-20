@@ -342,7 +342,7 @@ $(document).ready(function() {
 	};
 
 	var fileDownloadCheckTimer;
-	generateInputPDFReport = function(inputId) {
+	generateInputPDFReport = function(inputId,isUpdate) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
 		$.download('./rest/inputs.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + inputId + '&dateTo=&conceptId=null&providerId=null&deliveryLocationId=null&agreementId=null&deliveryNoteNumber=&purchaseOrderNumber=&cancelled=null&productId=null', 'POST');
 		$.blockUI({message: 'Generando Reporte de Ingreso. Espere un Momento por favor...'});
@@ -350,7 +350,12 @@ $(document).ready(function() {
 			var cookieValue = $.cookie('fileDownloadToken');
 			if (cookieValue == token) {
 				finishDownload();
-				myReload("success", "Se ha registrado el ingreso de mercader\u00eda n\u00famero: " + inputId);
+				if(isUpdate == true){
+					myRedirect("success", "Se ha autorizado el ingreso de mercader\u00eda n\u00famero: " + inputId, "searchInputToUpdate.do");
+				}else{
+					myReload("success", "Se ha registrado el ingreso de mercader\u00eda n\u00famero: " + inputId);
+				}
+
 			}
 		}, 1000);
 	}

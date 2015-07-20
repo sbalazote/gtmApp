@@ -41,7 +41,7 @@ var PendingTransactions = function() {
 						for (var i = 0, lengthI = response.length; i < lengthI; i++) {
 							if(response[i].resultado == true){
 								$.unblockUI();
-								myShowAlert("success", "Se han informado los siguientes remitos: " +  response[i].operationId, null);
+								myReload("success", "Se han informado los siguientes remitos: " +  response[i].operationId);
 							}else{
 								$.unblockUI();
 								var errors = "";
@@ -70,6 +70,7 @@ var PendingTransactions = function() {
 				type: BootstrapDialog.TYPE_INFO,
 		        title: 'Atenci\u00f3n',
 		        message: "Seleccione al menos un elemento",
+				closable: false,
 		        buttons: [{
 	                label: 'Cerrar',
 	                action: function(dialogItself){

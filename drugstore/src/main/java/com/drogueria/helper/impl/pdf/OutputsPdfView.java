@@ -47,7 +47,7 @@ public class OutputsPdfView extends AbstractPdfView {
 			table.setSpacingBefore(10f);
 
 			table.setSpacingAfter(10f);
-			float[] columnWidths = {2f, 4f, 3f, 2f, 3f, 1f};
+			float[] columnWidths = {1f, 7f, 0.7f, 0.7f, 1.7f, 0.6f};
 
 			table.setWidths(columnWidths);
 

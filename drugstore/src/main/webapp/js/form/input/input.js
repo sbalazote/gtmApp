@@ -506,7 +506,7 @@ Input = function() {
 						complete: function(jqXHR, textStatus) {
 							$.unblockUI();
 							if (textStatus === 'success') {
-								generateInputPDFReport(jqXHR.responseJSON.id);
+								generateInputPDFReport(jqXHR.responseJSON.id,false);
 							}
 						}
 					});
@@ -524,7 +524,7 @@ Input = function() {
 							$.unblockUI();
 							if(response.resultado == true){
 								if (textStatus === 'success') {
-									generateInputPDFReport(response.operationId);
+									generateInputPDFReport(response.operationId,true);
 								}
 							}else{
 								var errors = "";
