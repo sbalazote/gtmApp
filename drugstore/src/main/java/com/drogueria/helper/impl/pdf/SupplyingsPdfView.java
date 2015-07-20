@@ -36,7 +36,7 @@ public class SupplyingsPdfView extends AbstractPdfView {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		@SuppressWarnings("unchecked")
 		List<Supplying> supplyings = (List<Supplying>) model.get("supplyings");
-		Map<Integer, List<DeliveryNote>> associatedSupplyings = (Map<Integer, List<DeliveryNote>>) model.get("associatedSupplyings"); ;
+		Map<Integer, List<DeliveryNote>> associatedSupplyings = (Map<Integer, List<DeliveryNote>>) model.get("associatedSupplyings");
 
 		// Fuentes
 		Font fontHeader = new Font(Font.TIMES_ROMAN, 11f, Font.NORMAL, Color.BLACK);
