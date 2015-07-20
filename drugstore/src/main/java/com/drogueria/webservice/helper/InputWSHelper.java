@@ -193,9 +193,9 @@ public class InputWSHelper {
 						}
 					}
 					toReturn = true;
-					if (found == false) {
-						pendingProducts.add(inputDetail);
-					}
+				}
+				if (found == false) {
+					pendingProducts.add(inputDetail);
 				}
 			} else {
 				for (WebServiceError error : pendingTransactions.getErrores()) {
