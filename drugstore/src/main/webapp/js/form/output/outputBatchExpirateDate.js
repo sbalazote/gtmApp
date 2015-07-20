@@ -264,6 +264,7 @@ OutputBatchExpirationDate = function() {
 			BootstrapDialog.show({
 				title: 'Informacion',
 				message: '<strong>Carga Completa.</strong> Confirma Operaci\u00f3n?',
+				closable: false,
 				buttons: [{
 					label: 'No',
 					action: function(dialogItself) {

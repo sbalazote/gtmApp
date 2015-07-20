@@ -70,6 +70,7 @@ var PendingTransactions = function() {
 				type: BootstrapDialog.TYPE_INFO,
 		        title: 'Atenci\u00f3n',
 		        message: "Seleccione al menos un elemento",
+				closable: false,
 		        buttons: [{
 	                label: 'Cerrar',
 	                action: function(dialogItself){

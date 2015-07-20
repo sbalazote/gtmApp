@@ -732,6 +732,7 @@ var Supplying = function() {
 				type: BootstrapDialog.TYPE_WARNING,
 				size: BootstrapDialog.SIZE_LARGE,
 		        message: 'Desea asignar productos fuera de inventario?.',
+				closable: false,
 		        title: 'Advertencia!',
 		        closable: false,
 		        buttons: [{
