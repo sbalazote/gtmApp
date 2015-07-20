@@ -19,7 +19,7 @@ public class ProductDrugCategoriesPdfView extends AbstractPdfView {
 	@Override
 	protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-
+		document.open();
 		@SuppressWarnings("unchecked")
 		ArrayList<ProductDrugCategory> productDrugCategories = (ArrayList<ProductDrugCategory>) model.get("productDrugCategories");
 

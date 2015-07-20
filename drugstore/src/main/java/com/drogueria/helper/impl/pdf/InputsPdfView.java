@@ -25,6 +25,7 @@ public class InputsPdfView extends AbstractPdfView {
 	@Override
 	protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
+		document.open();
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		@SuppressWarnings("unchecked")
 		List<Input> inputs = (List<Input>) model.get("inputs");
@@ -60,7 +61,6 @@ public class InputsPdfView extends AbstractPdfView {
 			PdfPCell productSerialNumberHeader = new PdfPCell(new Paragraph("Serie"));
 			PdfPCell productAmountHeader = new PdfPCell(new Paragraph("Cant."));
 
-			productCodeHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 			productCodeHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 			productDescriptionHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 			productBatchHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);

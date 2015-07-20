@@ -48,8 +48,6 @@ public abstract class AbstractPdfView extends AbstractView {
 
 		// Build PDF document.
 		writer.setInitialLeading(16);
-		document.open();
-		document.add(new Chunk(""));
 		this.buildPdfDocument(model, document, writer, request, response);
 		document.close();
 

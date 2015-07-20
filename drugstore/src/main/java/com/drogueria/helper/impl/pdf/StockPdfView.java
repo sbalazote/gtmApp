@@ -19,7 +19,7 @@ public class StockPdfView extends AbstractPdfView {
 	@Override
 	protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-
+		document.open();
 		@SuppressWarnings("unchecked")
 		List<Stock> stockList = (List<Stock>) model.get("stocks");
 
