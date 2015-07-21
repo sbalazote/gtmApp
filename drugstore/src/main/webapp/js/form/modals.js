@@ -79,12 +79,16 @@ $(document).ready(function() {
 		} else {
 			$("#cancelled").text("");
 		}
+
+		$("#ANMATCode").show();
 		if (response.transactionCodeANMAT != null) {
-			$("#ANMATCode").show();
 			$("#transactionCode").text(response.transactionCodeANMAT);
 		} else {
-			$("#ANMATCode").hide();
-			$("#transactionCode").text("");
+			if(response.informAnmat == true) {
+				$("#transactionCode").text("Pendiente");
+			}else{
+				$("#transactionCode").text("No informa");
+			}
 		}
 		$('#dateModal').val(myParseDate(response.date));
 		var conceptCode = addLeadingZeros(response.concept.code,4);
