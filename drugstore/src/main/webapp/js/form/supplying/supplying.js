@@ -300,8 +300,10 @@ var Supplying = function() {
 				}
 			});
 	    }
-		if(e.keyCode == 118) { // Presiono F7
-			$( "#confirmButton" ).trigger( "click" );
+		if(e.keyCode == 119) { // Presiono F8
+			//$( "#confirmButton" ).trigger( "click" );
+			isButtonConfirm = true;
+			assignOutOfStock = true;
 		}
 	});
 /*
