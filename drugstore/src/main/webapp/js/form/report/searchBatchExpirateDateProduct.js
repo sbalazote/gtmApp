@@ -88,7 +88,7 @@ SearchBatchExpirateDateProduct = function() {
 				success: function(response) {
                     $('#divMovements').hide();
 
-                    if(response.inputs.length > 0 || response.outputs.length > 0 || response.orders.length > 0 || response.deliveryNotes.length > 0){
+                    if(response.inputs.length > 0 || response.outputs.length > 0 || response.orders.length > 0 || response.deliveryNotes.length > 0 || response.supplyings.length > 0){
                         var aaData = [];
                         if(response.inputs != null){
                             if(response.inputs.length > 0){

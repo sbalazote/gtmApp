@@ -33,8 +33,10 @@
         </property>
 		<property name="defaultViews">
 			<list>
-				<bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
-				<bean class="org.springframework.web.servlet.view.xml.MarshallingView">
+				<bean class="com.drogueria.helper.MyCustomMappingJacksonJsonView">
+					<property name="prettyPrint" value="true"/>
+				</bean>
+				<bean class="com.drogueria.helper.MyCustomMarshallingView">
 				<constructor-arg>
 					<bean class="org.springframework.oxm.castor.CastorMarshaller"/>
 				</constructor-arg>
