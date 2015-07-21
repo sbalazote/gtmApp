@@ -300,6 +300,9 @@ var Supplying = function() {
 				}
 			});
 	    }
+		if(e.keyCode == 118) { // Presiono F7
+			$( "#confirmButton" ).trigger( "click" );
+		}
 	});
 /*
 	$("#affiliateDocumentTypeInput").autocomplete({
