@@ -2,6 +2,8 @@ package com.drogueria.helper.impl.pdf;
 
 import java.awt.Color;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,9 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.drogueria.config.PropertyProvider;
 import com.drogueria.helper.AbstractPdfView;
-import com.drogueria.model.DeliveryNote;
-import com.drogueria.model.Output;
-import com.drogueria.model.OutputDetail;
+import com.drogueria.model.*;
 import com.drogueria.util.StringUtility;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.*;
@@ -32,6 +32,7 @@ public class OutputsPdfView extends AbstractPdfView {
 		// Fuentes
 		Font fontHeader = new Font(Font.TIMES_ROMAN, 11f, Font.NORMAL, Color.BLACK);
 		Font fontDetails = new Font(Font.TIMES_ROMAN, 8f, Font.NORMAL, Color.BLACK);
+		Font fontTotals = new Font(Font.TIMES_ROMAN, 9f, Font.BOLD, Color.BLACK);
 		// Logo
 		String absoluteDiskPath = getServletContext().getRealPath("/images/logo.png");
 		Image logo = Image.getInstance(absoluteDiskPath);
@@ -41,6 +42,8 @@ public class OutputsPdfView extends AbstractPdfView {
 		String name = PropertyProvider.getInstance().getProp("name");
 
 		for (Output output : outputs) {
+
+			HashMap<Integer,List<OutputDetail>> groupByProduct = groupByProduct(output);
 
 			PdfPTable table = new PdfPTable(6); // 6 columnas
 			table.setWidthPercentage(95);
@@ -150,39 +153,94 @@ public class OutputsPdfView extends AbstractPdfView {
 			document.add(code);
 			document.add(Chunk.NEWLINE);
 
-
-			for (OutputDetail outputDetail : output.getOutputDetails()) {
+			for(Integer productId : groupByProduct.keySet()){
 				String gtin = "-";
-				if(outputDetail.getGtin() != null){
-					gtin = outputDetail.getGtin().getNumber();
+				OutputDetail id = groupByProduct.get(productId).get(0);
+				if(id.getGtin() != null){
+					gtin = id.getGtin().getNumber();
 				}
-				PdfPCell productCodeDetail = new PdfPCell(new Paragraph(gtin, fontDetails));
-				PdfPCell productDescriptionDetail = new PdfPCell(new Paragraph(outputDetail.getProduct().getDescription() + " (" + String.valueOf(outputDetail.getProduct().getCode()) + ")", fontDetails));
-				PdfPCell productBatchDetail = new PdfPCell(new Paragraph(outputDetail.getBatch(), fontDetails));
-				PdfPCell productExpirationDateDetail = (new PdfPCell(new Paragraph(dateFormatter.format(outputDetail.getExpirationDate()), fontDetails)));
-				String serialNumber = "-";
-				if(outputDetail.getSerialNumber() != null){
-					serialNumber = outputDetail.getSerialNumber();
+				PdfPCell productCodeDetail;
+				PdfPCell productDescriptionDetail;
+				PdfPCell productBatchDetail;
+				PdfPCell productExpirationDateDetail;
+				PdfPCell productSerialNumberDetail;
+				PdfPCell productAmountDetail;
+
+				if(groupByProduct.get(productId).size() > 1) {
+					productCodeDetail = new PdfPCell(new Paragraph(gtin, fontTotals));
+					productDescriptionDetail = new PdfPCell(new Paragraph(id.getProduct().getDescription() + " (" + String.valueOf(id.getProduct().getCode()) + ")", fontTotals));
+					productBatchDetail = new PdfPCell(new Paragraph("", fontTotals));
+					productExpirationDateDetail = (new PdfPCell(new Paragraph("", fontTotals)));
+					productSerialNumberDetail = new PdfPCell(new Paragraph("", fontTotals));
+					Integer total = 0;
+					for(OutputDetail outputDetail : groupByProduct.get(productId)){
+						total += outputDetail.getAmount();
+					}
+					productAmountDetail = new PdfPCell(new Paragraph(String.valueOf(total), fontTotals));
+
+					productCodeDetail.setBorder(Rectangle.NO_BORDER);
+					productDescriptionDetail.setBorder(Rectangle.NO_BORDER);
+					productBatchDetail.setBorder(Rectangle.NO_BORDER);
+					productExpirationDateDetail.setBorder(Rectangle.NO_BORDER);
+					productSerialNumberDetail.setBorder(Rectangle.NO_BORDER);
+					productAmountDetail.setBorder(Rectangle.NO_BORDER);
+
+					table.addCell(productCodeDetail);
+					table.addCell(productDescriptionDetail);
+					table.addCell(productBatchDetail);
+					table.addCell(productExpirationDateDetail);
+					table.addCell(productSerialNumberDetail);
+					table.addCell(productAmountDetail);
 				}
-				PdfPCell productSerialNumberDetail = new PdfPCell(new Paragraph(serialNumber, fontDetails));
-				PdfPCell productAmountDetail = new PdfPCell(new Paragraph(String.valueOf(outputDetail.getAmount()), fontDetails));
 
-				productCodeDetail.setBorder(Rectangle.NO_BORDER);
-				productDescriptionDetail.setBorder(Rectangle.NO_BORDER);
-				productBatchDetail.setBorder(Rectangle.NO_BORDER);
-				productExpirationDateDetail.setBorder(Rectangle.NO_BORDER);
-				productSerialNumberDetail.setBorder(Rectangle.NO_BORDER);
-				productAmountDetail.setBorder(Rectangle.NO_BORDER);
+				for (OutputDetail outputDetail : groupByProduct.get(productId)) {
+					gtin = "-";
+					if(outputDetail.getGtin() != null){
+						gtin = outputDetail.getGtin().getNumber();
+					}
+					productCodeDetail = new PdfPCell(new Paragraph(gtin, fontDetails));
+					productDescriptionDetail = new PdfPCell(new Paragraph(outputDetail.getProduct().getDescription() + " (" + String.valueOf(outputDetail.getProduct().getCode()) + ")", fontDetails));
+					productBatchDetail = new PdfPCell(new Paragraph(outputDetail.getBatch(), fontDetails));
+					productExpirationDateDetail = (new PdfPCell(new Paragraph(dateFormatter.format(outputDetail.getExpirationDate()), fontDetails)));
+					String serialNumber = "-";
+					if(outputDetail.getSerialNumber() != null){
+						serialNumber = outputDetail.getSerialNumber();
+					}
+					productSerialNumberDetail = new PdfPCell(new Paragraph(serialNumber, fontDetails));
+					productAmountDetail = new PdfPCell(new Paragraph(String.valueOf(outputDetail.getAmount()), fontDetails));
 
-				table.addCell(productCodeDetail);
-				table.addCell(productDescriptionDetail);
-				table.addCell(productBatchDetail);
-				table.addCell(productExpirationDateDetail);
-				table.addCell(productSerialNumberDetail);
-				table.addCell(productAmountDetail);
+					productCodeDetail.setBorder(Rectangle.NO_BORDER);
+					productDescriptionDetail.setBorder(Rectangle.NO_BORDER);
+					productBatchDetail.setBorder(Rectangle.NO_BORDER);
+					productExpirationDateDetail.setBorder(Rectangle.NO_BORDER);
+					productSerialNumberDetail.setBorder(Rectangle.NO_BORDER);
+					productAmountDetail.setBorder(Rectangle.NO_BORDER);
+
+					table.addCell(productCodeDetail);
+					table.addCell(productDescriptionDetail);
+					table.addCell(productBatchDetail);
+					table.addCell(productExpirationDateDetail);
+					table.addCell(productSerialNumberDetail);
+					table.addCell(productAmountDetail);
+				}
 			}
 			document.add(table);
 			document.newPage();
 		}
+	}
+
+	private HashMap<Integer, List<OutputDetail>> groupByProduct(Output output) {
+		HashMap<Integer,List<OutputDetail>> details = new HashMap<>();
+
+		for(OutputDetail outputDetail : output.getOutputDetails()){
+			List<OutputDetail> list = details.get(outputDetail.getProduct().getId());
+			if(list == null) {
+				list = new ArrayList<>();
+			}
+			list.add(outputDetail);
+			details.put(outputDetail.getProduct().getId(),list);
+		}
+
+		return details;
 	}
 }

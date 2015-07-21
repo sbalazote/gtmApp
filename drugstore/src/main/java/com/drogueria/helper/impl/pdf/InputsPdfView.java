@@ -35,6 +35,7 @@ public class InputsPdfView extends AbstractPdfView {
 		// Fuentes
 		Font fontHeader = new Font(Font.TIMES_ROMAN, 11f, Font.NORMAL, Color.BLACK);
 		Font fontDetails = new Font(Font.TIMES_ROMAN, 8f, Font.NORMAL, Color.BLACK);
+        Font fontTotals = new Font(Font.TIMES_ROMAN, 9f, Font.BOLD, Color.BLACK);
 		// Logo
 		String absoluteDiskPath = getServletContext().getRealPath("/images/logo.png");
 		Image logo = Image.getInstance(absoluteDiskPath);
@@ -176,13 +177,17 @@ public class InputsPdfView extends AbstractPdfView {
                 PdfPCell productSerialNumberDetail;
                 PdfPCell productAmountDetail;
 
-                if(groupByProduct.get(productId).size() >0) {
-                    productCodeDetail = new PdfPCell(new Paragraph(gtin, fontDetails));
-                    productDescriptionDetail = new PdfPCell(new Paragraph(id.getProduct().getDescription() + " (" + String.valueOf(id.getProduct().getCode()) + ")", fontDetails));
-                    productBatchDetail = new PdfPCell(new Paragraph(id.getBatch(), fontDetails));
-                    productExpirationDateDetail = (new PdfPCell(new Paragraph("", fontDetails)));
-                    productSerialNumberDetail = new PdfPCell(new Paragraph("", fontDetails));
-                    productAmountDetail = new PdfPCell(new Paragraph(String.valueOf(groupByProduct.get(productId).size()), fontDetails));
+                if(groupByProduct.get(productId).size() > 1) {
+                    productCodeDetail = new PdfPCell(new Paragraph(gtin, fontTotals));
+                    productDescriptionDetail = new PdfPCell(new Paragraph(id.getProduct().getDescription() + " (" + String.valueOf(id.getProduct().getCode()) + ")", fontTotals));
+                    productBatchDetail = new PdfPCell(new Paragraph("", fontDetails));
+                    productExpirationDateDetail = (new PdfPCell(new Paragraph("", fontTotals)));
+                    productSerialNumberDetail = new PdfPCell(new Paragraph("", fontTotals));
+                    Integer total = 0;
+                    for(InputDetail inputDetail : groupByProduct.get(productId)){
+                        total += inputDetail.getAmount();
+                    }
+                    productAmountDetail = new PdfPCell(new Paragraph(String.valueOf(total), fontTotals));
 
                     productCodeDetail.setBorder(Rectangle.NO_BORDER);
                     productDescriptionDetail.setBorder(Rectangle.NO_BORDER);

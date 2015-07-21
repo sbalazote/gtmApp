@@ -2,9 +2,8 @@ package com.drogueria.helper.impl.pdf;
 
 import java.awt.Color;
 import java.text.SimpleDateFormat;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,9 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.drogueria.config.PropertyProvider;
 import com.drogueria.constant.DocumentType;
 import com.drogueria.helper.AbstractPdfView;
-import com.drogueria.model.DeliveryNote;
-import com.drogueria.model.Supplying;
-import com.drogueria.model.SupplyingDetail;
+import com.drogueria.model.*;
 import com.drogueria.service.DeliveryNoteService;
 import com.drogueria.util.StringUtility;
 import com.lowagie.text.*;
@@ -41,6 +38,7 @@ public class SupplyingsPdfView extends AbstractPdfView {
 		// Fuentes
 		Font fontHeader = new Font(Font.TIMES_ROMAN, 11f, Font.NORMAL, Color.BLACK);
 		Font fontDetails = new Font(Font.TIMES_ROMAN, 8f, Font.NORMAL, Color.BLACK);
+		Font fontTotals = new Font(Font.TIMES_ROMAN, 9f, Font.BOLD, Color.BLACK);
 		// Logo
 		String absoluteDiskPath = getServletContext().getRealPath("/images/logo.png");
 		Image logo = Image.getInstance(absoluteDiskPath);
@@ -50,6 +48,8 @@ public class SupplyingsPdfView extends AbstractPdfView {
 		String name = PropertyProvider.getInstance().getProp("name");
 
 		for (Supplying supplying : supplyings) {
+
+			HashMap<Integer,List<SupplyingDetail>> groupByProduct = groupByProduct(supplying);
 
 			PdfPTable table = new PdfPTable(6); // 6 columnas
 			table.setWidthPercentage(95);
@@ -172,46 +172,100 @@ public class SupplyingsPdfView extends AbstractPdfView {
 			document.add(code);
 			document.add(Chunk.NEWLINE);
 
-
-			for (SupplyingDetail supplyingDetail : supplying.getSupplyingDetails()) {
-                String gtin = "-";
-                if(supplyingDetail.getGtin() != null){
-                    gtin = supplyingDetail.getGtin().getNumber();
-                }
-				PdfPCell productCodeDetail = new PdfPCell(new Paragraph(gtin, fontDetails));
-
-				String productDescription = "";
-				if(!supplyingDetail.getInStock()){
-					productDescription += "(*) ";
+			for(Integer productId : groupByProduct.keySet()) {
+				String gtin = "-";
+				SupplyingDetail sd = groupByProduct.get(productId).get(0);
+				if (sd.getGtin() != null) {
+					gtin = sd.getGtin().getNumber();
 				}
-				productDescription += supplyingDetail.getProduct().getDescription() + " (" + String.valueOf(supplyingDetail.getProduct().getCode()) + ")";
-				PdfPCell productDescriptionDetail = new PdfPCell(new Paragraph(productDescription, fontDetails));
-				PdfPCell productBatchDetail = new PdfPCell(new Paragraph(supplyingDetail.getBatch(), fontDetails));
-				PdfPCell productExpirationDateDetail = (new PdfPCell(new Paragraph(dateFormatter.format(supplyingDetail.getExpirationDate()), fontDetails)));
-                String serialNumber = "-";
-                if(supplyingDetail.getSerialNumber() != null){
-                    serialNumber = supplyingDetail.getSerialNumber();
-                }
-				PdfPCell productSerialNumberDetail = new PdfPCell(new Paragraph(serialNumber, fontDetails));
-				String amount = String.valueOf(supplyingDetail.getAmount());
-				PdfPCell productAmountDetail = new PdfPCell(new Paragraph(amount, fontDetails));
+				PdfPCell productCodeDetail;
+				PdfPCell productDescriptionDetail;
+				PdfPCell productBatchDetail;
+				PdfPCell productExpirationDateDetail;
+				PdfPCell productSerialNumberDetail;
+				PdfPCell productAmountDetail;
 
-				productCodeDetail.setBorder(Rectangle.NO_BORDER);
-				productDescriptionDetail.setBorder(Rectangle.NO_BORDER);
-				productBatchDetail.setBorder(Rectangle.NO_BORDER);
-				productExpirationDateDetail.setBorder(Rectangle.NO_BORDER);
-				productSerialNumberDetail.setBorder(Rectangle.NO_BORDER);
-				productAmountDetail.setBorder(Rectangle.NO_BORDER);
+				if (groupByProduct.get(productId).size() > 1) {
+					productCodeDetail = new PdfPCell(new Paragraph(gtin, fontTotals));
+					productDescriptionDetail = new PdfPCell(new Paragraph(sd.getProduct().getDescription() + " (" + String.valueOf(sd.getProduct().getCode()) + ")", fontTotals));
+					productBatchDetail = new PdfPCell(new Paragraph(sd.getBatch(), fontTotals));
+					productExpirationDateDetail = (new PdfPCell(new Paragraph("", fontTotals)));
+					productSerialNumberDetail = new PdfPCell(new Paragraph("", fontTotals));
+					Integer total = 0;
+					for(SupplyingDetail supplyingDetail : groupByProduct.get(productId)){
+						total += supplyingDetail.getAmount();
+					}
+					productAmountDetail = new PdfPCell(new Paragraph(String.valueOf(total), fontTotals));
 
-				table.addCell(productCodeDetail);
-				table.addCell(productDescriptionDetail);
-				table.addCell(productBatchDetail);
-				table.addCell(productExpirationDateDetail);
-				table.addCell(productSerialNumberDetail);
-				table.addCell(productAmountDetail);
+					productCodeDetail.setBorder(Rectangle.NO_BORDER);
+					productDescriptionDetail.setBorder(Rectangle.NO_BORDER);
+					productBatchDetail.setBorder(Rectangle.NO_BORDER);
+					productExpirationDateDetail.setBorder(Rectangle.NO_BORDER);
+					productSerialNumberDetail.setBorder(Rectangle.NO_BORDER);
+					productAmountDetail.setBorder(Rectangle.NO_BORDER);
+
+					table.addCell(productCodeDetail);
+					table.addCell(productDescriptionDetail);
+					table.addCell(productBatchDetail);
+					table.addCell(productExpirationDateDetail);
+					table.addCell(productSerialNumberDetail);
+					table.addCell(productAmountDetail);
+				}
+				for (SupplyingDetail supplyingDetail : groupByProduct.get(productId)) {
+					gtin = "-";
+					if (supplyingDetail.getGtin() != null) {
+						gtin = supplyingDetail.getGtin().getNumber();
+					}
+					productCodeDetail = new PdfPCell(new Paragraph(gtin, fontDetails));
+
+					String productDescription = "";
+					if (!supplyingDetail.getInStock()) {
+						productDescription += "(*) ";
+					}
+					productDescription += supplyingDetail.getProduct().getDescription() + " (" + String.valueOf(supplyingDetail.getProduct().getCode()) + ")";
+					productDescriptionDetail = new PdfPCell(new Paragraph(productDescription, fontDetails));
+					productBatchDetail = new PdfPCell(new Paragraph(supplyingDetail.getBatch(), fontDetails));
+					productExpirationDateDetail = (new PdfPCell(new Paragraph(dateFormatter.format(supplyingDetail.getExpirationDate()), fontDetails)));
+					String serialNumber = "-";
+					if (supplyingDetail.getSerialNumber() != null) {
+						serialNumber = supplyingDetail.getSerialNumber();
+					}
+					productSerialNumberDetail = new PdfPCell(new Paragraph(serialNumber, fontDetails));
+					String amount = String.valueOf(supplyingDetail.getAmount());
+					productAmountDetail = new PdfPCell(new Paragraph(amount, fontDetails));
+
+					productCodeDetail.setBorder(Rectangle.NO_BORDER);
+					productDescriptionDetail.setBorder(Rectangle.NO_BORDER);
+					productBatchDetail.setBorder(Rectangle.NO_BORDER);
+					productExpirationDateDetail.setBorder(Rectangle.NO_BORDER);
+					productSerialNumberDetail.setBorder(Rectangle.NO_BORDER);
+					productAmountDetail.setBorder(Rectangle.NO_BORDER);
+
+					table.addCell(productCodeDetail);
+					table.addCell(productDescriptionDetail);
+					table.addCell(productBatchDetail);
+					table.addCell(productExpirationDateDetail);
+					table.addCell(productSerialNumberDetail);
+					table.addCell(productAmountDetail);
+				}
 			}
 			document.add(table);
 			document.newPage();
 		}
+	}
+
+	private HashMap<Integer, List<SupplyingDetail>> groupByProduct(Supplying supplying) {
+		HashMap<Integer,List<SupplyingDetail>> details = new HashMap<>();
+
+		for(SupplyingDetail supplyingDetail : supplying.getSupplyingDetails()){
+			List<SupplyingDetail> list = details.get(supplyingDetail.getProduct().getId());
+			if(list == null) {
+				list = new ArrayList<>();
+			}
+			list.add(supplyingDetail);
+			details.put(supplyingDetail.getProduct().getId(),list);
+		}
+
+		return details;
 	}
 }
