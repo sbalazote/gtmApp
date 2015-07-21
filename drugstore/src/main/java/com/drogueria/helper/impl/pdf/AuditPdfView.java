@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.drogueria.config.PropertyProvider;
 import com.drogueria.helper.AbstractPdfView;
 import com.drogueria.model.Audit;
+import com.drogueria.util.StringUtility;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.*;
 import com.lowagie.text.pdf.draw.LineSeparator;
@@ -112,7 +113,7 @@ public class AuditPdfView extends AbstractPdfView {
 
 			PdfPCell auditDateTimeDetail = new PdfPCell(new Paragraph(dateFormatter.format(audit.getDate()), fontDetails));
 			PdfPCell auditRoleDetail = new PdfPCell(new Paragraph(audit.getRole().getDescription(), fontDetails));
-			PdfPCell auditOperationNumberDetail = new PdfPCell(new Paragraph(audit.getOperationId().toString(), fontDetails));
+			PdfPCell auditOperationNumberDetail = new PdfPCell(new Paragraph(StringUtility.addLeadingZeros(audit.getOperationId().toString(), 8), fontDetails));
 			PdfPCell auditActionDetail = (new PdfPCell(new Paragraph(audit.getAuditAction().getDescription(), fontDetails)));
 			PdfPCell auditUserDetail = (new PdfPCell(new Paragraph(audit.getUser().getName(), fontDetails)));
 
