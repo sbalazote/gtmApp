@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.drogueria.model.DeliveryNote;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
@@ -28,6 +29,8 @@ public class OutputExcelView extends AbstractExcelView {
 		@SuppressWarnings("unchecked")
 		List<Output> outputs = (List<Output>) model.get("outputs");
 
+		Map<Integer, List<DeliveryNote>> associatedOutputs = (Map<Integer, List<DeliveryNote>>) model.get("associatedOutputs");
+
 		Row row = null;
 		Cell cell = null;
 		int r = 0;
@@ -48,7 +51,15 @@ public class OutputExcelView extends AbstractExcelView {
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
+		cell.setCellValue("CODIGO CONCEPTO");
+
+		cell = row.createCell(c++);
+		cell.setCellStyle(style);
 		cell.setCellValue("CONCEPTO");
+
+		cell = row.createCell(c++);
+		cell.setCellStyle(style);
+		cell.setCellValue("CODIGO CONVENIO");
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
@@ -56,11 +67,23 @@ public class OutputExcelView extends AbstractExcelView {
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
+		cell.setCellValue("CODIGO CLIENTE/PROVEEDOR");
+
+		cell = row.createCell(c++);
+		cell.setCellStyle(style);
 		cell.setCellValue("CLIENTE/PROVEEDOR");
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
-		cell.setCellValue("FECHA");
+		cell.setCellValue("FECHA INGRESO");
+
+		cell = row.createCell(c++);
+		cell.setCellStyle(style);
+		cell.setCellValue("NUMERO DE REMITO");
+
+		cell = row.createCell(c++);
+		cell.setCellStyle(style);
+		cell.setCellValue("FECHA DE REMITO");
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
@@ -101,10 +124,37 @@ public class OutputExcelView extends AbstractExcelView {
 				row = sheet.createRow(r++);
 				c = 0;
 				row.createCell(c++).setCellValue(output.getId());
+				row.createCell(c++).setCellValue(output.getConcept().getCode());
 				row.createCell(c++).setCellValue(output.getConcept().getDescription());
+				row.createCell(c++).setCellValue(output.getConcept().getCode());
 				row.createCell(c++).setCellValue(output.getAgreement().getDescription());
+				row.createCell(c++).setCellValue(output.getClientOrProviderCode());
 				row.createCell(c++).setCellValue(output.getClientOrProviderDescription());
 				row.createCell(c++).setCellValue(dateFormatter.format(output.getDate()));
+
+				// DOC. NRO
+				List<DeliveryNote> outputDeliveryNotes = associatedOutputs.get(new Integer(output.getId()));
+				String dnNumbers = "";
+				if (outputDeliveryNotes != null) {
+					for (DeliveryNote elem : outputDeliveryNotes) {
+						String pre = elem.isFake() ? "X" : "R";
+						dnNumbers = pre.concat(elem.getNumber());
+						row.createCell(c++).setCellValue(dnNumbers);
+						row.createCell(c++).setCellValue(dateFormatter.format(elem.getDate()));
+						if(elem.getTransactionCodeANMAT() != null){
+							row.createCell(c++).setCellValue(elem.getTransactionCodeANMAT());
+						}else{
+							if(elem.isInformAnmat()){
+								row.createCell(c++).setCellValue("Pendiente");
+							}else{
+								row.createCell(c++).setCellValue("No informa");
+							}
+						}
+					}
+				} else {
+					row.createCell(c++).setCellValue("Doc. Nro.: NO IMPRIME" );
+				}
+
 				row.createCell(c++).setCellValue(output.isCancelled() ? "SI" : "NO");
 				row.createCell(c++).setCellValue(outputDetail.getProduct().getCode() + " - " + outputDetail.getProduct().getDescription());
 				row.createCell(c++).setCellValue(outputDetail.getGtin() != null ? outputDetail.getGtin().getNumber() : "");

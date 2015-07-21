@@ -155,10 +155,21 @@ public class Output implements Serializable {
 	public String getClientOrProviderDescription() {
 		String description = null;
 		if (this.getProvider() != null) {
-			description = this.getProvider().getCorporateName();
+			description = this.getProvider().getName();
 		}
 		if (this.getDeliveryLocation() != null) {
-			description = this.getDeliveryLocation().getCorporateName();
+			description = this.getDeliveryLocation().getName();
+		}
+		return description;
+	}
+
+	public String getClientOrProviderCode() {
+		String description = null;
+		if (this.getProvider() != null) {
+			description = String.valueOf(this.getProvider().getCode());
+		}
+		if (this.getDeliveryLocation() != null) {
+			description = String.valueOf(this.getDeliveryLocation().getCode());
 		}
 		return description;
 	}
