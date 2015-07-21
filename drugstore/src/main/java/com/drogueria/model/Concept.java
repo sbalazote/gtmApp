@@ -1,5 +1,7 @@
 package com.drogueria.model;
 
+import com.drogueria.util.StringUtility;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -70,6 +72,10 @@ public class Concept implements Serializable {
 
 	public Integer getCode() {
 		return this.code;
+	}
+
+	public String getFormatCode(){
+		return StringUtility.addLeadingZeros(this.getDeliveryNoteCopies(), 4);
 	}
 
 	public void setCode(Integer code) {

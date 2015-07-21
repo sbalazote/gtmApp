@@ -1,5 +1,7 @@
 package com.drogueria.model;
 
+import com.drogueria.util.StringUtility;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -49,6 +51,10 @@ public class Supplying implements Serializable {
 
 	public Integer getId() {
 		return this.id;
+	}
+
+	public String getFormatId(){
+		return StringUtility.addLeadingZeros(this.getId(), 8);
 	}
 
 	public void setId(Integer id) {

@@ -1,5 +1,7 @@
 package com.drogueria.model;
 
+import com.drogueria.util.StringUtility;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -76,6 +78,10 @@ public class Input implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
+    public String getFormatId(){
+        return StringUtility.addLeadingZeros(this.getId(), 8);
+    }
 
 	public Concept getConcept() {
 		return this.concept;
@@ -242,12 +248,23 @@ public class Input implements Serializable {
 	public String getClientOrProviderDescription() {
 		String description = null;
 		if (this.getProvider() != null) {
-			description = this.getProvider().getCorporateName();
+			description = this.getProvider().getName();
 		}
 		if (this.getDeliveryLocation() != null) {
-			description = this.getDeliveryLocation().getCorporateName();
+			description = this.getDeliveryLocation().getName();
 		}
 		return description;
+	}
+
+	public String getClientOrProviderCode() {
+		String description = null;
+		if (this.getProvider() != null) {
+			description = String.valueOf(this.getProvider().getCode());
+		}
+		if (this.getDeliveryLocation() != null) {
+			description =  String.valueOf(this.getDeliveryLocation().getCode());
+		}
+        return StringUtility.addLeadingZeros(description, 4);
 	}
 
 	public String getClientOrProviderAgentDescription() {

@@ -48,7 +48,15 @@ public class InputExcelView extends AbstractExcelView {
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
+		cell.setCellValue("CODIGO CONCEPTO");
+
+		cell = row.createCell(c++);
+		cell.setCellStyle(style);
 		cell.setCellValue("CONCEPTO");
+
+		cell = row.createCell(c++);
+		cell.setCellStyle(style);
+		cell.setCellValue("CODIGO CONVENIO");
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
@@ -56,11 +64,15 @@ public class InputExcelView extends AbstractExcelView {
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
+		cell.setCellValue("CODIGO CLIENTE/PROVEEDOR");
+
+		cell = row.createCell(c++);
+		cell.setCellStyle(style);
 		cell.setCellValue("CLIENTE/PROVEEDOR");
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
-		cell.setCellValue("FECHA");
+		cell.setCellValue("FECHA INGRESO");
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
@@ -108,12 +120,25 @@ public class InputExcelView extends AbstractExcelView {
 			for (InputDetail inputDetail : input.getInputDetails()) {
 				row = sheet.createRow(r++);
 				c = 0;
-				row.createCell(c++).setCellValue(input.getId());
+				row.createCell(c++).setCellValue(input.getFormatId());
+				row.createCell(c++).setCellValue(input.getConcept().getFormatCode());
 				row.createCell(c++).setCellValue(input.getConcept().getDescription());
+                row.createCell(c++).setCellValue(input.getAgreement().getFormatCode());
 				row.createCell(c++).setCellValue(input.getAgreement().getDescription());
+                row.createCell(c++).setCellValue(input.getClientOrProviderCode());
 				row.createCell(c++).setCellValue(input.getClientOrProviderDescription());
 				row.createCell(c++).setCellValue(dateFormatter.format(input.getDate()));
-				row.createCell(c++).setCellValue(input.getTransactionCodeANMAT() == null ? input.getTransactionCodeANMAT() : "");
+                String transactionCode;
+                if(input.isInformAnmat()){
+                    if(input.getTransactionCodeANMAT() != null){
+                        transactionCode = input.getTransactionCodeANMAT();
+                    }else{
+                        transactionCode = "Pendiente";
+                    }
+                }else{
+                    transactionCode = "No informa";
+                }
+				row.createCell(c++).setCellValue(transactionCode);
 				row.createCell(c++).setCellValue(input.isCancelled() ? "SI" : "NO");
 				row.createCell(c++).setCellValue(input.getDeliveryNoteNumber());
 				row.createCell(c++).setCellValue(input.getPurchaseOrderNumber());

@@ -124,9 +124,9 @@ public class OutputExcelView extends AbstractExcelView {
 				row = sheet.createRow(r++);
 				c = 0;
 				row.createCell(c++).setCellValue(output.getId());
-				row.createCell(c++).setCellValue(output.getConcept().getCode());
+				row.createCell(c++).setCellValue(output.getConcept().getFormatCode());
 				row.createCell(c++).setCellValue(output.getConcept().getDescription());
-				row.createCell(c++).setCellValue(output.getConcept().getCode());
+				row.createCell(c++).setCellValue(output.getConcept().getFormatCode());
 				row.createCell(c++).setCellValue(output.getAgreement().getDescription());
 				row.createCell(c++).setCellValue(output.getClientOrProviderCode());
 				row.createCell(c++).setCellValue(output.getClientOrProviderDescription());

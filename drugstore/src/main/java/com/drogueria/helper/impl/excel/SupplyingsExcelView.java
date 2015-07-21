@@ -120,9 +120,9 @@ public class SupplyingsExcelView extends AbstractExcelView {
 				row = sheet.createRow(r++);
 				c = 0;
 				row.createCell(c++).setCellValue(supplying.getId());
-				row.createCell(c++).setCellValue(supplying.getAgreement().getCode());
+				row.createCell(c++).setCellValue(supplying.getAgreement().getFormatCode());
 				row.createCell(c++).setCellValue(supplying.getAgreement().getDescription());
-				row.createCell(c++).setCellValue(supplying.getClient().getCode());
+				row.createCell(c++).setCellValue(supplying.getClient().getFormatCode());
 				row.createCell(c++).setCellValue(supplying.getClient().getName());
 				row.createCell(c++).setCellValue(supplying.getAffiliate().getCode());
 				row.createCell(c++).setCellValue(supplying.getAffiliate().getSurname() + ", " + supplying.getAffiliate().getName());

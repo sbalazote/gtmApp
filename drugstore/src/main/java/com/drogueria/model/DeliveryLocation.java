@@ -1,5 +1,7 @@
 package com.drogueria.model;
 
+import com.drogueria.util.StringUtility;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -76,6 +78,10 @@ public class DeliveryLocation implements Serializable {
 
 	public Integer getCode() {
 		return this.code;
+	}
+
+	public String getFormatCode() {
+		return StringUtility.addLeadingZeros(this.getCode().toString(), 5);
 	}
 
 	public void setCode(Integer code) {

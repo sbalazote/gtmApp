@@ -133,29 +133,29 @@ public class DeliveryNoteResultDTO {
 		this.number = deliveryNote.getNumber();
 		List<OutputOrderDetailResultDTO> outpuOrderResultDTO = new ArrayList<OutputOrderDetailResultDTO>();
 		if (output != null) {
-			String code = StringUtility.addLeadingZeros(output.getAgreement().getCode().toString(), 5);
+			String code = output.getAgreement().getFormatCode();
 			this.setAgreement(code + " - " + output.getAgreement().getDescription());
 			this.setDate(stringDate.format(output.getDate()));
 			if (output.getDeliveryLocation() != null) {
-				code = StringUtility.addLeadingZeros(output.getDeliveryLocation().getCode().toString(), 5);
+				code = output.getDeliveryLocation().getFormatCode();
 				this.setDeliveryLocation(code + " - " +  output.getDeliveryLocation().getName());
 			}
 			if (output.getProvider() != null) {
-				code = StringUtility.addLeadingZeros(output.getProvider().getCode().toString(), 5);
+				code = output.getProvider().getFormatCode();
 				this.setDeliveryLocation(code + " - " +output.getProvider().getName());
 			}
-			String id = StringUtility.addLeadingZeros(output.getId(),8);
+			String id = output.getFormatId();
 			String affiliate = "NO SE INFORMA";
 			this.setAffiliate(affiliate);
 			this.setOutputId(id);
 		}
 		if (order != null) {
-			String code = StringUtility.addLeadingZeros(order.getProvisioningRequest().getAgreement().getCode().toString(), 5);
+			String code = order.getProvisioningRequest().getAgreement().getFormatCode();
 			this.setAgreement(code + " - " + order.getProvisioningRequest().getAgreement().getDescription());
 			this.setDate(stringDate.format(order.getProvisioningRequest().getDeliveryDate()));
-			code = StringUtility.addLeadingZeros(order.getProvisioningRequest().getDeliveryLocation().getCode().toString(), 5);
+			code = order.getProvisioningRequest().getDeliveryLocation().getFormatCode();
 			this.setDeliveryLocation(code + " - " + order.getProvisioningRequest().getDeliveryLocation().getName());
-			String id = StringUtility.addLeadingZeros(order.getId(),8);
+			String id = order.getFormatId();
 
 			String affiliate = order.getProvisioningRequest().getAffiliate().getCode() + " - " + order.getProvisioningRequest().getAffiliate().getSurname() + " " +
 					order.getProvisioningRequest().getAffiliate().getName();
@@ -163,12 +163,12 @@ public class DeliveryNoteResultDTO {
 			this.setOrderId(id);
 		}
         if(supplying != null){
-			String code = StringUtility.addLeadingZeros(supplying.getAgreement().getCode().toString(), 5);
+			String code = supplying.getAgreement().getFormatCode();
             this.setAgreement(code + " - " + supplying.getAgreement().getDescription());
             this.setDate(stringDate.format(supplying.getDate()));
-			code = StringUtility.addLeadingZeros(supplying.getClient().getCode().toString(), 5);
+			code = supplying.getClient().getFormatCode();
             this.setDeliveryLocation(code + " - " +supplying.getClient().getName());
-			String id = StringUtility.addLeadingZeros(supplying.getId(),8);
+			String id = supplying.getFormatId();
 			String affiliate = supplying.getAffiliate().getCode() + " - " + supplying.getAffiliate().getSurname() + " " +
 					supplying.getAffiliate().getName();
 			this.setAffiliate(affiliate);
