@@ -15,6 +15,7 @@
 <jsp:include page="../modals/outputModal.jsp" />
 <jsp:include page="../modals/deliveryNoteModal.jsp" />
 <jsp:include page="../modals/orderModal.jsp" />
+<jsp:include page="../modals/supplyingModal.jsp" />
 
 <form id="searchSerializedProductForm" action="" onsubmit="return false;">
 	<div class="row">
