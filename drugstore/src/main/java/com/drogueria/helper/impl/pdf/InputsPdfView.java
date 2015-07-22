@@ -35,7 +35,6 @@ public class InputsPdfView extends AbstractPdfView {
 		// Fuentes
 		Font fontHeader = new Font(Font.TIMES_ROMAN, 11f, Font.NORMAL, Color.BLACK);
 		Font fontDetails = new Font(Font.TIMES_ROMAN, 8f, Font.NORMAL, Color.BLACK);
-        Font fontTotals = new Font(Font.TIMES_ROMAN, 9f, Font.BOLD, Color.BLACK);
 		// Logo
 		String absoluteDiskPath = getServletContext().getRealPath("/images/logo.png");
 		Image logo = Image.getInstance(absoluteDiskPath);
@@ -53,7 +52,7 @@ public class InputsPdfView extends AbstractPdfView {
 			table.setSpacingBefore(10f);
 
 			table.setSpacingAfter(10f);
-			float[] columnWidths = {1f, 7f, 0.7f, 0.7f, 1.7f, 0.6f};
+			float[] columnWidths = {1f, 7f, 1.5f, 0.7f, 1.7f, 0.6f};
 
 			table.setWidths(columnWidths);
 
@@ -177,17 +176,19 @@ public class InputsPdfView extends AbstractPdfView {
                 PdfPCell productSerialNumberDetail;
                 PdfPCell productAmountDetail;
 
+				boolean isGroup = false;
                 if(groupByProduct.get(productId).size() > 1) {
-                    productCodeDetail = new PdfPCell(new Paragraph(gtin, fontTotals));
-                    productDescriptionDetail = new PdfPCell(new Paragraph(id.getProduct().getDescription() + " (" + String.valueOf(id.getProduct().getCode()) + ")", fontTotals));
+					isGroup = true;
+                    productCodeDetail = new PdfPCell(new Paragraph(gtin, fontDetails));
+                    productDescriptionDetail = new PdfPCell(new Paragraph(id.getProduct().getDescription() + " (" + String.valueOf(id.getProduct().getCode()) + ")", fontDetails));
                     productBatchDetail = new PdfPCell(new Paragraph("", fontDetails));
-                    productExpirationDateDetail = (new PdfPCell(new Paragraph("", fontTotals)));
-                    productSerialNumberDetail = new PdfPCell(new Paragraph("", fontTotals));
+                    productExpirationDateDetail = (new PdfPCell(new Paragraph("", fontDetails)));
+                    productSerialNumberDetail = new PdfPCell(new Paragraph("", fontDetails));
                     Integer total = 0;
                     for(InputDetail inputDetail : groupByProduct.get(productId)){
                         total += inputDetail.getAmount();
                     }
-                    productAmountDetail = new PdfPCell(new Paragraph(String.valueOf(total), fontTotals));
+                    productAmountDetail = new PdfPCell(new Paragraph(String.valueOf(total), fontDetails));
 
                     productCodeDetail.setBorder(Rectangle.NO_BORDER);
                     productDescriptionDetail.setBorder(Rectangle.NO_BORDER);
@@ -210,7 +211,11 @@ public class InputsPdfView extends AbstractPdfView {
                         gtin = inputDetail.getGtin().getNumber();
                     }
                     productCodeDetail = new PdfPCell(new Paragraph(gtin, fontDetails));
-                    productDescriptionDetail = new PdfPCell(new Paragraph(inputDetail.getProduct().getDescription() + " (" + String.valueOf(inputDetail.getProduct().getCode()) + ")", fontDetails));
+					String productDescription = "";
+					if(!isGroup){
+						productDescription = inputDetail.getProduct().getDescription() + " (" + String.valueOf(inputDetail.getProduct().getCode()) + ")";
+					}
+                    productDescriptionDetail = new PdfPCell(new Paragraph(productDescription, fontDetails));
                     productBatchDetail = new PdfPCell(new Paragraph(inputDetail.getBatch(), fontDetails));
                     productExpirationDateDetail = (new PdfPCell(new Paragraph(dateFormatter.format(inputDetail.getExpirationDate()), fontDetails)));
 
