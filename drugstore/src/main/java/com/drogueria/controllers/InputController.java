@@ -209,10 +209,12 @@ public class InputController {
 
 	@RequestMapping(value = "/forceInputDefinitely", method = RequestMethod.POST)
 	public @ResponseBody
-	void forceInputDefinitely(@RequestBody Integer inputId) throws Exception {
+	void forceInputDefinitely(@RequestParam Integer inputId, String transactionCode) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Input input = this.inputService.get(inputId);
 		input.setForcedInput(true);
+        transactionCode = (transactionCode == "") ? null : transactionCode;
+		input.setTransactionCodeANMAT(transactionCode);
 		this.inputService.save(input);
 		if (auth != null) {
 			this.auditService.addAudit(auth.getName(), RoleOperation.INPUT_AUTHORIZATION.getId(), AuditState.AUTHORITED, inputId);

@@ -2,6 +2,9 @@ PendingInputs = function() {
 
     var inputId = null;
     var inputs = [];
+    var transactionCode = null;
+
+    $("#transactionCodeInput").numeric();
 
     $('#inputTableBody').on("click", ".view-row", function() {
         var parent = $(this).parent().parent();
@@ -77,12 +80,18 @@ PendingInputs = function() {
 
 
     $("#authorizeWithoutInform").click(function() {
+        transactionCode = $("#transactionCodeInput").val() || null;
+        if(transactionCode == ""){
+            transactionCode = null;
+        }
         if(inputs.length == 1){
             $.ajax({
                 url: "forceInputDefinitely.do",
                 type: "POST",
-                contentType:"application/json",
-                data: JSON.stringify(inputs[0]),
+                data: {
+                    inputId: inputs[0],
+                    transactionCode: transactionCode
+                },
                 async: true,
                 beforeSend : function() {
                     $.blockUI({ message: 'Espere un Momento por favor...' });

@@ -56,7 +56,11 @@
     <div class="modal-dialog" style="width:400px">
         <div class="modal-content">
             <div class="modal-body">
-                <strong><span style="color:red"><spring:message code="input.forcedInputConfirmationModal.text"/></span></strong>
+                <strong><span style="color:red"><spring:message code="input.forcedInput.confirmationDefinitelyModal.text"/></span></strong>
+                <div row="class">
+                    <label for="transactionCodeInput"><spring:message code="input.forcedInput.transactionCode"/></label>
+                    <input type="text" class="form-control" name="transactionCode" id="transactionCodeInput"/>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.no"/></button>
