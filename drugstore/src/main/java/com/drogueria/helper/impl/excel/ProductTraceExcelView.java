@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
-public class BatchExpirationDateProductsExcelView extends AbstractExcelView {
+public class ProductTraceExcelView extends AbstractExcelView {
 
     private void auditSheet(Workbook workbook, String sheetName, List<AuditDTO> auditDTOList) {
         Sheet sheet = workbook.createSheet(sheetName);

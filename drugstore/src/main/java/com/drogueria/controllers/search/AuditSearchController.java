@@ -87,6 +87,14 @@ public class AuditSearchController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		AuditResultDTO auditResultDTO = this.auditService.getAudit(productId, batch, expirateDate);
 		map.put("auditResultDTO", auditResultDTO);
-		return new ModelAndView("batchExpirationDateProducts", map);
+		return new ModelAndView("productTrace", map);
+	}
+
+	@RequestMapping(value = "/serializedProducts", method = RequestMethod.POST)
+	public ModelAndView serializedProducts(@RequestParam Integer productId, String serialNumber) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		AuditResultDTO auditResultDTO = this.auditService.getAudit(productId, serialNumber);
+		map.put("auditResultDTO", auditResultDTO);
+		return new ModelAndView("productTrace", map);
 	}
 }
