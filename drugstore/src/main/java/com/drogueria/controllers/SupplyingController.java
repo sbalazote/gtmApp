@@ -119,9 +119,9 @@ public class SupplyingController {
 	public ModelAndView supplyings(HttpServletRequest request) {
 		SupplyingQuery supplyingQuery = this.getSupplyingQuery(request);
 		Map<String, Object> map = new HashMap<String, Object>();
-		//Map<Integer, List<DeliveryNote>> supplyingDeliveryNotes = this.deliveryNoteService.getAssociatedSupplyings();
+		Map<Integer, List<DeliveryNote>> supplyingDeliveryNotes = this.deliveryNoteService.getAssociatedSupplyings();
 		List<Supplying> supplyings = this.supplyingService.getSupplyingForSearch(supplyingQuery);
-		//map.put("associatedSupplyings", supplyingDeliveryNotes);
+		map.put("associatedSupplyings", supplyingDeliveryNotes);
 		map.put("supplyings", supplyings);
 		return new ModelAndView("supplyings", map);
 

@@ -153,9 +153,9 @@ public class OutputController {
 	public ModelAndView inputs(HttpServletRequest request) {
 		OutputQuery outputQuery = this.getOutputQuery(request);
 		Map<String, Object> map = new HashMap<String, Object>();
-		//Map<Integer, List<DeliveryNote>> outputDeliveryNotes = this.deliveryNoteService.getAssociatedOutputs();
+		Map<Integer, List<DeliveryNote>> outputDeliveryNotes = this.deliveryNoteService.getAssociatedOutputs();
 		List<Output> outputs = this.outputService.getOutputForSearch(outputQuery);
-		//map.put("associatedOutputs", outputDeliveryNotes);
+		map.put("associatedOutputs", outputDeliveryNotes);
 		map.put("outputs", outputs);
 		return new ModelAndView("outputs", map);
 	}
