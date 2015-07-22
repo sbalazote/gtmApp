@@ -150,7 +150,7 @@ public class OutputController {
 	}
 
 	@RequestMapping(value = "/outputs", method = RequestMethod.POST)
-	public ModelAndView inputs(HttpServletRequest request) {
+	public ModelAndView outputs(HttpServletRequest request) {
 		OutputQuery outputQuery = this.getOutputQuery(request);
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<Integer, List<DeliveryNote>> outputDeliveryNotes = this.deliveryNoteService.getAssociatedOutputs();

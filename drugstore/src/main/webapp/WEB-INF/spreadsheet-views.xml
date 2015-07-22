@@ -47,4 +47,7 @@
 	<bean id="audits" class="com.drogueria.helper.impl.excel.AuditExcelView"/>
 	
 	<bean id="supplyings" class="com.drogueria.helper.impl.excel.SupplyingsExcelView"/>
+
+	<bean id="batchExpirationDateProducts" class="com.drogueria.helper.impl.excel.BatchExpirationDateProductsExcelView"/>
+	<bean id="serializedProducts" class="com.drogueria.helper.impl.excel.SerializedProductsExcelView"/>
 </beans>

@@ -55,8 +55,8 @@ SearchBatchExpirateDateProduct = function() {
 				},
 				dateSearch: {
 					required: true,
-					dateITA: true,
-				},
+					dateITA: true
+				}
 			},
 			showErrors: myShowErrors,
 			onsubmit: false
@@ -83,7 +83,7 @@ SearchBatchExpirateDateProduct = function() {
 				data: {
 					productId: productId,
 					batch: $("#batchSearch").val(),
-					expirateDate: $("#dateSearch").val(),
+					expirateDate: $("#dateSearch").val()
 				},
 				success: function(response) {
                     $('#divMovements').hide();
@@ -198,6 +198,19 @@ SearchBatchExpirateDateProduct = function() {
                         $("#movementsTable").bootgrid().bootgrid("clear");
                         $("#movementsTable").bootgrid().bootgrid("append", aaData);
                         $("#movementsTable").bootgrid().bootgrid("search", $(".search-field").val());
+
+                        var params = '&productId=' + productId +
+                            '&batch=' + $("#batchSearch").val() +
+                            '&expirateDate=' + $("#dateSearch").val();
+
+                        var exportHTML = exportQueryTableHTML("./rest/batchExpirationDateProducts", params);
+                        var searchHTML = $("#divMovements .search");
+
+                        if (searchHTML.prev().length == 0) {
+                            searchHTML.before(exportHTML);
+                        } else {
+                            searchHTML.prev().html(exportHTML);
+                        }
                     }else{
 
                         BootstrapDialog.show({
