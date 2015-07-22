@@ -41,9 +41,7 @@ public class AuditResultDTO {
 		this.deliveryNotes = deliveryNotes;
 	}
 
-	public List<AuditDTO> getSupplyings() {
-		return supplyings;
-	}
+	public List<AuditDTO> getSupplyings() {	return this.supplyings;	}
 
 	public void setSupplyings(List<AuditDTO> supplyings) {
 		this.supplyings = supplyings;

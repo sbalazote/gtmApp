@@ -1,9 +1,14 @@
 package com.drogueria.controllers.search;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.drogueria.model.DeliveryNote;
+import com.drogueria.model.Output;
+import com.drogueria.query.OutputQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -75,5 +80,13 @@ public class AuditSearchController {
 				operationId, userId, actionId);
 
 		return auditQuery;
+	}
+
+	@RequestMapping(value = "/batchExpirationDateProducts", method = RequestMethod.POST)
+	public ModelAndView batchExpirationDateProducts(@RequestParam Integer productId, String batch, String expirateDate) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		AuditResultDTO auditResultDTO = this.auditService.getAudit(productId, batch, expirateDate);
+		map.put("auditResultDTO", auditResultDTO);
+		return new ModelAndView("batchExpirationDateProducts", map);
 	}
 }
