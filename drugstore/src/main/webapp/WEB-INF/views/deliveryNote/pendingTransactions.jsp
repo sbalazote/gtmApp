@@ -82,10 +82,26 @@
 </form>
 
 <div class="modal fade" data-backdrop="static" id="forcedDeliveryNoteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog" style="width:250px">
+	<div class="modal-dialog" style="width:700px">
 		<div class="modal-content">
 			<div class="modal-body">
-				<strong><span style="color:red"><spring:message code="common.informedManuallyModal"/></span></strong>
+				<div class="row">
+					<div class="col-md-12 form-group">
+						<strong><span style="color:red"><spring:message code="common.informedManuallyModal"/></span></strong>
+					</div>
+				</div>
+				<div>
+					<table class="table table-condensed table-hover table-striped" id="deliveryNotesAlreadyInformsTable">
+						<thead>
+							<tr>
+								<th data-column-id="deliveryNoteAlreadyInformId" data-identifier="true"><spring:message code="common.number"/></th>
+								<th data-column-id="deliveryNoteAlreadyInformTransactionCode"><spring:message code="common.transactionCodeDescription"/></th>
+							</tr>
+						</thead>
+						<tbody id="deliveryNotesAlreadyInformsBody">
+						</tbody>
+					</table>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.no"/></button>
@@ -95,16 +111,3 @@
 	</div>
 </div>
 
-<div class="modal fade" data-backdrop="static" id="forcedOutputConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog" style="width:250px">
-		<div class="modal-content">
-			<div class="modal-body">
-				<strong><span style="color:red"><spring:message code="common.informedManuallyModal"/></span></strong>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.no"/></button>
-				<button type="button" class="btn btn-primary" data-dismiss="modal" id="confirmOutputsWithoutInformModal"><spring:message code="common.yes"/></button>
-			</div>
-		</div>
-	</div>
-</div>

@@ -5,7 +5,7 @@ var PendingTransactions = function() {
 	var deliveryNotes = [];
 	var ordersToReassembly = [];
 	var outputsToReassembly = [];
-	var outputs = [];
+	var map = {};
 	
 	$('#deliveryNoteTableBody').on("click", ".view-order-row-deliveryNoteTable", function() {
 		var parent = $(this).parent().parent();
@@ -147,42 +147,61 @@ var PendingTransactions = function() {
 	});
 	
 	$("#confirmDeliveryNotesWithoutInform").click(function() {
-		$('#forcedDeliveryNoteConfirmationModal').modal();
-	});
-	
-	$("#confirmDeliveryNotesWithoutInformModal").click(function() {
 		if(deliveryNotes.length > 0 ){
-			$.ajax({
-				url: "authorizeDeliveryNotesWithoutInform.do",
-				type: "POST",
-				contentType: "application/json",
-				data: JSON.stringify(deliveryNotes),
-				async: true,
-	            beforeSend : function() {
-	            	$.blockUI({ message: 'Espere un Momento por favor...' });
-	             }, 
-				success: function(response) {
-					myReload("success", "Se han cerrado los siguientes remitos informados oportunamente: " + response);
-				},
-				error: function(response, jqXHR, textStatus, errorThrown) {
-					$.unblockUI();
-					myGenericError();
-				}
-			});
+			for (var i = 0; i < deliveryNotes.length; i++){
+				map[deliveryNotes[i]] = null;
+
+				var aaData = [];
+				var row = {
+					deliveryNoteAlreadyInformId: deliveryNotes[i],
+					deliveryNoteAlreadyInformTransactionCode: "<input type='text' class='form-control'>"
+				};
+				aaData.push(row);
+				$("#deliveryNotesAlreadyInformsTable").bootgrid("append", aaData);
+			}
+			$('#forcedDeliveryNoteConfirmationModal').modal();
 		}else{
 			BootstrapDialog.show({
 				type: BootstrapDialog.TYPE_INFO,
-		        title: 'Atenci\u00f3n',
-		        message: "Seleccione al menos un elemento",
-		        buttons: [{
-	                label: 'Cerrar',
-	                action: function(dialogItself){
-	                    dialogItself.close();
-	                }
-	            }]
+				title: 'Atenci\u00f3n',
+				message: "Seleccione al menos un elemento",
+				buttons: [{
+					label: 'Cerrar',
+					action: function(dialogItself){
+						dialogItself.close();
+					}
+				}]
 			});
 		}
 	});
 	
+	$("#confirmDeliveryNotesWithoutInformModal").click(function() {
+		$('#deliveryNotesAlreadyInformsTable > tbody  > tr').each(function() {
+			var deliveryNote = $(this).children().eq(0).text();
+			var transactionCode = $(this).children().children().val();
+			map[deliveryNote] = transactionCode;
+		});
+
+		$.ajax({
+			url: "authorizeDeliveryNotesWithoutInform.do",
+			type: "POST",
+			contentType: "application/json",
+			data: JSON.stringify(map),
+			async: true,
+			beforeSend : function() {
+				$.blockUI({ message: 'Espere un Momento por favor...' });
+			 },
+			success: function(response) {
+				myReload("success", "Se han cerrado los siguientes remitos informados oportunamente: " + response);
+			},
+			error: function(response, jqXHR, textStatus, errorThrown) {
+				$.unblockUI();
+				myGenericError();
+			}
+		});
+
+	});
+
+
 	
 };

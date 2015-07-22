@@ -151,10 +151,12 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	}
 
 	@Override
-	public void authorizeWithoutInform(List<String> deliveryNoteIds, String name) {
-		for (String deliveryNoteId : deliveryNoteIds) {
+	public void authorizeWithoutInform(Map<String,String> deliveryNoteIds, String name) {
+		for (String deliveryNoteId : deliveryNoteIds.keySet()) {
 			DeliveryNote deliveryNote = this.getDeliveryNoteFromNumber(deliveryNoteId);
 			deliveryNote.setInformed(true);
+			String transactionCode = deliveryNoteIds.get(deliveryNoteId) == "" ? null : deliveryNoteIds.get(deliveryNoteId);
+			deliveryNote.setTransactionCodeANMAT(transactionCode);
 			try {
 				this.save(deliveryNote);
 			} catch (Exception e) {
