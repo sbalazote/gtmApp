@@ -1,139 +1,181 @@
 package com.drogueria.helper.impl.pdf;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.drogueria.config.PropertyProvider;
 import com.drogueria.helper.AbstractPdfView;
-import com.drogueria.model.Product;
-import com.lowagie.text.Chunk;
-import com.lowagie.text.Document;
-import com.lowagie.text.Font;
-import com.lowagie.text.pdf.PdfWriter;
+import com.drogueria.model.*;
+
+import com.lowagie.text.*;
+
+import com.lowagie.text.pdf.*;
+import com.lowagie.text.pdf.draw.LineSeparator;
 
 public class ProductsPdfView extends AbstractPdfView {
+	PdfPTable table = new PdfPTable(13); // 13 columnas
+	/**
+	 * Inner class to add a table as header.
+	 */
+	class HeaderFooterPageEvent extends PdfPageEventHelper {
+		/** Current page number (will be reset for every chapter). */
+		int pagenumber = 1;
+
+		public void onStartPage(PdfWriter writer,Document document) {
+			table.flushContent();
+			Rectangle rect = writer.getBoxSize("art");
+
+			try {
+				// Logo
+				String absoluteDiskPath = getServletContext().getRealPath("/images/logo.png");
+				Image logo = Image.getInstance(absoluteDiskPath);
+				logo.scaleToFit(50f, 50f);
+				logo.setAbsolutePosition(10f * 2.8346f, 190f * 2.8346f);
+
+				String name = PropertyProvider.getInstance().getProp("name");
+				// add text at an absolute position
+				PdfContentByte cb = writer.getDirectContent();
+				BaseFont bf_times = BaseFont.createFont(BaseFont.TIMES_ROMAN, "Cp1252", false);
+				// NOMBRE MEMBRETE
+				cb.beginText();
+				cb.setFontAndSize(bf_times, 16f);
+				cb.setTextMatrix(40f * 2.8346f, 195f * 2.8346f);
+				cb.showText(name);
+				cb.endText();
+
+				document.add(logo);
+
+				document.add(Chunk.NEWLINE);
+
+				LineSeparator ls = new LineSeparator();
+				document.add(new Chunk(ls));
+
+				// Fuente
+				Font fontHeader = new Font(Font.TIMES_ROMAN, 9f, Font.NORMAL, Color.BLACK);
+
+				//Encabezado
+				PdfPCell productIdHeader = new PdfPCell(new Paragraph("ID", fontHeader));
+				PdfPCell productCodeHeader = new PdfPCell(new Paragraph("CÓD.", fontHeader));
+				PdfPCell productDescriptionHeader = new PdfPCell(new Paragraph("DESCRIPCIÓN", fontHeader));
+				PdfPCell productBrandHeader = new PdfPCell(new Paragraph("MARCA", fontHeader));
+				PdfPCell productMonodrugHeader = new PdfPCell(new Paragraph("MONODR.", fontHeader));
+				PdfPCell productGroupHeader = new PdfPCell(new Paragraph("AGRUP.", fontHeader));
+				PdfPCell productDrugCategoryHeader = new PdfPCell(new Paragraph("A.FAR.", fontHeader));
+				PdfPCell productColdHeader = new PdfPCell(new Paragraph("FRÍO", fontHeader));
+				PdfPCell productInformAnmatHeader = new PdfPCell(new Paragraph("ANM.", fontHeader));
+				PdfPCell productTypeHeader = new PdfPCell(new Paragraph("TIPO", fontHeader));
+				PdfPCell productActiveHeader = new PdfPCell(new Paragraph("ACT", fontHeader));
+				PdfPCell productGtinHeader = new PdfPCell(new Paragraph("GTIN", fontHeader));
+				PdfPCell productPriceHeader = new PdfPCell(new Paragraph("PRECIO", fontHeader));
+
+				productIdHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+				productCodeHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+				productDescriptionHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+				productBrandHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+				productMonodrugHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+				productGroupHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+				productDrugCategoryHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+				productColdHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+				productInformAnmatHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+				productTypeHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+				productActiveHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+				productGtinHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+				productPriceHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+
+				table.addCell(productIdHeader);
+				table.addCell(productCodeHeader);
+				table.addCell(productDescriptionHeader);
+				table.addCell(productBrandHeader);
+				table.addCell(productMonodrugHeader);
+				table.addCell(productGroupHeader);
+				table.addCell(productDrugCategoryHeader);
+				table.addCell(productColdHeader);
+				table.addCell(productInformAnmatHeader);
+				table.addCell(productTypeHeader);
+				table.addCell(productActiveHeader);
+				table.addCell(productGtinHeader);
+				table.addCell(productPriceHeader);
+				document.add(table);
+				table.flushContent();
+			} catch (Exception e) {
+
+			}
+
+		}
+		public void onEndPage(PdfWriter writer,Document document) {
+			Rectangle rect = writer.getBoxSize("art");
+			ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(String.format("página %d", pagenumber)),
+					(rect.getLeft() + rect.getRight()) / 2, rect.getBottom() + 15, 0);
+			++pagenumber;
+		}
+	}
 
 	@Override
 	protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
+		writer.setBoxSize("art", new Rectangle(0, 0, 788, 559));
+		HeaderFooterPageEvent event = new HeaderFooterPageEvent();
+		writer.setPageEvent(event);
+		table.setWidthPercentage(95);
+		float[] columnWidths = {1f, 1f, 4f, 2f, 2f, 2f, 2f, 1f, 1f, 2f, 1f, 2f, 2f};
+		table.setWidths(columnWidths);
 		document.open();
 		@SuppressWarnings("unchecked")
 		ArrayList<Product> products = (ArrayList<Product>) model.get("products");
 
-		// Fonts
-		Font fontTitle = new Font(2, 14, Font.BOLD, Color.BLACK);
-		Font fontTag = new Font(2, 10, Font.BOLD, Color.WHITE);
+		// Fuente
+		Font fontDetails = new Font(Font.TIMES_ROMAN, 8f, Font.NORMAL, Color.BLACK);
 
 		for (Product product : products) {
 
-			// 1.ID
-			document.add(new Chunk("ID: "));
-			Chunk id = new Chunk(product.getId().toString(), fontTitle);
-			document.add(id);
-			document.add(new Chunk(" "));
+			PdfPCell productIdDetail = new PdfPCell(new Paragraph(product.getId().toString(), fontDetails));
+			PdfPCell productCodeDetail = new PdfPCell(new Paragraph(product.getCode().toString(), fontDetails));
+			PdfPCell productDescriptionDetail = new PdfPCell(new Paragraph(product.getDescription(), fontDetails));
+			PdfPCell productBrandDetail = (new PdfPCell(new Paragraph(product.getBrand().getDescription(), fontDetails)));
+			PdfPCell productMonodrugDetail = (new PdfPCell(new Paragraph(product.getMonodrug().getDescription(), fontDetails)));
+			PdfPCell productGroupDetail = new PdfPCell(new Paragraph(product.getGroup().getDescription(), fontDetails));
+			PdfPCell productDrugCategoryDetail = new PdfPCell(new Paragraph(product.getDrugCategory().getDescription(), fontDetails));
+			PdfPCell productColdDetail = new PdfPCell(new Paragraph(product.isCold() ? "SI" : "NO", fontDetails));
+			PdfPCell productInformAnmatDetail = (new PdfPCell(new Paragraph(product.isInformAnmat() ? "SI" : "NO", fontDetails)));
+			PdfPCell productTypeDetail = (new PdfPCell(new Paragraph(product.getType().equalsIgnoreCase("BE") ? "LTE/VTO" : product.getType().equalsIgnoreCase("PS") ? "ORIGEN"
+					: "PROPIO", fontDetails)));
+			PdfPCell productActiveDetail = new PdfPCell(new Paragraph(product.isActive() ? "SI" : "NO", fontDetails));
+			PdfPCell productGtinDetail = (new PdfPCell(new Paragraph((product.getLastGtin() != null) ? product.getLastGtin() : "-", fontDetails)));
+			PdfPCell productPriceDetail = (new PdfPCell(new Paragraph((product.getLastPrice() != null) ? product.getLastPrice().toString() : "-", fontDetails)));
 
-			// -- newline
-			document.add(Chunk.NEWLINE);
+			productIdDetail.setBorder(Rectangle.NO_BORDER);
+			productCodeDetail.setBorder(Rectangle.NO_BORDER);
+			productDescriptionDetail.setBorder(Rectangle.NO_BORDER);
+			productBrandDetail.setBorder(Rectangle.NO_BORDER);
+			productMonodrugDetail.setBorder(Rectangle.NO_BORDER);
+			productGroupDetail.setBorder(Rectangle.NO_BORDER);
+			productDrugCategoryDetail.setBorder(Rectangle.NO_BORDER);
+			productColdDetail.setBorder(Rectangle.NO_BORDER);
+			productInformAnmatDetail.setBorder(Rectangle.NO_BORDER);
+			productTypeDetail.setBorder(Rectangle.NO_BORDER);
+			productActiveDetail.setBorder(Rectangle.NO_BORDER);
+			productGtinDetail.setBorder(Rectangle.NO_BORDER);
+			productPriceDetail.setBorder(Rectangle.NO_BORDER);
 
-			// 2.CODIGO
-			document.add(new Chunk("CODIGO: "));
-			Chunk code = new Chunk(product.getCode().toString(), fontTitle);
-			document.add(code);
-			document.add(new Chunk(" "));
-
-			// -- newline
-			document.add(Chunk.NEWLINE);
-
-			// 3.DESCRIPCION
-			document.add(new Chunk("DESCRIPCION: "));
-			Chunk description = new Chunk(product.getDescription(), fontTitle);
-			document.add(description);
-			document.add(new Chunk(" "));
-
-			// -- newline
-			document.add(Chunk.NEWLINE);
-
-			// 4.MARCA
-			document.add(new Chunk("MARCA: "));
-			Chunk brand = new Chunk(product.getBrand().getDescription(), fontTitle);
-			document.add(brand);
-			document.add(new Chunk(" "));
-
-			// -- newline
-			document.add(Chunk.NEWLINE);
-
-			// 5.MONODROGA
-			document.add(new Chunk("MONODROGA: "));
-			Chunk monodrug = new Chunk(product.getMonodrug().getDescription(), fontTitle);
-			document.add(monodrug);
-			document.add(new Chunk(" "));
-
-			// -- newline
-			document.add(Chunk.NEWLINE);
-
-			// 6.AGRUPACION
-			document.add(new Chunk("AGRUPACION: "));
-			Chunk group = new Chunk(product.getGroup().getDescription(), fontTitle);
-			document.add(group);
-			document.add(new Chunk(" "));
-
-			// -- newline
-			document.add(Chunk.NEWLINE);
-
-			// 7.ACCION FARMACOLOGICA
-			document.add(new Chunk("ACCION FARMACOLOGICA: "));
-			Chunk drugCategory = new Chunk(product.getDrugCategory().getDescription(), fontTitle);
-			document.add(drugCategory);
-			document.add(new Chunk(" "));
-
-			// -- newline
-			document.add(Chunk.NEWLINE);
-
-			// 8.FRIO
-			document.add(new Chunk("FRIO: "));
-			Chunk cold = new Chunk(product.isCold() ? "SI" : "NO", fontTitle);
-			document.add(cold);
-			document.add(new Chunk(" "));
-
-			// -- newline
-			document.add(Chunk.NEWLINE);
-
-			// 9.INFORMA ANMAT
-			document.add(new Chunk("INFORMA ANMAT: "));
-			Chunk informAnmat = new Chunk(product.isInformAnmat() ? "SI" : "NO", fontTitle);
-			document.add(informAnmat);
-			document.add(new Chunk(" "));
-
-			// -- newline
-			document.add(Chunk.NEWLINE);
-
-			// 10.TIPO
-			document.add(new Chunk("TIPO: "));
-			Chunk type = new Chunk(product.getType().equalsIgnoreCase("BE") ? "LOTE/VTO" : product.getType().equalsIgnoreCase("PS") ? "TRAZADO ORIGEN"
-					: "TRAZADO PROPIO", fontTitle);
-			document.add(type);
-			document.add(new Chunk(" "));
-
-			// -- newline
-			document.add(Chunk.NEWLINE);
-
-			// 11.ACTIVO
-			document.add(new Chunk("ACTIVO: "));
-			Chunk active = new Chunk(product.isActive() ? "SI" : "NO", fontTitle);
-			document.add(active);
-			document.add(new Chunk(" "));
-
-			// -- newline
-			document.add(Chunk.NEWLINE);
-
-			// -- newline
-			document.add(Chunk.NEWLINE);
-
+			table.addCell(productIdDetail);
+			table.addCell(productCodeDetail);
+			table.addCell(productDescriptionDetail);
+			table.addCell(productBrandDetail);
+			table.addCell(productMonodrugDetail);
+			table.addCell(productGroupDetail);
+			table.addCell(productDrugCategoryDetail);
+			table.addCell(productColdDetail);
+			table.addCell(productInformAnmatDetail);
+			table.addCell(productTypeDetail);
+			table.addCell(productActiveDetail);
+			table.addCell(productGtinDetail);
+			table.addCell(productPriceDetail);
+			document.add(table);
+			table.flushContent();
 		}
-
 	}
-
 }
