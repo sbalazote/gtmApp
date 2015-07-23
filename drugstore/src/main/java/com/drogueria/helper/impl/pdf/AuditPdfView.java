@@ -94,11 +94,7 @@ public class AuditPdfView extends AbstractPdfView {
 		HeaderFooterPageEvent event = new HeaderFooterPageEvent();
 		writer.setPageEvent(event);
 		table.setWidthPercentage(95);
-		table.setSpacingBefore(10f);
-
-		table.setSpacingAfter(10f);
 		float[] columnWidths = {4f, 4f, 4f, 2f, 2f};
-
 		table.setWidths(columnWidths);
 		document.open();
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -131,7 +127,6 @@ public class AuditPdfView extends AbstractPdfView {
 			document.add(table);
 			table.flushContent();
 		}
-		//document.add(table);
 	}
 
 }

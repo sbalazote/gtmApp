@@ -98,16 +98,11 @@ public class ProductTracePdfView extends AbstractPdfView {
     @Override
     protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest req, HttpServletResponse resp)
             throws Exception {
-
         writer.setBoxSize("art", new Rectangle(0, 0, 788, 559));
         HeaderFooterPageEvent event = new HeaderFooterPageEvent();
         writer.setPageEvent(event);
         table.setWidthPercentage(95);
-        table.setSpacingBefore(10f);
-
-        table.setSpacingAfter(10f);
         float[] columnWidths = {1f, 4f, 4f, 4f, 6f, 4f};
-
         table.setWidths(columnWidths);
         document.open();
         @SuppressWarnings("unchecked")
