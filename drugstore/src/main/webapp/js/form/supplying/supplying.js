@@ -199,14 +199,20 @@ var Supplying = function() {
 			cleanAddAffiliateModal();
 			$("#affiliateClientInput").val($("#clientInput option:selected").html());
 			$("#affiliateInput").select2("close");
-			$('#addAffiliateModal').modal('show');
 		}
 	});
 
-	$('#addAffiliateModal').on('show.bs.modal', function () {
-		$('#affiliateCodeInput').focus();
+	$('#affiliateInput').on("select2-close", function() {
+		$('#addAffiliateModal').modal('show');
 	});
 
+	$('#addAffiliateModal').on('shown.bs.modal', function () {
+		//document.activeElement.blur();
+		$("#affiliateCodeInput").focus();
+		/*setTimeout(function(){
+			$("#affiliateCodeInput").focus();
+		},500);*/
+	});
 
 	$('#currentDateButton').click(function() {
 		$("#currentDateInput").datepicker().focus();
@@ -301,9 +307,27 @@ var Supplying = function() {
 			});
 	    }
 		if(e.keyCode == 119) { // Presiono F8
-			//$( "#confirmButton" ).trigger( "click" );
-			isButtonConfirm = true;
-			assignOutOfStock = true;
+			BootstrapDialog.show({
+				type: BootstrapDialog.TYPE_WARNING,
+				size: BootstrapDialog.SIZE_LARGE,
+				message: 'Desea asignar productos fuera de inventario?.',
+				closable: false,
+				title: 'Advertencia!',
+				closable: false,
+				buttons: [{
+					label: 'No',
+					action: function(dialogItself) {
+						dialogItself.close();
+					}
+				}, {
+					label: 'Si',
+					cssClass: 'btn-primary',
+					action: function(dialogItself) {
+						assignOutOfStock = true;
+						dialogItself.close();
+					}
+				}]
+			});
 		}
 	});
 /*
@@ -674,28 +698,28 @@ var Supplying = function() {
 			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "selfSerializedModalAlertDiv");
 		}
 	});
-
-	var commitSupplying = function() {
+	
+	$("#confirmButton").on('click', function(e) {
 		if (validateForm()) {
 			if (supplyingDetailGroup.length > 0) {
 				if ($("#affiliateInput").val() != "") {
 					$(this).attr("disabled", true);
 					var jsonSupplying = {
-							"id" : $("#supplyingId").val(),
-							"clientId" : $("#clientInput").val(),
-							"affiliateId" : $("#affiliateInput").val(),
-							"agreementId": $("#agreementInput").val(),
-							"date" : $("#currentDateInput").val(),
-							"supplyingDetails" : []
+						"id" : $("#supplyingId").val(),
+						"clientId" : $("#clientInput").val(),
+						"affiliateId" : $("#affiliateInput").val(),
+						"agreementId": $("#agreementInput").val(),
+						"date" : $("#currentDateInput").val(),
+						"supplyingDetails" : []
 					};
 
 					for (var i = 0, lengthI = supplyingDetailGroup.length; i < lengthI; i++) {
-					for (var j = 0; lengthJ = supplyingDetailGroup[i].length, j < lengthJ; j++) {
-						jsonSupplying.supplyingDetails.push(supplyingDetailGroup[i][j]);
+						for (var j = 0; lengthJ = supplyingDetailGroup[i].length, j < lengthJ; j++) {
+							jsonSupplying.supplyingDetails.push(supplyingDetailGroup[i][j]);
+						}
 					}
-				}
-				
-					//	isButtonConfirm = true;
+
+					isButtonConfirm = true;
 
 					$.ajax({
 						url : "saveSupplying.do",
@@ -704,8 +728,8 @@ var Supplying = function() {
 						data : JSON.stringify(jsonSupplying),
 						async : true,
 						beforeSend : function() {
-			                $.blockUI({ message: 'Espere un Momento por favor...' });
-			             },
+							$.blockUI({ message: 'Espere un Momento por favor...' });
+						},
 						success : function(response) {
 						},
 						error : function(jqXHR,	textStatus, errorThrown) {
@@ -725,41 +749,6 @@ var Supplying = function() {
 				myShowAlert('danger', 'Por favor, ingrese al menos un producto.');
 			}
 		}
-	};
-	
-	$("#confirmButton").on('click', function(e) {
-		e.preventDefault();
-		
-		if (!isButtonConfirm) {
-			isButtonConfirm = true;
-			
-			BootstrapDialog.show({
-				type: BootstrapDialog.TYPE_WARNING,
-				size: BootstrapDialog.SIZE_LARGE,
-		        message: 'Desea asignar productos fuera de inventario?.',
-				closable: false,
-		        title: 'Advertencia!',
-		        closable: false,
-		        buttons: [{
-	                label: 'No',
-	                action: function(dialogItself) {
-	                    dialogItself.close();
-	                    commitSupplying();
-	                }
-	            }, {
-	                label: 'Si',
-	                cssClass: 'btn-primary',
-	                action: function(dialogItself) {
-	                	assignOutOfStock = true;
-	                    dialogItself.close();
-	                }
-	            }]
-			});
-		} else {
-			commitSupplying();
-		}
-		
-		
 	});
 
 	$('#addAffiliateModalForm').on('keypress', function(e) {

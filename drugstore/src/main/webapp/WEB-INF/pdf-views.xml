@@ -42,6 +42,6 @@
 	<bean id="provisionings" class="com.drogueria.helper.impl.pdf.ProvisioningPdfView"/>
 	<bean id="audits" class="com.drogueria.helper.impl.pdf.AuditPdfView"/>
 	<bean id="supplyings" class="com.drogueria.helper.impl.pdf.SupplyingsPdfView"/>
-	
-	
+
+	<bean id="productTrace" class="com.drogueria.helper.impl.pdf.ProductTracePdfView"/>
 </beans>

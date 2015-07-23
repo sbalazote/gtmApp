@@ -62,6 +62,7 @@ SearchSerializedProduct = function() {
 		return form.valid();
 	};
 	$("#searchButton").click(function() {
+        $("#cleanSerialButton").trigger("click");
         if(validateForm()){
             searchProduct(productId,$("#serialNumberSearch").val());
         }
@@ -76,6 +77,7 @@ SearchSerializedProduct = function() {
     });
 
     $("#searchSerialButton").click(function() {
+        $("#cleanButton").trigger("click");
         searchSerialParsed();
     });
 
@@ -251,6 +253,18 @@ SearchSerializedProduct = function() {
                     $("#movementsTable").bootgrid().bootgrid("clear");
                     $("#movementsTable").bootgrid().bootgrid("append", aaData);
                     $("#movementsTable").bootgrid().bootgrid("search", $(".search-field").val());
+
+                    var params = '&productId=' + productId +
+                        '&serialNumber=' + serial;
+
+                    var exportHTML = exportQueryTableHTML("./rest/serializedProducts", params);
+                    var searchHTML = $("#divMovements .search");
+
+                    if (searchHTML.prev().length == 0) {
+                        searchHTML.before(exportHTML);
+                    } else {
+                        searchHTML.prev().html(exportHTML);
+                    }
                 }else{
 
                     BootstrapDialog.show({
@@ -337,7 +351,7 @@ SearchSerializedProduct = function() {
             type: "GET",
             async: false,
             data: {
-                productId: productIdByUrl,
+                productId: productIdByUrl
             },
             success: function(response) {
                 $("#productInput").val(response.code + " - " + response.description + " - " + response.brand.description + " - " + response.monodrug.description);
