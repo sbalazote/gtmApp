@@ -49,6 +49,8 @@ public class LoginController {
         modelMap.put("name", propertyService.get().getName());
         modelMap.put("logPath", "./images/logo.png");
 
+        boolean validLicense = isValidLicense();
+
         if(browserName.indexOf(IE_BROWSER) >= 0){
             modelMap.put("error", "Internet Explorer no es compatible con la aplicacion, utilice Chrome o Firefox");
             modelMap.put("loginDisabled", true);
@@ -57,7 +59,7 @@ public class LoginController {
                 modelMap.put("error", "Usuario / Contraseña incorrecta, vuelva a intentar");
             }
         }
-        if (!isValidLicense()) {
+        if (!validLicense) {
             modelMap.put("error", "La Licencia ha caducado. Comuníquese con el Administrador.");
             modelMap.put("loginDisabled", true);
         }
@@ -90,6 +92,7 @@ public class LoginController {
         Date validUntilDate = null;
         try {
             validUntilDate = sdf.parse(lic.getFeature("valid-until"));
+            PropertyProvider.getInstance().setProp(PropertyProvider.LICENSE_EXPIRATION, validUntilDate.toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }

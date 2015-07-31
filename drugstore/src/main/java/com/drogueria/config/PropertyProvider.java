@@ -14,6 +14,7 @@ public class PropertyProvider {
 	public static final String DATABASE_URL = "persistence.database.url";
 	public static final String DATABASE_USERNAME = "persistence.database.username";
 	public static final String DATABASE_PASSWORD = "persistence.database.password";
+	public static final String LICENSE_EXPIRATION = "licenseExpiration";
 
 	private static PropertyProvider instance = null;
 
