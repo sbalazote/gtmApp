@@ -39,8 +39,15 @@
         	<artifactId>core</artifactId>
         	<version>${zxing.version}</version>
      	 </dependency>
-      
-      	<dependency>
+
+		<!-- License3j -->
+		<dependency>
+			<groupId>com.verhas</groupId>
+			<artifactId>license3j</artifactId>
+			<version>1.0.4</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.google.zxing</groupId>
 			<artifactId>javase</artifactId>
 			<version>${zxing.version}</version>
