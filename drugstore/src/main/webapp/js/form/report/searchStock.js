@@ -142,24 +142,7 @@ SearchStock = function() {
 				"batchNumber": $("#batchNumberSearch").val().trim()
 			};
 			jsonStock = jsonStockSearch;
-			$.ajax({
-				url: "getCountStockSearch.do",
-				type: "POST",
-				contentType:"application/json",
-				async: false,
-				data: JSON.stringify(jsonStockSearch),
-				success: function(response) {
-					if(response == true){
-						makeQuery(jsonStockSearch);
-					}else{
-						myQueryTooLargeAlert();
-					}
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					myGenericError();
-				}
-			});
-			
+			makeQuery(jsonStockSearch);
 		}
 	});
 	
