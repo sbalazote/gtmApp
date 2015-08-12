@@ -141,14 +141,14 @@ SearchSerializedProduct = function() {
                 serialNumber: serial
             },
             success: function(response) {
-                $('#divMovements').hide();
+                $('#divMovements').show();
 
-                if(response.inputs.length > 0 || response.outputs.length > 0 || response.orders.length > 0 || response.deliveryNotes.length > 0){
+                if(response.inputs.length > 0 || response.outputs.length > 0 || response.orders.length > 0 || response.deliveryNotes.length > 0 || response.supplyings.length > 0){
                     var aaData = [];
                     if(response.inputs != null){
-                        if(response.inputs.length > 0){
+                        /*if(response.inputs.length > 0){
                             $('#divMovements').show();
-                        }
+                        }*/
                         for (var i = 0, l = response.inputs.length; i < l; ++i) {
                             var audit = {
                                 id: 0,
