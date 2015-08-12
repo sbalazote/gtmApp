@@ -125,6 +125,8 @@ public class InputWSHelper {
         Long total = new Long(1);
         while (pageNumber <= total && inputDetails.size() > 0) {
             pendingTransactions = this.webService.getTransaccionesNoConfirmadas(this.PropertyService.get().getANMATName(), this.PropertyService.get().getDecryptPassword(), nullValue, null, null, null, gtin, nullValue, null, null, simpleDateFormat.format(date), simpleDateFormat.format(new Date()), null, null, null, null, nullValue, null, null, pageNumber, new Long(100));
+            logger.error("Numero de pagina: "  + pageNumber);
+            logger.error("total de pagina: "  + total);
             if (pendingTransactions != null) {
                 total = pendingTransactions.getCantPaginas();
                 if (pendingTransactions.getErrores() == null) {
@@ -133,11 +135,13 @@ public class InputWSHelper {
                             Iterator<InputDetail> iterator = inputDetails.iterator();
                             while (iterator.hasNext()) {
                                 InputDetail inputDetail = iterator.next();
+                                logger.error("Cantidad de details para el gtin " + inputDetail.getGtin().getNumber() + " " + inputDetails.size());
                                 if (transaccionPlainWS.get_numero_serial().equals(inputDetail.getSerialNumber()) && transaccionPlainWS.get_gtin().equals(gtin)) {
                                     if(transaccionPlainWS.get_gln_origen().equals(input.getOriginGln())){
                                         ConfirmacionTransaccionDTO confirmacionTransaccionDTO = new ConfirmacionTransaccionDTO();
                                         confirmacionTransaccionDTO.setF_operacion(simpleDateFormat.format(input.getDate()));
                                         confirmacionTransaccionDTO.setP_ids_transac(Long.valueOf(transaccionPlainWS.get_id_transaccion()));
+                                        logger.error("Transaccion para el Gtin " + gtin + "Serie " + inputDetail.getSerialNumber());
                                         toConfirm.add(confirmacionTransaccionDTO);
                                     }else{
                                         String error = "Gtin:" +  inputDetail.getGtin().getNumber() + " Serie: " + inputDetail.getSerialNumber() + " GLN: " + transaccionPlainWS.get_gln_origen() + " (" + transaccionPlainWS.get_razon_social_origen() + ")" +  ", Asignado: " + input.getOriginGln();
