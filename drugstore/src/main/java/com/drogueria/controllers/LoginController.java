@@ -49,7 +49,7 @@ public class LoginController {
         modelMap.put("name", propertyService.get().getName());
         modelMap.put("logPath", "./images/logo.png");
 
-        boolean validLicense = isValidLicense();
+        boolean validLicense = true;//isValidLicense();
 
         if(browserName.indexOf(IE_BROWSER) >= 0){
             modelMap.put("error", "Internet Explorer no es compatible con la aplicacion, utilice Chrome o Firefox");
