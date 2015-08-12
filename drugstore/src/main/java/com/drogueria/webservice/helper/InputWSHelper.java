@@ -86,6 +86,7 @@ public class InputWSHelper {
         try {
             Map<String, List<InputDetail>> inputDetailsMap = createDetailsMap(details);
             for (String gtin : inputDetailsMap.keySet()) {
+                gtin = StringUtility.addLeadingZeros(gtin, 14);
                 List<InputDetail> inputDetails = checkPendingInputProducts(errors,inputDetailsMap.get(gtin),gtin,toConfirm,input);
                 if(inputDetails.size() > 0){
                     for(InputDetail inputDetail : inputDetails){
@@ -108,7 +109,8 @@ public class InputWSHelper {
                     inputDetails = new ArrayList<>();
                 }
                 inputDetails.add(inputDetail);
-                toReturn.put(inputDetail.getGtin().getNumber(), inputDetails);
+                String gtin = StringUtility.addLeadingZeros(inputDetail.getGtin().getNumber(), 14);
+                toReturn.put(gtin, inputDetails);
             }
         }
         return toReturn;
