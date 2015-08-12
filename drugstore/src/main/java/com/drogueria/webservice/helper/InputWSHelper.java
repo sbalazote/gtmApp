@@ -104,12 +104,12 @@ public class InputWSHelper {
         Map<String, List<InputDetail>> toReturn = new HashMap<>();
         for (InputDetail inputDetail : details) {
             if (inputDetail.getGtin() != null && inputDetail.getProduct().isInformAnmat() && "PS".equals(inputDetail.getProduct().getType())) {
-                List<InputDetail> inputDetails = toReturn.get(inputDetail.getGtin().getNumber());
+                String gtin = StringUtility.addLeadingZeros(inputDetail.getGtin().getNumber(), 14);
+                List<InputDetail> inputDetails = toReturn.get(gtin);
                 if (inputDetails == null) {
                     inputDetails = new ArrayList<>();
                 }
                 inputDetails.add(inputDetail);
-                String gtin = StringUtility.addLeadingZeros(inputDetail.getGtin().getNumber(), 14);
                 toReturn.put(gtin, inputDetails);
             }
         }
@@ -124,7 +124,7 @@ public class InputWSHelper {
         Long pageNumber = new Long(1);
         Long total = new Long(1);
         while (pageNumber <= total && inputDetails.size() > 0) {
-            pendingTransactions = this.webService.getTransaccionesNoConfirmadas(this.PropertyService.get().getANMATName(), this.PropertyService.get().getDecryptPassword(), nullValue, null, null, null, gtin, nullValue, null, null, simpleDateFormat.format(date), simpleDateFormat.format(new Date()), null, null, null, null, nullValue, null, null, pageNumber, new Long(100));
+            pendingTransactions = this.webService.getTransaccionesNoConfirmadas("pruebasws", "pruebasws", nullValue, null, null, null, "GTIN2", nullValue, null, null, simpleDateFormat.format(date), simpleDateFormat.format(new Date()), null, null, null, null, nullValue, null, null, pageNumber, new Long(100));
             logger.error("Numero de pagina: "  + pageNumber);
             logger.error("total de pagina: "  + total);
             if (pendingTransactions != null) {
