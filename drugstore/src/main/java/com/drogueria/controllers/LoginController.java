@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -49,7 +50,7 @@ public class LoginController {
         modelMap.put("sofwareName",PropertyProvider.getInstance().getProp(PropertyProvider.ARTIFACT_ID) );
         modelMap.put("name", propertyService.get().getName());
         modelMap.put("logPath", "./images/logo.png");
-
+        System.out.println("ENCODING: " + Charset.defaultCharset());
         boolean validLicense = isValidLicense();
 
         if(browserName.indexOf(IE_BROWSER) >= 0){
