@@ -149,18 +149,18 @@
 						<sec:authorize access="hasRole('ENTITY_ADMINISTRATION')">
 							<li class="dropdown-submenu"><a href="#"><spring:message code="administration.entity" /></a>
 								<ul class="dropdown-menu">
+									<li><a href="affiliateAdministration.do"><spring:message code="common.affiliates" /></a></li>
+									<li><a href="agentAdministration.do"><spring:message code="common.agents" /></a></li>
+									<li><a href="clientAdministration.do"><spring:message code="common.clients" /></a></li>
+									<li><a href="conceptAdministration.do"><spring:message code="common.concepts" /></a></li>
+									<li><a href="agreementAdministration.do"><spring:message code="common.agreements" /></a></li>
+									<li><a href="eventAdministration.do"><spring:message code="common.events" /></a></li>
+									<li><a href="deliveryLocationAdministration.do"><spring:message code="common.deliveryLocations" /></a></li>
+									<li><a href="logisticsOperatorAdministration.do"><spring:message code="common.logisticsOperators" /></a></li>
 									<li><a href="productAdministration.do"><spring:message code="common.products" /></a></li>
 									<li><a href="providerAdministration.do"><spring:message code="common.providers" /></a></li>
-									<li><a href="conceptAdministration.do"><spring:message code="common.concepts" /></a></li>
-									<li><a href="logisticsOperatorAdministration.do"><spring:message code="common.logisticsOperators" /></a></li>
-									<li><a href="deliveryLocationAdministration.do"><spring:message code="common.deliveryLocations" /></a></li>
-									<li><a href="clientAdministration.do"><spring:message code="common.clients" /></a></li>
-									<li><a href="agreementAdministration.do"><spring:message code="common.agreements" /></a></li>
-									<li><a href="agentAdministration.do"><spring:message code="common.agents" /></a></li>
-									<li><a href="eventAdministration.do"><spring:message code="common.events" /></a></li>
-									<li><a href="affiliateAdministration.do"><spring:message code="common.affiliates" /></a></li>
-									<li><a href="providerSerializedFormatAdministration.do"><spring:message code="common.serializations" /></a></li>
 									<li><a href="deliveryNoteEnumeratorAdministration.do"><spring:message code="common.deliveryNoteEnumerators" /></a></li>
+									<li><a href="providerSerializedFormatAdministration.do"><spring:message code="common.serializations" /></a></li>
 								</ul></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('USER_ADMINISTRATION')">
