@@ -1,10 +1,10 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<script type="text/javascript" src="js/form/administration/roleAdministration.js" /></script>
+<script type="text/javascript" src="js/form/administration/roleAdministration.js" />
 
 <div class="row">
 	<div class="col-md-9 form-group">
-		<h2><spring:message code="administration.roleAdministration"/></h2>
+		<h3><spring:message code="administration.roleAdministration"/></h3>
 	</div>
 </div>
 	<div class="bs-example bs-example-tabs">

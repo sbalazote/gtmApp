@@ -1,7 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<script type="text/javascript" src="js/form/administration/deliveryNoteEnumeratorAdministration.js" /></script>
-<script type="text/javascript" src="js/form/administration/save/saveDeliveryNoteEnumerator.js" /></script>
+<script type="text/javascript" src="js/form/administration/deliveryNoteEnumeratorAdministration.js" />
+<script type="text/javascript" src="js/form/administration/save/saveDeliveryNoteEnumerator.js" />
 <script type="text/javascript">
   $(document).ready(function() {
     new SaveDeliveryNoteEnumerator();
@@ -10,9 +10,9 @@
 
 <div class="row">
   <div class="col-md-9 form-group">
-    <h2>
+    <h3>
       <spring:message code="administration.deliveryNoteEnumeratorAdministration" />
-    </h2>
+    </h3>
   </div>
 </div>
 

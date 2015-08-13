@@ -1,9 +1,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<script type="text/javascript" src="js/form/administration/providerAdministration.js" /></script>
-<script type="text/javascript" src="js/form/administration/save/saveProvider.js" /></script>
-<script type="text/javascript" src="js/form/administration/save/saveProviderType.js" /></script>
+<script type="text/javascript" src="js/form/administration/providerAdministration.js" />
+<script type="text/javascript" src="js/form/administration/save/saveProvider.js" />
+<script type="text/javascript" src="js/form/administration/save/saveProviderType.js" />
 <script type="text/javascript">
 	$(document).ready(function() {
 		new SaveProvider();
@@ -13,7 +13,7 @@
 
 <div class="row">
 	<div class="col-md-9 form-group">
-		<h2><spring:message code="administration.providerAdministration"/></h2>
+		<h3><spring:message code="administration.providerAdministration"/></h3>
 	</div>
 </div>
 <div>

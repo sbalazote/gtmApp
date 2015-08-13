@@ -2,13 +2,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<script type="text/javascript" src="js/form/administration/providerSerializedFormatAdministration.js" /></script>
+<script type="text/javascript" src="js/form/administration/providerSerializedFormatAdministration.js" />
 
 <div class="row">
 	<div class="col-md-9 form-group">
-		<h2>
+		<h3>
 			<spring:message code="administration.serializeAdministration" />
-		</h2>
+		</h3>
 	</div>
 </div>
 
@@ -51,7 +51,7 @@
 	</table>
 </div>
 
-<%-- Confirmación de que se borrará definitivamente --%>
+<%-- Confirmaciï¿½n de que se borrarï¿½ definitivamente --%>
 <div class="modal fade" data-backdrop="static" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:250px">
 		<div class="modal-content">

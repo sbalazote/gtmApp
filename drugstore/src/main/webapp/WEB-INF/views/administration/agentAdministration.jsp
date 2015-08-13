@@ -1,7 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<script type="text/javascript" src="js/form/administration/agentAdministration.js" /></script>
-<script type="text/javascript" src="js/form/administration/save/saveAgent.js" /></script>
+<script type="text/javascript" src="js/form/administration/agentAdministration.js" />
+<script type="text/javascript" src="js/form/administration/save/saveAgent.js" />
 <script type="text/javascript">
 	$(document).ready(function() {
 		new SaveAgent();
@@ -10,9 +10,9 @@
 
 <div class="row">
 	<div class="col-md-9 form-group">
-		<h2>
+		<h3>
 			<spring:message code="administration.agentAdministration" />
-		</h2>
+		</h3>
 	</div>
 </div>
 
@@ -38,7 +38,7 @@
 	</thead>
 </table>
 
-<%-- Confirmación de que se borrará definitivamente --%>
+<%-- Confirmaciï¿½n de que se borrarï¿½ definitivamente --%>
 <div class="modal fade" data-backdrop="static" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:250px">
 		<div class="modal-content">

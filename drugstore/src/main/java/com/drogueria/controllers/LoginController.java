@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -50,7 +50,6 @@ public class LoginController {
         modelMap.put("sofwareName",PropertyProvider.getInstance().getProp(PropertyProvider.ARTIFACT_ID) );
         modelMap.put("name", propertyService.get().getName());
         modelMap.put("logPath", "./images/logo.png");
-        logger.info("ENCODING: " + Charset.defaultCharset());
         boolean validLicense = isValidLicense();
 
         if(browserName.indexOf(IE_BROWSER) >= 0){
@@ -64,21 +63,14 @@ public class LoginController {
         if (!validLicense) {
             modelMap.put("error", "La Licencia ha caducado. Comuníquese con el Administrador.");
             modelMap.put("loginDisabled", true);
-        }
+        };
 
 		return "login";
 	}
 
     private boolean isValidLicense() {
-        /*File pubringFile = new File("src/main/resources/license/pubring.gpg");
-        File licenseFile = new File("src/main/resources/license/license.lic");*/
-        /*File pubringFile = new File("target/classes/license/pubring.gpg");
-        File licenseFile = new File("target/classes/license/license.lic");*/
-
         lic = new License();
         try {
-            //lic.loadKeyRing(pubringFile, digest);
-            //lic.loadKeyRingFromResource("src/main/resources/license/pubring.gpg", digest);
             lic.loadKeyRing((InputStream) this.getClass().getClassLoader().getResourceAsStream("license/pubring.out"), digest);
             lic.setLicenseEncoded((InputStream) this.getClass().getClassLoader().getResourceAsStream("license/license.lic"));
         } catch (IOException e) {
@@ -98,7 +90,7 @@ public class LoginController {
         Date validUntilDate = null;
         try {
             validUntilDate = sdf.parse(lic.getFeature("valid-until"));
-            PropertyProvider.getInstance().setProp(PropertyProvider.LICENSE_EXPIRATION, validUntilDate.toString());
+            PropertyProvider.getInstance().setProp(PropertyProvider.LICENSE_EXPIRATION, DateFormat.getInstance().format(validUntilDate));
         } catch (ParseException e) {
             e.printStackTrace();
         }
