@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -49,7 +50,7 @@ public class LoginController {
         modelMap.put("name", propertyService.get().getName());
         modelMap.put("logPath", "./images/logo.png");
 
-        boolean validLicense = true;//isValidLicense();
+        boolean validLicense = isValidLicense();
 
         if(browserName.indexOf(IE_BROWSER) >= 0){
             modelMap.put("error", "Internet Explorer no es compatible con la aplicacion, utilice Chrome o Firefox");
@@ -68,12 +69,16 @@ public class LoginController {
 	}
 
     private boolean isValidLicense() {
-        File pubringFile = new File("src/main/resources/license/pubring.gpg");
-        File licenseFile = new File("src/main/resources/license/license.lic");
+        /*File pubringFile = new File("src/main/resources/license/pubring.gpg");
+        File licenseFile = new File("src/main/resources/license/license.lic");*/
+        File pubringFile = new File("target/classes/license/pubring.gpg");
+        File licenseFile = new File("target/classes/license/license.lic");
 
         lic = new License();
         try {
-            lic.loadKeyRing(pubringFile, digest);
+            //lic.loadKeyRing(pubringFile, digest);
+            //lic.loadKeyRingFromResource("src/main/resources/license/pubring.gpg", digest);
+            lic.loadKeyRing((InputStream) this.getClass().getClassLoader().getResourceAsStream("license/pubring.gpg"), digest);
             lic.setLicenseEncoded(licenseFile);
         } catch (IOException e) {
             e.printStackTrace();
