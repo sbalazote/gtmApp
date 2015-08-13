@@ -80,7 +80,8 @@ public class LoginController {
         try {
             //lic.loadKeyRing(pubringFile, digest);
             //lic.loadKeyRingFromResource("src/main/resources/license/pubring.gpg", digest);
-            lic.loadKeyRing((InputStream) this.getClass().getClassLoader().getResourceAsStream("license/pubring.gpg"), digest);
+            //lic.loadKeyRing((InputStream) this.getClass().getClassLoader().getResourceAsStream("license/pubring.gpg"), digest);
+            lic.loadKeyRing((InputStream) this.getClass().getClassLoader().getResourceAsStream("src/main/resources/license/pubring.gpg"), digest);
             lic.setLicenseEncoded(licenseFile);
         } catch (IOException e) {
             e.printStackTrace();
