@@ -1,7 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<script type="text/javascript" src="js/form/administration/agentAdministration.js" />
-<script type="text/javascript" src="js/form/administration/save/saveAgent.js" />
+<script type="text/javascript" src="js/form/administration/agentAdministration.js" ></script>
+<script type="text/javascript" src="js/form/administration/save/saveAgent.js" ></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		new SaveAgent();

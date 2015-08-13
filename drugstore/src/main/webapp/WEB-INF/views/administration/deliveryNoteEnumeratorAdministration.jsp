@@ -1,7 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<script type="text/javascript" src="js/form/administration/deliveryNoteEnumeratorAdministration.js" />
-<script type="text/javascript" src="js/form/administration/save/saveDeliveryNoteEnumerator.js" />
+<script type="text/javascript" src="js/form/administration/deliveryNoteEnumeratorAdministration.js" ></script>
+<script type="text/javascript" src="js/form/administration/save/saveDeliveryNoteEnumerator.js" ></script>
 <script type="text/javascript">
   $(document).ready(function() {
     new SaveDeliveryNoteEnumerator();

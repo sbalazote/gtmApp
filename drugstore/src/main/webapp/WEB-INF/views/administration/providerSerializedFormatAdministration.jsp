@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<script type="text/javascript" src="js/form/administration/providerSerializedFormatAdministration.js" />
+<script type="text/javascript" src="js/form/administration/providerSerializedFormatAdministration.js" ></script>
 
 <div class="row">
 	<div class="col-md-9 form-group">

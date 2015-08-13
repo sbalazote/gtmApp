@@ -1,6 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<script type="text/javascript" src="js/form/administration/roleAdministration.js" />
+<script type="text/javascript" src="js/form/administration/roleAdministration.js" ></script>
 
 <div class="row">
 	<div class="col-md-9 form-group">

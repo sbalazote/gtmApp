@@ -1,12 +1,12 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<script type="text/javascript" src="js/form/administration/productAdministration.js" />
-<script type="text/javascript" src="js/form/administration/save/saveProduct.js" />
-<script type="text/javascript" src="js/form/administration/save/saveProductBrand.js" />
-<script type="text/javascript" src="js/form/administration/save/saveProductDrugCategory.js" />
-<script type="text/javascript" src="js/form/administration/save/saveProductGroup.js" />
-<script type="text/javascript" src="js/form/administration/save/saveProductMonodrug.js" />
+<script type="text/javascript" src="js/form/administration/productAdministration.js" ></script>
+<script type="text/javascript" src="js/form/administration/save/saveProduct.js" ></script>
+<script type="text/javascript" src="js/form/administration/save/saveProductBrand.js" ></script>
+<script type="text/javascript" src="js/form/administration/save/saveProductDrugCategory.js" ></script>
+<script type="text/javascript" src="js/form/administration/save/saveProductGroup.js" ></script>
+<script type="text/javascript" src="js/form/administration/save/saveProductMonodrug.js" ></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		new ProductAdministration();
