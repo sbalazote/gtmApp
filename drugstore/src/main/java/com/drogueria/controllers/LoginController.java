@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -73,16 +72,15 @@ public class LoginController {
     private boolean isValidLicense() {
         /*File pubringFile = new File("src/main/resources/license/pubring.gpg");
         File licenseFile = new File("src/main/resources/license/license.lic");*/
-        File pubringFile = new File("target/classes/license/pubring.gpg");
-        File licenseFile = new File("target/classes/license/license.lic");
+        /*File pubringFile = new File("target/classes/license/pubring.gpg");
+        File licenseFile = new File("target/classes/license/license.lic");*/
 
         lic = new License();
         try {
             //lic.loadKeyRing(pubringFile, digest);
             //lic.loadKeyRingFromResource("src/main/resources/license/pubring.gpg", digest);
-            //lic.loadKeyRing((InputStream) this.getClass().getClassLoader().getResourceAsStream("license/pubring.gpg"), digest);
-            lic.loadKeyRing((InputStream) this.getClass().getClassLoader().getResourceAsStream("src/main/resources/license/pubring.gpg"), digest);
-            lic.setLicenseEncoded(licenseFile);
+            lic.loadKeyRing((InputStream) this.getClass().getClassLoader().getResourceAsStream("license/pubring.gpg"), digest);
+            lic.setLicenseEncoded((InputStream) this.getClass().getClassLoader().getResourceAsStream("license/license.lic"));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (PGPException e) {
