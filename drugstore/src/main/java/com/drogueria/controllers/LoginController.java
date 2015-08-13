@@ -4,6 +4,7 @@ import com.drogueria.config.PropertyProvider;
 import com.drogueria.service.PropertyService;
 import com.verhas.licensor.License;
 import eu.bitwalker.useragentutils.UserAgent;
+import org.apache.log4j.Logger;
 import org.bouncycastle.openpgp.PGPException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,7 @@ import java.util.Date;
 @Controller
 public class LoginController {
     private static String IE_BROWSER = "IE";
-
+    private static final Logger logger = Logger.getLogger(LoginController.class);
     private License lic = null;
 
     byte [] digest = new byte[] {
@@ -50,7 +51,7 @@ public class LoginController {
         modelMap.put("sofwareName",PropertyProvider.getInstance().getProp(PropertyProvider.ARTIFACT_ID) );
         modelMap.put("name", propertyService.get().getName());
         modelMap.put("logPath", "./images/logo.png");
-        System.out.println("ENCODING: " + Charset.defaultCharset());
+        logger.info("ENCODING: " + Charset.defaultCharset());
         boolean validLicense = isValidLicense();
 
         if(browserName.indexOf(IE_BROWSER) >= 0){
