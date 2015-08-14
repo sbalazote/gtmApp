@@ -850,10 +850,11 @@ var Supplying = function() {
 
 	$('#clientInput').on('change', function(evt, params) {
 		if ($("#clientInput").val() == "") {
-			$("#affiliateInput").select2("val", "");
+			$("#affiliateInput").select2("enable", false);
 		} else {
 			$("#affiliateInput").select2("enable", true);
 		}
+		$("#affiliateInput").select2("val", "");
 	});
 
 	$("#supplyingForm input, #supplyingForm select").keypress(function(event) {
