@@ -5,7 +5,11 @@
 		<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 		<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 		<%@ page import="com.drogueria.config.PropertyProvider" %>
-		<%@ page import="java.sql.*" %>
+		<%@ page import="java.io.File" %>
+		<%@ page import="java.sql.Connection" %>
+		<%@ page import="java.sql.DriverManager" %>
+		<%@ page import="java.sql.ResultSet" %>
+		<%@ page import="java.sql.Statement" %>
 		<%
 			String artifactId = PropertyProvider.getInstance().getProp(PropertyProvider.ARTIFACT_ID);
 			String name = PropertyProvider.getInstance().getProp(PropertyProvider.NAME);
@@ -27,7 +31,19 @@
         <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,user-scalable=no" />
 		<meta charset="UTF-8">
 
-		<link rel="shortcut icon" href="./images/logo.png" type="image/png">
+		<%
+			String relativePath = "";
+			String realPath = request.getServletContext().getRealPath("/images/uploadedLogo.png");
+
+			File file = new File(realPath);
+
+			if(file.exists()) {
+				relativePath = "./images/uploadedLogo.png";
+			} else {
+				relativePath = "./images/logo.png";
+			}
+		%>
+		<link rel="shortcut icon" href=<%= relativePath %> type="image/png">
 	
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css">

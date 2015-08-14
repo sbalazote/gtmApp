@@ -1,24 +1,32 @@
 package com.drogueria.helper.impl.pdf;
 
-import java.awt.Color;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.drogueria.config.PropertyProvider;
 import com.drogueria.constant.DocumentType;
 import com.drogueria.helper.AbstractPdfView;
-import com.drogueria.model.*;
+import com.drogueria.model.DeliveryNote;
+import com.drogueria.model.Supplying;
+import com.drogueria.model.SupplyingDetail;
 import com.drogueria.service.DeliveryNoteService;
 import com.drogueria.util.StringUtility;
 import com.lowagie.text.*;
+import com.lowagie.text.Font;
+import com.lowagie.text.Image;
+import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.*;
 import com.lowagie.text.pdf.draw.LineSeparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.List;
 
 @Component
 public class SupplyingsPdfView extends AbstractPdfView {
@@ -39,8 +47,17 @@ public class SupplyingsPdfView extends AbstractPdfView {
 		Font fontHeader = new Font(Font.TIMES_ROMAN, 11f, Font.NORMAL, Color.BLACK);
 		Font fontDetails = new Font(Font.TIMES_ROMAN, 8f, Font.NORMAL, Color.BLACK);
 		// Logo
-		String absoluteDiskPath = getServletContext().getRealPath("/images/logo.png");
-		Image logo = Image.getInstance(absoluteDiskPath);
+		String realPath = getServletContext().getRealPath("/images/uploadedLogo.png");
+
+		File file = new File(realPath);
+
+		Image logo;
+		if(file.exists()) {
+			logo = Image.getInstance(realPath);
+		} else {
+			realPath = getServletContext().getRealPath("/images/logo.png");
+			logo = Image.getInstance(realPath);
+		}
 		logo.scaleToFit(50f, 50f);
 		logo.setAbsolutePosition(10f * 2.8346f, 190f * 2.8346f);
 

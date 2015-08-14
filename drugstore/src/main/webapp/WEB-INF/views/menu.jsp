@@ -1,3 +1,4 @@
+<%@ page import="java.io.File" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -12,9 +13,23 @@
 </script>
 
 <nav class="navbar navbar-default" role="navigation">
+
+	<%
+		String relativePath = "";
+		String realPath = request.getServletContext().getRealPath("/images/uploadedLogo.png");
+
+		File file = new File(realPath);
+
+		if(file.exists()) {
+			relativePath = "./images/uploadedLogo.png";
+		} else {
+			relativePath = "./images/logo.png";
+		}
+	%>
+
 	<!-- Brand and toggle get grouped for better mobile display -->
 	<div class="navbar-header">
-		<a class="navbar-brand" href="home.do"> <span><img alt="Brand" width="25" height="25" src="./images/logo.png"></span></a>
+		<a class="navbar-brand" href="home.do"> <span><img alt="Brand" width="25" height="25" src=<%= relativePath %>></span></a>
 	</div>
 
 	<!-- Collect the nav links, forms, and other content for toggling -->

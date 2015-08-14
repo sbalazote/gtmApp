@@ -18,7 +18,7 @@
 
     <div class="row">
         <div class="form-group col-md-4 col-md-offset-4 text-center">
-            <img class="text-center" src="${logPath}" class="img-responsive" alt="Responsive image">
+            <img class="text-center" src="${logoPath}" class="img-responsive" alt="Responsive image">
         </div>
     </div>
 
@@ -30,7 +30,7 @@
 
     <div class="row">
         <div class="form-group col-md-12 text-center">
-            <h3 style="color: #0077b3; font-weight: bold">${sofwareName}</h3>
+            <h3 style="color: #0077b3; font-weight: bold">${softwareName}</h3>
         </div>
     </div>
 

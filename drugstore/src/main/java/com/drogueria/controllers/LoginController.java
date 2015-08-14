@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,9 +47,19 @@ public class LoginController {
         String userAgent = request.getHeader("user-agent");
         UserAgent ua = UserAgent.parseUserAgentString(userAgent);
         String browserName = ua.getBrowser().toString();
-        modelMap.put("sofwareName",PropertyProvider.getInstance().getProp(PropertyProvider.ARTIFACT_ID) );
+        modelMap.put("softwareName",PropertyProvider.getInstance().getProp(PropertyProvider.ARTIFACT_ID) );
         modelMap.put("name", propertyService.get().getName());
-        modelMap.put("logPath", "./images/logo.png");
+        String relativePath = "";
+        String realPath = request.getServletContext().getRealPath("/images/uploadedLogo.png");
+
+        File file = new File(realPath);
+
+        if(file.exists()) {
+            relativePath = "./images/uploadedLogo.png";
+        } else {
+            relativePath = "./images/logo.png";
+        }
+        modelMap.put("logoPath", relativePath);
         boolean validLicense = isValidLicense();
 
         if(browserName.indexOf(IE_BROWSER) >= 0){
@@ -90,7 +100,8 @@ public class LoginController {
         Date validUntilDate = null;
         try {
             validUntilDate = sdf.parse(lic.getFeature("valid-until"));
-            PropertyProvider.getInstance().setProp(PropertyProvider.LICENSE_EXPIRATION, DateFormat.getInstance().format(validUntilDate));
+            //PropertyProvider.getInstance().setProp(PropertyProvider.LICENSE_EXPIRATION, DateFormat.getInstance().format(validUntilDate));
+            PropertyProvider.getInstance().setProp(PropertyProvider.LICENSE_EXPIRATION, validUntilDate.toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
