@@ -1,8 +1,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<script type="text/javascript" src="js/form/administration/userAdministration.js" /></script>
-<script type="text/javascript" src="js/form/administration/save/saveUser.js" /></script>
+<script type="text/javascript" src="js/form/administration/userAdministration.js" ></script>
+<script type="text/javascript" src="js/form/administration/save/saveUser.js" ></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		new SaveUser();
@@ -11,9 +11,9 @@
 
 <div class="row">
 	<div class="col-md-9 form-group">
-		<h2>
+		<h3>
 			<spring:message code="administration.userAdministration" />
-		</h2>
+		</h3>
 	</div>
 </div>
 
@@ -39,7 +39,7 @@
 	</thead>
 </table>
 
-<%-- Confirmación de que se borrará definitivamente --%>
+<%-- Confirmaciï¿½n de que se borrarï¿½ definitivamente --%>
 <div class="modal fade" data-backdrop="static" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:250px">
 		<div class="modal-content">

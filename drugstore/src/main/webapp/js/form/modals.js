@@ -636,11 +636,12 @@ $(document).ready(function() {
             if(response.supplyingDetails[i].gtin != null){
                 gtinNumber = response.supplyingDetails[i].gtin.number;
             }
+			var descriptionDiscriminator = response.supplyingDetails[i].inStock ? "" : "(*)";
 			serialDetails = {
 				id: id,
                 gtin: gtinNumber,
 				amount: response.supplyingDetails[i].amount,
-				serialNumber: response.supplyingDetails[i].serialNumber,
+				serialNumber: response.supplyingDetails[i].serialNumber + descriptionDiscriminator,
 				batch: response.supplyingDetails[i].batch,
 				expirationDate: myParseDate(response.supplyingDetails[i].expirationDate),
                 viewTraceability: "<a href='searchSerializedProduct.do?productId="+ response.supplyingDetails[i].product.id + "&serial=" + response.supplyingDetails[i].serialNumber + "' target='_blank'>Ver Traza" + "<//a>"

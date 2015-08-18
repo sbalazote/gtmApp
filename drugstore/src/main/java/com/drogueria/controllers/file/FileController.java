@@ -1,15 +1,8 @@
 package com.drogueria.controllers.file;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-
+import com.drogueria.dto.AlfabetaFileDTO;
+import com.drogueria.helper.FileMeta;
+import com.drogueria.service.ProductService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,9 +14,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.drogueria.dto.AlfabetaFileDTO;
-import com.drogueria.helper.FileMeta;
-import com.drogueria.service.ProductService;
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Controller
 public class FileController {
@@ -113,7 +110,7 @@ public class FileController {
 					imageBytes = mpf.getBytes();
 				}
 
-				FileCopyUtils.copy(imageBytes, new FileOutputStream(path + "/logo.png"));
+				FileCopyUtils.copy(imageBytes, new FileOutputStream(path + "/uploadedLogo.png"));
 				logger.info("Logo subido! ");
 
 			} catch (IOException e) {

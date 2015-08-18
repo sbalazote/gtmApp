@@ -403,6 +403,7 @@ public class InputServiceImpl implements InputService {
 
 	@Override
 	public Input update(InputDTO inputDTO) {
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		Input input = this.get(inputDTO.getId());
 		input.setConcept(this.conceptService.get(inputDTO.getConceptId()));
 		if (inputDTO.getProviderId() == null) {
@@ -417,6 +418,11 @@ public class InputServiceImpl implements InputService {
 		}
 		input.setPurchaseOrderNumber(inputDTO.getPurchaseOrderNumber());
 		input.setDeliveryNoteNumber(inputDTO.getDeliveryNoteNumber());
+		try {
+			input.setDate(dateFormatter.parse(inputDTO.getDate()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		try {
 			if (input.hasToInform()) {
 				input.setInformAnmat(true);

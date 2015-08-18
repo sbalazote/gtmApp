@@ -5,9 +5,9 @@
 
 <div class="row">
 	<div class="col-md-9 form-group">
-		<h2>
+		<h3>
 			<spring:message code="administration.conceptAdministration" />
-		</h2>
+		</h3>
 	</div>
 </div>
 

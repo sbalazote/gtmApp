@@ -1,8 +1,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<script type="text/javascript" src="js/form/administration/affiliateAdministration.js" /></script>
-<script type="text/javascript" src="js/form/administration/save/saveAffiliate.js" /></script>
+<script type="text/javascript" src="js/form/administration/affiliateAdministration.js" ></script>
+<script type="text/javascript" src="js/form/administration/save/saveAffiliate.js" ></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		new SaveAffiliate();
@@ -11,9 +11,9 @@
 
 <div class="row">
 	<div class="col-md-9 form-group">
-		<h2>
+		<h3>
 			<spring:message code="administration.affiliateAdministration" />
-		</h2>
+		</h3>
 	</div>
 </div>
 

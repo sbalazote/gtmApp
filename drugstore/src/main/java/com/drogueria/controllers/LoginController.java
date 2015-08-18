@@ -4,6 +4,7 @@ import com.drogueria.config.PropertyProvider;
 import com.drogueria.service.PropertyService;
 import com.verhas.licensor.License;
 import eu.bitwalker.useragentutils.UserAgent;
+import org.apache.log4j.Logger;
 import org.bouncycastle.openpgp.PGPException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,7 +24,7 @@ import java.util.Date;
 @Controller
 public class LoginController {
     private static String IE_BROWSER = "IE";
-
+    private static final Logger logger = Logger.getLogger(LoginController.class);
     private License lic = null;
 
     byte [] digest = new byte[] {
@@ -45,10 +47,19 @@ public class LoginController {
         String userAgent = request.getHeader("user-agent");
         UserAgent ua = UserAgent.parseUserAgentString(userAgent);
         String browserName = ua.getBrowser().toString();
-        modelMap.put("sofwareName",PropertyProvider.getInstance().getProp(PropertyProvider.ARTIFACT_ID) );
+        modelMap.put("softwareName",PropertyProvider.getInstance().getProp(PropertyProvider.ARTIFACT_ID) );
         modelMap.put("name", propertyService.get().getName());
-        modelMap.put("logPath", "./images/logo.png");
+        String relativePath = "";
+        String realPath = request.getServletContext().getRealPath("/images/uploadedLogo.png");
 
+        File file = new File(realPath);
+
+        if(file.exists()) {
+            relativePath = "./images/uploadedLogo.png";
+        } else {
+            relativePath = "./images/logo.png";
+        }
+        modelMap.put("logoPath", relativePath);
         boolean validLicense = isValidLicense();
 
         if(browserName.indexOf(IE_BROWSER) >= 0){
@@ -62,19 +73,16 @@ public class LoginController {
         if (!validLicense) {
             modelMap.put("error", "La Licencia ha caducado. Comuníquese con el Administrador.");
             modelMap.put("loginDisabled", true);
-        }
+        };
 
 		return "login";
 	}
 
     private boolean isValidLicense() {
-        File pubringFile = new File("src/main/resources/license/pubring.gpg");
-        File licenseFile = new File("src/main/resources/license/license.lic");
-
         lic = new License();
         try {
-            lic.loadKeyRing(pubringFile, digest);
-            lic.setLicenseEncoded(licenseFile);
+            lic.loadKeyRing((InputStream) this.getClass().getClassLoader().getResourceAsStream("license/pubring.out"), digest);
+            lic.setLicenseEncoded((InputStream) this.getClass().getClassLoader().getResourceAsStream("license/license.lic"));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (PGPException e) {
@@ -92,6 +100,7 @@ public class LoginController {
         Date validUntilDate = null;
         try {
             validUntilDate = sdf.parse(lic.getFeature("valid-until"));
+            //PropertyProvider.getInstance().setProp(PropertyProvider.LICENSE_EXPIRATION, DateFormat.getInstance().format(validUntilDate));
             PropertyProvider.getInstance().setProp(PropertyProvider.LICENSE_EXPIRATION, validUntilDate.toString());
         } catch (ParseException e) {
             e.printStackTrace();

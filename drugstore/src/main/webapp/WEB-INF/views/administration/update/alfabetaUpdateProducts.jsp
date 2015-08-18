@@ -1,7 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<script type="text/javascript" src="js/form/administration/alfabetaUpdateProducts.js" /></script>
+<script type="text/javascript" src="js/form/administration/alfabetaUpdateProducts.js" ></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		new AlfabetaUpdateProducts();
@@ -12,9 +12,9 @@
 
 	<div class="row">
 		<div class="col-md-9 form-group">
-			<h2>
+			<h3>
 				<spring:message code="administration.alfabetaUpdateProducts.title" />
-			</h2>
+			</h3>
 		</div>
 	</div>
 

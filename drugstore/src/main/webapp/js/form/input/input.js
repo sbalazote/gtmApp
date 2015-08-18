@@ -31,7 +31,9 @@ Input = function() {
 	var isButtonConfirm = false;
 	
 	var isUpdate = false;
-	
+
+	var autocomplete = false;
+
 	var cleanAmountModal = function() {
 		myResetForm($("#productAmountModalForm")[0], amountFormValidator);
 	};
@@ -178,6 +180,8 @@ Input = function() {
 				productType = ui.item.type;
 				$("#productInput").val(productDescription);
 				$('#amountModal').modal('show');
+				$('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
+				autocomplete = true;
 			} else {
 				myShowAlert('danger', 'Producto ya Ingresado');
 				$("#productInput").val("");
@@ -189,49 +193,53 @@ Input = function() {
 	});
 	
 	$('#productInput').keydown(function(e) {
-	    if(e.keyCode == 13){ // Presiono Enter
-            var serial = $(this).val();
-            $.ajax({
-                url: "getProductBySerialOrGtin.do",
-                type: "GET",
-                data: {
-                    serial: serial
-                },
-                success: function(response) {
-                    if (response != "") {
-                        if (!productEntered(response.id)) {
-                            productId = response.id;
-                            //Esto hay q ver pero es para que si leyo por gtin q se le asocie ese
-                            // gtin a los productos a ingresar
-                            if(serial.length == 13) {
-                                productGtin = serial;
-                            }else{
-                                productGtin = response.lastGtin;
-                            }
-                            productDescription = response.code + ' - ' + response.description;
-                            productType = response.type;
+	    if(e.keyCode == 13) { // Presiono Enter
+			var serial = $(this).val();
+			if (!autocomplete) {
+				$.ajax({
+					url: "getProductBySerialOrGtin.do",
+					type: "GET",
+					data: {
+						serial: serial
+					},
+					success: function (response) {
+						if (response != "") {
+							if (!productEntered(response.id)) {
+								productId = response.id;
+								//Esto hay q ver pero es para que si leyo por gtin q se le asocie ese
+								// gtin a los productos a ingresar
+								if (serial.length == 13) {
+									productGtin = serial;
+								} else {
+									productGtin = response.lastGtin;
+								}
+								productDescription = response.code + ' - ' + response.description;
+								productType = response.type;
 
-                            $('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
+								$('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
 
-                            $("#productInput").val(productDescription);
-                            $('#amountModal').modal('show');
-                        } else {
-                            myShowAlert('danger', 'Producto ya Ingresado');
-                            $("#productInput").val("");
-                        }
-                    } else
-                    {
-                        $('#productInput').tooltip("destroy").data("title", "Producto Inexistente o Inactivo").addClass("has-error").tooltip();
-                        $('#productInput').val('');
-                        $('#productInput').focus();
-                    }
-                    return false;
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    myGenericError();
-                }
-            });
-	    }
+								$("#productInput").val(productDescription);
+								$('#amountModal').modal('show');
+							} else {
+								myShowAlert('danger', 'Producto ya Ingresado');
+								$("#productInput").val("");
+							}
+						} else {
+							$('#productInput').tooltip("destroy").data("title", "Producto Inexistente o Inactivo").addClass("has-error").tooltip();
+							$('#productInput').val('');
+							$('#productInput').focus();
+						}
+						return false;
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+						myGenericError();
+					}
+				});
+			} else {
+				$('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
+			}
+			autocomplete = false;
+		}
 	});
 
 	$('#amountModal').on('shown.bs.modal', function () {

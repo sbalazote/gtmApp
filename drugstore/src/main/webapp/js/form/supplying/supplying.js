@@ -514,8 +514,10 @@ var Supplying = function() {
 	
 	var populateProductsDetailsTable = function() {
 		var aaData = [];
+		var productTableIdDiscriminator = assignOutOfStock ? "(*)" : "";
+		var productTableId = productDescription + productTableIdDiscriminator;
 		var row = {
-			description: productDescription,
+			description: productTableId,
 			amount: productAmount,
 			command: "<span class='span-productId' style='display:none'>" + productId + "</span>"+
 			"<span class='span-productType' style='display:none'>" + productType + "</span>"+
@@ -549,6 +551,7 @@ var Supplying = function() {
 			}else{
 				supplyingDetailGroup.push(productDetails);
 				populateProductsDetailsTable();
+				productIds.push(productId);
 			}
 				
 			tempStockIdsGroup[productId] = tempStockIds;
@@ -583,6 +586,7 @@ var Supplying = function() {
 			}else{
 				supplyingDetailGroup.push(productDetails);
 				populateProductsDetailsTable();
+				productIds.push(productId);
 			}
 			tempSerialNumberGroup[productId] = tempSerialNumber;
 			
@@ -818,9 +822,11 @@ var Supplying = function() {
 	});
 
 	var productEntered = function(productId) {
-		for (var i = 0, l = productIds.length; i < l; ++i) {
-			if (productIds[i] == productId) {
-				return true;
+		if (!assignOutOfStock) {
+			for (var i = 0, l = productIds.length; i < l; ++i) {
+				if (productIds[i] == productId) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -844,10 +850,11 @@ var Supplying = function() {
 
 	$('#clientInput').on('change', function(evt, params) {
 		if ($("#clientInput").val() == "") {
-			$("#affiliateInput").select2("val", "");
+			$("#affiliateInput").select2("enable", false);
 		} else {
 			$("#affiliateInput").select2("enable", true);
 		}
+		$("#affiliateInput").select2("val", "");
 	});
 
 	$("#supplyingForm input, #supplyingForm select").keypress(function(event) {
