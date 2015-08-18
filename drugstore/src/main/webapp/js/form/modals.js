@@ -641,8 +641,8 @@ $(document).ready(function() {
 				id: id,
                 gtin: gtinNumber,
 				amount: response.supplyingDetails[i].amount,
-				serialNumber: response.supplyingDetails[i].serialNumber + descriptionDiscriminator,
-				batch: response.supplyingDetails[i].batch,
+				serialNumber: (response.supplyingDetails[i].serialNumber) ? (response.supplyingDetails[i].serialNumber + descriptionDiscriminator) : response.supplyingDetails[i].serialNumber,
+				batch: (response.supplyingDetails[i].serialNumber) ? response.supplyingDetails[i].batch : (response.supplyingDetails[i].batch + descriptionDiscriminator),
 				expirationDate: myParseDate(response.supplyingDetails[i].expirationDate),
                 viewTraceability: "<a href='searchSerializedProduct.do?productId="+ response.supplyingDetails[i].product.id + "&serial=" + response.supplyingDetails[i].serialNumber + "' target='_blank'>Ver Traza" + "<//a>"
 			};
