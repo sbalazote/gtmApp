@@ -223,6 +223,7 @@ SelfSerialized = function() {
 					}
 				}, {
 					label: 'Si',
+					hotkey: 13,
 					cssClass: 'btn-primary',
 					action: function(dialogItself) {
 						dialogItself.close();
