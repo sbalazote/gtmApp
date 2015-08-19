@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <div class="modal fade" data-backdrop="static" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog" style="width: 1000px">
+	<div class="modal-dialog" style="width: 70%">
 		<div class="modal-content">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -15,19 +15,19 @@
 
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-md-8 form-group"></div>
+						<div class="col-md-8 col-lg-8 form-group"></div>
 					</div>
 
 					<div class="row">
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="orderModalAgreementInput"><spring:message code="common.agreement" /></label>
 							<input id="orderModalAgreementInput" name="orderModalAgreement" class="form-control" disabled>
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="orderModalClientInput"><spring:message code="common.client" /></label>
 							<input id="orderModalClientInput" name="orderModalClientInput" class="form-control" disabled>
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="orderModalAffiliateInput"><spring:message code="common.affiliate" /></label>
 							<input id="orderModalAffiliateInput" name="orderModalAffiliate" type="text" class="form-control" disabled />
 						</div>
@@ -35,22 +35,22 @@
 					</div>
 
 					<div class="row">
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="orderModalDeliveryLocationInput"><spring:message code="common.deliveryLocation" /></label>
 							<input id="orderModalDeliveryLocationInput" name="orderModalDeliveryLocation" class="form-control" disabled>
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="orderModalDeliveryDateInput"><spring:message code="common.deliveryDate" /></label>
 							<input id="orderModalDeliveryDateInput" name="orderModalDeliveryDate" type="text" class="form-control" disabled>
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="orderModalLogisticsOperatorInput"><spring:message code="common.logisticsOperator" /></label>
 							<input id="orderModalLogisticsOperatorInput" name="orderModalLogisticsOperator" class="form-control" disabled>
 						</div>
 					</div>
 
 					<div class="row">
-						<div class="col-md-12 form-group">
+						<div class="col-md-12 col-lg-12 form-group">
 							<label for="orderModalCommentTextarea"><spring:message code="provisioningRequest.comment.label" /></label>
 							<textarea id="orderModalCommentTextarea" name="orderModalComment" class="form-control my-textarea" rows="3" disabled></textarea>
 						</div>

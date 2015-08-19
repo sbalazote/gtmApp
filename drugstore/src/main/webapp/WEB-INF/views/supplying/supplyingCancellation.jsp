@@ -15,7 +15,7 @@
 
 <form action="" onsubmit="return false;">
 	<div class="row">
-		<div class="col-md-12 form-group">
+		<div class="col-md-12 col-lg-12 form-group">
 			<h3><spring:message code="supplying.supplyingCancelation" /></h3>
 		</div>
 	</div>
@@ -49,7 +49,7 @@
 	</div>
 	<br/>
 		<div class="row">
-			<div class="col-md-2 col-md-offset-10">
+			<div class="col-md-2 col-lg-2 col-md-offset-10 col-lg-offset-10">
 				<button class="btn btn-danger btn-block" type="submit" id="confirmButton">
 					<span class="glyphicon glyphicon-ok"></span>
 					<spring:message code="provisioningRequest.cancellation.button" />

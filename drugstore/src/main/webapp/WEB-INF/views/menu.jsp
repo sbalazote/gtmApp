@@ -212,19 +212,19 @@
 				<div id="changePasswordModalAlertDiv"></div>
 				<div class="modal-body">
 					<div class="row">
-                        <div class="col-md-12 form-group">
+                        <div class="col-md-12 col-lg-12 form-group">
 						    <label for="actualPasswordInput"><spring:message code="administration.actualPassword"/></label>
 						    <input type="password" class="form-control" name="actualPassword" id="actualPasswordInput"/>
                         </div>
 					</div>
 					<div class="row">
-						<div class="col-md-12 form-group">
+						<div class="col-md-12 col-lg-12 form-group">
 							<label for="passwordToChangeInput"><spring:message code="administration.newPassword" /></label>
 							<input type="password" class="form-control" id="passwordToChangeInput" name="passwordToChange">
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-12 form-group">
+						<div class="col-md-12 col-lg-12 form-group">
 							<label for="passwordToChangeInputCheck"><spring:message code="common.repeatPassword" /></label>
 							<input type="password" class="form-control" id="passwordToChangeInputCheck" name="passwordToChangeCheck">
 						</div>

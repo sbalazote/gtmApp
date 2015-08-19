@@ -15,17 +15,17 @@
 
 <form id="searchInputForm" action="" onsubmit="return false;">
 	<div class="row">
-		<div class="col-md-12 form-group">
+		<div class="col-md-12 col-lg-12 form-group">
 			<h3><spring:message code="input.cancellation.label"/></h3>
 		</div>
 	</div>
 	<div>
 		<div class="row">
-			<div class="col-md-4 form-group">
+			<div class="col-md-4 col-lg-4 form-group">
 				<label for="idSearch"><spring:message code="input.input.number"/></label>
 				<input id="idSearch" name="idSearch" class="form-control" >
 			</div>
-			<div class="col-md-4 form-group">
+			<div class="col-md-4 col-lg-4 form-group">
 				<label for="dateFromSearch"><spring:message code="common.dateFrom"/></label>
 				<div class="input-group">
 					<input type="text" class="form-control" name="dateFromSearch" id="dateFromSearch">
@@ -34,7 +34,7 @@
 					</span>
 				</div>
 			</div>
-			<div class="col-md-4 form-group">
+			<div class="col-md-4 col-lg-4 form-group">
 				<label for="dateToSearch"><spring:message code="common.dateTo"/></label>
 				<div class="input-group">
 					<input type="text" class="form-control" name="dateToSearch" id="dateToSearch">
@@ -46,7 +46,7 @@
 		</div>
 		
 		<div class="row">
-			<div class="col-md-4 form-group">
+			<div class="col-md-4 col-lg-4 form-group">
 				<label for="conceptSearch"><spring:message code="common.concept"/></label>
 				<select id="conceptSearch" name="conceptSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 					<option value=""></option>
@@ -55,7 +55,7 @@
 					</c:forEach>
 				</select>
 			</div>
-			<div class="col-md-4 form-group">
+			<div class="col-md-4 col-lg-4 form-group">
 				<label for="providerSearch"><spring:message code="common.provider"/></label>
 				<select id="providerSearch" name="providerSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 					<option value=""></option>
@@ -64,7 +64,7 @@
 					</c:forEach>
 				</select>
 			</div>
-			<div class="col-md-4 form-group">
+			<div class="col-md-4 col-lg-4 form-group">
 				<label for="deliveryLocationSearch"><spring:message code="common.client"/></label>
 				<select id="deliveryLocationSearch" name="deliveryLocationSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 					<option value=""></option>
@@ -76,7 +76,7 @@
 
 		</div>
 		<div class="row">
-			<div class="col-md-4 form-group">
+			<div class="col-md-4 col-lg-4 form-group">
 				<label for="agreementSearch"><spring:message code="common.agreement"/></label>
 				<select id="agreementSearch" name="agreementSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 					<option value=""></option>
@@ -85,23 +85,23 @@
 					</c:forEach>
 				</select>
 			</div>
-			<div class="col-md-4 form-group">
+			<div class="col-md-4 col-lg-4 form-group">
 				<label for="deliveryNoteNumberSearch"><spring:message code="common.deliveryNote"/></label>
 				<input type="text" class="form-control" name="deliveryNoteNumberSearch" id="deliveryNoteNumberSearch" >
 			</div>
-			<div class="col-md-4 form-group">
+			<div class="col-md-4 col-lg-4 form-group">
 				<label for="purchaseOrderNumberSearch"><spring:message code="common.purchaseOrder"/></label>
 				<input type="text" class="form-control" name="purchaseOrderNumberSearch" id="purchaseOrderNumberSearch" >
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-2 col-md-offset-8">
+			<div class="col-md-2 col-lg-2 col-md-offset-8 col-lg-offset-8">
 				<button class="btn btn-success btn-block" type="submit" id="searchButton">
 				<span class="glyphicon glyphicon-search"></span>
 				<spring:message code="common.search" />
 				</button>
 			</div>
-			<div class="col-md-2">
+			<div class="col-md-2 col-lg-2">
 				<button class="btn btn-info btn-block" type="submit" id="cleanButton">
 				<span class="glyphicon glyphicon-trash"></span>
 				<spring:message code="common.clean" />
@@ -126,7 +126,7 @@
 		</table>
 	<br>
 	<div class="row">
-		<div class="col-md-2 col-md-offset-10">
+		<div class="col-md-2 col-lg-2 col-md-offset-10 col-lg-offset-10">
 			<button class="btn btn-danger btn-block" type="submit" id="confirmButton">
 				<span class="glyphicon glyphicon-ok"></span>
 				<spring:message code="provisioningRequest.cancellation.button" />

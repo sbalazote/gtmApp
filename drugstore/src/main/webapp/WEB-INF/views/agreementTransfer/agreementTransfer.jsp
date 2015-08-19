@@ -13,13 +13,13 @@
 <form id="agreementTransferForm" action="" onsubmit="return false;">
 
 	<div class="row">
-		<div class="col-md-9 form-group">
+		<div class="col-md-9 col-lg-9 form-group">
 			<h3 class="form-agreementTransfer-heading"><spring:message code="common.agreementTransfer" /></h3> 
 		</div>
 	</div>
 
 	<div class="row">
-		<div class="col-md-6 form-group">
+		<div class="col-md-6 col-lg-6 form-group">
 			<label for="originAgreementInput"><spring:message code="common.originAgreement" /></label>
 			<select id="originAgreementInput" name="originAgreement" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 				<option value=""></option>
@@ -28,7 +28,7 @@
 				</c:forEach>
 			</select>
 		</div>
-		<div class="col-md-6 form-group">
+		<div class="col-md-6 col-lg-6 form-group">
 			<label for="destinationAgreementInput"><spring:message code="common.destinationAgreement" /></label>
 			<select id="destinationAgreementInput" name="destinationAgreement" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 				<option value=""></option>
@@ -40,7 +40,7 @@
 	</div>
 	
 	<div class="row">
-		<div class="col-md-12 form-group">
+		<div class="col-md-12 col-lg-12 form-group">
 			<label for="productOutput"><spring:message code="common.addProduct"/></label>
 			<input id="productOutput" type="search" placeholder='<spring:message code="common.search"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental" />
 		</div>
@@ -64,10 +64,10 @@
 	</div>
 
 	<div class="row">
-		<div class="col-md-2 col-md-offset-8">
+		<div class="col-md-3 col-md-offset-6 col-lg-2 col-lg-offset-8">
 			<button class="btn btn-danger btn-block" onclick="myAbortWarning();" id="abortButton"><span class="glyphicon glyphicon-remove"></span> <spring:message code="common.abort"/></button>
 		</div>
-		<div class="col-md-2">
+		<div class="col-md-3 col-lg-2">
 			<button class="btn btn-success btn-block" type="submit" id="confirmButton">
 				<span class="glyphicon glyphicon-ok"></span>
 				<spring:message code="common.confirm" />
@@ -96,7 +96,7 @@
 	</div>
 </form>
 
-<%-- Confirmación del delete de una row --%>
+<%-- Confirmaciï¿½n del delete de una row --%>
 <div class="modal fade" data-backdrop="static" id="deleteRowConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:250px">
 		<div class="modal-content">
@@ -114,7 +114,7 @@
 <%-- Modal Ingreso Serializados --%>
 <form id="serializedModalForm" action="" onsubmit="return false;">
 	<div class="modal fade" data-backdrop="static" data-keyboard="false" id="serializedModal">
-		<div class="modal-dialog" style="width: 900px">
+		<div class="modal-dialog" style="width: 60%">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -123,30 +123,30 @@
 				<div id="serializedModalAlertDiv"></div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-md-12 form-group">
+						<div class="col-md-12 col-lg-12 form-group">
 							<label><spring:message code="common.product"/>:&nbsp;&nbsp;</label>
 							<label id="serializedProductLabel"></label>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label><spring:message	code="common.amount"/>:&nbsp;&nbsp;</label>
 							<span style="color:black"><label id="serializedRequestedAmountLabel"></label></span>
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label><spring:message code="common.entered"/>:&nbsp;&nbsp;</label>
 							<span style="color:blue"><label id="serializedEnteredAmountLabel"></label></span>
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label><spring:message code="common.remaining"/>:&nbsp;&nbsp;</label>
 							<span style="color:red"><label id="serializedRemainingAmountLabel"></label></span>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-10 form-group">
+						<div class="col-md-10 col-lg-10 form-group">
 							<input id="readSerialNumberInput" name="readSerialNumber" placeholder='<spring:message code="common.readSerial"/>' type="text" class="form-control">
 						</div>
-						<div class="col-md-2 form-group">
+						<div class="col-md-2 col-lg-2 form-group">
 							<button id="serializedAddButton" type="button" class="btn btn-warning"><span class="glyphicon glyphicon-plus"></span><spring:message code="common.add"/></button>
 						</div>
 					</div>

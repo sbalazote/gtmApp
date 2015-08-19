@@ -4,17 +4,17 @@
 
 <form id="supplyingModalForm" action="" onsubmit="return false;">
 	<div class="modal fade" data-backdrop="static" id="supplyingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog" style="width: 1100px">
+		<div class="modal-dialog" style="width: 70%">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<div class="row">
-						<div class="col-md-4">
+						<div class="col-md-4 col-lg-4">
 							<h3>
 								<spring:message code="deliveryNote.supplyingModal.label" />
 							</h3>
 						</div>
-						<div class="col-md-3">
+						<div class="col-md-5 col-lg-4">
 							<h3 id="supplyingId"></h3>
 						</div>
 						<div class="col-md-2"  id="supplyingCancelled">
@@ -23,7 +23,7 @@
 					</div>
 					<div id="supplyingModalANMATCode">
 						<div class="row">
-							<div class="col-md-4">
+							<div class="col-md-5 col-lg-4">
 								<h4 id="supplyingModalTransactionCodeDescription">
 									<spring:message code="common.transactionCodeDescription" />
 								</h4>
@@ -38,19 +38,19 @@
 				<div class="modal-body">
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col-md-4 form-group">
+							<div class="col-md-4 col-lg-4 form-group">
 								<label for="supplyingModalAgreementInput"><spring:message code="common.agreement" /></label> <input id="supplyingModalAgreementInput" name="supplyingModalAgreement" class="form-control" disabled>
 							</div>
-							<div class="col-md-4 form-group">
+							<div class="col-md-4 col-lg-4 form-group">
 								<label for="supplyingModalClientInput"><spring:message code="common.client" /></label> <input id="supplyingModalClientInput" name="supplyingModalClient" class="form-control" disabled>
 							</div>
-							<div class="col-md-4 form-group">
+							<div class="col-md-4 col-lg-4 form-group">
 								<label for="supplyingModalAffiliateInput"><spring:message code="common.affiliate" /></label> <input id="supplyingModalAffiliateInput" name="supplyingModalAffiliate" type="text" class="form-control" disabled />
 							</div>
 						</div>
 
 						<div class="row">
-							<div class="col-md-12 form-group">
+							<div class="col-md-12 col-lg-12 form-group">
 								<br>
 								<h4 id="supplyingDeliveriesNotesLabel" style="display: none"><label><spring:message code="common.deliveryNotes"/></label></h4>
 								<h3 id="supplyingDeliveriesNotesNumbers"></h3>

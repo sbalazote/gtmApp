@@ -5,7 +5,7 @@
 <script type="text/javascript" src="js/form/administration/providerSerializedFormatAdministration.js" ></script>
 
 <div class="row">
-	<div class="col-md-9 form-group">
+	<div class="col-md-9 col-lg-9 form-group">
 		<h3>
 			<spring:message code="administration.serializeAdministration" />
 		</h3>
@@ -13,7 +13,7 @@
 </div>
 
 <div class="row">
-	<div class="col-md-4">
+	<div class="col-md-4 col-lg-4">
 		<button class="btn btn-primary btn-block" id="addProviderSerializedFormat">
 			<span class="glyphicon glyphicon-plus"></span>
 			<spring:message code="common.add.entity" />

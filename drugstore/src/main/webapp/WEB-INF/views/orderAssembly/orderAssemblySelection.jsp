@@ -8,12 +8,12 @@
 </script>
 
 <div class="row">
-	<div class="col-md-9 form-group">
+	<div class="col-md-9 col-lg-9 form-group">
 		<h3><spring:message code="common.orderAssembly"/></h3>
 	</div>
 </div>
 <div class="row">
-	<div class="col-md-4 form-group">
+	<div class="col-md-4 col-lg-4 form-group">
 		<label for="agreementSearch"><spring:message code="common.agreement"/></label>
 		<select id="agreementSearch" name="agreementSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 			<option value=""></option>
@@ -22,7 +22,7 @@
 			</c:forEach>
 		</select>
 	</div>
-	<div class="col-md-4 form-group">
+	<div class="col-md-4 col-lg-4 form-group">
 		<label for="clientSearch"><spring:message code="common.client"/></label>
 		<select id="clientSearch" name="clientSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 			<option value=""></option>
@@ -31,13 +31,13 @@
 			</c:forEach>
 		</select>
 	</div>
-	<div class="col-md-2 form-margin">
+	<div class="col-md-2 col-lg-2 form-margin">
 		<button class="btn btn-success btn-block" type="submit" id="searchButton">
 		<span class="glyphicon glyphicon-search"></span>
 		<spring:message code="common.search" />
 		</button>
 	</div>
-	<div class="col-md-2 form-margin">
+	<div class="col-md-2 col-lg-2 form-margin">
 		<button class="btn btn-info btn-block" type="submit" id="cleanButton">
 		<span class="glyphicon glyphicon-trash"></span>
 		<spring:message code="common.clean" />

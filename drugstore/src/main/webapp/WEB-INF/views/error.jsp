@@ -11,14 +11,14 @@ h1 {
 
 
 <div class="row">
-	<div class="col-md-12">
+	<div class="col-md-12 col-lg-12">
 		<h1 class="text-center">
 			<c:out value="${error}" /> - <c:out value="${msg}" />
 		</h1>
 	</div>
 </div>
 <div class="row">
-	<div class="col-md-12">
+	<div class="col-md-12 col-lg-12">
 		<c:choose>
 			<c:when test="${error == 400}">
 				<img src="./images/error_400.png" class="center-block" height="256" width="256">
@@ -38,7 +38,7 @@ h1 {
 </div>
 <br>
 <div class="row">
-	<div class="col-md-6 col-md-offset-3">
+	<div class="col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3">
   		<button type="button" class="btn btn-info btn-lg btn-block" onclick="location.href='home.do'" id="homeButton"><span class="glyphicon glyphicon-home"></span>	Volver al Men&uacute;</button>
   	</div>
 </div>

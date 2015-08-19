@@ -17,7 +17,7 @@
 
 <form action="" onsubmit="return false;">
 	<div class="row">
-		<div class="col-md-12 form-group">
+		<div class="col-md-12 col-lg-12 form-group">
 			<h3><spring:message code="common.pendingTransactions.label"/></h3>
 		</div>
 	</div>
@@ -66,13 +66,13 @@
 	</div>
 <br>
 <div class="row">
-	<div class="col-md-2 col-md-offset-8">
+	<div class="col-md-3 col-lg-2 col-md-offset-6 col-lg-offset-8">
 		<button class="btn btn-info btn-block" type="submit" id="confirmDeliveryNotesWithoutInform">
 			<span class="glyphicon glyphicon-log-in"></span>
 			<spring:message code="common.updatedManually" />
 		</button>
 	</div>
-	<div class="col-md-2">
+	<div class="col-md-3 col-lg-2">
 		<button class="btn btn-primary btn-block" type="submit" id="confirmDeliveryNotesButton">
 			<span class="glyphicon glyphicon-ok"></span>
 			<spring:message code="common.confirm" />
@@ -82,11 +82,11 @@
 </form>
 
 <div class="modal fade" data-backdrop="static" id="forcedDeliveryNoteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog" style="width:700px">
+	<div class="modal-dialog" style="width:50%">
 		<div class="modal-content">
 			<div class="modal-body">
 				<div class="row">
-					<div class="col-md-12 form-group">
+					<div class="col-md-12 col-lg-12 form-group">
 						<strong><span style="color:red"><spring:message code="common.informedManuallyModal"/></span></strong>
 					</div>
 				</div>

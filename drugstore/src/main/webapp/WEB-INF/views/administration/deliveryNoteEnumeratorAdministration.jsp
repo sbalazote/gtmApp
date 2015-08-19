@@ -9,7 +9,7 @@
 </script>
 
 <div class="row">
-  <div class="col-md-9 form-group">
+  <div class="col-md-9 col-lg-9 form-group">
     <h3>
       <spring:message code="administration.deliveryNoteEnumeratorAdministration" />
     </h3>
@@ -17,7 +17,7 @@
 </div>
 
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-4 col-lg-4">
     <button class="btn btn-primary btn-block" id="addAgent">
       <span class="glyphicon glyphicon-plus"></span>
       <spring:message code="common.add.entity" />
@@ -59,7 +59,7 @@
     <div class="modal-content">
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-9 form-group">
+          <div class="col-md-9 col-lg-9 form-group">
             <h2 id="addDeliveryNoteEnumeratorLabel" style="display: none;"><spring:message code="common.deliveryNote.POS"/></h2>
             <h2 id="readDeliveryNoteEnumeratorLabel" style="display: none;"><spring:message code="administration.readDeliveryNoteEnumerator"/></h2>
             <h2 id="updateDeliveryNoteEnumeratorLabel" style="display: none;"><spring:message code="administration.updateDeliveryNoteEnumerator"/></h2>
@@ -68,24 +68,24 @@
         </div>
         <form id="deliveryNoteEnumeratorAdministrationForm" action="" onsubmit="return false;">
           <div class="row">
-            <div class="col-md-6 form-group">
+            <div class="col-md-6 col-lg-6 form-group">
               <label for="deliveryNotePOSInput"><spring:message code="common.deliveryNote.POS.number"/></label>
               <input type="text" class="form-control" id="deliveryNotePOSInput" name="deliveryNotePOS">
             </div>
-            <div class="col-md-6 form-group">
+            <div class="col-md-6 col-lg-6 form-group">
               <label for="lastDeliveryNoteNumberInput"><spring:message code="common.lastDeliveryNoteNumber"/></label>
               <input type="text" class="form-control" id="lastDeliveryNoteNumberInput" name="lastDeliveryNoteNumber">
             </div>
             </div>
           <div class="row">
-            <div class="col-md-6 form-group">
+            <div class="col-md-6 col-lg-6 form-group">
               <label for="activeSelect"><spring:message code="common.active"/></label>
               <select class="form-control chosen-select" id="activeSelect" name="active">
                 <option value="true"><spring:message code="common.yes"/></option>
                 <option value="false"><spring:message code="common.no"/></option>
               </select>
             </div>
-            <div class="col-md-6 form-group">
+            <div class="col-md-6 col-lg-6 form-group">
               <label for="fakeSelect"><spring:message code="common.printDeliveryNote"/></label>
               <select class="form-control chosen-select" id="fakeSelect" name="fake">
                 <option value="false"><spring:message code="common.yes"/></option>

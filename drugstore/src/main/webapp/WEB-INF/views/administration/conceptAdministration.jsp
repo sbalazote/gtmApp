@@ -4,7 +4,7 @@
 <script type="text/javascript" src="js/form/administration/conceptAdministration.js" ></script>
 
 <div class="row">
-	<div class="col-md-9 form-group">
+	<div class="col-md-9 col-lg-9 form-group">
 		<h3>
 			<spring:message code="administration.conceptAdministration" />
 		</h3>
@@ -12,7 +12,7 @@
 </div>
 
 <div class="row">
-	<div class="col-md-4">
+	<div class="col-md-4 col-lg-4">
 		<button class="btn btn-primary btn-block" id="addConcept">
 			<span class="glyphicon glyphicon-plus"></span>
 			<spring:message code="common.add.entity" />
@@ -57,11 +57,11 @@
 
 <%-- Modal de Lectura/Modificacion --%>
 <div class="modal fade" data-backdrop="static" id="conceptModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog" style="width:1000px">
+	<div class="modal-dialog" style="width:80%">
 		<div class="modal-content">
 			<div class="modal-body">
 				<div class="row">
-					<div class="col-md-9 form-group">
+					<div class="col-md-9 col-lg-9 form-group">
 						<h2 id="addConceptLabel" style="display: none;"><spring:message code="common.concept"/></h2>
 						<h2 id="readConceptLabel" style="display: none;"><spring:message code="administration.readConcept"/></h2>
 						<h2 id="updateConceptLabel" style="display: none;"><spring:message code="administration.updateConcept"/></h2>
@@ -71,15 +71,15 @@
 				</div>
 				<form id="conceptAdministrationForm" action="" onsubmit="return false;">
 					<div class="row">
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="codeInput"><spring:message code="common.code" /></label>
 							<input type="text" class="form-control" id="codeInput" name="code">
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="descriptionInput"><spring:message code="common.description" /></label>
 							<input type="text" class="form-control" id="descriptionInput" name="description">
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="deliveryNoteEnumeratorSelect"><spring:message code="configuration.deliveryNote.POS" /></label> 
 							<select class="form-control chosen-select" id="deliveryNoteEnumeratorSelect" name="deliveryNoteEnumerator">
 								<option value="">- <spring:message code="common.select.option"/> -</option>
@@ -88,21 +88,21 @@
 					</div>
 
 					<div class="row">
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="inputSelect"><spring:message code="common.isInput" /></label>
 							<select	class="form-control chosen-select" id="inputSelect" name="input">
 								<option value="true"><spring:message code="common.yes" /></option>
 								<option value="false"><spring:message code="common.no" /></option>
 							</select>
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="printDeliveryNoteSelect"><spring:message code="common.printDeliveryNote" /></label>
 							<select	class="form-control chosen-select" id="printDeliveryNoteSelect"	name="printDeliveryNote">
 								<option value="true"><spring:message code="common.yes" /></option>
 								<option value="false"><spring:message code="common.no" /></option>
 							</select>
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="refundSelect"><spring:message code="common.refund" /></label>
 							<select	class="form-control chosen-select" id="refundSelect" name="refund">
 								<option value="true"><spring:message code="common.yes" /></option>
@@ -113,25 +113,25 @@
 
 
 					<div class="row">
-						<div class="col-md-3 form-group">
+						<div class="col-md-3 col-lg-4 form-group">
 							<label for="informAnmatSelect"><spring:message code="common.informAnmat" /></label>
 							<select	class="form-control chosen-select" id="informAnmatSelect" name="informAnmat">
 								<option value="true"><spring:message code="common.yes" /></option>
 								<option value="false"><spring:message code="common.no" /></option>
 							</select>
 						</div>
-						<div class="col-md-3 form-group">
+						<div class="col-md-3 col-lg-4 form-group">
 							<label for="deliveryNotesCopiesInput"><spring:message code="common.deliveryNotesCopies" /></label>
 							<input type="text" class="form-control" id="deliveryNotesCopiesInput" name="deliveryNotesCopies">
 						</div>
-						<div class="col-md-3 form-group">
+						<div class="col-md-3 col-lg-4 form-group">
 							<label for="activeSelect"><spring:message code="common.active" /></label>
 							<select	class="form-control chosen-select" id="activeSelect" name="active">
 								<option value="true"><spring:message code="common.yes" /></option>
 								<option value="false"><spring:message code="common.no" /></option>
 							</select>
 						</div>
-						<div class="col-md-3 form-group">
+						<div class="col-md-3 col-lg-4 form-group">
 							<label for="clientSelect"><spring:message code="common.isClient" /></label>
 							<select	class="form-control chosen-select" id="clientSelect" name="client">
 								<option value="true"><spring:message code="common.yes" /></option>
@@ -141,16 +141,16 @@
 					</div>
 
 					<div class="row">
-						<div class="col-md-3 col-md-offset-1 form-group">
+						<div class="col-md-3 col-md-offset-1 col-lg-3 col-lg-offset-1 form-group">
 							<label for="conceptEvent"><spring:message code="common.conceptEvent" /></label>
 						</div>
-						<div class="col-md-3 col-md-offset-4 form-group">
+						<div class="col-md-3 col-md-offset-4 col-lg-3 col-lg-offset-4 form-group">
 							<label for="conceptEvent"><spring:message code="common.conceptEventSelected" /></label>
 						</div>
 					</div>
 
 					<div>
-					<div class="col-md- form-group">	
+					<div class="col-md-12 col-lg-12 form-group">
 						<div class="ms-container">
 							<select multiple="multiple" id="my-select" name="my-select[]">
 							</select>

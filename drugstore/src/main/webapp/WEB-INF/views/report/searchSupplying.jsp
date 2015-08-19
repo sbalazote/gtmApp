@@ -15,17 +15,17 @@
 
 <form id="searchSupplyingForm" action="" onsubmit="return false;">
     <div class="row">
-        <div class="col-md-9 form-group">
+        <div class="col-md-9 col-lg-9 form-group">
             <h3><spring:message code="supplying.search.title"/></h3>
         </div>
     </div>
     <div>
         <div class="row">
-            <div class="col-md-4 form-group">
+            <div class="col-md-4 col-lg-4 form-group">
                 <label for="idSearch"><spring:message code="supplying.number"/></label>
                 <input id="idSearch" name="idSearch" class="form-control" >
             </div>
-            <div class="col-md-4 form-group">
+            <div class="col-md-4 col-lg-4 form-group">
                 <label for="dateFromSearch"><spring:message code="common.dateFrom"/></label>
                 <div class="input-group">
                     <input type="text" class="form-control" name="dateFromSearch" id="dateFromSearch">
@@ -34,7 +34,7 @@
 					</span>
                 </div>
             </div>
-            <div class="col-md-4 form-group">
+            <div class="col-md-4 col-lg-4 form-group">
                 <label for="dateToSearch"><spring:message code="common.dateTo"/></label>
                 <div class="input-group">
                     <input type="text" class="form-control" name="dateToSearch" id="dateToSearch">
@@ -46,7 +46,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-4 form-group">
+            <div class="col-md-4 col-lg-4 form-group">
                 <label for="clientSearch"><spring:message code="common.client" /></label>
                 <select id="clientSearch" name="clientSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
                     <option value=""></option>
@@ -55,11 +55,11 @@
                     </c:forEach>
                 </select>
             </div>
-            <div class="col-md-4 form-group">
+            <div class="col-md-4 col-lg-4 form-group">
                 <label for="affiliateInput"><spring:message code="common.affiliate" /></label>
                 <input type='hidden' id="affiliateInput" name="affiliate" class="form-control">
             </div>
-            <div class="col-md-4 form-group">
+            <div class="col-md-4 col-lg-4 form-group">
                 <label for="agreementSearch"><spring:message code="common.agreement"/></label>
                 <select id="agreementSearch" name="agreementSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
                     <option value=""></option>
@@ -70,7 +70,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 col-lg-4">
                 <label for="cancelledSelect"><spring:message code="common.state"/></label>
                 <select class="form-control chosen-select" id="cancelledSelect" name="cancelled">
                     <option value="">Todos</option>
@@ -78,19 +78,19 @@
                     <option value="true">Anulados</option>
                 </select>
             </div>
-            <div class="col-md-8 form-group">
+            <div class="col-md-8 col-lg-8 form-group">
                 <label for="productInput"><spring:message code="common.product"/></label>
                 <input id="productInput" name="productInput" type="search" placeholder='<spring:message code="search.product.description"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental" />
             </div>
         </div>
         <div class="row">
-            <div class="col-md-2 col-md-offset-8">
+            <div class="col-md-3 col-lg-4 col-md-offset-6 col-lg-offset-8">
                 <button class="btn btn-success btn-block" type="submit" id="searchButton">
                     <span class="glyphicon glyphicon-search"></span>
                     <spring:message code="common.search" />
                 </button>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3 col-lg-2">
                 <button class="btn btn-info btn-block" type="submit" id="cleanButton">
                     <span class="glyphicon glyphicon-trash"></span>
                     <spring:message code="common.clean" />

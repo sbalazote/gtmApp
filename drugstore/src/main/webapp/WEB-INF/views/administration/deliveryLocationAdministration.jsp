@@ -10,7 +10,7 @@
 </script>
 
 <div class="row">
-	<div class="col-md-9 form-group">
+	<div class="col-md-9 col-lg-9 form-group">
 		<h3>
 			<spring:message code="administration.deliveryLocationAdministration" />
 		</h3>
@@ -18,7 +18,7 @@
 </div>
 
 <div class="row">
-	<div class="col-md-4">
+	<div class="col-md-4 col-lg-4">
 		<button class="btn btn-primary btn-block" id="addDeliveryLocation">
 			<span class="glyphicon glyphicon-plus"></span>
 			<spring:message code="common.add.entity" />
@@ -67,11 +67,11 @@
 
 <%-- Modal de Lectura/Modificacion --%>
 <div class="modal fade" data-backdrop="static" id="deliveryLocationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog" style="width:1000px">
+	<div class="modal-dialog" style="width:80%">
 		<div class="modal-content">
 			<div class="modal-body">
 				<div class="row">
-					<div class="col-md-9 form-group">
+					<div class="col-md-9 col-lg-9 form-group">
 						<h2 id="addDeliveryLocationLabel" style="display: none;"><spring:message code="common.deliveryLocation"/></h2>
 						<h2 id="readDeliveryLocationLabel" style="display: none;"><spring:message code="administration.readDeliveryLocation"/></h2>
 						<h2 id="updateDeliveryLocationLabel" style="display: none;"><spring:message code="administration.updateDeliveryLocation"/></h2>
@@ -80,26 +80,26 @@
 				</div>
 				<form id="deliveryLocationAdministrationForm" action="" onsubmit="return false;">
 					<div class="row">
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="codeInput"><spring:message code="common.code" /></label>
 							<input type="text" class="form-control" id="codeInput" name="code">
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="nameInput"><spring:message code="common.entity.name" /></label>
 							<input type="text" class="form-control" id="nameInput" name="name">
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="taxIdInput"><spring:message	code="common.taxId" /></label>
 							<input type="text" class="form-control" id="taxIdInput" name="taxId">
 						</div>
 					</div>
 
 					<div class="row">
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="corporateNameInput"><spring:message	code="common.corporateName" /></label>
 							<input type="text" class="form-control" id="corporateNameInput"	name="corporateName">
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="provinceSelect"><spring:message code="common.province" /></label>
 							<select class="form-control chosen-select" id="provinceSelect" name="province">
 								<option value="">- <spring:message code="common.select.option" /> -	</option>
@@ -110,33 +110,33 @@
 								</c:forEach>
 							</select>
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="localityInput"><spring:message code="common.locality" /></label>
 							<input type="text" class="form-control" id="localityInput" name="locality">
 						</div>
 					</div>
 
 					<div class="row">
-						<div class="col-md-8 form-group">
+						<div class="col-md-8 col-lg-8 form-group">
 							<label for="addressInput"><spring:message code="common.address" /></label>
 							<input type="text" class="form-control" id="addressInput" name="address">
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="emailInput"><spring:message	code="common.email" /></label>
 							<input type="text" class="form-control" id="emailInput" name="email">
 						</div>
 					</div>
 
 					<div class="row">
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="phoneInput"><spring:message	code="common.phone" /></label>
 							<input type="text" class="form-control"	id="phoneInput" name="phone">
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="zipCodeInput"><spring:message code="common.zipCode" /></label>
 							<input type="text" class="form-control" id="zipCodeInput" name="zipCode">
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="VATLiabilitySelect"><spring:message	code="common.VATLiability" /></label>
 							<select	class="form-control chosen-select" id="VATLiabilitySelect" name="VATLiability">
 								<option value="">- <spring:message code="common.select.option" /> -	</option>
@@ -148,11 +148,11 @@
 					</div>
 
 					<div class="row">
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="glnInput"><spring:message code="common.gln" /></label>
 							<input type="text" class="form-control" id="glnInput" name="gln">
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="agentSelect"><spring:message code="common.agent" /></label>
 							<select	class="form-control chosen-select" id="agentSelect" name="agent">
 								<option value="">-<spring:message code="common.select.option" /> - </option>
@@ -161,7 +161,7 @@
 								</c:forEach>
 							</select>
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="activeSelect"><spring:message code="common.active" /></label>
 							<select	class="form-control chosen-select" id="activeSelect" name="active">
 								<option value="true"><spring:message code="common.yes" /></option>

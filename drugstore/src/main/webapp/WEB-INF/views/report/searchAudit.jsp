@@ -11,13 +11,13 @@
 
 <form id="searchAuditForm" action="" onsubmit="return false;">
 	<div class="row">
-		<div class="col-md-9 form-group">
+		<div class="col-md-9  col-lg-9 form-group">
 			<h3><spring:message code="search.title.audit"/></h3>
 		</div>
 	</div>
 	<div>
 		<div class="row">
-			<div class="col-md-12 form-group">
+			<div class="col-md-12  col-lg-12 form-group">
 				<label for="roleSearch"><spring:message code="common.role"/></label>
 				<select id="roleSearch" name="roleSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 					<option value=""></option>
@@ -29,11 +29,11 @@
 		</div>
 		
 		<div class="row">
-			<div class="col-md-4 form-group">
+			<div class="col-md-4 col-lg-4 form-group">
 				<label for="operationNumberSearch"><spring:message code="common.operationNumber"/></label>
 				<input type="text" class="form-control" name="operationNumberSearch" id="operationNumberSearch" >
 			</div>
-			<div class="col-md-4 form-group">
+			<div class="col-md-4 col-lg-4 form-group">
 				<label for="dateFromSearch"><spring:message code="common.dateFrom"/></label>
 				<div class="input-group">
 					<input type="text" class="form-control" name="dateFromSearch" id="dateFromSearch">
@@ -42,7 +42,7 @@
 					</span>
 				</div>
 			</div>
-			<div class="col-md-4 form-group">
+			<div class="col-md-4 col-lg-4 form-group">
 				<label for="dateToSearch"><spring:message code="common.dateTo"/></label>
 				<div class="input-group">
 					<input type="text" class="form-control" name="dateToSearch" id="dateToSearch">
@@ -54,7 +54,7 @@
 		</div>
 		
 		<div class="row">
-			<div class="col-md-4 form-group">
+			<div class="col-md-4 col-lg-4 form-group">
 				<label for="userSearch"><spring:message code="common.user"/></label>
 				<select id="userSearch" name="userSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 					<option value=""></option>
@@ -63,7 +63,7 @@
 					</c:forEach>
 				</select>
 			</div>
-			<div class="col-md-4 form-group">
+			<div class="col-md-4 col-lg-4 form-group">
 				<label for="auditActionSearch"><spring:message code="common.action"/></label>
 				<select id="auditActionSearch" name="auditActionSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 					<option value=""></option>
@@ -73,13 +73,13 @@
 				</select>
 			</div>
 
-			<div class="col-md-2 form-margin">
+			<div class="col-md-2 col-lg-2 form-margin">
 				<button class="btn btn-success btn-block" type="submit" id="searchButton">
 				<span class="glyphicon glyphicon-search"></span>
 				<spring:message code="common.search" />
 				</button>
 			</div>
-			<div class="col-md-2 form-margin">
+			<div class="col-md-2 col-lg-2 form-margin">
 				<button class="btn btn-info btn-block" type="submit" id="cleanButton">
 				<span class="glyphicon glyphicon-trash"></span>
 				<spring:message code="common.clean" />

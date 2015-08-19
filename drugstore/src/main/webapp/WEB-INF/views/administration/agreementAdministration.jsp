@@ -10,7 +10,7 @@
 </script>
 
 <div class="row">
-	<div class="col-md-9 form-group">
+	<div class="col-md-9 col-lg-9 form-group">
 		<h3>
 			<spring:message code="administration.agreementAdministration" />
 		</h3>
@@ -18,7 +18,7 @@
 </div>
 
 <div class="row">
-	<div class="col-md-4">
+	<div class="col-md-4 col-lg-4">
 		<button class="btn btn-primary btn-block" id="addAgreement">
 			<span class="glyphicon glyphicon-plus"></span>
 			<spring:message code="common.add.entity" />
@@ -62,11 +62,11 @@
 
 <%-- Modal de Lectura/Modificacion --%>
 <div class="modal fade" data-backdrop="static" id="agreementModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog" style="width:1000px">
+	<div class="modal-dialog" style="width:80%">
 		<div class="modal-content">
 			<div class="modal-body">
 				<div class="row">
-					<div class="col-md-9 form-group">
+					<div class="col-md-9 col-lg-9 form-group">
 						<h2 id="addAgreementLabel" style="display: none;"><spring:message code="common.agreement"/></h2>
 						<h2 id="readAgreementLabel" style="display: none;"><spring:message code="administration.readAgreement"/></h2>
 						<h2 id="updateAgreementLabel" style="display: none;"><spring:message code="administration.updateAgreement"/></h2>
@@ -75,13 +75,13 @@
 				</div>
 				<form id="agreementAdministrationForm" action="" onsubmit="return false;">
 					<div class="row">
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="codeInput"><spring:message code="common.code" /></label> <input type="text" class="form-control" id="codeInput" name="code">
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="descriptionInput"><spring:message code="common.description" /></label> <input type="text" class="form-control" id="descriptionInput" name="description">
 						</div>
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="activeSelect"><spring:message code="common.active" /></label> <select class="form-control chosen-select" id="activeSelect" name="active">
 								<option value="true"><spring:message code="common.yes" /></option>
 								<option value="false"><spring:message code="common.no" /></option>
@@ -89,21 +89,21 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-3 form-group">
+						<div class="col-md-3 col-lg-3 form-group">
 							<label for="numberOfDeliveryNoteDetailsPerPageInput"><spring:message code="configuration.numberOfDeliveryNoteDetailsPerPage" /></label> <input type="text" class="form-control" id="numberOfDeliveryNoteDetailsPerPageInput" name="numberOfDeliveryNoteDetailsPerPage" value="${numberOfDeliveryNoteDetailsPerPage}">
 						</div>
-						<div class="col-md-3 form-group">
+						<div class="col-md-3 col-lg-3 form-group">
 							<label for="pickingFilepathInput"><spring:message code="configuration.pickingFilepath" /></label> <input type="text" class="form-control" id="pickingFilepathInput" name="pickingFilepath" value="${pickingFilepath}">
 						</div>
-						<div class="col-md-3 form-group">
+						<div class="col-md-3 col-lg-3 form-group">
 							<label for="orderLabelFilepathInput"><spring:message code="configuration.orderLabelFilepath" /></label> <input type="text" class="form-control" id="orderLabelFilepathInput" name="orderLabelFilepath" value="${orderLabelFilepath}">
 						</div>
-						<div class="col-md-3 form-group">
+						<div class="col-md-3 col-lg-3 form-group">
 							<label for="deliveryNoteFilepathInput"><spring:message code="configuration.deliveryNoteFilepath" /></label> <input type="text" class="form-control" id="deliveryNoteFilepathInput" name="deliveryNoteFilepath" value="${deliveryNoteFilepath}">
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-6 form-group">
+						<div class="col-md-6 col-lg-6 form-group">
 							<label for="deliveryNoteConceptSelect"><spring:message code="configuration.deliveryNoteConcept" /></label> 
 							<select class="form-control chosen-select" id="deliveryNoteConceptSelect" name="deliveryNoteConcept">
 							<option value="">- <spring:message code="common.select.option"/> -</option>
@@ -112,7 +112,7 @@
 							</c:forEach>
 							</select>
 						</div>
-						<div class="col-md-6 form-group">
+						<div class="col-md-6 col-lg-6 form-group">
 							<label for="destructionConceptSelect"><spring:message code="configuration.destructionConcept" /></label>
 							<select class="form-control chosen-select" id="destructionConceptSelect" name="destructionConcept">
 							<option value="">- <spring:message code="common.select.option"/> -</option>

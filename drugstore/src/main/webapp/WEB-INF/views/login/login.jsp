@@ -17,19 +17,19 @@
 	</c:if>
 
     <div class="row">
-        <div class="form-group col-md-4 col-md-offset-4 text-center">
+        <div class="form-group col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4text-center">
             <img class="text-center" src="${logoPath}" class="img-responsive" alt="Responsive image">
         </div>
     </div>
 
     <div class="row">
-        <div class="form-group col-md-12 text-center">
+        <div class="form-group col-md-12 col-lg-12 text-center">
             <h3 style="color: #0077b3; font-weight: bold">${name}</h3>
         </div>
     </div>
 
     <div class="row">
-        <div class="form-group col-md-12 text-center">
+        <div class="form-group col-md-12 col-lg-12 text-center">
             <h3 style="color: #0077b3; font-weight: bold">${softwareName}</h3>
         </div>
     </div>
@@ -43,12 +43,12 @@
         <br/>
         <br/>
         <div class="row">
-            <div class="form-group col-md-4 col-md-offset-4">
+            <div class="form-group col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4">
                 <input type="text" class="form-control" name="j_username" placeholder="<spring:message code="login.user.placeholder"/>" autofocus >
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-4 col-md-offset-4">
+            <div class="form-group col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4">
                 <input type="password" class="form-control" name="j_password" placeholder="<spring:message code="login.password.placeholder"/>" >
             </div>
         </div>
@@ -57,7 +57,7 @@
             </label>
              --%>
         <div class="row">
-            <div class="form-group col-md-4 col-md-offset-4" >
+            <div class="form-group col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4" >
                 <button  class="btn btn-primary btn-block" type="submit"><spring:message code="login.login"/></button>
             </div>
         </div>

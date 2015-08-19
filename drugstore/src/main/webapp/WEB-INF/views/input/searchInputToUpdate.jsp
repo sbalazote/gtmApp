@@ -20,7 +20,7 @@
 </script>
 
 <div class="row">
-	<div class="col-md-9 form-group">
+	<div class="col-md-9 col-lg-9 form-group">
 		<h3><spring:message code="administration.inputsToAuthorize"/></h3>
 	</div>
 </div>

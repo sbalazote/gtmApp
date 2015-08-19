@@ -4,7 +4,7 @@
 <script type="text/javascript" src="js/form/input/informForcedInputs.js"></script>
 <script type="text/javascript" src="js/form/modals.js"></script>
 <div class="row">
-    <div class="col-md-9 form-group">
+    <div class="col-md-9 col-lg-9 form-group">
         <h3><spring:message code="administration.informForcedInputs"/></h3>
     </div>
 </div>
@@ -41,10 +41,10 @@
     </table>
 
     <div class="row">
-        <div class="col-md-2 col-md-offset-8">
+        <div class="col-md-4 col-lg-2 col-md-offset-5 col-lg-offset-8">
             <button class="btn btn-warning" id="forcedInput"><span class="glyphicon glyphicon glyphicon-saved"></span> <spring:message code="input.closeInputDefinitely.button"/></button>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3 col-lg-2">
             <button type="submit" class="btn btn-success btn-block" id="confirmButton"><span class="glyphicon glyphicon-ok"></span> <spring:message code="common.authorize"/></button>
         </div>
     </div>

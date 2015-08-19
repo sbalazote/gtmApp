@@ -11,25 +11,25 @@
 
 <form id="searchStockForm" action="" onsubmit="return false;">
 	<div class="row">
-		<div class="col-md-9 form-group">
+		<div class="col-md-9 col-lg-9 form-group">
 			<h3><spring:message code="search.title.stock"/></h3>
 		</div>
 	</div>
 	<div>
 		
 		<div class="row">
-			<div class="col-md-12 form-group">
+			<div class="col-md-12 col-lg-12 form-group">
 				<label for="productInput"><spring:message code="common.product"/></label>
 				<input id="productInput" type="search" placeholder='<spring:message code="input.product.placeholder"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental" />
 			</div>
 		</div>
 		
 		<div class="row">
-			<div class="col-md-4 form-group">
+			<div class="col-md-4 col-lg-4 form-group">
 				<label for="batchNumberSearch"><spring:message code="common.batch"/></label>
 				<input type="text" class="form-control" name="batchNumberSearch" id="batchNumberSearch" >
 			</div>
-			<div class="col-md-4 form-group">
+			<div class="col-md-4 col-lg-4 form-group">
 				<label for="dateFromSearch"><spring:message code="common.expirateDateFrom"/></label>
 				<div class="input-group">
 					<input type="text" class="form-control" name="dateFromSearch" id="dateFromSearch">
@@ -38,7 +38,7 @@
 					</span>
 				</div>
 			</div>
-			<div class="col-md-4 form-group">
+			<div class="col-md-4 col-lg-4 form-group">
 				<label for="dateToSearch"><spring:message code="common.expirateDateTo"/></label>
 				<div class="input-group">
 					<input type="text" class="form-control" name="dateToSearch" id="dateToSearch">
@@ -50,12 +50,12 @@
 		</div>
 		
 		<div class="row">
-			<div class="col-md-4 form-group">
+			<div class="col-md-4 col-lg-4 form-group">
 				<label for="serialNumberSearch"><spring:message code="common.serialNumber"/></label>
 				<input type="text" class="form-control" name="serialNumberSearch" id="serialNumberSearch" >
 			</div>
 
-			<div class="col-md-4 form-group">
+			<div class="col-md-4 col-lg-4 form-group">
 				<label for="agreementSearch"><spring:message code="common.agreement"/></label>
 				<select id="agreementSearch" name="agreementSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 					<option value=""></option>
@@ -65,13 +65,13 @@
 				</select>
 			</div>
 
-			<div class="col-md-2 form-margin">
+			<div class="col-md-2 col-lg-2 form-margin">
 				<button class="btn btn-success btn-block" type="submit" id="searchButton">
 				<span class="glyphicon glyphicon-search"></span>
 				<spring:message code="common.search" />
 				</button>
 			</div>
-			<div class="col-md-2 form-margin">
+			<div class="col-md-2 col-lg-2 form-margin">
 				<button class="btn btn-info btn-block" type="submit" id="cleanButton">
 				<span class="glyphicon glyphicon-trash"></span>
 				<spring:message code="common.clean" />
@@ -101,7 +101,7 @@
 </form>
 
 <div class="modal fade" data-backdrop="static" data-keyboard="false" id="batchExpirationDatesModal">
-	<div class="modal-dialog" style="width: 900px">
+	<div class="modal-dialog" style="width: 60%">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -112,7 +112,7 @@
 			<div class="modal-body">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-md-12 form-group">
+						<div class="col-md-12 col-lg-12 form-group">
 							<h4 id="batchExpirationDateProductDescription" style="color: blue; font-weight: bold"></h4>
 						</div>
 					</div>
@@ -141,7 +141,7 @@
 </div>
 
 <div class="modal fade" data-backdrop="static" data-keyboard="false" id="serialsModal">
-	<div class="modal-dialog" style="width: 900px">
+	<div class="modal-dialog" style="width: 60%">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -152,7 +152,7 @@
 			<div class="modal-body">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-md-12 form-group">
+						<div class="col-md-12 col-lg-12 form-group">
 							<h4 id="serializedProductDescription" style="color: blue; font-weight: bold"></h4>
 						</div>
 					</div>

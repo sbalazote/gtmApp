@@ -15,7 +15,7 @@
 
 <form action="" onsubmit="return false;">
 	<div class="row">
-		<div class="col-md-12 form-group">
+		<div class="col-md-12 col-lg-12 form-group">
 			<h3><spring:message code="orderAssembly.orderCancelation"/></h3>
 		</div>
 	</div>
@@ -44,7 +44,7 @@
 	</div>
 	<br>
 	<div class="row">
-		<div class="col-md-2 col-md-offset-10">
+		<div class="col-md-3 col-md-offset-9 col-lg-2 col-lg-offset-10">
 			<button class="btn btn-danger btn-block" type="submit" id="confirmButton">
 				<span class="glyphicon glyphicon-ok"></span>
 				<spring:message code="provisioningRequest.cancellation.button" />
@@ -55,19 +55,19 @@
 
 <form id="orderFormModal" action="" onsubmit="return false;">
 	<div class="modal fade" data-backdrop="static" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog" style="width: 1000px">
+		<div class="modal-dialog" style="width: 70%">
 			<div class="modal-content">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 						<div class="row">
-							<div class="col-md-4">
+							<div class="col-md-4 col-lg-4">
 								<h3><spring:message code="orderAssembly.label"/></h3>
 							</div>
-							<div class="col-md-2">
+							<div class="col-md-2 col-lg-2">
 								<h3 id="orderId"></h3>
 							</div>
-							<div class="col-md-2">
+							<div class="col-md-2 col-lg-2">
 								<h3 id="cancelled" style="color:red;font-weight:bold"></h3>
 							</div>
 						</div>
@@ -76,15 +76,15 @@
 					<div class="modal-body">
 					
 						<div class="row">
-							<div class="col-md-4 form-group">
+							<div class="col-md-4 col-lg-4 form-group">
 								<label for="agreementInput"><spring:message code="common.agreement" /></label>
 								<input id="agreementInput" name="agreement" placeholder='<spring:message code="common.select.option"/>' class="form-control" disabled>
 							</div>
-							<div class="col-md-4 form-group">
+							<div class="col-md-4 col-lg-4 form-group">
 								<label for="clientInput"><spring:message code="common.client" /></label>
 								<input id="clientInput" name="clientInput" class="form-control" disabled>
 							</div>
-							<div class="col-md-4 form-group">
+							<div class="col-md-4 col-lg-4 form-group">
 								<label for="affiliateInput"><spring:message code="common.affiliate" /></label>
 								<input name="affiliate" type="text" class="form-control" disabled/>
 							</div>
@@ -92,22 +92,22 @@
 						</div>
 					
 						<div class="row">
-							<div class="col-md-4 form-group">
+							<div class="col-md-4 col-lg-4 form-group">
 								<label for="deliveryLocationInput"><spring:message code="common.deliveryLocation" /></label>
 								<input id="deliveryLocationInput" name="deliveryLocation" class="form-control" disabled>
 							</div>
-							<div class="col-md-4 form-group">
+							<div class="col-md-4 col-lg-4 form-group">
 								<label for="deliveryDateInput"><spring:message code="common.deliveryDate" /></label>
 								<input name="deliveryDate" type="text" class="form-control" disabled>
 							</div>
-							<div class="col-md-4 form-group">
+							<div class="col-md-4 col-lg-4 form-group">
 								<label for="logisticsOperatorInput"><spring:message code="common.logisticsOperator" /></label>
 								<input id="logisticsOperatorInput" name="logisticsOperator" class="form-control" disabled>
 							</div>
 						</div>
 						
 						<div class="row">
-							<div class="col-md-12 form-group">
+							<div class="col-md-12 col-lg-12 form-group">
 								<label for="comment"><spring:message code="provisioningRequest.comment.label" /></label>
 								<textarea name="comment" class="form-control my-textarea" name="comment" id="comment" rows="3"  disabled></textarea>
 							</div>

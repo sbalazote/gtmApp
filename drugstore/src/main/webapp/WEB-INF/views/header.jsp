@@ -12,10 +12,10 @@
 </script>
 
 <div class="row">
-	<div class="col-md-11 text-center">
+	<div class="col-md-11 col-lg-11 text-center">
 		<h3><spring:message code="administration.drugManagement"/> <spring:message code="administration.drugManagement.version"/></h3>
     </div>
-  	<div class="col-md-1">
+  	<div class="col-md-1 col-lg-1">
 		<div id="currentTime"></div>
     </div>
 </div>

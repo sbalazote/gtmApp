@@ -12,7 +12,7 @@
 <form id="provisioningRequestForm" action="" onsubmit="return false;" data-plus-as-tab="true">
 
 	<div class="row">
-		<div class="col-md-9 form-group">
+		<div class="col-md-9 col-lg-9 form-group">
 			<h3 class="form-provisioningRequest-heading"><spring:message code="provisioningRequest.label" /></h3> 
 			<input type="hidden" class="form-control" id="provisioningId" value="${provisioningRequestId != null ? provisioningRequestId : ''}">
 		</div>
@@ -22,7 +22,7 @@
 	</div>
 
 	<div class="row">
-		<div class="col-md-4 form-group">
+		<div class="col-md-4 col-lg-4 form-group">
 			<label for="agreementInput"><spring:message code="common.agreement" /></label>
 			<select id="agreementInput" name="agreement" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>" autofocus>
 				<option value=""></option>
@@ -31,7 +31,7 @@
 				</c:forEach>
 			</select>
 		</div>
-		<div class="col-md-4 form-group">
+		<div class="col-md-4 col-lg-4 form-group">
 			<label for="clientInput"><spring:message code="common.client" /></label>
 			<select id="clientInput" name="client" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 				<option value=""></option>
@@ -40,7 +40,7 @@
 				</c:forEach>
 			</select>
 		</div>
-		<div class="col-md-4 form-group">
+		<div class="col-md-4 col-lg-4 form-group">
 			<label for="affiliateInput"><spring:message code="common.affiliate" /></label>
 			<input type='hidden' id="affiliateInput" name="affiliate" class="form-control">
 				<%-- <c:forEach items="${affiliates}" var="affiliate">
@@ -50,7 +50,7 @@
 	</div>
 
 	<div class="row">
-		<div class="col-md-6 form-group">
+		<div class="col-md-6  col-lg-6 form-group">
 			<label for="deliveryLocationInput"><spring:message code="common.deliveryLocation" /></label>
 			<select id="deliveryLocationInput" name="deliveryLocation" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 				<option value=""></option>
@@ -59,7 +59,7 @@
 				</c:forEach>
 			</select>
 		</div>
-		<div class="col-md-2 form-group">
+		<div class="col-md-2 col-lg-2 form-group">
 			<label for="deliveryDateInput"><spring:message code="common.deliveryDate" /></label>
 			<div class="input-group">
 				<input type="hidden" id="deliveryDatePreloadedInput" name="deliveryDatePreloaded" value="<fmt:formatDate pattern="dd/MM/yyyy" value="${deliveryDate}"/>"/>
@@ -69,7 +69,7 @@
 				</span>
 			</div>
 		</div>
-		<div class="col-md-4 form-group">
+		<div class="col-md-4 col-lg-4 form-group">
 			<label for="logisticsOperatorInput"><spring:message code="common.logisticsOperator" /></label>
 			<select id="logisticsOperatorInput" name="logisticsOperator" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 				<option value=""></option>
@@ -81,14 +81,14 @@
 	</div>
 	
 	<div class="row">
-		<div class="col-md-12 form-group">
+		<div class="col-md-12 col-lg-12 form-group">
 			<label for="productInput"><spring:message code="common.addProduct"/></label>
 			<input id="productInput" type="search" placeholder='<spring:message code="common.search"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental" disabled/>
 		</div>
 	</div>
 
 	<div class="row">
-		<div class="col-md-12 form-group">
+		<div class="col-md-12 col-lg-12 form-group">
 			<label for="commentTextarea"><spring:message code="provisioningRequest.comment.label" /></label>
 			<textarea class="form-control my-textarea" name="comment" id="commentTextarea" rows="3">${comment}</textarea>
 		</div>
@@ -123,10 +123,10 @@
 	</div>
 
 	<div class="row">
-		<div class="col-md-2 col-md-offset-8">
+		<div class="col-md-3 col-lg-2 col-md-offset-6 col-lg-offset-8">
 			<button class="btn btn-danger btn-block" onclick="myAbortWarning();" id="abortButton"><span class="glyphicon glyphicon-remove"></span> <spring:message code="common.abort"/></button>
 		</div>
-		<div class="col-md-2">
+		<div class="col-md-3 col-lg-2">
 			<button class="btn btn-success btn-block" type="submit" id="confirmButton">
 				<span class="glyphicon glyphicon-ok"></span>
 				<spring:message code="common.confirm" />
@@ -139,7 +139,7 @@
 <!-- Modal Agregar Afiliados -->
 <form id="addAffiliateModalForm" action="" onsubmit="return false;">
 	<div class="modal fade" data-backdrop="static" id="addAffiliateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog" style="width:900px">
+		<div class="modal-dialog" style="width:60%">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -148,11 +148,11 @@
 				<div id="addAffiliateModalAlertDiv"></div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="affiliateCodeInput"><spring:message code="common.code"/></label> 
 							<input type="text" class="form-control" id="affiliateCodeInput" name="affiliateCode">
 						</div>
-						<div class="col-md-8 form-group">	
+						<div class="col-md-8 col-lg-8 form-group">
 							<label for="affiliateClientInput"><spring:message code="common.client"/></label>
 							<input id="affiliateClientInput" name="affiliateClient" class="form-control" disabled>
 						</div>
@@ -160,18 +160,18 @@
 					</div>
 
 					<div class="row">
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="affiliateSurnameInput"><spring:message code="common.surname"/></label> 
 							<input type="text" class="form-control" id="affiliateSurnameInput" name="affiliateSurname">
 						</div>
-						<div class="col-md-8 form-group">
+						<div class="col-md-8 col-lg-8 form-group">
 							<label for="affiliateNameInput"><spring:message code="common.firstname"/></label> 
 							<input type="text" class="form-control" id="affiliateNameInput" name="affiliateName">
 						</div>
 					</div>
 
 					<div class="row">
-						<div class="col-md-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="documentTypeSelect"><spring:message code="common.documentType"/></label>
 								<select class="form-control chosen-select" id="documentTypeSelect" name="documentType">
 									<option value="">- <spring:message code="common.select.option"/> -</option>
@@ -181,7 +181,7 @@
 								</select>
 						</div>
 					
-						<div class="col-md-8 form-group">
+						<div class="col-md-8 col-lg-8 form-group">
 							<label for="affiliateDocumentInput"><spring:message code="common.document"/></label> 
 							<input type="text" class="form-control" id="affiliateDocumentInput" name="affiliateDocument">
 						</div>
