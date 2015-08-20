@@ -45,7 +45,7 @@ var OrderCancellation = function() {
 	$("#orderTable").bootgrid({
 	    selection: true,
 	    multiSelect: true,
-	    rowSelect: true,
+	    rowSelect: false,
 	    keepSelection: true,
 	    formatters: {
 	        "action": function(column, row) {

@@ -84,7 +84,7 @@ var PendingTransactions = function() {
 	$("#deliveryNoteTable").bootgrid({
 	    selection: true,
 	    multiSelect: true,
-	    rowSelect: true,
+	    rowSelect: false,
 	    keepSelection: true,
 	    formatters: {
 	        "option": function(column, row)
