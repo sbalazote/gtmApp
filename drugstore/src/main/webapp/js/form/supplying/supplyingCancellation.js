@@ -45,7 +45,7 @@ var SupplyingCancellation = function() {
 	$("#supplyingTable").bootgrid({
 	    selection: true,
 	    multiSelect: true,
-	    rowSelect: true,
+	    rowSelect: false,
 	    keepSelection: true,
 	    formatters: {
 	        "action": function(column, row) {

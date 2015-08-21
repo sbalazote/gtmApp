@@ -98,7 +98,7 @@ var LogisticOperatorAssignment = function() {
 					caseSensitive: false,
 					selection: true,
 					multiSelect: true,
-					rowSelect: true,
+					rowSelect: false,
 					keepSelection: true
 				}).on("selected.rs.jquery.bootgrid", function(e, rows) {
 					for (var i = 0; i < rows.length; i++) {

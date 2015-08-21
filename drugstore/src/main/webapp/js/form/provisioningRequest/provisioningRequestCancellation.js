@@ -45,7 +45,7 @@ var ProvisioningRequestCancellation = function() {
 	$("#provisioningTable").bootgrid({
 	    selection: true,
 	    multiSelect: true,
-	    rowSelect: true,
+	    rowSelect: false,
 	    keepSelection: true,
 	    formatters: {
 	        "action": function(column, row) {

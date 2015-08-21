@@ -13,7 +13,7 @@ PendingInputs = function() {
 	$("#inputTable").bootgrid({
 		selection: true,
 		multiSelect: true,
-		rowSelect: true,
+		rowSelect: false,
 		keepSelection: true,
 		formatters: {
 			"option": function(column, row) {

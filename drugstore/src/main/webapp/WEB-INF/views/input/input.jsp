@@ -139,7 +139,7 @@
 		<div class="col-md-3 col-lg-2">
 			<button class="btn btn-danger btn-block" id="delete"><span class="glyphicon glyphicon-remove"></span> <spring:message code="input.cancellation.button"/></button>
 		</div>
-		<div class="col-md-3 col-md-offset-2 col-lg-2 col-lg-offset-4">
+		<div class="col-md-3 col-lg-2 col-lg-offset-4">
 			<button class="btn btn-danger btn-block" onclick="myAbortWarning();" id="abortButton"><span class="glyphicon glyphicon-remove"></span> <spring:message code="common.abort"/></button>
 		</div>
 		<div class="col-md-3 col-lg-2">
