@@ -1,14 +1,5 @@
 package com.drogueria.service.impl;
 
-import java.util.List;
-import java.util.Map;
-
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.drogueria.constant.AuditState;
 import com.drogueria.constant.RoleOperation;
 import com.drogueria.model.DeliveryNote;
@@ -17,12 +8,16 @@ import com.drogueria.model.Output;
 import com.drogueria.model.Supplying;
 import com.drogueria.persistence.dao.DeliveryNoteDAO;
 import com.drogueria.query.DeliveryNoteQuery;
-import com.drogueria.service.AuditService;
-import com.drogueria.service.DeliveryNoteService;
-import com.drogueria.service.OutputService;
-import com.drogueria.service.SupplyingService;
-import com.drogueria.service.TraceabilityService;
+import com.drogueria.service.*;
 import com.drogueria.util.OperationResult;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -52,8 +47,8 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	}
 
 	@Override
-	public Map<Integer, List<String>> getAssociatedOrders(boolean informAnmat) {
-		return this.deliveryNoteDAO.getAssociatedOrders(informAnmat);
+	public Map<String, List<String>> getAssociatedOrders(boolean informAnmat, String deliveryNoteNumber) {
+		return this.deliveryNoteDAO.getAssociatedOrders(informAnmat, deliveryNoteNumber);
 	}
 
 	@Override
@@ -62,8 +57,8 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	}
 
 	@Override
-	public Map<Integer, List<String>> getAssociatedOutputs(boolean informAnmat) {
-		return this.deliveryNoteDAO.getAssociatedOutputs(informAnmat);
+	public Map<String, List<String>> getAssociatedOutputs(boolean informAnmat, String deliveryNoteNumber) {
+		return this.deliveryNoteDAO.getAssociatedOutputs(informAnmat, deliveryNoteNumber);
 	}
 
 	@Override
@@ -206,8 +201,8 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	}
 
 	@Override
-	public Map<Integer, List<String>> getAssociatedSupplyings(boolean informAnmat) {
-		return this.deliveryNoteDAO.getAssociatedSupplyings(informAnmat);
+	public Map<String, List<String>> getAssociatedSupplyings(boolean informAnmat, String deliveryNoteNumber) {
+		return this.deliveryNoteDAO.getAssociatedSupplyings(informAnmat, deliveryNoteNumber);
 	}
 
 	@Override

@@ -1,13 +1,13 @@
 package com.drogueria.persistence.dao;
 
-import java.util.List;
-import java.util.Map;
-
 import com.drogueria.model.DeliveryNote;
 import com.drogueria.model.Order;
 import com.drogueria.model.Output;
 import com.drogueria.model.Supplying;
 import com.drogueria.query.DeliveryNoteQuery;
+
+import java.util.List;
+import java.util.Map;
 
 public interface DeliveryNoteDAO {
 
@@ -15,11 +15,11 @@ public interface DeliveryNoteDAO {
 
 	List<DeliveryNote> getAll();
 
-	Map<Integer, List<String>> getAssociatedOrders(boolean informAnmat);
+	Map<String, List<String>> getAssociatedOrders(boolean informAnmat, String deliveryNoteNumber);
 
 	Map<Integer, List<DeliveryNote>> getAssociatedOrders();
 
-	Map<Integer, List<String>> getAssociatedOutputs(boolean informAnmat);
+	Map<String, List<String>> getAssociatedOutputs(boolean informAnmat, String deliveryNoteNumber);
 
 	Map<Integer, List<DeliveryNote>> getAssociatedOutputs();
 
@@ -39,7 +39,7 @@ public interface DeliveryNoteDAO {
 
     List<DeliveryNote> getDeliveryNoteFromSupplyingForSearch(DeliveryNoteQuery deliveryNoteQuery);
 
-	Map<Integer, List<String>> getAssociatedSupplyings(boolean informAnmat);
+	Map<String, List<String>> getAssociatedSupplyings(boolean informAnmat, String deliveryNoteNumber);
 
 	Map<Integer, List<DeliveryNote>> getAssociatedSupplyings();
 

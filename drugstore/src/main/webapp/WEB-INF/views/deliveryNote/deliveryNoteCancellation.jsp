@@ -15,13 +15,35 @@
 <jsp:include page="../modals/orderModal.jsp" />
 <jsp:include page="../modals/supplyingModal.jsp" />
 
-<form action="" onsubmit="return false;">
+<form id="deliveryNoteCancellationForm" action="" onsubmit="return false;">
 	<div class="row">
 		<div class="col-md-12 col-lg-12 form-group">
 			<h3><spring:message code="deliveryNote.cancellation.label"/></h3>
 		</div>
 	</div>
-	
+	<div class="row">
+		<div class="col-md-8 col-lg-8 form-group">
+			<label for="deliveryNoteNumberSearch"><spring:message code="common.deliveryNote"/></label>
+			<div class="input-group">
+				<input type="text" class="form-control" name="POSDeliveryNoteNumberSearch" id="POSDeliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.POS"/>'>
+				<span class="input-group-addon">-</span>
+				<input type="text" class="form-control" name="deliveryNoteNumberSearch" id="deliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.number"/>' >
+			</div>
+		</div>
+		<div class="col-md-2 col-lg-2 form-margin">
+			<button class="btn btn-success btn-block" type="submit" id="searchButton">
+				<span class="glyphicon glyphicon-search"></span>
+				<spring:message code="common.search" />
+			</button>
+		</div>
+		<div class="col-md-2 col-lg-2 form-margin">
+			<button class="btn btn-info btn-block" type="submit" id="cleanButton">
+				<span class="glyphicon glyphicon-trash"></span>
+				<spring:message code="common.clean" />
+			</button>
+		</div>
+	</div>
+	<br>
 	<div>
 		<table class="table table-condensed table-hover table-striped" id="deliveryNoteTable">
 			<thead>
@@ -34,35 +56,6 @@
 		        </tr>
 	   	 	</thead>
 	   	 	<tbody id="deliveryNoteTableBody">
-				<c:forEach items="${orderDeliveryNotes}" var="orderDeliveryNotes">
-					<tr>
-						<td><c:out value="A${orderDeliveryNotes.key}"></c:out></td>
-						<td><c:out value="${orderDeliveryNotes.key}"></c:out></td>
-						<td><spring:message code="deliveryNote.class.orderAssembly"/></td>
-						<td><c:out value="'${orderDeliveryNotes.value}'"></c:out></td>
-						<td><spring:message code="common.view"/></td>
-					</tr>
-				</c:forEach>
-				
-				<c:forEach items="${outputDeliveryNotes}" var="outputDeliveryNotes">
-					<tr>
-						<td><c:out value="E${outputDeliveryNotes.key}"></c:out></td>
-						<td><c:out value="${outputDeliveryNotes.key}"></c:out></td>
-						<td><spring:message code="deliveryNote.class.output"/></td>
-						<td><c:out value="${outputDeliveryNotes.value}"></c:out></td>
-						<td><spring:message code="common.view"/></td>
-					</tr>
-				</c:forEach>
-				
-				<c:forEach items="${supplyingDeliveryNotes}" var="supplyingDeliveryNotes">
-					<tr>
-						<td><c:out value="D${supplyingDeliveryNotes.key}"></c:out></td>
-						<td><c:out value="${supplyingDeliveryNotes.key}"></c:out></td>
-						<td><spring:message code="deliveryNote.class.supplying"/></td>
-						<td><c:out value="${supplyingDeliveryNotes.value}"></c:out></td>
-						<td><spring:message code="common.view"/></td>
-					</tr>
-				</c:forEach>
 			</tbody>
 		</table>
 	</div>
@@ -76,3 +69,17 @@
 		</div>
 	</div>
 </form>
+
+<%-- Aviso de consulta demasiado amplia --%>
+<div class="modal fade" data-backdrop="static" id="queryTooLarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width:250px">
+		<div class="modal-content">
+			<div class="modal-body">
+				<strong><span><spring:message code="common.queryTooLarge"/></span></strong>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal" id="acceptButton"><spring:message code="common.accept"/></button>
+			</div>
+		</div>
+	</div>
+</div>

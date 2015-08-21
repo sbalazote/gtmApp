@@ -1,17 +1,5 @@
 package com.drogueria.persistence.dao.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import com.drogueria.util.StringUtility;
-import org.hibernate.Query;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 import com.drogueria.model.DeliveryNote;
 import com.drogueria.model.Order;
 import com.drogueria.model.Output;
@@ -21,9 +9,15 @@ import com.drogueria.query.DeliveryNoteQuery;
 import com.drogueria.service.OrderService;
 import com.drogueria.service.OutputService;
 import com.drogueria.service.SupplyingService;
+import com.drogueria.util.StringUtility;
+import org.hibernate.Query;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.CriteriaSpecification;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import static com.drogueria.util.StringUtility.toUSDateFormat;
+import java.util.*;
 
 @Repository
 public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
@@ -50,30 +44,71 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<Integer, List<String>> getAssociatedOrders(boolean informAnmat) {
-		Map<Integer, List<String>> associatedOrders = new HashMap<Integer, List<String>>();
+	public Map<String, List<String>> getAssociatedOrders(boolean informAnmat, String deliveryNoteNumb) {
+		Map<String, List<String>> associatedOrders = new HashMap<String, List<String>>();
 		Query query;
-		String sentence = "select distinct od.order_id, dn.number from order_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.order_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
+
+		String sentence = "create temporary table if not exists associated_orders_temp1 as " +
+				"(select od.order_id, dn.number " +
+				"from order_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.order_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
+
 		if (informAnmat) {
-			sentence += " and dn.inform_anmat = 1 and dn.informed = 0";
+			sentence += " and dn.inform_anmat = 1 and dn.informed = 0);";
+		} else {
+			sentence += ");";
 		}
+
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+		query.executeUpdate();
+
+		sentence = "create temporary table if not exists associated_orders_temp2 as " +
+				"(select od.order_id, dn.number " +
+				"from order_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.order_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
+
+		if (informAnmat) {
+			sentence += " and dn.inform_anmat = 1 and dn.informed = 0);";
+		} else {
+			sentence += ");";
+		}
+
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+		query.executeUpdate();
+
+		sentence =	"select * from associated_orders_temp1 where order_id in (select order_id from associated_orders_temp2";
+
+		if (!deliveryNoteNumb.isEmpty()) {
+			sentence += " where number = '" + deliveryNoteNumb + "');";
+		} else {
+			sentence += ");";
+		}
+
 		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
 		Iterator<Object[]> it = query.list().iterator();
 		while (it.hasNext()) {
 			Object[] orderDeliveryNotePair = it.next();
 			Integer orderId = (Integer) orderDeliveryNotePair[0];
+			String orderKey = "D".concat(orderId.toString());
 			String deliveryNoteNumber = (String) orderDeliveryNotePair[1];
 			List<String> deliveryNoteNumbers = null;
-			if (!associatedOrders.containsKey(orderId)) {
+			if (!associatedOrders.containsKey(orderKey)) {
 				deliveryNoteNumbers = new ArrayList<String>();
 				deliveryNoteNumbers.add(deliveryNoteNumber);
-				associatedOrders.put(orderId, deliveryNoteNumbers);
+				associatedOrders.put(orderKey, deliveryNoteNumbers);
 			} else {
-				deliveryNoteNumbers = associatedOrders.get(orderId);
+				deliveryNoteNumbers = associatedOrders.get(orderKey);
 				deliveryNoteNumbers.add(deliveryNoteNumber);
-				associatedOrders.put(orderId, deliveryNoteNumbers);
+				associatedOrders.put(orderKey, deliveryNoteNumbers);
 			}
 		}
+
+		sentence = "drop temporary table if exists associated_orders_temp1;";
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+		query.executeUpdate();
+
+		sentence = "drop temporary table if exists associated_orders_temp2;";
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+		query.executeUpdate();
+
 		return associatedOrders;
 	}
 
@@ -113,31 +148,71 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<Integer, List<String>> getAssociatedOutputs(boolean informAnmat) {
-		Map<Integer, List<String>> associatedOutputs = new HashMap<Integer, List<String>>();
-		String sentence = "select distinct od.output_id, dn.number from output_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.output_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
-		if (informAnmat) {
-			sentence += " and dn.inform_anmat = 1 and dn.informed = 0";
-		}
+	public Map<String, List<String>> getAssociatedOutputs(boolean informAnmat, String deliveryNoteNumb) {
+		Map<String, List<String>> associatedOutputs = new HashMap<String, List<String>>();
 		Query query;
-		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
 
+		String sentence = "create temporary table if not exists associated_outputs_temp1 as " +
+				"(select od.output_id, dn.number " +
+				"from output_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.output_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
+
+		if (informAnmat) {
+			sentence += " and dn.inform_anmat = 1 and dn.informed = 0);";
+		} else {
+			sentence += ");";
+		}
+
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+		query.executeUpdate();
+
+		sentence = "create temporary table if not exists associated_outputs_temp2 as " +
+				"(select od.output_id, dn.number " +
+				"from output_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.output_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
+
+		if (informAnmat) {
+			sentence += " and dn.inform_anmat = 1 and dn.informed = 0);";
+		} else {
+			sentence += ");";
+		}
+
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+		query.executeUpdate();
+
+		sentence =	"select * from associated_outputs_temp1 where output_id in (select output_id from associated_outputs_temp2";
+
+		if (!deliveryNoteNumb.isEmpty()) {
+			sentence += " where number = '" + deliveryNoteNumb + "');";
+		} else {
+			sentence += ");";
+		}
+
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
 		Iterator<Object[]> it = query.list().iterator();
 		while (it.hasNext()) {
 			Object[] outputDeliveryNotePair = it.next();
 			Integer outputId = (Integer) outputDeliveryNotePair[0];
+			String outputKey = "E".concat(outputId.toString());
 			String deliveryNoteNumber = (String) outputDeliveryNotePair[1];
 			List<String> deliveryNotes = null;
-			if (!associatedOutputs.containsKey(outputId)) {
+			if (!associatedOutputs.containsKey(outputKey)) {
 				deliveryNotes = new ArrayList<String>();
 				deliveryNotes.add(deliveryNoteNumber);
-				associatedOutputs.put(outputId, deliveryNotes);
+				associatedOutputs.put(outputKey, deliveryNotes);
 			} else {
-				deliveryNotes = associatedOutputs.get(outputId);
+				deliveryNotes = associatedOutputs.get(outputKey);
 				deliveryNotes.add(deliveryNoteNumber);
-				associatedOutputs.put(outputId, deliveryNotes);
+				associatedOutputs.put(outputKey, deliveryNotes);
 			}
 		}
+
+		sentence = "drop temporary table if exists associated_outputs_temp1;";
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+		query.executeUpdate();
+
+		sentence = "drop temporary table if exists associated_outputs_temp2;";
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+		query.executeUpdate();
+
 		return associatedOutputs;
 	}
 
@@ -178,31 +253,71 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 	}
 
 	@Override
-	public Map<Integer, List<String>> getAssociatedSupplyings(boolean informAnmat) {
-		Map<Integer, List<String>> associatedSupplyings = new HashMap<Integer, List<String>>();
-		String sentence = "select distinct sd.supplying_id, dn.number from supplying_detail as sd, delivery_note_detail as dnd, delivery_note dn where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
-		if (informAnmat) {
-			sentence += " and dn.inform_anmat = 1 and dn.informed = 0";
-		}
+	public Map<String, List<String>> getAssociatedSupplyings(boolean informAnmat, String deliveryNoteNumb) {
+		Map<String, List<String>> associatedSupplyings = new HashMap<String, List<String>>();
 		Query query;
-		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
 
+		String sentence = "create temporary table if not exists associated_supplyings_temp1 as " +
+				"(select sd.supplying_id, dn.number " +
+				"from supplying_detail as sd, delivery_note_detail as dnd, delivery_note dn where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
+
+		if (informAnmat) {
+			sentence += " and dn.inform_anmat = 1 and dn.informed = 0);";
+		} else {
+			sentence += ");";
+		}
+
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+		query.executeUpdate();
+
+		sentence = "create temporary table if not exists associated_supplyings_temp2 as " +
+				"(select sd.supplying_id, dn.number " +
+				"from supplying_detail as sd, delivery_note_detail as dnd, delivery_note dn where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
+
+		if (informAnmat) {
+			sentence += " and dn.inform_anmat = 1 and dn.informed = 0);";
+		} else {
+			sentence += ");";
+		}
+
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+		query.executeUpdate();
+
+		sentence =	"select * from associated_supplyings_temp1 where supplying_id in (select supplying_id from associated_supplyings_temp2";
+
+		if (!deliveryNoteNumb.isEmpty()) {
+			sentence += " where number = '" + deliveryNoteNumb + "');";
+		} else {
+			sentence += ");";
+		}
+
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
 		Iterator<Object[]> it = query.list().iterator();
 		while (it.hasNext()) {
 			Object[] supplyingDeliveryNotePair = it.next();
 			Integer supplyingId = (Integer) supplyingDeliveryNotePair[0];
+			String supplyingKey = "D".concat(supplyingId.toString());
 			String deliveryNoteNumber = (String) supplyingDeliveryNotePair[1];
 			List<String> deliveryNotes = null;
-			if (!associatedSupplyings.containsKey(supplyingId)) {
+			if (!associatedSupplyings.containsKey(supplyingKey)) {
 				deliveryNotes = new ArrayList<String>();
 				deliveryNotes.add(deliveryNoteNumber);
-				associatedSupplyings.put(supplyingId, deliveryNotes);
+				associatedSupplyings.put(supplyingKey, deliveryNotes);
 			} else {
-				deliveryNotes = associatedSupplyings.get(supplyingId);
+				deliveryNotes = associatedSupplyings.get(supplyingKey);
 				deliveryNotes.add(deliveryNoteNumber);
-				associatedSupplyings.put(supplyingId, deliveryNotes);
+				associatedSupplyings.put(supplyingKey, deliveryNotes);
 			}
 		}
+
+		sentence = "drop temporary table if exists associated_supplyings_temp1;";
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+		query.executeUpdate();
+
+		sentence = "drop temporary table if exists associated_supplyings_temp2;";
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+		query.executeUpdate();
+
 		return associatedSupplyings;
 	}
 

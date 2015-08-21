@@ -1,22 +1,5 @@
 package com.drogueria.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.drogueria.constant.AuditState;
 import com.drogueria.constant.RoleOperation;
 import com.drogueria.constant.State;
@@ -25,14 +8,17 @@ import com.drogueria.helper.impl.printer.OrderDeliveryNoteSheetPrinter;
 import com.drogueria.model.DeliveryNote;
 import com.drogueria.model.Order;
 import com.drogueria.model.ProvisioningRequest;
-import com.drogueria.service.AgreementService;
-import com.drogueria.service.AuditService;
-import com.drogueria.service.ClientService;
-import com.drogueria.service.DeliveryNoteService;
-import com.drogueria.service.OrderService;
-import com.drogueria.service.ProvisioningRequestService;
-import com.drogueria.service.ProvisioningRequestStateService;
+import com.drogueria.service.*;
 import com.drogueria.util.OperationResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 @Controller
 public class DeliveryNoteController {
@@ -76,15 +62,6 @@ public class DeliveryNoteController {
 
 	@RequestMapping(value = "/deliveryNoteCancellation", method = RequestMethod.GET)
 	public String deliveryNoteCancellation(ModelMap modelMap) throws Exception {
-		Map<Integer, List<String>> orderDeliveryNotes = this.deliveryNoteService.getAssociatedOrders(false);
-		modelMap.put("orderDeliveryNotes", orderDeliveryNotes);
-
-		Map<Integer, List<String>> outputDeliveryNotes = this.deliveryNoteService.getAssociatedOutputs(false);
-		modelMap.put("outputDeliveryNotes", outputDeliveryNotes);
-
-		Map<Integer, List<String>> supplyingDeliveryNotes = this.deliveryNoteService.getAssociatedSupplyings(false);
-		modelMap.put("supplyingDeliveryNotes", supplyingDeliveryNotes);
-
 		return "deliveryNoteCancellation";
 	}
 
@@ -95,6 +72,21 @@ public class DeliveryNoteController {
 		if (auth != null) {
 			this.deliveryNoteService.cancelDeliveryNotes(deliveryNoteNumbers, auth.getName());
 		}
+	}
+
+	@RequestMapping(value = "/getCancelableDeliveryNotes", method = RequestMethod.POST)
+	public @ResponseBody
+	Map<String, List<String>> getCancelableDeliveryNotes(@RequestParam String deliveryNoteNumber) throws Exception {
+		Map<String, List<String>> canceleablesMap = new HashMap<>();
+		Map<String, List<String>> orderDeliveryNotes = this.deliveryNoteService.getAssociatedOrders(false, deliveryNoteNumber);
+		Map<String, List<String>> outputDeliveryNotes = this.deliveryNoteService.getAssociatedOutputs(false, deliveryNoteNumber);
+		Map<String, List<String>> supplyingDeliveryNotes = this.deliveryNoteService.getAssociatedSupplyings(false, deliveryNoteNumber);
+
+		canceleablesMap.putAll(orderDeliveryNotes);
+		canceleablesMap.putAll(outputDeliveryNotes);
+		canceleablesMap.putAll(supplyingDeliveryNotes);
+
+		return canceleablesMap;
 	}
 
 	@RequestMapping(value = "/reassemblyOrders", method = RequestMethod.POST)
@@ -111,13 +103,13 @@ public class DeliveryNoteController {
 
 	@RequestMapping(value = "/pendingTransactions", method = RequestMethod.GET)
 	public String pendingTransactions(ModelMap modelMap) throws Exception {
-		Map<Integer, List<String>> orderDeliveryNotes = this.deliveryNoteService.getAssociatedOrders(true);
+		Map<String, List<String>> orderDeliveryNotes = this.deliveryNoteService.getAssociatedOrders(true, "");
 		modelMap.put("orderDeliveryNotes", orderDeliveryNotes);
 
-		Map<Integer, List<String>> outputDeliveryNotes = this.deliveryNoteService.getAssociatedOutputs(true);
+		Map<String, List<String>> outputDeliveryNotes = this.deliveryNoteService.getAssociatedOutputs(true, "");
 		modelMap.put("outputDeliveryNotes", outputDeliveryNotes);
 
-		Map<Integer, List<String>> supplyingDeliveryNotes = this.deliveryNoteService.getAssociatedSupplyings(true);
+		Map<String, List<String>> supplyingDeliveryNotes = this.deliveryNoteService.getAssociatedSupplyings(true, "");
 		modelMap.put("supplyingDeliveryNotes", supplyingDeliveryNotes);
 
 		return "pendingTransactions";

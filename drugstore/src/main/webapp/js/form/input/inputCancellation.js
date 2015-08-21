@@ -82,7 +82,7 @@ InputCancellation = function() {
 				"agreementId": $("#agreementSearch").val() || null,
 				"deliveryNoteNumber": $("#deliveryNoteNumberSearch").val().trim(),
 				"purchaseOrderNumber": $("#purchaseOrderNumberSearch").val().trim(),
-				"cancelled": false,	
+				"cancelled": false
 			};
 			
 			$.ajax({
@@ -140,7 +140,6 @@ InputCancellation = function() {
 				$("#inputTable").bootgrid({
 					caseSensitive: false,
 					selection: true,
-					multiSelect: true,
 					rowSelect: true,
 					keepSelection: true
 				}).on("selected.rs.jquery.bootgrid", function(e, rows) {

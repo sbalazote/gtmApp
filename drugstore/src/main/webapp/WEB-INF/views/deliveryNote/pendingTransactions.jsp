@@ -1,6 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <script type="text/javascript" src="js/form/deliveryNote/pendingTransactions.js"></script>
 <script type="text/javascript" src="js/form/modals.js"></script>
@@ -35,7 +36,7 @@
 	   	 	<tbody id="deliveryNoteTableBody">
 				<c:forEach items="${orderDeliveryNotes}" var="orderDeliveryNotes">
 					<tr>
-						<td><c:out value="A${orderDeliveryNotes.key}"></c:out></td>
+						<td><c:out value="${orderDeliveryNotes.key}"></c:out></td>
 						<td><c:out value="${orderDeliveryNotes.key}"></c:out></td>
 						<td><spring:message code="deliveryNote.class.orderAssembly"/></td>
 						<td><c:out value="${orderDeliveryNotes.value}"></c:out></td>
@@ -45,7 +46,7 @@
 	
 				<c:forEach items="${outputDeliveryNotes}" var="outputDeliveryNotes">
 					<tr>
-						<td><c:out value="E${outputDeliveryNotes.key}"></c:out></td>
+						<td><c:out value="${outputDeliveryNotes.key}"></c:out></td>
 						<td><c:out value="${outputDeliveryNotes.key}"></c:out></td>
 						<td><spring:message code="deliveryNote.class.output"/></td>
 						<td><c:out value="${outputDeliveryNotes.value}"></c:out></td>
@@ -54,8 +55,9 @@
 				</c:forEach>
 				<c:forEach items="${supplyingDeliveryNotes}" var="supplyingDeliveryNotes">
 					<tr>
-						<td><c:out value="D${supplyingDeliveryNotes.key}"></c:out></td>
+						<c:set var="key" value="${supplyingDeliveryNotes.key}"/>
 						<td><c:out value="${supplyingDeliveryNotes.key}"></c:out></td>
+						<td><c:out value="${fn:substring(key, 1, -1)}"></c:out></td>
 						<td><spring:message code="deliveryNote.class.supplying"/></td>
 						<td><c:out value="${supplyingDeliveryNotes.value}"></c:out></td>
 						<td><spring:message code="common.view"/></td>

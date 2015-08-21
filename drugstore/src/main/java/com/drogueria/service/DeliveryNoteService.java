@@ -1,8 +1,5 @@
 package com.drogueria.service;
 
-import java.util.List;
-import java.util.Map;
-
 import com.drogueria.model.DeliveryNote;
 import com.drogueria.model.Order;
 import com.drogueria.model.Output;
@@ -10,21 +7,24 @@ import com.drogueria.model.Supplying;
 import com.drogueria.query.DeliveryNoteQuery;
 import com.drogueria.util.OperationResult;
 
+import java.util.List;
+import java.util.Map;
+
 public interface DeliveryNoteService {
 
 	DeliveryNote get(Integer id);
 
 	List<DeliveryNote> getAll();
 
-	Map<Integer, List<String>> getAssociatedOrders(boolean informAnmat);
+	Map<String, List<String>> getAssociatedOrders(boolean informAnmat, String deliveryNoteNumber);
 
 	Map<Integer, List<DeliveryNote>> getAssociatedOrders();
 
-	Map<Integer, List<String>> getAssociatedOutputs(boolean informAnmat);
+	Map<String, List<String>> getAssociatedOutputs(boolean informAnmat, String deliveryNoteNumber);
 
 	Map<Integer, List<DeliveryNote>> getAssociatedOutputs();
 
-	Map<Integer, List<String>> getAssociatedSupplyings(boolean informAnmat);
+	Map<String, List<String>> getAssociatedSupplyings(boolean informAnmat, String deliveryNoteNumber);
 
 	Map<Integer, List<DeliveryNote>> getAssociatedSupplyings();
 
