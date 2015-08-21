@@ -62,6 +62,7 @@ SearchSerializedProduct = function() {
 		return form.valid();
 	};
 	$("#searchButton").click(function() {
+        myHideAlert();
         $("#cleanSerialButton").trigger("click");
         if(validateForm()){
             searchProduct(productId,$("#serialNumberSearch").val());
@@ -77,6 +78,7 @@ SearchSerializedProduct = function() {
     });
 
     $("#searchSerialButton").click(function() {
+        myHideAlert();
         $("#cleanButton").trigger("click");
         searchSerialParsed();
     });

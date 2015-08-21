@@ -101,6 +101,7 @@ SearchOutput = function() {
 	});
 	
 	$("#searchButton").click(function() {
+		myHideAlert();
 		if(validateForm()){
 			var jsonOutputSearch = {
 				"id": $("#idSearch").val().trim() || null,

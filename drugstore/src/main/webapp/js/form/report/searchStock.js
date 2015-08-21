@@ -175,6 +175,7 @@ SearchStock = function() {
 	});
 	
 	$("#searchButton").click(function() {
+		myHideAlert();
 		if(validateForm()){
 			var jsonStockSearch = {
 				"expirateDateFrom": $("#dateFromSearch").val(),

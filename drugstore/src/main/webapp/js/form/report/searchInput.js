@@ -108,6 +108,7 @@ SearchInput = function() {
 	});
 	
 	$("#searchButton").click(function() {
+		myHideAlert();
 		if(validateForm()){
 			var jsonInputSearch = {
 				"id": $("#idSearch").val().trim() || null,

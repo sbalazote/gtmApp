@@ -289,6 +289,7 @@ SearchDeliveryNote = function() {
 	});
 
 	$("#searchOutputButton").click(function() {
+		myHideAlert();
 		if(validateForm()){
 			var deliveryNoteNumber = "";
 			if($("#outputPOSDeliveryNoteNumberSearch").val() != "" && $("#outputDeliveryNoteNumberSearch").val() != ""){
@@ -353,6 +354,7 @@ SearchDeliveryNote = function() {
 	});
 
 	$("#searchOrderButton").click(function() {
+		myHideAlert();
 		if(validateForm()){
             var deliveryNoteNumber = "";
             if($("#orderPOSDeliveryNoteNumberSearch").val() != "" && $("#orderDeliveryNoteNumberSearch").val() != ""){
@@ -417,6 +419,7 @@ SearchDeliveryNote = function() {
 	});
 
 	$("#searchSupplyingButton").click(function() {
+		myHideAlert();
 		if(validateForm()){
             var deliveryNoteNumber = "";
             if($("#supplyingPOSDeliveryNoteNumberSearch").val() != "" && $("#supplyingDeliveryNoteNumberSearch").val() != ""){

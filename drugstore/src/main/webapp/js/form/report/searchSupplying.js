@@ -100,6 +100,7 @@ SearchSupplying = function() {
     });
 
     $("#searchButton").click(function() {
+        myHideAlert();
         if(validateForm()){
             var jsonSupplyingSearch = {
                 "id": $("#idSearch").val().trim() || null,

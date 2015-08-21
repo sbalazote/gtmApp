@@ -90,6 +90,7 @@ SearchProvisioningRequest = function() {
 	};
 	
 	$("#searchButton").click(function() {
+		myHideAlert();
 			if(validateForm()){
 			var jsonProvisioningSearch = {
 				"provisioningId": $("#idSearch").val().trim() || null,

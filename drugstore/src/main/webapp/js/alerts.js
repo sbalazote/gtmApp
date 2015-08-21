@@ -30,6 +30,11 @@ $(document).ready(function() {
 			'<button type="button" class="close" data-dismiss="alert">' +
 			'&times;</button> ' + message + '</div>');
 	};
+
+	myHideAlert = function() {
+		var myDiv = "alertDiv";
+		$('#'+myDiv).empty();
+	};
 	
 	// Alerts
 	assignProductsOutOfStockAlert = function(element) {

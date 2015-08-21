@@ -52,6 +52,7 @@ SearchAudit = function() {
 	});
 	
 	$("#searchButton").click(function() {
+		myHideAlert();
 		if(validateForm()){
 			var jsonAuditSearch = {
 				"dateFrom": $("#dateFromSearch").val(),

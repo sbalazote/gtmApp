@@ -74,6 +74,7 @@ SearchBatchExpirateDateProduct = function() {
 	});
 	
 	$("#searchButton").click(function() {
+        myHideAlert();
 		if(validateForm()){
 			$.ajax({
 				url: "getBatchExpirateDateProduct.do",
