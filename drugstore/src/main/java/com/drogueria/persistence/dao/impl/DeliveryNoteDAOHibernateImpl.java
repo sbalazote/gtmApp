@@ -49,7 +49,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 		Query query;
 
 		String sentence = "create temporary table if not exists associated_orders_temp1 as " +
-				"(select od.order_id, dn.number " +
+				"(select distinct od.order_id, dn.number " +
 				"from order_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.order_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
 
 		if (informAnmat) {
@@ -62,7 +62,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 		query.executeUpdate();
 
 		sentence = "create temporary table if not exists associated_orders_temp2 as " +
-				"(select od.order_id, dn.number " +
+				"(select distinct od.order_id, dn.number " +
 				"from order_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.order_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
 
 		if (informAnmat) {
@@ -153,7 +153,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 		Query query;
 
 		String sentence = "create temporary table if not exists associated_outputs_temp1 as " +
-				"(select od.output_id, dn.number " +
+				"(select distinct od.output_id, dn.number " +
 				"from output_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.output_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
 
 		if (informAnmat) {
@@ -166,7 +166,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 		query.executeUpdate();
 
 		sentence = "create temporary table if not exists associated_outputs_temp2 as " +
-				"(select od.output_id, dn.number " +
+				"(select distinct od.output_id, dn.number " +
 				"from output_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.output_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
 
 		if (informAnmat) {
@@ -258,7 +258,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 		Query query;
 
 		String sentence = "create temporary table if not exists associated_supplyings_temp1 as " +
-				"(select sd.supplying_id, dn.number " +
+				"(select distinct sd.supplying_id, dn.number " +
 				"from supplying_detail as sd, delivery_note_detail as dnd, delivery_note dn where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
 
 		if (informAnmat) {
@@ -271,7 +271,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 		query.executeUpdate();
 
 		sentence = "create temporary table if not exists associated_supplyings_temp2 as " +
-				"(select sd.supplying_id, dn.number " +
+				"(select distinct sd.supplying_id, dn.number " +
 				"from supplying_detail as sd, delivery_note_detail as dnd, delivery_note dn where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
 
 		if (informAnmat) {
