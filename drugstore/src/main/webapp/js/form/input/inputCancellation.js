@@ -140,7 +140,7 @@ InputCancellation = function() {
 				$("#inputTable").bootgrid({
 					caseSensitive: false,
 					selection: true,
-					rowSelect: true,
+					rowSelect: false,
 					keepSelection: true
 				}).on("selected.rs.jquery.bootgrid", function(e, rows) {
 					for (var i = 0; i < rows.length; i++) {

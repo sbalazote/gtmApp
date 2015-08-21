@@ -87,7 +87,7 @@ DeliveryNoteCancellation = function() {
 				$("#deliveryNoteTable").bootgrid({
 					caseSensitive: false,
 					selection: true,
-					rowSelect: true,
+					rowSelect: false,
 					keepSelection: true
 				}).on("selected.rs.jquery.bootgrid", function(e, rows)
 				{
