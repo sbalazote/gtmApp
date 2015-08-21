@@ -8,7 +8,9 @@ SearchStock = function() {
 	var id;
 	var serialsMap = {};
 	var serialDetails = {};
-	
+
+	var autocomplete = false;
+
 	$('#dateFromButton').click(function() {
 		var maxDate = $( "#dateToSearch" ).datepicker( "getDate" );
 		$("#dateFromSearch").datepicker("option", "maxDate", maxDate);
@@ -81,13 +83,54 @@ SearchStock = function() {
 			});
 		},
 		select: function(event, ui) {
-				productId = ui.item.id;
-				productGtin = ui.item.gtin;
-				productDescription = ui.item.value;
-				productType = ui.item.type;
+			productId = ui.item.id;
+			productGtin = ui.item.gtin;
+			productDescription = ui.item.value;
+			productType = ui.item.type;
+			$("#productInput").val(productDescription);
+			$('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
+			autocomplete = true;
 	    },
 		minLength: 3,
 		autoFocus: true
+	});
+
+	$('#productInput').keydown(function(e) {
+		if(e.keyCode == 13){ // Presiono Enter
+			if (!autocomplete) {
+				$.ajax({
+					url: "getProductFromStockBySerialOrGtin.do",
+					type: "GET",
+					data: {
+						serial: $(this).val(),
+						agreementId: $("#agreementSearch").val() || null
+					},
+					success: function(response) {
+						if (response != "") {
+							productId = response.id;
+							productGtin = response.lastGtin;
+							productDescription = response.code + ' - ' + response.description;
+							productType = response.type;
+
+							$('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
+
+							$("#productInput").val(productDescription);
+						} else {
+							$('#productInput').tooltip("destroy").data("title", "Producto Inexistente").addClass("has-error").tooltip();
+							$('#productInput').val('');
+							$('#productInput').focus();
+						}
+						return false;
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						myGenericError();
+					}
+				});
+			} else {
+				$('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
+			}
+			autocomplete = false;
+		}
 	});
 	
 	var validateForm = function() {
