@@ -411,14 +411,14 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
 				<excludes>
-					<exclude>**/*.out</exclude>
+					<exclude>**/*.gpg</exclude>
 				</excludes>
             </resource>
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>false</filtering>
 				<includes>
-					<include>**/*.out</include>
+					<include>**/*.gpg</include>
 				</includes>
 			</resource>
         </resources>

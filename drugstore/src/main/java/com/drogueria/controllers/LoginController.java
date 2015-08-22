@@ -81,7 +81,7 @@ public class LoginController {
     private boolean isValidLicense() {
         lic = new License();
         try {
-            lic.loadKeyRing((InputStream) this.getClass().getClassLoader().getResourceAsStream("license/pubring.out"), digest);
+            lic.loadKeyRing((InputStream) this.getClass().getClassLoader().getResourceAsStream("license/pubring.gpg"), digest);
             lic.setLicenseEncoded((InputStream) this.getClass().getClassLoader().getResourceAsStream("license/license.lic"));
         } catch (IOException e) {
             e.printStackTrace();
