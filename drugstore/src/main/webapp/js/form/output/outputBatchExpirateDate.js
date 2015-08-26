@@ -272,7 +272,7 @@ OutputBatchExpirationDate = function() {
 					}
 				}, {
 					label: 'Si',
-					hotkey: 13,
+					hotkey: 115,	// F4.
 					cssClass: 'btn-primary',
 					action: function(dialogItself) {
 						dialogItself.close();
