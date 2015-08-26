@@ -57,6 +57,13 @@ public class ProductsPdfView extends AbstractPdfView {
 				cb.showText(name);
 				cb.endText();
 
+				// NOMBRE LISTADO
+				cb.beginText();
+				cb.setFontAndSize(bf_times, 12f);
+				cb.setTextMatrix(40f * 2.8346f, 190f * 2.8346f);
+				cb.showText("Listado de Productos");
+				cb.endText();
+
 				document.add(logo);
 
 				document.add(Chunk.NEWLINE);
