@@ -151,8 +151,9 @@ $(document).ready(function() {
 	if (postSaveMessage) {
 		var jsonObject = JSON.parse(postSaveMessage);
 		myShowAlert(jsonObject.type, jsonObject.message);
+		var type = 'type-' + jsonObject.type;
 		BootstrapDialog.show({
-			type: BootstrapDialog.TYPE_SUCCESS,
+			type: type,
 	        title: 'Operaci\u00f3n Exitosa',
 	        message: jsonObject.message,
 	        buttons: [{
