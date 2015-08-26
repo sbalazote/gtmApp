@@ -600,13 +600,7 @@ Input = function() {
 				success: function(response, textStatus, jqXHR) {
 					$.unblockUI();
 					if(response != null){
-						var doc = printIOPDF('input', response.id, response.inputDetails);
-						var string = doc.output('datauristring');
-						var x = window.open('','_blank', '', false);
-						x.document.open();
-						x.document.location=string;
-						
-						myRedirect("success","Se ha autorizado el ingreso de mercader\u00eda n\u00famero: " + $("#inputId").val(), "searchInputToUpdate.do");
+						generateInputPDFReport(response.id,true);
 					}
 				},
 				error: function(response, jqXHR, textStatus, errorThrown) {
