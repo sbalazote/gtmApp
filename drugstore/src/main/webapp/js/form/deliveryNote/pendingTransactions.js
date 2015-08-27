@@ -38,13 +38,16 @@ var PendingTransactions = function() {
 	             },
 				success: function(response) {
 					if(response.length > 0 && response[0] != null){
+						var confirmedDeliveryNotes = [];
+						var errorsList = [];
 						for (var i = 0, lengthI = response.length; i < lengthI; i++) {
 							if(response[i].resultado == true){
 								$.unblockUI();
-								myReload("success", "Se han informado los siguientes remitos: " +  response[i].operationId);
+								confirmedDeliveryNotes.push(response[i].operationId);
 							}else{
 								$.unblockUI();
-								var errors = "";
+								var errors = "<strong>Remito " + response[i].operationId + " </strong>";
+
 								for (var j = 0, lengthJ = response[i].myOwnErrors.length; j < lengthJ; j++) {
 									errors += response[i].myOwnErrors[j] + "<br />";
 								}
@@ -55,7 +58,17 @@ var PendingTransactions = function() {
 										errors += response[i].errores[j]._c_error + " - " + response[i].errores[j]._d_error + "<br />";
 									}
 								}
-								myShowAlert("danger", errors,null);
+								errorsList.push(errors);
+							}
+						}
+						if(confirmedDeliveryNotes.length > 0 && errorsList.length == 0){
+							myReload("success", "Se han informado los siguientes remitos: <strong>" +  confirmedDeliveryNotes + "</strong>");
+						}else{
+							if(errorsList.length > 0 && confirmedDeliveryNotes.length > 0){
+								myReload("warning", "Se han informado los siguientes remitos: " +  "<strong>" + confirmedDeliveryNotes  + "</strong>" + "<br />" +"Pero ocurrieron los siguientes errores:" + "<br />" +
+								errorsList);
+							}else{
+								myReload("danger", "Han surgido los siguientes errores: " +  errorsList);
 							}
 						}
 					}

@@ -72,8 +72,6 @@ public class DeliveryNoteWSHelper {
 					conceptDescription = order.getProvisioningRequest().getAgreement().getDeliveryNoteConcept().getDescription();
 				}
 				if (supplying != null) {
-					clientOrProvider = order.getProvisioningRequest().getDeliveryLocation().getCorporateName();
-					clientOrProviderAgent = order.getProvisioningRequest().getDeliveryLocation().getAgent().getDescription();
 					conceptDescription = this.PropertyService.get().getSupplyingConcept().getDescription();
 				}
 				String error = "No ha podido obtenerse el evento a informar dado el concepto y el cliente/provedor seleccionados (Concepto: '" + code + " - "
