@@ -17,7 +17,7 @@
 	</c:if>
 
     <div class="row">
-        <div class="form-group col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4text-center">
+        <div class="form-group col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4 text-center">
             <img class="text-center" src="${logoPath}" class="img-responsive" alt="Responsive image">
         </div>
     </div>
@@ -44,12 +44,12 @@
         <br/>
         <div class="row">
             <div class="form-group col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4">
-                <input type="text" class="form-control" name="j_username" placeholder="<spring:message code="login.user.placeholder"/>" autofocus >
+                <input type="text" class="form-control" name="j_username" placeholder="<spring:message code="login.user.placeholder"/>" autocomplete="off" autofocus >
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4">
-                <input type="password" class="form-control" name="j_password" placeholder="<spring:message code="login.password.placeholder"/>" >
+                <input type="password" class="form-control" name="j_password" placeholder="<spring:message code="login.password.placeholder"/>" autocomplete="off" >
             </div>
         </div>
             <%--<label class="checkbox">

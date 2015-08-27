@@ -14,11 +14,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 public class ProviderTypesPdfView extends AbstractPdfView {
 	PdfPTable table = new PdfPTable(4); // 4 columnas
+	SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+	Date now = new Date();
+
 	/**
 	 * Inner class to add a table as header.
 	 */
@@ -49,11 +54,14 @@ public class ProviderTypesPdfView extends AbstractPdfView {
 				String name = PropertyProvider.getInstance().getProp("name");
 				// add text at an absolute position
 				PdfContentByte cb = writer.getDirectContent();
+				BaseFont bf_times_bold = BaseFont.createFont(BaseFont.TIMES_BOLD, "Cp1252", false);
 				BaseFont bf_times = BaseFont.createFont(BaseFont.TIMES_ROMAN, "Cp1252", false);
+				BaseFont bf_courier = BaseFont.createFont(BaseFont.COURIER_BOLD, "Cp1252", false);
+
 				// NOMBRE MEMBRETE
 				cb.beginText();
-				cb.setFontAndSize(bf_times, 16f);
-				cb.setTextMatrix(40f * 2.8346f, 195f * 2.8346f);
+				cb.setFontAndSize(bf_times_bold, 16f);
+				cb.setTextMatrix(40f * 2.8346f, 200f * 2.8346f);
 				cb.showText(name);
 				cb.endText();
 
@@ -62,6 +70,13 @@ public class ProviderTypesPdfView extends AbstractPdfView {
 				cb.setFontAndSize(bf_times, 12f);
 				cb.setTextMatrix(40f * 2.8346f, 190f * 2.8346f);
 				cb.showText("Listado de Tipos de Proveedor");
+				cb.endText();
+
+				// TIMESTAMP
+				cb.beginText();
+				cb.setFontAndSize(bf_courier, 12f);
+				cb.setTextMatrix(190f * 2.8346f, 195f * 2.8346f);
+				cb.showText("Listado generado el " + sdf.format(now));
 				cb.endText();
 
 				document.add(logo);
