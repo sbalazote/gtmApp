@@ -68,8 +68,8 @@ $(document).ready(function() {
 			serializedFormatTable.bootgrid("append", aaData);
 			serializedFormatTable.bootgrid("search", $(".search-field").val());
 			
-			var exportHTML = exportTableHTML("serializedFormatTable");
-			$(".search").before(exportHTML);
+			/*var exportHTML = exportTableHTML("serializedFormatTable");
+			$(".search").before(exportHTML);*/
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			myGenericError();

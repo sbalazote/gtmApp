@@ -17,7 +17,7 @@ $(document).ready(function() {
         $("#fakeSelect").val($("#activeSelect option:first").val());
     };
 
-    var deleteAgent = function(deleteDeliveryNoteEnumeratorId) {
+    var deleteDeliveryNoteEnumerator = function(deleteDeliveryNoteEnumeratorId) {
         $.ajax({
             url: "deleteDeliveryNoteEnumerator.do",
             type: "POST",
@@ -122,10 +122,7 @@ $(document).ready(function() {
         });
     });
 
-    var exportHTML = exportTableHTML("./rest/agents");
-    $(".search").before(exportHTML);
-
     $("#deleteEntityButton").click(function() {
-        deleteAgent(deleteDeliveryNoteEnumeratorId);
+        deleteDeliveryNoteEnumerator(deleteDeliveryNoteEnumeratorId);
     });
 });
