@@ -319,7 +319,7 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 			document.close();
 
 			// TODO obtener IP desde el concepto o drugstore property, el archivo se guardaria en una carpeta del servidor.
-			this.printOnPrinter.sendToPrint("\\\\192.168.1.126\\HP LaserJet Professional P1102w", pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf");
+			this.printOnPrinter.sendToPrint(pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf","Lexmark T652 (MS)");
 
 		} catch (Exception e) {
 			throw new RuntimeException("No se ha podido generar el Remito Nro.: " + deliveryNoteNumber, e);

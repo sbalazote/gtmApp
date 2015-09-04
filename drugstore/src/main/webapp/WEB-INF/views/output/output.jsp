@@ -28,7 +28,7 @@
 </div>
 
 <div class="row">
-	<div class="col-md-4 col-lg-3 form-group">
+	<div class="col-md-4 col-lg-4 form-group">
 		<label for="conceptInput"><spring:message code="common.concept"/></label>
 		<select id="conceptInput" name="concept" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 			<option value=""></option>
@@ -37,7 +37,7 @@
 			</c:forEach>
 		</select>
 	</div>
-	<div id="providerDiv" class="col-md-4 col-lg-4form-group">
+	<div id="providerDiv" class="col-md-4 col-lg-4 form-group">
 		<label for="providerInput"><spring:message code="common.provider"/></label>
 		<select id="providerInput" name="provider" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 			<option value=""></option>
