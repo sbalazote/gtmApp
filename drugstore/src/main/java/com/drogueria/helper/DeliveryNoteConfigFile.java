@@ -20,12 +20,12 @@ public class DeliveryNoteConfigFile {
 	private int incremento;
 	private int copias;
 
-	public DeliveryNoteConfigFile(String filepath) {
+	public DeliveryNoteConfigFile() {
 
 		this.properties = new HashMap<String, Coordinate>();
 
-		new File(filepath).mkdirs();
-		this.deliveryNoteConfigFile = new File(filepath + "FMT_re.dat");
+		//new File(filepath).mkdirs();
+		this.deliveryNoteConfigFile = new File(this.getClass().getClassLoader().getResource("deliveryNotes/FMT_re.dat").getFile());
 
 		try {
 			if (!this.deliveryNoteConfigFile.exists()) {

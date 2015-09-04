@@ -1,39 +1,27 @@
 package com.drogueria.helper.impl.printer;
 
-import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.drogueria.constant.State;
 import com.drogueria.helper.DeliveryNoteConfigFile;
 import com.drogueria.helper.DeliveryNoteSheetPrinter;
 import com.drogueria.helper.PrintOnPrinter;
-import com.drogueria.model.Concept;
-import com.drogueria.model.DeliveryNote;
-import com.drogueria.model.DeliveryNoteDetail;
-import com.drogueria.model.Order;
-import com.drogueria.model.OrderDetail;
-import com.drogueria.model.Product;
-import com.drogueria.model.ProvisioningRequest;
-import com.drogueria.model.ProvisioningRequestState;
-import com.drogueria.service.ConceptService;
-import com.drogueria.service.DeliveryNoteService;
-import com.drogueria.service.OrderService;
-import com.drogueria.service.PropertyService;
-import com.drogueria.service.ProvisioningRequestService;
-import com.drogueria.service.ProvisioningRequestStateService;
+import com.drogueria.model.*;
+import com.drogueria.service.*;
 import com.drogueria.util.StringUtility;
 import com.lowagie.text.Document;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfWriter;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
@@ -72,7 +60,7 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 			Integer deliveryNoteNumbersRequired = (orderDetails.size() / numberOfDeliveryNoteDetailsPerPage) + 1;
 			Integer conceptId = order.getProvisioningRequest().getAgreement().getDeliveryNoteConcept().getId();
 			Concept concept = this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
-			DeliveryNoteConfigFile deliveryNoteConfigFile = new DeliveryNoteConfigFile(provisioningRequest.getAgreement().getDeliveryNoteFilepath());
+			DeliveryNoteConfigFile deliveryNoteConfigFile = new DeliveryNoteConfigFile();
 			String drugstoreGln = this.PropertyService.get().getGln();
 			Integer deliveryNoteNumber = concept.getDeliveryNoteEnumerator().getLastDeliveryNoteNumber() - deliveryNoteNumbersRequired + 1;
 
@@ -145,6 +133,7 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 			 * FileOutputStream(pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf")); */
 
 			Document document = new Document(PageSize.A4);
+			new File(pdfPath).mkdirs();
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf"));
 			document.addAuthor("REMITO-" + deliveryNoteNumber);
 			document.addTitle("LS&T Solutions");

@@ -1,24 +1,9 @@
 package com.drogueria.helper.impl.printer;
 
-import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.drogueria.helper.DeliveryNoteConfigFile;
 import com.drogueria.helper.DeliveryNoteSheetPrinter;
 import com.drogueria.helper.PrintOnPrinter;
-import com.drogueria.model.Concept;
-import com.drogueria.model.DeliveryNote;
-import com.drogueria.model.DeliveryNoteDetail;
-import com.drogueria.model.Output;
-import com.drogueria.model.OutputDetail;
-import com.drogueria.model.Product;
+import com.drogueria.model.*;
 import com.drogueria.service.ConceptService;
 import com.drogueria.service.DeliveryNoteService;
 import com.drogueria.service.OutputService;
@@ -29,6 +14,16 @@ import com.lowagie.text.PageSize;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfWriter;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
@@ -58,7 +53,7 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 			Integer deliveryNoteNumbersRequired = (outputDetails.size() / numberOfDeliveryNoteDetailsPerPage) + 1;
 			Integer conceptId = output.getAgreement().getDeliveryNoteConcept().getId();
 			Concept concept = this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
-			DeliveryNoteConfigFile deliveryNoteConfigFile = new DeliveryNoteConfigFile(output.getAgreement().getDeliveryNoteFilepath());
+			DeliveryNoteConfigFile deliveryNoteConfigFile = new DeliveryNoteConfigFile();
 			String drugstoreGln = this.PropertyService.get().getGln();
 			Integer deliveryNoteNumber = concept.getDeliveryNoteEnumerator().getLastDeliveryNoteNumber() - deliveryNoteNumbersRequired + 1;
 
@@ -133,6 +128,7 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 			 * FileOutputStream(pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf")); */
 
 			Document document = new Document(PageSize.A4);
+			new File(pdfPath).mkdirs();
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf"));
 			document.addAuthor("REMITO-" + deliveryNoteNumber);
 			document.addTitle("LS&T Solutions");
@@ -323,7 +319,8 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 			document.close();
 
 			// TODO obtener IP desde el concepto o drugstore property, el archivo se guardaria en una carpeta del servidor.
-			// this.printOnPrinter.sendToPrint("//10.80.38.149/Lexmark T632", pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf");
+			this.printOnPrinter.sendToPrint("\\\\192.168.1.126\\HP LaserJet Professional P1102w", pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf");
+
 		} catch (Exception e) {
 			throw new RuntimeException("No se ha podido generar el Remito Nro.: " + deliveryNoteNumber, e);
 		}
