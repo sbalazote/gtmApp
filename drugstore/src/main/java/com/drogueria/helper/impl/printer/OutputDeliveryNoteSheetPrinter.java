@@ -18,8 +18,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -92,8 +92,7 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 				}
 
 				// Imprimo el pdf de Remito
-				this.generateDeliveryNoteSheet(output, deliveryNoteNumber, deliveryNoteConfigFile, output.getAgreement().getDeliveryNoteFilepath(),
-						drugstoreGln, tempOutputDetails);
+				this.generateDeliveryNoteSheet(output, deliveryNoteNumber, deliveryNoteConfigFile, drugstoreGln, tempOutputDetails);
 				// Guardo el Remito en la base de datos
 				deliveryNote.setDeliveryNoteDetails(deliveryNoteDetails);
 				deliveryNote.setDate(date);
@@ -107,10 +106,10 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 					this.deliveryNoteService.save(deliveryNote);
 					this.deliveryNoteService.sendTrasactionAsync(deliveryNote);
 				} catch (Exception e1) {
-					logger.info("No se ha podido imprimir el remito numero: " + deliveryNoteNumber + " para la Solicitud de Abastecimiento numero: " + id);
+					logger.error("No se ha podido guardar el remito numero: " + deliveryNoteNumber + " para el Egreso numero: " + id);
 				}
 
-				logger.info("Se ha impreso el remito numero: " + deliveryNoteNumber + " para la Solicitud de Abastecimiento numero: " + id);
+				logger.info("Se ha guardado el remito numero: " + deliveryNoteNumber + " para el Egreso número: " + id);
 
 				printsNumbers.add(deliveryNote.getId());
 				deliveryNoteNumber++;
@@ -121,15 +120,17 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 
 	// The coordinates are measured in points. 1 inch is divided into 72 points
 	// so that 1 Millimeter equals 2.8346 points.
-	private void generateDeliveryNoteSheet(Output output, Integer deliveryNoteNumber, DeliveryNoteConfigFile deliveryNoteConfigFile, String pdfPath,
+	private void generateDeliveryNoteSheet(Output output, Integer deliveryNoteNumber, DeliveryNoteConfigFile deliveryNoteConfigFile,
 			String drugstoreGln, List<OutputDetail> outputDetails) {
 		try {
 			/* PdfReader reader = new PdfReader(pdfPath + "Estimate_035931_blank.pdf"); PdfStamper pdfStamper = new PdfStamper(reader, new
 			 * FileOutputStream(pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf")); */
 
 			Document document = new Document(PageSize.A4);
-			new File(pdfPath).mkdirs();
-			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf"));
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			//new File(pdfPath).mkdirs();
+			//PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf"));
+			PdfWriter writer = PdfWriter.getInstance(document, out);
 			document.addAuthor("REMITO-" + deliveryNoteNumber);
 			document.addTitle("LS&T Solutions");
 			document.open();
@@ -318,8 +319,13 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 			// pdfStamper.close();
 			document.close();
 
+			ByteArrayInputStream pdfDocument = new ByteArrayInputStream(out.toByteArray());
+
 			// TODO obtener IP desde el concepto o drugstore property, el archivo se guardaria en una carpeta del servidor.
-			this.printOnPrinter.sendToPrint(pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf","Lexmark T652 (MS)");
+			//this.printOnPrinter.sendToPrint(pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf","NPI7B8936 (HP LaserJet Professional P1102w)");
+			this.printOnPrinter.sendToSpool(output.getAgreement().getDeliveryNoteFilepath(), "REMITO NRO-" + deliveryNoteNumber + ".pdf", pdfDocument);
+
+			pdfDocument.close();
 
 		} catch (Exception e) {
 			throw new RuntimeException("No se ha podido generar el Remito Nro.: " + deliveryNoteNumber, e);

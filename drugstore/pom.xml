@@ -32,7 +32,13 @@
 	</properties>
 
 	<dependencies>
-	
+
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>1.8.10</version>
+		</dependency>
+
 		<!-- Zxing -->
 		<dependency>
         	<groupId>com.google.zxing</groupId>

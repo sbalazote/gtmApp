@@ -1,28 +1,51 @@
 package com.drogueria.helper;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import org.apache.log4j.Logger;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.springframework.scheduling.annotation.Async;
+
+import javax.print.*;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import java.awt.print.PrinterJob;
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import javax.print.Doc;
-import javax.print.DocFlavor;
-import javax.print.DocPrintJob;
-import javax.print.PrintService;
-import javax.print.PrintServiceLookup;
-import javax.print.SimpleDoc;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.PrintRequestAttributeSet;
-
-import org.springframework.scheduling.annotation.Async;
-
 public class PrintOnPrinter {
+
+	private static final Logger logger = Logger.getLogger(PrintOnPrinter.class);
+
+	public boolean sendToSpool(String printerName, String jobName, ByteArrayInputStream fileStream) {
+		try {
+			PDDocument PDFDocument = PDDocument.load(fileStream);
+			PrinterJob job = PrinterJob.getPrinterJob();
+			PrintService printerService = findPrinterService(printerName);
+			if (printerService == null) {
+				logger.error("Error al intentar imprimir documento. No se encuentra la impresora seleccionada: " + printerName);
+				return false;
+			}
+			job.setPrintService(printerService);
+			job.setJobName(jobName);
+			job.setPageable(PDFDocument);
+			job.print();
+			logger.info("Se ha mandado a cola de impresion de la impresora: " + printerName + " el documento: " + jobName);
+			return true;
+		} catch (Exception e) {
+			logger.error("Error al intentar imprimir documento!", e);
+		}
+		return false;
+	}
+
+	private PrintService findPrinterService(String printerName) {
+		PrintService[] printServices = PrinterJob.lookupPrintServices();
+		for (int count = 0; count < printServices.length; ++count) {
+			if (printerName.equalsIgnoreCase(printServices[count].getName())) {
+				return printServices[count];
+			}
+		}
+		return null;
+	}
 
 	@Async
 	public void send(String ipNumber, int port, String pdfPath) throws IOException {

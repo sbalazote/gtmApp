@@ -16,8 +16,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -99,8 +99,7 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 				}
 
 				// Imprimo el pdf de Remito
-				this.generateDeliveryNoteSheet(provisioningRequest, deliveryNoteNumber, deliveryNoteConfigFile, provisioningRequest.getAgreement()
-						.getDeliveryNoteFilepath(), drugstoreGln, tempOrderDetails);
+				this.generateDeliveryNoteSheet(provisioningRequest, deliveryNoteNumber, deliveryNoteConfigFile, drugstoreGln, tempOrderDetails);
 				// Guardo el Remito en la base de datos
 				deliveryNote.setDeliveryNoteDetails(deliveryNoteDetails);
 				deliveryNote.setDate(date);
@@ -114,8 +113,10 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 					this.deliveryNoteService.save(deliveryNote);
 					this.deliveryNoteService.sendTrasactionAsync(deliveryNote);
 				} catch (Exception e1) {
-					logger.info("No se ha podido imprimir el remito: " + deliveryNoteNumber + " para la Solicitud de Abastecimiento número: " + id);
+					logger.error("No se ha podido guardar el remito: " + deliveryNoteNumber + " para la Solicitud de Abastecimiento número: " + id);
 				}
+
+				logger.info("Se ha guardado el remito numero: " + deliveryNoteNumber + " para la Solicitud de Abastecimiento número: " + id);
 
 				printsNumbers.add(deliveryNote.getId());
 				deliveryNoteNumber++;
@@ -126,15 +127,16 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 
 	// The coordinates are measured in points. 1 inch is divided into 72 points
 	// so that 1 Millimeter equals 2.8346 points.
-	private void generateDeliveryNoteSheet(ProvisioningRequest provisioningRequest, Integer deliveryNoteNumber, DeliveryNoteConfigFile deliveryNoteConfigFile,
-			String pdfPath, String drugstoreGln, List<OrderDetail> orderDetails) {
+	private void generateDeliveryNoteSheet(ProvisioningRequest provisioningRequest, Integer deliveryNoteNumber, DeliveryNoteConfigFile deliveryNoteConfigFile, String drugstoreGln, List<OrderDetail> orderDetails) {
 		try {
 			/* PdfReader reader = new PdfReader(pdfPath + "Estimate_035931_blank.pdf"); PdfStamper pdfStamper = new PdfStamper(reader, new
 			 * FileOutputStream(pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf")); */
 
 			Document document = new Document(PageSize.A4);
-			new File(pdfPath).mkdirs();
-			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf"));
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			//new File(pdfPath).mkdirs();
+			//PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf"));
+			PdfWriter writer = PdfWriter.getInstance(document, out);
 			document.addAuthor("REMITO-" + deliveryNoteNumber);
 			document.addTitle("LS&T Solutions");
 			document.open();
@@ -275,8 +277,13 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 			// pdfStamper.close();
 			document.close();
 
+			ByteArrayInputStream pdfDocument = new ByteArrayInputStream(out.toByteArray());
+
 			// TODO obtener IP desde el concepto o drugstore property, el archivo se guardaria en una carpeta del servidor.
-			// this.printOnPrinter.sendToPrint("//10.80.38.149/Lexmark T632", pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf");
+			//this.printOnPrinter.sendToPrint(pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf","NPI7B8936 (HP LaserJet Professional P1102w)");
+			this.printOnPrinter.sendToSpool(provisioningRequest.getAgreement().getDeliveryNoteFilepath(), "REMITO NRO-" + deliveryNoteNumber + ".pdf", pdfDocument);
+
+			pdfDocument.close();
 
 		} catch (Exception e) {
 			throw new RuntimeException("No se ha podido generar el Remito Nro.: " + deliveryNoteNumber, e);
