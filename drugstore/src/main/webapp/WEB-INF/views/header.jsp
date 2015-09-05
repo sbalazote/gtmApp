@@ -42,53 +42,55 @@
 %>
 <link rel="shortcut icon" href=<%= relativePath %> type="image/png">
 
-<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css">
-<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
-<link rel="stylesheet" type="text/css" href="css/styles.css">
-<link rel="stylesheet" type="text/css" href="css/multi-select.css">
-<link rel="stylesheet" type="text/css" href="css/chosen.css">
-<link rel="stylesheet" type="text/css" href="css/chosen-bootstrap.css">
-<link rel="stylesheet" type="text/css" href="css/jquery.fileupload-ui.css">
-<link rel="stylesheet" type="text/css" href="css/bootstrap-dialog.css">
-<link rel="stylesheet" type="text/css" href="css/select2.css">
-<link rel="stylesheet" type="text/css" href="css/select2-bootstrap.css">
-<link rel="stylesheet" type="text/css" href="css/jquery.bootgrid.css">
-<link rel="stylesheet" type="text/css" href="css/themes/blue/pace-theme-corner-indicator.css">
-<link rel="stylesheet" type="text/css" href="css/jqClock.css">
+<c:set var="context" value="${pageContext.request.contextPath}"/>
+
+<link rel="stylesheet" type="text/css" href="${context}/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="${context}/css/bootstrap-theme.css">
+<link rel="stylesheet" type="text/css" href="${context}/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="${context}/css/styles.css">
+<link rel="stylesheet" type="text/css" href="${context}/css/multi-select.css">
+<link rel="stylesheet" type="text/css" href="${context}/css/chosen.css">
+<link rel="stylesheet" type="text/css" href="${context}/css/chosen-bootstrap.css">
+<link rel="stylesheet" type="text/css" href="${context}/css/jquery.fileupload-ui.css">
+<link rel="stylesheet" type="text/css" href="${context}/css/bootstrap-dialog.css">
+<link rel="stylesheet" type="text/css" href="${context}/css/select2.css">
+<link rel="stylesheet" type="text/css" href="${context}/css/select2-bootstrap.css">
+<link rel="stylesheet" type="text/css" href="${context}/css/jquery.bootgrid.css">
+<link rel="stylesheet" type="text/css" href="${context}/css/themes/blue/pace-theme-corner-indicator.css">
+<link rel="stylesheet" type="text/css" href="${context}/css/jqClock.css">
 <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href='//fonts.googleapis.com/css?family=Merriweather:900italic'>
 <link rel="stylesheet" type="text/css" href='//fonts.googleapis.com/css?family=Roboto:500,700,400'>
 
-<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="js/jquery-ui.min.js"></script>
-<script type="text/javascript" src="js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="js/chosen.jquery.min.js"></script>
-<script type="text/javascript" src="js/additional-methods.min.js"></script>
-<script type="text/javascript" src="js/jquery.bootgrid.js"></script>
-<script type="text/javascript" src="js/localization/messages_es.js"></script>
-<script type="text/javascript" src="js/localization/jquery.ui.datepicker-es.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/main.js"></script>
-<script type="text/javascript" src="js/alerts.js"></script>
-<script type="text/javascript" src="js/jquery.multi-select.js"></script>
-<script type="text/javascript" src="js/canvas-to-blob.min.js"></script>
-<script type="text/javascript" src="js/load-image.all.min.js"></script>
-<script type="text/javascript" src="js/jquery.iframe-transport.js"></script>
-<script type="text/javascript" src="js/jquery.fileupload.js"></script>
-<script type="text/javascript" src="js/jquery.fileupload-process.js"></script>
-<script type="text/javascript" src="js/jquery.fileupload-image.js"></script>
-<script type="text/javascript" src="js/jquery.fileupload-validate.js"></script>
-<script type="text/javascript" src="js/bootstrap-dialog.js"></script>
-<script type="text/javascript" src="js/select2.js"></script>
-<script type="text/javascript" src="js/select2_locale_es.js"></script>
-<script type="text/javascript" src="js/jquery.blockUI.js"></script>
-<script type="text/javascript" src="js/jspdf.debug.js"></script>
-<script type="text/javascript" src="js/jquery.base64.js"></script>
-<script type="text/javascript" src="js/pace.js"></script>
-<script type="text/javascript" src="js/jquery.cookie.js"></script>
-<script type="text/javascript" src="js/jQuery.download.js"></script>
-<script type="text/javascript" src="js/emulatetab.joelpurra.js"></script>
-<script type="text/javascript" src="js/plusastab.joelpurra.js"></script>
-<script type="text/javascript" src="js/jquery.ya-enter2tab.js"></script>
-<script type="text/javascript" src="js/jquery.numeric.js"></script>
+<script type="text/javascript" src="${context}/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="${context}/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="${context}/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="${context}/js/chosen.jquery.min.js"></script>
+<script type="text/javascript" src="${context}/js/additional-methods.min.js"></script>
+<script type="text/javascript" src="${context}/js/jquery.bootgrid.js"></script>
+<script type="text/javascript" src="${context}/js/localization/messages_es.js"></script>
+<script type="text/javascript" src="${context}/js/localization/jquery.ui.datepicker-es.min.js"></script>
+<script type="text/javascript" src="${context}/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${context}/js/main.js"></script>
+<script type="text/javascript" src="${context}/js/alerts.js"></script>
+<script type="text/javascript" src="${context}/js/jquery.multi-select.js"></script>
+<script type="text/javascript" src="${context}/js/canvas-to-blob.min.js"></script>
+<script type="text/javascript" src="${context}/js/load-image.all.min.js"></script>
+<script type="text/javascript" src="${context}/js/jquery.iframe-transport.js"></script>
+<script type="text/javascript" src="${context}/js/jquery.fileupload.js"></script>
+<script type="text/javascript" src="${context}/js/jquery.fileupload-process.js"></script>
+<script type="text/javascript" src="${context}/js/jquery.fileupload-image.js"></script>
+<script type="text/javascript" src="${context}/js/jquery.fileupload-validate.js"></script>
+<script type="text/javascript" src="${context}/js/bootstrap-dialog.js"></script>
+<script type="text/javascript" src="${context}/js/select2.js"></script>
+<script type="text/javascript" src="${context}/js/select2_locale_es.js"></script>
+<script type="text/javascript" src="${context}/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="${context}/js/jspdf.debug.js"></script>
+<script type="text/javascript" src="${context}/js/jquery.base64.js"></script>
+<script type="text/javascript" src="${context}/js/pace.js"></script>
+<script type="text/javascript" src="${context}/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="${context}/js/jQuery.download.js"></script>
+<script type="text/javascript" src="${context}/js/emulatetab.joelpurra.js"></script>
+<script type="text/javascript" src="${context}/js/plusastab.joelpurra.js"></script>
+<script type="text/javascript" src="${context}/js/jquery.ya-enter2tab.js"></script>
+<script type="text/javascript" src="${context}/js/jquery.numeric.js"></script>
