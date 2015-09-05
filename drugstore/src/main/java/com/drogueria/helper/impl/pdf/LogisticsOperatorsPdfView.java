@@ -70,7 +70,7 @@ public class LogisticsOperatorsPdfView extends AbstractPdfView {
 				cb.beginText();
 				cb.setFontAndSize(bf_times, 12f);
 				cb.setTextMatrix(40f * 2.8346f, 190f * 2.8346f);
-				cb.showText("Listado de Afiliados");
+				cb.showText("Listado de Operadores Logisticos");
 				cb.endText();
 
 				// TIMESTAMP

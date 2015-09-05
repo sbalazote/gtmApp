@@ -70,7 +70,7 @@ public class AgreementsPdfView extends AbstractPdfView {
 				cb.beginText();
 				cb.setFontAndSize(bf_times, 12f);
 				cb.setTextMatrix(40f * 2.8346f, 190f * 2.8346f);
-				cb.showText("Listado de Agentes");
+				cb.showText("Listado de Convenios");
 				cb.endText();
 
 				// TIMESTAMP

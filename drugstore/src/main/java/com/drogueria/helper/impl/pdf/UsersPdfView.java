@@ -70,7 +70,7 @@ public class UsersPdfView extends AbstractPdfView {
 				cb.beginText();
 				cb.setFontAndSize(bf_times, 12f);
 				cb.setTextMatrix(40f * 2.8346f, 190f * 2.8346f);
-				cb.showText("Listado de Tipos de Proveedor");
+				cb.showText("Listado de Usuarios Registrados");
 				cb.endText();
 
 				// TIMESTAMP
