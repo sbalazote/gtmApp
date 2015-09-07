@@ -48,6 +48,11 @@
 								<label for="supplyingModalAffiliateInput"><spring:message code="common.affiliate" /></label> <input id="supplyingModalAffiliateInput" name="supplyingModalAffiliate" type="text" class="form-control" disabled />
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-md-4 col-lg-4 form-group">
+								<label for="supplyingModalAgreementInput"><spring:message code="common.date" /></label> <input id="supplyingModalDateInput" name="supplyingModalDateInput" class="form-control" disabled>
+							</div>
+						</div>
 
 						<div class="row">
 							<div class="col-md-12 col-lg-12 form-group">

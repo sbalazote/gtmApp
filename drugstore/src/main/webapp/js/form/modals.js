@@ -604,6 +604,8 @@ $(document).ready(function() {
 		}
         var code = addLeadingZeros(response.agreement.code,5);
 		$('#supplyingModalAgreementInput').val(code + " - " + response.agreement.description);
+
+		$('#supplyingModalDateInput').val(myParseDate(response.date));
 		$('#supplyingModalAffiliateInput').val(response.affiliate.code + " - " + response.affiliate.surname + " " + response.affiliate.name);
 		var clientCode = addLeadingZeros(response.client.code,4);
 		$('#supplyingModalClientInput').val(clientCode + " - " + response.client.name);
