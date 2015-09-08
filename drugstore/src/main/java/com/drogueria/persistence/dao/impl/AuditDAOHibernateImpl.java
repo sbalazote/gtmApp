@@ -114,18 +114,6 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 			sentence += " and id.product_id = " + productId;
 		}
 
-        sentence+= ") or (a.role_id = " + RoleOperation.INPUT_AUTHORIZATION.getId()
-                + " and id.serial_number = '" + serialNumber + "' and a.operation_id = id.input_id";
-        if (productId != null) {
-            sentence += " and id.product_id = " + productId;
-        }
-
-        sentence+= ") or (a.role_id = " + RoleOperation.INPUT_CANCELLATION.getId()
-                + " and id.serial_number = '" + serialNumber + "' and a.operation_id = id.input_id";
-        if (productId != null) {
-            sentence += " and id.product_id = " + productId;
-        }
-
 		sentence += ") order by a.`date` desc";
 
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -178,16 +166,12 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 
 		if (productId == null) {
 			sentence = "select distinct a.* from audit as a, order_detail as od where (a.role_id = " + RoleOperation.ORDER_ASSEMBLY.getId()
-					+ " and od.serial_number = '" + serialNumber + "' and a.operation_id = od.order_id) or (a.role_id = "
-					+ RoleOperation.ORDER_ASSEMBLY_CANCELLATION.getId() + " and od.serial_number = '" + serialNumber
-					+ "' and a.operation_id = od.order_id) order by a.`date` desc";
+					+ " and od.serial_number = '" + serialNumber + "' and a.operation_id = od.order_id) order by a.`date` desc";
 		}
 
 		if (productId != null) {
 			sentence = "select distinct a.* from audit as a, order_detail as od where (a.role_id = " + RoleOperation.ORDER_ASSEMBLY.getId()
-					+ " and od.product_id = " + productId + " and od.serial_number = '" + serialNumber + "' and a.operation_id = od.order_id) or (a.role_id = "
-					+ RoleOperation.ORDER_ASSEMBLY_CANCELLATION.getId() + " and od.product_id = " + productId + " and od.serial_number = '" + serialNumber
-					+ "' and a.operation_id = od.order_id) order by a.`date` desc";
+					+ " and od.product_id = " + productId + " and od.serial_number = '" + serialNumber + "' and a.operation_id = od.order_id) order by a.`date` desc";
 		}
 
 		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
@@ -203,15 +187,11 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		if (productId == null) {
 			sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, order_detail as od where (a.role_id = "
 					+ RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.serial_number = '" + serialNumber
-					+ "' and a.operation_id = dnd.delivery_note_id and dnd.order_detail_id = od.id and dnd.output_detail_id is null and dnd.supplying_detail_id is null) or (a.role_id = "
-					+ RoleOperation.DELIVERY_NOTE_CANCELLATION.getId() + " and od.serial_number = '" + serialNumber
 					+ "' and a.operation_id = dnd.delivery_note_id and dnd.order_detail_id = od.id and dnd.output_detail_id is null and dnd.supplying_detail_id is null) order by a.`date` desc";
 		}
 		if (productId != null) {
 			sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, order_detail as od where (a.role_id = "
 					+ RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.product_id = " + productId + " and od.serial_number = '" + serialNumber
-					+ "' and a.operation_id = dnd.delivery_note_id and dnd.order_detail_id = od.id and dnd.output_detail_id is null and dnd.supplying_detail_id is null) or (a.role_id = "
-					+ RoleOperation.DELIVERY_NOTE_CANCELLATION.getId() + " and od.product_id = " + productId + " and od.serial_number = '" + serialNumber
 					+ "' and a.operation_id = dnd.delivery_note_id and dnd.order_detail_id = od.id and dnd.output_detail_id is null and dnd.supplying_detail_id is null) order by a.`date` desc";
 		}
 
@@ -228,15 +208,11 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		if (productId == null) {
 			sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, output_detail as od where (a.role_id = "
 					+ RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.serial_number = '" + serialNumber
-					+ "' and a.operation_id = dnd.delivery_note_id and dnd.output_detail_id = od.id and dnd.order_detail_id is null) or (a.role_id = "
-					+ RoleOperation.DELIVERY_NOTE_CANCELLATION.getId() + " and od.serial_number = '" + serialNumber
 					+ "' and a.operation_id = dnd.delivery_note_id and dnd.output_detail_id = od.id and dnd.order_detail_id is null) order by a.`date` desc";
 		}
 		if (productId != null) {
 			sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, output_detail as od where (a.role_id = "
 					+ RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.product_id = " + productId + " and od.serial_number = '" + serialNumber
-					+ "' and a.operation_id = dnd.delivery_note_id and dnd.output_detail_id = od.id and dnd.order_detail_id is null and dnd.supplying_detail_id is null) or (a.role_id = "
-					+ RoleOperation.DELIVERY_NOTE_CANCELLATION.getId() + " and od.product_id = " + productId + " and od.serial_number = '" + serialNumber
 					+ "' and a.operation_id = dnd.delivery_note_id and dnd.output_detail_id = od.id and dnd.order_detail_id is null and dnd.supplying_detail_id is null) order by a.`date` desc";
 		}
 
@@ -252,15 +228,11 @@ public class AuditDAOHibernateImpl implements AuditDAO {
         if (productId == null) {
             sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, supplying_detail as sd where (a.role_id = "
                     + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and sd.serial_number = '" + serialNumber
-                    + "' and a.operation_id = dnd.delivery_note_id and dnd.supplying_detail_id = sd.id and dnd.order_detail_id is null and dnd.output_detail_id is null) or (a.role_id = "
-                    + RoleOperation.DELIVERY_NOTE_CANCELLATION.getId() + " and sd.serial_number = '" + serialNumber
                     + "' and a.operation_id = dnd.delivery_note_id and dnd.supplying_detail_id = sd.id and dnd.order_detail_id is null and dnd.output_detail_id is null) order by a.`date` desc";
         }
         if (productId != null) {
             sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, supplying_detail as sd where (a.role_id = "
                     + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and sd.product_id = " + productId + " and sd.serial_number = '" + serialNumber
-                    + "' and a.operation_id = dnd.delivery_note_id and dnd.supplying_detail_id = sd.id and dnd.order_detail_id is null and dnd.output_detail_id is null) or (a.role_id = "
-                    + RoleOperation.DELIVERY_NOTE_CANCELLATION.getId() + " and sd.product_id = " + productId + " and sd.serial_number = '" + serialNumber
                     + "' and a.operation_id = dnd.delivery_note_id and dnd.supplying_detail_id = sd.id and dnd.order_detail_id is null and dnd.output_detail_id is null) order by a.`date` desc";
         }
 
@@ -287,11 +259,7 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 
 		String sentence = "select distinct a.* from audit as a, input_detail as id where (a.role_id = " + RoleOperation.INPUT.getId() + " and id.product_id = "
 				+ productId + " and id.batch = '" + batch + "' and id.expiration_date = '" + expirateDate
-				+ "' and a.operation_id = id.input_id) or (a.role_id = " + RoleOperation.INPUT_CANCELLATION.getId() + " and id.product_id = " +
-				productId + " and id.batch = '" + batch + "' and id.expiration_date = '" + expirateDate + "' and a.operation_id = id.input_id) or " +
-                "(a.role_id = " + RoleOperation.INPUT_AUTHORIZATION.getId() + " and id.product_id = " +
-                productId + " and id.batch = '" + batch + "' and id.expiration_date = '" + expirateDate + "' and a.operation_id = id.input_id) " +
-				"order by a.`date` desc";
+				+ "' and a.operation_id = id.input_id)  order by a.`date` desc";
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
 		Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
@@ -337,8 +305,6 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 
 		sentence = "select distinct a.* from audit as a, order_detail as od where (a.role_id = " + RoleOperation.ORDER_ASSEMBLY.getId()
 				+ " and od.product_id = " + productId + " and od.batch = '" + batch + "' and od.expiration_date = '" + expirateDate
-				+ "' and a.operation_id = od.order_id) or (a.role_id = " + RoleOperation.ORDER_ASSEMBLY_CANCELLATION.getId() + " and od.product_id = "
-				+ productId + " and od.batch = '" + batch + "' and od.expiration_date = '" + expirateDate
 				+ "' and a.operation_id = od.order_id) order by a.`date` desc";
 
 		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
@@ -353,9 +319,6 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		auditResultDTO.setOrders(ordersAuditDTO);
 		sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, order_detail as od where (a.role_id = "
 				+ RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.product_id = " + productId + " and od.batch = '" + batch
-				+ "' and od.expiration_date = '" + expirateDate
-				+ "' and a.operation_id = dnd.delivery_note_id and dnd.order_detail_id = od.id and dnd.output_detail_id is null) or (a.role_id = "
-				+ RoleOperation.DELIVERY_NOTE_CANCELLATION.getId() + " and od.product_id = " + productId + " and od.batch = '" + batch
 				+ "' and od.expiration_date = '" + expirateDate
 				+ "' and a.operation_id = dnd.delivery_note_id and dnd.order_detail_id = od.id and dnd.output_detail_id is null) order by a.`date` desc";
 
@@ -372,9 +335,6 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, output_detail as od where (a.role_id = "
 				+ RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.product_id = " + productId + " and od.batch = '" + batch
 				+ "' and od.expiration_date = '" + expirateDate
-				+ "' and a.operation_id = dnd.delivery_note_id and dnd.output_detail_id = od.id and dnd.order_detail_id is null) or (a.role_id = "
-				+ RoleOperation.DELIVERY_NOTE_CANCELLATION.getId() + " and od.product_id = " + productId + " and od.batch = '" + batch
-				+ "' and od.expiration_date = '" + expirateDate
 				+ "' and a.operation_id = dnd.delivery_note_id and dnd.output_detail_id = od.id and dnd.order_detail_id is null) order by a.`date` desc";
 
 		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
@@ -388,9 +348,6 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 
         sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, supplying_detail as sd where (a.role_id = "
                 + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and sd.product_id = " + productId + " and sd.batch = '" + batch
-                + "' and sd.expiration_date = '" + expirateDate
-                + "' and a.operation_id = dnd.delivery_note_id and dnd.supplying_detail_id = sd.id) or (a.role_id = "
-                + RoleOperation.DELIVERY_NOTE_CANCELLATION.getId() + " and sd.product_id = " + productId + " and sd.batch = '" + batch
                 + "' and sd.expiration_date = '" + expirateDate
                 + "' and a.operation_id = dnd.delivery_note_id and dnd.supplying_detail_id = sd.id) order by a.`date` desc";
 
