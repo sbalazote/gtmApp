@@ -53,8 +53,6 @@ SaveUser = function() {
 		  $('.chosen-select', this).chosen('destroy').chosen();
 	});
 	
-	$('#my-select').multiSelect();
-	
 	$("#addButton, #updateButton").click(function(e) {
 		if (validateForm()) {
 			var jsonUser = {

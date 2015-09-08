@@ -8,7 +8,7 @@ $(document).ready(function() {
 		$("#passwordInput").val('');
 		$("#passwordInputCheck").val('');
 		$("#activeSelect").val($("#activeSelect option:first").val());
-		$('#my-select').multiSelect('deselect_all');
+		$("#profileSelect").val($("#activeSelect option:first").val());
 	};
 	
 	var deleteUser = function(userId) {
@@ -48,6 +48,7 @@ $(document).ready(function() {
 				$("#passwordInputCheck").val('');
 				var isActive = (response.active) ? "true" : "false";
 				$("#activeSelect").val(isActive).trigger('chosen:update');
+				$("#profileSelect").val(response.profile.id).trigger('chosen:update');
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myDeleteError();
@@ -60,9 +61,7 @@ $(document).ready(function() {
 		$("#passwordInput").attr('disabled', hidden);
 		$("#passwordInputCheck").attr('disabled', hidden);
 		$("#activeSelect").prop('disabled', hidden).trigger('chosen:update');
-		// TODO KNOWN-BUG deshabilitar multiSelect https://github.com/lou/multi-select/issues/68
-		/* $('#my-select').prop('disabled', true);
-		$('#my-select').multiSelect('refresh'); */
+		$("#profileSelect").prop('disabled', hidden).trigger('chosen:update');
 	};
 	
 	$("#addUser").click(function() {
