@@ -1,10 +1,10 @@
-package com.drogueria.service;
+package com.drogueria.persistence.dao;
 
 import com.drogueria.model.Profile;
 
 import java.util.List;
 
-public interface ProfileService {
+public interface ProfileDAO {
 
     void save(Profile profile);
 

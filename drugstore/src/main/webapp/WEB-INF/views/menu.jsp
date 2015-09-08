@@ -180,6 +180,7 @@
 						</sec:authorize>
 						<sec:authorize access="hasRole('USER_ADMINISTRATION')">
 							<li><a href="userAdministration.do"><spring:message code="administration.users" /></a></li>
+							<li><a href="profileAdministration.do"><spring:message code="administration.profiles" /></a></li>
 						</sec:authorize>
 					</ul></li>
 			</sec:authorize>

@@ -133,7 +133,11 @@
     <definition name="userAdministration" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/administration/userAdministration.jsp" />
     </definition>
-    
+
+    <definition name="profileAdministration" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/administration/profileAdministration.jsp" />
+    </definition>
+
     <definition name="roleAdministration" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/administration/roleAdministration.jsp" />
     </definition>

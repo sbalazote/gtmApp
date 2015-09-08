@@ -96,7 +96,7 @@
 
 					<div class="row">
 						<div class="col-md-6 col-lg-6 form-group">
-							<label for="profileSelect"><spring:message code="common.province" /></label>
+							<label for="profileSelect"><spring:message code="common.profile" /></label>
 							<select class="form-control chosen-select" id="profileSelect" name="profile">
 								<option value="">-<spring:message code="common.select.option" /> -</option>
 								<c:forEach items="${profiles}" var="profile" varStatus="status">

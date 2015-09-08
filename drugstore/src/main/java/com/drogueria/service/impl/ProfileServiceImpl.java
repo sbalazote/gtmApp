@@ -3,6 +3,7 @@ package com.drogueria.service.impl;
 import com.drogueria.model.Profile;
 import com.drogueria.model.Province;
 import com.drogueria.persistence.dao.GenericDAO;
+import com.drogueria.persistence.dao.ProfileDAO;
 import com.drogueria.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,20 +16,45 @@ import java.util.List;
 public class ProfileServiceImpl implements ProfileService{
 
     @Autowired
-    private GenericDAO<Profile> genericDAO;
+    private ProfileDAO profileDAO;
 
     @Override
     public void save(Profile profile) {
-        this.genericDAO.save(profile);
+        this.profileDAO.save(profile);
     }
 
     @Override
     public Profile get(Integer id) {
-        return this.genericDAO.get(Profile.class, id);
+        return this.profileDAO.get(id);
     }
 
     @Override
     public List<Profile> getAll(){
-        return this.genericDAO.getAll(Profile.class);
+        return this.profileDAO.getAll();
+    }
+
+    @Override
+    public List<Profile> getPaginated(int start, int length) {
+        return this.profileDAO.getPaginated(start,length);
+    }
+
+    @Override
+    public long getTotalNumber() {
+        return this.profileDAO.getTotalNumber();
+    }
+
+    @Override
+    public List<Profile> getForAutocomplete(String term, Boolean active) {
+        return this.profileDAO.getForAutocomplete(term, active);
+    }
+
+    @Override
+    public boolean delete(Integer profileId) {
+        return this.profileDAO.delete(profileId);
+    }
+
+    @Override
+    public Boolean exists(String description) {
+        return this.profileDAO.exists(description);
     }
 }
