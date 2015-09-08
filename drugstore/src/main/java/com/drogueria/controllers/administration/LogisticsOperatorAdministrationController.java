@@ -96,7 +96,7 @@ public class LogisticsOperatorAdministrationController {
 		int length = rowCount;
 		long total;
 
-		List<LogisticsOperator> listLogisticsOperators = null;
+		List<LogisticsOperator> listLogisticsOperators;
 		if (searchPhrase.matches("")) {
 			listLogisticsOperators = this.logisticsOperatorService.getPaginated(start, length);
 			total = this.logisticsOperatorService.getTotalNumber();

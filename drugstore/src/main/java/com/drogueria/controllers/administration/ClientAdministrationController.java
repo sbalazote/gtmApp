@@ -168,7 +168,7 @@ public class ClientAdministrationController {
 		int length = rowCount;
 		long total;
 
-		List<Client> listClients = null;
+		List<Client> listClients;
 		if (searchPhrase.matches("")) {
 			listClients = this.clientService.getPaginated(start, length);
 			total = this.clientService.getTotalNumber();

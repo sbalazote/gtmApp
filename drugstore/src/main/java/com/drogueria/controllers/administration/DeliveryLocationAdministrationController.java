@@ -110,7 +110,7 @@ public class DeliveryLocationAdministrationController {
 		int length = rowCount;
 		long total;
 
-		List<DeliveryLocation> listDeliveryLocations = null;
+		List<DeliveryLocation> listDeliveryLocations;
 		if (searchPhrase.matches("")) {
 			listDeliveryLocations = this.deliveryLocationService.getPaginated(start, length);
 			total = this.deliveryLocationService.getTotalNumber();

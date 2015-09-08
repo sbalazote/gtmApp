@@ -100,7 +100,7 @@ public class ConceptAdministrationController {
 
 	@RequestMapping(value = "/isConceptInUse", method = RequestMethod.GET)
 	public @ResponseBody
-	boolean isConceptInUse(ModelMap modelMap, @RequestParam Integer conceptId) throws Exception {
+	boolean isConceptInUse(@RequestParam Integer conceptId) throws Exception {
 		return this.conceptService.isAlreadyInUse(conceptId);
 	}
 
@@ -164,7 +164,7 @@ public class ConceptAdministrationController {
 		int length = rowCount;
 		long total;
 
-		List<Concept> listConcepts = null;
+		List<Concept> listConcepts;
 		if (searchPhrase.matches("")) {
 			listConcepts = this.conceptService.getPaginated(start, length);
 			total = this.conceptService.getTotalNumber();

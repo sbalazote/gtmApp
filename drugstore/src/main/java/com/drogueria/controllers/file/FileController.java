@@ -130,7 +130,7 @@ public class FileController {
 		String path = request.getSession().getServletContext().getRealPath("/alfabeta/");
 		String timestamp = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 
-		BufferedReader brManualDat = null;
+		BufferedReader brManualDat;
 		String currentLineManualDat;
 
 		brManualDat = new BufferedReader(new FileReader(path + "/" + timestamp + ".dat"));

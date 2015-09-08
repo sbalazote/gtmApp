@@ -27,7 +27,7 @@ public class DeliveryNoteEnumeratorController {
 	private DeliveryNoteEnumeratorService deliveryNoteEnumeratorService;
 
 	@RequestMapping(value = "/deliveryNoteEnumeratorAdministration", method = RequestMethod.GET)
-	public String deliveryNoteEnumeratorAdministration(ModelMap modelMap) throws Exception {
+	public String deliveryNoteEnumeratorAdministration() throws Exception {
 		return "deliveryNoteEnumeratorAdministration";
 	}
 
@@ -88,7 +88,7 @@ public class DeliveryNoteEnumeratorController {
 		int length = rowCount;
 		long total;
 
-		List<DeliveryNoteEnumerator> deliveryNoteEnumerators = null;
+		List<DeliveryNoteEnumerator> deliveryNoteEnumerators;
 		if (searchPhrase.matches("")) {
 			deliveryNoteEnumerators = this.deliveryNoteEnumeratorService.getPaginated(start, length);
 			total = this.deliveryNoteEnumeratorService.getTotalNumber();

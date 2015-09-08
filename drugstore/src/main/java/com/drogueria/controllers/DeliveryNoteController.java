@@ -61,7 +61,7 @@ public class DeliveryNoteController {
 	}
 
 	@RequestMapping(value = "/deliveryNoteCancellation", method = RequestMethod.GET)
-	public String deliveryNoteCancellation(ModelMap modelMap) throws Exception {
+	public String deliveryNoteCancellation() throws Exception {
 		return "deliveryNoteCancellation";
 	}
 
@@ -154,7 +154,7 @@ public class DeliveryNoteController {
 
 	@RequestMapping(value = "/authorizeDeliveryNotesWithoutInform", method = RequestMethod.POST)
 	public @ResponseBody
-	List<String> authorizeDeliveryNotesWithoutInform(@RequestBody Map<String,String> deliveryNoteIds, HttpServletRequest request) throws Exception {
+	List<String> authorizeDeliveryNotesWithoutInform(@RequestBody Map<String,String> deliveryNoteIds) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
 			this.deliveryNoteService.authorizeWithoutInform(deliveryNoteIds, auth.getName());

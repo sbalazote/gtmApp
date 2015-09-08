@@ -35,14 +35,6 @@ public class SerializedReturnsController {
 	private AgreementService agreementService;
 	@Autowired
 	private DeliveryLocationService deliveryLocationService;
-	@Autowired
-	private StockService stockService;
-	@Autowired
-	private InputService inputService;
-	@Autowired
-	private OutputService outputService;
-	@Autowired
-	private OrderService orderService;
 
 	@RequestMapping(value = "/serializedReturns", method = RequestMethod.GET)
 	public String serializedReturns(ModelMap modelMap) throws Exception {

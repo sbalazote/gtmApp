@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class AdministrationController {
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public String home(ModelMap modelMap) throws Exception {
+	public String home() throws Exception {
 		return "home";
 	}
 

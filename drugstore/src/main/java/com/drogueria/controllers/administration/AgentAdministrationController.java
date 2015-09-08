@@ -32,7 +32,7 @@ public class AgentAdministrationController {
 	}
 
 	@RequestMapping(value = "/agentAdministration", method = RequestMethod.GET)
-	public String agentAdministration(ModelMap modelMap) throws Exception {
+	public String agentAdministration() throws Exception {
 		return "agentAdministration";
 	}
 
@@ -82,7 +82,7 @@ public class AgentAdministrationController {
 		int length = rowCount;
 		long total;
 
-		List<Agent> listAgents = null;
+		List<Agent> listAgents;
 		if (searchPhrase.matches("")) {
 			listAgents = this.agentService.getPaginated(start, length);
 			total = this.agentService.getTotalNumber();

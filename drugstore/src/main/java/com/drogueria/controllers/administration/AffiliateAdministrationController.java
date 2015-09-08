@@ -94,7 +94,7 @@ public class AffiliateAdministrationController {
 		int length = rowCount;
 		long total;
 
-		List<Affiliate> listAffiliates = null;
+		List<Affiliate> listAffiliates;
 		if (searchPhrase.matches("")) {
 			listAffiliates = this.affiliateService.getPaginated(start, length);
 			total = this.affiliateService.getTotalNumber();

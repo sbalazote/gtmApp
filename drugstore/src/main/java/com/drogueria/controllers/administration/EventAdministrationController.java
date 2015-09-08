@@ -101,7 +101,7 @@ public class EventAdministrationController {
 		int length = rowCount;
 		long total;
 
-		List<Event> listEvents = null;
+		List<Event> listEvents;
 		if (searchPhrase.matches("")) {
 			listEvents = this.eventService.getPaginated(start, length);
 			total = this.eventService.getTotalNumber();
