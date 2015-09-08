@@ -127,6 +127,7 @@ public class UserAdministrationController {
 			dataJson.put("name", user.getName());
 			dataJson.put("password", user.getPassword());
 			dataJson.put("isActive", user.isActive() == true ? "Si" : "No");
+			dataJson.put("profile", user.getProfile().getDescription());
 			jsonArray.put(dataJson);
 		}
 

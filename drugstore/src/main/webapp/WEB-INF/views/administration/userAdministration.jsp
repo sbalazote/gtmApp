@@ -34,6 +34,7 @@
 			<th data-column-id="name"><spring:message code="common.entity.name" /></th>
 			<th data-column-id="password"><spring:message code="common.password" /></th>
 			<th data-column-id="isActive"><spring:message code="common.active" /></th>
+			<th data-column-id="profile"><spring:message code="common.profile" /></th>
 			<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
 		</tr>
 	</thead>
