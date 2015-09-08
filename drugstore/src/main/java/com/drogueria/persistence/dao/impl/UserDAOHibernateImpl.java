@@ -71,7 +71,6 @@ public class UserDAOHibernateImpl implements UserDAO {
 	public boolean delete(Integer userId) {
 		User user = this.get(userId);
 		if (user != null) {
-			user.getRoles().clear();
 			this.sessionFactory.getCurrentSession().delete(user);
 			return true;
 		} else {

@@ -48,9 +48,6 @@ $(document).ready(function() {
 				$("#passwordInputCheck").val('');
 				var isActive = (response.active) ? "true" : "false";
 				$("#activeSelect").val(isActive).trigger('chosen:update');
-				$.each(response.roles, function (idx, value) {
-					$('#my-select').multiSelect('select', value.id.toString());
-				});
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myDeleteError();

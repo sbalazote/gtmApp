@@ -93,22 +93,15 @@
 						</div>
 					</div>
 
-
 					<div class="row">
-						<div class="col-md-4 col-lg-4 form-group">
-							<label for="role"><spring:message code="common.roles" /></label>
-						</div>
-					</div>
-
-					<div>
-						<div class="col-md-12 col-lg-12 form-group">
-							<div class="ms-container">
-								<select multiple="multiple" id="my-select" name="my-select[]">
-									<c:forEach items="${roles}" var="role" varStatus="status">
-										<option value="${role.id}"><c:out value="${role.id} - ${role.description}"></c:out></option>
-									</c:forEach>
-								</select>
-							</div>
+						<div class="col-md-6 col-lg-6 form-group">
+							<label for="profileSelect"><spring:message code="common.province" /></label>
+							<select class="form-control chosen-select" id="profileSelect" name="profile">
+								<option value="">-<spring:message code="common.select.option" /> -</option>
+								<c:forEach items="${profiles}" var="profile" varStatus="status">
+									<option value="${profile.id}"><c:out value="${profile.description}"></c:out></option>
+								</c:forEach>
+							</select>
 						</div>
 					</div>
 				</form>

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.drogueria.dto.NewPasswordDTO;
+import com.drogueria.model.Profile;
+import com.drogueria.service.ProfileService;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -20,12 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.drogueria.dto.RoleDTO;
 import com.drogueria.dto.UserDTO;
 import com.drogueria.helper.EncryptionHelper;
-import com.drogueria.model.Role;
 import com.drogueria.model.User;
-import com.drogueria.service.RoleService;
 import com.drogueria.service.UserService;
 
 @Controller
@@ -33,8 +32,9 @@ public class UserAdministrationController {
 
 	@Autowired
 	private UserService userService;
+
 	@Autowired
-	private RoleService roleService;
+	private ProfileService profileService;
 
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	public ModelAndView users() {
@@ -43,7 +43,7 @@ public class UserAdministrationController {
 
 	@RequestMapping(value = "/userAdministration", method = RequestMethod.GET)
 	public String userAdministration(ModelMap modelMap) throws Exception {
-		modelMap.put("roles", this.roleService.getAll());
+		modelMap.put("profiles", profileService.getAll());
 		return "userAdministration";
 	}
 
@@ -55,6 +55,8 @@ public class UserAdministrationController {
 	@RequestMapping(value = "/saveUser", method = RequestMethod.POST)
 	public @ResponseBody User saveUser(@RequestBody UserDTO userDTO) throws Exception {
 		User user = this.buildModel(userDTO);
+		Profile profile = this.profileService.get(userDTO.getProfileId());
+		user.setProfile(profile);
 		this.userService.save(user);
 		return user;
 	}
@@ -79,51 +81,17 @@ public class UserAdministrationController {
 			user.setPassword(EncryptionHelper.generateHash(userDTO.getName() + userDTO.getPassword()));
 			user.setActive(userDTO.isActive());
 		}
-		List<Role> roles = new ArrayList<Role>();
-		for (Integer roleId : userDTO.getRoles()) {
-			Role role = this.roleService.get(roleId);
-			roles.add(role);
-		}
-		user.setRoles(roles);
 		return user;
 	}
 
 	@RequestMapping(value = "/readUser", method = RequestMethod.GET)
-	public @ResponseBody User readUser(ModelMap modelMap, @RequestParam Integer userId) throws Exception {
-		User user = this.userService.get(userId);
-		modelMap.put("roles", this.getSelectedRoles(user));
+	public @ResponseBody User readUser(@RequestParam Integer userId) throws Exception {
 		return this.userService.get(userId);
 	}
 
 	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
 	public @ResponseBody boolean deleteUser(@RequestParam Integer userId) throws Exception {
 		return this.userService.delete(userId);
-	}
-
-	private List<RoleDTO> getSelectedRoles(User user) {
-		List<Role> selectedRoles = user.getRoles();
-		List<Role> allRoles = this.roleService.getAll();
-
-		List<RoleDTO> rolesDTO = new ArrayList<RoleDTO>();
-
-		for (Role role : allRoles) {
-			if (selectedRoles.contains(role)) {
-				rolesDTO.add(this.newRoleDTO(role, true));
-			} else {
-				rolesDTO.add(this.newRoleDTO(role, false));
-			}
-		}
-		return rolesDTO;
-	}
-
-	private RoleDTO newRoleDTO(Role role, boolean selected) {
-		RoleDTO roleDTO = new RoleDTO();
-
-		roleDTO.setId(role.getId());
-		roleDTO.setDescription(role.getDescription());
-		roleDTO.setSelected(selected);
-
-		return roleDTO;
 	}
 
 	@RequestMapping(value = "/getMatchedUsers", method = RequestMethod.POST)
@@ -138,7 +106,7 @@ public class UserAdministrationController {
 		int length = rowCount;
 		long total;
 
-		List<User> listUsers = null;
+		List<User> listUsers;
 		if (searchPhrase.matches("")) {
 			listUsers = this.userService.getPaginated(start, length);
 			total = this.userService.getTotalNumber();

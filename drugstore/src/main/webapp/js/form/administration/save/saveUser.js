@@ -19,6 +19,9 @@ SaveUser = function() {
 		        },
 				active: {
 					required: true
+				},
+				profile: {
+					required: true
 				}
 			},
 			showErrors: myShowErrors,
@@ -58,8 +61,8 @@ SaveUser = function() {
 					"id": $("#idInput").val(),
 					"name": $("#nameInput").val(),
 					"password": $("#passwordInput").val(),
-					"roles": $("#my-select").val() || new Array(),
 					"active": $("#activeSelect option:selected").val(),
+					"profileId": $("#profileSelect").val()
 			};
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.

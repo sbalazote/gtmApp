@@ -41,7 +41,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 				if (hashedPassword.equals(user.getPassword())) {
 					if (user.isActive()) {
 						logger.info("Usuario autenticado");
-						return new UsernamePasswordAuthenticationToken(username, password, this.getAuthorities(user.getRoles()));
+						return new UsernamePasswordAuthenticationToken(username, password, this.getAuthorities(user.getProfile().getRoles()));
 					} else {
 						logger.info("Usuario inhabilitado.");
 						throw new BadCredentialsException("Usuario inhabilitado. Consulte con el Administrador del Sistema.");

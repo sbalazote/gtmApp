@@ -3,15 +3,7 @@ package com.drogueria.model;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "user")
@@ -33,9 +25,9 @@ public class User implements Serializable {
 	@Column(name = "active", nullable = false)
 	private boolean active;
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false))
-	private List<Role> roles;
+	@ManyToOne
+	@JoinColumn(name = "profile_id", nullable = false)
+	private Profile profile;
 
 	public Integer getId() {
 		return this.id;
@@ -69,12 +61,11 @@ public class User implements Serializable {
 		this.active = active;
 	}
 
-	public List<Role> getRoles() {
-		return this.roles;
+	public Profile getProfile() {
+		return profile;
 	}
 
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
+	public void setProfile(Profile profile) {
+		this.profile = profile;
 	}
-
 }

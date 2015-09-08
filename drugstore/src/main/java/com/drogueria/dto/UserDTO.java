@@ -11,7 +11,7 @@ public class UserDTO implements Serializable {
 	private String name;
 	private String password;
 	private boolean active;
-	private List<Integer> roles;
+	private Integer profileId;
 
 	public Integer getId() {
 		return this.id;
@@ -45,12 +45,12 @@ public class UserDTO implements Serializable {
 		this.active = active;
 	}
 
-	public List<Integer> getRoles() {
-		return this.roles;
+
+	public Integer getProfileId() {
+		return profileId;
 	}
 
-	public void setRoles(List<Integer> roles) {
-		this.roles = roles;
+	public void setProfileId(Integer profileId) {
+		this.profileId = profileId;
 	}
-
 }
