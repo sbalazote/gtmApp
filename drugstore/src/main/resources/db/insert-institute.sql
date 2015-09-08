@@ -243,7 +243,7 @@ insert into profile_role values (18, 1, 18);
 insert into profile_role values (19, 1, 19);
 insert into profile_role values (20, 1, 20);
 
-insert into `drugstore`.`profile` values (1, "admin");
+insert into `institute`.`profile` values (1, "admin");
 
 insert into `institute`.`user` values (1, "admin", "fad198c1bfe1cc7052905de0fa0431b45ec10ca4", 1,1);
 
