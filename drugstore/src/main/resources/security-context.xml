@@ -12,6 +12,7 @@
 	
 		<intercept-url pattern="/js/**" access="permitAll" />
 		<intercept-url pattern="/css/**" access="permitAll" />
+		<intercept-url pattern="/fonts/**" access="permitAll" />
 		<intercept-url pattern="/images/**" access="permitAll" />
 		<intercept-url pattern="/login**" access="permitAll" />
 		<intercept-url pattern="/logout**" access="permitAll" />

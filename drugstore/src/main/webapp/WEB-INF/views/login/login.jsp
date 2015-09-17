@@ -44,21 +44,28 @@
         <br/>
         <div class="row">
             <div class="form-group col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4">
-                <input type="text" class="form-control" name="j_username" placeholder="<spring:message code="login.user.placeholder"/>" autocomplete="off" autofocus >
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon glyphicon glyphicon-user" aria-hidden="true"></span>
+                    <input type="text" class="form-control" name="j_username" placeholder="<spring:message code="login.user.placeholder"/>" autocomplete="off" autofocus >
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4">
-                <input type="password" class="form-control" name="j_password" placeholder="<spring:message code="login.password.placeholder"/>" autocomplete="off" >
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon glyphicon glyphicon-lock" aria-hidden="true"></span>
+                    <input type="password" class="form-control" name="j_password" placeholder="<spring:message code="login.password.placeholder"/>" autocomplete="off" >
+                </div>
             </div>
         </div>
             <%--<label class="checkbox">
                 <input type="checkbox" value="recordarme"><spring:message code="login.remember.me"/>
             </label>
              --%>
+        <br>
         <div class="row">
             <div class="form-group col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4" >
-                <button  class="btn btn-primary btn-block" type="submit"><spring:message code="login.login"/></button>
+                <button  class="btn btn-primary btn-lg btn-block" type="submit"><spring:message code="login.login"/></button>
             </div>
         </div>
     </c:if>
