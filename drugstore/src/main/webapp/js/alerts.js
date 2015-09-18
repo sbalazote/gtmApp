@@ -24,11 +24,34 @@ $(document).ready(function() {
 		if (element) {
 			myDiv = element;
 		}
-		$('#'+myDiv).html(
+		/*$('#'+myDiv).html(
 			'<div class="alert alert-' + type + ' alert-block fade in">' +
 			'<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>' +
 			'<button type="button" class="close" data-dismiss="alert">' +
-			'&times;</button> ' + message + '</div>');
+			'&times;</button> ' + message + '</div>');*/
+
+		toastr.options = {
+			"closeButton": false,
+			"debug": false,
+			"newestOnTop": false,
+			"progressBar": true,
+			"preventDuplicates": false,
+			"onclick": null,
+			"showDuration": "300",
+			"hideDuration": "1000",
+			"timeOut": 3000,
+			"showEasing": "swing",
+			"hideEasing": "linear",
+			"showMethod": "fadeIn",
+			"hideMethod": "fadeOut",
+			"target": "#"+myDiv
+		}
+		// Muestro mensaje dependiendo el tipo.
+		if (type === 'danger') {
+			toastr.error(message);
+		} else {
+			toastr.success(message);
+		}
 	};
 
 	myHideAlert = function() {
