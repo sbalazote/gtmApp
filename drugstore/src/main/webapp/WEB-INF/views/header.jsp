@@ -60,7 +60,6 @@
 <link rel="stylesheet" type="text/css" href="${context}/css/jqClock.css">
 <link rel="stylesheet" type="text/css" href="${context}/css/toastr.css">
 <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href='//fonts.googleapis.com/css?family=Merriweather:900italic'>
 <link rel="stylesheet" type="text/css" href='//fonts.googleapis.com/css?family=Roboto:500,700,400'>
 
 <script type="text/javascript" src="${context}/js/jquery-1.10.2.min.js"></script>
