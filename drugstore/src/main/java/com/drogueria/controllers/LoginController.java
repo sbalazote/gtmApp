@@ -43,7 +43,7 @@ public class LoginController {
     private PropertyService propertyService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(ModelMap modelMap, @RequestParam(value = "error", required = false) String error,HttpServletRequest request) throws Exception {
+	public String login(ModelMap modelMap, @RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout", required = false) String logout, HttpServletRequest request) throws Exception {
         String userAgent = request.getHeader("user-agent");
         UserAgent ua = UserAgent.parseUserAgentString(userAgent);
         String browserName = ua.getBrowser().toString();
@@ -54,26 +54,31 @@ public class LoginController {
 
         File file = new File(realPath);
 
-        if(file.exists()) {
+        if (file.exists()) {
             relativePath = "./images/uploadedLogo.png";
         } else {
             relativePath = "./images/logo.png";
         }
         modelMap.put("logoPath", relativePath);
-        boolean validLicense = isValidLicense();
 
-        if(browserName.indexOf(IE_BROWSER) >= 0){
-            modelMap.put("error", "Internet Explorer no es compatible con la aplicacion, utilice Chrome o Firefox");
-            modelMap.put("loginDisabled", true);
+        if (logout != null) {
+            modelMap.put("logout", true);
         } else {
-            if (error != null) {
-                modelMap.put("error", "Usuario / Contraseña incorrecta, vuelva a intentar");
+            boolean validLicense = isValidLicense();
+
+            if (browserName.indexOf(IE_BROWSER) >= 0) {
+                modelMap.put("error", "Internet Explorer no es compatible con la aplicacion, utilice Chrome o Firefox");
+                modelMap.put("loginDisabled", true);
+            } else {
+                if (error != null) {
+                    modelMap.put("error", "Usuario / Contraseña incorrecta, vuelva a intentar");
+                }
+            }
+            if (!validLicense) {
+                modelMap.put("error", "La Licencia ha caducado. Comuníquese con el Administrador.");
+                modelMap.put("loginDisabled", true);
             }
         }
-        if (!validLicense) {
-            modelMap.put("error", "La Licencia ha caducado. Comuníquese con el Administrador.");
-            modelMap.put("loginDisabled", true);
-        };
 
 		return "login";
 	}

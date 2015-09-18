@@ -49,7 +49,7 @@
 			default-target-url="/home.do"
 			authentication-failure-url="/login.do?error"/>
 
-		<logout invalidate-session="true" logout-success-url="/login.do"/>
+		<logout invalidate-session="true" logout-success-url="/login.do?logout"/>
 		
 		<session-management>
 			<concurrency-control error-if-maximum-exceeded="true" max-sessions="30" expired-url="/error.do" />
