@@ -10,23 +10,26 @@
 
 <form id="login" action="j_spring_security_check" method="post" >
 	<c:if test="${not empty error}">
+        <div class="row">
+            <div class="form-group col-md-12 col-lg-12 text-center myAlert">
+            </div>
+        </div>
         <script type="text/javascript">
             toastr.options = {
                 "closeButton": false,
                 "debug": false,
                 "newestOnTop": false,
                 "progressBar": true,
-                "positionClass": "toast-bottom-center",
                 "preventDuplicates": false,
                 "onclick": null,
                 "showDuration": "300",
                 "hideDuration": "1000",
-                "timeOut": "5000",
-                "extendedTimeOut": "1000",
+                "timeOut": 3000,
                 "showEasing": "swing",
                 "hideEasing": "linear",
                 "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
+                "hideMethod": "fadeOut",
+                "target": ".myAlert"
             }
             // Muestro mensaje de error, con un titulo.
             toastr.error('${error}', 'ERROR!');

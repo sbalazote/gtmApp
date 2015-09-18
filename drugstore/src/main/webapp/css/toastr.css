@@ -83,7 +83,7 @@ button.toast-close-button {
   left: 12px;
 }
 #toast-container {
-  position: fixed;
+  /*position: fixed;*/
   z-index: 999999;
   pointer-events: none;
   /*overrides*/
@@ -99,7 +99,7 @@ button.toast-close-button {
   overflow: hidden;
   margin: 0 0 6px;
   padding: 15px 15px 15px 50px;
-  width: 300px;
+  /*width: 300px;*/
   -moz-border-radius: 3px 3px 3px 3px;
   -webkit-border-radius: 3px 3px 3px 3px;
   border-radius: 3px 3px 3px 3px;
@@ -174,7 +174,7 @@ button.toast-close-button {
 /*Responsive Design*/
 @media all and (max-width: 240px) {
   #toast-container > div {
-    padding: 8px 8px 8px 50px;
+    /*padding: 8px 8px 8px 50px;*/
     width: 11em;
   }
   #toast-container .toast-close-button {
@@ -184,7 +184,7 @@ button.toast-close-button {
 }
 @media all and (min-width: 241px) and (max-width: 480px) {
   #toast-container > div {
-    padding: 8px 8px 8px 50px;
+    /*padding: 8px 8px 8px 50px;*/
     width: 18em;
   }
   #toast-container .toast-close-button {
@@ -194,7 +194,7 @@ button.toast-close-button {
 }
 @media all and (min-width: 481px) and (max-width: 768px) {
   #toast-container > div {
-    padding: 15px 15px 15px 50px;
+    /*padding: 15px 15px 15px 50px;*/
     width: 25em;
   }
 }
