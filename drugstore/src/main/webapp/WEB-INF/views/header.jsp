@@ -58,6 +58,7 @@
 <link rel="stylesheet" type="text/css" href="${context}/css/jquery.bootgrid.css">
 <link rel="stylesheet" type="text/css" href="${context}/css/themes/blue/pace-theme-corner-indicator.css">
 <link rel="stylesheet" type="text/css" href="${context}/css/jqClock.css">
+<link rel="stylesheet" type="text/css" href="${context}/css/toastr.css">
 <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href='//fonts.googleapis.com/css?family=Merriweather:900italic'>
 <link rel="stylesheet" type="text/css" href='//fonts.googleapis.com/css?family=Roboto:500,700,400'>
@@ -88,6 +89,7 @@
 <script type="text/javascript" src="${context}/js/jspdf.debug.js"></script>
 <script type="text/javascript" src="${context}/js/jquery.base64.js"></script>
 <script type="text/javascript" src="${context}/js/pace.js"></script>
+<script type="text/javascript" src="${context}/js/toastr.js"></script>
 <script type="text/javascript" src="${context}/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="${context}/js/jQuery.download.js"></script>
 <script type="text/javascript" src="${context}/js/emulatetab.joelpurra.js"></script>

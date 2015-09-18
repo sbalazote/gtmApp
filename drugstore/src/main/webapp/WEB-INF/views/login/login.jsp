@@ -10,10 +10,27 @@
 
 <form id="login" action="j_spring_security_check" method="post" >
 	<c:if test="${not empty error}">
-		<div class="alert alert-danger alert-block fade in">
-			<button type="button" class="close" data-dismiss="alert">&times;</button>
-			<strong>Error! </strong>${error}
-		</div>
+        <script type="text/javascript">
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-bottom-center",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            // Muestro mensaje de error, con un titulo.
+            toastr.error('${error}', 'ERROR!');
+        </script>
 	</c:if>
 
     <div class="row">
@@ -35,11 +52,6 @@
     </div>
 
     <c:if test="${loginDisabled == null}">
-        <%--<div class="row">
-            <div class="form-group col-md-4 col-md-offset-4">
-                <h2 class="form-signin-heading"><spring:message code="login.enter.data"/></h2>
-            </div>
-        </div>--%>
         <br/>
         <br/>
         <div class="row">
@@ -58,10 +70,6 @@
                 </div>
             </div>
         </div>
-            <%--<label class="checkbox">
-                <input type="checkbox" value="recordarme"><spring:message code="login.remember.me"/>
-            </label>
-             --%>
         <br>
         <div class="row">
             <div class="form-group col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4" >
