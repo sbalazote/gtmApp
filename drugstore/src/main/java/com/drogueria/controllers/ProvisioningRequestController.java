@@ -1,38 +1,26 @@
 package com.drogueria.controllers;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.drogueria.constant.AuditState;
 import com.drogueria.constant.DocumentType;
+import com.drogueria.constant.RoleOperation;
+import com.drogueria.constant.State;
+import com.drogueria.dto.ProvisioningRequestDTO;
+import com.drogueria.model.ProvisioningRequest;
+import com.drogueria.query.ProvisioningQuery;
+import com.drogueria.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.drogueria.constant.AuditState;
-import com.drogueria.constant.RoleOperation;
-import com.drogueria.constant.State;
-import com.drogueria.dto.ProvisioningRequestDTO;
-import com.drogueria.model.ProvisioningRequest;
-import com.drogueria.query.ProvisioningQuery;
-import com.drogueria.service.AffiliateService;
-import com.drogueria.service.AgreementService;
-import com.drogueria.service.AuditService;
-import com.drogueria.service.ClientService;
-import com.drogueria.service.DeliveryLocationService;
-import com.drogueria.service.LogisticsOperatorService;
-import com.drogueria.service.ProvisioningRequestService;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ProvisioningRequestController {
@@ -108,8 +96,8 @@ public class ProvisioningRequestController {
 		Integer provisioningRequestId = Integer.valueOf(parameters.get("id"));
 		ProvisioningRequest provisioningRequest = this.provisioningRequestService.get(provisioningRequestId);
 
-		Assert.notNull(provisioningRequest, "Provisioning Request with id " + provisioningRequestId + " not found!");
-		Assert.isTrue(provisioningRequest.getState().getId().equals(State.ENTERED.getId()), "Provisioning request is not modifiable!");
+		Assert.notNull(provisioningRequest, "Sol. de Abastecimiento con identificador = " + provisioningRequestId + " no encontrada!");
+		Assert.isTrue(provisioningRequest.getState().getId().equals(State.ENTERED.getId()), "Solicitud de Abastecimiento no es modificable!");
 
 		modelMap.put("agreements", this.agreementService.getAllActives());
 		modelMap.put("deliveryLocations", this.deliveryLocationService.getAllActives());
