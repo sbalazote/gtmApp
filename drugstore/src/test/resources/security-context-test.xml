@@ -23,6 +23,7 @@
 		<intercept-url pattern="/pickingSheet.do" access="hasRole('PROVISIONING_REQUEST_PRINT')" />
 		<intercept-url pattern="/orderAssemblySelection.do" access="hasRole('ORDER_ASSEMBLY')" />
 		<intercept-url pattern="/deliveryNoteSheet.do" access="hasRole('DELIVERY_NOTE_PRINT')" />
+		<intercept-url pattern="/pendingTransactions.do" access="hasRole('PENDING_TRANSACTIONS')" />
 		<intercept-url pattern="/*Administration.do" access="hasRole('ENTITY_ADMINISTRATION')" />
 		<intercept-url pattern="/userAdministration.do" access="hasRole('USER_ADMINISTRATION')" />
 		<intercept-url pattern="/orderCancellation.do" access="hasRole('ORDER_ASSEMBLY_CANCELLATION')" />

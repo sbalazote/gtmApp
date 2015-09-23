@@ -113,7 +113,7 @@
 					</ul></li>
 			</sec:authorize>
 
-			<sec:authorize access="hasAnyRole('DELIVERY_NOTE_PRINT', 'DELIVERY_NOTE_CANCELLATION')">
+			<sec:authorize access="hasAnyRole('DELIVERY_NOTE_PRINT', 'DELIVERY_NOTE_CANCELLATION', 'PENDING_TRANSACTIONS')">
 				<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="printing.label" /> <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<sec:authorize access="hasRole('DELIVERY_NOTE_PRINT')">
@@ -122,7 +122,7 @@
 						<sec:authorize access="hasRole('DELIVERY_NOTE_CANCELLATION')">
 							<li><a href="deliveryNoteCancellation.do"><spring:message code="deliveryNote.cancellation.label" /> </a></li>
 						</sec:authorize>
-                        <sec:authorize access="hasAnyRole('DELIVERY_NOTE_PRINT', 'DELIVERY_NOTE_CANCELLATION')">
+                        <sec:authorize access="hasRole('PENDING_TRANSACTIONS')">
                             <li class="activable"><a href="pendingTransactions.do"><spring:message code="common.pendingTransactions" /></a></li>
                         </sec:authorize>
 					</ul></li>

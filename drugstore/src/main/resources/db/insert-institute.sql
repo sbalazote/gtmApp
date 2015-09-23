@@ -221,6 +221,13 @@ VALUES (1,86,'ONCOMED RENO','30686437228','ONCOMED RENO SA',1,'C.A.B.A.','AGUERO
 
 insert into `institute`.`role` values (1, 'INPUT', 'Ingreso');
 insert into `institute`.`role` values (2, 'OUTPUT', 'Egreso');
+insert into `institute`.`role` values (3, 'PROVISIONING_REQUEST', 'Solicitud de Abastecimiento');
+insert into `institute`.`role` values (4, 'PROVISIONING_REQUEST_UPDATE', 'Modificación de Solicitudes');
+insert into `institute`.`role` values (5, 'PROVISIONING_REQUEST_AUTHORIZATION', 'Autorización de Solicitudes');
+insert into `institute`.`role` values (6, 'PROVISIONING_REQUEST_CANCELLATION', 'Anulación de Solicitudes');
+insert into `institute`.`role` values (7, 'PROVISIONING_REQUEST_PRINT', 'Impresión de Hojas de Picking');
+insert into `institute`.`role` values (8, 'ORDER_ASSEMBLY', 'Armado de Pedido');
+insert into `institute`.`role` values (9, 'ORDER_ASSEMBLY_CANCELLATION', 'Anulación de Armado de Pedido');
 insert into `institute`.`role` values (10, 'DELIVERY_NOTE_PRINT', 'Emitir Remito');
 insert into `institute`.`role` values (11, 'DELIVERY_NOTE_CANCELLATION', 'Anulación de Remitos');
 insert into `institute`.`role` values (12, 'ENTITY_ADMINISTRATION', 'Administración de Entidades');
@@ -231,17 +238,29 @@ insert into `institute`.`role` values (17, 'OUTPUT_CANCELLATION', 'Anulación de
 insert into `institute`.`role` values (18, 'AGREEMENT_TRANSFER', 'Transferencia de Convenio');
 insert into `institute`.`role` values (19, 'SUPPLYING', 'Dispensa');
 insert into `institute`.`role` values (20, 'SUPPLYING_CANCELLATION', 'Anulación de Dispensa');
+insert into `institute`.`role` values (21, 'PENDING_TRANSACTIONS', 'Transacciones Pendientes');
 
 insert into profile_role values (1, 1, 1);
 insert into profile_role values (2, 1, 2);
+insert into profile_role values (3, 1, 3);
+insert into profile_role values (4, 1, 4);
+insert into profile_role values (5, 1, 5);
+insert into profile_role values (6, 1, 6);
+insert into profile_role values (7, 1, 7);
+insert into profile_role values (8, 1, 8);
+insert into profile_role values (9, 1, 9);
+insert into profile_role values (10, 1, 10);
+insert into profile_role values (11, 1, 11);
 insert into profile_role values (12, 1, 12);
 insert into profile_role values (13, 1, 13);
+insert into profile_role values (14, 1, 14);
 insert into profile_role values (15, 1, 15);
 insert into profile_role values (16, 1, 16);
 insert into profile_role values (17, 1, 17);
 insert into profile_role values (18, 1, 18);
 insert into profile_role values (19, 1, 19);
 insert into profile_role values (20, 1, 20);
+insert into profile_role values (21, 1, 21);
 
 insert into `institute`.`profile` values (1, "admin");
 
