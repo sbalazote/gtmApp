@@ -132,9 +132,8 @@ var ProvisioningRequest = function() {
 	    minimumInputLength: 3,
 	    initSelection : function (element, callback) {
             var data = {
-            	code: element.attr("code"),
-            	name: element.attr("name"),
-            	surname: element.attr("surname")
+				id: $("#affiliateId").val(),
+				text:  $("#affiliateCode").val() + "-" + $("#affiliateName").val() + " " + $("#affiliateSurname").val()
             };
             callback(data);
 	    },
@@ -173,7 +172,7 @@ var ProvisioningRequest = function() {
 	    formatSelection: function(data) { 
 	        return data.text;
 	    }
-	});
+	}).select2('val', []);
 	
 	$("#affiliateInput").select2("enable", false);
 	

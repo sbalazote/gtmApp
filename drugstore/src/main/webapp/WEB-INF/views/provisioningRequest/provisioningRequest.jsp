@@ -41,6 +41,10 @@
 			</select>
 		</div>
 		<div class="col-md-4 col-lg-4 form-group">
+			<input type="hidden" class="form-control" id="affiliateId" value="${affiliate != null ? affiliate.id : ''}">
+			<input type="hidden" class="form-control" id="affiliateCode" value="${affiliate != null ? affiliate.code : ''}">
+			<input type="hidden" class="form-control" id="affiliateName" value="${affiliate != null ? affiliate.name : ''}">
+			<input type="hidden" class="form-control" id="affiliateSurname" value="${affiliate != null ? affiliate.surname : ''}">
 			<label for="affiliateInput"><spring:message code="common.affiliate" /></label>
 			<input type='hidden' id="affiliateInput" name="affiliate" class="form-control">
 				<%-- <c:forEach items="${affiliates}" var="affiliate">
