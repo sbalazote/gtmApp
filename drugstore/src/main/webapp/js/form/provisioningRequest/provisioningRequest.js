@@ -116,7 +116,7 @@ var ProvisioningRequest = function() {
 				productAmount: {
 					required: true,
 					digits: true,
-					minValue: 0,
+					minValue: 0
 				}
 			},
 			showErrors: myShowErrors,
@@ -197,14 +197,14 @@ var ProvisioningRequest = function() {
 				async: false,
 				data: {
 					term: request.term,
-					agreementId: $("#agreementInput").val(),
+					agreementId: $("#agreementInput").val()
 				},
 				success: function(data) {
 					var array = $.map(data, function(item) {
 						return {
 							id:	item.id,
 							label: item.code + " - " + item.description + " - " + item.brand.description + " - " + item.monodrug.description,
-							value: item.code + " - " + item.description,
+							value: item.code + " - " + item.description
 						};
 					});
 					response(array);
@@ -225,6 +225,7 @@ var ProvisioningRequest = function() {
 				$('#amountModal').modal('show');
 			} else {
 				myShowAlert('danger', 'Producto ya Ingresado');
+				$("#productInput").val("");
 			}
 			return false;
 	    },
@@ -292,10 +293,16 @@ var ProvisioningRequest = function() {
 	});
 	
 	var populateProductsDetailsTable = function() {
-		var tableRow = "<tr><td>" + productDescription + "<span class='span-productId' style='display:none'>" + productId + "</span></td>" +
-		"<td class='td-amount'>" + productAmount + "</td>" +
-		"<td><a href='javascript:void(0);' class='edit-row'>Editar</a></td><td><a href='javascript:void(0);' class='delete-row'>Eliminar</a></td></tr>";
-		$("#productTableBody").append(tableRow);
+		var aaData = [];
+		var row = {
+			description: productDescription,
+			amount: productAmount,
+			command: "<span class='span-productId' style='display:none'>" + productId + "</span>"+
+			"<button type=\"button\" class=\"btn btn-sm btn-default edit-row\"><span class=\"glyphicon glyphicon-pencil\"></span></button>"+
+			"<button type=\"button\" class=\"btn btn-sm btn-default delete-row\"><span class=\"glyphicon glyphicon-trash\"></span></button>"
+		};
+		aaData.push(row);
+		$("#productTable").bootgrid("append", aaData);
 	};
 	
 	var populateProductsDetails = function(productDetails, amount) {
@@ -328,9 +335,13 @@ var ProvisioningRequest = function() {
 	
 	$("#provisoningDeleteRowConfirmationButton").click(function() {
 		var parent = $(currentRowElement).parent().parent();
+		var rows = Array();
+		rows[0] = parent.attr("data-row-id");
+		$("#productTable").bootgrid("remove", rows);
+
 		var currentRow = $(".delete-row").index(currentRowElement);
 		productDetails.splice(currentRow, 1);
-		parent.remove();
+
 		if (productDetails.length == 0) {
 			$('#agreementInput').prop('disabled', false).trigger("chosen:updated");
 		}
@@ -367,10 +378,10 @@ var ProvisioningRequest = function() {
 						}
 					});
 				}else{
-					myShowAlert('danger', 'Por favor, seleccione un afiliado.');
+					myShowAlert('warning', 'Por favor, seleccione un afiliado.');
 				}
 			} else {
-				myShowAlert('danger', 'Por favor, ingrese al menos un producto.');
+				myShowAlert('warning', 'Por favor, ingrese al menos un producto.');
 			}
 		}
 	});
@@ -460,24 +471,22 @@ var ProvisioningRequest = function() {
 			return false;
 		}
 	};
-	
-	$(window).bind("beforeunload",function(event) {
-	    if(hasChanged() && isButtonConfirm == false) {
-	    	return "Existen cambios que no fueron confirmados.";
-	    } else {
-	    	isButtonConfirm = false;
-	    }
+
+	$(window).bind("beforeunload", function(event) {
+		if (hasChanged() && isButtonConfirm == false) {
+			return "Existen cambios que no fueron confirmados.";
+		} /*else {
+			isButtonConfirm = false;
+		}*/
 	});
 
 	$('#clientInput').on('change', function(evt, params) {
-		if($("#clientInput").val() == ""){
-			//$("#affiliateInput").attr("disabled", true).trigger("chosen:updated");
-			//$("#affiliateInput").empty();
-			//$('#affiliateInput').trigger("chosen:updated");
-			$("#affiliateInput").select2("val", "");
-		}else{
+		if ($("#clientInput").val() == "") {
+			$("#affiliateInput").select2("enable", false);
+		} else {
 			$("#affiliateInput").select2("enable", true);
 		}
+		$("#affiliateInput").select2("val", "");
 	});
 	
 	$('#agreementInput').on('change', function(evt, params) {
@@ -489,16 +498,15 @@ var ProvisioningRequest = function() {
 	});
 	
 	if(isUpdate){
-		$( "#divProvisioningId" ).show();
-		
-		$("#productInput").attr("disabled", false);
+		$("#divProvisioningId" ).show();
+		$('#productInput').prop('disabled', true);
 		$('#agreementInput').prop('disabled', true).trigger("chosen:updated");
 		$("#productTableBody tr").each(function() {
 			var productDetail = {};
-			productDetail.productId = $(this).find(".span-productId").html();
-			productDetail.amount = $(this).find(".td-amount").html();
+			productDetail.productId = parseInt($(this).find(".span-productId").html());
+			productDetail.amount = parseInt($(this).find(".td-amount").html());
 			productDetails.push(productDetail);
-		 });
+		});
         $("#affiliateInput").select2("enable", true);
 	}else{
 		$("#affiliateInput").select2("enable", false);

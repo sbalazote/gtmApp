@@ -50,7 +50,7 @@
 	</div>
 
 	<div class="row">
-		<div class="col-md-6  col-lg-6 form-group">
+		<div class="col-md-6 col-lg-6 form-group">
 			<label for="deliveryLocationInput"><spring:message code="common.deliveryLocation" /></label>
 			<select id="deliveryLocationInput" name="deliveryLocation" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 				<option value=""></option>
@@ -97,24 +97,26 @@
 	<br>
 
 	<div>
-		<table class="table table-striped my-table">
+		<table id="productTable" class="table table-condensed table-hover table-striped">
 			<thead>
 				<tr>
-					<th><spring:message code="common.product" /></th>
-					<th><spring:message code="common.amount" /></th>
-		            <th></th>
-		            <th></th>
+					<th data-identifier="true" data-column-id="description" data-css-class="td-description" data-sortable="false"><spring:message code="common.product"/></th>
+					<th data-column-id="amount" data-type="numeric" data-css-class="td-amount" data-sortable="false"><spring:message code="common.amount"/></th>
+					<c:choose>
+						<c:when test="${provisioningRequestId != null}">
+						</c:when>
+						<c:otherwise>
+							<th data-column-id="command" data-sortable="false"><spring:message code="common.option"/></th>
+						</c:otherwise>
+					</c:choose>
 				</tr>
 			</thead>
 			<tbody id="productTableBody">
 			<c:forEach items="${productsSelected}" var="provisioningDetail" varStatus="status">
 				<tr>
-					<td><c:out value="${provisioningDetail.product.code}"></c:out> - <c:out value="${provisioningDetail.product.description}"></c:out>
-					<span class='span-productId' style='display:none'>${provisioningDetail.product.id}</span>
-					</td>
-					<td class='td-amount'><c:out value="${provisioningDetail.amount}"></c:out></td>
-					<td>
-						<a href='javascript:void(0);' class='edit-row'><i class='glyphicon glyphicon-pencil'></i></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='javascript:void(0);' class='delete-row'><i class='glyphicon glyphicon-remove'></i></a>
+					<td class='td-description' data-sortable="false"><c:out value="${provisioningDetail.product.code}"></c:out> - <c:out value="${provisioningDetail.product.description}"></c:out></td>
+					<td class='td-amount' data-sortable="false"><c:out value="${provisioningDetail.amount}"></c:out>
+						<span class='span-productId' style='display:none'><c:out value="${provisioningDetail.product.id}"></c:out></span>
 					</td>
 				</tr>
 			</c:forEach>
