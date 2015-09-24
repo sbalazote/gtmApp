@@ -2,17 +2,25 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<form id="provisioningRequestModal" action="" onsubmit="return false;">
-	<div class="modal fade" data-backdrop="static" id="provisioningModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<form id="provisioningRequestModalForm" action="" onsubmit="return false;">
+	<div class="modal fade" data-backdrop="static" id="provisioningRequestModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog" style="width: 70%">
 			<div class="modal-content">
-				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h3 class="modal-title"><spring:message code="provisioningRequest.label"/></h3>
+						<div class="row">
+							<div class="col-md-4 col-lg-4">
+								<h3>
+									<spring:message code="provisioningRequest.label" />
+								</h3>
+							</div>
+							<div class="col-md-5 col-lg-3">
+								<h3 id="provisioningRequestId"></h3>
+							</div>
+						</div>
 					</div>
-					
 					<div class="modal-body">
+						<div class="container-fluid">
 						<div class="row">
 							<div class="col-md-8 col-lg-8 form-group">
 						
@@ -52,24 +60,26 @@
 						<div class="row">
 							<div class="col-md-12 col-lg-12 form-group">
 								<label for="commentProvisioningRequestModal"><spring:message code="provisioningRequest.comment.label" /></label>
-								<textarea  id="commentProvisioningRequestModalTextArea" name="commentProvisioningRequestModalTextArea" class="form-control my-textarea" rows="3"  disabled></textarea>
+								<textarea  id="commentProvisioningRequestModal" name="commentProvisioningRequestModal" class="form-control my-textarea" rows="3"  disabled></textarea>
 							</div>
 						</div>
 						
 						<br>
 					
 						<div>
-							<table id="productTable" class="table table-striped my-table">
+							<table id="provisioningRequestModalProductTable" class="table table-condensed table-hover table-striped">
 								<thead>
 									<tr>
-										<th><spring:message code="common.product" /></th>
-										<th><spring:message code="common.amount" /></th>
+										<th data-identifier="true" data-column-id="code" data-type="numeric"><spring:message code="common.code" /></th>
+										<th data-column-id="description" data-header-css-class="descriptionColumn"><spring:message code="common.product" /></th>
+										<th data-column-id="amount" data-type="numeric"><spring:message code="common.amount" /></th>
 									</tr>
 								</thead>
-								<tbody id="productTableBodyProvisioningRequest">
+								<tbody id="provisioningRequestModalProductTableBody">
 								</tbody>
 							</table>
 						</div>
+							</div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.close"/></button>
@@ -77,5 +87,4 @@
 				</div>
 			</div>
 		</div>
-	</div>
 </form>

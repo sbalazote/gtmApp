@@ -25,7 +25,7 @@ var DeliveryNoteSheet = function() {
 	});
 
 	$("#confirmButton").click(function() {
-		if(ordersToPrint.length > 0){
+		if(ordersToPrint.length > 0) {
 			$.ajax({
 				url: "printDeliveryNotes.do",
 				type: "POST",
@@ -39,8 +39,10 @@ var DeliveryNoteSheet = function() {
 					myGenericError();
 				}
 			});
-		}else{
-			BootstrapDialog.show({
+		} else {
+			myShowAlert('info', 'Seleccione al menos un Remito');
+
+			/*BootstrapDialog.show({
 				type: BootstrapDialog.TYPE_INFO,
 		        title: 'Atenci\u00f3n',
 		        message: "Seleccione al menos un elemento",
@@ -51,7 +53,7 @@ var DeliveryNoteSheet = function() {
 	                    dialogItself.close();
 	                }
 	            }]
-			});
+			});*/
 		}
 	});
 	

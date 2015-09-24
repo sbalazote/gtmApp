@@ -1,19 +1,5 @@
 package com.drogueria.controllers;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.drogueria.constant.AuditState;
 import com.drogueria.constant.RoleOperation;
 import com.drogueria.constant.State;
@@ -23,13 +9,17 @@ import com.drogueria.helper.OrderLabelCreator;
 import com.drogueria.model.Order;
 import com.drogueria.model.ProvisioningRequest;
 import com.drogueria.model.Stock;
-import com.drogueria.service.AgreementService;
-import com.drogueria.service.AuditService;
-import com.drogueria.service.ClientService;
-import com.drogueria.service.LogisticsOperatorService;
-import com.drogueria.service.OrderService;
-import com.drogueria.service.ProvisioningRequestService;
-import com.drogueria.service.StockService;
+import com.drogueria.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class OrderController {
@@ -55,6 +45,8 @@ public class OrderController {
 	public String orderAssembly(ModelMap modelMap, @RequestParam Map<String, String> parameters) throws Exception {
 		Integer provisioningRequestId = Integer.valueOf(parameters.get("id"));
 		ProvisioningRequest provisioningRequest = this.provisioningRequestService.get(provisioningRequestId);
+
+		Assert.notNull(provisioningRequest, "Sol. de Abastecimiento con identificador = " + provisioningRequestId + " no encontrada!");
 
 		modelMap.put("provisioningRequestId", provisioningRequest.getId());
 		modelMap.put("deliveryLocation", provisioningRequest.getDeliveryLocation());

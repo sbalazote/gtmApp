@@ -1,31 +1,26 @@
 package com.drogueria.controllers;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import com.drogueria.constant.AuditState;
 import com.drogueria.constant.RoleOperation;
+import com.drogueria.dto.InputDTO;
+import com.drogueria.model.Input;
+import com.drogueria.query.InputQuery;
 import com.drogueria.service.*;
+import com.drogueria.util.OperationResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.drogueria.dto.InputDTO;
-import com.drogueria.model.Input;
-import com.drogueria.query.InputQuery;
-import com.drogueria.util.OperationResult;
+import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class InputController {
@@ -135,6 +130,8 @@ public class InputController {
 	public String updateInput(ModelMap modelMap, @RequestParam Map<String, String> parameters) throws Exception {
 		Integer inputId = Integer.valueOf(parameters.get("id"));
 		Input input = this.inputService.get(inputId);
+
+		Assert.notNull(input, "Recep. de Mercadería con identificador = " + inputId + " no encontrada!");
 
 		modelMap.put("concepts", this.conceptService.getAllActives(true));
 		modelMap.put("providers", this.providerService.getAllActives());

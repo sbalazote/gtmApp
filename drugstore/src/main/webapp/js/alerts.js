@@ -47,10 +47,19 @@ $(document).ready(function() {
 			"target": "#"+myDiv
 		}
 		// Muestro mensaje dependiendo el tipo.
-		if (type === 'danger') {
-			toastr.error(message);
-		} else {
-			toastr.success(message);
+		switch (type) {
+			case 'danger':
+				toastr.error(message);
+				break;
+			case 'success':
+				toastr.success(message);
+				break;
+			case 'info':
+				toastr.info(message);
+				break;
+			case 'warning':
+				toastr.warning(message);
+				break;
 		}
 	};
 

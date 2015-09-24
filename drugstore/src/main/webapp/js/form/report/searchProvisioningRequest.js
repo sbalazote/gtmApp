@@ -16,7 +16,7 @@ SearchProvisioningRequest = function() {
 						return {
 							id:	item.id,
 							label: item.code + " - " + item.surname + " " + item.name,
-							value: item.code + " - " + item.surname + " " + item.name,
+							value: item.code + " - " + item.surname + " " + item.name
 						};
 					});
 					response(array);
@@ -72,7 +72,7 @@ SearchProvisioningRequest = function() {
 		form.validate({
 			rules: {
 				idSearch: {
-					digits: true,
+					digits: true
 				},
 				dateFromSearch: {
 					dateITA: true,
@@ -102,7 +102,7 @@ SearchProvisioningRequest = function() {
 				"comment": $("#commentTextArea").val().trim(),
 				"deliveryLocation": $("#deliveryLocationSearch").val() || null,
 				"logisticsOperator": $("#logisticsOperatorSearch").val() || null,
-				"stateId": $("#stateSearch").val() || null,
+				"stateId": $("#stateSearch").val() || null
 			};
 			
 			$.ajax({
