@@ -1,20 +1,28 @@
 package com.drogueria.helper.impl.pdf;
 
-import java.awt.Color;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.drogueria.config.PropertyProvider;
+import com.drogueria.constant.DocumentType;
 import com.drogueria.helper.AbstractPdfView;
 import com.drogueria.model.ProvisioningRequest;
 import com.drogueria.model.ProvisioningRequestDetail;
-import com.lowagie.text.Chunk;
-import com.lowagie.text.Document;
+import com.drogueria.util.StringUtility;
+import com.lowagie.text.*;
 import com.lowagie.text.Font;
-import com.lowagie.text.pdf.PdfWriter;
+import com.lowagie.text.Image;
+import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.*;
+import com.lowagie.text.pdf.draw.LineSeparator;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.List;
 
 public class ProvisioningPdfView extends AbstractPdfView {
 
@@ -26,118 +34,206 @@ public class ProvisioningPdfView extends AbstractPdfView {
 		@SuppressWarnings("unchecked")
 		List<ProvisioningRequest> provisionings = (List<ProvisioningRequest>) model.get("provisionings");
 
-		// Fonts
-		Font fontTitle = new Font(2, 14, Font.BOLD, Color.BLACK);
-		Font fontTag = new Font(2, 10, Font.BOLD, Color.WHITE);
+		// Fuentes
+		Font fontHeader = new Font(Font.TIMES_ROMAN, 11f, Font.NORMAL, Color.BLACK);
+		Font fontDetails = new Font(Font.TIMES_ROMAN, 8f, Font.NORMAL, Color.BLACK);
+		// Logo
+		String realPath = getServletContext().getRealPath("/images/uploadedLogo.png");
+
+		File file = new File(realPath);
+
+		Image logo;
+		if (file.exists()) {
+			logo = Image.getInstance(realPath);
+		} else {
+			realPath = getServletContext().getRealPath("/images/logo.png");
+			logo = Image.getInstance(realPath);
+		}
+		logo.scaleToFit(50f, 50f);
+		logo.setAbsolutePosition(10f * 2.8346f, 190f * 2.8346f);
+
+		String name = PropertyProvider.getInstance().getProp("name");
 
 		for (ProvisioningRequest provisioningRequest : provisionings) {
 
-			// 1.ID
-			document.add(new Chunk("ID: "));
-			Chunk id = new Chunk(provisioningRequest.getId().toString(), fontTitle);
-			document.add(id);
-			document.add(new Chunk(" "));
+			HashMap<Integer, List<ProvisioningRequestDetail>> groupByProduct = groupByProduct(provisioningRequest);
 
-			// -- newline
+			PdfPTable table = new PdfPTable(3); // 3 columnas
+			table.setWidthPercentage(95);
+			table.setSpacingBefore(10f);
+
+			table.setSpacingAfter(10f);
+			float[] columnWidths = {1f, 7f, 3f};
+
+			table.setWidths(columnWidths);
+
+			//Encabezado
+
+			PdfPCell productCodeHeader = new PdfPCell(new Paragraph("GTIN."));
+			PdfPCell productDescriptionHeader = new PdfPCell(new Paragraph("Descripcion (Cod.)"));
+			PdfPCell productAmountHeader = new PdfPCell(new Paragraph("Cant."));
+
+			productCodeHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+			productCodeHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+			productDescriptionHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+			productAmountHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+
+			table.addCell(productCodeHeader);
+			table.addCell(productDescriptionHeader);
+			table.addCell(productAmountHeader);
+
+			// add text at an absolute position
+			PdfContentByte cb = writer.getDirectContent();
+			BaseFont bf_times = BaseFont.createFont(BaseFont.TIMES_ROMAN, "Cp1252", false);
+			// NOMBRE MEMBRETE
+			cb.beginText();
+			cb.setFontAndSize(bf_times, 16f);
+			cb.setTextMatrix(40f * 2.8346f, 195f * 2.8346f);
+			cb.showText(name);
+			cb.endText();
+
+			// FECHA
+			cb.beginText();
+			cb.setFontAndSize(bf_times, 11f);
+			cb.setTextMatrix(230 * 2.8346f, 200 * 2.8346f);
+			cb.showText("Fecha: " + dateFormatter.format(provisioningRequest.getDeliveryDate()));
+			cb.endText();
+
+			// SOLICITUD NRO
+			cb.beginText();
+			cb.setTextMatrix(230 * 2.8346f, 195 * 2.8346f);
+			cb.showText("Sol. de Abast. Nro.: " + StringUtility.addLeadingZeros(provisioningRequest.getId().toString(), 8));
+			cb.endText();
+
+			document.add(logo);
+
 			document.add(Chunk.NEWLINE);
 
-			// 3.CONVENIO
-			document.add(new Chunk("CONVENIO: "));
-			Chunk description = new Chunk(provisioningRequest.getAgreement().getDescription(), fontTitle);
+			LineSeparator ls = new LineSeparator();
+			document.add(new Chunk(ls));
+
+			document.add(Chunk.NEWLINE);
+
+			document.add(new Chunk("Convenio: ", fontHeader));
+			String codeAgreement = StringUtility.addLeadingZeros(String.valueOf(provisioningRequest.getAgreement().getCode()), 5);
+			Chunk description = new Chunk(codeAgreement + " - " + provisioningRequest.getAgreement().getDescription(), fontHeader);
 			document.add(description);
-			document.add(new Chunk(" "));
-
-			// -- newline
 			document.add(Chunk.NEWLINE);
 
-			// 4.CLIENTE
-			document.add(new Chunk("CLIENTE: "));
-			Chunk active = new Chunk(provisioningRequest.getClient().getName(), fontTitle);
-			document.add(active);
-			document.add(new Chunk(" "));
-
-			// -- newline
+			document.add(new Chunk("Cliente: ", fontHeader));
+			String clientCode = StringUtility.addLeadingZeros(String.valueOf(provisioningRequest.getClient().getCode()), 4);
+			Chunk client = new Chunk(clientCode + " - " + provisioningRequest.getClient().getName(), fontHeader);
+			document.add(client);
 			document.add(Chunk.NEWLINE);
 
-			// 5.AFILIADO
-			document.add(new Chunk("AFILIADO: "));
-			Chunk affiliate = new Chunk(provisioningRequest.getAffiliate().getSurname() + " " + provisioningRequest.getAffiliate().getName(), fontTitle);
-			document.add(affiliate);
-			document.add(new Chunk(" "));
-
-			// -- newline
-			document.add(Chunk.NEWLINE);
-
-			// 6.LUGAR DE ENTREGA
-			document.add(new Chunk("LUGAR DE ENTREGA: "));
-			Chunk deliveryLocation = new Chunk(provisioningRequest.getDeliveryLocation().getName(), fontTitle);
-			document.add(deliveryLocation);
-			document.add(new Chunk(" "));
-
-			// -- newline
-			document.add(Chunk.NEWLINE);
-
-			// 7.FECHA DE ENTREGA
-			document.add(new Chunk("FECHA DE ENTREGA: "));
-			Chunk date = new Chunk(dateFormatter.format(provisioningRequest.getDeliveryDate()), fontTitle);
-			document.add(date);
-			document.add(new Chunk(" "));
-
-			// -- newline
-			document.add(Chunk.NEWLINE);
-
-			// 8.OPERADOR LOGISTICO
-			document.add(new Chunk("OPERADOR LOGISTICO: "));
-			Chunk deliveryNoteNumber = new Chunk(
-					provisioningRequest.getLogisticsOperator() != null ? provisioningRequest.getLogisticsOperator().getName() : "", fontTitle);
-			document.add(deliveryNoteNumber);
-			document.add(new Chunk(" "));
-
-			// -- newline
-			document.add(Chunk.NEWLINE);
-
-			// 9.COMENTARIOS
-			document.add(new Chunk("COMENTARIOS: "));
-			Chunk comment = new Chunk(provisioningRequest.getComment() != null ? provisioningRequest.getComment() : "", fontTitle);
-			document.add(comment);
-			document.add(new Chunk(" "));
-
-			// -- newline
-			document.add(Chunk.NEWLINE);
-
-			// 10.ESTADO
-			document.add(new Chunk("ESTADO: "));
-			Chunk state = new Chunk(provisioningRequest.getState().getDescription(), fontTitle);
-			document.add(state);
-			document.add(new Chunk(" "));
-
-			// -- newline
-			document.add(Chunk.NEWLINE);
-			for (ProvisioningRequestDetail provisioningRequestDetail : provisioningRequest.getProvisioningRequestDetails()) {
-				// 11.PRODUCTO
-				document.add(new Chunk("PRODUCTO: "));
-				Chunk product = new Chunk(provisioningRequestDetail.getProduct().getCode() + " - " + provisioningRequestDetail.getProduct().getDescription(),
-						fontTitle);
-				document.add(product);
-				document.add(new Chunk(" "));
-
-				// -- newline
-				document.add(Chunk.NEWLINE);
-
-				// 12.CANTIDAD
-				document.add(new Chunk("CANTIDAD: "));
-				Chunk amount = new Chunk(dateFormatter.format(provisioningRequestDetail.getAmount()), fontTitle);
-				document.add(amount);
-				document.add(new Chunk(" "));
-
-				// -- newline
-				document.add(Chunk.NEWLINE);
+			document.add(new Chunk("Afiliado: ", fontHeader));
+			String documentType;
+			if (provisioningRequest.getAffiliate().getDocumentType() != null) {
+				documentType = DocumentType.types.get(Integer.valueOf(provisioningRequest.getAffiliate().getDocumentType()));
+			} else {
+				documentType = "";
+			}
+			String documentNumber;
+			if (provisioningRequest.getAffiliate().getDocument() != null) {
+				documentNumber = provisioningRequest.getAffiliate().getDocument();
+			} else {
+				documentNumber = "";
 			}
 
-			// -- newline
+			Chunk code = new Chunk("(Cod. " + StringUtility.addLeadingZeros(provisioningRequest.getAffiliate().getCode(), 5) + " ) - " + documentType + " " + documentNumber + " - " + provisioningRequest.getAffiliate().getName() + " " + provisioningRequest.getAffiliate().getSurname(), fontHeader);
+			document.add(code);
 			document.add(Chunk.NEWLINE);
 
+			document.add(new Chunk("Lugar de Entrega: ", fontHeader));
+			Chunk deliveryLocation = new Chunk(provisioningRequest.getDeliveryLocation().getName(), fontHeader);
+			document.add(deliveryLocation);
+			document.add(Chunk.NEWLINE);
+
+			document.add(new Chunk("Operador Logistico: ", fontHeader));
+			Chunk deliveryNoteNumber = new Chunk(provisioningRequest.getLogisticsOperator() != null ? provisioningRequest.getLogisticsOperator().getName() : "", fontHeader);
+			document.add(deliveryNoteNumber);
+			document.add(Chunk.NEWLINE);
+
+			document.add(new Chunk("Comentarios: ", fontHeader));
+			Chunk comment = new Chunk(provisioningRequest.getComment() != null ? provisioningRequest.getComment() : "", fontHeader);
+			document.add(comment);
+			document.add(Chunk.NEWLINE);
+
+			document.add(new Chunk("Estado: ", fontHeader));
+			Chunk state = new Chunk(provisioningRequest.getState().getDescription(), fontHeader);
+			document.add(state);
+			document.add(Chunk.NEWLINE);
+
+			for (Integer productId : groupByProduct.keySet()) {
+				String gtin = "-";
+				ProvisioningRequestDetail sd = groupByProduct.get(productId).get(0);
+				if (sd.getProduct().getLastGtin() != null) {
+					gtin = sd.getProduct().getLastGtin();
+				}
+				PdfPCell productCodeDetail;
+				PdfPCell productDescriptionDetail;
+				PdfPCell productAmountDetail;
+
+				boolean isGroup = false;
+				if (groupByProduct.get(productId).size() > 1) {
+					isGroup = true;
+					productCodeDetail = new PdfPCell(new Paragraph(gtin, fontDetails));
+					productDescriptionDetail = new PdfPCell(new Paragraph(sd.getProduct().getDescription() + " (" + String.valueOf(sd.getProduct().getCode()) + ")", fontDetails));
+					Integer total = 0;
+					for (ProvisioningRequestDetail provisioningRequestDetail : groupByProduct.get(productId)) {
+						total += provisioningRequestDetail.getAmount();
+					}
+					productAmountDetail = new PdfPCell(new Paragraph(String.valueOf(total), fontDetails));
+
+					productCodeDetail.setBorder(Rectangle.NO_BORDER);
+					productDescriptionDetail.setBorder(Rectangle.NO_BORDER);
+					productAmountDetail.setBorder(Rectangle.NO_BORDER);
+
+					table.addCell(productCodeDetail);
+					table.addCell(productDescriptionDetail);
+					table.addCell(productAmountDetail);
+				}
+				for (ProvisioningRequestDetail provisioningRequestDetail : groupByProduct.get(productId)) {
+					gtin = "-";
+					if (provisioningRequestDetail.getProduct().getLastGtin() != null) {
+						gtin = provisioningRequestDetail.getProduct().getLastGtin();
+					}
+					productCodeDetail = new PdfPCell(new Paragraph(gtin, fontDetails));
+
+					String productDescription = "";
+					if (!isGroup) {
+						productDescription += provisioningRequestDetail.getProduct().getDescription() + " (" + String.valueOf(provisioningRequestDetail.getProduct().getCode()) + ")";
+					}
+					productDescriptionDetail = new PdfPCell(new Paragraph(productDescription, fontDetails));
+					String amount = String.valueOf(provisioningRequestDetail.getAmount());
+					productAmountDetail = new PdfPCell(new Paragraph(amount, fontDetails));
+
+					productCodeDetail.setBorder(Rectangle.NO_BORDER);
+					productDescriptionDetail.setBorder(Rectangle.NO_BORDER);
+					productAmountDetail.setBorder(Rectangle.NO_BORDER);
+
+					table.addCell(productCodeDetail);
+					table.addCell(productDescriptionDetail);
+					table.addCell(productAmountDetail);
+				}
+			}
+			document.add(table);
+			document.newPage();
+		}
+	}
+
+	private HashMap<Integer, List<ProvisioningRequestDetail>> groupByProduct(ProvisioningRequest provisioningRequest) {
+		HashMap<Integer,List<ProvisioningRequestDetail>> details = new HashMap<>();
+
+		for(ProvisioningRequestDetail provisioningRequestDetail : provisioningRequest.getProvisioningRequestDetails()){
+			List<ProvisioningRequestDetail> list = details.get(provisioningRequestDetail.getProduct().getId());
+			if(list == null) {
+				list = new ArrayList<>();
+			}
+			list.add(provisioningRequestDetail);
+			details.put(provisioningRequestDetail.getProduct().getId(),list);
 		}
 
+		return details;
 	}
 }

@@ -388,6 +388,21 @@ $(document).ready(function() {
 		}, 1000);
 	}
 
+	var fileDownloadCheckTimer;
+	generateProvisioningRequestPDFReport = function(provisioningRequestId) {
+		var token = new Date().getTime(); //use the current timestamp as the token value
+		$.download('./rest/provisionings.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + provisioningRequestId + '&dateTo=&clientId=null&affiliateId=null&agreementId=null&comment=&deliveryLocation=null&logisticsOperator=null&stateId=null', 'POST');
+		$.blockUI({message: 'Generando Reporte de Sol. de Abast. Espere un Momento por favor...'});
+		fileDownloadCheckTimer = window.setInterval(function () {
+			var cookieValue = $.cookie('fileDownloadToken');
+			if (cookieValue == token) {
+				finishDownload();
+				myReload("success", "Se ha registrado la solicitud de abastecimiento n\u00famero: " + provisioningRequestId);
+			}
+		}, 1000);
+	}
+
+
 	getURLParameter = function(sParam) {
 		var sPageURL = window.location.search.substring(1);
 		var sURLVariables = sPageURL.split('&');

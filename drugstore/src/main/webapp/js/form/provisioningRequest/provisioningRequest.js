@@ -369,11 +369,19 @@ var ProvisioningRequest = function() {
 						contentType:"application/json",
 						data: JSON.stringify(jsonProvisioningRequest),
 						async: true,
-						success: function(response) {
-							myReload("success", "Se ha registrado la solicitud de abastecimiento n\u00famero: " + response.id);
+						beforeSend : function() {
+							$.blockUI({ message: 'Espere un Momento por favor...' });
+						},
+						success: function(response, textStatus, jqXHR) {
 						},
 						error: function(jqXHR, textStatus, errorThrown) {
 							myGenericError();
+						},
+						complete: function(jqXHR, textStatus) {
+							$.unblockUI();
+							if (textStatus === 'success') {
+								generateProvisioningRequestPDFReport(jqXHR.responseJSON.id,false);
+							}
 						}
 					});
 				}else{

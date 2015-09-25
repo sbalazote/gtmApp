@@ -166,8 +166,8 @@ public class SupplyingsPdfView extends AbstractPdfView {
 
 			document.add(new Chunk("Cliente: ", fontHeader));
 			String clientCode = StringUtility.addLeadingZeros(String.valueOf(supplying.getClient().getCode()),4);
-			Chunk active = new Chunk(clientCode + " - " + supplying.getClient().getName(), fontHeader);
-			document.add(active);
+			Chunk client = new Chunk(clientCode + " - " + supplying.getClient().getName(), fontHeader);
+			document.add(client);
 			document.add(Chunk.NEWLINE);
 
 			document.add(new Chunk("Afiliado: ", fontHeader));
