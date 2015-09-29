@@ -6,7 +6,7 @@
 	<artifactId>gtmApp</artifactId>
 	<packaging>war</packaging>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>gtmApp</name>
+	<name>Aplicacion para Gestion de Trazabilidad de Medicamentos</name>
 	<organization>
     	<name>LS&amp;T Solutions</name>
   	</organization>
