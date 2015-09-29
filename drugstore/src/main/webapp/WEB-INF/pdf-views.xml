@@ -9,39 +9,39 @@
     					http://www.springframework.org/schema/mvc
     					http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 	
-    <bean id="affiliates" class="com.drogueria.helper.impl.pdf.AffiliatesPdfView"/>
+    <bean id="affiliates" class="com.lsntsolutions.gtmApp.helper.impl.pdf.AffiliatesPdfView"/>
 	
-	<bean id="agents" class="com.drogueria.helper.impl.pdf.AgentsPdfView"/>
+	<bean id="agents" class="com.lsntsolutions.gtmApp.helper.impl.pdf.AgentsPdfView"/>
 	
-	<bean id="agreements" class="com.drogueria.helper.impl.pdf.AgreementsPdfView"/>
+	<bean id="agreements" class="com.lsntsolutions.gtmApp.helper.impl.pdf.AgreementsPdfView"/>
 	
-	<bean id="clients" class="com.drogueria.helper.impl.pdf.ClientsPdfView"/>
+	<bean id="clients" class="com.lsntsolutions.gtmApp.helper.impl.pdf.ClientsPdfView"/>
 	
-	<bean id="concepts" class="com.drogueria.helper.impl.pdf.ConceptsPdfView"/>
+	<bean id="concepts" class="com.lsntsolutions.gtmApp.helper.impl.pdf.ConceptsPdfView"/>
 	
-	<bean id="deliveryLocations" class="com.drogueria.helper.impl.pdf.DeliveryLocationsPdfView"/>
+	<bean id="deliveryLocations" class="com.lsntsolutions.gtmApp.helper.impl.pdf.DeliveryLocationsPdfView"/>
 	
-	<bean id="events" class="com.drogueria.helper.impl.pdf.EventsPdfView"/>
+	<bean id="events" class="com.lsntsolutions.gtmApp.helper.impl.pdf.EventsPdfView"/>
 	
-	<bean id="logisticsOperators" class="com.drogueria.helper.impl.pdf.LogisticsOperatorsPdfView"/>
+	<bean id="logisticsOperators" class="com.lsntsolutions.gtmApp.helper.impl.pdf.LogisticsOperatorsPdfView"/>
     
-	<bean id="products" class="com.drogueria.helper.impl.pdf.ProductsPdfView"/>
-	<bean id="productBrands" class="com.drogueria.helper.impl.pdf.ProductBrandsPdfView"/>
-	<bean id="productDrugCategories" class="com.drogueria.helper.impl.pdf.ProductDrugCategoriesPdfView"/>
-	<bean id="productGroups" class="com.drogueria.helper.impl.pdf.ProductGroupsPdfView"/>
-	<bean id="productMonodrugs" class="com.drogueria.helper.impl.pdf.ProductMonodrugsPdfView"/>
+	<bean id="products" class="com.lsntsolutions.gtmApp.helper.impl.pdf.ProductsPdfView"/>
+	<bean id="productBrands" class="com.lsntsolutions.gtmApp.helper.impl.pdf.ProductBrandsPdfView"/>
+	<bean id="productDrugCategories" class="com.lsntsolutions.gtmApp.helper.impl.pdf.ProductDrugCategoriesPdfView"/>
+	<bean id="productGroups" class="com.lsntsolutions.gtmApp.helper.impl.pdf.ProductGroupsPdfView"/>
+	<bean id="productMonodrugs" class="com.lsntsolutions.gtmApp.helper.impl.pdf.ProductMonodrugsPdfView"/>
 	
-	<bean id="providers" class="com.drogueria.helper.impl.pdf.ProvidersPdfView"/>
-	<bean id="providerTypes" class="com.drogueria.helper.impl.pdf.ProviderTypesPdfView"/>
+	<bean id="providers" class="com.lsntsolutions.gtmApp.helper.impl.pdf.ProvidersPdfView"/>
+	<bean id="providerTypes" class="com.lsntsolutions.gtmApp.helper.impl.pdf.ProviderTypesPdfView"/>
 	
-	<bean id="users" class="com.drogueria.helper.impl.pdf.UsersPdfView"/>
+	<bean id="users" class="com.lsntsolutions.gtmApp.helper.impl.pdf.UsersPdfView"/>
 	
-	<bean id="stocks" class="com.drogueria.helper.impl.pdf.StockPdfView"/>
-	<bean id="inputs" class="com.drogueria.helper.impl.pdf.InputsPdfView"/>
-	<bean id="outputs" class="com.drogueria.helper.impl.pdf.OutputsPdfView"/>
-	<bean id="provisionings" class="com.drogueria.helper.impl.pdf.ProvisioningPdfView"/>
-	<bean id="audits" class="com.drogueria.helper.impl.pdf.AuditPdfView"/>
-	<bean id="supplyings" class="com.drogueria.helper.impl.pdf.SupplyingsPdfView"/>
+	<bean id="stocks" class="com.lsntsolutions.gtmApp.helper.impl.pdf.StockPdfView"/>
+	<bean id="inputs" class="com.lsntsolutions.gtmApp.helper.impl.pdf.InputsPdfView"/>
+	<bean id="outputs" class="com.lsntsolutions.gtmApp.helper.impl.pdf.OutputsPdfView"/>
+	<bean id="provisionings" class="com.lsntsolutions.gtmApp.helper.impl.pdf.ProvisioningPdfView"/>
+	<bean id="audits" class="com.lsntsolutions.gtmApp.helper.impl.pdf.AuditPdfView"/>
+	<bean id="supplyings" class="com.lsntsolutions.gtmApp.helper.impl.pdf.SupplyingsPdfView"/>
 
-	<bean id="productTrace" class="com.drogueria.helper.impl.pdf.ProductTracePdfView"/>
+	<bean id="productTrace" class="com.lsntsolutions.gtmApp.helper.impl.pdf.ProductTracePdfView"/>
 </beans>

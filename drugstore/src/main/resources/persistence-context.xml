@@ -19,7 +19,7 @@
         
 	<tx:annotation-driven />
 
-	<context:component-scan base-package="com.drogueria.persistence.dao"/>
+	<context:component-scan base-package="com.lsntsolutions.gtmApp.persistence.dao"/>
 	
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
 		<description>contenedor de configuracion para la conexion a la base de datos</description>
@@ -44,7 +44,7 @@
 				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
 			</props>
 		</property>
-		<property name="packagesToScan" value="com.drogueria.model" />
+		<property name="packagesToScan" value="com.lsntsolutions.gtmApp.model" />
 	</bean>
   
 	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">

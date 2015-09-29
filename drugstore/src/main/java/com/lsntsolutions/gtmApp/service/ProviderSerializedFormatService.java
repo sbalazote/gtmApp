@@ -1,0 +1,16 @@
+package com.lsntsolutions.gtmApp.service;
+
+import java.util.List;
+
+import com.lsntsolutions.gtmApp.model.ProviderSerializedFormat;
+
+public interface ProviderSerializedFormatService {
+
+	void save(ProviderSerializedFormat providerSerializedFormat);
+
+	ProviderSerializedFormat get(Integer id);
+
+	List<ProviderSerializedFormat> getAll();
+
+	boolean delete(Integer id);
+}

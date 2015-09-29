@@ -22,7 +22,7 @@
 	</filter-mapping>
 
 	<servlet>
-		<servlet-name>drogueria</servlet-name>
+		<servlet-name>gtmApp</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
@@ -32,7 +32,7 @@
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>drogueria</servlet-name>
+		<servlet-name>gtmApp</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 

@@ -1,4 +1,4 @@
-<%@ page import="com.drogueria.config.PropertyProvider" %>
+<%@ page import="com.lsntsolutions.gtmApp.config.PropertyProvider" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <div class="container">
 	<div class="text-center center-block">

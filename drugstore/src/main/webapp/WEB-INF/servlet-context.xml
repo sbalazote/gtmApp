@@ -13,9 +13,9 @@
         
     <import resource="classpath:application-context.xml"/>
     
-	<context:component-scan base-package="com.drogueria.controllers"/>
-	<context:component-scan base-package="com.drogueria.service"/>
-	<context:component-scan base-package="com.drogueria.helper"/>
+	<context:component-scan base-package="com.lsntsolutions.gtmApp.controllers"/>
+	<context:component-scan base-package="com.lsntsolutions.gtmApp.service"/>
+	<context:component-scan base-package="com.lsntsolutions.gtmApp.helper"/>
 	
 	<mvc:annotation-driven/>
 	

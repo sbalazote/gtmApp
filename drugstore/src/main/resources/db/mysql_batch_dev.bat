@@ -1,4 +1,4 @@
-set scripts_folder="C:\Users\Sebastian Balazote\workspace\drogueria\src\main\resources\db"
+set scripts_folder="C:\Users\Sebastian Balazote\workspace\gtmApp\src\main\resources\db"
 
 mysql -uroot -pTPProfesional75.99 -h localhost -D drugstore -v < %scripts_folder%\create_schema.sql"
 mysql -uroot -pTPProfesional75.99 -h localhost -D drugstore -v < %scripts_folder%\inserts.sql"

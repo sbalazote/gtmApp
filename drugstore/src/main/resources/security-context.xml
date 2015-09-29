@@ -62,6 +62,6 @@
 		<authentication-provider ref="userAuthenticationProvider" />
 	</authentication-manager>
 	
-	<beans:bean id="userAuthenticationProvider" class="com.drogueria.security.UserAuthenticationProvider"></beans:bean>
+	<beans:bean id="userAuthenticationProvider" class="com.lsntsolutions.gtmApp.security.UserAuthenticationProvider"></beans:bean>
 	
 </beans:beans>

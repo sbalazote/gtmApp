@@ -20,14 +20,14 @@
     <import resource="persistence-context.xml"/>
     <import resource="security-context.xml"/>
 	
-	<bean id="webServiceHelper" class="com.drogueria.webservice.WebServiceHelper" />
-	<bean id="inputWSHelper" class="com.drogueria.webservice.helper.InputWSHelper" />
-	<bean id="deliveryNoteWSHelper" class="com.drogueria.webservice.helper.DeliveryNoteWSHelper" />
-    <bean id="supplyingsPdfView" class="com.drogueria.helper.impl.pdf.SupplyingsPdfView" />
+	<bean id="webServiceHelper" class="com.lsntsolutions.gtmApp.webservice.WebServiceHelper" />
+	<bean id="inputWSHelper" class="com.lsntsolutions.gtmApp.webservice.helper.InputWSHelper" />
+	<bean id="deliveryNoteWSHelper" class="com.lsntsolutions.gtmApp.webservice.helper.DeliveryNoteWSHelper" />
+    <bean id="supplyingsPdfView" class="com.lsntsolutions.gtmApp.helper.impl.pdf.SupplyingsPdfView" />
 	
-	<bean id="webService" class="com.drogueria.webservice.WebService" />
+	<bean id="webService" class="com.lsntsolutions.gtmApp.webservice.WebService" />
 
-	<bean id="printOnPrinter" class="com.drogueria.helper.PrintOnPrinter" />
+	<bean id="printOnPrinter" class="com.lsntsolutions.gtmApp.helper.PrintOnPrinter" />
 	
 	<!-- Process Scheduling -->
 	<task:annotation-driven executor="myExecutor" scheduler="myScheduler" />

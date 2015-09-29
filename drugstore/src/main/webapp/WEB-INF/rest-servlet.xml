@@ -9,9 +9,9 @@
     					http://www.springframework.org/schema/mvc
     					http://www.springframework.org/schema/mvc/spring-mvc.xsd">
  
-    <context:component-scan base-package="com.drogueria.controllers"/>
-	<context:component-scan base-package="com.drogueria.service"/>
-    <context:component-scan base-package="com.drogueria.helper"/>
+    <context:component-scan base-package="com.lsntsolutions.gtmApp.controllers"/>
+	<context:component-scan base-package="com.lsntsolutions.gtmApp.service"/>
+    <context:component-scan base-package="com.lsntsolutions.gtmApp.helper"/>
     
     <!--  Traditional configuration using XML only. -->
 	<mvc:annotation-driven content-negotiation-manager="cnManager"/>
@@ -33,10 +33,10 @@
         </property>
 		<property name="defaultViews">
 			<list>
-				<bean class="com.drogueria.helper.MyCustomMappingJacksonJsonView">
+				<bean class="com.lsntsolutions.gtmApp.helper.MyCustomMappingJacksonJsonView">
 					<property name="prettyPrint" value="true"/>
 				</bean>
-				<bean class="com.drogueria.helper.MyCustomMarshallingView">
+				<bean class="com.lsntsolutions.gtmApp.helper.MyCustomMarshallingView">
 				<constructor-arg>
 					<bean class="org.springframework.oxm.castor.CastorMarshaller"/>
 				</constructor-arg>

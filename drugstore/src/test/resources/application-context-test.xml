@@ -19,9 +19,9 @@
     <import resource="security-context-test.xml"/>
     <!-- <import resource="classpath:application-context.xml"/> -->
     
-	<context:component-scan base-package="com.drogueria.controllers"/>
-	<context:component-scan base-package="com.drogueria.service"/>
-	<context:component-scan base-package="com.drogueria.helper"/>
+	<context:component-scan base-package="com.lsntsolutions.gtmApp.controllers"/>
+	<context:component-scan base-package="com.lsntsolutions.gtmApp.service"/>
+	<context:component-scan base-package="com.lsntsolutions.gtmApp.helper"/>
 	
 	<mvc:annotation-driven/>
 	
@@ -33,12 +33,12 @@
 		</property>
 	</bean>
 	
-	<bean id="webServiceHelper" class="com.drogueria.webservice.WebServiceHelper" />
-	<bean id="inputWSHelper" class="com.drogueria.webservice.helper.InputWSHelper" />
-	<bean id="deliveryNoteWSHelper" class="com.drogueria.webservice.helper.DeliveryNoteWSHelper" />
+	<bean id="webServiceHelper" class="com.lsntsolutions.gtmApp.webservice.WebServiceHelper" />
+	<bean id="inputWSHelper" class="com.lsntsolutions.gtmApp.webservice.helper.InputWSHelper" />
+	<bean id="deliveryNoteWSHelper" class="com.lsntsolutions.gtmApp.webservice.helper.DeliveryNoteWSHelper" />
 	
 	
-	<bean id="webService" class="com.drogueria.webservice.WebService" />
+	<bean id="webService" class="com.lsntsolutions.gtmApp.webservice.WebService" />
 	
-	<bean id="printOnPrinter" class="com.drogueria.helper.PrintOnPrinter" />
+	<bean id="printOnPrinter" class="com.lsntsolutions.gtmApp.helper.PrintOnPrinter" />
 </beans>
