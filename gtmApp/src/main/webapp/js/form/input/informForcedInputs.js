@@ -39,40 +39,56 @@ PendingInputs = function() {
 
 
     $("#confirmButton").click(function() {
-        $.ajax({
-            url: "updateForcedInput.do",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(inputs[0]),
-            async: false,
-            beforeSend : function() {
-                $.blockUI({ message: 'Espere un Momento por favor...' });
-            },
-            success: function(response) {
-                if(response.resultado == true){
-                    $.unblockUI();
-                    myRedirect("success","Se ha informado el ingreso de mercader\u00eda n\u00famero: " + response.operationId, "informForcedInputs.do");
-                }else{
-                    $.unblockUI();
-                    var errors = "";
-                    for (var i = 0, lengthI = response.myOwnErrors.length; i < lengthI; i++) {
-                        errors += response.myOwnErrors[i] + "<br />";
-                    }
-
-                    if(response.errores != null){
-                        errors += "<strong>Errores informados por ANMAT:</strong><br />";
-                        for (var i = 0, lengthI = response.errores.length; i < lengthI; i++) {
-                            errors += response.errores[i]._c_error + " - " + response.errores[i]._d_error + "<br />";
+        if(inputs.length == 1){
+            $.ajax({
+                url: "updateForcedInput.do",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(inputs[0]),
+                async: false,
+                beforeSend : function() {
+                    $.blockUI({ message: 'Espere un Momento por favor...' });
+                },
+                success: function(response) {
+                    if(response.resultado == true){
+                        $.unblockUI();
+                        myRedirect("success","Se ha informado el ingreso de mercader\u00eda n\u00famero: " + response.operationId, "informForcedInputs.do");
+                    }else{
+                        $.unblockUI();
+                        var errors = "";
+                        for (var i = 0, lengthI = response.myOwnErrors.length; i < lengthI; i++) {
+                            errors += response.myOwnErrors[i] + "<br />";
                         }
+
+                        if(response.errores != null){
+                            errors += "<strong>Errores informados por ANMAT:</strong><br />";
+                            for (var i = 0, lengthI = response.errores.length; i < lengthI; i++) {
+                                errors += response.errores[i]._c_error + " - " + response.errores[i]._d_error + "<br />";
+                            }
+                        }
+                        myShowAlert("danger", errors,null);
                     }
-                    myShowAlert("danger", errors,null);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    myGenericError();
                 }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                myGenericError();
-            }
-        });
-    });
+            });
+        }else{
+            myShowAlert('info', 'Seleccione al menos un Ingreso de Mercader\u00eda');
+
+            /*BootstrapDialog.show({
+             type: BootstrapDialog.TYPE_INFO,
+             title: 'Atenci\u00f3n',
+             message: "Seleccione al menos un elemento",
+             closable: false,
+             buttons: [{
+             label: 'Cerrar',
+             action: function(dialogItself){
+             dialogItself.close();
+             }
+             }]
+             });*/
+        }
 
     $("#forcedInput").click(function() {
         $('#forcedInputConfirmationModal').modal();
@@ -120,6 +136,7 @@ PendingInputs = function() {
              }]
              });*/
         }
+    });
     });
 };
 	
