@@ -185,18 +185,20 @@ InputCancellation = function() {
 				}
 			});
 		}else{
-			BootstrapDialog.show({
-				type: BootstrapDialog.TYPE_INFO,
-		        title: 'Atenci\u00edn',
-		        message: "Seleccione un elemento",
-				closable: false,
-		        buttons: [{
-	                label: 'Cerrar',
-	                action: function(dialogItself){
-	                    dialogItself.close();
-	                }
-	            }]
-			});
+			myShowAlert('info', 'Seleccione al menos un Ingreso de Mercader\u00eda para ANULAR');
+
+			/*BootstrapDialog.show({
+			 type: BootstrapDialog.TYPE_INFO,
+			 title: 'Atenci\u00f3n',
+			 message: "Seleccione al menos un elemento",
+			 closable: false,
+			 buttons: [{
+			 label: 'Cerrar',
+			 action: function(dialogItself){
+			 dialogItself.close();
+			 }
+			 }]
+			 });*/
 		}
 	});
 	

@@ -47,20 +47,22 @@ var LogisticOperatorAssignment = function() {
 			});
 		}else{
 			if($("#logisticsOperatorInput").val() == ""){
-				myShowAlert('danger', 'Por favor, seleccione un operador logistico.');
+				myShowAlert('danger', 'Por favor, seleccione un Operador Logistico.');
 			}else{
-				BootstrapDialog.show({
-					type: BootstrapDialog.TYPE_INFO,
-			        title: 'Atenci\u00f3n',
-			        message: "Seleccione al menos un elemento",
-					closable: false,
-			        buttons: [{
-		                label: 'Cerrar',
-		                action: function(dialogItself){
-		                    dialogItself.close();
-		                }
-		            }]
-				});
+				myShowAlert('info', 'Seleccione al menos un Armado');
+
+				/*BootstrapDialog.show({
+				 type: BootstrapDialog.TYPE_INFO,
+				 title: 'Atenci\u00f3n',
+				 message: "Seleccione al menos un elemento",
+				 closable: false,
+				 buttons: [{
+				 label: 'Cerrar',
+				 action: function(dialogItself){
+				 dialogItself.close();
+				 }
+				 }]
+				 });*/
 			}
 		}
 	});

@@ -113,10 +113,10 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 					this.deliveryNoteService.save(deliveryNote);
 					this.deliveryNoteService.sendTrasactionAsync(deliveryNote);
 				} catch (Exception e1) {
-					logger.error("No se ha podido guardar el remito: " + deliveryNoteNumber + " para la Solicitud de Abastecimiento número: " + id);
+					logger.error("No se ha podido guardar el remito: " + deliveryNoteNumber + " para el Armado número: " + id);
 				}
 
-				logger.info("Se ha guardado el remito numero: " + deliveryNoteNumber + " para la Solicitud de Abastecimiento número: " + id);
+				logger.info("Se ha guardado el remito numero: " + deliveryNoteNumber + " para el Armado número: " + id);
 
 				printsNumbers.add(deliveryNote.getId());
 				deliveryNoteNumber++;
