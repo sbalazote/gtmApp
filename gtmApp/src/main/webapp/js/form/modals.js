@@ -463,10 +463,17 @@ $(document).ready(function() {
 	};
 
 	var populateOrderModal = function (response) {
-		$('#orderModalProductTableBody').empty();
+		var id = addLeadingZeros(response.id,8);
+		$("#orderId").text("Numero: " + id);
+
+		if (response.cancelled) {
+			$("#orderCancelled").show();
+		} else {
+			$("#orderCancelled").hide();
+		}
 
 		$('#orderModalDeliveryLocationInput').val(response.provisioningRequest.deliveryLocation.code + " - " + response.provisioningRequest.deliveryLocation.name);
-        var code = addLeadingZeros(response.provisioningRequest.agreement.code,5);
+		var code = addLeadingZeros(response.provisioningRequest.agreement.code,5);
 		$('#orderModalAgreementInput').val(code + " - " + response.provisioningRequest.agreement.description);
 		if (response.provisioningRequest.logisticsOperator) {
 			$('#orderModalLogisticsOperatorInput').val(response.provisioningRequest.logisticsOperator.code + " - " + response.provisioningRequest.logisticsOperator.name);
@@ -477,23 +484,69 @@ $(document).ready(function() {
 		var clientCode = addLeadingZeros(response.provisioningRequest.client.code,4);
 		$('#orderModalClientInput').val(clientCode + " - " + response.provisioningRequest.client.name);
 
-		var tableRow;
+		var id = 0;
+		var found = false;
+		var orderDetails = [];
+		serialsMap = {};
+		serialDetails = {};
 
 		for (var i = 0; i < response.orderDetails.length; i++) {
-			var serialNumber = "";
-			if (response.orderDetails[i].serialNumber != null) {
-				serialNumber = response.orderDetails[i].serialNumber;
+			found = false;
+			for (var j = 0; j < orderDetails.length; j++) {
+				if (response.orderDetails[i].product.id == orderDetails[j].id) {
+					orderDetails[j].amount += response.orderDetails[i].amount;
+					found = true;
+				}
 			}
-			tableRow = "<tr><td>" + response.orderDetails[i].product.code + " - "
-			+ response.orderDetails[i].product.description + "</td>" +
-			"<td>" + response.orderDetails[i].amount + "</td>" +
-			"<td>" + serialNumber + "</td>" +
-			"<td>" + response.orderDetails[i].batch + "</td>" +
-			"<td>" + myParseDate(response.orderDetails[i].expirationDate) + "</td>" +
-			"</tr>";
-			$("#orderModalProductTableBody").append(tableRow);
+			if (!found) {
+				var orderDetail = {};
+				orderDetail.id = response.orderDetails[i].product.id;
+				orderDetail.code = response.orderDetails[i].product.code;
+				orderDetail.description = response.orderDetails[i].product.description;
+				orderDetail.amount = response.orderDetails[i].amount;
+				orderDetail.serialNumber = response.orderDetails[i].serialNumber;
+				orderDetails.push(orderDetail);
+			}
+			// Guardo lote/vte y series para mostrar los detalles.
+			var gtinNumber = "";
+			if(response.orderDetails[i].gtin != null){
+				gtinNumber = response.orderDetails[i].gtin.number;
+			}
+			serialDetails = {
+				id: id,
+				gtin: gtinNumber,
+				amount: response.orderDetails[i].amount,
+				serialNumber: response.orderDetails[i].serialNumber,
+				batch: response.orderDetails[i].batch,
+				expirationDate: myParseDate(response.orderDetails[i].expirationDate),
+				viewTraceability: "<a href='searchSerializedProduct.do?productId="+ response.orderDetails[i].product.id + "&serial=" + response.orderDetails[i].serialNumber + "' target='_blank'>Ver Traza" + "<//a>"
+
+			};
+			var item = serialsMap[response.orderDetails[i].product.code] || [];
+			item.push(serialDetails);
+			serialsMap[response.orderDetails[i].product.code] = item;
+			id++;
 		}
 
+		var tableRow;
+		var command;
+		var aaData = [];
+		for (var i = 0; i < orderDetails.length; i++) {
+			if (orderDetails[i].serialNumber == null) {
+				command = "<button type=\"button\" data-toggle=\"modal\" data-src=\"#orderModal\" data-target=\"#batchExpirationDatesModal\" data-code=\"" + orderDetails[i].code + "\" data-description=\"" + orderDetails[i].description + "\" class=\"btn btn-sm btn-default command-view\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
+			} else {
+				command = "<button type=\"button\" data-toggle=\"modal\" data-src=\"#orderModal\" data-target=\"#serialsModal\" data-code=\"" + orderDetails[i].code + "\" data-description=\"" + orderDetails[i].description + "\" class=\"btn btn-sm btn-default command-view\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
+			}
+			tableRow = {
+				code: orderDetails[i].code,
+				description: orderDetails[i].description,
+				amount: orderDetails[i].amount,
+				command: command
+			};
+			aaData.push(tableRow);
+		}
+		$("#orderModalProductTable").bootgrid("clear").bootgrid("append", aaData);
+		modal = '#orderModal';
 		$('#orderModal').modal('show');
 	};
 
@@ -705,7 +758,7 @@ $(document).ready(function() {
 
 	};
 
-	$("#inputModalProductTableBody, #outputModalProductTableBody, #supplyingModalProductTableBody, #deliveryNoteModalProductTableBody").on("click", ".command-view", function(e) {
+	$("#inputModalProductTableBody, #outputModalProductTableBody, #supplyingModalProductTableBody, #deliveryNoteModalProductTableBody, #orderModalProductTableBody").on("click", ".command-view", function(e) {
 		dataSrc = $(this).attr("data-src");
 		dataCode = $(this).attr("data-code");
 		dataDescription = $(this).attr("data-description");
