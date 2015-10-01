@@ -33,7 +33,7 @@
 	   	 	<tbody id="orderTableBody">
 				<c:forEach items="${orders}" var="order" varStatus="status">
 				<tr>
-					<td><c:out value="${order.provisioningRequest.id}"></c:out></td>
+					<td><c:out value="${order.id}"></c:out></td>
 					<td><c:out value="${order.provisioningRequest.client.name}"></c:out></td>
 					<td><c:out value="${order.provisioningRequest.agreement.description}"></c:out></td>
 					<td><spring:message code="common.view"/></td>
