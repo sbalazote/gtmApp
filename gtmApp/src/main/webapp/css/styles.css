@@ -68,23 +68,6 @@ body {
 	text-decoration: underline;
 }
 
-.my-table thead th {
-    background-color: #44617D;
-    color: white;
-}
-
-.my-table tr td:first-child,
-.my-table tr th:first-child {
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
-}
-
-.my-table tr td:last-child,
-.my-table tr th:last-child {
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-}
-
 .form-margin {
 	margin-top: 25px; 
 }
