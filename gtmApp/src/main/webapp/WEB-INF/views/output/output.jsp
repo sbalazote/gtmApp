@@ -214,7 +214,7 @@
 				<div class="modal-body">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-md-12  col-lg-12 form-group">
+						<div class="col-md-12 col-lg-12 form-group">
 							<label><spring:message code="common.product"/>:&nbsp;&nbsp;</label>
 							<label id="serializedProductLabel"></label>
 						</div>

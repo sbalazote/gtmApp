@@ -130,8 +130,8 @@ OrderAssembly = function() {
 			tempStockIdsGroup[productId] = tempStockIds;
 			
 			$("#batchExpirationDateModal").modal("hide");
-			
-			$(".assign-button")[currentRow].innerHTML = "Editar";
+
+			$(".assign-button")[currentRow].innerHTML = "<span class=\"glyphicon glyphicon-edit\"></span> Editar";
 		} else {
 			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "batchExpirationDateModalAlertDiv");
 		}
@@ -159,7 +159,7 @@ OrderAssembly = function() {
 			
 			$("#serializedModal").modal("hide");
 			
-			$(".assign-button")[currentRow].innerHTML = "Editar";
+			$(".assign-button")[currentRow].innerHTML = "<span class=\"glyphicon glyphicon-edit\"></span> Editar";
 		} else {
 			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "serializedModalAlertDiv");
 		}
