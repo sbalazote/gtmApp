@@ -89,7 +89,7 @@
 
 <div class="row">
 	<div class="col-md-2 col-lg-2 col-md-offset-8 col-lg-offset-8">
-		<button class="btn btn-danger btn-block" onclick="location.href='home.do'" id="abortButton"><span class="glyphicon glyphicon-remove"></span> <spring:message code="common.abort"/></button>
+		<button class="btn btn-danger btn-block" onclick="myAbortWarning();"  id="abortButton"><span class="glyphicon glyphicon-remove"></span> <spring:message code="common.abort"/></button>
 	</div>
 	<div class="col-md-2 col-lg-2">
 		<button type="submit" class="btn btn-success btn-block" id="confirmButton"><span class="glyphicon glyphicon-ok"></span> <spring:message code="common.confirm"/></button>

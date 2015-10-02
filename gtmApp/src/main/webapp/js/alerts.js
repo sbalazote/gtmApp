@@ -119,6 +119,7 @@ $(document).ready(function() {
 		//myShowAlert('danger', message, element);
 		BootstrapDialog.show({
 			type: BootstrapDialog.TYPE_WARNING,
+			size: BootstrapDialog.SIZE_LARGE,
 	        title: 'Advertencia!',
 	        message: message,
 	        closable: false,
@@ -127,14 +128,13 @@ $(document).ready(function() {
             },*/
             buttons: [{
                     label: 'No',
-					cssClass: 'btn btn-danger',
                     action: function(dialogItself) {
                         //typeof dialogItself.getData('callback') === 'function' && dialogItself.getData('callback')(false);
                         dialogItself.close();
                     }
                 }, {
                     label: 'Si',
-                    cssClass: 'btn btn-success',
+					cssClass: 'btn-primary',
                     action: function(dialogItself) {
                         //typeof dialogItself.getData('callback') === 'function' && dialogItself.getData('callback')(true);
                         dialogItself.close();
