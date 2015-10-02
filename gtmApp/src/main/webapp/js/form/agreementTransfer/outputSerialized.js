@@ -10,6 +10,10 @@ OutputSerialized = function() {
 	var preloadedProductId = null;
 	var preloadedProductType = null;
 	
+	var getTempSerialNumbers = function(value) {
+		return tempSerialNumbers;
+	};
+
 	var setTempSerialNumbers = function(value) {
 		tempSerialNumbers = value || [];
 	};
@@ -42,6 +46,11 @@ OutputSerialized = function() {
 		preloadedProductType = value;
 	};
 	
+	// TODO mejorar esto- ahora no hace el paginado.
+	$("#providerSerializedTable").bootgrid({
+		rowCount: -1
+	});
+
 	var addAmount = function(value) {
 		updateAmounts(parseInt(value));
 	};
@@ -73,15 +82,18 @@ OutputSerialized = function() {
 	};
 	
 	var addToTable = function(gtin, serialNumber, batch, expirationDate) {
-		$("#serializedTable tbody").append("<tr>"
-			+ "<td class='gtin' style='display: none;'>"+gtin+"</td>"
-			+ "<td class='serialNumber'>"+serialNumber+"</td>"
-			+ "<td class='batch'>"+batch+"</td>"
-			+ "<td class='expirationDate'>"+expirationDate+"</td>"
-			+ "<td><button class='btnDelete' type='button'><span class='glyphicon glyphicon-remove'/></button></td>"
-			+ "</tr>");
+		var aaData = [];
+		var row = {
+			gtin: gtin,
+			serialNumber: serialNumber,
+			batch: batch,
+			expirationDate: expirationDate,
+			commands: "<button type=\"button\" class=\"btn btn-sm btn-default command-delete\" data-row-id=\"" + serialNumber + "\"><span class=\"glyphicon glyphicon-trash\"></span></button>"
+		};
+		aaData.push(row);
+		$("#serializedTable").bootgrid("append", aaData);
 	};
-	
+
 	var generateRow = function() {
 		var readSerialNumber = $("#readSerialNumberInput");
 		
@@ -101,29 +113,28 @@ OutputSerialized = function() {
 						return;
 					}
 					
-		            var gtinFound = false;
+		           var gtinFound = false;
                     var gtin;
                     if(response.gtin != null) {
-                        $.ajax({
-                            url: "getGtins.do",
-                            type: "GET",
-                            async: false,
-                            data: {
-                                productId: preloadedProductId,
-                            },
-                            success: function (responseGtin) {
-                                var gtins = responseGtin;
-                                for (var i = 0; i < gtins.length; i++) {
-                                    if (gtins[i].number == response.gtin) {
-                                        gtinFound = true;
-                                    }
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                myGenericError("providerSerializedModalAlertDiv");
-                            }
-                        });
-
+                       $.ajax({
+                              url: "getGtins.do",
+                              type: "GET",
+                              async: false,
+                               data: {
+                                   productId: preloadedProductId
+                                   },
+                               success: function(responseGtin) {
+                                       var gtins = responseGtin;
+                                       for (var i = 0; i < gtins.length; i++) {
+                                           if(gtins[i].number == response.gtin){
+                                               gtinFound = true;
+                                           }
+                                       }
+                               },
+                               error: function(jqXHR, textStatus, errorThrown) {
+                                   myGenericError("providerSerializedModalAlertDiv");
+                               }
+                         });
                         var gtin = response.gtin;
                     }else{
                         gtin = productSelectedGtin;
@@ -215,17 +226,19 @@ OutputSerialized = function() {
 		});
 	};
 	
-	$('#serializedTable tbody').on("click", ".btnDelete", function() {
+	$('#serializedTable tbody').on("click", ".command-delete", function() {
 		subtractAmount(1);
 		var parent = $(this).parent().parent();
-		var serialNumberToDelete = parent.children().eq(1).text();
+		var serialNumberToDelete = parent.find("td:nth(1)").html();
 		var indexOfSerialNumberToDelete = tempSerialNumbers.indexOf(serialNumberToDelete);
 		tempSerialNumbers.splice(indexOfSerialNumberToDelete,1);
-		parent.remove();
+		var rows = Array();
+		rows[0] = $(this).attr("data-row-id");
+		$("#serializedTable").bootgrid("remove", rows);
 	});
 	
 	var preloadModalData = function () {
-		$("#serializedModal tbody").html("");
+		$("#serializedTable").bootgrid("clear");
 		$('#serializedProductLabel').text(preloadedProduct);
 		$('#serializedRequestedAmountLabel').text(preloadedAmount);
 		
@@ -268,12 +281,39 @@ OutputSerialized = function() {
 		var remainingAmount = $('#serializedRemainingAmountLabel').text();
 		if (remainingAmount > 0) {
 			generateRow();
+			checkLast();
 		} else {
 			myShowAlert('danger', 'Ya se ha ingresado la totalidad de productos requeridos. Por favor presione el bot\u00f3n "Confirmar".', "serializedModalAlertDiv");
 		}
 	});
 	
+	var checkLast = function() {
+		var remaining = parseInt($('#serializedRemainingAmountLabel').text());
+		if (remaining == 0) {
+			BootstrapDialog.show({
+				title: 'Informacion',
+				message: '<strong>Carga Completa.</strong> Confirma Operaci\u00f3n?',
+				closable: false,
+				buttons: [{
+					label: 'No',
+					action: function(dialogItself) {
+						dialogItself.close();
+					}
+				}, {
+					label: 'Si',
+					hotkey: 115,	// F4.
+					cssClass: 'btn-primary',
+					action: function(dialogItself) {
+						dialogItself.close();
+						$("#serializedAcceptButton").trigger('click');
+					}
+				}]
+			});
+		}
+	};
+
 	return {
+		getTempSerialNumbers: getTempSerialNumbers,
 		setTempSerialNumbers: setTempSerialNumbers,
 		setProductSelectedGtin: setProductSelectedGtin,
 		getPreloadedData: getPreloadedData,
@@ -284,5 +324,4 @@ OutputSerialized = function() {
 		setPreloadedProductType: setPreloadedProductType,
 		preloadModalData: preloadModalData
 	};
-	
 };

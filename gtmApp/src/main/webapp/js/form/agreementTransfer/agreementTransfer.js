@@ -40,7 +40,7 @@ AgreementTransfer = function() {
 				productAmount: {
 					required: true,
 					digits: true,
-					minValue: 0,
+					minValue: 0
 				}
 			},
 			showErrors: myShowErrors,
@@ -58,7 +58,7 @@ AgreementTransfer = function() {
 				},
 				destinationAgreement: {
 					required: true
-				},
+				}
 			},
 			showErrors: myShowErrors,
 			onsubmit: false
@@ -98,25 +98,6 @@ AgreementTransfer = function() {
 		}
 	});
 	
-	
-	var currentRowElement = null;
-	
-	$('#productTableBody').on("click", ".delete-row", function(){
-		currentRowElement = this;
-		$('#deleteRowConfirmationModal').modal();
-	});
-	
-	$("#inputDeleteRowConfirmationButton").click(function() {
-		var parent = $(currentRowElement).parent().parent();
-		currentRow = $(".delete-row").index(currentRowElement);
-		agreementTransferDetailGroup.splice(currentRow, 1);
-		productIds.splice(currentRow, 1);
-		
-		productId = parent.find(".span-productId").html();
-		parent.remove();
-		$(".alert").hide();
-	});
-	
 	var productEntered = function(productId) {
 		for (var i = 0, l = productIds.length; i < l; ++i) {
 			if (productIds[i] == productId) {
@@ -137,7 +118,7 @@ AgreementTransfer = function() {
 				async: false,
 				data: {
 					productId: productId,
-					agreementId: $("#originAgreementInput").val(),
+					agreementId: $("#originAgreementInput").val()
 				},
 				success: function(response) {
 					if (response != "" && response >= productAmount) {
@@ -157,7 +138,6 @@ AgreementTransfer = function() {
 	});
 	
 	// 	Product autocomplete
-	
 	$("#productOutput").autocomplete({
 		source: function(request, response) {
 			$.ajax({
@@ -205,7 +185,7 @@ AgreementTransfer = function() {
 	
 	
 	$('#productOutput').keydown(function(e) {
-	    if(e.keyCode == 13){ // Presiono Enter
+		 if(e.keyCode == 13){ // Presiono Enter
 	    	$.ajax({
 				url: "getProductFromStockBySerialOrGtin.do",
 				type: "GET",
@@ -250,7 +230,7 @@ AgreementTransfer = function() {
 				type: "GET",
 				async: false,
 				data: {
-					conceptId: $("#conceptInput").val(),
+					conceptId: $("#conceptInput").val()
 				},
 				success: function(response) {
 					if(response == true){
@@ -307,10 +287,10 @@ AgreementTransfer = function() {
 		orderDetails.push(orderDetail);
 	};
 	
-	$('#productTableBody').on("click", ".edit-button", function() {
+	$('#productTableBody').on("click", ".edit-row", function(e) {
 		var parent = $(this).parent().parent();
-	
-		currentRow = $(".edit-button").index(this);
+
+		currentRow = $(".edit-row").index(this);
 		productDescription = parent.find(".td-description").html();
 		productAmount = parent.find(".td-amount").html();
 		productId = parent.find(".span-productId").html();
@@ -321,16 +301,51 @@ AgreementTransfer = function() {
 		openModal(agreementTransferDetailGroup[currentRow]);
 	});
 	
+	var currentRowElement = null;
+
+	$('#productTableBody').on("click", ".delete-row", function(){
+		currentRowElement = this;
+		$('#deleteRowConfirmationModal').modal();
+	});
+
+	$("#inputDeleteRowConfirmationButton").click(function() {
+		var parent = $(currentRowElement).parent().parent();
+		var rows = Array();
+		rows[0] = parent.attr("data-row-id");
+		$("#productTable").bootgrid("remove", rows);
+
+		currentRow = $(".delete-row").index(currentRowElement);
+		agreementTransferDetailGroup.splice(currentRow, 1);
+		productIds.splice(currentRow, 1);
+
+		productId = parent.find(".span-productId").html();
+		$(".alert").hide();
+
+		var productType = parent.find(".span-productType").html();
+		if (productType == "PS") {
+			tempSerialNumberGroup[productId] = [];
+			/*$.each(tempSerialNumberGroup[productId], function(idxSerialToDelete, serialToDelete) {
+				var idxSerialStored = $.inArray(serialToDelete, tempSerialNumberGroup[productId]);
+				if (idxSerialStored != -1) {
+					tempSerialNumberGroup[productId].splice(idxSerialStored, 1);
+				}
+			});*/
+		}
+	});
+
 	var populateProductsDetailsTable = function() {
-		var tableRow = "<tr><td class='td-description'>" + productDescription + "</td>" +
-		"<td class='td-amount'>" + productAmount + "</td>" +
-		"<td>" +
-		"<span class='span-productId' style='display:none'>" + productId + "</c:out></span>" +
-		"<span class='span-productType' style='display:none'>" + productType + "</c:out></span>" + 
-		"<span class='span-productGtin' style='display:none'>" + productGtin + "</c:out></span>" +
-		"<a href='javascript:void(0);' class='edit-button'>Editar</a>  " +
-		"<a href='javascript:void(0);' class='delete-row'>Eliminar</a></td></tr>";
-		$("#productTableBody").append(tableRow);
+		var aaData = [];
+		var row = {
+			description: productDescription,
+			amount: productAmount,
+			command: "<span class='span-productId' style='display:none'>" + productId + "</span>"+
+			"<span class='span-productType' style='display:none'>" + productType + "</span>"+
+			"<span class='span-productGtin' style='display:none'>" + productGtin + "</span>"+
+			"<button type=\"button\" class=\"btn btn-sm btn-default edit-row\"><span class=\"glyphicon glyphicon-pencil\"></span></button>"+
+			"<button type=\"button\" class=\"btn btn-sm btn-default delete-row\"><span class=\"glyphicon glyphicon-trash\"></span></button>"
+		};
+		aaData.push(row);
+		$("#productTable").bootgrid("append", aaData);
 	};
 	
 	$("#batchExpirationDateAcceptButton").click(function() {
@@ -360,6 +375,7 @@ AgreementTransfer = function() {
 			
 			$("#batchExpirationDateModal").modal("hide");
 			$(".alert").hide();
+			$('#productOutput').focus();
 		} else {
 			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "batchExpirationDateModalAlertDiv");
 		}
@@ -392,6 +408,7 @@ AgreementTransfer = function() {
 			
 			$("#serializedModal").modal("hide");
 			$(".alert").hide();
+			$('#productOutput').focus();
 		} else {
 			myShowAlert('danger', 'No se ha ingresado la totalidad de productos requeridos. Por favor ingrese los restantes.', "serializedModalAlertDiv");
 		}
@@ -445,9 +462,9 @@ AgreementTransfer = function() {
 	$(window).bind("beforeunload", function(event) {
 		if (hasChanged() && isButtonConfirm == false) {
 			return "Existen cambios que no fueron confirmados.";
-		} else {
+		} /*else {
 			isButtonConfirm = false;
-		}
+		}*/
 	});
 	
 	$("#agreementTransferForm input, #agreementTransferForm select").keypress(function(event) {

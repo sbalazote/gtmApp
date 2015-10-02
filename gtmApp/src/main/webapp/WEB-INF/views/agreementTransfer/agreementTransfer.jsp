@@ -49,14 +49,13 @@
 	<br>
 
 	<div>
-		<table class="table table-striped my-table">
+		<table id="productTable" class="table table-condensed table-hover table-striped">
 			<thead>
-				<tr>
-					<th><spring:message code="common.product" /></th>
-					<th><spring:message code="common.amount" /></th>
-		            <th></th>
-		            <th></th>
-				</tr>
+			<tr>
+				<th data-identifier="true" data-column-id="description" data-css-class="td-description" data-sortable="false"><spring:message code="common.product"/></th>
+				<th data-column-id="amount" data-type="numeric" data-css-class="td-amount" data-sortable="false"><spring:message code="common.amount"/></th>
+				<th data-column-id="command" data-sortable="false"><spring:message code="common.option"/></th>
+			</tr>
 			</thead>
 			<tbody id="productTableBody">
 			</tbody>
@@ -122,6 +121,7 @@
 				</div>
 				<div id="serializedModalAlertDiv"></div>
 				<div class="modal-body">
+				<div class="container-fluid">
 					<div class="row">
 						<div class="col-md-12 col-lg-12 form-group">
 							<label><spring:message code="common.product"/>:&nbsp;&nbsp;</label>
@@ -150,15 +150,15 @@
 							<button id="serializedAddButton" type="button" class="btn btn-warning"><span class="glyphicon glyphicon-plus"></span><spring:message code="common.add"/></button>
 						</div>
 					</div>
-					<div>
-						<table id="serializedTable" class="table">
+					<br>
+						<table id="serializedTable" class="table table-condensed table-hover table-striped">
 							<thead>
 								<tr>
-									<th style="display: none;" ><spring:message code="common.gtin"/></th>
-									<th><spring:message code="common.serialNumber"/></th>
-									<th><spring:message code="common.batch"/></th>
-									<th><spring:message code="common.expirationDate"/></th>
-									<th></th>
+									<th data-column-id="gtin" data-css-class="gtin" data-sortable="false"><spring:message code="common.gtin"/></th>
+									<th data-identifier="true" data-column-id="serialNumber" data-css-class="serialNumber" data-sortable="false"><spring:message code="common.serialNumber"/></th>
+									<th data-column-id="batch" data-css-class="batch" data-sortable="false"><spring:message code="common.batch"/></th>
+									<th data-column-id="expirationDate" data-css-class="expirationDate" data-sortable="false"><spring:message code="common.expirationDate"/></th>
+									<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
 								</tr>
 							</thead>
 							<tbody>
