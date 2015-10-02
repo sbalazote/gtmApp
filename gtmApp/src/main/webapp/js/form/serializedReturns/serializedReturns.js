@@ -89,16 +89,15 @@ SerializedReturns = function() {
 					productExpirationDate = myParseDate(detail.expirationDate);
 					populateInputDetails(inputDetails, productId, productType, productSerialNumber, productBatch, productExpirationDate, 1);
 
-					var tableRow = "<tr>"+
-					"<td class='td-description'>" + productDescription + "</td>" +
-					"<td class='td-serialNumber'>" + productSerialNumber + "</td>" +
-					"<td class='td-batch'>" + productBatch + "</td>" +
-					"<td class='td-expirationDate'>" + productExpirationDate + "</td>" +
-					"<td>"+
-					"<span class='span-productId' style='display:none'>" + productId + "</span>"+
-					"</td>" +
-					"</tr>";
-					$("#productTableBody").append(tableRow);
+					var aaData = [];
+					var row = {
+						description: productDescription,
+						serialNumber: productSerialNumber,
+						batch: productBatch,
+						expirationDate: productExpirationDate
+					};
+					aaData.push(row);
+					$("#productTable").bootgrid("append", aaData);
 					return;
 				}
 			});
@@ -360,7 +359,7 @@ SerializedReturns = function() {
 					data: JSON.stringify(jsonInput),
 					async: false,
 					success: function(response, textStatus, jqXHR) {
-						myReload("success", "Se ha registrado el ingreso de mercader\u00eda n\u00famero: " + response.id);
+						myReload("success", "Se ha registrado la devoluci\u00f3n de serie con n\u00famero: " + response.id);
 					},
 					error: function(response, jqXHR, textStatus, errorThrown) {
 						myGenericError();

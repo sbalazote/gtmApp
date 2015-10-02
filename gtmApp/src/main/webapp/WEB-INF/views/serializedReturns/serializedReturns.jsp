@@ -92,13 +92,14 @@
 <br>
 
 <div>
-	<table id="productTable" class="table table-striped my-table">
+	<table id="productTable" class="table table-condensed table-hover table-striped">
 		<thead>
 	        <tr>
-	            <th><spring:message code="common.product"/></th>
-	            <th><spring:message code="common.serialNumber"/></th>
-	            <th><spring:message code="common.batch"/></th>
-	            <th><spring:message code="common.expirationDate"/></th>
+				<th data-column-id="description" data-css-class="td-description" data-sortable="false"><spring:message code="common.product"/></th>
+				<th data-column-id="serialNumber" data-css-class="serialNumber" data-sortable="false"><spring:message code="common.serialNumber" /></th>
+				<th data-column-id="batch" data-css-class="batch" data-sortable="false"><spring:message code="common.batch" /></th>
+				<th data-column-id="expirationDate" data-css-class="expirationDate" data-sortable="false"><spring:message code="common.expirationDate" /></th>
+
 	        </tr>
    	 	</thead>
    	 	<tbody id="productTableBody">
