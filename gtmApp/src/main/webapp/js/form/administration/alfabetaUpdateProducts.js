@@ -21,14 +21,14 @@ AlfabetaUpdateProducts = function() {
 	$('#alfabetaUpdateFileInput').fileupload({
 		add: function (e, data) {
             var uploadError = false;
-            var acceptFileTypes = /\/(dat)$/i;
+			var extension = data.originalFiles[0].name.split('.').pop().toLowerCase();
 
-            if (data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['type'])) {
+			if ($.inArray(extension, ['dat']) == -1) {
             	uploadError = true;
                 myShowAlert('danger', 'Tipo de archivo no v\u00e1lido.');
             }
 
-            if (data.originalFiles[0]['size'] > 5000000) {
+            if (data.originalFiles[0]['size'] > (5*1024*1024)) {//5 MB
             	uploadError = true;
             	myShowAlert('danger', 'Tama&ntilde;o de archivo demasiado grande.');
             }
@@ -44,13 +44,13 @@ AlfabetaUpdateProducts = function() {
         done: function (e, data) {
         	$("#alfabetaUpdateFileInput").prop("disabled",true);
         	$(".fileinput-button").attr("disabled",true);
-            $("tr:has(td)").remove();
- 
-            $("#uploaded-files tbody").append(
-            	$('<tr/>')
-            	.append($('<td/>').text(data.result.fileName))
-            	.append($('<td/>').text(data.result.fileSize))
-            );
+			var aaData = [];
+			var row = {
+				fileName: data.result.fileName,
+				fileSize: data.result.fileSize
+			};
+			aaData.push(row);
+			$("#uploaded-files").bootgrid("append", aaData);
         }
     });
 	
@@ -127,7 +127,7 @@ AlfabetaUpdateProducts = function() {
 				async: false,
 				success: function(response) {
 					myShowAlert('success', 'Se ha actualizado satisfactoriamente el listado de productos.');
-					$("#uploaded-files tbody").html('');
+					$("#uploaded-files").bootgrid("destroy");
 					$("#alfabetaUpdateFileInput").prop("disabled",false);
 					$(".fileinput-button").attr("disabled",false);
 					fileSelected = false;
