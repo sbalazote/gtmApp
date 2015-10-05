@@ -1,5 +1,6 @@
 package com.lsntsolutions.gtmApp.webservice.helper;
 
+import com.lsntsolutions.gtmApp.config.PropertyProvider;
 import com.lsntsolutions.gtmApp.model.Input;
 import com.lsntsolutions.gtmApp.model.InputDetail;
 import com.lsntsolutions.gtmApp.util.DateUtils;
@@ -42,8 +43,16 @@ public class InputWSHelper {
             List<ConfirmacionTransaccionDTO> toConfirm = new ArrayList<>();
             this.getPendingTransactions(input.getInputDetails(), errors, toConfirm, input);
             // Si la lista esta vacia es porque de los productos que informan ninguno esta pendiente de informar por el agente de origen
-            if (errors.isEmpty()) {
-                webServiceResult = this.confirmDrugs(toConfirm, errors);
+            if(Boolean.valueOf(PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION))) {
+                if (errors.isEmpty()) {
+                    webServiceResult = this.confirmDrugs(toConfirm, errors);
+                }
+            }else{
+                WebServiceConfirmResult webServiceConfirmResult = new WebServiceConfirmResult();
+                webServiceConfirmResult.setResultado(true);
+                webServiceConfirmResult.setCodigoTransaccion("11111");
+                webServiceConfirmResult.setId_transac_asociada("22222");
+                webServiceResult = webServiceConfirmResult;
             }
 
         } else {
@@ -67,7 +76,7 @@ public class InputWSHelper {
             ConfirmacionTransaccionDTO[] toConfirmArray = new ConfirmacionTransaccionDTO[toConfirm.size()];
             toConfirmArray = toConfirm.toArray(toConfirmArray);
             try {
-                webServiceResult = this.webService.confirmarTransaccion(toConfirmArray, this.PropertyService.get().getANMATName(), this.PropertyService.get().getDecryptPassword());
+                 webServiceResult = this.webService.confirmarTransaccion(toConfirmArray, this.PropertyService.get().getANMATName(), this.PropertyService.get().getDecryptPassword());
             } catch (Exception e) {
                 errors.add(ERROR_CANNOT_CONNECT_TO_ANMAT);
                 e.printStackTrace();

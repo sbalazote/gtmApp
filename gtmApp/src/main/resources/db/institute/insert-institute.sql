@@ -240,6 +240,8 @@ insert into `institute`.`role` values (19, 'SUPPLYING', 'Dispensa');
 insert into `institute`.`role` values (20, 'SUPPLYING_CANCELLATION', 'Anulación de Dispensa');
 insert into `institute`.`role` values (21, 'PENDING_TRANSACTIONS', 'Transacciones Pendientes');
 
+insert into `institute`.`profile` values (1, "admin");
+
 insert into profile_role values (1, 1, 1);
 insert into profile_role values (2, 1, 2);
 insert into profile_role values (3, 1, 3);
@@ -253,7 +255,6 @@ insert into profile_role values (10, 1, 10);
 insert into profile_role values (11, 1, 11);
 insert into profile_role values (12, 1, 12);
 insert into profile_role values (13, 1, 13);
-insert into profile_role values (14, 1, 14);
 insert into profile_role values (15, 1, 15);
 insert into profile_role values (16, 1, 16);
 insert into profile_role values (17, 1, 17);
@@ -261,8 +262,6 @@ insert into profile_role values (18, 1, 18);
 insert into profile_role values (19, 1, 19);
 insert into profile_role values (20, 1, 20);
 insert into profile_role values (21, 1, 21);
-
-insert into `institute`.`profile` values (1, "admin");
 
 insert into `institute`.`user` values (1, "admin", "fad198c1bfe1cc7052905de0fa0431b45ec10ca4", 1,1);
 
