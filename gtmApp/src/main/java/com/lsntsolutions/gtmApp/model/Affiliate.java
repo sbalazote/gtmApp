@@ -1,14 +1,9 @@
 package com.lsntsolutions.gtmApp.model;
 
 import java.io.Serializable;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "affiliate")
@@ -36,12 +31,12 @@ public class Affiliate implements Serializable {
 	@Column(name = "document")
 	private String document;
 
-	@ManyToOne
-	@JoinColumn(name = "client_id", nullable = false)
-	private Client client;
-
 	@Column(name = "active", nullable = false)
 	private boolean active;
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "client_affiliate", joinColumns = @JoinColumn(name = "affiliate_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "client_id", nullable = false))
+	private List<Client> clients;
 
 	public Integer getId() {
 		return this.id;
@@ -91,14 +86,6 @@ public class Affiliate implements Serializable {
 		this.document = document;
 	}
 
-	public Client getClient() {
-		return this.client;
-	}
-
-	public void setClient(Client client) {
-		this.client = client;
-	}
-
 	public boolean isActive() {
 		return this.active;
 	}
@@ -107,4 +94,11 @@ public class Affiliate implements Serializable {
 		this.active = active;
 	}
 
+	public List<Client> getClients() {
+		return clients;
+	}
+
+	public void setClients(List<Client> clients) {
+		this.clients = clients;
+	}
 }

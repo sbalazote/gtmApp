@@ -33,7 +33,13 @@ var ProvisioningRequest = function() {
 	var cleanProductInput = function() {
 		$('#productInput').val("");
 	};
-	
+
+	$("#affiliateDocumentTypeSelect").chosen(
+		{
+			width: '100%' /* desired width */
+		});
+
+
 	var validateForm = function() {
 		var form = $("#provisioningRequestForm");
 		$("#provisioningRequestForm").validate({
@@ -87,9 +93,6 @@ var ProvisioningRequest = function() {
 				affiliateCode: {
 					required: true,
 					digits: true
-				},
-				affiliateClient: {
-					required: true
 				},
 				affiliateSurname: {
 					required: true,
@@ -179,7 +182,6 @@ var ProvisioningRequest = function() {
 	$('.select2-input').on('keydown', function(e) {
 		   if(e.keyCode === 121) {
 			   cleanAddAffiliateModal();
-				$("#affiliateClientInput").val($("#clientInput option:selected").html());
 				$('#addAffiliateModal').modal('show');
 		   }
 		});
@@ -419,7 +421,9 @@ var ProvisioningRequest = function() {
 		});
 		return exists;
 	};
-	
+
+	$('#my-select').multiSelect();
+
 	$("#addAffiliateModalAcceptButton").click(function() {
 		if (validateAddAffiliateModalForm()) {
 			
@@ -429,7 +433,7 @@ var ProvisioningRequest = function() {
 				"surname": $("#affiliateSurnameInput").val(),
 				"documentType": $("#affiliateDocumentTypeInput").val() || null,
 				"document": $("#affiliateDocumentInput").val() || null,
-				"clientId": $("#clientInput").val(),
+				"clients": $("#my-select").val() || new Array(),
 				"active": true
 			};
 			if (existsAffiliate()) {

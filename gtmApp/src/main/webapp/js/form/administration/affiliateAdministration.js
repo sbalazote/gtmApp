@@ -5,12 +5,12 @@ $(document).ready(function() {
 	var resetForm = function() {
 		$("#idInput").val('');
 		$("#codeInput").val('');
-		$("#clientSelect").val($("#clientSelect option:first").val());
 		$("#surnameInput").val('');
 		$("#nameInput").val('');
 		$('#documentTypeSelect').val($("#documentTypeSelect option:first").val());
 		$('#documentInput').val('');
 		$("#activeSelect").val($("#activeSelect option:first").val());
+		$('#my-select').multiSelect('deselect_all');
 	};
 	
 	var deleteAffiliate = function(affiliateId) {
@@ -46,13 +46,15 @@ $(document).ready(function() {
 			success: function(response) {
 				$("#idInput").val(response.id);
 				$("#codeInput").val(response.code);
-				$("#clientSelect").val(response.client.id).trigger('chosen:update');
 				$("#surnameInput").val(response.surname);
 				$("#nameInput").val(response.name);
 				$('#documentTypeSelect').val(response.documentType).trigger('chosen:update');
 				$('#documentInput').val(response.document);
 				var isActive = (response.active) ? "true" : "false";
 				$("#activeSelect").val(isActive).trigger('chosen:update');
+				$.each(response.clients, function (idx, value) {
+					$('#my-select').multiSelect('select', value.id.toString());
+				});
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myDeleteError();
@@ -62,7 +64,6 @@ $(document).ready(function() {
 	
 	var toggleElements = function(hidden) {
 		$("#codeInput").attr('disabled', hidden);
-		$("#clientSelect").prop('disabled', hidden).trigger('chosen:update');
 		$("#surnameInput").attr('disabled', hidden);
 		$("#nameInput").attr('disabled', hidden);
 		$('#documentTypeSelect').prop('disabled', hidden).trigger('chosen:update');

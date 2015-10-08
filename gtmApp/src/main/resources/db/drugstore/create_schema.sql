@@ -285,11 +285,8 @@ CREATE TABLE `drugstore`.`affiliate` (
   `surname` varchar(45) NOT NULL,
   `document_type` varchar(10) DEFAULT NULL,
   `document` varchar(15) DEFAULT NULL,
-  `client_id` int(11) NOT NULL,
   `active` bit(1) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_affiliate_client_idx` (`client_id`),
-  CONSTRAINT `fk_affiliate_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `drugstore`.`logistics_operator` (
@@ -669,6 +666,17 @@ CREATE TABLE `drugstore`.`agreement_transfer_detail` (
   CONSTRAINT `fk_agreement_transfer_detail_agreement_transfer` FOREIGN KEY (`agreement_transfer_id`) REFERENCES `agreement_transfer` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_agreement_transfer_detail_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_agreement_transfer_detail_product_gtin` FOREIGN KEY (`gtin_id`) REFERENCES `product_gtin` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `drugstore`.`client_affiliate` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `affiliate_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_client_affiliate_client_idx` (`client_id`),
+  KEY `fk_client_affiliate_affiliate_idx` (`affiliate_id`),
+  CONSTRAINT `fk_client_affiliate_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_client_affiliate_affiliate` FOREIGN KEY (`affiliate_id`) REFERENCES `affiliate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 COMMIT;

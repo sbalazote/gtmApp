@@ -96,9 +96,6 @@ var Supplying = function() {
 					required : true,
 					digits : true
 				},
-				affiliateClient : {
-					required : true
-				},
 				affiliateSurname : {
 					required : true
 				},
@@ -197,7 +194,6 @@ var Supplying = function() {
 	$('.select2-input').on('keydown', function(e) {
 		if (e.keyCode === 121) {
 			cleanAddAffiliateModal();
-			$("#affiliateClientInput").val($("#clientInput option:selected").html());
 			$("#affiliateInput").select2("close");
 			$('#addAffiliateModal').modal('show');
 		}
@@ -756,6 +752,8 @@ var Supplying = function() {
 		}
 	});
 
+	$('#my-select').multiSelect();
+
 	var existsAffiliate = function() {
 		var exists = false;
 		$.ajax({
@@ -784,7 +782,7 @@ var Supplying = function() {
 					"surname" : $("#affiliateSurnameInput").val(),
 					"documentType" : $("#affiliateDocumentTypeSelect option:selected").val() || null,
 					"document" : $("#affiliateDocumentInput").val() || null,
-					"clientId" : $("#clientInput").val(),
+					"clients": $("#my-select").val() || new Array(),
 					"active" : true
 			};
 			if (existsAffiliate()) {

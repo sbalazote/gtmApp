@@ -1,6 +1,7 @@
 package com.lsntsolutions.gtmApp.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class AffiliateDTO implements Serializable {
 
@@ -12,7 +13,7 @@ public class AffiliateDTO implements Serializable {
 	private String surname;
 	private String documentType;
 	private String document;
-	private Integer clientId;
+	private List<Integer> clients;
 	private boolean active;
 
 	public Integer getId() {
@@ -63,12 +64,12 @@ public class AffiliateDTO implements Serializable {
 		this.document = document;
 	}
 
-	public Integer getClientId() {
-		return this.clientId;
+	public List<Integer> getClients() {
+		return clients;
 	}
 
-	public void setClientId(Integer clientId) {
-		this.clientId = clientId;
+	public void setClients(List<Integer> clients) {
+		this.clients = clients;
 	}
 
 	public static long getSerialversionuid() {

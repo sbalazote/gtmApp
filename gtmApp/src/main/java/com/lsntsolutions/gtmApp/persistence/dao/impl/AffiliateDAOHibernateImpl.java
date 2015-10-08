@@ -61,12 +61,20 @@ public class AffiliateDAOHibernateImpl implements AffiliateDAO {
 	public List<Affiliate> getForAutocomplete(String term, Integer clientId, Boolean active, Integer pageNumber, Integer pageSize) {
 		Query query = null;
 
-		String sentence = "from Affiliate where (code = :code or CONCAT_WS(' ', name, surname) like :name or CONCAT_WS(' ', surname, name) like :name)";
+		String sentence = "select a from Affiliate as a";
+
 		if (clientId != null) {
-			sentence += " and client.id = :clientId";
+			sentence += " inner join a.clients as c";
 		}
+
+		sentence += " where (a.code = :code or CONCAT_WS(' ', a.name, a.surname) like :name or CONCAT_WS(' ', a.surname, a.name) like :name)";
+
+		if (clientId != null) {
+			sentence += " and c.id = :clientId";
+		}
+
 		if (active != null && Boolean.TRUE.equals(active)) {
-			sentence += " and active = true";
+			sentence += " and a.active = true";
 		}
 
 		query = this.sessionFactory.getCurrentSession().createQuery(sentence);

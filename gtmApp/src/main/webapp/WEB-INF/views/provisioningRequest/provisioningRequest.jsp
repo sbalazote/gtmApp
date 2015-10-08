@@ -158,19 +158,11 @@
 							<label for="affiliateCodeInput"><spring:message code="common.code"/></label> 
 							<input type="text" class="form-control" id="affiliateCodeInput" name="affiliateCode">
 						</div>
-						<div class="col-md-8 col-lg-8 form-group">
-							<label for="affiliateClientInput"><spring:message code="common.client"/></label>
-							<input id="affiliateClientInput" name="affiliateClient" class="form-control" disabled>
-						</div>
-
-					</div>
-
-					<div class="row">
 						<div class="col-md-4 col-lg-4 form-group">
 							<label for="affiliateSurnameInput"><spring:message code="common.surname"/></label> 
 							<input type="text" class="form-control" id="affiliateSurnameInput" name="affiliateSurname">
 						</div>
-						<div class="col-md-8 col-lg-8 form-group">
+						<div class="col-md-4 col-lg-8 form-group">
 							<label for="affiliateNameInput"><spring:message code="common.firstname"/></label> 
 							<input type="text" class="form-control" id="affiliateNameInput" name="affiliateName">
 						</div>
@@ -178,18 +170,38 @@
 
 					<div class="row">
 						<div class="col-md-4 col-lg-4 form-group">
-							<label for="documentTypeSelect"><spring:message code="common.documentType"/></label>
-								<select class="form-control chosen-select" id="documentTypeSelect" name="documentType">
-									<option value="">- <spring:message code="common.select.option"/> -</option>
-									<c:forEach items="${clients}" var="client" varStatus="status">
-										<option value="${client.id}"><c:out value="${client.name}"></c:out></option>
-									</c:forEach>
-								</select>
+							<label for="affiliateDocumentTypeSelect"><spring:message code="common.documentType"/></label>
+							<select class="form-control" id="affiliateDocumentTypeSelect" name="documentType">
+								<option value="">- <spring:message code="common.select.option"/> -</option>
+								<c:forEach items="${documentTypes}" var="documentType">
+									<option value="${documentType.key}">${documentType.value}</option>
+								</c:forEach>
+							</select>
 						</div>
 					
 						<div class="col-md-8 col-lg-8 form-group">
 							<label for="affiliateDocumentInput"><spring:message code="common.document"/></label> 
 							<input type="text" class="form-control" id="affiliateDocumentInput" name="affiliateDocument">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4 col-md-offset-1 col-lg-4 col-md-offset-1 form-group">
+							<label for="affiliateClients"><spring:message code="common.affiliateClients"/></label>
+						</div>
+						<div class="col-md-4 col-md-offset-2 col-lg-4 col-lg-offset-2 form-group">
+							<label for="affiliateClientsSelected"><spring:message code="common.affiliateClientsSelected"/></label>
+						</div>
+					</div>
+
+					<div>
+						<div class="col-md-12 col-lg-12 form-group">
+							<div class="ms-container">
+								<select multiple="multiple" id="my-select" name="my-select[]">
+									<c:forEach items="${clients}" var="client" varStatus="status">
+										<option value="${client.id}"><c:out value="${client.code} - ${client.name}"></c:out></option>
+									</c:forEach>
+								</select>
+							</div>
 						</div>
 					</div>
 

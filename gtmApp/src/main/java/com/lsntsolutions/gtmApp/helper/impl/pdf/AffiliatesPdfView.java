@@ -96,7 +96,6 @@ public class AffiliatesPdfView extends AbstractPdfView {
 				PdfPCell affiliateSurnameHeader = new PdfPCell(new Paragraph("APELLIDO", fontHeader));
 				PdfPCell affiliateDocumentTypeHeader = new PdfPCell(new Paragraph("TIPO DE DOCUMENTO", fontHeader));
 				PdfPCell affiliateDocumentHeader = new PdfPCell(new Paragraph("NRO, DE DOCUMENTO", fontHeader));
-				PdfPCell affiliateClientHeader = new PdfPCell(new Paragraph("CLIENTE", fontHeader));
 				PdfPCell affiliateActiveHeader = new PdfPCell(new Paragraph("ACTIVO", fontHeader));
 
 				affiliateIdHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
@@ -105,7 +104,6 @@ public class AffiliatesPdfView extends AbstractPdfView {
 				affiliateSurnameHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 				affiliateDocumentTypeHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 				affiliateDocumentHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
-				affiliateClientHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 				affiliateActiveHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 
 				table.addCell(affiliateIdHeader);
@@ -114,7 +112,6 @@ public class AffiliatesPdfView extends AbstractPdfView {
 				table.addCell(affiliateSurnameHeader);
 				table.addCell(affiliateDocumentTypeHeader);
 				table.addCell(affiliateDocumentHeader);
-				table.addCell(affiliateClientHeader);
 				table.addCell(affiliateActiveHeader);
 				document.add(table);
 				table.flushContent();
@@ -155,7 +152,6 @@ public class AffiliatesPdfView extends AbstractPdfView {
 			PdfPCell affiliateSurnameDetail = new PdfPCell(new Paragraph(affiliate.getSurname(), fontDetails));
 			PdfPCell affiliateDocumentTypeDetail = new PdfPCell(new Paragraph(affiliate.getDocumentType() == null ? "-" : affiliate.getDocumentType(), fontDetails));
 			PdfPCell affiliateDocumentDetail = new PdfPCell(new Paragraph(affiliate.getDocument() == null ? "-" : affiliate.getDocument(), fontDetails));
-			PdfPCell affiliateClientDetail = new PdfPCell(new Paragraph(affiliate.getClient().getName(), fontDetails));
 			PdfPCell affiliateActiveDetail = new PdfPCell(new Paragraph(affiliate.isActive() ? "SI" : "NO", fontDetails));
 
 			affiliateIdDetail.setBorder(Rectangle.NO_BORDER);
@@ -164,7 +160,6 @@ public class AffiliatesPdfView extends AbstractPdfView {
 			affiliateSurnameDetail.setBorder(Rectangle.NO_BORDER);
 			affiliateDocumentTypeDetail.setBorder(Rectangle.NO_BORDER);
 			affiliateDocumentDetail.setBorder(Rectangle.NO_BORDER);
-			affiliateClientDetail.setBorder(Rectangle.NO_BORDER);
 			affiliateActiveDetail.setBorder(Rectangle.NO_BORDER);
 
 			table.addCell(affiliateIdDetail);
@@ -173,7 +168,6 @@ public class AffiliatesPdfView extends AbstractPdfView {
 			table.addCell(affiliateSurnameDetail);
 			table.addCell(affiliateDocumentTypeDetail);
 			table.addCell(affiliateDocumentDetail);
-			table.addCell(affiliateClientDetail);
 			table.addCell(affiliateActiveDetail);
 			document.add(table);
 			table.flushContent();

@@ -36,7 +36,6 @@
 			<th data-column-id="surname"><spring:message code="common.surname" /></th>
 			<th data-column-id="documentType"><spring:message code="common.documentType" /></th>
 			<th data-column-id="document"><spring:message code="common.document" /></th>
-			<th data-column-id="client"><spring:message code="common.client" /></th>
 			<th data-column-id="isActive"><spring:message code="common.active" /></th>
 			<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
 		</tr>
@@ -77,22 +76,11 @@
 						<label for="codeInput"><spring:message code="common.code"/></label> 
 						<input type="text" class="form-control" id="codeInput" name="code">
 					</div>
-					<div class="col-md-8 col-lg-8 form-group">
-						<label for="clientSelect"><spring:message code="common.client"/></label>
-						<select class="form-control chosen-select" id="clientSelect" name="client">
-							<option value="">- <spring:message code="common.select.option"/> -</option>
-							<c:forEach items="${clients}" var="client" varStatus="status">
-							<option value="${client.id}"><c:out value="${client.name}"></c:out></option>
-							</c:forEach>
-						</select>
-					</div>
-				</div>
-				<div class="row">
 					<div class="col-md-4 col-lg-4 form-group">
 						<label for="surnameInput"><spring:message code="common.surname"/></label> 
 						<input type="text" class="form-control" id="surnameInput" name="surname">
 					</div>
-					<div class="col-md-8 col-lg-8 form-group">
+					<div class="col-md-4 col-lg-4 form-group">
 						<label for="nameInput"><spring:message code="common.firstname"/></label> 
 						<input type="text" class="form-control" id="nameInput" name="name">
 					</div>
@@ -117,6 +105,27 @@
 							<option value="true"><spring:message code="common.yes"/></option>
 							<option value="false"><spring:message code="common.no"/></option>
 						</select>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 col-md-offset-1 col-lg-4 col-md-offset-1 form-group">
+						<label for="affiliateClients"><spring:message code="common.affiliateClients"/></label>
+					</div>
+					<div class="col-md-4 col-md-offset-2 col-lg-4 col-lg-offset-2 form-group">
+						<label for="affiliateClientsSelected"><spring:message code="common.affiliateClientsSelected"/></label>
+					</div>
+				</div>
+
+				<div>
+					<div class="col-md-12 col-lg-12 form-group">
+						<div class="ms-container">
+							<select multiple="multiple" id="my-select" name="my-select[]">
+								<c:forEach items="${clients}" var="client" varStatus="status">
+									<option value="${client.id}"><c:out value="${client.code} - ${client.name}"></c:out></option>
+								</c:forEach>
+							</select>
+						</div>
 					</div>
 				</div>
 				</form>

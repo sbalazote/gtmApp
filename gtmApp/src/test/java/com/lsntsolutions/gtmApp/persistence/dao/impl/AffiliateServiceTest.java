@@ -58,7 +58,6 @@ public class AffiliateServiceTest {
 
 		Affiliate affiliate = new Affiliate();
 		affiliate.setActive(true);
-		affiliate.setClient(client);
 		affiliate.setCode("234");
 		affiliate.setDocument("4564");
 		affiliate.setDocumentType("LC");

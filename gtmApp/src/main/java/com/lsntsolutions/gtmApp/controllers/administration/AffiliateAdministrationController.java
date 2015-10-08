@@ -1,9 +1,11 @@
 package com.lsntsolutions.gtmApp.controllers.administration;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import com.lsntsolutions.gtmApp.dto.AffiliateDTO;
+import com.lsntsolutions.gtmApp.model.Client;
 import com.lsntsolutions.gtmApp.service.AffiliateService;
 import com.lsntsolutions.gtmApp.service.ClientService;
 import com.lsntsolutions.gtmApp.constant.DocumentType;
@@ -61,8 +63,14 @@ public class AffiliateAdministrationController {
 		affiliate.setSurname(affiliateDTO.getSurname());
 		affiliate.setDocumentType(affiliateDTO.getDocumentType());
 		affiliate.setDocument(affiliateDTO.getDocument());
-		affiliate.setClient(this.clientService.get(affiliateDTO.getClientId()));
 		affiliate.setActive(affiliateDTO.isActive());
+
+		List<Integer> clientsId = affiliateDTO.getClients();
+		List<Client> clients = new ArrayList<>();
+		for (Integer clientId : clientsId) {
+			clients.add(this.clientService.get(clientId));
+		}
+		affiliate.setClients(clients);
 
 		return affiliate;
 	}
@@ -122,7 +130,6 @@ public class AffiliateAdministrationController {
 			}
 
 			dataJson.put("document", affiliate.getDocument());
-			dataJson.put("client", affiliate.getClient().getCorporateName());
 			dataJson.put("isActive", affiliate.isActive() == true ? "Si" : "No");
 			jsonArray.put(dataJson);
 		}
