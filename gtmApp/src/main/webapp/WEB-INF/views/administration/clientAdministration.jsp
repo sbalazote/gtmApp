@@ -156,9 +156,6 @@
 					<div class="col-md-4 col-md-offset-2 col-lg-4 col-lg-offset-2 form-group">
 						<label for="deliveryLocations"><spring:message code="common.clientDeliveryLocationSelected"/></label>
 					</div>
-				</div>
-
-				<div>
 					<div class="col-md-12 col-lg-12 form-group">
 						<div class="ms-container">
 							<select multiple="multiple" id="my-select" name="my-select[]">

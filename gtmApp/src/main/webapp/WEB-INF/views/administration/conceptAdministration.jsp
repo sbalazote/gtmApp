@@ -147,16 +147,13 @@
 						<div class="col-md-3 col-md-offset-4 col-lg-3 col-lg-offset-4 form-group">
 							<label for="conceptEvent"><spring:message code="common.conceptEventSelected" /></label>
 						</div>
-					</div>
-
-					<div>
-					<div class="col-md-12 col-lg-12 form-group">
-						<div class="ms-container">
-							<select multiple="multiple" id="my-select" name="my-select[]">
-							</select>
+						<div class="col-md-12 col-lg-12 form-group">
+							<div class="ms-container">
+								<select multiple="multiple" id="my-select" name="my-select[]">
+								</select>
+							</div>
 						</div>
 					</div>
-				</div>
 				</form>
 			</div>
 			<div class="modal-footer">

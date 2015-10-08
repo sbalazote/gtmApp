@@ -162,7 +162,7 @@
 							<label for="affiliateSurnameInput"><spring:message code="common.surname"/></label> 
 							<input type="text" class="form-control" id="affiliateSurnameInput" name="affiliateSurname">
 						</div>
-						<div class="col-md-4 col-lg-8 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="affiliateNameInput"><spring:message code="common.firstname"/></label> 
 							<input type="text" class="form-control" id="affiliateNameInput" name="affiliateName">
 						</div>
@@ -191,9 +191,6 @@
 						<div class="col-md-4 col-md-offset-2 col-lg-4 col-lg-offset-2 form-group">
 							<label for="affiliateClientsSelected"><spring:message code="common.affiliateClientsSelected"/></label>
 						</div>
-					</div>
-
-					<div>
 						<div class="col-md-12 col-lg-12 form-group">
 							<div class="ms-container">
 								<select multiple="multiple" id="my-select" name="my-select[]">
