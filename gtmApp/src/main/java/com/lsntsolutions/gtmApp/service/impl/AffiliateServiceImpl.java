@@ -37,6 +37,11 @@ public class AffiliateServiceImpl implements AffiliateService {
 	}
 
 	@Override
+	public Affiliate get(String code) {
+		return this.affiliateDAO.get(code);
+	}
+
+	@Override
 	public List<Affiliate> getForAutocomplete(String term, Boolean active) {
 		return this.affiliateDAO.getForAutocomplete(term, active);
 	}

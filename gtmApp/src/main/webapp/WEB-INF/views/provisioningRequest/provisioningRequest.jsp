@@ -184,24 +184,6 @@
 							<input type="text" class="form-control" id="affiliateDocumentInput" name="affiliateDocument">
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-4 col-md-offset-1 col-lg-4 col-md-offset-1 form-group">
-							<label for="affiliateClients"><spring:message code="common.affiliateClients"/></label>
-						</div>
-						<div class="col-md-4 col-md-offset-2 col-lg-4 col-lg-offset-2 form-group">
-							<label for="affiliateClientsSelected"><spring:message code="common.affiliateClientsSelected"/></label>
-						</div>
-						<div class="col-md-12 col-lg-12 form-group">
-							<div class="ms-container">
-								<select multiple="multiple" id="my-select" name="my-select[]">
-									<c:forEach items="${clients}" var="client" varStatus="status">
-										<option value="${client.id}"><c:out value="${client.code} - ${client.name}"></c:out></option>
-									</c:forEach>
-								</select>
-							</div>
-						</div>
-					</div>
-
 				</div>
 			
 				<div class="modal-footer">
@@ -241,6 +223,21 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.no"/></button>
 				<button type="button" class="btn btn-primary" data-dismiss="modal" id="provisoningDeleteRowConfirmationButton"><spring:message code="common.yes"/></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%-- Confirmaci�n de agregar un afiliado a un cliente --%>
+<div class="modal fade" data-backdrop="static" id="addExistAffiliateConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width:250px">
+		<div class="modal-content">
+			<div class="modal-body">
+				<strong><span style="color:red"><spring:message code="suupplying.existsAffiliate.confirmation"/></span></strong>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.no"/></button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" id="addAffiliateToClient"><spring:message code="common.yes"/></button>
 			</div>
 		</div>
 	</div>

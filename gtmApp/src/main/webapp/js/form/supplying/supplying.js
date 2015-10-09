@@ -775,21 +775,20 @@ var Supplying = function() {
 
 	$("#addAffiliateModalAcceptButton").click(function() {
 		if (validateAddAffiliateModalForm()) {
-
+			var clients =  new Array();
+			clients.push(parseInt($("#clientInput").val()));
 			var jsonAffiliate = {
 					"code" : $("#affiliateCodeInput").val(),
 					"name" : $("#affiliateNameInput").val(),
 					"surname" : $("#affiliateSurnameInput").val(),
 					"documentType" : $("#affiliateDocumentTypeSelect option:selected").val() || null,
 					"document" : $("#affiliateDocumentInput").val() || null,
-					"clients": $("#my-select").val() || new Array(),
+					"clients": clients,
 					"active" : true
 			};
 			if (existsAffiliate()) {
-				$('#addAffiliateModalAlertDiv').html(
-						'<div class="alert alert-danger alert-block fade in">'
-						+ '<button type="button" class="close" data-dismiss="alert">'
-						+ '&times;</button>C\u00f3digo existente. Por favor, ingrese uno diferente.</div>');
+				$("#addAffiliateModal").modal('hide');
+				$("#addExistAffiliateConfirmationModal").modal('show');
 			} else {
 				$.ajax({
 					url : "saveAffiliate.do",
@@ -818,6 +817,36 @@ var Supplying = function() {
 			}
 		}
 	});
+
+	$("#addAffiliateToClient").click(function() {
+		$.ajax({
+			url : "addAffiliateToClient.do",
+			type : "POST",
+			data : {
+				"code" : $("#affiliateCodeInput").val(),
+				"clientId" : parseInt($("#clientInput").val())
+			},
+			async : true,
+			success : function(response) {
+				$("#addExistAffiliateConfirmationModal").modal('hide');
+				$('#affiliateInput').select2("data",
+					{
+						id : response.id,
+						text : response.code
+						+ ' - '
+						+ response.surname
+						+ ' '
+						+ response.name
+					});
+				$("#agreementInput").trigger('chosen:activate');
+			},
+			error : function(jqXHR, textStatus,
+							 errorThrown) {
+				myGenericError("addAffiliateModalAlertDiv");
+			}
+		});
+	});
+
 
 	var productEntered = function(productId) {
 		if (!assignOutOfStock) {

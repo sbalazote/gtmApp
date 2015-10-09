@@ -10,6 +10,8 @@ public interface AffiliateDAO {
 
 	Affiliate get(Integer id);
 
+	Affiliate get(String code);
+
 	Boolean exists(String code);
 
 	List<Affiliate> getForAutocomplete(String term, Boolean active);

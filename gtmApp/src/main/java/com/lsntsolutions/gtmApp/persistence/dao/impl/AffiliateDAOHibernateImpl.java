@@ -28,6 +28,17 @@ public class AffiliateDAOHibernateImpl implements AffiliateDAO {
 	}
 
 	@Override
+	public Affiliate get(String code) {
+		Query query = this.sessionFactory.getCurrentSession().createQuery("from Affiliate where code = :code");
+		query.setParameter("code", code);
+		if(query.list() != null){
+			return (Affiliate) query.list().get(0);
+		}else{
+			return null;
+		}
+	}
+
+	@Override
 	public Boolean exists(String code) {
 		Query query = this.sessionFactory.getCurrentSession().createQuery("from Affiliate where code = :code");
 		query.setParameter("code", code);

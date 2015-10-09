@@ -12,6 +12,8 @@ public interface AffiliateService {
 
 	Boolean exists(String code);
 
+	Affiliate get(String code);
+
 	List<Affiliate> getForAutocomplete(String term, Boolean active);
 
 	List<Affiliate> getForAutocomplete(String term, Integer clientId, Boolean active, Integer pageNumber, Integer pageSize);
