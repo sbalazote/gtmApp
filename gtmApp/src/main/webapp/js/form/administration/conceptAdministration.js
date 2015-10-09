@@ -251,8 +251,20 @@ $(document).ready(function() {
 		});
 	});
 
-	var exportHTML = exportTableHTML("./rest/concepts");
-	$(".search").before(exportHTML);
+	var searchHTML = $('.search');
+	var searchPhrase = '&searchPhrase=' + $('.search-field').val();
+	var exportHTML = exportQueryTableHTML("./rest/concepts", searchPhrase);
+	searchHTML.before(exportHTML);
+
+	$('.search-field').keyup(function(e) {
+		searchPhrase = '&searchPhrase=' + $('.search-field').val();
+		exportHTML = exportQueryTableHTML("./rest/concepts", searchPhrase);
+		if (searchHTML.prev().length == 0) {
+			searchHTML.before(exportHTML);
+		} else {
+			searchHTML.prev().html(exportHTML);
+		}
+	});
 	
 	$("#deleteEntityButton").click(function() {
 		deleteConcept(conceptId);

@@ -1,13 +1,11 @@
 package com.lsntsolutions.gtmApp.controllers.administration;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import com.lsntsolutions.gtmApp.dto.AgreementDTO;
+import com.lsntsolutions.gtmApp.dto.AgreementTransferDTO;
+import com.lsntsolutions.gtmApp.model.Agreement;
 import com.lsntsolutions.gtmApp.service.AgreementService;
 import com.lsntsolutions.gtmApp.service.AgreementTransferService;
+import com.lsntsolutions.gtmApp.service.ConceptService;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -16,16 +14,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.lsntsolutions.gtmApp.dto.AgreementTransferDTO;
-import com.lsntsolutions.gtmApp.model.Agreement;
-import com.lsntsolutions.gtmApp.service.ConceptService;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class AgreementAdministrationController {
@@ -38,8 +32,13 @@ public class AgreementAdministrationController {
 	private ConceptService conceptService;
 
 	@RequestMapping(value = "/agreements", method = RequestMethod.POST)
-	public ModelAndView agreements() {
-		return new ModelAndView("agreements", "agreements", this.agreementService.getAll());
+	public ModelAndView agreements(@RequestParam Map<String, String> parametersMap) {
+		String searchPhrase = parametersMap.get("searchPhrase");
+		if (searchPhrase.matches("")) {
+			return new ModelAndView("agreements", "agreements", this.agreementService.getAll());
+		} else {
+			return new ModelAndView("agreements", "agreements", this.agreementService.getForAutocomplete(searchPhrase, null));
+		}
 	}
 
 	@RequestMapping(value = "/agreementAdministration", method = RequestMethod.GET)

@@ -1,8 +1,6 @@
 package com.lsntsolutions.gtmApp.controllers.administration;
 
-import java.util.List;
-import java.util.Map;
-
+import com.lsntsolutions.gtmApp.dto.ProductDrugCategoryDTO;
 import com.lsntsolutions.gtmApp.model.ProductDrugCategory;
 import com.lsntsolutions.gtmApp.service.ProductDrugCategoryService;
 import org.codehaus.jettison.json.JSONArray;
@@ -10,14 +8,11 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.lsntsolutions.gtmApp.dto.ProductDrugCategoryDTO;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ProductDrugCategoryAdministrationController {
@@ -26,8 +21,13 @@ public class ProductDrugCategoryAdministrationController {
 	private ProductDrugCategoryService productDrugCategoryService;
 
 	@RequestMapping(value = "/productDrugCategories", method = RequestMethod.POST)
-	public ModelAndView productDrugCategories() {
-		return new ModelAndView("productDrugCategories", "productDrugCategories", this.productDrugCategoryService.getAll());
+	public ModelAndView productDrugCategories(@RequestParam Map<String, String> parametersMap) {
+		String searchPhrase = parametersMap.get("searchPhrase");
+		if (searchPhrase.matches("")) {
+			return new ModelAndView("productDrugCategories", "productDrugCategories", this.productDrugCategoryService.getAll());
+		} else {
+			return new ModelAndView("productDrugCategories", "productDrugCategories", this.productDrugCategoryService.getForAutocomplete(searchPhrase, null));
+		}
 	}
 
 	@RequestMapping(value = "/saveProductDrugCategory", method = RequestMethod.POST)

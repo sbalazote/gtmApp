@@ -143,10 +143,22 @@ $(document).ready(function() {
 			$('#deliveryLocationModal').modal('show');
 		});
 	});
-	
-	var exportHTML = exportTableHTML("./rest/deliveryLocations");
-	$(".search").before(exportHTML);
-	
+
+	var searchHTML = $('.search');
+	var searchPhrase = '&searchPhrase=' + $('.search-field').val();
+	var exportHTML = exportQueryTableHTML("./rest/deliveryLocations", searchPhrase);
+	searchHTML.before(exportHTML);
+
+	$('.search-field').keyup(function(e) {
+		searchPhrase = '&searchPhrase=' + $('.search-field').val();
+		exportHTML = exportQueryTableHTML("./rest/deliveryLocations", searchPhrase);
+		if (searchHTML.prev().length == 0) {
+			searchHTML.before(exportHTML);
+		} else {
+			searchHTML.prev().html(exportHTML);
+		}
+	});
+
 	$("#deleteEntityButton").click(function() {
 		deleteDeliveryLocation(deliveryLocationId);
 	});

@@ -1,13 +1,12 @@
 package com.lsntsolutions.gtmApp.controllers.administration;
 
-import java.util.List;
-import java.util.Map;
-
 import com.lsntsolutions.gtmApp.dto.NewPasswordDTO;
-import com.lsntsolutions.gtmApp.model.Profile;
-import com.lsntsolutions.gtmApp.service.ProfileService;
 import com.lsntsolutions.gtmApp.dto.UserDTO;
 import com.lsntsolutions.gtmApp.helper.EncryptionHelper;
+import com.lsntsolutions.gtmApp.model.Profile;
+import com.lsntsolutions.gtmApp.model.User;
+import com.lsntsolutions.gtmApp.service.ProfileService;
+import com.lsntsolutions.gtmApp.service.UserService;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -16,15 +15,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.lsntsolutions.gtmApp.model.User;
-import com.lsntsolutions.gtmApp.service.UserService;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class UserAdministrationController {
@@ -36,8 +31,13 @@ public class UserAdministrationController {
 	private ProfileService profileService;
 
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
-	public ModelAndView users() {
-		return new ModelAndView("users", "users", this.userService.getAll());
+	public ModelAndView users(@RequestParam Map<String, String> parametersMap) {
+		String searchPhrase = parametersMap.get("searchPhrase");
+		if (searchPhrase.matches("")) {
+			return new ModelAndView("users", "users", this.userService.getAll());
+		} else {
+			return new ModelAndView("users", "users", this.userService.getForAutocomplete(searchPhrase, null));
+		}
 	}
 
 	@RequestMapping(value = "/userAdministration", method = RequestMethod.GET)

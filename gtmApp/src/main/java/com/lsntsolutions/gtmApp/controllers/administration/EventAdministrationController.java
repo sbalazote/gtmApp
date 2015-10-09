@@ -1,24 +1,20 @@
 package com.lsntsolutions.gtmApp.controllers.administration;
 
-import java.util.List;
-import java.util.Map;
-
 import com.lsntsolutions.gtmApp.dto.EventDTO;
 import com.lsntsolutions.gtmApp.model.Event;
-import com.lsntsolutions.gtmApp.service.EventService;
 import com.lsntsolutions.gtmApp.service.AgentService;
+import com.lsntsolutions.gtmApp.service.EventService;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class EventAdministrationController {
@@ -30,8 +26,13 @@ public class EventAdministrationController {
 	private AgentService agentService;
 
 	@RequestMapping(value = "/events", method = RequestMethod.POST)
-	public ModelAndView events() {
-		return new ModelAndView("events", "events", this.eventService.getAll());
+	public ModelAndView events(@RequestParam Map<String, String> parametersMap) {
+		String searchPhrase = parametersMap.get("searchPhrase");
+		if (searchPhrase.matches("")) {
+			return new ModelAndView("events", "events", this.eventService.getAll());
+		} else {
+			return new ModelAndView("events", "events", this.eventService.getForAutocomplete(searchPhrase, null));
+		}
 	}
 
 	@RequestMapping(value = "/eventAdministration", method = RequestMethod.GET)

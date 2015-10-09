@@ -1,8 +1,5 @@
 package com.lsntsolutions.gtmApp.controllers.administration;
 
-import java.util.List;
-import java.util.Map;
-
 import com.lsntsolutions.gtmApp.dto.ProductGroupDTO;
 import com.lsntsolutions.gtmApp.model.ProductGroup;
 import com.lsntsolutions.gtmApp.service.ProductGroupService;
@@ -11,12 +8,11 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ProductGroupAdministrationController {
@@ -25,8 +21,13 @@ public class ProductGroupAdministrationController {
 	private ProductGroupService productGroupService;
 
 	@RequestMapping(value = "/productGroups", method = RequestMethod.POST)
-	public ModelAndView productGroups() {
-		return new ModelAndView("productGroups", "productGroups", this.productGroupService.getAll());
+	public ModelAndView productGroups(@RequestParam Map<String, String> parametersMap) {
+		String searchPhrase = parametersMap.get("searchPhrase");
+		if (searchPhrase.matches("")) {
+			return new ModelAndView("productGroups", "productGroups", this.productGroupService.getAll());
+		} else {
+			return new ModelAndView("productGroups", "productGroups", this.productGroupService.getForAutocomplete(searchPhrase, null));
+		}
 	}
 
 	@RequestMapping(value = "/saveProductGroup", method = RequestMethod.POST)

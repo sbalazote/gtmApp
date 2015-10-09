@@ -1,8 +1,5 @@
 package com.lsntsolutions.gtmApp.controllers.administration;
 
-import java.util.List;
-import java.util.Map;
-
 import com.lsntsolutions.gtmApp.dto.ProductBrandDTO;
 import com.lsntsolutions.gtmApp.model.ProductBrand;
 import com.lsntsolutions.gtmApp.service.ProductBrandService;
@@ -11,12 +8,11 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ProductBrandAdministrationController {
@@ -25,8 +21,13 @@ public class ProductBrandAdministrationController {
 	private ProductBrandService productBrandService;
 
 	@RequestMapping(value = "/productBrands", method = RequestMethod.POST)
-	public ModelAndView productBrands() {
-		return new ModelAndView("productBrands", "productBrands", this.productBrandService.getAll());
+	public ModelAndView productBrands(@RequestParam Map<String, String> parametersMap) {
+		String searchPhrase = parametersMap.get("searchPhrase");
+		if (searchPhrase.matches("")) {
+			return new ModelAndView("productBrands", "productBrands", this.productBrandService.getAll());
+		} else {
+			return new ModelAndView("productBrands", "productBrands", this.productBrandService.getForAutocomplete(searchPhrase, null));
+		}
 	}
 
 	@RequestMapping(value = "/saveProductBrand", method = RequestMethod.POST)

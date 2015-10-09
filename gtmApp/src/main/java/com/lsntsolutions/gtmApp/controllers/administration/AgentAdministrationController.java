@@ -1,23 +1,18 @@
 package com.lsntsolutions.gtmApp.controllers.administration;
 
-import java.util.List;
-import java.util.Map;
-
+import com.lsntsolutions.gtmApp.dto.AgentDTO;
+import com.lsntsolutions.gtmApp.model.Agent;
 import com.lsntsolutions.gtmApp.service.AgentService;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.lsntsolutions.gtmApp.dto.AgentDTO;
-import com.lsntsolutions.gtmApp.model.Agent;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class AgentAdministrationController {
@@ -26,8 +21,13 @@ public class AgentAdministrationController {
 	private AgentService agentService;
 
 	@RequestMapping(value = "/agents", method = RequestMethod.POST)
-	public ModelAndView agents() {
-		return new ModelAndView("agents", "agents", this.agentService.getAll());
+	public ModelAndView agents(@RequestParam Map<String, String> parametersMap) {
+		String searchPhrase = parametersMap.get("searchPhrase");
+		if (searchPhrase.matches("")) {
+			return new ModelAndView("agents", "agents", this.agentService.getAll());
+		} else {
+			return new ModelAndView("agents", "agents", this.agentService.getForAutocomplete(searchPhrase, null));
+		}
 	}
 
 	@RequestMapping(value = "/agentAdministration", method = RequestMethod.GET)

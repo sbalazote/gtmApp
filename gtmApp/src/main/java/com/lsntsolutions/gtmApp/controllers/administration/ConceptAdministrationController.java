@@ -1,9 +1,5 @@
 package com.lsntsolutions.gtmApp.controllers.administration;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import com.lsntsolutions.gtmApp.dto.ConceptDTO;
 import com.lsntsolutions.gtmApp.dto.EventDTO;
 import com.lsntsolutions.gtmApp.model.Concept;
@@ -18,12 +14,12 @@ import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ConceptAdministrationController {
@@ -38,8 +34,13 @@ public class ConceptAdministrationController {
 	private DeliveryNoteEnumeratorService deliveryNoteEnumeratorService;
 
 	@RequestMapping(value = "/concepts", method = RequestMethod.POST)
-	public ModelAndView concepts() {
-		return new ModelAndView("concepts", "concepts", this.conceptService.getAll());
+	public ModelAndView concepts(@RequestParam Map<String, String> parametersMap) {
+		String searchPhrase = parametersMap.get("searchPhrase");
+		if (searchPhrase.matches("")) {
+			return new ModelAndView("concepts", "concepts", this.conceptService.getAll());
+		} else {
+			return new ModelAndView("concepts", "concepts", this.conceptService.getForAutocomplete(searchPhrase, null));
+		}
 	}
 
 	@RequestMapping(value = "/conceptAdministration", method = RequestMethod.GET)

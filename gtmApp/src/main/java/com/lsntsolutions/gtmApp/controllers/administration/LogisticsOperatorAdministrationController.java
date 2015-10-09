@@ -1,8 +1,5 @@
 package com.lsntsolutions.gtmApp.controllers.administration;
 
-import java.util.List;
-import java.util.Map;
-
 import com.lsntsolutions.gtmApp.dto.LogisticsOperatorDTO;
 import com.lsntsolutions.gtmApp.model.LogisticsOperator;
 import com.lsntsolutions.gtmApp.model.Province;
@@ -14,14 +11,11 @@ import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.lsntsolutions.gtmApp.dto.LogisticsOperatorDTO;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class LogisticsOperatorAdministrationController {
@@ -33,8 +27,13 @@ public class LogisticsOperatorAdministrationController {
 	private ProvinceService provinceService;
 
 	@RequestMapping(value = "/logisticsOperators", method = RequestMethod.POST)
-	public ModelAndView logisticsOperators() {
-		return new ModelAndView("logisticsOperators", "logisticsOperators", this.logisticsOperatorService.getAll());
+	public ModelAndView logisticsOperators(@RequestParam Map<String, String> parametersMap) {
+		String searchPhrase = parametersMap.get("searchPhrase");
+		if (searchPhrase.matches("")) {
+			return new ModelAndView("logisticsOperators", "logisticsOperators", this.logisticsOperatorService.getAll());
+		} else {
+			return new ModelAndView("logisticsOperators", "logisticsOperators", this.logisticsOperatorService.getForAutocomplete(searchPhrase, null));
+		}
 	}
 
 	@RequestMapping(value = "/logisticsOperatorAdministration", method = RequestMethod.GET)

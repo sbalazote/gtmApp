@@ -1,27 +1,22 @@
 package com.lsntsolutions.gtmApp.controllers.administration;
 
-import java.util.List;
-import java.util.Map;
-
+import com.lsntsolutions.gtmApp.dto.DeliveryLocationDTO;
+import com.lsntsolutions.gtmApp.model.DeliveryLocation;
 import com.lsntsolutions.gtmApp.model.Province;
-import com.lsntsolutions.gtmApp.service.DeliveryLocationService;
 import com.lsntsolutions.gtmApp.service.AgentService;
+import com.lsntsolutions.gtmApp.service.DeliveryLocationService;
+import com.lsntsolutions.gtmApp.service.ProvinceService;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.lsntsolutions.gtmApp.dto.DeliveryLocationDTO;
-import com.lsntsolutions.gtmApp.model.DeliveryLocation;
-import com.lsntsolutions.gtmApp.service.ProvinceService;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class DeliveryLocationAdministrationController {
@@ -39,8 +34,13 @@ public class DeliveryLocationAdministrationController {
 	private com.lsntsolutions.gtmApp.service.VATLiabilityService VATLiabilityService;
 
 	@RequestMapping(value = "/deliveryLocations", method = RequestMethod.POST)
-	public ModelAndView deliveryLocations() {
-		return new ModelAndView("deliveryLocations", "deliveryLocations", this.deliveryLocationService.getAll());
+	public ModelAndView deliveryLocations(@RequestParam Map<String, String> parametersMap) {
+		String searchPhrase = parametersMap.get("searchPhrase");
+		if (searchPhrase.matches("")) {
+			return new ModelAndView("deliveryLocations", "deliveryLocations", this.deliveryLocationService.getAll());
+		} else {
+			return new ModelAndView("deliveryLocations", "deliveryLocations", this.deliveryLocationService.getForAutocomplete(searchPhrase, null));
+		}
 	}
 
 	@RequestMapping(value = "/deliveryLocationAdministration", method = RequestMethod.GET)

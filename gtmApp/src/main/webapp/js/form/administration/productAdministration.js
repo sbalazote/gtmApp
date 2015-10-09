@@ -5,6 +5,10 @@ ProductAdministration = function() {
 	var entity = "";
 	var productGtins;
 	var productPrices;
+
+	var searchHTML;
+	var searchPhrase;
+	var exportHTML;
 	
 	$("body").tooltip({ selector: '[data-toggle="tooltip"]' });
 	
@@ -483,13 +487,12 @@ ProductAdministration = function() {
 			$('#productModal').modal('show');
 		});
 	});
-	var searchHTML = $('div#product .search');
-	var searchPhrase = '&searchPhrase=' + $('div#product .search-field').val(); 
-	var exportHTML = exportQueryTableHTML("./rest/products", searchPhrase);
-	searchHTML.before(exportHTML);
+
+	$('div#product .search').before(exportQueryTableHTML("./rest/products", '&searchPhrase=' + $('div#product .search-field').val()));
 	
 	$('div#product .search-field').keyup(function(e) {
-		searchPhrase = '&searchPhrase=' + $('div#product .search-field').val(); 
+		searchHTML = $('div#product .search');
+		searchPhrase = '&searchPhrase=' + $('div#product .search-field').val();
 		exportHTML = exportQueryTableHTML("./rest/products", searchPhrase);
 		if (searchHTML.prev().length == 0) {
 			searchHTML.before(exportHTML);
@@ -612,9 +615,19 @@ ProductAdministration = function() {
 			$('#productBrandModal').modal('show');
 		});
 	});
-	
-	var exportHTML = exportTableHTML("./rest/productBrands");
-	$("#productBrand").find(".search").before(exportHTML);
+
+	$('div#productBrand .search').before(exportQueryTableHTML("./rest/productBrands", '&searchPhrase=' + $('div#productBrand .search-field').val()));
+
+	$('div#productBrand .search-field').keyup(function(e) {
+		searchHTML = $('div#productBrand .search');
+		searchPhrase = '&searchPhrase=' + $('div#productBrand .search-field').val();
+		exportHTML = exportQueryTableHTML("./rest/productBrands", searchPhrase);
+		if (searchHTML.prev().length == 0) {
+			searchHTML.before(exportHTML);
+		} else {
+			searchHTML.prev().html(exportHTML);
+		}
+	});
 	//Fin Modulo Marcas
 	
 	
@@ -731,9 +744,19 @@ ProductAdministration = function() {
 			$('#productMonodrugModal').modal('show');
 		});
 	});
-	
-	var exportHTML = exportTableHTML("./rest/productMonodrugs");
-	$("#productMonodrug").find(".search").before(exportHTML);
+
+	$('div#productMonodrug .search').before(exportQueryTableHTML("./rest/productMonodrugs", '&searchPhrase=' + $('div#productMonodrug .search-field').val()));
+
+	$('div#productMonodrug .search-field').keyup(function(e) {
+		searchHTML = $('div#productMonodrug .search');
+		searchPhrase = '&searchPhrase=' + $('div#productMonodrug .search-field').val();
+		exportHTML = exportQueryTableHTML("./rest/productMonodrugs", searchPhrase);
+		if (searchHTML.prev().length == 0) {
+			searchHTML.before(exportHTML);
+		} else {
+			searchHTML.prev().html(exportHTML);
+		}
+	});
 	//Fin Modulo Monodroga
 	
 	
@@ -850,9 +873,19 @@ ProductAdministration = function() {
 			$('#productDrugCategoryModal').modal('show');
 		});
 	});
-	
-	var exportHTML = exportTableHTML("./rest/productDrugCategories");
-	$("#productDrugCategory").find(".search").before(exportHTML);
+
+	$('div#productDrugCategory .search').before(exportQueryTableHTML("./rest/productDrugCategories", '&searchPhrase=' + $('div#productDrugCategory .search-field').val()));
+
+	$('div#productDrugCategory .search-field').keyup(function(e) {
+		searchHTML = $('div#productDrugCategory .search');
+		searchPhrase = '&searchPhrase=' + $('div#productDrugCategory .search-field').val();
+		exportHTML = exportQueryTableHTML("./rest/productDrugCategories", searchPhrase);
+		if (searchHTML.prev().length == 0) {
+			searchHTML.before(exportHTML);
+		} else {
+			searchHTML.prev().html(exportHTML);
+		}
+	});
 	//Fin Modulo Drug Category
 	
 	
@@ -969,9 +1002,19 @@ ProductAdministration = function() {
 			$('#productGroupModal').modal('show');
 		});
 	});
-	
-	var exportHTML = exportTableHTML("./rest/productGroups");
-	$("#productGroup").find(".search").before(exportHTML);
+
+	$('div#productGroup .search').before(exportQueryTableHTML("./rest/productGroups", '&searchPhrase=' + $('div#productGroup .search-field').val()));
+
+	$('div#productGroup .search-field').keyup(function(e) {
+		searchHTML = $('div#productGroup .search');
+		searchPhrase = '&searchPhrase=' + $('div#productGroup .search-field').val();
+		exportHTML = exportQueryTableHTML("./rest/productGroups", searchPhrase);
+		if (searchHTML.prev().length == 0) {
+			searchHTML.before(exportHTML);
+		} else {
+			searchHTML.prev().html(exportHTML);
+		}
+	});
 	//Fin Modulo Grupo de Productos
 	
 	$("#deleteEntityButton").click(function() {

@@ -1,8 +1,5 @@
 package com.lsntsolutions.gtmApp.controllers.administration;
 
-import java.util.List;
-import java.util.Map;
-
 import com.lsntsolutions.gtmApp.dto.ProviderTypeDTO;
 import com.lsntsolutions.gtmApp.model.ProviderType;
 import com.lsntsolutions.gtmApp.service.ProviderTypeService;
@@ -11,12 +8,11 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ProviderTypeAdministrationController {
@@ -25,8 +21,13 @@ public class ProviderTypeAdministrationController {
 	private ProviderTypeService providerTypeService;
 
 	@RequestMapping(value = "/providerTypes", method = RequestMethod.POST)
-	public ModelAndView providerTypes() {
-		return new ModelAndView("providerTypes", "providerTypes", this.providerTypeService.getAll());
+	public ModelAndView providerTypes(@RequestParam Map<String, String> parametersMap) {
+		String searchPhrase = parametersMap.get("searchPhrase");
+		if (searchPhrase.matches("")) {
+			return new ModelAndView("providerTypes", "providerTypes", this.providerTypeService.getAll());
+		} else {
+			return new ModelAndView("providerTypes", "providerTypes", this.providerTypeService.getForAutocomplete(searchPhrase, null));
+		}
 	}
 
 	@RequestMapping(value = "/saveProviderType", method = RequestMethod.POST)

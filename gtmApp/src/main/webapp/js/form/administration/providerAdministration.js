@@ -1,7 +1,10 @@
 $(document).ready(function() {
 	
 	var entity = "";
-	
+	var searchHTML;
+	var searchPhrase;
+	var exportHTML;
+
 	// Modulo Proveedor
 	
 	var providerId;
@@ -151,9 +154,19 @@ $(document).ready(function() {
 			$('#providerModal').modal('show');
 		});
 	});
-	
-	var exportHTML = exportTableHTML("./rest/providers");
-	$("#provider").find(".search").before(exportHTML);
+
+	$('div#provider .search').before(exportQueryTableHTML("./rest/providers", '&searchPhrase=' + $('div#provider .search-field').val()));
+
+	$('div#provider .search-field').keyup(function(e) {
+		searchHTML = $('div#provider .search');
+		searchPhrase = '&searchPhrase=' + $('div#provider .search-field').val();
+		exportHTML = exportQueryTableHTML("./rest/providers", searchPhrase);
+		if (searchHTML.prev().length == 0) {
+			searchHTML.before(exportHTML);
+		} else {
+			searchHTML.prev().html(exportHTML);
+		}
+	});
 	// Fin Modulo Proveedor
 	
 	// Modulo Tipo de Proveedor
@@ -269,9 +282,19 @@ $(document).ready(function() {
 			$('#providerTypeModal').modal('show');
 		});
 	});
-	
-	var exportHTML = exportTableHTML("./rest/providerTypes");
-	$("#providerType").find(".search").before(exportHTML);
+
+	$('div#providerType .search').before(exportQueryTableHTML("./rest/providerTypes", '&searchPhrase=' + $('div#providerType .search-field').val()));
+
+	$('div#providerType .search-field').keyup(function(e) {
+		searchHTML = $('div#providerType .search');
+		searchPhrase = '&searchPhrase=' + $('div#providerType .search-field').val();
+		exportHTML = exportQueryTableHTML("./rest/providerTypes", searchPhrase);
+		if (searchHTML.prev().length == 0) {
+			searchHTML.before(exportHTML);
+		} else {
+			searchHTML.prev().html(exportHTML);
+		}
+	});
 	// Fin Modulo Tipo de Proveedor
 	
 	$("#deleteEntityButton").click(function() {

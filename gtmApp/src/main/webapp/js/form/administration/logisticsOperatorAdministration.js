@@ -131,10 +131,22 @@ $(document).ready(function() {
 			$('#logisticsOperatorModal').modal('show');
 		});
 	});
-	
-	var exportHTML = exportTableHTML("./rest/logisticsOperators");
-	$(".search").before(exportHTML);
-	
+
+	var searchHTML = $('.search');
+	var searchPhrase = '&searchPhrase=' + $('.search-field').val();
+	var exportHTML = exportQueryTableHTML("./rest/logisticsOperators", searchPhrase);
+	searchHTML.before(exportHTML);
+
+	$('.search-field').keyup(function(e) {
+		searchPhrase = '&searchPhrase=' + $('.search-field').val();
+		exportHTML = exportQueryTableHTML("./rest/logisticsOperators", searchPhrase);
+		if (searchHTML.prev().length == 0) {
+			searchHTML.before(exportHTML);
+		} else {
+			searchHTML.prev().html(exportHTML);
+		}
+	});
+
 	$("#deleteEntityButton").click(function() {
 		deleteLogisticsOperator(logisticsOperatorId);
 	});
