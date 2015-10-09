@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class AffiliatesPdfView extends AbstractPdfView {
-	PdfPTable table = new PdfPTable(8); // 8 columnas
+	PdfPTable table = new PdfPTable(7); // 7 columnas
 	SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
 	Date now = new Date();
 
@@ -135,7 +135,7 @@ public class AffiliatesPdfView extends AbstractPdfView {
 		HeaderFooterPageEvent event = new HeaderFooterPageEvent();
 		writer.setPageEvent(event);
 		table.setWidthPercentage(95);
-		float[] columnWidths = {1f, 1f, 4f, 4f, 2f, 2f, 2f, 1f};
+		float[] columnWidths = {1f, 1f, 4f, 4f, 2f, 2f, 1f};
 		table.setWidths(columnWidths);
 		document.open();
 		@SuppressWarnings("unchecked")
