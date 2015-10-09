@@ -123,10 +123,22 @@ $(document).ready(function() {
 			$('#affiliateModal').modal('show');
 		});
 	});
-		
-	var exportHTML = exportTableHTML("./rest/affiliates");
-	$(".search").before(exportHTML);
-	
+
+	var searchHTML = $('.search');
+	var searchPhrase = '&searchPhrase=' + $('.search-field').val();
+	var exportHTML = exportQueryTableHTML("./rest/affiliates", searchPhrase);
+	searchHTML.before(exportHTML);
+
+	$('.search-field').keyup(function(e) {
+		searchPhrase = '&searchPhrase=' + $('.search-field').val();
+		exportHTML = exportQueryTableHTML("./rest/affiliates", searchPhrase);
+		if (searchHTML.prev().length == 0) {
+			searchHTML.before(exportHTML);
+		} else {
+			searchHTML.prev().html(exportHTML);
+		}
+	});
+
 	$("#deleteEntityButton").click(function() {
 		deleteAffiliate(affiliateId);
 	});

@@ -1,27 +1,23 @@
 package com.lsntsolutions.gtmApp.controllers.administration;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import com.lsntsolutions.gtmApp.constant.DocumentType;
 import com.lsntsolutions.gtmApp.dto.AffiliateDTO;
+import com.lsntsolutions.gtmApp.model.Affiliate;
 import com.lsntsolutions.gtmApp.model.Client;
 import com.lsntsolutions.gtmApp.service.AffiliateService;
 import com.lsntsolutions.gtmApp.service.ClientService;
-import com.lsntsolutions.gtmApp.constant.DocumentType;
-import com.lsntsolutions.gtmApp.model.Affiliate;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class AffiliateAdministrationController {
@@ -33,8 +29,13 @@ public class AffiliateAdministrationController {
 	private AffiliateService affiliateService;
 
 	@RequestMapping(value = "/affiliates", method = RequestMethod.POST)
-	public ModelAndView affiliates() {
-		return new ModelAndView("affiliates", "affiliates", this.affiliateService.getAll());
+	public ModelAndView affiliates(@RequestParam Map<String, String> parametersMap) {
+		String searchPhrase = parametersMap.get("searchPhrase");
+		if (searchPhrase.matches("")) {
+			return new ModelAndView("affiliates", "affiliates", this.affiliateService.getAll());
+		} else {
+			return new ModelAndView("affiliates", "affiliates", this.affiliateService.getForAutocomplete(searchPhrase, null));
+		}
 	}
 
 	@RequestMapping(value = "/affiliateAdministration", method = RequestMethod.GET)

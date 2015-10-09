@@ -318,7 +318,7 @@ $(document).ready(function() {
 		"<span class=\"icon glyphicon glyphicon-tasks\"></span> Exportar" +
 		"</button>" +
 		"<ul class=\"dropdown-menu \" role=\"menu\">" +
-		"<li><a href=\"#\" onclick=\"blockUIForDownloadQuery('"+url+".json','" + params + "'\);\"> <img src=\"icons/json.png\" width=\"24px\"> JSON</a></li>" +
+		"<li><a href=\"#\" onclick=\"blockUIForDownloadQuery('"+url+".json','" + params + "\');\"> <img src=\"icons/json.png\" width=\"24px\"> JSON</a></li>" +
 		"<li class=\"divider\"></li>" +
 		"<li><a href=\"#\" onclick=\"blockUIForDownloadQuery('"+url+".xml', '" + params + "\');\"> <img src=\"icons/xml.png\" width=\"24px\"> XML</a></li>" +
 		"<li class=\"divider\"></li>" +
