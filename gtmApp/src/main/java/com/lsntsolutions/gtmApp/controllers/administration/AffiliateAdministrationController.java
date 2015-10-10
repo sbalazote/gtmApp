@@ -31,11 +31,9 @@ public class AffiliateAdministrationController {
 	@RequestMapping(value = "/affiliates", method = RequestMethod.POST)
 	public ModelAndView affiliates(@RequestParam Map<String, String> parametersMap) {
 		String searchPhrase = parametersMap.get("searchPhrase");
-		if (searchPhrase.matches("")) {
-			return new ModelAndView("affiliates", "affiliates", this.affiliateService.getAll());
-		} else {
-			return new ModelAndView("affiliates", "affiliates", this.affiliateService.getForAutocomplete(searchPhrase, null));
-		}
+		String clientId = parametersMap.get("clientId");
+
+		return new ModelAndView("affiliates", "affiliates", this.affiliateService.getForAutocomplete(searchPhrase, clientId.isEmpty() ? null : Integer.parseInt(clientId), null, null, null));
 	}
 
 	@RequestMapping(value = "/affiliateAdministration", method = RequestMethod.GET)
@@ -108,6 +106,7 @@ public class AffiliateAdministrationController {
 		String searchPhrase = parametersMap.get("searchPhrase");
 		Integer current = Integer.parseInt(parametersMap.get("current"));
 		Integer rowCount = Integer.parseInt(parametersMap.get("rowCount"));
+		String clientId = parametersMap.get("clientId");
 
 		JSONArray jsonArray = new JSONArray();
 		int start = (current - 1) * rowCount;
@@ -115,18 +114,15 @@ public class AffiliateAdministrationController {
 		long total;
 
 		List<Affiliate> listAffiliates;
-		if (searchPhrase.matches("")) {
-			listAffiliates = this.affiliateService.getPaginated(start, length);
-			total = this.affiliateService.getTotalNumber();
+
+		listAffiliates = this.affiliateService.getForAutocomplete(searchPhrase, clientId.isEmpty() ? null : Integer.parseInt(clientId), null, null, null);
+		total = listAffiliates.size();
+		if (total < start + length) {
+			listAffiliates = listAffiliates.subList(start, (int) total);
 		} else {
-			listAffiliates = this.affiliateService.getForAutocomplete(searchPhrase, null);
-			total = listAffiliates.size();
-			if (total < start + length) {
-				listAffiliates = listAffiliates.subList(start, (int) total);
-			} else {
-				listAffiliates = listAffiliates.subList(start, start + length);
-			}
+			listAffiliates = listAffiliates.subList(start, start + length);
 		}
+
 
 		for (Affiliate affiliate : listAffiliates) {
 			JSONObject dataJson = new JSONObject();
@@ -142,7 +138,7 @@ public class AffiliateAdministrationController {
 			}
 
 			dataJson.put("document", affiliate.getDocument());
-			dataJson.put("isActive", affiliate.isActive() == true ? "Si" : "No");
+			dataJson.put("isActive", affiliate.isActive() ? "Si" : "No");
 			jsonArray.put(dataJson);
 		}
 

@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	
 	var affiliateId;
+	var clientId = "";
 	
 	var resetForm = function() {
 		$("#idInput").val('');
@@ -85,9 +86,15 @@ $(document).ready(function() {
 	var affiliatesTable = $("#affiliatesTable").bootgrid({
 	    ajax: true,
 	    requestHandler: function (request) {
-	    	return request; 
+			return {
+				clientId: clientId,
+				current: request.current,
+				rowCount: request.rowCount,
+				searchPhrase: request.searchPhrase
+			};
 	    },
 	    url: "./getMatchedAffiliates.do",
+		//post: function () { return {'clientId':clientId}; },
 	    formatters: {
 	        "commands": function(column, row)
 	        {
@@ -126,12 +133,14 @@ $(document).ready(function() {
 
 	var searchHTML = $('.search');
 	var searchPhrase = '&searchPhrase=' + $('.search-field').val();
-	var exportHTML = exportQueryTableHTML("./rest/affiliates", searchPhrase);
+	var client = '&clientId=' + clientId;
+	var exportHTML = exportQueryTableHTML("./rest/affiliates", searchPhrase + client);
 	searchHTML.before(exportHTML);
 
 	$('.search-field').keyup(function(e) {
 		searchPhrase = '&searchPhrase=' + $('.search-field').val();
-		exportHTML = exportQueryTableHTML("./rest/affiliates", searchPhrase);
+		client = '&clientId=' + clientId;
+		exportHTML = exportQueryTableHTML("./rest/affiliates", searchPhrase + client);
 		if (searchHTML.prev().length == 0) {
 			searchHTML.before(exportHTML);
 		} else {
@@ -141,5 +150,18 @@ $(document).ready(function() {
 
 	$("#deleteEntityButton").click(function() {
 		deleteAffiliate(affiliateId);
+	});
+
+	$('#clientSearch').on('change', function(evt, params) {
+		clientId = $("#clientSearch").val();
+		searchPhrase = '&searchPhrase=' + $('.search-field').val();
+		client = '&clientId=' + clientId;
+		exportHTML = exportQueryTableHTML("./rest/affiliates", searchPhrase + client);
+		if (searchHTML.prev().length == 0) {
+			searchHTML.before(exportHTML);
+		} else {
+			searchHTML.prev().html(exportHTML);
+		}
+		affiliatesTable.bootgrid("reload");
 	});
 });

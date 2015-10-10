@@ -27,6 +27,21 @@
 </div>
 
 <br>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 form-group">
+		<label for="clientSearch"><spring:message code="common.client" /></label>
+		<select id="clientSearch" name="clientSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
+			<option value=""></option>
+			<c:forEach items="${clients}" var="client">
+				<option value="${client.id}"><c:out value="${client.code}"></c:out> - <c:out value="${client.name}"></c:out></option>
+			</c:forEach>
+		</select>
+	</div>
+</div>
+
+<br>
+
 <table id="affiliatesTable" class="table table-condensed table-hover table-striped">
 	<thead>
 		<tr>

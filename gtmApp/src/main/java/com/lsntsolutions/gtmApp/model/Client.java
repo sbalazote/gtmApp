@@ -2,19 +2,9 @@ package com.lsntsolutions.gtmApp.model;
 
 import com.lsntsolutions.gtmApp.util.StringUtility;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "client")
@@ -68,6 +58,10 @@ public class Client implements Serializable {
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "client_delivery_location", joinColumns = @JoinColumn(name = "client_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "delivery_location_id", nullable = false))
 	private List<DeliveryLocation> deliveryLocations;
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "client_affiliate", joinColumns = @JoinColumn(name = "client_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "affiliate_id", nullable = false))
+	private List<Affiliate> affiliates;
 
 	public Integer getId() {
 		return this.id;
@@ -184,4 +178,8 @@ public class Client implements Serializable {
 	public void setDeliveryLocations(List<DeliveryLocation> deliveryLocations) {
 		this.deliveryLocations = deliveryLocations;
 	}
+
+	public List<Affiliate> getAffiliates() { return affiliates; }
+
+	public void setAffiliates(List<Affiliate> affiliates) { this.affiliates = affiliates; }
 }
