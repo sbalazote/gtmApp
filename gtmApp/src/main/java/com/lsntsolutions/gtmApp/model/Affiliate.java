@@ -1,9 +1,10 @@
 package com.lsntsolutions.gtmApp.model;
 
-import java.io.Serializable;
-import java.util.List;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "affiliate")
@@ -36,6 +37,7 @@ public class Affiliate implements Serializable {
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "client_affiliate", joinColumns = @JoinColumn(name = "affiliate_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "client_id", nullable = false))
+	@JsonManagedReference
 	private List<Client> clients;
 
 	public Integer getId() {
