@@ -72,6 +72,8 @@ SearchSerializedProduct = function() {
     $("#cleanButton").click(function() {
         $('#productInput').val('');
         $('#serialNumberSearch').val('');
+        $('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
+        $('#serialNumberSearch').data("title", "").removeClass("has-error").tooltip("destroy");
         productId = "";
         $("#movementsTable").bootgrid().bootgrid("clear");
         $('#divMovements').hide();
@@ -88,6 +90,7 @@ SearchSerializedProduct = function() {
         $('#serialParserSearch').val('');
         $("#movementsTable").bootgrid().bootgrid("clear");
         $('#divMovements').hide();
+        $('#serialParserSearch').data("title", "").removeClass("has-error").tooltip("destroy");
     });
 
 	//Consulta de Ingresos
