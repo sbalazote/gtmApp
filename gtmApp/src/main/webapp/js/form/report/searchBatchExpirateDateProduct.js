@@ -68,6 +68,8 @@ SearchBatchExpirateDateProduct = function() {
 		$('#productInput').val('');
 		productId = "";
 		$('#batchSearch').val('');
+        $('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
+        $('#batchSearch').data("title", "").removeClass("has-error").tooltip("destroy");
 		if($("#dateSearch").val()!= ""){
 			$.datepicker._clearDate('#dateSearch');
 		}
