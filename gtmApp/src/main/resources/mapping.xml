@@ -1,0 +1,56 @@
+<mapping>
+    <class name="com.lsntsolutions.gtmApp.dto.AuditResultDTO">
+
+        <map-to xml="ListaAuditoria" />
+
+        <field name="inputs" collection="arraylist" type="com.lsntsolutions.gtmApp.dto.AuditDTO">
+            <bind-xml name="Recepcion" node="element" />
+        </field>
+
+        <field name="outputs" collection="arraylist" type="com.lsntsolutions.gtmApp.dto.AuditDTO">
+            <bind-xml name="Egreso" node="element" />
+        </field>
+
+        <field name="orders" collection="arraylist" type="com.lsntsolutions.gtmApp.dto.AuditDTO">
+            <bind-xml name="Armado" node="element" />
+        </field>
+
+        <field name="deliveryNotes" collection="arraylist" type="com.lsntsolutions.gtmApp.dto.AuditDTO">
+            <bind-xml name="Remito" node="element" />
+        </field>
+
+        <field name="supplyings" collection="arraylist" type="com.lsntsolutions.gtmApp.dto.AuditDTO">
+            <bind-xml name="Dispensa" node="element" />
+        </field>
+
+    </class>
+    <class name="com.lsntsolutions.gtmApp.dto.AuditDTO">
+
+        <map-to xml="Auditoria" />
+
+        <field name="id" type="integer">
+            <bind-xml name="Identificador" node="attribute" />
+        </field>
+
+        <field name="role" type="string">
+            <bind-xml name="Rol" node="attribute" />
+        </field>
+
+        <field name="operationId" type="integer">
+            <bind-xml name="Operacion" node="attribute" />
+        </field>
+
+        <field name="auditAction" type="string">
+            <bind-xml name="Accion" node="attribute" />
+        </field>
+
+        <field name="date" type="string">
+            <bind-xml name="Fecha" node="attribute" />
+        </field>
+
+        <field name="username" type="string">
+            <bind-xml name="Usuario" node="attribute" />
+        </field>
+
+    </class>
+</mapping>

@@ -36,7 +36,7 @@
 				<input type="text" class="form-control" name="batchSearch" id="batchSearch" >
 			</div>
 			<div class="col-md-4 col-lg-4 form-group">
-				<label for="dateSearch"><spring:message code="common.dateFrom"/></label>
+				<label for="dateSearch"><spring:message code="common.expirationDate"/></label>
 				<div class="input-group">
 					<input type="text" class="form-control" name="dateSearch" id="dateSearch">
 					<span class="input-group-addon" id="dateButton" style="cursor:pointer;">

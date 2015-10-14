@@ -213,8 +213,8 @@ SearchBatchExpirateDateProduct = function() {
                             searchHTML.prev().html(exportHTML);
                         }
                     }else{
-
-                        BootstrapDialog.show({
+                        myEmptyQueryAlert();
+                        /*BootstrapDialog.show({
                             type: BootstrapDialog.TYPE_INFO,
                             title: 'Atenci\u00f3n',
                             message: "No se han encontrado elementos para la consulta realizada.",
@@ -225,7 +225,7 @@ SearchBatchExpirateDateProduct = function() {
                                     dialogItself.close();
                                 }
                             }]
-                        });
+                        });*/
                     }
 
                 },

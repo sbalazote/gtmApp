@@ -9,6 +9,8 @@ public class AuditDTO {
 	private String date;
 	private String username;
 
+	public AuditDTO() {}
+
 	public AuditDTO(Integer id, String role, Integer operationId, String auditAction, String date, String username) {
 		super();
 		this.id = id;

@@ -38,13 +38,15 @@
 				</bean>
 				<bean class="com.lsntsolutions.gtmApp.helper.MyCustomMarshallingView">
 				<constructor-arg>
-					<bean class="org.springframework.oxm.castor.CastorMarshaller"/>
+					<bean class="org.springframework.oxm.castor.CastorMarshaller">
+						<property name="mappingLocation" value="classpath:mapping.xml" />
+					</bean>
 				</constructor-arg>
 				</bean>
 			</list>
 		</property>
 	</bean>
-	
+
 	<!-- Simple strategy: only path extension is taken into account -->
 	<bean id="cnManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
 		<property name="favorPathExtension" value="true"/>

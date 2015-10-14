@@ -177,6 +177,10 @@ $(document).ready(function() {
 	myQueryTooLargeAlert = function() {
 		myShowAlert('danger', 'Consulta demasiado amplia. Por favor sea m\u00e1s especifico.');
 	};
+
+	myEmptyQueryAlert = function() {
+		myShowAlert('info', 'No se han encontrado elementos para la consulta realizada.');
+	};
 	
 	// Chequea si hay alerts que mostrar
 	var postSaveMessage = sessionStorage.getItem("postSaveMessage");
