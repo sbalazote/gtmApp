@@ -88,6 +88,8 @@ $(document).ready(function() {
 	});
 	
 	var agreementsTable = $("#agreementsTable").bootgrid({
+		columnSelection: false,
+		sorting: false,
 	    ajax: true,
 	    requestHandler: function (request) {
 	    	return request; 

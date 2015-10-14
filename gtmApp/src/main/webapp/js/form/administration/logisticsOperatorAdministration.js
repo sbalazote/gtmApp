@@ -91,6 +91,8 @@ $(document).ready(function() {
 	});
 	
 	var logisticsOperatorsTable = $("#logisticsOperatorsTable").bootgrid({
+		columnSelection: false,
+		sorting: false,
 	    ajax: true,
 	    requestHandler: function (request) {
 	    	return request; 

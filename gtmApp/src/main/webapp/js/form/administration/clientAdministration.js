@@ -103,6 +103,8 @@ $(document).ready(function() {
 	});
 	
 	var clientsTable = $("#clientsTable").bootgrid({
+		columnSelection: false,
+		sorting: false,
 	    ajax: true,
 	    requestHandler: function (request) {
 	    	return request; 

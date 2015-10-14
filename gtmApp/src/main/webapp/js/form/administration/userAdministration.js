@@ -76,6 +76,8 @@ $(document).ready(function() {
 	});
 	
 	var usersTable = $("#usersTable").bootgrid({
+		columnSelection: false,
+		sorting: false,
 	    ajax: true,
 	    requestHandler: function (request) {
 	    	return request; 

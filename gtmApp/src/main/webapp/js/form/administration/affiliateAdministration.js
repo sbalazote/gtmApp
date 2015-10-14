@@ -84,6 +84,8 @@ $(document).ready(function() {
 	});
 	
 	var affiliatesTable = $("#affiliatesTable").bootgrid({
+		columnSelection: false,
+		sorting: false,
 	    ajax: true,
 	    requestHandler: function (request) {
 			return {
@@ -94,7 +96,6 @@ $(document).ready(function() {
 			};
 	    },
 	    url: "./getMatchedAffiliates.do",
-		//post: function () { return {'clientId':clientId}; },
 	    formatters: {
 	        "commands": function(column, row)
 	        {

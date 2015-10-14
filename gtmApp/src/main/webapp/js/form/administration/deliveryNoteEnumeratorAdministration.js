@@ -81,6 +81,8 @@ $(document).ready(function() {
     });
 
     var deliveryNoteEnumeratorsTable = $("#deliveryNoteEnumeratorsTable").bootgrid({
+        columnSelection: false,
+        sorting: false,
         ajax: true,
         requestHandler: function (request) {
             return request;

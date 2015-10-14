@@ -11,7 +11,7 @@ $(document).ready(function() {
 			url: "deleteProviderSerializedFormat.do",
 			type: "POST",
 			data: {
-				serializedFormatId: serializedFormatId,
+				serializedFormatId: serializedFormatId
 			},
 			async: true,
 			success: function(response) {
@@ -44,10 +44,10 @@ $(document).ready(function() {
 					sequence: ""
 				};
 				providerSerializedFormat.id = response[i].id;
-				providerSerializedFormat.gtinLength = response[i].gtinLength;
-				providerSerializedFormat.serialNumberLength = response[i].serialNumberLength;
-				providerSerializedFormat.expirationDateLength = response[i].expirationDateLength;
-				providerSerializedFormat.batchLength = response[i].batchLength;
+				providerSerializedFormat.gtinLength = response[i].gtinLength != null ? response[i].gtinLength : "-";
+				providerSerializedFormat.serialNumberLength = response[i].serialNumberLength != null ? response[i].serialNumberLength : "-";
+				providerSerializedFormat.expirationDateLength = response[i].expirationDateLength != null ? response[i].expirationDateLength : "-";
+				providerSerializedFormat.batchLength = response[i].batchLength != null ? response[i].batchLength : "-";
 				providerSerializedFormat.sequence = response[i].sequence;
 				
 				aaData.push(providerSerializedFormat);

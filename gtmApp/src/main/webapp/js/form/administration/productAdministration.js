@@ -429,6 +429,8 @@ ProductAdministration = function() {
 	});
 	
 	var productsTable = $("#productsTable").bootgrid({
+		columnSelection: false,
+		sorting: false,
 	    ajax: true,
 	    requestHandler: function (request) {
 	    	return request; 
@@ -574,6 +576,8 @@ ProductAdministration = function() {
 	});
 	
 	var productBrandsTable = $("#productBrandsTable").bootgrid({
+		columnSelection: false,
+		sorting: false,
 	    ajax: true,
 	    requestHandler: function (request) {
 	    	return request; 
@@ -703,6 +707,8 @@ ProductAdministration = function() {
 	});
 	
 	var productMonodrugsTable = $("#productMonodrugsTable").bootgrid({
+		columnSelection: false,
+		sorting: false,
 	    ajax: true,
 	    requestHandler: function (request) {
 	    	return request; 
@@ -832,6 +838,8 @@ ProductAdministration = function() {
 	});
 	
 	var productDrugCategoriesTable = $("#productDrugCategoriesTable").bootgrid({
+		columnSelection: false,
+		sorting: false,
 	    ajax: true,
 	    requestHandler: function (request) {
 	    	return request; 
@@ -961,6 +969,8 @@ ProductAdministration = function() {
 	});
 
 	var productGroupsTable = $("#productGroupsTable").bootgrid({
+		columnSelection: false,
+		sorting: false,
 	    ajax: true,
 	    requestHandler: function (request) {
 	    	return request; 

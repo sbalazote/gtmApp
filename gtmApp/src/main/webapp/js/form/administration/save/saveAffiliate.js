@@ -7,19 +7,19 @@ SaveAffiliate = function() {
 				code: {
 					required: true,
 					digits: true,
-					maxlength: 45,
+					maxlength: 45
 				},
 				name: {
 					required: true,
-					maxlength: 45,
+					maxlength: 45
 				},
 				surname: {
 					required: true,
-					maxlength: 45,
+					maxlength: 45
 				},
 				document: {
 					digits: true,
-					maxlength: 15,
+					maxlength: 15
 				},
 				client: {
 					required: true
