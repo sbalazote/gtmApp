@@ -125,9 +125,10 @@ public class AffiliateDAOHibernateImpl implements AffiliateDAO {
 	public List<Affiliate> getAllAffiliatesByClient(Integer clientId, Boolean active) {
 		Query query = null;
 
-		String sentence = "from Affiliate where client.id = :clientId and active = true";
+		String sentence = "select a from Affiliate as a inner join a.clients as c where c.id = :clientId and a.active = true";
 
 		query = this.sessionFactory.getCurrentSession().createQuery(sentence);
+
 		query.setParameter("clientId", clientId);
 
 		return query.list();

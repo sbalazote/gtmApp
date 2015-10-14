@@ -206,7 +206,7 @@ OrderAssembly = function() {
 	var validateRemainingProducts = function() {
 		var buttons = $(".assign-button");
 		for (var i = 0; i < buttons.length; i++) {
-			if (buttons[i].innerHTML == "Asignar") {
+			if (buttons[i].innerHTML == "<span class=\"glyphicon glyphicon-barcode\"></span> Asignar") {
 				return false;
 			}
 		}
