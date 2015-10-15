@@ -478,7 +478,7 @@ Output = function() {
 				    }
 				});
 			} else {
-				myShowAlert('danger', 'Por favor, ingrese al menos un producto.');
+				myShowAlert('warning', 'Por favor, ingrese al menos un producto.');
 			}
 		}
 	});
@@ -499,7 +499,16 @@ Output = function() {
 		}*/
 	});
 
-	$("#outputForm input, #outputForm select").keypress(function(event) {
+	// TODO eliminar si con el keydown funciona correctamente.
+	/*$("#outputForm input, #outputForm select").keypress(function(event) {
 		return event.keyCode != 13;
+	});*/
+
+	$("#outputForm input, #outputForm select").keydown(function(event) {
+		if(event.keyCode == 115) { // Presiono F4
+			$("#confirmButton").trigger('click');
+		} else {
+			return event.keyCode != 13;
+		}
 	});
 };

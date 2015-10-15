@@ -367,7 +367,7 @@ SerializedReturns = function() {
 				});
 				
 			} else {
-				myShowAlert('danger', 'Por favor, lea al menos un producto.');
+				myShowAlert('warning', 'Por favor, lea al menos un producto.');
 			}
 		}
 	});
@@ -388,7 +388,16 @@ SerializedReturns = function() {
 		}
 	});
 
-	$("#serializedReturnsForm input, #serializedReturnsForm select").keypress(function(event) {
+	// TODO eliminar si con el keydown funciona correctamente.
+	/*$("#serializedReturnsForm input, #serializedReturnsForm select").keypress(function(event) {
 		return event.keyCode != 13;
+	});*/
+
+	$("#serializedReturnsForm input, #serializedReturnsForm select").keydown(function(event) {
+		if(event.keyCode == 115) { // Presiono F4
+			$("#confirmButton").trigger('click');
+		} else {
+			return event.keyCode != 13;
+		}
 	});
 };

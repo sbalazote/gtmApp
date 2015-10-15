@@ -446,7 +446,7 @@ AgreementTransfer = function() {
 					}
 				});
 			} else {
-				myShowAlert('danger', 'Por favor, ingrese al menos un producto.');
+				myShowAlert('warning', 'Por favor, ingrese al menos un producto.');
 			}
 		}
 	});
@@ -466,8 +466,17 @@ AgreementTransfer = function() {
 			isButtonConfirm = false;
 		}*/
 	});
-	
-	$("#agreementTransferForm input, #agreementTransferForm select").keypress(function(event) {
+
+	// TODO eliminar si con el keydown funciona correctamente.
+	/*$("#agreementTransferForm input, #agreementTransferForm select").keypress(function(event) {
 		return event.keyCode != 13;
+	});*/
+
+	$("#agreementTransferForm input, #agreementTransferForm select").keydown(function(event) {
+		if(event.keyCode == 115) { // Presiono F4
+			$("#confirmButton").trigger('click');
+		} else {
+			return event.keyCode != 13;
+		}
 	});
 };

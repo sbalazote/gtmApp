@@ -234,9 +234,17 @@ OrderAssembly = function() {
 	    	isButtonConfirm = false;
 	    }
 	});
-	
-	$("#orderAssemblyForm input, #orderAssemblyForm select").keypress(function(event) {
+
+	// TODO eliminar si con el keydown funciona correctamente.
+	/*$("#orderAssemblyForm input, #orderAssemblyForm select").keypress(function(event) {
 		return event.keyCode != 13;
+	});*/
+
+	$("#orderAssemblyForm input, #orderAssemblyForm select").keydown(function(event) {
+		if(event.keyCode == 115) { // Presiono F4
+			$("#confirmButton").trigger('click');
+		} else {
+			return event.keyCode != 13;
+		}
 	});
-	
 };

@@ -317,6 +317,7 @@ var Supplying = function() {
 					}
 				}]
 			});
+			$("#productInput").focus();
 		}
 	});
 /*
@@ -736,10 +737,10 @@ var Supplying = function() {
 						}
 					});
 				} else {
-					myShowAlert('danger', 'Por favor, seleccione un afiliado.');
+					myShowAlert('warning', 'Por favor, seleccione un afiliado.');
 				}
 			} else {
-				myShowAlert('danger', 'Por favor, ingrese al menos un producto.');
+				myShowAlert('warning', 'Por favor, ingrese al menos un producto.');
 			}
 		}
 	});
@@ -884,7 +885,16 @@ var Supplying = function() {
 		$("#affiliateInput").select2("val", "");
 	});
 
-	$("#supplyingForm input, #supplyingForm select").keypress(function(event) {
+	// TODO eliminar si con el keydown funciona correctamente.
+	/*$("#supplyingForm input, #supplyingForm select").keypress(function(event) {
 		return event.keyCode != 13;
+	});*/
+
+	$("#supplyingForm input, #supplyingForm select").keydown(function(event) {
+		if(event.keyCode == 115) { // Presiono F4
+			$("#confirmButton").trigger('click');
+		} else {
+			return event.keyCode != 13;
+		}
 	});
 };

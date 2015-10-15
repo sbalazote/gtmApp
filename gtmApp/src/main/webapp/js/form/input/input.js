@@ -557,7 +557,7 @@ Input = function() {
 				}
 				
 			} else {
-				myShowAlert('danger', 'Por favor, ingrese al menos un producto.');
+				myShowAlert('warning', 'Por favor, ingrese al menos un producto.');
 			}
 		}
 	});
@@ -648,9 +648,18 @@ Input = function() {
 		 if ($("#deliveryNoteNumberInput").val() != "")
 			 $("#deliveryNoteNumberInput").val(addLeadingZeros($("#deliveryNoteNumberInput").val(), 8));
 	 });
-	
-	$("#inputForm input, #inputForm select").keypress(function(event) {
+
+	// TODO eliminar si con el keydown funciona correctamente.
+	/*$("#inputForm input, #inputForm select").keypress(function(event) {
 		return event.keyCode != 13;
+	});*/
+
+	$("#inputForm input, #inputForm select").keydown(function(event) {
+		if(event.keyCode == 115) { // Presiono F4
+			$("#confirmButton").trigger('click');
+		} else {
+			return event.keyCode != 13;
+		}
 	});
 	
 	//Seleccion de Proveedor o Cliente de acuerdo al tipo de concepto.
