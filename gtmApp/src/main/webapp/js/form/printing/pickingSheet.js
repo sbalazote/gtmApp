@@ -27,43 +27,8 @@ PickingSheet = function() {
 	$("#confirmButton").click(function() {
 		if(provisioningsToPrint.length > 0){
 			generatePickingSheetPDF(provisioningsToPrint);
-			/*$.ajax({
-				url: "printPickingSheets.do",
-				type: "POST",
-				contentType: "application/json",
-				data: JSON.stringify(provisioningsToPrint),
-				async: true,
-				beforeSend : function() {
-					$.blockUI({ message: 'Espere un Momento por favor...' });
-				},
-				success: function(response) {
-					myReload("success", "Se han mandado a cola de impresi\u00f3n las siguientes hojas de picking: " + provisioningsToPrint);
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					myGenericError();
-				},
-				complete: function(jqXHR, textStatus) {
-					$.unblockUI();
-					if (textStatus === 'success') {
-						generateInputPDFReport(jqXHR.responseJSON.id,false);
-					}
-				}
-			});*/
 		}else{
 			myShowAlert('info', 'Seleccione al menos una Hoja de Picking');
-
-			/*BootstrapDialog.show({
-			 type: BootstrapDialog.TYPE_INFO,
-			 title: 'Atenci\u00f3n',
-			 message: "Seleccione al menos un elemento",
-			 closable: false,
-			 buttons: [{
-			 label: 'Cerrar',
-			 action: function(dialogItself){
-			 dialogItself.close();
-			 }
-			 }]
-			 });*/
 		}
 	});
 	

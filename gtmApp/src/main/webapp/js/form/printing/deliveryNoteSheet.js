@@ -41,19 +41,6 @@ var DeliveryNoteSheet = function() {
 			});
 		} else {
 			myShowAlert('info', 'Seleccione al menos un Armado');
-
-			/*BootstrapDialog.show({
-				type: BootstrapDialog.TYPE_INFO,
-		        title: 'Atenci\u00f3n',
-		        message: "Seleccione al menos un Armado",
-				closable: false,
-		        buttons: [{
-	                label: 'Cerrar',
-	                action: function(dialogItself){
-	                    dialogItself.close();
-	                }
-	            }]
-			});*/
 		}
 	});
 	

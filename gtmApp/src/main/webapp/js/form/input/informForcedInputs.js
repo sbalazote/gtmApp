@@ -75,19 +75,6 @@ PendingInputs = function() {
             });
         }else{
             myShowAlert('info', 'Seleccione al menos un Ingreso de Mercader\u00eda');
-
-            /*BootstrapDialog.show({
-             type: BootstrapDialog.TYPE_INFO,
-             title: 'Atenci\u00f3n',
-             message: "Seleccione al menos un elemento",
-             closable: false,
-             buttons: [{
-             label: 'Cerrar',
-             action: function(dialogItself){
-             dialogItself.close();
-             }
-             }]
-             });*/
         }
 
     $("#forcedInput").click(function() {
@@ -122,19 +109,6 @@ PendingInputs = function() {
             });
         }else{
             myShowAlert('info', 'Seleccione al menos un Ingreso de Mercader\u00eda');
-
-            /*BootstrapDialog.show({
-             type: BootstrapDialog.TYPE_INFO,
-             title: 'Atenci\u00f3n',
-             message: "Seleccione al menos un elemento",
-             closable: false,
-             buttons: [{
-             label: 'Cerrar',
-             action: function(dialogItself){
-             dialogItself.close();
-             }
-             }]
-             });*/
         }
     });
     });

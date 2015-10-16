@@ -272,18 +272,6 @@ SearchSerializedProduct = function() {
                     }
                 }else{
                     myEmptyQueryAlert();
-                    /*BootstrapDialog.show({
-                        type: BootstrapDialog.TYPE_INFO,
-                        title: 'Atenci\u00f3n',
-                        message: "No se han encontrado elementos para la consulta realizada.",
-                        closable: false,
-                        buttons: [{
-                            label: 'Cerrar',
-                            action: function(dialogItself){
-                                dialogItself.close();
-                            }
-                        }]
-                    });*/
                 }
 
             },

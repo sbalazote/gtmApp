@@ -80,19 +80,6 @@ var PendingTransactions = function() {
 			});
 		}else{
 			myShowAlert('info', 'Seleccione al menos un Armado/Egreso/Dispensa');
-
-			/*BootstrapDialog.show({
-			 type: BootstrapDialog.TYPE_INFO,
-			 title: 'Atenci\u00f3n',
-			 message: "Seleccione al menos un elemento",
-			 closable: false,
-			 buttons: [{
-			 label: 'Cerrar',
-			 action: function(dialogItself){
-			 dialogItself.close();
-			 }
-			 }]
-			 });*/
 		}
 	});
 	
@@ -177,19 +164,6 @@ var PendingTransactions = function() {
 			$('#forcedDeliveryNoteConfirmationModal').modal();
 		}else{
 			myShowAlert('info', 'Seleccione al menos un Remito');
-
-			/*BootstrapDialog.show({
-			 type: BootstrapDialog.TYPE_INFO,
-			 title: 'Atenci\u00f3n',
-			 message: "Seleccione al menos un elemento",
-			 closable: false,
-			 buttons: [{
-			 label: 'Cerrar',
-			 action: function(dialogItself){
-			 dialogItself.close();
-			 }
-			 }]
-			 });*/
 		}
 	});
 	
