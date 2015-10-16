@@ -51,7 +51,7 @@ public class LoginController {
         modelMap.put("name", propertyService.get().getName());
         String relativePath = "";
         String realPath = request.getServletContext().getRealPath("/images/uploadedLogo.png");
-
+        PropertyProvider.getInstance().setProp(PropertyProvider.NAME, propertyService.get().getName());
         File file = new File(realPath);
 
         if (file.exists()) {
