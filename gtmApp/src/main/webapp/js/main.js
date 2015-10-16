@@ -402,6 +402,20 @@ $(document).ready(function() {
 		}, 1000);
 	}
 
+	var fileDownloadCheckTimer;
+	generatePickingSheetPDF = function(provisioningRequestIds) {
+		var token = new Date().getTime(); //use the current timestamp as the token value
+		$.download('./rest/pickingSheets.pdf', 'fileDownloadToken=' + token + '&provisioningIds=' + provisioningRequestIds, 'POST');
+		$.blockUI({message: 'Generando hojas de Picking. Espere un Momento por favor...'});
+		fileDownloadCheckTimer = window.setInterval(function () {
+			var cookieValue = $.cookie('fileDownloadToken');
+			if (cookieValue == token) {
+				finishDownload();
+				myReload("success", "Se han generado las hojas de Picking para las solicitudes de abastecimiento n\u00famero: " + provisioningRequestIds);
+			}
+		}, 1000);
+	}
+
 
 	getURLParameter = function(sParam) {
 		var sPageURL = window.location.search.substring(1);

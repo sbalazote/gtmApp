@@ -64,7 +64,7 @@ var DeliveryNoteSheet = function() {
 			async: false,
 			data: {
 				agreementId: $("#agreementSearch").val() || null,
-				clientId: $("#clientSearch").val() || null,
+				clientId: $("#clientSearch").val() || null
 				},
 			success: function(response) {
 				var aaData = [];

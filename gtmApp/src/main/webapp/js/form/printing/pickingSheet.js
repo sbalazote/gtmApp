@@ -26,19 +26,29 @@ PickingSheet = function() {
 	
 	$("#confirmButton").click(function() {
 		if(provisioningsToPrint.length > 0){
-			$.ajax({
+			generatePickingSheetPDF(provisioningsToPrint);
+			/*$.ajax({
 				url: "printPickingSheets.do",
 				type: "POST",
 				contentType: "application/json",
 				data: JSON.stringify(provisioningsToPrint),
-				async: false,
+				async: true,
+				beforeSend : function() {
+					$.blockUI({ message: 'Espere un Momento por favor...' });
+				},
 				success: function(response) {
 					myReload("success", "Se han mandado a cola de impresi\u00f3n las siguientes hojas de picking: " + provisioningsToPrint);
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					myGenericError();
+				},
+				complete: function(jqXHR, textStatus) {
+					$.unblockUI();
+					if (textStatus === 'success') {
+						generateInputPDFReport(jqXHR.responseJSON.id,false);
+					}
 				}
-			});
+			});*/
 		}else{
 			myShowAlert('info', 'Seleccione al menos una Hoja de Picking');
 
@@ -64,7 +74,7 @@ PickingSheet = function() {
 			async: false,
 			data: {
 				agreementId: $("#agreementSearch").val() || null,
-				clientId: $("#clientSearch").val() || null,
+				clientId: $("#clientSearch").val() || null
 				},
 			success: function(response) {
 				var aaData = [];
@@ -98,11 +108,7 @@ PickingSheet = function() {
 					}
 				}).on("deselected.rs.jquery.bootgrid", function(e, rows) {
 					for (var i = 0; i < rows.length; i++) {
-						for(var j = provisioningsToPrint.length - 1; j >= 0; j--) {
-						    if(provisioningsToPrint[j] === rows[i].id) {
-						    	provisioningsToPrint.splice(j, 1);
-						    }
-						}
+						provisioningsToPrint.splice(provisioningsToPrint.indexOf(rows[i].id), 1);
 					}
 				});
 				$("#provisioningTable").bootgrid().bootgrid("clear");

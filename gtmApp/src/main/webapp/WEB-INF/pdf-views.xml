@@ -44,4 +44,6 @@
 	<bean id="supplyings" class="com.lsntsolutions.gtmApp.helper.impl.pdf.SupplyingsPdfView"/>
 
 	<bean id="productTrace" class="com.lsntsolutions.gtmApp.helper.impl.pdf.ProductTracePdfView"/>
+
+	<bean id="pickingSheets" class="com.lsntsolutions.gtmApp.helper.impl.printer.PickingSheetPrinterImpl"/>
 </beans>
