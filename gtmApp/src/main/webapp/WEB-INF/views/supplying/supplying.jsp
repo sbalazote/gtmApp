@@ -38,7 +38,7 @@
 	</div>
 
 	<div class="row">
-		<div class="col-md-4 col-lg-4 form-group">
+		<div class="col-md-8 col-lg-8 form-group">
 			<label for="clientInput"><spring:message code="common.client" /></label>
 			<select id="clientInput" name="client" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>" autofocus>
 				<option value=""></option>
@@ -48,18 +48,21 @@
 			</select>
 		</div>
 		<div class="col-md-4 col-lg-4 form-group">
+			<label for="agreementInput"><spring:message code="common.agreement"/></label>
+			<select id="agreementInput" name="agreement" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
+				<option value=""></option>
+				<c:forEach items="${agreements}" var="agreement">
+					<option value="${agreement.id}"><c:out value="${agreement.code}"></c:out> - <c:out value="${agreement.description}"></c:out></option>
+				</c:forEach>
+			</select>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12 col-lg-12 form-group">
 			<label for="affiliateInput"><spring:message code="common.affiliate" /></label>
 			<input type='hidden' id="affiliateInput" name="affiliate" class="form-control">
 		</div>
-		<div class="col-md-4 col-lg-4 form-group">
-		<label for="agreementInput"><spring:message code="common.agreement"/></label>
-		<select id="agreementInput" name="agreement" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
-			<option value=""></option>
-			<c:forEach items="${agreements}" var="agreement">
-				<option value="${agreement.id}"><c:out value="${agreement.code}"></c:out> - <c:out value="${agreement.description}"></c:out></option>
-			</c:forEach>
-		</select>
-	</div>
 	</div>
 
 	<div class="row">
