@@ -4,24 +4,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.lsntsolutions.gtmApp.constant.AuditState;
-import com.lsntsolutions.gtmApp.service.ConceptService;
-import com.lsntsolutions.gtmApp.service.DeliveryLocationService;
-import com.lsntsolutions.gtmApp.service.LogisticsOperatorService;
+import com.lsntsolutions.gtmApp.service.*;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import com.lsntsolutions.gtmApp.service.AffiliateService;
-import com.lsntsolutions.gtmApp.service.AgreementService;
-import com.lsntsolutions.gtmApp.service.AuditService;
-import com.lsntsolutions.gtmApp.service.ClientService;
-import com.lsntsolutions.gtmApp.service.ProviderService;
-import com.lsntsolutions.gtmApp.service.ProvisioningRequestService;
-import com.lsntsolutions.gtmApp.service.ProvisioningRequestStateService;
-import com.lsntsolutions.gtmApp.service.UserService;
 
 @Controller
 public class ReportAdministrationController {
@@ -43,11 +32,11 @@ public class ReportAdministrationController {
 	@Autowired
 	private DeliveryLocationService deliveryLocationService;
 	@Autowired
-	private AffiliateService affiliateService;
-	@Autowired
 	private UserService userService;
 	@Autowired
 	private AuditService auditService;
+	@Autowired
+	private ProductMonodrugService productMonodrugService;
 
 	@RequestMapping(value = "/searchInput", method = RequestMethod.GET)
 	public String searchInput(ModelMap modelMap) throws Exception {
@@ -63,6 +52,7 @@ public class ReportAdministrationController {
 		modelMap.put("agreements", this.agreementService.getAll());
 		modelMap.put("concepts", this.conceptService.getAll());
 		modelMap.put("providers", this.providerService.getAll());
+		modelMap.put("monodrugs", this.productMonodrugService.getAll());
 		return "searchStock";
 	}
 

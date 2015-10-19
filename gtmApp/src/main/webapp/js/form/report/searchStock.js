@@ -183,7 +183,8 @@ SearchStock = function() {
 				"productId": productId || null,
 				"agreementId": $("#agreementSearch").val() || null,
 				"serialNumber": $("#serialNumberSearch").val().trim(),
-				"batchNumber": $("#batchNumberSearch").val().trim()
+				"batchNumber": $("#batchNumberSearch").val().trim(),
+				"monodrugId": $("#monodrugSearch").val() || null
 			};
 			jsonStock = jsonStockSearch;
 			makeQuery(jsonStockSearch);
@@ -246,7 +247,8 @@ SearchStock = function() {
 				'&productId=' + jsonStockSearch.productId +
 				'&agreementId=' + jsonStockSearch.agreementId +
 				'&serialNumber=' + jsonStockSearch.serialNumber +
-				'&batchNumber=' + jsonStockSearch.batchNumber; 
+				'&batchNumber=' + jsonStockSearch.batchNumber +
+				'&monodrugId=' + jsonStockSearch.monodrugId;
 				
 				var exportHTML = exportQueryTableHTML("./rest/stocks", params);
 				var searchHTML = $(".search");

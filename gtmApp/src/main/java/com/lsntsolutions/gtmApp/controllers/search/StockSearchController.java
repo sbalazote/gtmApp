@@ -80,9 +80,13 @@ public class StockSearchController {
 		if (!(request.getParameterValues("agreementId")[0]).equals("null")) {
 			agreementId = Integer.valueOf(request.getParameterValues("agreementId")[0]);
 		}
+		Integer monodrugId = null;
+		if (!(request.getParameterValues("monodrugId")[0]).equals("null")) {
+			agreementId = Integer.valueOf(request.getParameterValues("monodrugId")[0]);
+		}
 		StockQuery stockQuery = StockQuery.createFromParameters(request.getParameterValues("expirateDateFrom")[0],
 				request.getParameterValues("expirateDateTo")[0], productId, agreementId, request.getParameterValues("serialNumber")[0],
-				request.getParameterValues("batchNumber")[0]);
+				request.getParameterValues("batchNumber")[0],monodrugId);
 		return stockQuery;
 	}
 }

@@ -154,10 +154,11 @@ public class StockDAOHibernateImpl implements StockDAO {
 	@Override
 	public List<Stock> getStockForSearch(StockQuery stockQuery) {
 
-		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Stock.class);
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Stock.class, "stock");
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-		Date dateFromFormated = null;
-		Date dateToFormated = null;
+		Date dateFromFormated;
+		Date dateToFormated;
+		criteria.createAlias("stock.product", "product");
 
 		if (!StringUtils.isEmpty(stockQuery.getExpirateDateFrom())) {
 			try {
@@ -190,6 +191,10 @@ public class StockDAOHibernateImpl implements StockDAO {
 
 		if (!StringUtils.isEmpty(stockQuery.getBatchNumber())) {
 			criteria.add(Restrictions.eq("batch", stockQuery.getBatchNumber()));
+		}
+
+		if (stockQuery.getMonodrugId() != null) {
+			criteria.add(Restrictions.eq("product.monodrug.id", stockQuery.getMonodrugId()));
 		}
 
 		List<Stock> results = criteria.list();

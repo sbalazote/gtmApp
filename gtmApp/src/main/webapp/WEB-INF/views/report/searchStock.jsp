@@ -48,7 +48,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="row">
 			<div class="col-md-4 col-lg-4 form-group">
 				<label for="serialNumberSearch"><spring:message code="common.serialNumber"/></label>
@@ -64,18 +64,32 @@
 					</c:forEach>
 				</select>
 			</div>
-
-			<div class="col-md-2 col-lg-2 form-margin">
-				<button class="btn btn-success btn-block" type="submit" id="searchButton">
-				<span class="glyphicon glyphicon-search"></span>
-				<spring:message code="common.search" />
-				</button>
+			<div class="col-md-4 col-lg-4 form-group">
+				<label for="monodrugSearch"><spring:message code="common.monodrug"/></label>
+				<select id="monodrugSearch" name="agreementSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
+					<option value=""></option>
+					<c:forEach items="${monodrugs}" var="monodrug">
+						<option value="${monodrug.id}"><c:out value="${monodrug.code}"></c:out> - <c:out value="${monodrug.description}"></c:out></option>
+					</c:forEach>
+				</select>
 			</div>
-			<div class="col-md-2 col-lg-2 form-margin">
-				<button class="btn btn-info btn-block" type="submit" id="cleanButton">
-				<span class="glyphicon glyphicon-trash"></span>
-				<spring:message code="common.clean" />
-				</button>
+
+		</div>
+
+		<div>
+			<div class="row">
+				<div class="col-md-3 col-lg-2 col-md-offset-6 col-lg-offset-8">
+					<button class="btn btn-success btn-block" type="submit" id="searchButton">
+						<span class="glyphicon glyphicon-search"></span>
+						<spring:message code="common.search" />
+					</button>
+				</div>
+				<div class="col-md-3 col-lg-2">
+					<button class="btn btn-info btn-block" type="submit" id="cleanButton">
+						<span class="glyphicon glyphicon-trash"></span>
+						<spring:message code="common.clean" />
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
