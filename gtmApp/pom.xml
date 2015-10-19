@@ -500,6 +500,13 @@
                 <rp.build.warname>mendez</rp.build.warname>
             </properties>
         </profile>
+		<profile>
+			<id>pharmacy-dev</id>
+			<properties>
+				<env>pharmacy-dev</env>
+				<rp.build.warname>pharmacy-dev</rp.build.warname>
+			</properties>
+		</profile>
     </profiles>
 
 </project> 

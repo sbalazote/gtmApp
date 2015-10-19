@@ -1,14 +1,14 @@
 START TRANSACTION;
 
-DROP SCHEMA IF EXISTS `drugstore`;
+DROP SCHEMA IF EXISTS `pharmacy_dev`;
 
-CREATE DATABASE drugstore;
+CREATE DATABASE pharmacy_dev;
 
-GRANT ALL PRIVILEGES ON `drugstore`.* TO `gtm`@`localhost` IDENTIFIED BY 'Gtm4pPlsNt';
+GRANT ALL PRIVILEGES ON `pharmacy_dev`.* TO `gtm`@`localhost` IDENTIFIED BY 'Gtm4pPlsNt';
 
-USE drugstore;
+USE pharmacy_dev;
 
-CREATE TABLE `drugstore`.`agent` (
+CREATE TABLE `pharmacy_dev`.`agent` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(45) NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE `drugstore`.`agent` (
   UNIQUE KEY `code_UNIQUE` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`event` (
+CREATE TABLE `pharmacy_dev`.`event` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(100) NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE `drugstore`.`event` (
   CONSTRAINT `fk_event_agent_2` FOREIGN KEY (`destination_agent_id`) REFERENCES `agent` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`product_group` (
+CREATE TABLE `pharmacy_dev`.`product_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(60) NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE `drugstore`.`product_group` (
   UNIQUE KEY `code_UNIQUE` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`product_drug_category` (
+CREATE TABLE `pharmacy_dev`.`product_drug_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(45) NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE `drugstore`.`product_drug_category` (
   UNIQUE KEY `code_UNIQUE` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`product_brand` (
+CREATE TABLE `pharmacy_dev`.`product_brand` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(45) NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE `drugstore`.`product_brand` (
   UNIQUE KEY `code_UNIQUE` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`product_monodrug` (
+CREATE TABLE `pharmacy_dev`.`product_monodrug` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(45) NOT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE `drugstore`.`product_monodrug` (
   UNIQUE KEY `code_UNIQUE` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`provider_type` (
+CREATE TABLE `pharmacy_dev`.`provider_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(45) NOT NULL,
@@ -77,7 +77,7 @@ CREATE TABLE `drugstore`.`provider_type` (
   UNIQUE KEY `code_UNIQUE` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`delivery_note_enumerator` (
+CREATE TABLE `pharmacy_dev`.`delivery_note_enumerator` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `deliveryNotePOS` int(11) NOT NULL,
   `lastDeliveryNoteNumber`  int(11) NOT NULL,
@@ -86,7 +86,7 @@ CREATE TABLE `drugstore`.`delivery_note_enumerator` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`concept` (
+CREATE TABLE `pharmacy_dev`.`concept` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(45) NOT NULL,
@@ -104,7 +104,7 @@ CREATE TABLE `drugstore`.`concept` (
   CONSTRAINT `fk_concept_delivery_note_enumerator` FOREIGN KEY (`delivery_note_enumerator_id`) REFERENCES `delivery_note_enumerator` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`agreement` (
+CREATE TABLE `pharmacy_dev`.`agreement` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(45) NOT NULL,
@@ -121,7 +121,7 @@ CREATE TABLE `drugstore`.`agreement` (
   CONSTRAINT `fk_agreement_destruction_concept` FOREIGN KEY (`destruction_concept_id`) REFERENCES `concept` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`concept_event` (
+CREATE TABLE `pharmacy_dev`.`concept_event` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `concept_id` int(11) NOT NULL,
   `event_id` int(11) NOT NULL,
@@ -132,7 +132,7 @@ CREATE TABLE `drugstore`.`concept_event` (
   CONSTRAINT `fk_concept_event_event` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`product` (
+CREATE TABLE `pharmacy_dev`.`product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(100) NOT NULL,
@@ -156,7 +156,7 @@ CREATE TABLE `drugstore`.`product` (
   CONSTRAINT `fk_product_product_monodrug` FOREIGN KEY (`monodrug_id`) REFERENCES `product_monodrug` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`product_gtin` (
+CREATE TABLE `pharmacy_dev`.`product_gtin` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `number` varchar(20) DEFAULT NULL,
   `product_id` int(11) NOT NULL,
@@ -167,7 +167,7 @@ CREATE TABLE `drugstore`.`product_gtin` (
   CONSTRAINT `fk_product_gtin_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`product_price` (
+CREATE TABLE `pharmacy_dev`.`product_price` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `price` decimal(13,4) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -177,20 +177,20 @@ CREATE TABLE `drugstore`.`product_price` (
   CONSTRAINT `fk_product_price_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`province` (
+CREATE TABLE `pharmacy_dev`.`province` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`VAT_liability` (
+CREATE TABLE `pharmacy_dev`.`VAT_liability` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `acronym` varchar(5) NOT NULL,
   `description` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`provider` (
+CREATE TABLE `pharmacy_dev`.`provider` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
@@ -219,7 +219,7 @@ CREATE TABLE `drugstore`.`provider` (
   CONSTRAINT `fk_provider_province` FOREIGN KEY (`province_id`) REFERENCES `province` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`client` (
+CREATE TABLE `pharmacy_dev`.`client` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
@@ -241,7 +241,7 @@ CREATE TABLE `drugstore`.`client` (
   CONSTRAINT `fk_client_VAT_liability` FOREIGN KEY (`VAT_liability_id`) REFERENCES `VAT_liability` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`delivery_location` (
+CREATE TABLE `pharmacy_dev`.`delivery_location` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
@@ -267,7 +267,7 @@ CREATE TABLE `drugstore`.`delivery_location` (
   CONSTRAINT `fk_delivery_location_province` FOREIGN KEY (`province_id`) REFERENCES `province` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`client_delivery_location` (
+CREATE TABLE `pharmacy_dev`.`client_delivery_location` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `client_id` int(11) NOT NULL,
   `delivery_location_id` int(11) NOT NULL,
@@ -278,7 +278,7 @@ CREATE TABLE `drugstore`.`client_delivery_location` (
   CONSTRAINT `fk_client_delivery_location_delivery_location` FOREIGN KEY (`delivery_location_id`) REFERENCES `delivery_location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`affiliate` (
+CREATE TABLE `pharmacy_dev`.`affiliate` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(45) NOT NULL,
   `name` varchar(45) NOT NULL,
@@ -289,7 +289,7 @@ CREATE TABLE `drugstore`.`affiliate` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`logistics_operator` (
+CREATE TABLE `pharmacy_dev`.`logistics_operator` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
@@ -307,7 +307,7 @@ CREATE TABLE `drugstore`.`logistics_operator` (
   CONSTRAINT `fk_logistics_operator_province` FOREIGN KEY (`province_id`) REFERENCES `province` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`stock` (
+CREATE TABLE `pharmacy_dev`.`stock` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `product_id` int(11) NOT NULL,
   `agreement_id` int(11) NOT NULL,
@@ -325,7 +325,7 @@ CREATE TABLE `drugstore`.`stock` (
   CONSTRAINT `fk_stock_product_gtin` FOREIGN KEY (`gtin_id`) REFERENCES `product_gtin` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`input` (
+CREATE TABLE `pharmacy_dev`.`input` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `concept_id` int(11) NOT NULL,
   `provider_id` int(11),
@@ -349,7 +349,7 @@ CREATE TABLE `drugstore`.`input` (
   CONSTRAINT `fk_input_delivery_location` FOREIGN KEY (`delivery_location_id`) REFERENCES `delivery_location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`input_detail` (
+CREATE TABLE `pharmacy_dev`.`input_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `input_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -367,7 +367,7 @@ CREATE TABLE `drugstore`.`input_detail` (
   CONSTRAINT `fk_input_detail_product_gtin` FOREIGN KEY (`gtin_id`) REFERENCES `product_gtin` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`output` (
+CREATE TABLE `pharmacy_dev`.`output` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `concept_id` int(11) NOT NULL,
   `provider_id` int(11),
@@ -385,7 +385,7 @@ CREATE TABLE `drugstore`.`output` (
   CONSTRAINT `fk_output_delivery_location` FOREIGN KEY (`delivery_location_id`) REFERENCES `delivery_location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION  
    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`output_detail` (
+CREATE TABLE `pharmacy_dev`.`output_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `output_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -403,7 +403,7 @@ CREATE TABLE `drugstore`.`output_detail` (
   CONSTRAINT `fk_output_detail_product_gtin` FOREIGN KEY (`gtin_id`) REFERENCES `product_gtin` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`supplying` (
+CREATE TABLE `pharmacy_dev`.`supplying` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `client_id` int(11) NOT NULL,
   `affiliate_id` int(11) NOT NULL,
@@ -419,7 +419,7 @@ CREATE TABLE `drugstore`.`supplying` (
   CONSTRAINT `fk_supplying_agreement_idx` FOREIGN KEY (`agreement_id`) REFERENCES `agreement` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`supplying_detail` (
+CREATE TABLE `pharmacy_dev`.`supplying_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `supplying_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -438,13 +438,13 @@ CREATE TABLE `drugstore`.`supplying_detail` (
   CONSTRAINT `fk_supplying_detail_gtin_idx` FOREIGN KEY (`gtin_id`) REFERENCES `product_gtin` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`provisioning_request_state` (
+CREATE TABLE `pharmacy_dev`.`provisioning_request_state` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`provisioning_request` (
+CREATE TABLE `pharmacy_dev`.`provisioning_request` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `agreement_id` int(11) NOT NULL,
   `client_id` int(11) NOT NULL,
@@ -469,7 +469,7 @@ CREATE TABLE `drugstore`.`provisioning_request` (
   CONSTRAINT `fk_provisioning_request_logistics_operator` FOREIGN KEY (`logistics_operator_id`) REFERENCES `logistics_operator` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`provisioning_request_detail` (
+CREATE TABLE `pharmacy_dev`.`provisioning_request_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `provisioning_request_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -481,7 +481,7 @@ CREATE TABLE `drugstore`.`provisioning_request_detail` (
   CONSTRAINT `fk_provisioning_request_detail_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`order` (
+CREATE TABLE `pharmacy_dev`.`order` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `provisioning_request_id` int(11) NOT NULL,
   `cancelled` bit(1) NOT NULL,
@@ -489,7 +489,7 @@ CREATE TABLE `drugstore`.`order` (
   CONSTRAINT `fk_order_provisioning_request` FOREIGN KEY (`provisioning_request_id`) REFERENCES `provisioning_request` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`order_detail` (
+CREATE TABLE `pharmacy_dev`.`order_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -507,7 +507,7 @@ CREATE TABLE `drugstore`.`order_detail` (
   CONSTRAINT `fk_order_detail_product_gtin` FOREIGN KEY (`gtin_id`) REFERENCES `product_gtin` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`delivery_note` (
+CREATE TABLE `pharmacy_dev`.`delivery_note` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `number` varchar(30) NOT NULL,
   `date` datetime NOT NULL,
@@ -519,7 +519,7 @@ CREATE TABLE `drugstore`.`delivery_note` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`delivery_note_detail` (
+CREATE TABLE `pharmacy_dev`.`delivery_note_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `delivery_note_id` int(11)  NOT NULL,
   `order_detail_id` int(11) ,
@@ -532,14 +532,14 @@ CREATE TABLE `drugstore`.`delivery_note_detail` (
   CONSTRAINT `fk_delivery_note_detail_supplying_detail` FOREIGN KEY (`supplying_detail_id`) REFERENCES `supplying_detail` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`serial_separation_mapping` (
+CREATE TABLE `pharmacy_dev`.`serial_separation_mapping` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(5) NOT NULL,
   `separator_token` varchar(5) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`provider_serialized_format` (
+CREATE TABLE `pharmacy_dev`.`provider_serialized_format` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `gtin_length` int(11) NOT NULL,
   `serial_number_length` int(11),
@@ -549,12 +549,12 @@ CREATE TABLE `drugstore`.`provider_serialized_format` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`profile` (
+CREATE TABLE `pharmacy_dev`.`profile` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
   `description` VARCHAR(45) NULL,
   PRIMARY KEY (`id`));
 
-CREATE TABLE `drugstore`.`user` (
+CREATE TABLE `pharmacy_dev`.`user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `password` varchar(100) NOT NULL,
@@ -566,7 +566,7 @@ CREATE TABLE `drugstore`.`user` (
   CONSTRAINT `fk_user_profile` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`role` (
+CREATE TABLE `pharmacy_dev`.`role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(45) NOT NULL,
   `description` varchar(100) NOT NULL,
@@ -574,7 +574,7 @@ CREATE TABLE `drugstore`.`role` (
   UNIQUE KEY `code_UNIQUE` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`profile_role` (
+CREATE TABLE `pharmacy_dev`.`profile_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `profile_id` int(11) NOT NULL,
   `role_id` int(11) NOT NULL,
@@ -585,7 +585,7 @@ CREATE TABLE `drugstore`.`profile_role` (
   CONSTRAINT `fk_profile_role_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`property` (
+CREATE TABLE `pharmacy_dev`.`property` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
@@ -611,22 +611,22 @@ CREATE TABLE `drugstore`.`property` (
   `inform_proxy` bit(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code_UNIQUE` (`code`),
-  KEY `fk_drugstore_property_province_idx` (`province_id`),
-  KEY `fk_drugstore_property_agent_idx` (`agent_id`),
-  CONSTRAINT `fk_drugstore_property_agent` FOREIGN KEY (`agent_id`) REFERENCES `agent` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_drugstore_property_province` FOREIGN KEY (`province_id`) REFERENCES `province` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_drugstore_property_start_trace_concept` FOREIGN KEY (`start_trace_concept_id`) REFERENCES `concept` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_drugstore_property_supplying_concept` FOREIGN KEY (`supplying_concept_id`) REFERENCES `concept` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_pharmacy_dev_property_province_idx` (`province_id`),
+  KEY `fk_pharmacy_dev_property_agent_idx` (`agent_id`),
+  CONSTRAINT `fk_pharmacy_dev_property_agent` FOREIGN KEY (`agent_id`) REFERENCES `agent` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_pharmacy_dev_property_province` FOREIGN KEY (`province_id`) REFERENCES `province` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_pharmacy_dev_property_start_trace_concept` FOREIGN KEY (`start_trace_concept_id`) REFERENCES `concept` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_pharmacy_dev_property_supplying_concept` FOREIGN KEY (`supplying_concept_id`) REFERENCES `concept` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`audit_action` (
+CREATE TABLE `pharmacy_dev`.`audit_action` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `drugstore`.`audit` (
+CREATE TABLE `pharmacy_dev`.`audit` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `role_id` int(11)  NOT NULL,
   `operation_id` int(11)  NOT NULL,
@@ -639,7 +639,7 @@ CREATE TABLE `drugstore`.`audit` (
   CONSTRAINT `fk_audit_audit_action` FOREIGN KEY (`action_id`) REFERENCES `audit_action` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`agreement_transfer` (
+CREATE TABLE `pharmacy_dev`.`agreement_transfer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `origin_agreement_id` int(11) NOT NULL,
   `destination_agreement_id` int(11) NOT NULL,
@@ -650,7 +650,7 @@ CREATE TABLE `drugstore`.`agreement_transfer` (
   CONSTRAINT `fk_agreement_transfer_agreement_2` FOREIGN KEY (`destination_agreement_id`) REFERENCES `agreement` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`agreement_transfer_detail` (
+CREATE TABLE `pharmacy_dev`.`agreement_transfer_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `agreement_transfer_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -668,7 +668,7 @@ CREATE TABLE `drugstore`.`agreement_transfer_detail` (
   CONSTRAINT `fk_agreement_transfer_detail_product_gtin` FOREIGN KEY (`gtin_id`) REFERENCES `product_gtin` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drugstore`.`client_affiliate` (
+CREATE TABLE `pharmacy_dev`.`client_affiliate` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `client_id` int(11) NOT NULL,
   `affiliate_id` int(11) NOT NULL,
