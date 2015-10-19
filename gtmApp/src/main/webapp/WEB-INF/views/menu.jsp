@@ -101,7 +101,7 @@
 						<sec:authorize access="hasRole('ORDER_ASSEMBLY')">
 							<li class="activable"><a href="orderAssemblySelection.do"><spring:message code="common.orderAssembly" /></a></li>
 						</sec:authorize>
-						<sec:authorize access="hasRole('ORDER_ASSEMBLY')">
+						<sec:authorize access="hasRole('LOGISTIC_OPERATOR_ASSIGNMENT')">
 							<li class="activable"><a href="logisticOperatorAssignment.do"><spring:message code="common.logisticOperatorAssingment" /></a></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('PROVISIONING_REQUEST_CANCELLATION')">
@@ -128,64 +128,87 @@
 					</ul></li>
 			</sec:authorize>
 
-
-
-
 			<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="administration.lookUp" /> <b class="caret"></b></a>
 				<ul class="dropdown-menu">
-                    <sec:authorize access="hasAnyRole('INPUT', 'INPUT_AUTHORIZATION', 'INPUT_CANCELLATION')">
+                    <sec:authorize access="hasRole('SEARCH_INPUTS')">
 					    <li><a href="searchInput.do"><spring:message code="common.inputs" /></a></li>
                     </sec:authorize>
-                    <sec:authorize access="hasAnyRole('OUTPUT', 'OUTPUT_CANCELLATION')">
+                    <sec:authorize access="hasRole('SEARCH_OUTPUTS')">
 					    <li><a href="searchOutput.do"><spring:message code="common.outputs" /></a></li>
                     </sec:authorize>
-					<sec:authorize access="hasAnyRole('PROVISIONING_REQUEST', 'PROVISIONING_REQUEST_UPDATE','PROVISIONING_REQUEST_PRINT', 'PROVISIONING_REQUEST_AUTHORIZATION', 'PROVISIONING_REQUEST_CANCELLATION')">
+					<sec:authorize access="hasRole('SEARCH_PROVISIONING_REQUEST')">
 						<li><a href="searchProvisioningRequest.do"><spring:message code="common.provisioningRequests" /></a></li>
 					</sec:authorize>
-					<sec:authorize access="hasAnyRole('SUPPLYING', 'SUPPLYING_CANCELLATION')">
+					<sec:authorize access="hasRole('SEARCH_SUPPLYING')">
 						<li><a href="searchSupplying.do"><spring:message code="search.title.supplyings" /></a></li>
 					</sec:authorize>
-                    <sec:authorize access="hasAnyRole('DELIVERY_NOTE_PRINT', 'DELIVERY_NOTE_CANCELLATION')">
+                    <sec:authorize access="hasRole('SEARCH_DELIVERY_NOTE')">
                         <li><a href="searchDeliveryNote.do"><spring:message code="common.deliveryNotes" /></a></li>
                     </sec:authorize>
-                    <sec:authorize access="hasAnyRole('ENTITY_ADMINISTRATION', 'USER_ADMINISTRATION')">
+                    <sec:authorize access="hasRole('SEARCH_AUDIT')">
                         <li><a href="searchAudit.do"><spring:message code="common.audits" /></a></li>
                     </sec:authorize>
-                    <sec:authorize access="hasAnyRole('INPUT', 'INPUT_AUTHORIZATION', 'INPUT_CANCELLATION','OUTPUT', 'OUTPUT_CANCELLATION','PROVISIONING_REQUEST', 'PROVISIONING_REQUEST_UPDATE','PROVISIONING_REQUEST_PRINT', 'PROVISIONING_REQUEST_AUTHORIZATION', 'PROVISIONING_REQUEST_CANCELLATION', 'ORDER_ASSEMBLY', 'ORDER_ASSEMBLY_CANCELLATION')">
-                        <li><a href="searchStock.do"><spring:message code="common.stocks" /></a></li>
+					<sec:authorize access="hasRole('SEARCH_STOCK')">
+						<li><a href="searchStock.do"><spring:message code="common.stocks" /></a></li>
+					</sec:authorize>
+					<sec:authorize access="hasRole('SEARCH_SERIALIZED_PRODUCT')">
                         <li><a href="searchSerializedProduct.do"><spring:message code="search.menu.serializedProduct" /></a></li>
+					</sec:authorize>
+					<sec:authorize access="hasRole('SEARCH_BATCH_EXPIRATEDATE_PRODUCT')">
                     	<li><a href="searchBatchExpirateDateProduct.do"><spring:message code="search.menu.batchExpirateDateProduct" /></a></li>
-                    </sec:authorize>
+					</sec:authorize>
 				</ul></li>
 
-			<sec:authorize access="hasAnyRole('ENTITY_ADMINISTRATION', 'USER_ADMINISTRATION')">
 				<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="administration.label" /> <b class="caret"></b></a>
 					<ul class="dropdown-menu">
-						<sec:authorize access="hasRole('ENTITY_ADMINISTRATION')">
-							<li class="dropdown-submenu"><a href="#"><spring:message code="administration.entity" /></a>
-								<ul class="dropdown-menu">
+						<li class="dropdown-submenu"><a href="#"><spring:message code="administration.entity" /></a>
+							<ul class="dropdown-menu">
+								<sec:authorize access="hasRole('AFFILIATE_ADMINISTRATION')">
 									<li><a href="affiliateAdministration.do"><spring:message code="common.affiliates" /></a></li>
+								</sec:authorize>
+								<sec:authorize access="hasRole('AGENT_ADMINISTRATION')">
 									<li><a href="agentAdministration.do"><spring:message code="common.agents" /></a></li>
+								</sec:authorize>
+								<sec:authorize access="hasRole('CLIENT_ADMINISTRATION')">
 									<li><a href="clientAdministration.do"><spring:message code="common.clients" /></a></li>
+								</sec:authorize>
+								<sec:authorize access="hasRole('CONCEPT_ADMINISTRATION')">
 									<li><a href="conceptAdministration.do"><spring:message code="common.concepts" /></a></li>
+								</sec:authorize>
+								<sec:authorize access="hasRole('AGREEMENT_ADMINISTRATION')">
 									<li><a href="agreementAdministration.do"><spring:message code="common.agreements" /></a></li>
+								</sec:authorize>
+								<sec:authorize access="hasRole('EVENT_ADMINISTRATION')">
 									<li><a href="eventAdministration.do"><spring:message code="common.events" /></a></li>
+								</sec:authorize>
+								<sec:authorize access="hasRole('DELIVERY_LOCATION_ADMINISTRATION')">
 									<li><a href="deliveryLocationAdministration.do"><spring:message code="common.deliveryLocations" /></a></li>
+								</sec:authorize>
+								<sec:authorize access="hasRole('LOGISTIC_OPERATOR_ADMINISTRATION')">
 									<li><a href="logisticsOperatorAdministration.do"><spring:message code="common.logisticsOperators" /></a></li>
+								</sec:authorize>
+								<sec:authorize access="hasRole('PRODUCT_ADMINISTRATION')">
 									<li><a href="productAdministration.do"><spring:message code="common.products" /></a></li>
+								</sec:authorize>
+								<sec:authorize access="hasRole('PROVIDER_ADMINISTRATION')">
 									<li><a href="providerAdministration.do"><spring:message code="common.providers" /></a></li>
+								</sec:authorize>
+								<sec:authorize access="hasRole('DELIVERY_NOTE_ENUMERATOR_ADMINISTRATION')">
 									<li><a href="deliveryNoteEnumeratorAdministration.do"><spring:message code="common.deliveryNoteEnumerators" /></a></li>
-									<li><a href="providerSerializedFormatAdministration.do"><spring:message code="common.serializations" /></a></li>
-								</ul></li>
-						</sec:authorize>
+								</sec:authorize>
+								<sec:authorize access="hasRole('PROVIDER_SERIALIZED_FORMAT_ADMINISTRATION')">
+								<li><a href="providerSerializedFormatAdministration.do"><spring:message code="common.serializations" /></a></li>
+								</sec:authorize>
+							</ul></li>
 						<sec:authorize access="hasRole('USER_ADMINISTRATION')">
 							<li><a href="userAdministration.do"><spring:message code="administration.users" /></a></li>
+						</sec:authorize>
+						<sec:authorize access="hasRole('PROFILE_ADMINISTRATION')">
 							<li><a href="profileAdministration.do"><spring:message code="administration.profiles" /></a></li>
 						</sec:authorize>
-					</ul></li>
-			</sec:authorize>
 
-			<sec:authorize access="hasRole('ENTITY_ADMINISTRATION')">
+					</ul></li>
+			<sec:authorize access="hasRole('PROPERTY_ADMINISTRATION')">
 				<li class="activable"><a href="updateProperty.do"><spring:message code="common.configuration" /></a></li>
 			</sec:authorize>
 		</ul>

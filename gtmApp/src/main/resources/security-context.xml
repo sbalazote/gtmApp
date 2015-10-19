@@ -36,14 +36,39 @@
 		<intercept-url pattern="/orderAssemblySelection.do" access="hasRole('ORDER_ASSEMBLY')" />
 		<intercept-url pattern="/provisioningRequestCancellation.do" access="hasRole('PROVISIONING_REQUEST_CANCELLATION')" />
 		<intercept-url pattern="/orderCancellation.do" access="hasRole('ORDER_ASSEMBLY_CANCELLATION')" />
-		
+		<intercept-url pattern="/logisticOperatorAssignment.do" access="hasRole('LOGISTIC_OPERATOR_ASSIGNMENT')" />
+
 		<intercept-url pattern="/deliveryNoteSheet.do" access="hasRole('DELIVERY_NOTE_PRINT')" />
 		<intercept-url pattern="/deliveryNoteCancellation.do" access="hasRole('DELIVERY_NOTE_CANCELLATION')" />
 		<intercept-url pattern="/pendingTransactions.do" access="hasRole('PENDING_TRANSACTIONS')" />
-	
-		<intercept-url pattern="/*Administration.do" access="hasRole('ENTITY_ADMINISTRATION')" />
+
+		<intercept-url pattern="/searchInput.do" access="hasRole('SEARCH_INPUTS')" />
+		<intercept-url pattern="/searchOutput.do" access="hasRole('SEARCH_OUTPUTS')" />
+		<intercept-url pattern="/searchProvisioningRequest.do" access="hasRole('SEARCH_PROVISIONING_REQUEST')" />
+		<intercept-url pattern="/searchSupplying.do" access="hasRole('SEARCH_SUPPLYING')" />
+		<intercept-url pattern="/searchDeliveryNote.do" access="hasRole('SEARCH_DELIVERY_NOTE')" />
+		<intercept-url pattern="/searchAudit.do" access="hasRole('SEARCH_AUDIT')" />
+		<intercept-url pattern="/searchStock.do" access="hasRole('SEARCH_STOCK')" />
+		<intercept-url pattern="/searchSerializedProduct.do" access="hasRole('SEARCH_SERIALIZED_PRODUCT')" />
+		<intercept-url pattern="/searchBatchExpirateDateProduct.do" access="hasRole('SEARCH_BATCH_EXPIRATEDATE_PRODUCT')" />
+
+		<intercept-url pattern="/affiliateAdministration.do" access="hasRole('AFFILIATE_ADMINISTRATION')" />
+		<intercept-url pattern="/agentAdministration.do" access="hasRole('AGENT_ADMINISTRATION')" />
+		<intercept-url pattern="/clientAdministration.do" access="hasRole('CLIENT_ADMINISTRATION')" />
+		<intercept-url pattern="/conceptAdministration.do" access="hasRole('CONCEPT_ADMINISTRATION')" />
+		<intercept-url pattern="/agreementAdministration.do" access="hasRole('AGREEMENT_ADMINISTRATION')" />
+		<intercept-url pattern="/eventAdministration.do" access="hasRole('EVENT_ADMINISTRATION')" />
+		<intercept-url pattern="/deliveryLocationAdministration.do" access="hasRole('DELIVERY_LOCATION_ADMINISTRATION')" />
+		<intercept-url pattern="/logisticsOperatorAdministration.do" access="hasRole('LOGISTIC_OPERATOR_ADMINISTRATION')" />
+		<intercept-url pattern="/productAdministration.do" access="hasRole('PRODUCT_ADMINISTRATION')" />
+		<intercept-url pattern="/providerAdministration.do" access="hasRole('PROVIDER_ADMINISTRATION')" />
+		<intercept-url pattern="/deliveryNoteEnumeratorAdministration.do" access="hasRole('DELIVERY_NOTE_ENUMERATOR_ADMINISTRATION')" />
+		<intercept-url pattern="/providerSerializedFormatAdministration.do" access="hasRole('PROVIDER_SERIALIZED_FORMAT_ADMINISTRATION')" />
+
 		<intercept-url pattern="/userAdministration.do" access="hasRole('USER_ADMINISTRATION')" />
-		
+		<intercept-url pattern="/profileAdministration.do" access="hasRole('PROFILE_ADMINISTRATION')" />
+		<intercept-url pattern="/updateProperty.do" access="hasRole('PROPERTY_ADMINISTRATION')" />
+
 		<intercept-url pattern="/**" access="isAuthenticated()" />
 		
 		<form-login login-page="/login.do"
