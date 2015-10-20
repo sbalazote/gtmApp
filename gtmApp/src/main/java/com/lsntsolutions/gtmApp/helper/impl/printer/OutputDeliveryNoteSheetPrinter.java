@@ -1,5 +1,10 @@
 package com.lsntsolutions.gtmApp.helper.impl.printer;
 
+import com.lowagie.text.Document;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfWriter;
 import com.lsntsolutions.gtmApp.helper.DeliveryNoteConfigFile;
 import com.lsntsolutions.gtmApp.helper.DeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.helper.PrintOnPrinter;
@@ -8,11 +13,7 @@ import com.lsntsolutions.gtmApp.service.ConceptService;
 import com.lsntsolutions.gtmApp.service.DeliveryNoteService;
 import com.lsntsolutions.gtmApp.service.OutputService;
 import com.lsntsolutions.gtmApp.util.StringUtility;
-import com.lowagie.text.Document;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfWriter;
+import com.lsntsolutions.gtmApp.service.PropertyService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 	private static final Logger logger = Logger.getLogger(OutputDeliveryNoteSheetPrinter.class);
 
 	@Autowired
-	private com.lsntsolutions.gtmApp.service.PropertyService PropertyService;
+	private PropertyService PropertyService;
 	@Autowired
 	private DeliveryNoteService deliveryNoteService;
 	@Autowired
@@ -315,14 +316,11 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 			overContent.endText();
 			overContent.restoreState();
 
-			// pdfStamper.close();
 			document.close();
 
 			ByteArrayInputStream pdfDocument = new ByteArrayInputStream(out.toByteArray());
 
-			// TODO obtener IP desde el concepto o drugstore property, el archivo se guardaria en una carpeta del servidor.
-			//this.printOnPrinter.sendToPrint(pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf","NPI7B8936 (HP LaserJet Professional P1102w)");
-			this.printOnPrinter.sendToSpool(output.getAgreement().getDeliveryNoteFilepath(), "REMITO NRO-" + deliveryNoteNumber + ".pdf", pdfDocument);
+			this.printOnPrinter.sendPDFToSpool(output.getAgreement().getDeliveryNoteFilepath(), "REMITO NRO-" + deliveryNoteNumber + ".pdf", pdfDocument);
 
 			pdfDocument.close();
 

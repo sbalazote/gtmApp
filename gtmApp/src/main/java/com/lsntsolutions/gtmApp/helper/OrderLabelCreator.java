@@ -1,37 +1,28 @@
 package com.lsntsolutions.gtmApp.helper;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Map;
-
-import com.lsntsolutions.gtmApp.model.Product;
+import com.ibm.icu.text.SimpleDateFormat;
 import com.lsntsolutions.gtmApp.model.Order;
+import com.lsntsolutions.gtmApp.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ibm.icu.text.SimpleDateFormat;
+import java.io.*;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
 
 @Service
 @Transactional
 public class OrderLabelCreator {
 
 	private static final String FILE_NAME = "packing_list";
-
 	private static final String FILE_EXTENSION = ".RPD";
-
 	private static final String FILE_TEMPLATE = "f:/emercury11/PLANTILLAS/packing_list.RPV";
-
 	private static final int MAX_PRODUCT_LIMIT = 16;
 
 	@Autowired
-	private com.lsntsolutions.gtmApp.service.PropertyService PropertyService;
+	private PrintOnPrinter printOnPrinter;
 
 	public void getLabelFile(Order order) throws IOException {
 		String filepath = order.getProvisioningRequest().getAgreement().getOrderLabelFilepath();
@@ -67,65 +58,75 @@ public class OrderLabelCreator {
 
 	private void createFile(Order order, String filepath, String type, Map<Product, Integer> products, Integer tag, Integer tagsCount,
 			String temperatureDescription) throws IOException {
-		File file = new File(filepath + FILE_NAME + type + FILE_EXTENSION);
-		BufferedWriter output = new BufferedWriter(new FileWriter(file));
-		output.write("template=" + FILE_TEMPLATE);
-		output.newLine();
-		output.write("@nropedido=" + order.getProvisioningRequest().getId());
-		output.newLine();
-		output.write("@nropedido1=" + order.getProvisioningRequest().getId() + "00");
-		output.newLine();
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+		BufferedWriter outputWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
+
+		outputWriter.write("template=" + FILE_TEMPLATE);
+		outputWriter.newLine();
+		outputWriter.write("@nropedido=" + order.getProvisioningRequest().getId());
+		outputWriter.newLine();
+		outputWriter.write("@nropedido1=" + order.getProvisioningRequest().getId() + "00");
+		outputWriter.newLine();
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = new Date();
-		output.write("@fecha_empaque=" + dateFormatter.format(date));
-		output.newLine();
+		outputWriter.write("@fecha_empaque=" + dateFormatter.format(date));
+		outputWriter.newLine();
 
-		output.write("@nombre_cliente_entrega=" + order.getProvisioningRequest().getDeliveryLocation().getCorporateName());
-		output.newLine();
+		outputWriter.write("@nombre_cliente_entrega=" + order.getProvisioningRequest().getDeliveryLocation().getCorporateName());
+		outputWriter.newLine();
 
-		output.write("@codigo_afiliado=" + order.getProvisioningRequest().getAffiliate().getCode());
-		output.newLine();
+		outputWriter.write("@codigo_afiliado=" + order.getProvisioningRequest().getAffiliate().getCode());
+		outputWriter.newLine();
 
-		output.write("@convenio=" + order.getProvisioningRequest().getAgreement().getDescription());
-		output.newLine();
+		outputWriter.write("@convenio=" + order.getProvisioningRequest().getAgreement().getDescription());
+		outputWriter.newLine();
 
-		output.write("@nombre_afiliado=" + order.getProvisioningRequest().getAffiliate().getSurname() + " "
+		outputWriter.write("@nombre_afiliado=" + order.getProvisioningRequest().getAffiliate().getSurname() + " "
 				+ order.getProvisioningRequest().getAffiliate().getName());
-		output.newLine();
+		outputWriter.newLine();
 
-		output.write("@entrega_localidad_cliente=" + order.getProvisioningRequest().getClient().getLocality());
-		output.newLine();
+		outputWriter.write("@entrega_localidad_cliente=" + order.getProvisioningRequest().getClient().getLocality());
+		outputWriter.newLine();
 
 		Iterator<Product> it = products.keySet().iterator();
 		Integer count = 1;
 		while (it.hasNext()) {
 			Product product = it.next();
-			output.write("@producto" + count + "=" + product.getDescription());
-			output.newLine();
-			output.write("@cantidad" + count + "= ( " + products.get(product) + " )");
-			output.newLine();
+			outputWriter.write("@producto" + count + "=" + product.getDescription());
+			outputWriter.newLine();
+			outputWriter.write("@cantidad" + count + "= ( " + products.get(product) + " )");
+			outputWriter.newLine();
 			count++;
 		}
 
 		if (count < MAX_PRODUCT_LIMIT) {
 			for (int i = count; i < MAX_PRODUCT_LIMIT + 1; i++) {
-				output.write("@producto" + count + "=");
-				output.newLine();
-				output.write("@cantidad" + count + "=");
-				output.newLine();
+				outputWriter.write("@producto" + count + "=");
+				outputWriter.newLine();
+				outputWriter.write("@cantidad" + count + "=");
+				outputWriter.newLine();
 				count++;
 			}
 		}
 
-		output.write("@etiq=" + tag);
-		output.newLine();
+		outputWriter.write("@etiq=" + tag);
+		outputWriter.newLine();
 
-		output.write("@etiqs=" + tagsCount);
-		output.newLine();
+		outputWriter.write("@etiqs=" + tagsCount);
+		outputWriter.newLine();
 
-		output.write("@tipo=" + temperatureDescription);
-		output.newLine();
+		outputWriter.write("@tipo=" + temperatureDescription);
+		outputWriter.newLine();
 
-		output.close();
+		outputWriter.flush();
+		outputWriter.close();
+
+		byte[] byteArrayOutputStream = outputStream.toByteArray();
+
+		outputStream.close();
+
+		this.printOnPrinter.sendOrderLabelToSpool(filepath, FILE_NAME + type + FILE_EXTENSION, byteArrayOutputStream);
 	}
 }
