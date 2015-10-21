@@ -65,8 +65,11 @@
 	</div>
 	<div class="col-md-4 col-lg-4 form-group" >
 		<label for="logisticsOperatorInput"><spring:message code="common.providersLogisticsOperator"/></label>
-		<select id="logisticsOperatorInput" name="provider" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
+		<select id="logisticsOperatorInput" name="logisticsOperator" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 			<option value=""></option>
+			<c:forEach items="${logisticsOperations}" var="logisticsOperation">
+				<option value="${logisticsOperation.id}" ${logisticsOperationId == logisticsOperation.id ? 'selected' : ''}><c:out value="${logisticsOperation.code}"></c:out> - <c:out value="${logisticsOperation.name}"></c:out></option>
+			</c:forEach>
 		</select>
 	</div>
 </div>

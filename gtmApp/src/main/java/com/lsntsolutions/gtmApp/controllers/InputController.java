@@ -152,6 +152,10 @@ public class InputController {
 		}
 		if (input.getProvider() != null) {
 			modelMap.put("providerId", input.getProvider().getId());
+			modelMap.put("logisticsOperations", input.getProvider().getLogisticsOperators());
+			if(input.getLogisticsOperator() != null) {
+				modelMap.put("logisticsOperationId", input.getLogisticsOperator().getId());
+			}
 		}
 
 		modelMap.put("products", input.getInputDetails());
