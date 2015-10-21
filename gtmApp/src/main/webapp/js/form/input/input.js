@@ -576,6 +576,7 @@ Input = function() {
 				"conceptId": $("#conceptInput").val(),
 				"providerId": $("#providerInput").val(),
 				"deliveryLocationId": $("#deliveryLocationInput").val(),
+				"logisticsOperatorId": $("#logisticsOperatorInput").val() || null,
 				"agreementId": $("#agreementInput").val(),
 				"deliveryNoteNumber": $("#deliveryNotePOSInput").val() + $("#deliveryNoteNumberInput").val(),
 				"purchaseOrderNumber": $("#purchaseOrderNumberInput").val().trim(),
