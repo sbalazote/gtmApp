@@ -221,9 +221,11 @@
 
 		<ul class="nav navbar-nav navbar-right">
 			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><sec:authentication property="principal" /><span class="caret"></span></a>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+					<span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <sec:authentication property="principal" /> <span class="caret"></span>
+				</a>
 				<ul class="dropdown-menu">
-					<li id="changePassword"><a href="#"><spring:message code="administration.changePassword" /></a></li>
+					<li id="changePassword"></span><a href="#"><spring:message code="administration.changePassword" /></a></li>
 				</ul>
 			</li>
 			<a role="button" class="btn btn-primary btn-lg logout-button" href="j_spring_security_logout"> <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Salir</a>
