@@ -207,6 +207,23 @@
 							</select>
 						</div>
 					</div>
+					<div class="row">
+						<div class="col-md-4 col-md-offset-1 col-lg-4 col-md-offset-1 form-group">
+							<label for="deliveryLocations"><spring:message code="common.logisticsOperatorForSelect"/></label>
+						</div>
+						<div class="col-md-4 col-md-offset-2 col-lg-4 col-lg-offset-2 form-group">
+							<label for="deliveryLocations"><spring:message code="common.logisticsOperatorSelected"/></label>
+						</div>
+						<div class="col-md-12 col-lg-12 form-group">
+							<div class="ms-container">
+								<select multiple="multiple" id="my-select" name="my-select[]">
+									<c:forEach items="${logisticsOperators}" var="logisticsOperator" varStatus="status">
+										<option value="${logisticsOperator.id}"><c:out value="${logisticsOperator.code} - ${logisticsOperator.name}"></c:out></option>
+									</c:forEach>
+								</select>
+							</div>
+						</div>
+					</div>
 				</form>
 			</div>
 			<div class="modal-footer">

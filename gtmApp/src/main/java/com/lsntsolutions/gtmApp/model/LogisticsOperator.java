@@ -33,6 +33,9 @@ public class LogisticsOperator implements Serializable {
 	@Column(name = "corporate_name", nullable = false)
 	private String corporateName;
 
+	@Column(name = "gln", nullable = false)
+	private String gln;
+
 	@ManyToOne
 	@JoinColumn(name = "province_id", nullable = false)
 	private Province province;
@@ -140,4 +143,11 @@ public class LogisticsOperator implements Serializable {
 		this.active = active;
 	}
 
+	public String getGln() {
+		return gln;
+	}
+
+	public void setGln(String gln) {
+		this.gln = gln;
+	}
 }

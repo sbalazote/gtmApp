@@ -22,6 +22,10 @@ SaveLogisticsOperator = function() {
 					required: true,
 					maxlength: 45,
 				},
+				gln: {
+					required: true,
+					exactLength: 13
+				},
 				province: {
 					required: true
 				},
@@ -81,6 +85,7 @@ SaveLogisticsOperator = function() {
 					"name": $("#nameInput").val(),
 					"taxId": $("#taxIdInput").val(),
 					"corporateName": $("#corporateNameInput").val(),
+				    "gln": $("#glnInput").val(),
 					"provinceId": $("#provinceSelect option:selected").val(),
 					"locality": $("#localityInput").val(),
 					"address": $("#addressInput").val(),

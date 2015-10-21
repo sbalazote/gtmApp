@@ -1,12 +1,11 @@
 package com.lsntsolutions.gtmApp.controllers.administration;
 
 import com.lsntsolutions.gtmApp.dto.ProviderDTO;
+import com.lsntsolutions.gtmApp.model.DeliveryLocation;
+import com.lsntsolutions.gtmApp.model.LogisticsOperator;
 import com.lsntsolutions.gtmApp.model.Provider;
 import com.lsntsolutions.gtmApp.model.Province;
-import com.lsntsolutions.gtmApp.service.AgentService;
-import com.lsntsolutions.gtmApp.service.ProviderService;
-import com.lsntsolutions.gtmApp.service.ProviderTypeService;
-import com.lsntsolutions.gtmApp.service.ProvinceService;
+import com.lsntsolutions.gtmApp.service.*;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -16,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +33,9 @@ public class ProviderAdministrationController {
 
 	@Autowired
 	private ProviderTypeService providerTypeService;
+
+	@Autowired
+	private LogisticsOperatorService logisticsOperatorService;
 
 	@Autowired
 	private com.lsntsolutions.gtmApp.service.VATLiabilityService VATLiabilityService;
@@ -61,6 +64,11 @@ public class ProviderAdministrationController {
 		return "providerAdministration";
 	}
 
+	@RequestMapping(value = "/getProvidersLogisticsOperators", method = RequestMethod.GET)
+	public @ResponseBody List<LogisticsOperator> getProvidersLogisticsOperators(@RequestParam Integer providerId) throws Exception {
+		return this.providerService.get(providerId).getLogisticsOperators();
+	}
+
 	private Provider buildModel(ProviderDTO providerDTO) {
 		Provider provider = new Provider();
 
@@ -85,6 +93,14 @@ public class ProviderAdministrationController {
 		provider.setType(this.providerTypeService.get(providerDTO.getTypeId()));
 		provider.setVATLiability(this.VATLiabilityService.get(providerDTO.getVATLiabilityId()));
 
+		List<Integer> deliveryLocationsId = providerDTO.getLogisticsOperators();
+
+		List<LogisticsOperator> logisticsOperators = new ArrayList<>();
+		for (Integer deliveryLocationId : deliveryLocationsId) {
+			logisticsOperators.add(this.logisticsOperatorService.get(deliveryLocationId));
+		}
+		provider.setLogisticsOperators(logisticsOperators);
+
 		return provider;
 	}
 
@@ -93,6 +109,7 @@ public class ProviderAdministrationController {
 		modelMap.put("types", this.providerTypeService.getAll());
 		modelMap.put("agents", this.agentService.getAll());
 		modelMap.put("VATLiabilities", this.VATLiabilityService.getAll());
+		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAll());
 	}
 
 	@RequestMapping(value = "/readProvider", method = RequestMethod.GET)

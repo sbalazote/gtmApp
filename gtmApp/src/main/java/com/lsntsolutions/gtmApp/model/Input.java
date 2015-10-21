@@ -36,6 +36,10 @@ public class Input implements Serializable {
 	private Provider provider;
 
 	@ManyToOne
+	@JoinColumn(name = "logistics_operator_id")
+	private LogisticsOperator logisticsOperator;
+
+	@ManyToOne
 	@JoinColumn(name = "delivery_location_id")
 	private DeliveryLocation deliveryLocation;
 
@@ -171,10 +175,6 @@ public class Input implements Serializable {
 		this.informAnmat = informAnmat;
 	}
 
-	public boolean isInformed() {
-		return this.informed;
-	}
-
 	public void setInformed(boolean informed) {
 		this.informed = informed;
 	}
@@ -185,6 +185,14 @@ public class Input implements Serializable {
 
 	public void setForcedInput(boolean forcedInput) {
 		this.forcedInput = forcedInput;
+	}
+
+	public LogisticsOperator getLogisticsOperator() {
+		return logisticsOperator;
+	}
+
+	public void setLogisticsOperator(LogisticsOperator logisticsOperator) {
+		this.logisticsOperator = logisticsOperator;
 	}
 
 	public boolean hasToInform() throws Exception {
@@ -198,16 +206,6 @@ public class Input implements Serializable {
 			}
 		} else {
 			hasToInform = false;
-		}
-		return hasToInform;
-	}
-
-	public boolean hasNotProviderSerialized() throws Exception {
-		boolean hasToInform = true;
-		for (InputDetail inputDetail : this.getInputDetails()) {
-			if (inputDetail.getProduct().isInformAnmat() && ("PS".equals(inputDetail.getProduct().getType()))) {
-				hasToInform = false;
-			}
 		}
 		return hasToInform;
 	}
@@ -226,7 +224,11 @@ public class Input implements Serializable {
 	public String getOriginTax() {
 		String originTax = null;
 		if (this.getProvider() != null) {
-			originTax = this.getProvider().getTaxId();
+			if(this.getLogisticsOperator() != null){
+				originTax = this.getLogisticsOperator().getTaxId();
+			}else {
+				originTax = this.getProvider().getTaxId();
+			}
 		}
 		if (this.getDeliveryLocation() != null) {
 			originTax = this.getDeliveryLocation().getTaxId();
@@ -237,7 +239,11 @@ public class Input implements Serializable {
 	public String getOriginGln() {
 		String originGln = null;
 		if (this.getProvider() != null) {
-			originGln = this.getProvider().getGln();
+			if(this.getLogisticsOperator() != null){
+				originGln = this.getLogisticsOperator().getGln();
+			}else {
+				originGln = this.getProvider().getGln();
+			}
 		}
 		if (this.getDeliveryLocation() != null) {
 			originGln = this.getDeliveryLocation().getGln();

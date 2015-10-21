@@ -1,14 +1,18 @@
 START TRANSACTION;
 
-DROP SCHEMA IF EXISTS `institute_dev`;
+/*Nombre de la base de datos */
+DROP SCHEMA IF EXISTS `drugstore`;
 
-CREATE DATABASE institute_dev;
+/*Nombre de la base de datos */
+CREATE DATABASE drugstore;
 
-GRANT ALL PRIVILEGES ON `institute_dev`.* TO `gtm`@`localhost` IDENTIFIED BY 'Gtm4pPlsNt';
+/*Nombre de la base de datos */
+GRANT ALL PRIVILEGES ON drugstore.* TO `gtm`@`localhost` IDENTIFIED BY 'Gtm4pPlsNt';
 
-USE institute_dev;
+/*Nombre de la base de datos */
+USE drugstore;
 
-CREATE TABLE `institute_dev`.`agent` (
+CREATE TABLE `agent` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(45) NOT NULL,
@@ -17,7 +21,7 @@ CREATE TABLE `institute_dev`.`agent` (
   UNIQUE KEY `code_UNIQUE` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`event` (
+CREATE TABLE `event` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(100) NOT NULL,
@@ -32,7 +36,7 @@ CREATE TABLE `institute_dev`.`event` (
   CONSTRAINT `fk_event_agent_2` FOREIGN KEY (`destination_agent_id`) REFERENCES `agent` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`product_group` (
+CREATE TABLE `product_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(60) NOT NULL,
@@ -41,7 +45,7 @@ CREATE TABLE `institute_dev`.`product_group` (
   UNIQUE KEY `code_UNIQUE` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`product_drug_category` (
+CREATE TABLE `product_drug_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(45) NOT NULL,
@@ -50,7 +54,7 @@ CREATE TABLE `institute_dev`.`product_drug_category` (
   UNIQUE KEY `code_UNIQUE` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`product_brand` (
+CREATE TABLE `product_brand` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(45) NOT NULL,
@@ -59,7 +63,7 @@ CREATE TABLE `institute_dev`.`product_brand` (
   UNIQUE KEY `code_UNIQUE` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`product_monodrug` (
+CREATE TABLE `product_monodrug` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(45) NOT NULL,
@@ -68,7 +72,7 @@ CREATE TABLE `institute_dev`.`product_monodrug` (
   UNIQUE KEY `code_UNIQUE` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`provider_type` (
+CREATE TABLE `provider_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(45) NOT NULL,
@@ -77,7 +81,7 @@ CREATE TABLE `institute_dev`.`provider_type` (
   UNIQUE KEY `code_UNIQUE` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`delivery_note_enumerator` (
+CREATE TABLE `delivery_note_enumerator` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `deliveryNotePOS` int(11) NOT NULL,
   `lastDeliveryNoteNumber`  int(11) NOT NULL,
@@ -86,7 +90,7 @@ CREATE TABLE `institute_dev`.`delivery_note_enumerator` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`concept` (
+CREATE TABLE `concept` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(45) NOT NULL,
@@ -104,7 +108,7 @@ CREATE TABLE `institute_dev`.`concept` (
   CONSTRAINT `fk_concept_delivery_note_enumerator` FOREIGN KEY (`delivery_note_enumerator_id`) REFERENCES `delivery_note_enumerator` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`agreement` (
+CREATE TABLE `agreement` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(45) NOT NULL,
@@ -121,7 +125,7 @@ CREATE TABLE `institute_dev`.`agreement` (
   CONSTRAINT `fk_agreement_destruction_concept` FOREIGN KEY (`destruction_concept_id`) REFERENCES `concept` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`concept_event` (
+CREATE TABLE `concept_event` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `concept_id` int(11) NOT NULL,
   `event_id` int(11) NOT NULL,
@@ -132,7 +136,7 @@ CREATE TABLE `institute_dev`.`concept_event` (
   CONSTRAINT `fk_concept_event_event` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`product` (
+CREATE TABLE `product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `description` varchar(100) NOT NULL,
@@ -156,7 +160,7 @@ CREATE TABLE `institute_dev`.`product` (
   CONSTRAINT `fk_product_product_monodrug` FOREIGN KEY (`monodrug_id`) REFERENCES `product_monodrug` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`product_gtin` (
+CREATE TABLE `product_gtin` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `number` varchar(20) DEFAULT NULL,
   `product_id` int(11) NOT NULL,
@@ -167,7 +171,7 @@ CREATE TABLE `institute_dev`.`product_gtin` (
   CONSTRAINT `fk_product_gtin_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`product_price` (
+CREATE TABLE `product_price` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `price` decimal(13,4) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -177,20 +181,20 @@ CREATE TABLE `institute_dev`.`product_price` (
   CONSTRAINT `fk_product_price_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`province` (
+CREATE TABLE `province` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`VAT_liability` (
+CREATE TABLE `VAT_liability` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `acronym` varchar(5) NOT NULL,
   `description` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`provider` (
+CREATE TABLE `provider` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
@@ -219,7 +223,7 @@ CREATE TABLE `institute_dev`.`provider` (
   CONSTRAINT `fk_provider_province` FOREIGN KEY (`province_id`) REFERENCES `province` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`client` (
+CREATE TABLE `client` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
@@ -241,7 +245,7 @@ CREATE TABLE `institute_dev`.`client` (
   CONSTRAINT `fk_client_VAT_liability` FOREIGN KEY (`VAT_liability_id`) REFERENCES `VAT_liability` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`delivery_location` (
+CREATE TABLE `delivery_location` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
@@ -267,7 +271,7 @@ CREATE TABLE `institute_dev`.`delivery_location` (
   CONSTRAINT `fk_delivery_location_province` FOREIGN KEY (`province_id`) REFERENCES `province` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`client_delivery_location` (
+CREATE TABLE `client_delivery_location` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `client_id` int(11) NOT NULL,
   `delivery_location_id` int(11) NOT NULL,
@@ -278,26 +282,24 @@ CREATE TABLE `institute_dev`.`client_delivery_location` (
   CONSTRAINT `fk_client_delivery_location_delivery_location` FOREIGN KEY (`delivery_location_id`) REFERENCES `delivery_location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`affiliate` (
+CREATE TABLE `affiliate` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(45) NOT NULL,
   `name` varchar(45) NOT NULL,
   `surname` varchar(45) NOT NULL,
   `document_type` varchar(10) DEFAULT NULL,
   `document` varchar(15) DEFAULT NULL,
-  `client_id` int(11) NOT NULL,
   `active` bit(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_affiliate_client_idx` (`client_id`),
-  CONSTRAINT `fk_affiliate_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`logistics_operator` (
+CREATE TABLE `logistics_operator` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
   `tax_id` varchar(15) NOT NULL,
   `corporate_name` varchar(45) NOT NULL,
+  `gln` varchar(45) NOT NULL,
   `province_id` int(11) NOT NULL,
   `locality` varchar(45) NOT NULL,
   `address` varchar(45) NOT NULL,
@@ -310,7 +312,7 @@ CREATE TABLE `institute_dev`.`logistics_operator` (
   CONSTRAINT `fk_logistics_operator_province` FOREIGN KEY (`province_id`) REFERENCES `province` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`stock` (
+CREATE TABLE `stock` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `product_id` int(11) NOT NULL,
   `agreement_id` int(11) NOT NULL,
@@ -328,10 +330,11 @@ CREATE TABLE `institute_dev`.`stock` (
   CONSTRAINT `fk_stock_product_gtin` FOREIGN KEY (`gtin_id`) REFERENCES `product_gtin` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`input` (
+CREATE TABLE `input` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `concept_id` int(11) NOT NULL,
   `provider_id` int(11),
+  `logistics_operator_id` INT(11) DEFAULT NULL,
   `delivery_location_id` int(11),
   `agreement_id` int(11) NOT NULL,
   `delivery_note_number` varchar(30) DEFAULT NULL,
@@ -346,13 +349,15 @@ CREATE TABLE `institute_dev`.`input` (
   KEY `fk_input_concept_idx` (`concept_id`),
   KEY `fk_input_provider_idx` (`provider_id`),
   KEY `fk_input_agreement_idx` (`agreement_id`),
+  KEY `fk_input_logistics_operator_idx` (`logistics_operator_id`),
   CONSTRAINT `fk_input_concept` FOREIGN KEY (`concept_id`) REFERENCES `concept` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_input_provider` FOREIGN KEY (`provider_id`) REFERENCES `provider` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_input_agreement` FOREIGN KEY (`agreement_id`) REFERENCES `agreement` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_input_logistics_operator` FOREIGN KEY (`logistics_operator_id`) REFERENCES `logistics_operator` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_input_delivery_location` FOREIGN KEY (`delivery_location_id`) REFERENCES `delivery_location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`input_detail` (
+CREATE TABLE `input_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `input_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -370,7 +375,7 @@ CREATE TABLE `institute_dev`.`input_detail` (
   CONSTRAINT `fk_input_detail_product_gtin` FOREIGN KEY (`gtin_id`) REFERENCES `product_gtin` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`output` (
+CREATE TABLE `output` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `concept_id` int(11) NOT NULL,
   `provider_id` int(11),
@@ -385,10 +390,10 @@ CREATE TABLE `institute_dev`.`output` (
   CONSTRAINT `fk_output_concept` FOREIGN KEY (`concept_id`) REFERENCES `concept` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_output_provider` FOREIGN KEY (`provider_id`) REFERENCES `provider` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_output_agreement` FOREIGN KEY (`agreement_id`) REFERENCES `agreement` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_output_delivery_location` FOREIGN KEY (`delivery_location_id`) REFERENCES `delivery_location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION  
+  CONSTRAINT `fk_output_delivery_location` FOREIGN KEY (`delivery_location_id`) REFERENCES `delivery_location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`output_detail` (
+CREATE TABLE `output_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `output_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -406,7 +411,7 @@ CREATE TABLE `institute_dev`.`output_detail` (
   CONSTRAINT `fk_output_detail_product_gtin` FOREIGN KEY (`gtin_id`) REFERENCES `product_gtin` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`supplying` (
+CREATE TABLE `supplying` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `client_id` int(11) NOT NULL,
   `affiliate_id` int(11) NOT NULL,
@@ -422,7 +427,7 @@ CREATE TABLE `institute_dev`.`supplying` (
   CONSTRAINT `fk_supplying_agreement_idx` FOREIGN KEY (`agreement_id`) REFERENCES `agreement` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`supplying_detail` (
+CREATE TABLE `supplying_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `supplying_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -441,13 +446,13 @@ CREATE TABLE `institute_dev`.`supplying_detail` (
   CONSTRAINT `fk_supplying_detail_gtin_idx` FOREIGN KEY (`gtin_id`) REFERENCES `product_gtin` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`provisioning_request_state` (
+CREATE TABLE `provisioning_request_state` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`provisioning_request` (
+CREATE TABLE `provisioning_request` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `agreement_id` int(11) NOT NULL,
   `client_id` int(11) NOT NULL,
@@ -472,7 +477,7 @@ CREATE TABLE `institute_dev`.`provisioning_request` (
   CONSTRAINT `fk_provisioning_request_logistics_operator` FOREIGN KEY (`logistics_operator_id`) REFERENCES `logistics_operator` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`provisioning_request_detail` (
+CREATE TABLE `provisioning_request_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `provisioning_request_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -484,7 +489,7 @@ CREATE TABLE `institute_dev`.`provisioning_request_detail` (
   CONSTRAINT `fk_provisioning_request_detail_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`order` (
+CREATE TABLE `order` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `provisioning_request_id` int(11) NOT NULL,
   `cancelled` bit(1) NOT NULL,
@@ -492,7 +497,7 @@ CREATE TABLE `institute_dev`.`order` (
   CONSTRAINT `fk_order_provisioning_request` FOREIGN KEY (`provisioning_request_id`) REFERENCES `provisioning_request` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`order_detail` (
+CREATE TABLE `order_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -510,7 +515,7 @@ CREATE TABLE `institute_dev`.`order_detail` (
   CONSTRAINT `fk_order_detail_product_gtin` FOREIGN KEY (`gtin_id`) REFERENCES `product_gtin` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`delivery_note` (
+CREATE TABLE `delivery_note` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `number` varchar(30) NOT NULL,
   `date` datetime NOT NULL,
@@ -522,7 +527,7 @@ CREATE TABLE `institute_dev`.`delivery_note` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`delivery_note_detail` (
+CREATE TABLE `delivery_note_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `delivery_note_id` int(11)  NOT NULL,
   `order_detail_id` int(11) ,
@@ -535,14 +540,14 @@ CREATE TABLE `institute_dev`.`delivery_note_detail` (
   CONSTRAINT `fk_delivery_note_detail_supplying_detail` FOREIGN KEY (`supplying_detail_id`) REFERENCES `supplying_detail` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`serial_separation_mapping` (
+CREATE TABLE `serial_separation_mapping` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(5) NOT NULL,
   `separator_token` varchar(5) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`provider_serialized_format` (
+CREATE TABLE `provider_serialized_format` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `gtin_length` int(11) NOT NULL,
   `serial_number_length` int(11),
@@ -552,12 +557,12 @@ CREATE TABLE `institute_dev`.`provider_serialized_format` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`profile` (
+CREATE TABLE `profile` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
   `description` VARCHAR(45) NULL,
   PRIMARY KEY (`id`));
 
-CREATE TABLE `institute_dev`.`user` (
+CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `password` varchar(100) NOT NULL,
@@ -569,7 +574,7 @@ CREATE TABLE `institute_dev`.`user` (
   CONSTRAINT `fk_user_profile` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`role` (
+CREATE TABLE `role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(45) NOT NULL,
   `description` varchar(100) NOT NULL,
@@ -577,7 +582,7 @@ CREATE TABLE `institute_dev`.`role` (
   UNIQUE KEY `code_UNIQUE` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`profile_role` (
+CREATE TABLE `profile_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `profile_id` int(11) NOT NULL,
   `role_id` int(11) NOT NULL,
@@ -588,7 +593,7 @@ CREATE TABLE `institute_dev`.`profile_role` (
   CONSTRAINT `fk_profile_role_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`property` (
+CREATE TABLE `property` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
@@ -614,22 +619,22 @@ CREATE TABLE `institute_dev`.`property` (
   `inform_proxy` bit(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code_UNIQUE` (`code`),
-  KEY `fk_institute_dev_property_province_idx` (`province_id`),
-  KEY `fk_institute_dev_property_agent_idx` (`agent_id`),
-  CONSTRAINT `fk_institute_dev_property_agent` FOREIGN KEY (`agent_id`) REFERENCES `agent` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_institute_dev_property_province` FOREIGN KEY (`province_id`) REFERENCES `province` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_institute_dev_property_start_trace_concept` FOREIGN KEY (`start_trace_concept_id`) REFERENCES `concept` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_institute_dev_property_supplying_concept` FOREIGN KEY (`supplying_concept_id`) REFERENCES `concept` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_drugstore_property_province_idx` (`province_id`),
+  KEY `fk_drugstore_property_agent_idx` (`agent_id`),
+  CONSTRAINT `fk_drugstore_property_agent` FOREIGN KEY (`agent_id`) REFERENCES `agent` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_drugstore_property_province` FOREIGN KEY (`province_id`) REFERENCES `province` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_drugstore_property_start_trace_concept` FOREIGN KEY (`start_trace_concept_id`) REFERENCES `concept` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_drugstore_property_supplying_concept` FOREIGN KEY (`supplying_concept_id`) REFERENCES `concept` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`audit_action` (
+CREATE TABLE `audit_action` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `institute_dev`.`audit` (
+CREATE TABLE `audit` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `role_id` int(11)  NOT NULL,
   `operation_id` int(11)  NOT NULL,
@@ -642,7 +647,7 @@ CREATE TABLE `institute_dev`.`audit` (
   CONSTRAINT `fk_audit_audit_action` FOREIGN KEY (`action_id`) REFERENCES `audit_action` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`agreement_transfer` (
+CREATE TABLE `agreement_transfer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `origin_agreement_id` int(11) NOT NULL,
   `destination_agreement_id` int(11) NOT NULL,
@@ -653,7 +658,7 @@ CREATE TABLE `institute_dev`.`agreement_transfer` (
   CONSTRAINT `fk_agreement_transfer_agreement_2` FOREIGN KEY (`destination_agreement_id`) REFERENCES `agreement` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `institute_dev`.`agreement_transfer_detail` (
+CREATE TABLE `agreement_transfer_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `agreement_transfer_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -669,6 +674,28 @@ CREATE TABLE `institute_dev`.`agreement_transfer_detail` (
   CONSTRAINT `fk_agreement_transfer_detail_agreement_transfer` FOREIGN KEY (`agreement_transfer_id`) REFERENCES `agreement_transfer` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_agreement_transfer_detail_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_agreement_transfer_detail_product_gtin` FOREIGN KEY (`gtin_id`) REFERENCES `product_gtin` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `client_affiliate` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `affiliate_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_client_affiliate_client_idx` (`client_id`),
+  KEY `fk_client_affiliate_affiliate_idx` (`affiliate_id`),
+  CONSTRAINT `fk_client_affiliate_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_client_affiliate_affiliate` FOREIGN KEY (`affiliate_id`) REFERENCES `affiliate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `provider_logistics_operator` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `provider_id` int(11) NOT NULL,
+  `logistics_operator_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_provider_logistics_operator_provider_idx` (`provider_id`),
+  KEY `fk_provider_logistics_operator_logistics_operator_idx` (`logistics_operator_id`),
+  CONSTRAINT `fk_provider_logistics_operator_provider` FOREIGN KEY (`provider_id`) REFERENCES `provider` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_provider_logistics_operator_logistics_operator` FOREIGN KEY (`logistics_operator_id`) REFERENCES `logistics_operator` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 COMMIT;

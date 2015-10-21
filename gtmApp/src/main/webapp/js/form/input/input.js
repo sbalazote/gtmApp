@@ -482,6 +482,7 @@ Input = function() {
 					"id": $("#inputId").val(),
 					"conceptId": $("#conceptInput").val(),
 					"providerId": $("#providerInput").val(),
+					"logisticsOperatorId": $("#logisticsOperatorInput").val() || null,
 					"deliveryLocationId": $("#deliveryLocationInput").val(),
 					"agreementId": $("#agreementInput").val(),
 					"deliveryNoteNumber": $("#deliveryNotePOSInput").val() + $("#deliveryNoteNumberInput").val(),
@@ -678,11 +679,13 @@ Input = function() {
 						$("#deliveryLocationDiv").show();
 						$('#providerInput').val('').trigger('chosen:updated');
 						$('#deliveryLocationInput').chosen().trigger('chosen:activate');
+						$('#logisticsOperatorInput').prop('disabled', true).trigger("chosen:updated");
 					}else{
 						$("#providerDiv").show();
 						$("#deliveryLocationDiv").hide();
 						$('#deliveryLocationInput').val('').trigger('chosen:updated');
 						$('#providerInput').chosen().trigger('chosen:activate');
+						$('#logisticsOperatorInput').prop('disabled', false).trigger("chosen:updated");
 					}
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
@@ -694,6 +697,26 @@ Input = function() {
 	
 	$('#providerInput').on('change', function(evt, params) {
 		$('#agreementInput').chosen().trigger('chosen:activate');
+		$.ajax({
+			url: "getProvidersLogisticsOperators.do",
+			type: "GET",
+			contentType:"application/json",
+			data: {
+				providerId: $('#providerInput').val()
+			},
+			async: true,
+			success: function(response) {
+				$('#logisticsOperatorInput').empty();
+				$('#logisticsOperatorInput').append("<option value=''></option>");
+				for(var i=0;i < response.length;i++){
+					$('#logisticsOperatorInput').append("<option value=" + response[i].id + ">" + response[i].code + " " + response[i].name + "</option>");
+				}
+				$('#logisticsOperatorInput').trigger("chosen:updated");
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myGenericError();
+			}
+		});
 	});
 	
 	$('#deliveryLocationInput').on('change', function(evt, params) {

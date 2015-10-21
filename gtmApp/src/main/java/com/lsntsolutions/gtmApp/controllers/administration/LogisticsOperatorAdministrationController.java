@@ -66,6 +66,7 @@ public class LogisticsOperatorAdministrationController {
 		logisticsOperator.setZipCode(logisticsOperatorDTO.getZipCode());
 		logisticsOperator.setPhone(logisticsOperatorDTO.getPhone());
 		logisticsOperator.setActive(logisticsOperatorDTO.isActive());
+		logisticsOperator.setGln(logisticsOperatorDTO.getGln());
 
 		return logisticsOperator;
 	}

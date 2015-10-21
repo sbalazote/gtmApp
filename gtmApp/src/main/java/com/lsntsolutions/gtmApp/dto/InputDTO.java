@@ -11,6 +11,7 @@ public class InputDTO implements Serializable {
 	private Integer conceptId;
 	private Integer providerId;
 	private Integer deliveryLocationId;
+	private Integer logisticsOperatorId;
 	private Integer agreementId;
 	private String deliveryNoteNumber;
 	private String purchaseOrderNumber;
@@ -90,4 +91,11 @@ public class InputDTO implements Serializable {
 		this.deliveryLocationId = deliveryLocationId;
 	}
 
+	public Integer getLogisticsOperatorId() {
+		return logisticsOperatorId;
+	}
+
+	public void setLogisticsOperatorId(Integer logisticsOperatorId) {
+		this.logisticsOperatorId = logisticsOperatorId;
+	}
 }

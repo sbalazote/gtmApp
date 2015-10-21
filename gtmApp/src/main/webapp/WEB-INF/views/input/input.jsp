@@ -63,6 +63,15 @@
 			</c:forEach>
 		</select>
 	</div>
+	<div class="col-md-4 col-lg-4 form-group" >
+		<label for="logisticsOperatorInput"><spring:message code="common.providersLogisticsOperator"/></label>
+		<select id="logisticsOperatorInput" name="provider" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
+			<option value=""></option>
+		</select>
+	</div>
+</div>
+
+<div class="row">
 	<div class="col-md-4 col-lg-4 form-group">
 		<label for="agreementInput"><spring:message code="common.agreement"/></label>
 		<select id="agreementInput" name="agreement" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
@@ -72,10 +81,7 @@
 			</c:forEach>
 		</select>
 	</div>
-</div>
-
-<div class="row">
-	<div class="col-md-6 col-lg-6 form-group">
+	<div class="col-md-4 col-lg-4 form-group">
 		<label for="deliveryNoteNumberInput"><spring:message code="common.deliveryNote"/></label>
 		<div class="input-group">
 			<input name="deliveryNotePOS" id="deliveryNotePOSInput" type="text" class="form-control" placeholder='<spring:message code="common.deliveryNote.POS"/>' value="${deliveryNotePOSInput != null ? deliveryNotePOSInput : ''}">
@@ -83,7 +89,7 @@
   			<input name="deliveryNoteNumber" id="deliveryNoteNumberInput" type="text" class="form-control" placeholder='<spring:message code="common.deliveryNote.number"/>' value="${deliveryNoteNumberInput != null ? deliveryNoteNumberInput : ''}">
 		</div>
 	</div>
-	<div class="col-md-6 col-lg-6 form-group">
+	<div class="col-md-4 col-lg-4 form-group">
 		<label for="purchaseOrderNumberInput"><spring:message code="common.purchaseOrder"/></label>
 		<input type="text" class="form-control" name="purchaseOrderNumber" id="purchaseOrderNumberInput" value="${purchaseOrderNumber != null ? purchaseOrderNumber : ''}">
 	</div>

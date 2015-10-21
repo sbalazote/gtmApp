@@ -11,6 +11,7 @@ public class LogisticsOperatorDTO implements Serializable {
 	private String name;
 	private String taxId;
 	private String corporateName;
+	private String gln;
 	private Integer provinceId;
 	private String locality;
 	private String address;
@@ -106,4 +107,11 @@ public class LogisticsOperatorDTO implements Serializable {
 		this.active = active;
 	}
 
+	public String getGln() {
+		return gln;
+	}
+
+	public void setGln(String gln) {
+		this.gln = gln;
+	}
 }

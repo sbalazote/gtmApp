@@ -13,6 +13,7 @@ $(document).ready(function() {
 		$("#addressInput").val('');
 		$("#zipCodeInput").val('');
 		$("#phoneInput").val('');
+		$("#glnInput").val('');
 		$("#activeSelect").val($("#activeSelect option:first").val());
 	};
 	
@@ -52,6 +53,7 @@ $(document).ready(function() {
 				$("#nameInput").val(response.name);
 				$("#taxIdInput").val(response.taxId);
 				$("#corporateNameInput").val(response.corporateName);
+				$("#glnInput").val(response.gln);
 				$("#provinceSelect").val(response.province.id).trigger('chosen:update');
 				$("#localityInput").val(response.province.locality);
 				$("#addressInput").val(response.address);
@@ -77,6 +79,7 @@ $(document).ready(function() {
 		$("#zipCodeInput").attr('disabled', hidden);
 		$("#phoneInput").attr('disabled', hidden);
 		$("#activeSelect").prop('disabled', hidden).trigger('chosen:update');
+		$("#glnInput").attr('disabled', hidden);
 	};
 	
 	$("#addLogisticsOperator").click(function() {

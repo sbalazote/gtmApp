@@ -13,6 +13,7 @@ import com.lsntsolutions.gtmApp.dto.InputDetailDTO;
 import com.lsntsolutions.gtmApp.helper.SelfSerializedTagsPrinter;
 import com.lsntsolutions.gtmApp.persistence.dao.InputDAO;
 import com.lsntsolutions.gtmApp.query.InputQuery;
+import com.lsntsolutions.gtmApp.service.*;
 import com.lsntsolutions.gtmApp.util.OperationResult;
 import com.lsntsolutions.gtmApp.util.StringUtility;
 import com.lsntsolutions.gtmApp.dto.InputDetailDTO;
@@ -44,19 +45,6 @@ import com.lsntsolutions.gtmApp.model.InputDetail;
 import com.lsntsolutions.gtmApp.model.Product;
 import com.lsntsolutions.gtmApp.model.ProductGtin;
 import com.lsntsolutions.gtmApp.model.Stock;
-import com.lsntsolutions.gtmApp.service.AgreementService;
-import com.lsntsolutions.gtmApp.service.AuditService;
-import com.lsntsolutions.gtmApp.service.ConceptService;
-import com.lsntsolutions.gtmApp.service.DeliveryLocationService;
-import com.lsntsolutions.gtmApp.service.InputService;
-import com.lsntsolutions.gtmApp.service.OrderService;
-import com.lsntsolutions.gtmApp.service.OutputService;
-import com.lsntsolutions.gtmApp.service.ProductGtinService;
-import com.lsntsolutions.gtmApp.service.ProductService;
-import com.lsntsolutions.gtmApp.service.PropertyService;
-import com.lsntsolutions.gtmApp.service.ProviderService;
-import com.lsntsolutions.gtmApp.service.StockService;
-import com.lsntsolutions.gtmApp.service.TraceabilityService;
 import com.inssjp.mywebservice.business.WebServiceResult;
 
 @Service
@@ -84,13 +72,11 @@ public class InputServiceImpl implements InputService {
 	@Autowired
 	private AuditService auditService;
 	@Autowired
-	private OutputService outputService;
-	@Autowired
-	private OrderService orderService;
-	@Autowired
 	private TraceabilityService traceabilityService;
 	@Autowired
 	private ProductGtinService productGtinService;
+	@Autowired
+	private LogisticsOperatorService logisticsOperatorService;
 
 	@Override
 	public Input save(InputDTO inputDTO, Boolean isSerializedReturn, String username) throws Exception {
@@ -274,6 +260,10 @@ public class InputServiceImpl implements InputService {
 			input.setDeliveryLocation(this.deliveryLocationService.get(inputDTO.getDeliveryLocationId()));
 		}
 
+		if (inputDTO.getLogisticsOperatorId() != null) {
+			input.setLogisticsOperator(this.logisticsOperatorService.get(inputDTO.getLogisticsOperatorId()));
+		}
+
 		try {
 			input.setDate(dateFormatter.parse(inputDTO.getDate()));
 		} catch (ParseException pe) {
@@ -411,6 +401,11 @@ public class InputServiceImpl implements InputService {
 			input.setProvider(null);
 		} else {
 			input.setProvider(this.providerService.get(inputDTO.getProviderId()));
+		}
+		if (inputDTO.getLogisticsOperatorId() == null) {
+			input.setLogisticsOperator(null);
+		} else {
+			input.setLogisticsOperator(this.logisticsOperatorService.get(inputDTO.getLogisticsOperatorId()));
 		}
 		if (inputDTO.getDeliveryLocationId() == null) {
 			input.setDeliveryLocation(null);

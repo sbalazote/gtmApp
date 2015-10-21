@@ -76,17 +76,21 @@
 				</div>
 				<form id="logisticsOperatorAdministrationForm" action="" onsubmit="return false;">
 					<div class="row">
-						<div class="col-md-4 col-lg-4 form-group">
+						<div class="col-md-3 col-lg-3 form-group">
 							<label for="codeInput"><spring:message code="common.code" /></label>
 							<input type="text" class="form-control" id="codeInput" name="code">
 						</div>
-						<div class="col-md-4 col-lg-4 form-group">
+						<div class="col-md-3 col-lg-3 form-group">
 							<label for="nameInput"><spring:message code="common.entity.name" /></label>
 							<input type="text" class="form-control" id="nameInput" name="name">
 						</div>
-						<div class="col-md-4 col-lg-4 form-group">
+						<div class="col-md-3 col-lg-3 form-group">
 							<label for="taxIdInput"><spring:message code="common.taxId" /></label>
 							<input type="text" class="form-control" id="taxIdInput" name="taxId">
+						</div>
+						<div class="col-md-3 col-lg-3 form-group">
+							<label for="glnInput"><spring:message code="common.gln" /></label>
+							<input type="text" class="form-control" id="glnInput" name="gln">
 						</div>
 					</div>
 

@@ -1,6 +1,7 @@
 package com.lsntsolutions.gtmApp.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -24,6 +25,7 @@ public class ProviderDTO implements Serializable {
 	private Integer typeId;
 	private Integer VATLiabilityId;
 	private boolean active;
+	private List<Integer> logisticsOperators;
 
 	public Integer getId() {
 		return this.id;
@@ -153,5 +155,13 @@ public class ProviderDTO implements Serializable {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public List<Integer> getLogisticsOperators() {
+		return logisticsOperators;
+	}
+
+	public void setLogisticsOperators(List<Integer> logisticsOperators) {
+		this.logisticsOperators = logisticsOperators;
 	}
 }

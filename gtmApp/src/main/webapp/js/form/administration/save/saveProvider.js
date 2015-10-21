@@ -89,6 +89,8 @@ SaveProvider = function() {
 	$('#providerModal').on('shown.bs.modal', function () {
 		  $('.chosen-select', this).chosen('destroy').chosen();
 	});
+
+	$('#my-select').multiSelect();
 	
 	$("#addProviderButton, #updateProviderButton").click(function(e) {
 		if (validateForm()) {
@@ -109,6 +111,7 @@ SaveProvider = function() {
 					"typeId": $("#typeSelect option:selected").val(),
 					"VATLiabilityId": $("#VATLiabilitySelect option:selected").val(),
 					"active": $("#providerActiveSelect option:selected").val(),
+					"logisticsOperators": $("#my-select").val() || new Array(),
 			};
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.

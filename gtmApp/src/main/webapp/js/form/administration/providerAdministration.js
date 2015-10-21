@@ -26,6 +26,7 @@ $(document).ready(function() {
 		$("#agentSelect").val($("#agentSelect option:first").val());
 		$("#typeSelect").val($("#typeSelect option:first").val());
 		$("#providerActiveSelect").val($("#providerActiveSelect option:first").val());
+		$('#my-select').multiSelect('deselect_all');
 	};
 	
 	var deleteProvider = function(providerId) {
@@ -76,6 +77,9 @@ $(document).ready(function() {
 				$("#typeSelect").val(response.type.id).trigger('chosen:update');
 				var isActive = (response.active) ? "true" : "false";
 				$("#providerActiveSelect").val(isActive).trigger('chosen:update');
+				$.each(response.logisticsOperators, function (idx, value) {
+					$('#my-select').multiSelect('select', value.id.toString());
+				});
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myDeleteError();

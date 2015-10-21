@@ -1,16 +1,12 @@
 package com.lsntsolutions.gtmApp.model;
 
 import com.lsntsolutions.gtmApp.util.StringUtility;
+import org.codehaus.jackson.annotate.JsonBackReference;
 
 import java.io.Serializable;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "provider")
@@ -71,6 +67,10 @@ public class Provider implements Serializable {
 
 	@Column(name = "active", nullable = false)
 	private boolean active;
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "provider_logistics_operator", joinColumns = @JoinColumn(name = "provider_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "logistics_operator_id", nullable = false))
+	private List<LogisticsOperator> logisticsOperators;
 
 	public Integer getId() {
 		return this.id;
@@ -202,5 +202,13 @@ public class Provider implements Serializable {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public List<LogisticsOperator> getLogisticsOperators() {
+		return logisticsOperators;
+	}
+
+	public void setLogisticsOperators(List<LogisticsOperator> logisticsOperators) {
+		this.logisticsOperators = logisticsOperators;
 	}
 }
