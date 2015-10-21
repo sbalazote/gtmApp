@@ -111,18 +111,6 @@ public class OutputController {
 		return this.outputService.getCountOutputSearch(outputQuery);
 	}
 
-	@RequestMapping(value = "/cancelOutputs", method = RequestMethod.POST)
-	public @ResponseBody
-	void cancelOutputs(@RequestBody List<Integer> outputIds) throws Exception {
-		// this.outputService.cancelOutputs(outputIds);
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null) {
-			for (Integer outputId : outputIds) {
-				this.auditService.addAudit(auth.getName(), RoleOperation.OUTPUT_CANCELLATION.getId(), AuditState.CANCELLED, outputId);
-			}
-		}
-	}
-
 	@RequestMapping(value = "/confirmPendingOutputs", method = RequestMethod.POST)
 	public @ResponseBody
 	List<OperationResult> confirmPendingOutputs(@RequestBody List<Integer> outputIds) throws Exception {

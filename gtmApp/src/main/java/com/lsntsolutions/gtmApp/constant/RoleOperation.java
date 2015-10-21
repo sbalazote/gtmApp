@@ -12,14 +12,17 @@ public enum RoleOperation {
 	ORDER_ASSEMBLY_CANCELLATION(	"Anulación de Armado de Pedido", 9),
 	DELIVERY_NOTE_PRINT("Impresión de Remito", 10),
 	DELIVERY_NOTE_CANCELLATION("Anulación de Remito", 11),
+	// TODO borrar este rol
 	ENTITY_ADMINISTRATION("Administración de Entidades", 12),
 	USER_ADMINISTRATION("Administración de Usuarios", 13),
 	SERIALIZED_RETURNS("Devolución de Series", 14),
 	INPUT_CANCELLATION("Anulación de Ingreso", 15),
 	INPUT_AUTHORIZATION("Autorización de Ingreso", 16),
+	// TODO borrar este rol
 	OUTPUT_CANCELLATION("Anulación de Egreso", 17),
 	AGREEMENT_TRANSFER("Transferencia de Convenio", 18),
 	SUPPLYING("Dispensa", 19),
+	// TODO borrar este rol
 	SUPPLYING_CANCELLATION("Anulación de Dispensa", 20),
 	PENDING_TRANSACTIONS("Transacciones Pendientes", 21),
 	LOGISTIC_OPERATOR_ASSIGNMENT("Asignacion de Operador Logistico",22),

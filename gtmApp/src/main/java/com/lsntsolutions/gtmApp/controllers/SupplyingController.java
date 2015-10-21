@@ -1,38 +1,28 @@
 package com.lsntsolutions.gtmApp.controllers;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import com.lsntsolutions.gtmApp.constant.DocumentType;
-import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.DocumentType;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.SupplyingDTO;
 import com.lsntsolutions.gtmApp.helper.impl.printer.SupplyingFakeDeliveryNoteSheetPrinter;
+import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import com.lsntsolutions.gtmApp.model.Supplying;
 import com.lsntsolutions.gtmApp.query.SupplyingQuery;
-import com.lsntsolutions.gtmApp.constant.DocumentType;
 import com.lsntsolutions.gtmApp.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.lsntsolutions.gtmApp.service.AgreementService;
-import com.lsntsolutions.gtmApp.service.SupplyingService;
+import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class SupplyingController {
@@ -57,12 +47,6 @@ public class SupplyingController {
 		modelMap.put("agreements", this.agreementService.getAllActives());
 		modelMap.put("documentTypes", DocumentType.types);
 		return "supplying";
-	}
-
-	@RequestMapping(value = "/supplyingCancellation", method = RequestMethod.GET)
-	public String supplyingCancellation(ModelMap modelMap) throws Exception {
-		modelMap.put("cancelleables", this.supplyingService.getCancelleables());
-		return "supplyingCancellation";
 	}
 
 	@RequestMapping(value = "/saveSupplying", method = RequestMethod.POST)
@@ -101,18 +85,6 @@ public class SupplyingController {
 	public @ResponseBody
 	List<String> getSupplyingsDeliveriesNoteNumbers(@RequestParam Integer supplyingId) {
 		return this.deliveryNoteService.getSupplyingsDeliveriesNoteNumbers(supplyingId);
-	}
-
-	@RequestMapping(value = "/cancelSupplyings", method = RequestMethod.POST)
-	public @ResponseBody
-	void cancelSupplyings(@RequestBody List<Integer> supplyingIds) throws Exception {
-		// this.supplyingService.cancelSupplyings(supplyingIds);
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null) {
-			for (Integer supplyingId : supplyingIds) {
-				this.auditService.addAudit(auth.getName(), RoleOperation.SUPPLYING_CANCELLATION.getId(), AuditState.CANCELLED, supplyingId);
-			}
-		}
 	}
 
 	@RequestMapping(value = "/supplyings", method = RequestMethod.POST)

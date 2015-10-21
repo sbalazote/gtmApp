@@ -26,7 +26,6 @@
 		<intercept-url pattern="/output.do" access="hasRole('OUTPUT')" />
 
 		<intercept-url pattern="/supplying.do" access="hasRole('SUPPLYING')" />
-		<intercept-url pattern="/supplyingCancellation.do" access="hasRole('SUPPLYING_CANCELLATION')" />
 
 		<intercept-url pattern="/provisioningRequest.do" access="hasRole('PROVISIONING_REQUEST')" />
 		<intercept-url pattern="/searchProvisioningToUpdate.do" access="hasRole('PROVISIONING_REQUEST_UPDATE')" />

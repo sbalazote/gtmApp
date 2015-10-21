@@ -210,10 +210,6 @@
         <put-attribute name="body" value="/WEB-INF/views/supplying/supplying.jsp" />
     </definition>
     
-    <definition name="supplyingCancellation" extends="base.definition">
-        <put-attribute name="body" value="/WEB-INF/views/supplying/supplyingCancellation.jsp" />
-    </definition>
-
     <definition name="searchSupplying" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/report/searchSupplying.jsp" />
     </definition>
