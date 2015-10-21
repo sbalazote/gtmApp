@@ -1,32 +1,27 @@
 package com.lsntsolutions.gtmApp.controllers;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import javax.servlet.http.HttpServletRequest;
-
 import com.lsntsolutions.gtmApp.constant.AuditState;
+import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.OutputDTO;
 import com.lsntsolutions.gtmApp.helper.impl.printer.OutputDeliveryNoteSheetPrinter;
+import com.lsntsolutions.gtmApp.helper.impl.printer.OutputFakeDeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.model.Concept;
 import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import com.lsntsolutions.gtmApp.model.Output;
 import com.lsntsolutions.gtmApp.query.OutputQuery;
-import com.lsntsolutions.gtmApp.util.OperationResult;
-import com.lsntsolutions.gtmApp.constant.RoleOperation;
-import com.lsntsolutions.gtmApp.helper.impl.printer.OutputFakeDeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.service.*;
+import com.lsntsolutions.gtmApp.util.OperationResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 public class OutputController {
@@ -67,12 +62,6 @@ public class OutputController {
 		modelMap.put("agreements", this.agreementService.getAllActives());
 
 		return "output";
-	}
-
-	@RequestMapping(value = "/outputCancellation", method = RequestMethod.GET)
-	public String outputCancellation(ModelMap modelMap) throws Exception {
-		modelMap.put("cancelleables", this.outputService.getCancelleables());
-		return "outputCancellation";
 	}
 
 	@RequestMapping(value = "/saveOutput", method = RequestMethod.POST)

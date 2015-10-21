@@ -24,8 +24,7 @@
 		<intercept-url pattern="/serializedReturns.do" access="hasRole('SERIALIZED_RETURNS')" />
 		
 		<intercept-url pattern="/output.do" access="hasRole('OUTPUT')" />
-		<intercept-url pattern="/outputCancellation.do" access="hasRole('OUTPUT_CANCELLATION')" />
-		
+
 		<intercept-url pattern="/supplying.do" access="hasRole('SUPPLYING')" />
 		<intercept-url pattern="/supplyingCancellation.do" access="hasRole('SUPPLYING_CANCELLATION')" />
 

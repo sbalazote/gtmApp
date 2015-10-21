@@ -44,7 +44,8 @@ public enum RoleOperation {
 	PROVIDER_ADMINISTRATION("Administracion de Proveedores",41),
 	DELIVERY_NOTE_ENUMERATOR_ADMINISTRATION("Administracion de Puntos de Venta",42),
 	PROVIDER_SERIALIZED_FORMAT_ADMINISTRATION("Administracion de Formatos de Serializacion",43),
-	PROFILE_ADMINISTRATION("Administracion de Perfiles",44);
+	PROFILE_ADMINISTRATION("Administracion de Perfiles",44),
+	PROPERTY_ADMINISTRATION("Administracion de Propiedades", 45);
 
 	private Integer id;
 	private String description;

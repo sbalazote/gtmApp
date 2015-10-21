@@ -182,10 +182,6 @@
         <put-attribute name="body" value="/WEB-INF/views/input/inputCancellation.jsp" />
     </definition>
     
-    <definition name="outputCancellation" extends="base.definition">
-        <put-attribute name="body" value="/WEB-INF/views/output/outputCancellation.jsp" />
-    </definition>
-    
     <definition name="pendingInputs" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/input/pendingInputs.jsp" />
     </definition>
