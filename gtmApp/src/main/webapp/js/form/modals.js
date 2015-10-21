@@ -102,6 +102,11 @@ $(document).ready(function() {
 			clientOrProviderCode= response.deliveryLocation.code;
 			$('#clientOrProviderModal').val(clientOrProviderCode + " - " + response.deliveryLocation.name);
 		}
+		if (response.logisticsOperator != null) {
+			$('#logisticsOperatorModal').val(response.logisticsOperator.code + " - " + response.logisticsOperator.name);
+		}else{
+			$('#logisticsOperatorModal').val("");
+		}
         var code = addLeadingZeros(response.agreement.code,5);
 		$('#agreementModal').val(code + " - " + response.agreement.description);
 		$('#deliveryNoteNumberModal').val(response.deliveryNoteNumber);

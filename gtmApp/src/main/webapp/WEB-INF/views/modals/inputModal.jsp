@@ -38,25 +38,28 @@
 				<div class="modal-body">
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col-md-4 col-lg-4 form-group">
+							<div class="col-md-3 col-lg-3 form-group">
 								<label for="dateModal"><spring:message code="common.date" /></label> <input id="dateModal" name="dateModal" class="form-control" disabled>
 							</div>
-							<div class="col-md-4 col-lg-4 form-group">
+							<div class="col-md-3 col-lg-3 form-group">
 								<label for="conceptModal"><spring:message code="common.concept" /></label> <input id="conceptModal" name="conceptModal" class="form-control" disabled>
 							</div>
-							<div class="col-md-4 col-lg-4 form-group">
-								<label for="clientOrProviderModal"><spring:message code="common.clientOrProvider" /></label> <input id="clientOrProviderModal" name="clientOrProviderModal" class="form-control" disabled>
+							<div class="col-md-3 col-lg-3 form-group">
+								<label for="agreementModal"><spring:message code="common.agreement" /></label> <input id="agreementModal" name="agreementModal" class="form-control" disabled>
+							</div>
+							<div class="col-md-3 col-lg-3 form-group">
+								<label for="deliveryNoteNumberModal"><spring:message code="common.deliveryNote" /></label> <input type="text" class="form-control" name="deliveryNoteNumberModal" id="deliveryNoteNumberModal" disabled>
 							</div>
 						</div>
 
 						<div class="row">
-							<div class="col-md-4 col-lg-4 form-group">
-								<label for="agreementModal"><spring:message code="common.agreement" /></label> <input id="agreementModal" name="agreementModal" class="form-control" disabled>
+							<div class="col-md-6 col-lg-6 form-group">
+								<label for="clientOrProviderModal"><spring:message code="common.clientOrProvider" /></label> <input id="clientOrProviderModal" name="clientOrProviderModal" class="form-control" disabled>
 							</div>
-							<div class="col-md-4 col-lg-4 form-group">
-								<label for="deliveryNoteNumberModal"><spring:message code="common.deliveryNote" /></label> <input type="text" class="form-control" name="deliveryNoteNumberModal" id="deliveryNoteNumberModal" disabled>
+							<div class="col-md-3 col-lg-3 form-group">
+								<label for="logisticsOperatorModal"><spring:message code="common.logisticsOperator" /></label> <input id="logisticsOperatorModal" name="logisticsOperatorModal" class="form-control" disabled>
 							</div>
-							<div class="col-md-4 col-lg-4 form-group">
+							<div class="col-md-3 col-lg-3 form-group">
 								<label for="purchaseOrderNumberModal"><spring:message code="common.purchaseOrder" /></label> <input type="text" class="form-control" name="purchaseOrderNumberModal" id="purchaseOrderNumberModal" disabled>
 							</div>
 						</div>
