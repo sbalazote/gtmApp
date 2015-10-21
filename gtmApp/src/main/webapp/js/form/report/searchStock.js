@@ -166,6 +166,7 @@ SearchStock = function() {
 			$.datepicker._clearDate('#dateToSearch');
 		}
 		$('#agreementSearch').val('').trigger('chosen:updated');
+		$('#monodrugSearch').val('').trigger('chosen:updated');
 		$('#productInput').val('');
 		productId = "";
 		
