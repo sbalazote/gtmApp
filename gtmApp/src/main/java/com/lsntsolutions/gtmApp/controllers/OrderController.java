@@ -5,7 +5,7 @@ import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.dto.AssignOperatorDTO;
 import com.lsntsolutions.gtmApp.dto.OrderDTO;
-import com.lsntsolutions.gtmApp.helper.OrderLabelCreator;
+import com.lsntsolutions.gtmApp.helper.impl.printer.OrderLabelPrinter;
 import com.lsntsolutions.gtmApp.model.Order;
 import com.lsntsolutions.gtmApp.model.ProvisioningRequest;
 import com.lsntsolutions.gtmApp.model.Stock;
@@ -31,7 +31,7 @@ public class OrderController {
 	@Autowired
 	private StockService stockService;
 	@Autowired
-	private OrderLabelCreator orderLabelCreator;
+	private OrderLabelPrinter orderLabelPrinter;
 	@Autowired
 	private AuditService auditService;
 	@Autowired
@@ -70,7 +70,7 @@ public class OrderController {
 	@RequestMapping(value = "/saveOrder", method = RequestMethod.POST)
 	public @ResponseBody Order saveOrder(@RequestBody OrderDTO orderDTO) throws Exception {
 		Order order = this.orderService.save(orderDTO);
-		this.orderLabelCreator.getLabelFile(order);
+		this.orderLabelPrinter.getLabelFile(order);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
 			this.auditService.addAudit(auth.getName(), RoleOperation.ORDER_ASSEMBLY.getId(), AuditState.COMFIRMED, order.getId());
