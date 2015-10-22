@@ -172,8 +172,8 @@ public class OrderLabelPrinter {
 			overContent.setTextMatrix(5.0f * 2.8346f, (100.0f - 20.0f) * 2.8346f);
 			Affiliate affiliate = order.getProvisioningRequest().getAffiliate();
 			String affiliateCode = StringUtility.addLeadingZeros(affiliate.getCode(), 14);
-			String affiliateSurname = affiliate.getSurname();
-			String affiliateName = affiliate.getName();
+			String affiliateSurname = affiliate.getSurname().toUpperCase();
+			String affiliateName = affiliate.getName().toUpperCase();
 			overContent.showText("Afiliado: \t" + affiliateCode);
 			overContent.setTextMatrix(5.0f * 2.8346f, (100.0f - 23.0f) * 2.8346f);
 			overContent.showText(affiliateSurname + " " + affiliateName);
