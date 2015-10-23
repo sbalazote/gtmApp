@@ -23,10 +23,10 @@ SaveAgreement = function() {
 				pickingFilepath: {
 					required: true
 				},
-				orderLabelFilepath: {
+				orderLabelPrinter: {
 					required: true
 				},
-				deliveryNoteFilepath: {
+				deliveryNotePrinter: {
 					required: true
 				},
 				deliveryNoteConcept: {
@@ -74,8 +74,8 @@ SaveAgreement = function() {
 					"active": $("#activeSelect option:selected").val(),
 					"numberOfDeliveryNoteDetailsPerPage": $("#numberOfDeliveryNoteDetailsPerPageInput").val(),
 					"pickingFilepath": $("#pickingFilepathInput").val(),
-					"orderLabelFilepath": $("#orderLabelFilepathInput").val(),
-					"deliveryNoteFilepath": $("#deliveryNoteFilepathInput").val(),
+					"orderLabelFilepath": $("#orderLabelPrinterSelect option:selected").val(),
+					"deliveryNoteFilepath": $("#deliveryNotePrinterSelect option:selected").val(),
 					"deliveryNoteConceptId": $("#deliveryNoteConceptSelect option:selected").val(),
 					"destructionConceptId": $("#destructionConceptSelect option:selected").val()
 			};

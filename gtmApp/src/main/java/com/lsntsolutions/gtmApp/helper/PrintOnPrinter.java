@@ -141,4 +141,9 @@ public class PrintOnPrinter {
 			}
 		}
 	}
+
+	public PrintService[] findAllPrinters() {
+		PrintService[] services = PrintServiceLookup.lookupPrintServices(null, null);
+		return services;
+	}
 }

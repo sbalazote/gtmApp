@@ -2,6 +2,7 @@ package com.lsntsolutions.gtmApp.controllers.administration;
 
 import com.lsntsolutions.gtmApp.dto.AgreementDTO;
 import com.lsntsolutions.gtmApp.dto.AgreementTransferDTO;
+import com.lsntsolutions.gtmApp.helper.PrintOnPrinter;
 import com.lsntsolutions.gtmApp.model.Agreement;
 import com.lsntsolutions.gtmApp.service.AgreementService;
 import com.lsntsolutions.gtmApp.service.AgreementTransferService;
@@ -30,6 +31,8 @@ public class AgreementAdministrationController {
 	private AgreementTransferService agreementTransferService;
 	@Autowired
 	private ConceptService conceptService;
+	@Autowired
+	private PrintOnPrinter printOnPrinter;
 
 	@RequestMapping(value = "/agreements", method = RequestMethod.POST)
 	public ModelAndView agreements(@RequestParam Map<String, String> parametersMap) {
@@ -43,6 +46,7 @@ public class AgreementAdministrationController {
 
 	@RequestMapping(value = "/agreementAdministration", method = RequestMethod.GET)
 	public String agreementAdministration(ModelMap modelMap) throws Exception {
+		modelMap.put("allPrinters", this.printOnPrinter.findAllPrinters());
 		modelMap.put("deliveryNoteConcepts", this.conceptService.getAll());
 		modelMap.put("destructionConcepts", this.conceptService.getAll());
 		return "agreementAdministration";

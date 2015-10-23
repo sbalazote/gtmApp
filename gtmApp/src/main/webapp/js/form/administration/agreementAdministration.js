@@ -8,8 +8,8 @@ $(document).ready(function() {
 		$("#descriptionInput").val('');
 		$("#numberOfDeliveryNoteDetailsPerPageInput").val('');
 		$("#pickingFilepathInput").val('');
-		$("#orderLabelFilepathInput").val('');
-		$("#deliveryNoteFilepathInput").val('');
+		$("#orderLabelPrinterSelect").val($("#orderLabelPrinterSelect option:first").val());
+		$("#deliveryNotePrinterSelect").val($("#orderLabelPrinterSelect option:first").val());
 		$("#activeSelect").val($("#activeSelect option:first").val());
 		$("#deliveryNoteConceptSelect").val($("#deliveryNoteConceptSelect option:first").val());
 		$("#destructionConceptSelect").val($("#destructionConceptSelect option:first").val());
@@ -51,8 +51,8 @@ $(document).ready(function() {
 				$("#descriptionInput").val(response.description);
 				$("#numberOfDeliveryNoteDetailsPerPageInput").val(response.numberOfDeliveryNoteDetailsPerPage);
 				$("#pickingFilepathInput").val(response.pickingFilepath);
-				$("#orderLabelFilepathInput").val(response.orderLabelFilepath);
-				$("#deliveryNoteFilepathInput").val(response.deliveryNoteFilepath);
+				$("#orderLabelPrinterSelect").val(response.orderLabelFilepath).trigger('chosen:update');
+				$("#deliveryNotePrinterSelect").val(response.deliveryNoteFilepath).trigger('chosen:update');
 				var isActive = (response.active) ? "true" : "false";
 				$("#activeSelect").val(isActive).trigger('chosen:update');
 				$("#deliveryNoteConceptSelect").val(response.deliveryNoteConcept.id).trigger('chosen:update');
@@ -70,8 +70,8 @@ $(document).ready(function() {
 		$("#activeSelect").prop('disabled', hidden).trigger('chosen:update');
 		$("#numberOfDeliveryNoteDetailsPerPageInput").attr('disabled', hidden);
 		$("#pickingFilepathInput").attr('disabled', hidden);
-		$("#orderLabelFilepathInput").attr('disabled', hidden);
-		$("#deliveryNoteFilepathInput").attr('disabled', hidden);
+		$("#orderLabelPrinterSelect").attr('disabled', hidden).trigger('chosen:update');;
+		$("#deliveryNotePrinterSelect").attr('disabled', hidden).trigger('chosen:update');;
 		$("#deliveryNoteConceptSelect").prop('disabled', hidden).trigger('chosen:update');
 		$("#destructionConceptSelect").prop('disabled', hidden).trigger('chosen:update');
 	};

@@ -192,12 +192,18 @@ OrderAssembly = function() {
 				type: "POST",
 				contentType:"application/json",
 				data: JSON.stringify(jsonOrder),
-				async: false,
+				async: true,
+				beforeSend : function() {
+					$.blockUI({ message: 'Espere un Momento por favor...' });
+				},
 				success: function(response) {
 					myRedirect("success", "Se ha generado exitosamente el pedido para la Solicitud n\u00famero: " + response.id, "orderAssemblySelection.do");
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					myGenericError();
+				},
+				complete: function(jqXHR, textStatus) {
+					$.unblockUI();
 				}
 			});
 		}
