@@ -36,7 +36,8 @@
 	<div class="collapse navbar-collapse navbar-ex1-collapse">
 		<ul class="nav navbar-nav">
 			<sec:authorize access="hasAnyRole('INPUT', 'INPUT_AUTHORIZATION', 'INPUT_CANCELLATION', 'SERIALIZED_RETURNS', 'OUTPUT', 'AGREEMENT_TRANSFER')">
-				<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="common.stock" /> <b class="caret"></b></a>
+				<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					<span class="glyphicon glyphicon-transfer" aria-hidden="true"></span> <spring:message code="common.stock" /> <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<sec:authorize access="hasAnyRole('INPUT', 'INPUT_AUTHORIZATION', 'INPUT_CANCELLATION')">
 							<li class="dropdown-submenu"><a href="#"><spring:message code="administration.input" /></a>
@@ -75,11 +76,11 @@
 			</sec:authorize>
 
 			<sec:authorize access="hasRole('SUPPLYING')">
-				<li class="activable"><a href="supplying.do"><spring:message code="common.supplying" /></a></li>
+				<li class="activable"><a href="supplying.do"><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> <spring:message code="common.supplying" /></a></li>
 			</sec:authorize>
 
 			<sec:authorize access="hasAnyRole('PROVISIONING_REQUEST', 'PROVISIONING_REQUEST_UPDATE','PROVISIONING_REQUEST_PRINT', 'PROVISIONING_REQUEST_AUTHORIZATION', 'ORDER_ASSEMBLY', 'LOGISTIC_OPERATOR_ASSIGNMENT', 'PROVISIONING_REQUEST_CANCELLATION', 'ORDER_ASSEMBLY_CANCELLATION')">
-				<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="common.requests" /> <b class="caret"></b></a>
+				<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> <spring:message code="common.requests" /> <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<sec:authorize access="hasRole('PROVISIONING_REQUEST')">
 							<li><a href="provisioningRequest.do"><spring:message code="common.do" /></a></li>
@@ -110,7 +111,7 @@
 			</sec:authorize>
 
 			<sec:authorize access="hasAnyRole('DELIVERY_NOTE_PRINT', 'DELIVERY_NOTE_CANCELLATION', 'PENDING_TRANSACTIONS')">
-				<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="printing.label" /> <b class="caret"></b></a>
+				<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> <spring:message code="printing.label" /> <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<sec:authorize access="hasRole('DELIVERY_NOTE_PRINT')">
 							<li><a href="deliveryNoteSheet.do"><spring:message code="printing.deliveryNotes" /></a></li>
@@ -126,7 +127,7 @@
 			</sec:authorize>
 
 			<sec:authorize access="hasAnyRole('SEARCH_INPUTS', 'SEARCH_OUTPUTS', 'SEARCH_PROVISIONING_REQUEST', 'SEARCH_SUPPLYING', 'SEARCH_DELIVERY_NOTE', 'SEARCH_AUDIT', 'SEARCH_STOCK', 'SEARCH_SERIALIZED_PRODUCT', 'SEARCH_BATCH_EXPIRATEDATE_PRODUCT')">
-				<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="administration.lookUp" /> <b class="caret"></b></a>
+				<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> <spring:message code="administration.lookUp" /> <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<sec:authorize access="hasRole('SEARCH_INPUTS')">
 							<li><a href="searchInput.do"><spring:message code="common.inputs" /></a></li>
@@ -160,7 +161,7 @@
 			</sec:authorize>
 
 			<sec:authorize access="hasAnyRole('AFFILIATE_ADMINISTRATION', 'AGENT_ADMINISTRATION', 'CLIENT_ADMINISTRATION', 'CONCEPT_ADMINISTRATION', 'AGREEMENT_ADMINISTRATION', 'EVENT_ADMINISTRATION', 'DELIVERY_LOCATION_ADMINISTRATION', 'LOGISTIC_OPERATOR_ADMINISTRATION', 'PRODUCT_ADMINISTRATION', 'PROVIDER_ADMINISTRATION', 'DELIVERY_NOTE_ENUMERATOR_ADMINISTRATION', 'PROVIDER_SERIALIZED_FORMAT_ADMINISTRATION', 'USER_ADMINISTRATION', 'PROFILE_ADMINISTRATION')">
-				<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="administration.label" /> <b class="caret"></b></a>
+				<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <spring:message code="administration.label" /> <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li class="dropdown-submenu"><a href="#"><spring:message code="administration.entity" /></a>
 							<ul class="dropdown-menu">
@@ -215,14 +216,14 @@
 			</sec:authorize>
 
 			<sec:authorize access="hasRole('PROPERTY_ADMINISTRATION')">
-				<li class="activable"><a href="updateProperty.do"><spring:message code="common.configuration" /></a></li>
+				<li class="activable"><a href="updateProperty.do"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> <spring:message code="common.configuration" /></a></li>
 			</sec:authorize>
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right">
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-					<span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <sec:authentication property="principal" /> <span class="caret"></span>
+					<span class="glyphicon glyphicon-user" aria-hidden="true"></span> <sec:authentication property="principal" /> <span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu">
 					<li id="changePassword"></span><a href="#"><spring:message code="administration.changePassword" /></a></li>
