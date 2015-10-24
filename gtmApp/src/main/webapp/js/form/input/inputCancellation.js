@@ -134,7 +134,7 @@ InputCancellation = function() {
 					}
 					input.concept = response[i].concept.description;
 					input.date = myParseDate(response[i].date);
-					input.option = "<a class='view-row' href='javascript:void(0);'>Consulta</a>";
+					input.option = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
 					aaData.push(input);
 				}
 				$("#inputTable").bootgrid({

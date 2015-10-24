@@ -161,7 +161,7 @@ SearchSupplying = function() {
                     }else{
                         supplying.cancelled = "No";
                     }
-                    supplying.option = "<a href='javascript:void(0);' class='view-row'>Consulta</a>";
+                    supplying.option = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
                     aaData.push(supplying);
                 }
                 $("#supplyingTable").bootgrid({

@@ -148,7 +148,7 @@ SearchProvisioningRequest = function() {
 					provisioning.agreement = response[i].agreement.description;
 					provisioning.state = response[i].state.description;
 					provisioning.date = myParseDate(response[i].deliveryDate);
-					provisioning.option = "<a href='javascript:void(0);' class='view-row'>Consulta</a>";
+					provisioning.option = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
 					aaData.push(provisioning);
 				}
 				$("#provisioningTable").bootgrid({

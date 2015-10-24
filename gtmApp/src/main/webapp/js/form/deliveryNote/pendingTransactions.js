@@ -92,13 +92,13 @@ var PendingTransactions = function() {
 	        "option": function(column, row)
 	        {
 	        	if (row.class === "ARMADO") {
-	        		return "<a href=\"#\" class='view-order-row-deliveryNoteTable'>Consulta</a>";
+					return "<button type=\"button\" class=\"btn btn-sm btn-default view-order-row-deliveryNoteTable\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
 	        	}
 	        	if(row.class === "EGRESO") {
-	        		return "<a href=\"#\" class='view-output-row-deliveryNoteTable'>Consulta</a>";
-	        	}
+					return "<button type=\"button\" class=\"btn btn-sm btn-default view-output-row-deliveryNoteTable\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
+				}
 	        	if(row.class === "DISPENSA") {
-	        		return "<a href=\"#\" class='view-supplying-row-deliveryNoteTable'>Consulta</a>";
+					return "<button type=\"button\" class=\"btn btn-sm btn-default view-supplying-row-deliveryNoteTable\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
 	        	}
 	        }
 	    }

@@ -329,7 +329,7 @@ SearchDeliveryNote = function() {
 						output.id= response[i].id;
 						output.number = response[i].number;
 						output.date = myParseDate(response[i].date);
-						output.action = "<a href='javascript:void(0);' class='view-row'>Consulta</a>";
+						output.action = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
 						aaData.push(output);
 					}
 					$("#deliveryNoteTableOutput").bootgrid({
@@ -394,7 +394,7 @@ SearchDeliveryNote = function() {
 						output.id= response[i].id;
 						order.number = response[i].number;
 						order.date = myParseDate(response[i].date);
-						order.action = "<a href='javascript:void(0);' class='view-row'>Consulta</a>";
+						order.action = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
 						aaData.push(order);
 					}
 					$("#deliveryNoteTableOrder").bootgrid({
@@ -459,7 +459,8 @@ SearchDeliveryNote = function() {
 						output.id= response[i].id;
 						output.number = response[i].number;
 						output.date = myParseDate(response[i].date);
-						output.action = "<a href='javascript:void(0);' class='view-row'>Consulta</a>";
+						output.action = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
+
 						aaData.push(output);
 					}
 					$("#deliveryNoteTableSupplying").bootgrid({

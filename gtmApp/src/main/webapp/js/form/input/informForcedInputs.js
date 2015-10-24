@@ -20,7 +20,7 @@ PendingInputs = function() {
         keepSelection: true,
         formatters: {
             "option": function(column, row) {
-                return "<a href=\"#\" class='view-row'>Consulta</a>";
+                return "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
             }
         }
     }).on("selected.rs.jquery.bootgrid", function(e, rows) {

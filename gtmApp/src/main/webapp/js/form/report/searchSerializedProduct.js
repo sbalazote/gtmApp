@@ -168,7 +168,7 @@ SearchSerializedProduct = function() {
                             audit.operation = response.inputs[i].auditAction;
                             audit.user = response.inputs[i].username;
                             audit.date = response.inputs[i].date;
-                            audit.view = "<a href='javascript:void(0);' class='view-row-input'>Consulta</a>";
+                            audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-input\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
                             aaData.push(audit);
                         }
                     }
@@ -188,7 +188,7 @@ SearchSerializedProduct = function() {
                             audit.operation = response.outputs[i].auditAction;
                             audit.user = response.outputs[i].username;
                             audit.date = response.outputs[i].date;
-                            audit.view = "<a href='javascript:void(0);' class='view-row-output'>Consulta</a>";
+                            audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-output\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
                             aaData.push(audit);
                         }
                     }
@@ -208,7 +208,7 @@ SearchSerializedProduct = function() {
                             audit.operation = response.orders[i].auditAction;
                             audit.user = response.orders[i].username;
                             audit.date = response.orders[i].date;
-                            audit.view = "<a href='javascript:void(0);' class='view-row-order'>Consulta</a>";
+                            audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-order\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
                             aaData.push(audit);
                         }
                     }
@@ -228,7 +228,7 @@ SearchSerializedProduct = function() {
                             audit.operation = response.deliveryNotes[i].auditAction;
                             audit.user = response.deliveryNotes[i].username;
                             audit.date = response.deliveryNotes[i].date;
-                            audit.view = "<a href='javascript:void(0);' class='view-row-deliveryNote'>Consulta</a>";
+                            audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-deliveryNote\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
                             aaData.push(audit);
                         }
                     }
@@ -248,7 +248,7 @@ SearchSerializedProduct = function() {
                             audit.operation = response.supplyings[i].auditAction;
                             audit.user = response.supplyings[i].username;
                             audit.date = response.supplyings[i].date;
-                            audit.view = "<a href='javascript:void(0);' class='view-row-supplying'>Consulta</a>";
+                            audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-supplying\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
                             aaData.push(audit);
                         }
                     }

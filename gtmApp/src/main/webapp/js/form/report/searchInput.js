@@ -178,7 +178,7 @@ SearchInput = function() {
 					}else{
 						input.cancelled = "No";
 					}
-					input.option = "<a href='javascript:void(0);' class='view-row'>Consulta</a>";
+					input.option = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
 					aaData.push(input);
 				}
 				$("#inputTable").bootgrid({

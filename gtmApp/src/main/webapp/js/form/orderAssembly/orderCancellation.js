@@ -64,9 +64,6 @@ var OrderCancellation = function() {
 	    rowSelect: false,
 	    keepSelection: true,
 	    formatters: {
-	        /*"action": function(column, row) {
-	        	return "<a href=\"#\" class='view-row'>Consulta</a><a href=\"#\" class='print-row'>Imprimir Etiqueta</a>";
-	        }*/
 			"action": function(column, row) {
 				return "<button type=\"button\" class=\"btn btn-sm btn-default view-row\">" +
 					"<span class=\"glyphicon glyphicon-eye-open\"></span>" +

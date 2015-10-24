@@ -80,9 +80,10 @@ DeliveryNoteCancellation = function() {
 						"orderAssemblyOrOutputNumber": index.substring(1),
 						"class": (index.charAt(0) == "A") ? "ARMADO" : (index.charAt(0) == "E") ? "EGRESO" : "DISPENSA",
 						"deliveryNoteNumbers": "[" + value.join(", ") + "]",
-						"option": (index.charAt(0) == "A") ? "<a href=\"#\" class='view-order-row'>Consulta</a>" : (index.charAt(0) == "E") ? "<a href=\"#\" class='view-output-row'>Consulta</a>" : "<a href=\"#\" class='view-supplying-row'>Consulta</a>"
+						"option": (index.charAt(0) == "A") ? "<button type=\"button\" class=\"btn btn-sm btn-default view-order-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>" : (index.charAt(0) == "E") ? "<button type=\"button\" class=\"btn btn-sm btn-default view-output-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>" : "<button type=\"button\" class=\"btn btn-sm btn-default view-supplying-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>"
 					};
 					aaData.push(row);
+
 				});
 				$("#deliveryNoteTable").bootgrid({
 					caseSensitive: false,
