@@ -240,7 +240,7 @@ public class OrderLabelPrinter {
 
 			ByteArrayInputStream pdfDocument = new ByteArrayInputStream(out.toByteArray());
 
-			this.printOnPrinter.sendPDFToSpool(filepath, FILE_NAME + type + FILE_EXTENSION, pdfDocument);
+			this.printOnPrinter.sendPDFToSpool(filepath, number + "_" + FILE_NAME + type + FILE_EXTENSION, pdfDocument);
 
 			pdfDocument.close();
 

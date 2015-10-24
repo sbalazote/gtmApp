@@ -10,6 +10,33 @@ var OrderCancellation = function() {
 		
 		showOrderModal(orderId);
 	});
+
+	$('#orderTableBody').on("click", ".print-row", function() {
+		var parent = $(this).parent().parent();
+
+		orderId = parent.attr("data-row-id");
+
+		$.ajax({
+			url: "printOrderLabel.do",
+			type: "POST",
+			async: true,
+			data: {
+				orderId: orderId
+			},
+			beforeSend : function() {
+				$.blockUI({ message: 'Espere un Momento por favor...' });
+			},
+			success: function(response) {
+				myShowAlert('success', 'Se ha mandado a imprimir el rotulo de la orden nro.: ' + orderId);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myGenericError();
+			},
+			complete: function(jqXHR, textStatus) {
+				$.unblockUI();
+			}
+		});
+	});
 	
 	$("#confirmButton").click(function() {
 		if(requestsToCancel.length > 0){
@@ -37,9 +64,17 @@ var OrderCancellation = function() {
 	    rowSelect: false,
 	    keepSelection: true,
 	    formatters: {
-	        "action": function(column, row) {
-	        	return "<a href=\"#\" class='view-row'>Consulta</a>";
-	        }
+	        /*"action": function(column, row) {
+	        	return "<a href=\"#\" class='view-row'>Consulta</a><a href=\"#\" class='print-row'>Imprimir Etiqueta</a>";
+	        }*/
+			"action": function(column, row) {
+				return "<button type=\"button\" class=\"btn btn-sm btn-default view-row\">" +
+					"<span class=\"glyphicon glyphicon-eye-open\"></span>" +
+					" Ver</button>  " +
+					"<button type=\"button\" class=\"btn btn-sm btn-default print-row\">" +
+					"<span class=\"glyphicon glyphicon-print\"></span>" +
+					" Imprimir Etiqueta</button>";
+			}
 	    }
 	}).on("selected.rs.jquery.bootgrid", function(e, rows) {
 	    for (var i = 0; i < rows.length; i++) {
