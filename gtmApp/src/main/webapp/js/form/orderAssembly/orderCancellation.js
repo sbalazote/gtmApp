@@ -64,11 +64,13 @@ var OrderCancellation = function() {
 	    rowSelect: false,
 	    keepSelection: true,
 	    formatters: {
-			"action": function(column, row) {
+			"viewOrder": function(column, row) {
 				return "<button type=\"button\" class=\"btn btn-sm btn-default view-row\">" +
 					"<span class=\"glyphicon glyphicon-eye-open\"></span>" +
-					" Ver</button>  " +
-					"<button type=\"button\" class=\"btn btn-sm btn-default print-row\">" +
+					" Ver</button>";
+			},
+			"printLabel": function(column, row) {
+				return "<button type=\"button\" class=\"btn btn-sm btn-default print-row\">" +
 					"<span class=\"glyphicon glyphicon-print\"></span>" +
 					" Imprimir Etiqueta</button>";
 			}

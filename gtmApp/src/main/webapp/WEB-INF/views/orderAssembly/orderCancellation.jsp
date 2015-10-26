@@ -1,6 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <script type="text/javascript" src="js/form/orderAssembly/orderCancellation.js"></script>
 <script type="text/javascript" src="js/form/modals.js"></script>
@@ -27,7 +28,12 @@
 				<th data-column-id="id" data-type="numeric" data-identifier="true"><spring:message code="common.id"/></th>
 				<th data-column-id="client"><spring:message code="common.client"/></th>
 				<th data-column-id="agreement"><spring:message code="common.agreement"/></th>
-				<th data-column-id="action" data-formatter="action" data-sortable="false"><spring:message code="common.action"/></th>
+				<sec:authorize access="hasRole('ORDER_ASSEMBLY_CANCELLATION')">
+					<th data-column-id="viewOrder" data-formatter="viewOrder" data-sortable="false"><spring:message code="common.action"/></th>
+				</sec:authorize>
+				<sec:authorize access="hasRole('ORDER_ASSEMBLY_CANCELLATION')">
+					<th data-column-id="printLabel" data-formatter="printLabel" data-sortable="false"><spring:message code="common.action"/></th>
+				</sec:authorize>
 			</tr>
 			</thead>
 			<tbody id="orderTableBody">
@@ -36,7 +42,6 @@
 					<td><c:out value="${order.id}"></c:out></td>
 					<td><c:out value="${order.provisioningRequest.client.name}"></c:out></td>
 					<td><c:out value="${order.provisioningRequest.agreement.description}"></c:out></td>
-					<td><spring:message code="common.view"/></td>
 				</tr>
 			</c:forEach>
 			</tbody>
