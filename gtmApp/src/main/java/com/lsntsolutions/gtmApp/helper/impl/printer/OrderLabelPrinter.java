@@ -16,6 +16,7 @@ import com.lsntsolutions.gtmApp.service.PropertyService;
 import com.lsntsolutions.gtmApp.util.StringUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.ServletContextAware;
 
 import javax.servlet.ServletContext;
 import java.io.*;
@@ -24,16 +25,19 @@ import java.util.Iterator;
 import java.util.Map;
 
 @Service
-public class OrderLabelPrinter {
+public class OrderLabelPrinter implements ServletContextAware {
 
 	private static final String FILE_NAME = "packing_list";
 	private static final String FILE_EXTENSION = ".RPV";
 	private static final int MAX_PRODUCT_LIMIT = 16;
 	@Autowired
 	private PropertyService propertyService;
-	@Autowired
+
 	private ServletContext servletContext;
 
+	public void setServletContext(ServletContext servletContext) {
+		this.servletContext = servletContext;
+	}
 
 	@Autowired
 	private PrintOnPrinter printOnPrinter;
