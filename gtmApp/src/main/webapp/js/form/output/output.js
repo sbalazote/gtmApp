@@ -231,7 +231,7 @@ Output = function() {
 							$("#productOutput").val("");
 						}
 					} else {
-						$('#productOutput').tooltip("destroy").data("title", "Producto Inexistente").addClass("has-error").tooltip();
+						$('#productOutput').tooltip("destroy").data("title", "No hay en Stock").addClass("has-error").tooltip();
 						$('#productOutput').val('');
 						$('#productOutput').focus();
 					}

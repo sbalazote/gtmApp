@@ -284,7 +284,7 @@ var Supplying = function() {
 							$("#productInput").val("");
 						}
 					} else {
-						$('#productInput').tooltip("destroy").data("title", "Producto Inexistente").addClass("has-error").tooltip();
+						$('#productInput').tooltip("destroy").data("title", "No hay en Stock").addClass("has-error").tooltip();
 						$('#productInput').val('');
 						$('#productInput').focus();
 					}
