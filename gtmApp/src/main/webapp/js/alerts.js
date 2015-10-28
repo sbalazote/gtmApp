@@ -19,7 +19,9 @@ $(document).ready(function() {
 		window.location.href = redirectLocation;
 	};
 	
-	myShowAlert = function(type, message, element) {
+	myShowAlert = function(type, message, element, time) {
+		if (typeof(time)==='undefined') time = 3000;
+
 		var myDiv = "alertDiv";
 		if (element) {
 			myDiv = element;
@@ -39,7 +41,7 @@ $(document).ready(function() {
 			"onclick": null,
 			"showDuration": "300",
 			"hideDuration": "1000",
-			"timeOut": 3000,
+			"timeOut": time,
 			"showEasing": "swing",
 			"hideEasing": "linear",
 			"showMethod": "fadeIn",

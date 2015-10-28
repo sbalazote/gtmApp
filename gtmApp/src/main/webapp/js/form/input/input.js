@@ -547,7 +547,7 @@ Input = function() {
 										errors += response.errores[i]._c_error + " - " + response.errores[i]._d_error + "<br />";
 									}
 								}
-								myShowAlert("danger", errors,null);
+								myShowAlert("danger", errors,null,0);
 							}
 						},
 						error: function(response, jqXHR, textStatus, errorThrown) {
