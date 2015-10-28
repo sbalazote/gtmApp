@@ -43,11 +43,11 @@
 							<li class="dropdown-submenu"><a href="#"><spring:message code="administration.input" /></a>
 								<ul class="dropdown-menu">
 									<sec:authorize access="hasRole('INPUT')">
-										<li class="activable"><a href="input.do"><spring:message code="common.input" /></a></li>
-										<li class="activable"><a href="pendingInputs.do"><spring:message code="common.pendings" /></a></li>
+										<li><a href="input.do"><spring:message code="common.input" /></a></li>
+										<li><a href="pendingInputs.do"><spring:message code="common.pendings" /></a></li>
 									</sec:authorize>
 									<sec:authorize access="hasRole('INPUT_AUTHORIZATION')">
-										<li class="activable"><a href="searchInputToUpdate.do"><spring:message code="common.authorizeSNT" /></a></li>
+										<li><a href="searchInputToUpdate.do"><spring:message code="common.authorizeSNT" /></a></li>
 									</sec:authorize>
 									<sec:authorize access="hasRole('INPUT_CANCELLATION')">
 										<li><a href="inputCancellation.do"><spring:message code="administration.cancelled.button" /> </a></li>
@@ -57,11 +57,11 @@
 						</sec:authorize>
 
 						<sec:authorize access="hasRole('SERIALIZED_RETURNS')">
-							<li class="activable"><a href="serializedReturns.do"><spring:message code="serializedReturns.label" /></a></li>
+							<li><a href="serializedReturns.do"><spring:message code="serializedReturns.label" /></a></li>
 						</sec:authorize>
 
 						<sec:authorize access="hasRole('OUTPUT')">
-							<li class="activable"><a href="output.do"><spring:message code="common.output.label" /></a></li>
+							<li><a href="output.do"><spring:message code="common.output.label" /></a></li>
 						</sec:authorize>
 
 						<sec:authorize access="hasRole('INPUT_AUTHORIZATION')">
@@ -69,7 +69,7 @@
 						</sec:authorize>
 
 						<sec:authorize access="hasRole('AGREEMENT_TRANSFER')">
-							<li class="activable"><a href="agreementTransfer.do"><spring:message code="common.agreementTransfer" /></a></li>
+							<li><a href="agreementTransfer.do"><spring:message code="common.agreementTransfer" /></a></li>
 						</sec:authorize>
 					</ul>
 				</li>
@@ -95,10 +95,10 @@
 							<li><a href="provisioningRequestAuthorization.do"><spring:message code="common.authorize" /></a></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('ORDER_ASSEMBLY')">
-							<li class="activable"><a href="orderAssemblySelection.do"><spring:message code="common.orderAssembly" /></a></li>
+							<li><a href="orderAssemblySelection.do"><spring:message code="common.orderAssembly" /></a></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('LOGISTIC_OPERATOR_ASSIGNMENT')">
-							<li class="activable"><a href="logisticOperatorAssignment.do"><spring:message code="common.logisticOperatorAssingment" /></a></li>
+							<li><a href="logisticOperatorAssignment.do"><spring:message code="common.logisticOperatorAssingment" /></a></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('PROVISIONING_REQUEST_CANCELLATION')">
 							<li><a href="provisioningRequestCancellation.do"><spring:message code="provisioningRequest.cancellation.label" /> </a></li>
@@ -120,7 +120,7 @@
 							<li><a href="deliveryNoteCancellation.do"><spring:message code="deliveryNote.cancellation.label" /> </a></li>
 						</sec:authorize>
                         <sec:authorize access="hasRole('PENDING_TRANSACTIONS')">
-                            <li class="activable"><a href="pendingTransactions.do"><spring:message code="common.pendingTransactions" /></a></li>
+                            <li><a href="pendingTransactions.do"><spring:message code="common.pendingTransactions" /></a></li>
                         </sec:authorize>
 					</ul>
 				</li>
