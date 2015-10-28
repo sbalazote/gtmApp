@@ -145,6 +145,7 @@ public class SupplyingsExcelView extends AbstractExcelView {
 					}
 				} else {
 					row.createCell(c++).setCellValue("Doc. Nro.: NO IMPRIME" );
+					row.createCell(c++).setCellValue("No informa" );
 				}
 			}
 

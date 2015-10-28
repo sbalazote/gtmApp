@@ -153,6 +153,8 @@ public class OutputExcelView extends AbstractExcelView {
 					}
 				} else {
 					row.createCell(c++).setCellValue("Doc. Nro.: NO IMPRIME" );
+					row.createCell(c++).setCellValue("No informa");
+					row.createCell(c++).setCellValue("No informa");
 				}
 
 				row.createCell(c++).setCellValue(output.isCancelled() ? "SI" : "NO");
