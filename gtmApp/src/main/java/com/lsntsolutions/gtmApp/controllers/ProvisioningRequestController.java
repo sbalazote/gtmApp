@@ -9,6 +9,7 @@ import com.lsntsolutions.gtmApp.model.ProvisioningRequest;
 import com.lsntsolutions.gtmApp.query.ProvisioningQuery;
 import com.lsntsolutions.gtmApp.constant.DocumentType;
 import com.lsntsolutions.gtmApp.service.*;
+import com.lsntsolutions.gtmApp.util.OperationResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -54,17 +55,17 @@ public class ProvisioningRequestController {
 
 	@RequestMapping(value = "/saveProvisioningRequest", method = RequestMethod.POST)
 	public @ResponseBody
-	ProvisioningRequest saveProvisioningRequest(@RequestBody ProvisioningRequestDTO provisioningRequestDTO) throws Exception {
-		ProvisioningRequest provisioningRequest = this.provisioningRequestService.save(provisioningRequestDTO);
+	OperationResult saveProvisioningRequest(@RequestBody ProvisioningRequestDTO provisioningRequestDTO) throws Exception {
+		OperationResult operationResult = this.provisioningRequestService.save(provisioningRequestDTO);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null) {
+		if (auth != null && operationResult.getResultado()) {
 			if (provisioningRequestDTO.getId() == null) {
-				this.auditService.addAudit(auth.getName(), RoleOperation.PROVISIONING_REQUEST.getId(), AuditState.COMFIRMED, provisioningRequest.getId());
+				this.auditService.addAudit(auth.getName(), RoleOperation.PROVISIONING_REQUEST.getId(), AuditState.COMFIRMED, Integer.valueOf(operationResult.getOperationId()));
 			} else {
-				this.auditService.addAudit(auth.getName(), RoleOperation.PROVISIONING_REQUEST.getId(), AuditState.MODIFIED, provisioningRequest.getId());
+				this.auditService.addAudit(auth.getName(), RoleOperation.PROVISIONING_REQUEST.getId(), AuditState.MODIFIED, Integer.valueOf(operationResult.getOperationId()));
 			}
 		}
-		return provisioningRequest;
+		return operationResult;
 	}
 
 	@RequestMapping(value = "/getProvisioningRequest", method = RequestMethod.GET)

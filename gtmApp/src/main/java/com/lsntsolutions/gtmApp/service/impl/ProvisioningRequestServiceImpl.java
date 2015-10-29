@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.lsntsolutions.gtmApp.service.DeliveryLocationService;
+import com.lsntsolutions.gtmApp.service.*;
 import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.dto.ProvisioningRequestDTO;
 import com.lsntsolutions.gtmApp.dto.ProvisioningRequestDetailDTO;
@@ -14,19 +14,13 @@ import com.lsntsolutions.gtmApp.model.ProvisioningRequest;
 import com.lsntsolutions.gtmApp.model.ProvisioningRequestDetail;
 import com.lsntsolutions.gtmApp.model.ProvisioningRequestState;
 import com.lsntsolutions.gtmApp.persistence.dao.ProvisioningRequestDAO;
+import com.lsntsolutions.gtmApp.util.OperationResult;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lsntsolutions.gtmApp.query.ProvisioningQuery;
-import com.lsntsolutions.gtmApp.service.AffiliateService;
-import com.lsntsolutions.gtmApp.service.AgreementService;
-import com.lsntsolutions.gtmApp.service.ClientService;
-import com.lsntsolutions.gtmApp.service.LogisticsOperatorService;
-import com.lsntsolutions.gtmApp.service.ProductService;
-import com.lsntsolutions.gtmApp.service.ProvisioningRequestService;
-import com.lsntsolutions.gtmApp.service.ProvisioningRequestStateService;
 
 @Service
 @Transactional
@@ -50,6 +44,8 @@ public class ProvisioningRequestServiceImpl implements ProvisioningRequestServic
 	private ProvisioningRequestStateService provisioningRequestStateService;
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private StockService stockService;
 
 	@Override
 	public void save(ProvisioningRequest provisioningRequest) {
@@ -57,13 +53,32 @@ public class ProvisioningRequestServiceImpl implements ProvisioningRequestServic
 	}
 
 	@Override
-	public ProvisioningRequest save(ProvisioningRequestDTO provisioningRequestDTO) {
+	public OperationResult save(ProvisioningRequestDTO provisioningRequestDTO) {
 		ProvisioningRequest provisioningRequest = this.buildModel(provisioningRequestDTO);
-		this.provisioningRequestDAO.save(provisioningRequest);
+		OperationResult operationResult = new OperationResult();
+		if(this.checkAvaiableStock(provisioningRequest)) {
+			this.provisioningRequestDAO.save(provisioningRequest);
+			logger.info("Se han guardado los cambios exitosamente. Solicitud de Abastecimiento numero: " + provisioningRequest.getId());
+			operationResult.setOperationId(String.valueOf(provisioningRequest.getId()));
+			operationResult.setResultado(true);
+			return operationResult;
+		}else{
+			List<String> errors = new ArrayList<>();
+			errors.add("No fue posible asignar el stock por que no hay disponibilidad de algun producto");
+			operationResult.setMyOwnErrors(errors);
+			operationResult.setResultado(false);
+		}
+		return operationResult;
+	}
 
-		logger.info("Se han guardado los cambios exitosamente. Solicitud de Abastecimiento numero: " + provisioningRequest.getId());
-
-		return provisioningRequest;
+	private boolean checkAvaiableStock(ProvisioningRequest provisioningRequest) {
+		for(ProvisioningRequestDetail provisioningRequestDetail : provisioningRequest.getProvisioningRequestDetails()){
+			Long amount = this.stockService.getProductAmount(provisioningRequestDetail.getProduct().getId(),provisioningRequest.getAgreement().getId(),provisioningRequest.getId());
+			if(amount.compareTo(Long.valueOf(provisioningRequestDetail.getAmount())) < 0){
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override

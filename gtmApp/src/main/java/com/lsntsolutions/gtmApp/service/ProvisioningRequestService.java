@@ -5,12 +5,13 @@ import java.util.List;
 import com.lsntsolutions.gtmApp.dto.ProvisioningRequestDTO;
 import com.lsntsolutions.gtmApp.model.ProvisioningRequest;
 import com.lsntsolutions.gtmApp.query.ProvisioningQuery;
+import com.lsntsolutions.gtmApp.util.OperationResult;
 
 public interface ProvisioningRequestService {
 
 	void save(ProvisioningRequest provisioningRequest);
 
-	ProvisioningRequest save(ProvisioningRequestDTO provisioningRequestDTO);
+	OperationResult save(ProvisioningRequestDTO provisioningRequestDTO);
 
 	ProvisioningRequest get(Integer id);
 

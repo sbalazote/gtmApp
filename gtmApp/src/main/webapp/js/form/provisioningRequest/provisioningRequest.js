@@ -381,8 +381,12 @@ var ProvisioningRequest = function() {
 						},
 						complete: function(jqXHR, textStatus) {
 							$.unblockUI();
-							if (textStatus === 'success') {
-								generateProvisioningRequestPDFReport(jqXHR.responseJSON.id,false);
+							if(jqXHR.responseJSON.operationId != null){
+								if (textStatus === 'success') {
+									generateProvisioningRequestPDFReport(jqXHR.responseJSON.operationId,false);
+								}
+							}else{
+								myShowAlert('danger', jqXHR.responseJSON.myOwnErrors);
 							}
 						}
 					});
