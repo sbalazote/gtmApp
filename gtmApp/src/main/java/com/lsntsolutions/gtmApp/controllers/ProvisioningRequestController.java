@@ -54,7 +54,7 @@ public class ProvisioningRequestController {
 	}
 
 	@RequestMapping(value = "/saveProvisioningRequest", method = RequestMethod.POST)
-	public @ResponseBody
+	public synchronized @ResponseBody
 	OperationResult saveProvisioningRequest(@RequestBody ProvisioningRequestDTO provisioningRequestDTO) throws Exception {
 		OperationResult operationResult = this.provisioningRequestService.save(provisioningRequestDTO);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

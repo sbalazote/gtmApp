@@ -88,11 +88,11 @@
 						<sec:authorize access="hasRole('PROVISIONING_REQUEST_UPDATE')">
 							<li><a href="searchProvisioningToUpdate.do"><spring:message code="common.modify" /></a></li>
 						</sec:authorize>
-						<sec:authorize access="hasRole('PROVISIONING_REQUEST_PRINT')">
-							<li><a href="pickingSheet.do"><spring:message code="picking.sheet" /></a></li>
-						</sec:authorize>
 						<sec:authorize access="hasRole('PROVISIONING_REQUEST_AUTHORIZATION')">
 							<li><a href="provisioningRequestAuthorization.do"><spring:message code="common.authorize" /></a></li>
+						</sec:authorize>
+						<sec:authorize access="hasRole('PROVISIONING_REQUEST_PRINT')">
+							<li><a href="pickingSheet.do"><spring:message code="picking.sheet" /></a></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('ORDER_ASSEMBLY')">
 							<li><a href="orderAssemblySelection.do"><spring:message code="common.assembly" /></a></li>
