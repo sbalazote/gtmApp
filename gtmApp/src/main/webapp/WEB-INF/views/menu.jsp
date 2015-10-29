@@ -83,28 +83,28 @@
 				<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> <spring:message code="common.requests" /> <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<sec:authorize access="hasRole('PROVISIONING_REQUEST')">
-							<li><a href="provisioningRequest.do"><spring:message code="common.do" /></a></li>
+							<li><a href="provisioningRequest.do"><spring:message code="common.add.entity" /></a></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('PROVISIONING_REQUEST_UPDATE')">
-							<li><a href="searchProvisioningToUpdate.do"><spring:message code="common.update" /></a></li>
+							<li><a href="searchProvisioningToUpdate.do"><spring:message code="common.modify" /></a></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('PROVISIONING_REQUEST_PRINT')">
-							<li><a href="pickingSheet.do"><spring:message code="printing.pickingSheets" /></a></li>
+							<li><a href="pickingSheet.do"><spring:message code="picking.sheet" /></a></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('PROVISIONING_REQUEST_AUTHORIZATION')">
 							<li><a href="provisioningRequestAuthorization.do"><spring:message code="common.authorize" /></a></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('ORDER_ASSEMBLY')">
-							<li><a href="orderAssemblySelection.do"><spring:message code="common.orderAssembly" /></a></li>
+							<li><a href="orderAssemblySelection.do"><spring:message code="common.assembly" /></a></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('LOGISTIC_OPERATOR_ASSIGNMENT')">
 							<li><a href="logisticOperatorAssignment.do"><spring:message code="common.logisticOperatorAssingment" /></a></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('PROVISIONING_REQUEST_CANCELLATION')">
-							<li><a href="provisioningRequestCancellation.do"><spring:message code="provisioningRequest.cancellation.label" /> </a></li>
+							<li><a href="provisioningRequestCancellation.do"><spring:message code="common.cancell" /> </a></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('ORDER_ASSEMBLY_CANCELLATION')">
-							<li><a href="orderCancellation.do"><spring:message code="orderAssembly.orderCancelation" /> </a></li>
+							<li><a href="orderCancellation.do"><spring:message code="orderAssembly.orderCancel" /> </a></li>
 						</sec:authorize>
 					</ul>
 				</li>
