@@ -39,7 +39,7 @@ SearchStock = function() {
 		
 		$('#batchExpirationDatesModal').modal('show');
 	});
-	
+
 	$('#stockTable tbody').on("click", ".view-serializedDetails-row", function(e) {
 		$("#serialsTable").bootgrid("clear");
 		var parent = $(this).parent().parent();
@@ -289,7 +289,8 @@ SearchStock = function() {
 				amount: stock.amount,
 				serialNumber: stock.serialNumber,
 				batch: stock.batch,
-				expirationDate: myParseDate(stock.expirationDate)
+				expirationDate: myParseDate(stock.expirationDate),
+				viewTraceability: "<a href='searchSerializedProduct.do?productId="+ stock.productId + "&serial=" + stock.serialNumber + "' target='_blank'>Ver Traza" + "<//a>"
 		};
 		var item = serialsMap[stock.agreementId + "-" + stock.productCode] || [];
 		item.push(serialDetails);

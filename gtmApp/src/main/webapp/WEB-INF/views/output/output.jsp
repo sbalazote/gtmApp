@@ -30,7 +30,7 @@
 <div class="row">
 	<div class="col-md-4 col-lg-4 form-group">
 		<label for="conceptInput"><spring:message code="common.concept"/></label>
-		<select id="conceptInput" name="concept" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
+		<select id="conceptInput" name="concept" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>" autofocus>
 			<option value=""></option>
 			<c:forEach items="${concepts}" var="concept">
 				<option value="${concept.id}"><c:out value="${concept.code}"></c:out> - <c:out value="${concept.description}"></c:out></option>

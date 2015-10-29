@@ -79,18 +79,6 @@ public class OutputExcelView extends AbstractExcelView {
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
-		cell.setCellValue("NUMERO DE REMITO");
-
-		cell = row.createCell(c++);
-		cell.setCellStyle(style);
-		cell.setCellValue("FECHA DE REMITO");
-
-		cell = row.createCell(c++);
-		cell.setCellStyle(style);
-		cell.setCellValue("CODIGO TRANSC. ANMAT");
-
-		cell = row.createCell(c++);
-		cell.setCellStyle(style);
 		cell.setCellValue("ANULADO");
 
 		cell = row.createCell(c++);
@@ -117,6 +105,18 @@ public class OutputExcelView extends AbstractExcelView {
 		cell.setCellStyle(style);
 		cell.setCellValue("CANTIDAD");
 
+		cell = row.createCell(c++);
+		cell.setCellStyle(style);
+		cell.setCellValue("NUMERO DE REMITO");
+
+		cell = row.createCell(c++);
+		cell.setCellStyle(style);
+		cell.setCellValue("FECHA DE REMITO");
+
+		cell = row.createCell(c++);
+		cell.setCellStyle(style);
+		cell.setCellValue("CODIGO TRANSC. ANMAT");
+
 		// Create data cell
 		for (Output output : outputs) {
 			c = 0;
@@ -131,6 +131,13 @@ public class OutputExcelView extends AbstractExcelView {
 				row.createCell(c++).setCellValue(output.getClientOrProviderCode());
 				row.createCell(c++).setCellValue(output.getClientOrProviderDescription());
 				row.createCell(c++).setCellValue(dateFormatter.format(output.getDate()));
+				row.createCell(c++).setCellValue(output.isCancelled() ? "SI" : "NO");
+				row.createCell(c++).setCellValue(outputDetail.getProduct().getCode() + " - " + outputDetail.getProduct().getDescription());
+				row.createCell(c++).setCellValue(outputDetail.getGtin() != null ? outputDetail.getGtin().getNumber() : "");
+				row.createCell(c++).setCellValue(outputDetail.getSerialNumber());
+				row.createCell(c++).setCellValue(outputDetail.getBatch());
+				row.createCell(c++).setCellValue(dateFormatter.format(outputDetail.getExpirationDate()));
+				row.createCell(c++).setCellValue(outputDetail.getAmount());
 
 				// DOC. NRO
 				List<DeliveryNote> outputDeliveryNotes = associatedOutputs.get(new Integer(output.getId()));
@@ -156,14 +163,6 @@ public class OutputExcelView extends AbstractExcelView {
 					row.createCell(c++).setCellValue("No informa");
 					row.createCell(c++).setCellValue("No informa");
 				}
-
-				row.createCell(c++).setCellValue(output.isCancelled() ? "SI" : "NO");
-				row.createCell(c++).setCellValue(outputDetail.getProduct().getCode() + " - " + outputDetail.getProduct().getDescription());
-				row.createCell(c++).setCellValue(outputDetail.getGtin() != null ? outputDetail.getGtin().getNumber() : "");
-				row.createCell(c++).setCellValue(outputDetail.getSerialNumber());
-				row.createCell(c++).setCellValue(outputDetail.getBatch());
-				row.createCell(c++).setCellValue(dateFormatter.format(outputDetail.getExpirationDate()));
-				row.createCell(c++).setCellValue(outputDetail.getAmount());
 			}
 
 		}

@@ -54,7 +54,7 @@
 	</div>
 
 	<div class="row">
-		<div class="col-md-6 col-lg-6 form-group">
+		<div class="col-md-5 col-lg-5 form-group">
 			<label for="deliveryLocationInput"><spring:message code="common.deliveryLocation" /></label>
 			<select id="deliveryLocationInput" name="deliveryLocation" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 				<option value=""></option>
@@ -63,7 +63,7 @@
 				</c:forEach>
 			</select>
 		</div>
-		<div class="col-md-2 col-lg-2 form-group">
+		<div class="col-md-3 col-lg-3 form-group">
 			<label for="deliveryDateInput"><spring:message code="common.deliveryDate" /></label>
 			<div class="input-group">
 				<input type="hidden" id="deliveryDatePreloadedInput" name="deliveryDatePreloaded" value="<fmt:formatDate pattern="dd/MM/yyyy" value="${deliveryDate}"/>"/>

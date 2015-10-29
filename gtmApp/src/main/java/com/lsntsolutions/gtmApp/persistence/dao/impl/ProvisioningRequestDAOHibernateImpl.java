@@ -28,6 +28,7 @@ public class ProvisioningRequestDAOHibernateImpl implements ProvisioningRequestD
 	@Override
 	public void save(ProvisioningRequest provisioningRequest) {
 		this.sessionFactory.getCurrentSession().saveOrUpdate(provisioningRequest);
+		this.sessionFactory.getCurrentSession().flush();
 	}
 
 	@Override
