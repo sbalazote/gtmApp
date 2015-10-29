@@ -158,14 +158,12 @@ SearchSerializedProduct = function() {
                             var audit = {
                                 id: 0,
                                 action: "",
-                                operation: "",
                                 user: "",
                                 date: "",
                                 view: ""
                             };
                             audit.id = response.inputs[i].operationId;
                             audit.action = response.inputs[i].role;
-                            audit.operation = response.inputs[i].auditAction;
                             audit.user = response.inputs[i].username;
                             audit.date = response.inputs[i].date;
                             audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-input\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
@@ -178,14 +176,12 @@ SearchSerializedProduct = function() {
                             var audit = {
                                 id: 0,
                                 action: "",
-                                operation: "",
                                 user: "",
                                 date: "",
                                 view: ""
                             };
                             audit.id = response.outputs[i].operationId;
                             audit.action = response.outputs[i].role;
-                            audit.operation = response.outputs[i].auditAction;
                             audit.user = response.outputs[i].username;
                             audit.date = response.outputs[i].date;
                             audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-output\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
@@ -198,14 +194,12 @@ SearchSerializedProduct = function() {
                             var audit = {
                                 id: 0,
                                 action: "",
-                                operation: "",
                                 user: "",
                                 date: "",
                                 view: ""
                             };
                             audit.id = response.orders[i].operationId;
                             audit.action = response.orders[i].role;
-                            audit.operation = response.orders[i].auditAction;
                             audit.user = response.orders[i].username;
                             audit.date = response.orders[i].date;
                             audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-order\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
@@ -218,14 +212,12 @@ SearchSerializedProduct = function() {
                             var audit = {
                                 id: 0,
                                 action: "",
-                                operation: "",
                                 user: "",
                                 date: "",
                                 view: ""
                             };
                             audit.id = response.deliveryNotes[i].operationId;
                             audit.action = response.deliveryNotes[i].role;
-                            audit.operation = response.deliveryNotes[i].auditAction;
                             audit.user = response.deliveryNotes[i].username;
                             audit.date = response.deliveryNotes[i].date;
                             audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-deliveryNote\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
@@ -245,7 +237,6 @@ SearchSerializedProduct = function() {
                             };
                             audit.id = response.supplyings[i].operationId;
                             audit.action = response.supplyings[i].role;
-                            audit.operation = response.supplyings[i].auditAction;
                             audit.user = response.supplyings[i].username;
                             audit.date = response.supplyings[i].date;
                             audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-supplying\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
