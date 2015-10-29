@@ -101,7 +101,7 @@ public class ProvisioningPdfView extends AbstractPdfView {
 			// SOLICITUD NRO
 			cb.beginText();
 			cb.setTextMatrix(230 * 2.8346f, 195 * 2.8346f);
-			cb.showText("Sol. de Abast. Nro.: " + StringUtility.addLeadingZeros(provisioningRequest.getId().toString(), 8));
+			cb.showText("Pedido Nro.: " + StringUtility.addLeadingZeros(provisioningRequest.getId().toString(), 8));
 			cb.endText();
 
 			document.add(logo);
@@ -148,19 +148,9 @@ public class ProvisioningPdfView extends AbstractPdfView {
 			document.add(deliveryLocation);
 			document.add(Chunk.NEWLINE);
 
-			document.add(new Chunk("Operador Logistico: ", fontHeader));
-			Chunk deliveryNoteNumber = new Chunk(provisioningRequest.getLogisticsOperator() != null ? provisioningRequest.getLogisticsOperator().getName() : "", fontHeader);
-			document.add(deliveryNoteNumber);
-			document.add(Chunk.NEWLINE);
-
-			document.add(new Chunk("Comentarios: ", fontHeader));
+			document.add(new Chunk("Observación: ", fontHeader));
 			Chunk comment = new Chunk(provisioningRequest.getComment() != null ? provisioningRequest.getComment() : "", fontHeader);
 			document.add(comment);
-			document.add(Chunk.NEWLINE);
-
-			document.add(new Chunk("Estado: ", fontHeader));
-			Chunk state = new Chunk(provisioningRequest.getState().getDescription(), fontHeader);
-			document.add(state);
 			document.add(Chunk.NEWLINE);
 
 			for (Integer productId : groupByProduct.keySet()) {
