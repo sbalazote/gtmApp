@@ -24,8 +24,6 @@ public class ReportAdministrationController {
 	@Autowired
 	private LogisticsOperatorService logisticsOperatorService;
 	@Autowired
-	private ProvisioningRequestService provisioningRequestService;
-	@Autowired
 	private ProvisioningRequestStateService provisioningRequestStateService;
 	@Autowired
 	private ClientService clientService;
@@ -58,7 +56,6 @@ public class ReportAdministrationController {
 
 	@RequestMapping(value = "/searchProvisioningRequest", method = RequestMethod.GET)
 	public String searchProvisioningRequest(ModelMap modelMap) throws Exception {
-		modelMap.put("provisionings", this.provisioningRequestService.getAll());
 		modelMap.put("agreements", this.agreementService.getAll());
 		modelMap.put("deliveryLocations", this.deliveryLocationService.getAll());
 		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAll());
