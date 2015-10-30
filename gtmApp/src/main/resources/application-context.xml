@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:mvc="http://www.springframework.org/schema/mvc"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:task="http://www.springframework.org/schema/task"
-    xsi:schemaLocation="
-        http://www.springframework.org/schema/beans
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd
-        http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc.xsd
-        http://www.springframework.org/schema/tx 
-		http://www.springframework.org/schema/tx/spring-tx.xsd
-		http://www.springframework.org/schema/task  
-		http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+		http://www.springframework.org/schema/task
+		http://www.springframework.org/schema/task/spring-task-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- <context:property-placeholder location="classpath:${config-directory}/${env}.properties"/> -->
     <import resource="persistence-context.xml"/>
@@ -24,12 +16,16 @@
 	<bean id="inputWSHelper" class="com.lsntsolutions.gtmApp.webservice.helper.InputWSHelper" />
 	<bean id="deliveryNoteWSHelper" class="com.lsntsolutions.gtmApp.webservice.helper.DeliveryNoteWSHelper" />
     <bean id="supplyingsPdfView" class="com.lsntsolutions.gtmApp.helper.impl.pdf.SupplyingsPdfView" />
-	
+
 	<bean id="webService" class="com.lsntsolutions.gtmApp.webservice.WebService" />
 
 	<bean id="printOnPrinter" class="com.lsntsolutions.gtmApp.helper.PrintOnPrinter" />
-	
-	<!-- Process Scheduling -->
+
+    <bean id="deliveryNoteConfig" class="com.lsntsolutions.gtmApp.util.DeliveryNoteConfig" />
+
+    <context:property-placeholder location="classpath:deliveryNotesConfig/deliveryNoteConfig.properties" />
+
+    <!-- Process Scheduling -->
 	<task:annotation-driven executor="myExecutor" scheduler="myScheduler" />
 	<task:scheduler id="myScheduler" pool-size="10" />
 	<task:executor id="myExecutor" pool-size="5" />

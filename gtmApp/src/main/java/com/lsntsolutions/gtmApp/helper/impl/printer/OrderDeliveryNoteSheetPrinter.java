@@ -6,7 +6,7 @@ import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfWriter;
 import com.lsntsolutions.gtmApp.constant.State;
-import com.lsntsolutions.gtmApp.helper.DeliveryNoteConfigFile;
+import com.lsntsolutions.gtmApp.util.DeliveryNoteConfig;
 import com.lsntsolutions.gtmApp.helper.DeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.helper.PrintOnPrinter;
 import com.lsntsolutions.gtmApp.model.*;
@@ -43,6 +43,8 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 	private PrintOnPrinter printOnPrinter;
 	@Autowired
 	private ConceptService conceptService;
+	@Autowired
+	private DeliveryNoteConfig deliveryNoteConfig;
 
 	@Override
 	public List<Integer> print(List<Integer> ordersIds) {
@@ -61,7 +63,7 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 			Integer deliveryNoteNumbersRequired = (orderDetails.size() / numberOfDeliveryNoteDetailsPerPage) + 1;
 			Integer conceptId = order.getProvisioningRequest().getAgreement().getDeliveryNoteConcept().getId();
 			Concept concept = this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
-			DeliveryNoteConfigFile deliveryNoteConfigFile = new DeliveryNoteConfigFile();
+			//DeliveryNoteConfig deliveryNoteConfig = new DeliveryNoteConfig();
 			String drugstoreGln = this.PropertyService.get().getGln();
 			Integer deliveryNoteNumber = concept.getDeliveryNoteEnumerator().getLastDeliveryNoteNumber() - deliveryNoteNumbersRequired + 1;
 
@@ -100,7 +102,7 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 				}
 
 				// Imprimo el pdf de Remito
-				this.generateDeliveryNoteSheet(provisioningRequest, deliveryNoteNumber, deliveryNoteConfigFile, drugstoreGln, tempOrderDetails);
+				this.generateDeliveryNoteSheet(provisioningRequest, deliveryNoteNumber, deliveryNoteConfig, drugstoreGln, tempOrderDetails);
 				// Guardo el Remito en la base de datos
 				deliveryNote.setDeliveryNoteDetails(deliveryNoteDetails);
 				deliveryNote.setDate(date);
@@ -128,7 +130,7 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 
 	// The coordinates are measured in points. 1 inch is divided into 72 points
 	// so that 1 Millimeter equals 2.8346 points.
-	private void generateDeliveryNoteSheet(ProvisioningRequest provisioningRequest, Integer deliveryNoteNumber, DeliveryNoteConfigFile deliveryNoteConfigFile, String drugstoreGln, List<OrderDetail> orderDetails) {
+	private void generateDeliveryNoteSheet(ProvisioningRequest provisioningRequest, Integer deliveryNoteNumber, DeliveryNoteConfig deliveryNoteConfig, String drugstoreGln, List<OrderDetail> orderDetails) {
 		try {
 			/* PdfReader reader = new PdfReader(pdfPath + "Estimate_035931_blank.pdf"); PdfStamper pdfStamper = new PdfStamper(reader, new
 			 * FileOutputStream(pdfPath + "deliveryNoteNumber-" + deliveryNoteNumber + ".pdf")); */
@@ -149,86 +151,109 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 
 			overContent.saveState();
 			overContent.beginText();
-			overContent.setFontAndSize(bf, 10.0f);
+			overContent.setFontAndSize(bf, deliveryNoteConfig.getFontSize());
 
 			// imprimo numero de remito.
-			overContent.setTextMatrix(164.0f * 2.8346f, (293.60f - 16.0f) * 2.8346f);
+			overContent.setTextMatrix(deliveryNoteConfig.getNumberX(), deliveryNoteConfig.getNumberY());
 			overContent.showText(StringUtility.addLeadingZeros(deliveryNoteNumber, 8));
 
 			// imprimo fecha.
-			overContent.setTextMatrix(deliveryNoteConfigFile.getDateCoordinate().getPosX() * 2.8346f, (293.60f - deliveryNoteConfigFile.getDateCoordinate()
-					.getPosY()) * 2.8346f);
+			overContent.setTextMatrix(deliveryNoteConfig.getDateX(), deliveryNoteConfig.getDateY());
 			overContent.showText(new SimpleDateFormat("dd/MM/yyyy").format(provisioningRequest.getDeliveryDate()));
 
 			// imprimo cliente.
-			overContent.setTextMatrix(deliveryNoteConfigFile.getClientCoordinate().getPosX() * 2.8346f, (293.60f - deliveryNoteConfigFile.getClientCoordinate()
-					.getPosY()) * 2.8346f);
+			overContent.setTextMatrix(deliveryNoteConfig.getIssuerCorporateNameX(), deliveryNoteConfig.getIssuerCorporateNameY()
+			);
 			overContent.showText(provisioningRequest.getClient().getCorporateName());
 
 			// imprimo domicilio.
-			overContent.setTextMatrix(deliveryNoteConfigFile.getAddressCoordinate().getPosX() * 2.8346f, (293.60f - deliveryNoteConfigFile
-					.getAddressCoordinate().getPosY()) * 2.8346f);
+			overContent.setTextMatrix(deliveryNoteConfig.getIssuerAddressX(), deliveryNoteConfig
+					.getIssuerAddressY());
 			overContent.showText(provisioningRequest.getClient().getAddress());
 
 			// imprimo localidad.
-			overContent.setTextMatrix(deliveryNoteConfigFile.getLocalityCoordinate().getPosX() * 2.8346f, (293.60f - deliveryNoteConfigFile
-					.getLocalityCoordinate().getPosY()) * 2.8346f);
-			overContent.showText(provisioningRequest.getClient().getLocality() + "          (" + provisioningRequest.getClient().getZipCode() + ") "
-					+ provisioningRequest.getClient().getLocality());
+			overContent.setTextMatrix(deliveryNoteConfig.getIssuerLocalityX(), deliveryNoteConfig
+					.getIssuerLocalityY());
+			overContent.showText(provisioningRequest.getClient().getLocality());
+
+			// imprimo cod. postal.
+			overContent.setTextMatrix(deliveryNoteConfig.getIssuerZipcodeX(), deliveryNoteConfig
+					.getIssuerZipcodeY());
+			overContent.showText("(" + provisioningRequest.getClient().getZipCode() + ")");
+
+			// imprimo provincia.
+			overContent.setTextMatrix(deliveryNoteConfig.getIssuerProvinceX(), deliveryNoteConfig
+					.getIssuerProvinceY());
+			overContent.showText(provisioningRequest.getClient().getProvince().getName());
 
 			// imprimo condicion IVA.
-			overContent.setTextMatrix(deliveryNoteConfigFile.getTaxConditionCoordinate().getPosX() * 2.8346f, (293.60f - deliveryNoteConfigFile
-					.getTaxConditionCoordinate().getPosY()) * 2.8346f);
+			overContent.setTextMatrix(deliveryNoteConfig.getIssuerVatliabilityX(), deliveryNoteConfig
+					.getIssuerVatliabilityY());
 			overContent.showText(provisioningRequest.getClient().getVATLiability().getDescription().toUpperCase());
 
 			// imprimo CUIT.
-			overContent.setTextMatrix(deliveryNoteConfigFile.getTaxIdCoordinate().getPosX() * 2.8346f, (293.60f - deliveryNoteConfigFile.getTaxIdCoordinate()
-					.getPosY()) * 2.8346f);
+			overContent.setTextMatrix(deliveryNoteConfig.getIssuerTaxX(), deliveryNoteConfig.getIssuerTaxY()
+			);
 			overContent.showText(provisioningRequest.getClient().getTaxId());
 
 			// imprimo OBS1.
-			overContent.setTextMatrix(deliveryNoteConfigFile.getDeliveryObservation1Coordinate().getPosX() * 2.8346f, (293.60f - deliveryNoteConfigFile
-					.getDeliveryObservation1Coordinate().getPosY()) * 2.8346f);
+			overContent.setTextMatrix(deliveryNoteConfig.getAffiliateX(), deliveryNoteConfig
+					.getAffiliateY());
 			overContent.showText("AF: " + provisioningRequest.getAffiliate().getCode() + "    - " + provisioningRequest.getAffiliate().getSurname() + "  "
 					+ provisioningRequest.getAffiliate().getName());
 
 			// imprimo pedido.
-			overContent.setTextMatrix(deliveryNoteConfigFile.getOrderCoordinate().getPosX() * 2.8346f, (293.60f - deliveryNoteConfigFile.getOrderCoordinate()
-					.getPosY()) * 2.8346f);
+			overContent.setTextMatrix(deliveryNoteConfig.getOrderX(), deliveryNoteConfig.getOrderY()
+			);
 			overContent.showText("Pedido: " + deliveryNoteNumber + "  Convenio: " + provisioningRequest.getAgreement().getCode() + "-"
 					+ provisioningRequest.getAgreement().getDescription());
 
 			// imprimo cliente entrega.
-			overContent.setTextMatrix(deliveryNoteConfigFile.getClientDeliveryCoordinate().getPosX() * 2.8346f, (293.60f - deliveryNoteConfigFile
-					.getClientDeliveryCoordinate().getPosY()) * 2.8346f);
+			overContent.setTextMatrix(deliveryNoteConfig.getDeliveryLocationCorporateNameX(), deliveryNoteConfig
+					.getDeliveryLocationCorporateNameY());
 			overContent.showText(provisioningRequest.getDeliveryLocation().getCorporateName());
 
 			// imprimo domicilio entrega.
-			overContent.setTextMatrix(deliveryNoteConfigFile.getDeliveryAddressCoordinate().getPosX() * 2.8346f, (293.60f - deliveryNoteConfigFile
-					.getDeliveryAddressCoordinate().getPosY()) * 2.8346f);
+			overContent.setTextMatrix(deliveryNoteConfig.getDeliveryLocationAddressX(), deliveryNoteConfig
+					.getDeliveryLocationAddressY());
 			overContent.showText(provisioningRequest.getDeliveryLocation().getAddress());
 
 			// imprimo localidad entrega.
-			overContent.setTextMatrix(deliveryNoteConfigFile.getDeliveryLocalityCoordinate().getPosX() * 2.8346f, (293.60f - deliveryNoteConfigFile
-					.getDeliveryLocalityCoordinate().getPosY()) * 2.8346f);
+			overContent.setTextMatrix(deliveryNoteConfig.getDeliveryLocationLocalityX(), deliveryNoteConfig
+					.getDeliveryLocationLocalityY());
 			overContent.showText(provisioningRequest.getDeliveryLocation().getLocality() + "          ("
 					+ provisioningRequest.getDeliveryLocation().getZipCode() + ") " + provisioningRequest.getDeliveryLocation().getLocality());
 
+			// imprimo cod. postal entrega.
+			overContent.setTextMatrix(deliveryNoteConfig.getDeliveryLocationZipcodeX(), deliveryNoteConfig
+					.getDeliveryLocationZipcodeY());
+			overContent.showText("(" + provisioningRequest.getClient().getZipCode() + ")");
+
+			// imprimo provincia entrega.
+			overContent.setTextMatrix(deliveryNoteConfig.getDeliveryLocationProvinceX(), deliveryNoteConfig
+					.getDeliveryLocationProvinceY());
+			overContent.showText(provisioningRequest.getClient().getProvince().getName());
+
 			// imprimo condicion IVA entrega.
-			overContent.setTextMatrix(deliveryNoteConfigFile.getDeliveryTaxConditionCoordinate().getPosX() * 2.8346f, (293.60f - deliveryNoteConfigFile
-					.getDeliveryTaxConditionCoordinate().getPosY()) * 2.8346f);
+			overContent.setTextMatrix(deliveryNoteConfig.getDeliveryLocationVatliabilityX(), deliveryNoteConfig
+					.getDeliveryLocationVatliabilityY());
 			overContent.showText(provisioningRequest.getDeliveryLocation().getVATLiability().getDescription().toUpperCase());
 
 			// imprimo CUIT entrega.
-			overContent.setTextMatrix(deliveryNoteConfigFile.getDeliveryTaxIdCoordinate().getPosX() * 2.8346f, (293.60f - deliveryNoteConfigFile
-					.getDeliveryTaxIdCoordinate().getPosY()) * 2.8346f);
+			overContent.setTextMatrix(deliveryNoteConfig.getDeliveryLocationTaxX(), deliveryNoteConfig
+					.getDeliveryLocationTaxY());
 			overContent.showText(provisioningRequest.getDeliveryLocation().getTaxId());
 
-			// imprimo OBS 1
-			overContent.setTextMatrix(deliveryNoteConfigFile.getObservation1Coordinate().getPosX() * 2.8346f, (293.60f - deliveryNoteConfigFile
-					.getObservation1Coordinate().getPosY()) * 2.8346f);
-			String details = "GLN Origen: " + drugstoreGln + "  GLN Destino: " + provisioningRequest.getDeliveryLocation().getGln();
-			overContent.showText(details);
+			// imprimo GLN Origen
+			overContent.setTextMatrix(deliveryNoteConfig.getIssuerGlnX(), deliveryNoteConfig
+					.getIssuerGlnY());
+			overContent.showText("GLN Origen: " + drugstoreGln);
+
+			// imprimo GLN Destino
+			overContent.setTextMatrix(deliveryNoteConfig.getDeliveryLocationGlnX(), deliveryNoteConfig
+					.getDeliveryLocationGlnY());
+			overContent.showText("GLN Destino: " + provisioningRequest.getDeliveryLocation().getGln());
+			String details;
 			int amount = 0;
 			Product product = new Product();
 			product.setId(-1);
@@ -260,17 +285,17 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 			}
 
 			// imprimo OBS 2
-			overContent.setTextMatrix(deliveryNoteConfigFile.getObservation2Coordinate().getPosX() * 2.8346f, (293.60f - deliveryNoteConfigFile
-					.getObservation2Coordinate().getPosY()) * 2.8346f);
+			overContent.setTextMatrix(deliveryNoteConfig.getNumberOfItemsX(), deliveryNoteConfig
+					.getNumberOfItemsY());
 			overContent.showText("Cant. de Items: " + amount);
 
 			// imprimo OBS 3
-			overContent.setTextMatrix(deliveryNoteConfigFile.getObservation3Coordinate().getPosX() * 2.8346f, (293.60f - deliveryNoteConfigFile
-					.getObservation3Coordinate().getPosY()) * 2.8346f);
+			/*overContent.setTextMatrix(deliveryNoteConfig.getObservation3Coordinate(), deliveryNoteConfig
+					.getObservation3Coordinate()));
 			if (provisioningRequest.getLogisticsOperator() != null) {
 				overContent.showText(provisioningRequest.getLogisticsOperator().getCode() + "   "
 						+ provisioningRequest.getLogisticsOperator().getCorporateName() + "- " + provisioningRequest.getLogisticsOperator().getTaxId());
-			}
+			}*/
 
 			overContent.endText();
 			overContent.restoreState();
