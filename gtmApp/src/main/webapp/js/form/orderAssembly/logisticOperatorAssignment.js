@@ -78,7 +78,7 @@ var LogisticOperatorAssignment = function() {
 							orderDetail.client = response[i].provisioningRequest.client.name;
 							orderDetail.agreement = response[i].provisioningRequest.agreement.description;
 							orderDetail.logisticsOperator = response[i].provisioningRequest.logisticsOperator.name;
-							orderDetail.action = "<a href='javascript:void(0);' class='view-row'>Consultar</a>";
+							orderDetail.action = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
 					
 					aaData.push(orderDetail);
 				}

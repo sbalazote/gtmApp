@@ -147,7 +147,7 @@ $(document).ready(function() {
 				serialNumber: response.inputDetails[i].serialNumber,
 				batch: response.inputDetails[i].batch,
 				expirationDate: myParseDate(response.inputDetails[i].expirationDate),
-				viewTraceability: "<a href='searchSerializedProduct.do?productId="+ response.inputDetails[i].product.id + "&serial=" + response.inputDetails[i].serialNumber + "' target='_blank'>Ver Traza" + "<//a>"
+				viewTraceability: "<a type='button' class='btn btn-sm btn-default' href='searchSerializedProduct.do?productId="+ response.inputDetails[i].product.id + "&serial=" + response.inputDetails[i].serialNumber + "' target='_blank'><span class='glyphicon glyphicon-search'></span> Ver Traza" + "<//a>"
 			};
 			var item = serialsMap[response.inputDetails[i].product.code] || [];
 			item.push(serialDetails);
@@ -275,7 +275,8 @@ $(document).ready(function() {
 				serialNumber: response.orderOutputDetails[i].serialNumber,
 				batch: response.orderOutputDetails[i].batch,
 				expirationDate: response.orderOutputDetails[i].expirationDate,
-                viewTraceability: "<a href='searchSerializedProduct.do?productId="+ response.orderOutputDetails[i].productId + "&serial=" + response.orderOutputDetails[i].serialNumber + "' target='_blank'>Ver Traza" + "<//a>"
+				viewTraceability: "<a type='button' class='btn btn-sm btn-default' href='searchSerializedProduct.do?productId="+ response.orderOutputDetails[i].product.id + "&serial=" + response.orderOutputDetails[i].serialNumber + "' target='_blank'><span class='glyphicon glyphicon-search'></span> Ver Traza" + "<//a>"
+
 			};
 			var item = serialsMap[response.orderOutputDetails[i].code] || [];
 			item.push(serialDetails);
@@ -419,7 +420,7 @@ $(document).ready(function() {
 				serialNumber: response.outputDetails[i].serialNumber,
 				batch: response.outputDetails[i].batch,
 				expirationDate: myParseDate(response.outputDetails[i].expirationDate),
-                viewTraceability: "<a href='searchSerializedProduct.do?productId="+ response.outputDetails[i].product.id + "&serial=" + response.outputDetails[i].serialNumber + "' target='_blank'>Ver Traza" + "<//a>"
+				viewTraceability: "<a type='button' class='btn btn-sm btn-default' href='searchSerializedProduct.do?productId="+ response.outputDetails[i].product.id + "&serial=" + response.outputDetails[i].serialNumber + "' target='_blank'><span class='glyphicon glyphicon-search'></span> Ver Traza" + "<//a>"
 
 			};
 			var item = serialsMap[response.outputDetails[i].product.code] || [];
@@ -524,8 +525,7 @@ $(document).ready(function() {
 				serialNumber: response.orderDetails[i].serialNumber,
 				batch: response.orderDetails[i].batch,
 				expirationDate: myParseDate(response.orderDetails[i].expirationDate),
-				viewTraceability: "<a href='searchSerializedProduct.do?productId="+ response.orderDetails[i].product.id + "&serial=" + response.orderDetails[i].serialNumber + "' target='_blank'>Ver Traza" + "<//a>"
-
+				viewTraceability: "<a type='button' class='btn btn-sm btn-default' href='searchSerializedProduct.do?productId="+ response.orderDetails[i].product.id + "&serial=" + response.orderDetails[i].serialNumber + "' target='_blank'><span class='glyphicon glyphicon-search'></span> Ver Traza" + "<//a>"
 			};
 			var item = serialsMap[response.orderDetails[i].product.code] || [];
 			item.push(serialDetails);
@@ -732,7 +732,7 @@ $(document).ready(function() {
 				serialNumber: (response.supplyingDetails[i].serialNumber) ? (response.supplyingDetails[i].serialNumber + descriptionDiscriminator) : response.supplyingDetails[i].serialNumber,
 				batch: (response.supplyingDetails[i].serialNumber) ? response.supplyingDetails[i].batch : (response.supplyingDetails[i].batch + descriptionDiscriminator),
 				expirationDate: myParseDate(response.supplyingDetails[i].expirationDate),
-                viewTraceability: "<a href='searchSerializedProduct.do?productId="+ response.supplyingDetails[i].product.id + "&serial=" + response.supplyingDetails[i].serialNumber + "' target='_blank'>Ver Traza" + "<//a>"
+				viewTraceability: "<a type='button' class='btn btn-sm btn-default' href='searchSerializedProduct.do?productId="+ response.supplyingDetails[i].product.id + "&serial=" + response.supplyingDetails[i].serialNumber + "' target='_blank'><span class='glyphicon glyphicon-search'></span> Ver Traza" + "<//a>"
 			};
 			var item = serialsMap[response.supplyingDetails[i].product.code] || [];
 			item.push(serialDetails);

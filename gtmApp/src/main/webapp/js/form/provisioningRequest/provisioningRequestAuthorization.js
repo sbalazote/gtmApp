@@ -68,9 +68,9 @@ ProvisioningRequestAuthorization = function() {
 						orderDetail.client = response[i].client.name;
 						orderDetail.agreement = response[i].agreement.description;
 						orderDetail.date = myParseDate(response[i].deliveryDate);
-						orderDetail.action = "<a href='javascript:void(0);' class='view-row'>Consultar</a>";
-						
-						aaData.push(orderDetail);
+						orderDetail.action = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
+
+					aaData.push(orderDetail);
 					}
 					
 					$("#provisioningTable").bootgrid({

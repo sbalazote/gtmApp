@@ -66,8 +66,8 @@ var DeliveryNoteSheet = function() {
 					orderDetail.id = response[i].id;
 					orderDetail.agreement = response[i].provisioningRequest.agreement.description;
 					orderDetail.client = response[i].provisioningRequest.client.name;
-					orderDetail.option = "<a href='javascript:void(0);' class='view-row'>Consultar</a>";
-					
+					orderDetail.option = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
+
 					aaData.push(orderDetail);
 				}
 				

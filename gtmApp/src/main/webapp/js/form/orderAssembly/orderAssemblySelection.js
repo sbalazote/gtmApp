@@ -40,9 +40,8 @@ OrderAssemblySelection = function() {
 					orderDetail.id = response[i].id;
 					orderDetail.client = response[i].client.name;
 					orderDetail.agreement = response[i].agreement.description;
-					orderDetail.option = "<span class='span-provisioningId' style='display:none'>" + response[i].id + 
-							"</span><a class='a-select' href='javascript:void(0);'>Seleccionar</a>";
-					
+					orderDetail.option = "<span class='span-provisioningId' style='display:none'>" + response[i].id + "</span><a type='button' class='btn btn-sm btn-default a-select' href='#'><span class='glyphicon glyphicon-check'></span> Seleccionar</a>";
+
 					aaData.push(orderDetail);
 				}
 				

@@ -290,7 +290,7 @@ SearchStock = function() {
 				serialNumber: stock.serialNumber,
 				batch: stock.batch,
 				expirationDate: myParseDate(stock.expirationDate),
-				viewTraceability: "<a href='searchSerializedProduct.do?productId="+ stock.productId + "&serial=" + stock.serialNumber + "' target='_blank'>Ver Traza" + "<//a>"
+				viewTraceability: "<a type='button' class='btn btn-sm btn-default' href='searchSerializedProduct.do?productId="+ stock.productId + "&serial=" + stock.serialNumber + "' target='_blank'><span class='glyphicon glyphicon-search'></span> Ver Traza" + "<//a>"
 		};
 		var item = serialsMap[stock.agreementId + "-" + stock.productCode] || [];
 		item.push(serialDetails);

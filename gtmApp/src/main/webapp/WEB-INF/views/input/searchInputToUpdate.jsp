@@ -7,8 +7,8 @@
 		$("#mainTable").bootgrid({
 			formatters: {
 	        	"option": function(column, row) {
-	        		return "<a class=\"a-select\" href=\"#\">Seleccionar</a>";
-	        	}
+	        		return "<a type='button' class='btn btn-sm btn-default a-select' href='#'><span class='glyphicon glyphicon-check'></span> Seleccionar</a>";
+				}
 	    	}
 		});
 		$("#productTableBody").on("click", ".a-select", function(){
