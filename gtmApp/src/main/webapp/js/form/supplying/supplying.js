@@ -284,9 +284,11 @@ var Supplying = function() {
 							$("#productInput").val("");
 						}
 					} else {
-						$('#productInput').tooltip("destroy").data("title", "No hay en Stock").addClass("has-error").tooltip();
-						$('#productInput').val('');
-						$('#productInput').focus();
+						if(!assignOutOfStock){
+							$('#productInput').tooltip("destroy").data("title", "No hay en Stock").addClass("has-error").tooltip();
+							$('#productInput').val('');
+							$('#productInput').focus();
+						}
 					}
 					return false;
 				},
@@ -334,6 +336,7 @@ var Supplying = function() {
 
 	$('#amountModal').on('shown.bs.modal', function() {
 		$('#productAmountInput').focus();
+
 	});
 
 	$('#amountModal').on('hidden.bs.modal', function() {
