@@ -49,14 +49,9 @@ public class DeliveryNoteController {
 
 	@RequestMapping(value = "/printDeliveryNotes", method = RequestMethod.POST)
 	@ResponseBody
-	public void printDeliveryNotesFromOrders(@RequestBody List<Integer> ordersToPrint) throws Exception {
-		List<Integer> deliveryNotes = this.orderDeliveryNoteSheetPrinter.print(ordersToPrint);
+	public List<String> printDeliveryNotesFromOrders(@RequestBody List<Integer> ordersToPrint) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null) {
-			for (Integer deliveryNote : deliveryNotes) {
-				this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote);
-			}
-		}
+		return this.orderDeliveryNoteSheetPrinter.print(auth.getName(), ordersToPrint);
 	}
 
 	@RequestMapping(value = "/deliveryNoteCancellation", method = RequestMethod.GET)

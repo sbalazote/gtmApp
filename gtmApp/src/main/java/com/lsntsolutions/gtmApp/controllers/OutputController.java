@@ -75,10 +75,7 @@ public class OutputController {
 		if (output.getConcept().isPrintDeliveryNote()) {
 			List<Integer> outputs = new ArrayList<Integer>();
 			outputs.add(output.getId());
-			List<Integer> deliveryNotes = this.outputDeliveryNoteSheetPrinter.print(outputs);
-			for (Integer deliveryNote : deliveryNotes) {
-				this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote);
-			}
+			List<String> deliveryNotes = this.outputDeliveryNoteSheetPrinter.print(auth.getName(), outputs);
 		} else {
 			Integer deliveryNote = this.outputFakeDeliveryNoteSheetPrinter.print(output);
 			this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote);

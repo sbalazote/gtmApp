@@ -5,13 +5,12 @@ import com.lowagie.text.PageSize;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfWriter;
+import com.lsntsolutions.gtmApp.constant.AuditState;
+import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.helper.DeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.helper.PrintOnPrinter;
 import com.lsntsolutions.gtmApp.model.*;
-import com.lsntsolutions.gtmApp.service.ConceptService;
-import com.lsntsolutions.gtmApp.service.DeliveryNoteService;
-import com.lsntsolutions.gtmApp.service.OutputService;
-import com.lsntsolutions.gtmApp.service.PropertyService;
+import com.lsntsolutions.gtmApp.service.*;
 import com.lsntsolutions.gtmApp.util.DeliveryNoteConfig;
 import com.lsntsolutions.gtmApp.util.StringUtility;
 import org.apache.log4j.Logger;
@@ -42,10 +41,15 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 	private ConceptService conceptService;
 	@Autowired
 	private DeliveryNoteConfig deliveryNoteConfig;
+	@Autowired
+	private AuditService auditService;
+
+	private String userName;
 
 	@Override
-	public List<Integer> print(List<Integer> outputsIds) {
-		List<Integer> printsNumbers = new ArrayList<>();
+	public List<String> print(String userName, List<Integer> outputsIds) {
+		this.userName = userName;
+		List<String> printsNumbers = new ArrayList<>();
 		Date date = new Date();
 
 		for (Integer id : outputsIds) {
@@ -111,8 +115,9 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 				}
 
 				logger.info("Se ha guardado el remito numero: " + deliveryNoteNumber + " para el Egreso número: " + id);
+				this.auditService.addAudit(this.userName, RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote.getId());
 
-				printsNumbers.add(deliveryNote.getId());
+				printsNumbers.add(deliveryNote.getNumber());
 				deliveryNoteNumber++;
 			}
 		}
