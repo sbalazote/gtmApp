@@ -16,119 +16,169 @@ public class DeliveryNoteConfig {
 	private Integer numberX;
 	@Value("${number.y}")
 	private Integer numberY;
+	@Value("${number.print}")
+	private Boolean numberPrint;
 
 	@Value("${date.x}")
 	private Integer dateX;
 	@Value("${date.y}")
 	private Integer dateY;
+	@Value("${date.print}")
+	private Boolean datePrint;
 
 	@Value("${issuer.corporateName.x}")
 	private Integer issuerCorporateNameX;
 	@Value("${issuer.corporateName.y}")
 	private Integer issuerCorporateNameY;
+	@Value("${issuer.corporateName.print}")
+	private Boolean issuerCorporateNamePrint;
 
 	@Value("${issuer.address.x}")
 	private Integer issuerAddressX;
 	@Value("${issuer.address.y}")
 	private Integer issuerAddressY;
+	@Value("${issuer.address.print}")
+	private Boolean issuerAddressPrint;
 
 	@Value("${issuer.locality.x}")
 	private Integer issuerLocalityX;
 	@Value("${issuer.locality.y}")
 	private Integer issuerLocalityY;
+	@Value("${issuer.locality.print}")
+	private Boolean issuerLocalityPrint;
 
 	@Value("${issuer.zipcode.x}")
 	private Integer issuerZipcodeX;
 	@Value("${issuer.zipcode.y}")
 	private Integer issuerZipcodeY;
+	@Value("${issuer.zipcode.print}")
+	private Boolean issuerZipcodePrint;
 
 	@Value("${issuer.province.x}")
 	private Integer issuerProvinceX;
 	@Value("${issuer.province.y}")
 	private Integer issuerProvinceY;
+	@Value("${issuer.province.print}")
+	private Boolean issuerProvincePrint;
 
 	@Value("${issuer.vatliability.x}")
 	private Integer issuerVatliabilityX;
 	@Value("${issuer.vatliability.y}")
 	private Integer issuerVatliabilityY;
+	@Value("${issuer.vatliability.print}")
+	private Boolean issuerVatliabilityPrint;
 
 	@Value("${issuer.tax.x}")
 	private Integer issuerTaxX;
 	@Value("${issuer.tax.y}")
 	private Integer issuerTaxY;
+	@Value("${issuer.tax.print}")
+	private Boolean issuerTaxPrint;
 
 	@Value("${deliveryLocation.corporateName.x}")
 	private Integer deliveryLocationCorporateNameX;
 	@Value("${deliveryLocation.corporateName.y}")
 	private Integer deliveryLocationCorporateNameY;
+	@Value("${deliveryLocation.corporateName.print}")
+	private Boolean deliveryLocationCorporateNamePrint;
 
 	@Value("${deliveryLocation.address.x}")
 	private Integer deliveryLocationAddressX;
 	@Value("${deliveryLocation.address.y}")
 	private Integer deliveryLocationAddressY;
+	@Value("${deliveryLocation.address.print}")
+	private Boolean deliveryLocationAddressPrint;
 
 	@Value("${deliveryLocation.locality.x}")
 	private Integer deliveryLocationLocalityX;
 	@Value("${deliveryLocation.locality.y}")
 	private Integer deliveryLocationLocalityY;
+	@Value("${deliveryLocation.locality.print}")
+	private Boolean deliveryLocationLocalityPrint;
 
 	@Value("${deliveryLocation.zipcode.x}")
 	private Integer deliveryLocationZipcodeX;
 	@Value("${deliveryLocation.zipcode.y}")
 	private Integer deliveryLocationZipcodeY;
+	@Value("${deliveryLocation.zipcode.print}")
+	private Boolean deliveryLocationZipcodePrint;
 
 	@Value("${deliveryLocation.province.x}")
 	private Integer deliveryLocationProvinceX;
 	@Value("${deliveryLocation.province.y}")
 	private Integer deliveryLocationProvinceY;
+	@Value("${deliveryLocation.province.print}")
+	private Boolean deliveryLocationProvincePrint;
 
 	@Value("${deliveryLocation.vatliability.x}")
 	private Integer deliveryLocationVatliabilityX;
 	@Value("${deliveryLocation.vatliability.y}")
 	private Integer deliveryLocationVatliabilityY;
+	@Value("${deliveryLocation.vatliability.print}")
+	private Boolean deliveryLocationVatliabilityPrint;
 
 	@Value("${deliveryLocation.tax.x}")
 	private Integer deliveryLocationTaxX;
 	@Value("${deliveryLocation.tax.y}")
 	private Integer deliveryLocationTaxY;
+	@Value("${deliveryLocation.tax.print}")
+	private Boolean deliveryLocationTaxPrint;
 
 	@Value("${affiliate.x}")
 	private Integer affiliateX;
 	@Value("${affiliate.y}")
 	private Integer affiliateY;
+	@Value("${affiliate.print}")
+	private Boolean affiliatePrint;
 
 	@Value("${order.x}")
 	private Integer orderX;
 	@Value("${order.y}")
 	private Integer orderY;
+	@Value("${order.print}")
+	private Boolean orderPrint;
 
 	@Value("${issuer.gln.x}")
 	private Integer issuerGlnX;
 	@Value("${issuer.gln.y}")
 	private Integer issuerGlnY;
+	@Value("${issuer.gln.print}")
+	private Boolean issuerGlnPrint;
 
 	@Value("${deliveryLocation.gln.x}")
 	private Integer deliveryLocationGlnX;
 	@Value("${deliveryLocation.gln.y}")
 	private Integer deliveryLocationGlnY;
+	@Value("${deliveryLocation.gln.print}")
+	private Boolean deliveryLocationGlnPrint;
 
 	@Value("${product.details.y}")
 	private Integer productDetailsY;
 
 	@Value("${product.description.x}")
 	private Integer productDescriptionX;
+	@Value("${product.description.print}")
+	private Boolean productDescriptionPrint;
 
 	@Value("${product.monodrug.x}")
 	private Integer productMonodrugX;
+	@Value("${product.monodrug.print}")
+	private Boolean productMonodrugPrint;
 
 	@Value("${product.brand.x}")
 	private Integer productBrandX;
+	@Value("${product.brand.print}")
+	private Boolean productBrandPrint;
 
 	@Value("${product.amount.x}")
 	private Integer productAmountX;
+	@Value("${product.amount.print}")
+	private Boolean productAmountPrint;
 
 	@Value("${product.batchExpirationdate.x}")
 	private Integer productBatchExpirationdateX;
+	@Value("${product.batchExpirationdate.print}")
+	private Boolean productBatchExpirationdatePrint;
 
 	@Value("${serial.column1.x}")
 	private Integer serialColumn1X;
@@ -138,11 +188,21 @@ public class DeliveryNoteConfig {
 	private Integer serialColumn3X;
 	@Value("${serial.column4.x}")
 	private Integer serialColumn4X;
+	@Value("${serial.column1.print}")
+	private Boolean serialColumn1Print;
+	@Value("${serial.column2.print}")
+	private Boolean serialColumn2Print;
+	@Value("${serial.column3.print}")
+	private Boolean serialColumn3Print;
+	@Value("${serial.column4.print}")
+	private Boolean serialColumn4Print;
 
 	@Value("${numberOfItems.x}")
 	private Integer numberOfItemsX;
 	@Value("${numberOfItems.y}")
 	private Integer numberOfItemsY;
+	@Value("${numberOfItems.print}")
+	private Boolean numberOfItemsPrint;
 
 	public Integer getFontSize() {
 		return fontSize;
@@ -354,5 +414,125 @@ public class DeliveryNoteConfig {
 
 	public float getNumberOfItemsY() {
 		return (297.0f - numberOfItemsY) * MILLIMITER_TO_POINTS_FACTOR;
+	}
+
+	public Boolean isNumberPrint() {
+		return numberPrint;
+	}
+
+	public Boolean isDatePrint() {
+		return datePrint;
+	}
+
+	public Boolean isIssuerCorporateNamePrint() {
+		return issuerCorporateNamePrint;
+	}
+
+	public Boolean isIssuerAddressPrint() {
+		return issuerAddressPrint;
+	}
+
+	public Boolean isIssuerLocalityPrint() {
+		return issuerLocalityPrint;
+	}
+
+	public Boolean isIssuerZipcodePrint() {
+		return issuerZipcodePrint;
+	}
+
+	public Boolean isIssuerProvincePrint() {
+		return issuerProvincePrint;
+	}
+
+	public Boolean isIssuerVatliabilityPrint() {
+		return issuerVatliabilityPrint;
+	}
+
+	public Boolean isIssuerTaxPrint() {
+		return issuerTaxPrint;
+	}
+
+	public Boolean isDeliveryLocationCorporateNamePrint() {
+		return deliveryLocationCorporateNamePrint;
+	}
+
+	public Boolean isDeliveryLocationAddressPrint() {
+		return deliveryLocationAddressPrint;
+	}
+
+	public Boolean isDeliveryLocationLocalityPrint() {
+		return deliveryLocationLocalityPrint;
+	}
+
+	public Boolean isDeliveryLocationZipcodePrint() {
+		return deliveryLocationZipcodePrint;
+	}
+
+	public Boolean isDeliveryLocationProvincePrint() {
+		return deliveryLocationProvincePrint;
+	}
+
+	public Boolean isDeliveryLocationVatliabilityPrint() {
+		return deliveryLocationVatliabilityPrint;
+	}
+
+	public Boolean isDeliveryLocationTaxPrint() {
+		return deliveryLocationTaxPrint;
+	}
+
+	public Boolean isAffiliatePrint() {
+		return affiliatePrint;
+	}
+
+	public Boolean isOrderPrint() {
+		return orderPrint;
+	}
+
+	public Boolean isIssuerGlnPrint() {
+		return issuerGlnPrint;
+	}
+
+	public Boolean isDeliveryLocationGlnPrint() {
+		return deliveryLocationGlnPrint;
+	}
+
+	public Boolean isProductDescriptionPrint() {
+		return productDescriptionPrint;
+	}
+
+	public Boolean isProductMonodrugPrint() {
+		return productMonodrugPrint;
+	}
+
+	public Boolean isProductBrandPrint() {
+		return productBrandPrint;
+	}
+
+	public Boolean isProductAmountPrint() {
+		return productAmountPrint;
+	}
+
+	public Boolean isProductBatchExpirationdatePrint() {
+		return productBatchExpirationdatePrint;
+	}
+
+	public Boolean isSerialColumn1Print() {
+		return serialColumn1Print;
+	}
+
+	public Boolean isSerialColumn2Print() {
+		return serialColumn2Print;
+	}
+
+	public Boolean isSerialColumn3Print() {
+		return serialColumn3Print;
+	}
+
+	public Boolean isSerialColumn4Print() {
+		return serialColumn4Print;
+	}
+
+	public Boolean isNumberOfItemsPrint() {
+		return numberOfItemsPrint;
 	}
 }

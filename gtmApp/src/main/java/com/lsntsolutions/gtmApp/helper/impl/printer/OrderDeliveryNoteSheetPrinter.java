@@ -267,83 +267,83 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 
         // imprimo numero de remito.
         overContent.setTextMatrix(deliveryNoteConfig.getNumberX(), deliveryNoteConfig.getNumberY());
-        overContent.showText(StringUtility.addLeadingZeros(deliveryNoteNumber, 8));
+        overContent.showText(deliveryNoteConfig.isNumberPrint() ? StringUtility.addLeadingZeros(deliveryNoteNumber, 8): "");
 
         // imprimo fecha.
         overContent.setTextMatrix(deliveryNoteConfig.getDateX(), deliveryNoteConfig.getDateY());
-        overContent.showText(new SimpleDateFormat("dd/MM/yyyy").format(provisioningRequest.getDeliveryDate()));
+        overContent.showText(deliveryNoteConfig.isDatePrint() ? new SimpleDateFormat("dd/MM/yyyy").format(provisioningRequest.getDeliveryDate()) : "");
 
         // imprimo cliente.
         overContent.setTextMatrix(deliveryNoteConfig.getIssuerCorporateNameX(), deliveryNoteConfig.getIssuerCorporateNameY());
-        overContent.showText(provisioningRequest.getClient().getCorporateName());
+        overContent.showText(deliveryNoteConfig.isIssuerCorporateNamePrint() ? provisioningRequest.getClient().getCorporateName() : "");
 
         // imprimo domicilio.
         overContent.setTextMatrix(deliveryNoteConfig.getIssuerAddressX(), deliveryNoteConfig.getIssuerAddressY());
-        overContent.showText(provisioningRequest.getClient().getAddress());
+        overContent.showText(deliveryNoteConfig.isIssuerAddressPrint() ? provisioningRequest.getClient().getAddress() : "");
 
         // imprimo localidad.
         overContent.setTextMatrix(deliveryNoteConfig.getIssuerLocalityX(), deliveryNoteConfig.getIssuerLocalityY());
-        overContent.showText(provisioningRequest.getClient().getLocality());
+        overContent.showText(deliveryNoteConfig.isIssuerLocalityPrint() ? provisioningRequest.getClient().getLocality() : "");
 
         // imprimo cod. postal.
         overContent.setTextMatrix(deliveryNoteConfig.getIssuerZipcodeX(), deliveryNoteConfig.getIssuerZipcodeY());
-        overContent.showText("(" + provisioningRequest.getClient().getZipCode() + ")");
+        overContent.showText(deliveryNoteConfig.isIssuerZipcodePrint() ? ("(" + provisioningRequest.getClient().getZipCode() + ")") : "");
 
         // imprimo provincia.
         overContent.setTextMatrix(deliveryNoteConfig.getIssuerProvinceX(), deliveryNoteConfig.getIssuerProvinceY());
-        overContent.showText(provisioningRequest.getClient().getProvince().getName());
+        overContent.showText(deliveryNoteConfig.isIssuerProvincePrint() ? provisioningRequest.getClient().getProvince().getName() : "");
 
         // imprimo condicion IVA.
         overContent.setTextMatrix(deliveryNoteConfig.getIssuerVatliabilityX(), deliveryNoteConfig.getIssuerVatliabilityY());
-        overContent.showText(provisioningRequest.getClient().getVATLiability().getDescription().toUpperCase());
+        overContent.showText(deliveryNoteConfig.isIssuerVatliabilityPrint() ? provisioningRequest.getClient().getVATLiability().getDescription().toUpperCase() : "");
 
         // imprimo CUIT.
         overContent.setTextMatrix(deliveryNoteConfig.getIssuerTaxX(), deliveryNoteConfig.getIssuerTaxY());
-        overContent.showText(provisioningRequest.getClient().getTaxId());
+        overContent.showText(deliveryNoteConfig.isIssuerTaxPrint() ? provisioningRequest.getClient().getTaxId() : "");
 
         // imprimo afiliado.
         overContent.setTextMatrix(deliveryNoteConfig.getAffiliateX(), deliveryNoteConfig.getAffiliateY());
-        overContent.showText("AF: " + provisioningRequest.getAffiliate().getCode() + "    - " + provisioningRequest.getAffiliate().getSurname() + "  " + provisioningRequest.getAffiliate().getName());
+        overContent.showText(deliveryNoteConfig.isAffiliatePrint() ? ("AF: " + provisioningRequest.getAffiliate().getCode() + "    - " + provisioningRequest.getAffiliate().getSurname() + "  " + provisioningRequest.getAffiliate().getName()) : "");
 
         // imprimo pedido.
         overContent.setTextMatrix(deliveryNoteConfig.getOrderX(), deliveryNoteConfig.getOrderY());
-        overContent.showText("Pedido: " + deliveryNoteNumber + "  Convenio: " + provisioningRequest.getAgreement().getCode() + "-" + provisioningRequest.getAgreement().getDescription());
+        overContent.showText(deliveryNoteConfig.isOrderPrint() ? ("Pedido: " + deliveryNoteNumber + "  Convenio: " + provisioningRequest.getAgreement().getCode() + "-" + provisioningRequest.getAgreement().getDescription()) : "");
 
         // imprimo cliente entrega.
         overContent.setTextMatrix(deliveryNoteConfig.getDeliveryLocationCorporateNameX(), deliveryNoteConfig.getDeliveryLocationCorporateNameY());
-        overContent.showText(provisioningRequest.getDeliveryLocation().getCorporateName());
+        overContent.showText(deliveryNoteConfig.isDeliveryLocationCorporateNamePrint() ? provisioningRequest.getDeliveryLocation().getCorporateName() : "");
 
         // imprimo domicilio entrega.
         overContent.setTextMatrix(deliveryNoteConfig.getDeliveryLocationAddressX(), deliveryNoteConfig.getDeliveryLocationAddressY());
-        overContent.showText(provisioningRequest.getDeliveryLocation().getAddress());
+        overContent.showText(deliveryNoteConfig.isDeliveryLocationAddressPrint() ? provisioningRequest.getDeliveryLocation().getAddress() : "");
 
         // imprimo localidad entrega.
         overContent.setTextMatrix(deliveryNoteConfig.getDeliveryLocationLocalityX(), deliveryNoteConfig.getDeliveryLocationLocalityY());
-        overContent.showText(provisioningRequest.getDeliveryLocation().getLocality());
+        overContent.showText(deliveryNoteConfig.isDeliveryLocationLocalityPrint() ? provisioningRequest.getDeliveryLocation().getLocality() : "");
 
         // imprimo cod. postal entrega.
         overContent.setTextMatrix(deliveryNoteConfig.getDeliveryLocationZipcodeX(), deliveryNoteConfig.getDeliveryLocationZipcodeY());
-        overContent.showText("(" + provisioningRequest.getClient().getZipCode() + ")");
+        overContent.showText(deliveryNoteConfig.isDeliveryLocationZipcodePrint() ? ("(" + provisioningRequest.getDeliveryLocation().getZipCode() + ")") : "");
 
         // imprimo provincia entrega.
         overContent.setTextMatrix(deliveryNoteConfig.getDeliveryLocationProvinceX(), deliveryNoteConfig.getDeliveryLocationProvinceY());
-        overContent.showText(provisioningRequest.getClient().getProvince().getName());
+        overContent.showText(deliveryNoteConfig.isDeliveryLocationProvincePrint() ? provisioningRequest.getDeliveryLocation().getProvince().getName() : "");
 
         // imprimo condicion IVA entrega.
         overContent.setTextMatrix(deliveryNoteConfig.getDeliveryLocationVatliabilityX(), deliveryNoteConfig.getDeliveryLocationVatliabilityY());
-        overContent.showText(provisioningRequest.getDeliveryLocation().getVATLiability().getDescription().toUpperCase());
+        overContent.showText(deliveryNoteConfig.isDeliveryLocationVatliabilityPrint() ? provisioningRequest.getDeliveryLocation().getVATLiability().getDescription().toUpperCase() : "");
 
         // imprimo CUIT entrega.
         overContent.setTextMatrix(deliveryNoteConfig.getDeliveryLocationTaxX(), deliveryNoteConfig.getDeliveryLocationTaxY());
-        overContent.showText(provisioningRequest.getDeliveryLocation().getTaxId());
+        overContent.showText(deliveryNoteConfig.isDeliveryLocationTaxPrint() ? provisioningRequest.getDeliveryLocation().getTaxId() : "");
 
         // imprimo GLN Origen
         overContent.setTextMatrix(deliveryNoteConfig.getIssuerGlnX(), deliveryNoteConfig.getIssuerGlnY());
-        overContent.showText("GLN Origen: " + drugstoreGln);
+        overContent.showText(deliveryNoteConfig.isIssuerGlnPrint() ? ("GLN Origen: " + drugstoreGln) : "");
 
         // imprimo GLN Destino
         overContent.setTextMatrix(deliveryNoteConfig.getDeliveryLocationGlnX(), deliveryNoteConfig.getDeliveryLocationGlnY());
-        overContent.showText("GLN Destino: " + provisioningRequest.getDeliveryLocation().getGln());
+        overContent.showText(deliveryNoteConfig.isDeliveryLocationGlnPrint() ? ("GLN Destino: " + provisioningRequest.getDeliveryLocation().getGln()) : "");
 
         overContent.restoreState();
     }
@@ -366,19 +366,19 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 
         // imprimo descripcion.
         overContent.setTextMatrix(deliveryNoteConfig.getProductDescriptionX(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-        overContent.showText(description);
+        overContent.showText(deliveryNoteConfig.isProductDescriptionPrint() ? description : "");
 
         // imprimo monodraga.
         overContent.setTextMatrix(deliveryNoteConfig.getProductMonodrugX(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-        overContent.showText(monodrug);
+        overContent.showText(deliveryNoteConfig.isProductMonodrugPrint() ? monodrug : "");
 
         // imprimo marca.
         overContent.setTextMatrix(deliveryNoteConfig.getProductBrandX(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-        overContent.showText(brand);
+        overContent.showText(deliveryNoteConfig.isProductBrandPrint() ? brand : "");
 
         // imprimo cantidad total.
         overContent.setTextMatrix(deliveryNoteConfig.getProductAmountX(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-        overContent.showText(Integer.toString(totalAmount));
+        overContent.showText(deliveryNoteConfig.isProductAmountPrint() ? Integer.toString(totalAmount) : "");
 
         overContent.restoreState();
     }
@@ -404,11 +404,11 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 
         // imprimo lote.
         overContent.setTextMatrix(deliveryNoteConfig.getProductBatchExpirationdateX(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-        overContent.showText("Lote: " + batch);
+        overContent.showText(deliveryNoteConfig.isProductBatchExpirationdatePrint() ? ("Lote: " + batch) : "");
 
         // imprimo vencimiento.
         overContent.setTextMatrix(deliveryNoteConfig.getProductBatchExpirationdateX() + 120, deliveryNoteConfig.getProductDetailsY() - offsetY);
-        overContent.showText("Vto.: " + expirationDate);
+        overContent.showText(deliveryNoteConfig.isProductBatchExpirationdatePrint() ? ("Vto.: " + expirationDate) : "");
 
         overContent.restoreState();
     }
@@ -432,34 +432,34 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
         switch (orderDetails.size()) {
             case 1: {
                 overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn1X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(orderDetails.get(0).getSerialNumber());
+                overContent.showText(deliveryNoteConfig.isSerialColumn1Print() ? orderDetails.get(0).getSerialNumber() : "");
                 break;
             }
             case 2: {
                 overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn1X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(orderDetails.get(0).getSerialNumber());
+                overContent.showText(deliveryNoteConfig.isSerialColumn1Print() ? orderDetails.get(0).getSerialNumber() : "");
                 overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn2X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(orderDetails.get(1).getSerialNumber());
+                overContent.showText(deliveryNoteConfig.isSerialColumn2Print() ? orderDetails.get(1).getSerialNumber() : "");
                 break;
             }
             case 3: {
                 overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn1X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(orderDetails.get(0).getSerialNumber());
+                overContent.showText(deliveryNoteConfig.isSerialColumn1Print() ? orderDetails.get(0).getSerialNumber() : "");
                 overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn2X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(orderDetails.get(1).getSerialNumber());
+                overContent.showText(deliveryNoteConfig.isSerialColumn2Print() ? orderDetails.get(1).getSerialNumber() : "");
                 overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn3X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(orderDetails.get(2).getSerialNumber());
+                overContent.showText(deliveryNoteConfig.isSerialColumn3Print() ? orderDetails.get(2).getSerialNumber() : "");
                 break;
             }
             case 4: {
                 overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn1X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(orderDetails.get(0).getSerialNumber());
+                overContent.showText(deliveryNoteConfig.isSerialColumn1Print() ? orderDetails.get(0).getSerialNumber() : "");
                 overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn2X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(orderDetails.get(1).getSerialNumber());
+                overContent.showText(deliveryNoteConfig.isSerialColumn2Print() ? orderDetails.get(1).getSerialNumber() : "");
                 overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn3X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(orderDetails.get(2).getSerialNumber());
+                overContent.showText(deliveryNoteConfig.isSerialColumn3Print() ? orderDetails.get(2).getSerialNumber() : "");
                 overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn4X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(orderDetails.get(3).getSerialNumber());
+                overContent.showText(deliveryNoteConfig.isSerialColumn4Print() ? orderDetails.get(3).getSerialNumber() : "");
                 break;
             }
             default: {
@@ -485,7 +485,7 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 
         // imprimo Cantidad de Items para el remito.
         overContent.setTextMatrix(deliveryNoteConfig.getNumberOfItemsX(), deliveryNoteConfig.getNumberOfItemsY());
-        overContent.showText("Items: " + amount);
+        overContent.showText(deliveryNoteConfig.isNumberOfItemsPrint() ? ("Items: " + amount) : "");
 
         overContent.restoreState();
     }
