@@ -190,9 +190,16 @@ $(document).ready(function() {
 		var jsonObject = JSON.parse(postSaveMessage);
 		myShowAlert(jsonObject.type, jsonObject.message);
 		var type = 'type-' + jsonObject.type;
+		var title = 'Operaci\u00f3n Exitosa';
+		if(type == "danger"){
+			title = 'Operaci\u00f3n Fallida';
+		}
+		if(type == "warning"){
+			title = 'Operaci\u00f3n con Errores';
+		}
 		BootstrapDialog.show({
 			type: type,
-	        title: 'Operaci\u00f3n Exitosa',
+	        title: title,
 	        message: jsonObject.message,
 	        buttons: [{
                 label: 'Cerrar',
