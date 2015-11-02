@@ -300,7 +300,6 @@ var Supplying = function() {
 		if(e.keyCode == 119) { // Presiono F8
 			BootstrapDialog.show({
 				type: BootstrapDialog.TYPE_WARNING,
-				size: BootstrapDialog.SIZE_LARGE,
 				message: 'Desea asignar productos fuera de inventario?.',
 				closable: false,
 				title: 'Advertencia!',
