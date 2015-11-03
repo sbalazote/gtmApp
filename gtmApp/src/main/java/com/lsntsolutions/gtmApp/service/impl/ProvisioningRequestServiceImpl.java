@@ -56,7 +56,8 @@ public class ProvisioningRequestServiceImpl implements ProvisioningRequestServic
 	public OperationResult save(ProvisioningRequestDTO provisioningRequestDTO) {
 		ProvisioningRequest provisioningRequest = this.buildModel(provisioningRequestDTO);
 		OperationResult operationResult = new OperationResult();
-		if(this.checkAvaiableStock(provisioningRequest)) {
+		List<String> productsList = this.checkAvaiableStock(provisioningRequest);
+		if(productsList.isEmpty()) {
 			this.provisioningRequestDAO.save(provisioningRequest);
 			logger.info("Se han guardado los cambios exitosamente. Solicitud de Abastecimiento numero: " + provisioningRequest.getId());
 			operationResult.setOperationId(String.valueOf(provisioningRequest.getId()));
@@ -64,21 +65,25 @@ public class ProvisioningRequestServiceImpl implements ProvisioningRequestServic
 			return operationResult;
 		}else{
 			List<String> errors = new ArrayList<>();
-			errors.add("No fue posible asignar el stock por que no hay disponibilidad de algun producto");
+			errors.add("No fue posible asignar el stock por que no hay suficiente disponibilidad de el/los siguiente/s producto/s: ");
+			for(String product : productsList){
+				errors.add(product);
+			}
 			operationResult.setMyOwnErrors(errors);
 			operationResult.setResultado(false);
 		}
 		return operationResult;
 	}
 
-	private boolean checkAvaiableStock(ProvisioningRequest provisioningRequest) {
+	private List<String> checkAvaiableStock(ProvisioningRequest provisioningRequest) {
+		List<String> productsList = new ArrayList<>();
 		for(ProvisioningRequestDetail provisioningRequestDetail : provisioningRequest.getProvisioningRequestDetails()){
 			Long amount = this.stockService.getProductAmount(provisioningRequestDetail.getProduct().getId(),provisioningRequest.getAgreement().getId(),provisioningRequest.getId());
 			if(amount.compareTo(Long.valueOf(provisioningRequestDetail.getAmount())) < 0){
-				return false;
+				productsList.add(provisioningRequestDetail.getProduct().toString());
 			}
 		}
-		return true;
+		return productsList;
 	}
 
 	@Override
