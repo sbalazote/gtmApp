@@ -62,11 +62,23 @@ var PendingTransactions = function() {
 							}
 						}
 						if(confirmedDeliveryNotes.length > 0 && errorsList.length == 0){
-							myReload("success", "Se han informado los siguientes remitos: <strong>" +  confirmedDeliveryNotes + "</strong>");
+							var message = "Se han informado los siguientes remitos: <p></p><strong>";
+							$.each(confirmedDeliveryNotes, function( index, value ) {
+								message += "<p>" + value + "</p>";
+							});
+							message += "</strong>";
+							myReload("success", message);
 						}else{
 							if(errorsList.length > 0 && confirmedDeliveryNotes.length > 0){
-								myReload("warning", "Se han informado los siguientes remitos: " +  "<strong>" + confirmedDeliveryNotes  + "</strong>" + "<br />" +"Pero ocurrieron los siguientes errores:" + "<br />" +
-								errorsList);
+								var message = "Se han informado los siguientes remitos:  <p></p><strong>";
+								$.each(confirmedDeliveryNotes, function( index, value ) {
+									message += "<p>" + value + "</p>";
+								});
+								message += "</strong><br />" +"Pero ocurrieron los siguientes errores:" + "<br />";
+								$.each(errorsList, function( index, value ) {
+									message += "<p>" + value + "</p>";
+								});
+								myReload("success", message);
 							}else{
 								myReload("danger", "Han surgido los siguientes errores: " +  errorsList);
 							}
