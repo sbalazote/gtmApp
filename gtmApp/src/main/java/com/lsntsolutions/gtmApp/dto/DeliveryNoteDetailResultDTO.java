@@ -1,6 +1,6 @@
 package com.lsntsolutions.gtmApp.dto;
 
-public class OutputOrderDetailResultDTO {
+public class DeliveryNoteDetailResultDTO {
 	private Integer id;
 	private Integer code;
 	private String product;
@@ -10,6 +10,7 @@ public class OutputOrderDetailResultDTO {
 	private String batch;
 	private String expirationDate;
 	private Integer amount;
+	private Boolean inStock;
 
 	public Integer getId() {
 		return this.id;
@@ -83,7 +84,15 @@ public class OutputOrderDetailResultDTO {
 		this.gtinNumber = gtinNumber;
 	}
 
-	public OutputOrderDetailResultDTO(Integer id, Integer code, String product, String serialNumber, String batch, String expirationDate, Integer amount, Integer productId, String gtinNumber) {
+	public Boolean getInStock() {
+		return inStock;
+	}
+
+	public void setInStock(Boolean inStock) {
+		this.inStock = inStock;
+	}
+
+	public DeliveryNoteDetailResultDTO(Integer id, Integer code, String product, String serialNumber, String batch, String expirationDate, Integer amount, Boolean inStock, Integer productId, String gtinNumber) {
 		super();
 		this.id = id;
 		this.code = code;
@@ -95,7 +104,6 @@ public class OutputOrderDetailResultDTO {
 		this.expirationDate = expirationDate;
 		this.amount = amount;
 		this.gtinNumber = gtinNumber;
+		this.inStock = inStock;
 	}
-
-
 }

@@ -391,7 +391,7 @@ SearchDeliveryNote = function() {
 							date: "",
 							action: ""
 						};
-						output.id= response[i].id;
+						order.id= response[i].id;
 						order.number = response[i].number;
 						order.date = myParseDate(response[i].date);
 						order.action = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
