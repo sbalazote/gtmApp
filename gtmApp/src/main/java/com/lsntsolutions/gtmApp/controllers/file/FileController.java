@@ -98,7 +98,9 @@ public class FileController {
 			try {
 				fileMeta.setBytes(mpf.getBytes());
 
-				String path = request.getSession().getServletContext().getRealPath("/images/");
+				//String path = request.getSession().getServletContext().getRealPath("/images/");
+				String path = request.getServletContext().getInitParameter("upload.location");
+
 				String name = mpf.getOriginalFilename();
 				String extension = name.substring(name.lastIndexOf('.'));
 
@@ -112,6 +114,7 @@ public class FileController {
 				}
 
 				FileCopyUtils.copy(imageBytes, new FileOutputStream(path + "/uploadedLogo.png"));
+				FileCopyUtils.copy(imageBytes, new FileOutputStream(request.getSession().getServletContext().getRealPath("/images/") + "/uploadedLogo.png"));
 				logger.info("Logo subido! ");
 
 			} catch (IOException e) {

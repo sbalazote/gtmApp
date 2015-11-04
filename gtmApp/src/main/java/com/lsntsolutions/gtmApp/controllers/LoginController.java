@@ -9,6 +9,7 @@ import org.bouncycastle.openpgp.PGPException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,11 +51,13 @@ public class LoginController {
         modelMap.put("softwareName",PropertyProvider.getInstance().getProp(PropertyProvider.ARTIFACT_ID) );
         modelMap.put("name", propertyService.get().getName());
         String relativePath = "";
-        String realPath = request.getServletContext().getRealPath("/images/uploadedLogo.png");
+        //String realPath = request.getServletContext().getRealPath("/images/uploadedLogo.png");
+        File file = new File(request.getServletContext().getInitParameter("upload.location") + "/uploadedLogo.png");
         PropertyProvider.getInstance().setProp(PropertyProvider.NAME, propertyService.get().getName());
-        File file = new File(realPath);
+        //File file = new File(realPath);
 
         if (file.exists()) {
+            FileCopyUtils.copy(file, new File(request.getSession().getServletContext().getRealPath("/images/") + "/uploadedLogo.png"));
             relativePath = "./images/uploadedLogo.png";
         } else {
             relativePath = "./images/logo.png";
