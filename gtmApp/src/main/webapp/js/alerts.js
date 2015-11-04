@@ -42,10 +42,12 @@ $(document).ready(function() {
 			"showDuration": "300",
 			"hideDuration": "1000",
 			"timeOut": time,
+			"extendedTimeOut": time,
 			"showEasing": "swing",
 			"hideEasing": "linear",
 			"showMethod": "fadeIn",
 			"hideMethod": "fadeOut",
+			"tapToDismiss" : false,
 			"target": "#"+myDiv
 		}
 		// Muestro mensaje dependiendo el tipo.

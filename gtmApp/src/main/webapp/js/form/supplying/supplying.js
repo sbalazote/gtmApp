@@ -316,9 +316,12 @@ var Supplying = function() {
 						assignOutOfStock = true;
 						dialogItself.close();
 					}
-				}]
+				}],
+				onhidden: function(dialogRef) {
+					myShowAlert('info', 'ASIGNACION FUERA DE STOCK.', null, 0);
+					$("#productInput").focus();
+				}
 			});
-			$("#productInput").focus();
 		}
 	});
 /*
