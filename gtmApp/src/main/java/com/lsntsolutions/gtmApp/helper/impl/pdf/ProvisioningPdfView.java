@@ -18,10 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class ProvisioningPdfView extends AbstractPdfView {
 
@@ -30,8 +28,11 @@ public class ProvisioningPdfView extends AbstractPdfView {
 			throws Exception {
 		document.open();
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat dateAndHourFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		@SuppressWarnings("unchecked")
 		List<ProvisioningRequest> provisionings = (List<ProvisioningRequest>) model.get("provisionings");
+
+		HashMap<Integer,Date> dates = (HashMap<Integer,Date>) model.get("confirmDates");
 
 		// Fuentes
 		Font fontHeader = new Font(Font.TIMES_ROMAN, 11f, Font.NORMAL, Color.BLACK);
@@ -95,13 +96,20 @@ public class ProvisioningPdfView extends AbstractPdfView {
 			cb.beginText();
 			cb.setFontAndSize(bf_times, 11f);
 			cb.setTextMatrix(230 * 2.8346f, 200 * 2.8346f);
-			cb.showText("Fecha: " + dateFormatter.format(provisioningRequest.getDeliveryDate()));
+			cb.showText("Fecha de Entrega: " + dateFormatter.format(provisioningRequest.getDeliveryDate()));
 			cb.endText();
 
 			// SOLICITUD NRO
 			cb.beginText();
 			cb.setTextMatrix(230 * 2.8346f, 195 * 2.8346f);
 			cb.showText("Pedido Nro.: " + StringUtility.addLeadingZeros(provisioningRequest.getId().toString(), 8));
+			cb.endText();
+
+			// Fecha de Alta
+			cb.beginText();
+			cb.setTextMatrix(230 * 2.8346f, 190 * 2.8346f);
+			Date date = dates.get(provisioningRequest.getId());
+			cb.showText("Fecha Alta: " + dateAndHourFormatter.format(date));
 			cb.endText();
 
 			document.add(logo);

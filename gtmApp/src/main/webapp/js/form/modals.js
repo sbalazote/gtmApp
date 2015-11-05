@@ -242,61 +242,67 @@ $(document).ready(function() {
 
 		var id = 0;
 		var found = false;
-		var orderOutputDetails = [];
+		var deliveryNoteDetails = [];
 		serialsMap = {};
 		serialDetails = {};
 
-		for (var i = 0; i < response.orderOutputDetails.length; i++) {
+		for (var i = 0; i < response.deliveryNoteDetails.length; i++) {
 			found = false;
-			for (var j = 0; j < orderOutputDetails.length; j++) {
-				if (response.orderOutputDetails[i].product.id == orderOutputDetails[j].id) {
-					orderOutputDetails[j].amount += response.orderOutputDetails[i].amount;
+			for (var j = 0; j < deliveryNoteDetails.length; j++) {
+				if (response.deliveryNoteDetails[i].product.id == deliveryNoteDetails[j].id) {
+					deliveryNoteDetails[j].amount += response.deliveryNoteDetails[i].amount;
 					found = true;
 				}
 			}
 			if (!found) {
 				var deliveryNoteDetail = {};
-				deliveryNoteDetail.id = response.orderOutputDetails[i].id;
-				deliveryNoteDetail.code = response.orderOutputDetails[i].code;
-				deliveryNoteDetail.description = response.orderOutputDetails[i].product;
-				deliveryNoteDetail.amount = response.orderOutputDetails[i].amount;
-				deliveryNoteDetail.serialNumber = response.orderOutputDetails[i].serialNumber;
-				orderOutputDetails.push(deliveryNoteDetail);
+				var descriptionDiscriminator;
+				if (response.supplyingId != null) {
+					descriptionDiscriminator = (response.deliveryNoteDetails[i].inStock) ? "" : "(*)";
+				} else {
+					descriptionDiscriminator = "";
+				}
+				deliveryNoteDetail.id = response.deliveryNoteDetails[i].id;
+				deliveryNoteDetail.code = response.deliveryNoteDetails[i].code;
+				deliveryNoteDetail.description = response.deliveryNoteDetails[i].product + descriptionDiscriminator;
+				deliveryNoteDetail.amount = response.deliveryNoteDetails[i].amount;
+				deliveryNoteDetail.serialNumber = response.deliveryNoteDetails[i].serialNumber;
+				deliveryNoteDetails.push(deliveryNoteDetail);
 			}
 			// Guardo lote/vte y series para mostrar los detalles.
             var gtinNumber = "";
-            if(response.orderOutputDetails[i].gtinNumber != null){
-                gtinNumber = response.orderOutputDetails[i].gtinNumber;
+            if(response.deliveryNoteDetails[i].gtinNumber != null){
+                gtinNumber = response.deliveryNoteDetails[i].gtinNumber;
             }
 			serialDetails = {
 				id: id,
                 gtin: gtinNumber,
-				amount: response.orderOutputDetails[i].amount,
-				serialNumber: response.orderOutputDetails[i].serialNumber,
-				batch: response.orderOutputDetails[i].batch,
-				expirationDate: response.orderOutputDetails[i].expirationDate,
-				viewTraceability: "<a type='button' class='btn btn-sm btn-default' href='searchSerializedProduct.do?productId="+ response.orderOutputDetails[i].product.id + "&serial=" + response.orderOutputDetails[i].serialNumber + "' target='_blank'><span class='glyphicon glyphicon-search'></span> Ver Traza" + "<//a>"
+				amount: response.deliveryNoteDetails[i].amount,
+				serialNumber: response.deliveryNoteDetails[i].serialNumber,
+				batch: response.deliveryNoteDetails[i].batch,
+				expirationDate: response.deliveryNoteDetails[i].expirationDate,
+				viewTraceability: "<a type='button' class='btn btn-sm btn-default' href='searchSerializedProduct.do?productId="+ response.deliveryNoteDetails[i].product.id + "&serial=" + response.deliveryNoteDetails[i].serialNumber + "' target='_blank'><span class='glyphicon glyphicon-search'></span> Ver Traza" + "<//a>"
 
 			};
-			var item = serialsMap[response.orderOutputDetails[i].code] || [];
+			var item = serialsMap[response.deliveryNoteDetails[i].code] || [];
 			item.push(serialDetails);
-			serialsMap[response.orderOutputDetails[i].code] = item;
+			serialsMap[response.deliveryNoteDetails[i].code] = item;
 			id++;
 		}
 
 		var tableRow;
 		var command;
 		var aaData = [];
-		for (var i = 0; i < orderOutputDetails.length; i++) {
-			if (orderOutputDetails[i].serialNumber == null) {
-				command = "<button type=\"button\" data-toggle=\"modal\" data-src=\"#deliveryNoteModal\" data-target=\"#batchExpirationDatesModal\" data-code=\"" + orderOutputDetails[i].code + "\" data-description=\"" + orderOutputDetails[i].description + "\" class=\"btn btn-sm btn-default command-view\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
+		for (var i = 0; i < deliveryNoteDetails.length; i++) {
+			if (deliveryNoteDetails[i].serialNumber == null) {
+				command = "<button type=\"button\" data-toggle=\"modal\" data-src=\"#deliveryNoteModal\" data-target=\"#batchExpirationDatesModal\" data-code=\"" + deliveryNoteDetails[i].code + "\" data-description=\"" + deliveryNoteDetails[i].description + "\" class=\"btn btn-sm btn-default command-view\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
 			} else {
-				command = "<button type=\"button\" data-toggle=\"modal\" data-src=\"#deliveryNoteModal\" data-target=\"#serialsModal\" data-code=\"" + orderOutputDetails[i].code + "\" data-description=\"" + orderOutputDetails[i].description + "\" class=\"btn btn-sm btn-default command-view\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
+				command = "<button type=\"button\" data-toggle=\"modal\" data-src=\"#deliveryNoteModal\" data-target=\"#serialsModal\" data-code=\"" + deliveryNoteDetails[i].code + "\" data-description=\"" + deliveryNoteDetails[i].description + "\" class=\"btn btn-sm btn-default command-view\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
 			}
 			tableRow = {
-				code: orderOutputDetails[i].code,
-				description: orderOutputDetails[i].description,
-				amount: orderOutputDetails[i].amount,
+				code: deliveryNoteDetails[i].code,
+				description: deliveryNoteDetails[i].description,
+				amount: deliveryNoteDetails[i].amount,
 				command: command
 			};
 			aaData.push(tableRow);
@@ -574,56 +580,58 @@ $(document).ready(function() {
 
 	var populateProvisioningModal = function (response) {
 		var id = addLeadingZeros(response.id,8);
-			$("#provisioningRequestId").text("Numero: " + id);
+		$("#provisioningRequestId").text("Numero: " + id);
 
-			$('#deliveryLocationProvisioningRequestModal').val(response.deliveryLocation.code + " - " + response.deliveryLocation.name);
-			var code = addLeadingZeros(response.agreement.code,5);
-			$('#agreementProvisioningRequestModal').val(code + " - " + response.agreement.description);
-			if (response.logisticsOperator) {
-				$('#logisticsOperatorProvisioningRequestModal').val(response.logisticsOperator.code + " - " + response.logisticsOperator.name);
-			}
-			$('#affiliateProvisioningRequestModal').val(response.affiliate.code + " - " + response.affiliate.surname + " " + response.affiliate.name);
-			$('#deliveryDateProvisioningRequestModal').val(myParseDate(response.deliveryDate));
-			$('#commentProvisioningRequestModal').val(response.comment);
-			var clientCode = addLeadingZeros(response.client.code,4);
-			$('#clientProvisioningRequestModal').val(clientCode + " - " + response.client.name);
+		$("#provisioningRequestState").text(response.state.description);
 
-			var found = false;
-			var provisioningRequestDetails = [];
+		$('#deliveryLocationProvisioningRequestModal').val(response.deliveryLocation.code + " - " + response.deliveryLocation.name);
+		var code = addLeadingZeros(response.agreement.code,5);
+		$('#agreementProvisioningRequestModal').val(code + " - " + response.agreement.description);
+		if (response.logisticsOperator) {
+			$('#logisticsOperatorProvisioningRequestModal').val(response.logisticsOperator.code + " - " + response.logisticsOperator.name);
+		}
+		$('#affiliateProvisioningRequestModal').val(response.affiliate.code + " - " + response.affiliate.surname + " " + response.affiliate.name);
+		$('#deliveryDateProvisioningRequestModal').val(myParseDate(response.deliveryDate));
+		$('#commentProvisioningRequestModal').val(response.comment);
+		var clientCode = addLeadingZeros(response.client.code,4);
+		$('#clientProvisioningRequestModal').val(clientCode + " - " + response.client.name);
 
-			for (var i = 0; i < response.provisioningRequestDetails.length; i++) {
-				found = false;
-				for (var j = 0; j < provisioningRequestDetails.length; j++) {
-					if (response.provisioningRequestDetails[i].product.id == provisioningRequestDetails[j].id) {
-						provisioningRequestDetails[j].amount += response.provisioningRequestDetails[i].amount;
-						found = true;
-					}
-				}
-				if (!found) {
-					var provisioningRequestDetail = {};
-					provisioningRequestDetail.id = response.provisioningRequestDetails[i].product.id;
-					provisioningRequestDetail.code = response.provisioningRequestDetails[i].product.code;
-					provisioningRequestDetail.description = response.provisioningRequestDetails[i].product.description;
-					provisioningRequestDetail.amount = response.provisioningRequestDetails[i].amount;
-					provisioningRequestDetail.serialNumber = response.provisioningRequestDetails[i].serialNumber;
-					provisioningRequestDetails.push(provisioningRequestDetail);
+		var found = false;
+		var provisioningRequestDetails = [];
+
+		for (var i = 0; i < response.provisioningRequestDetails.length; i++) {
+			found = false;
+			for (var j = 0; j < provisioningRequestDetails.length; j++) {
+				if (response.provisioningRequestDetails[i].product.id == provisioningRequestDetails[j].id) {
+					provisioningRequestDetails[j].amount += response.provisioningRequestDetails[i].amount;
+					found = true;
 				}
 			}
-			var tableRow;
-			var aaData = [];
-			for (var i = 0; i < provisioningRequestDetails.length; i++) {
-				tableRow = {
-					code: provisioningRequestDetails[i].code,
-					description: provisioningRequestDetails[i].description,
-					amount: provisioningRequestDetails[i].amount
-				};
-				aaData.push(tableRow);
+			if (!found) {
+				var provisioningRequestDetail = {};
+				provisioningRequestDetail.id = response.provisioningRequestDetails[i].product.id;
+				provisioningRequestDetail.code = response.provisioningRequestDetails[i].product.code;
+				provisioningRequestDetail.description = response.provisioningRequestDetails[i].product.description;
+				provisioningRequestDetail.amount = response.provisioningRequestDetails[i].amount;
+				provisioningRequestDetail.serialNumber = response.provisioningRequestDetails[i].serialNumber;
+				provisioningRequestDetails.push(provisioningRequestDetail);
 			}
-			$("#provisioningRequestModalProductTable").bootgrid("clear").bootgrid("append", aaData);
-			modal = '#provisioningRequestModal';
-			$('#provisioningRequestModal').modal('show');
+		}
+		var tableRow;
+		var aaData = [];
+		for (var i = 0; i < provisioningRequestDetails.length; i++) {
+			tableRow = {
+				code: provisioningRequestDetails[i].code,
+				description: provisioningRequestDetails[i].description,
+				amount: provisioningRequestDetails[i].amount
+			};
+			aaData.push(tableRow);
+		}
+		$("#provisioningRequestModalProductTable").bootgrid("clear").bootgrid("append", aaData);
+		modal = '#provisioningRequestModal';
+		$('#provisioningRequestModal').modal('show');
 
-		};
+	};
 
 
 	showSupplyingModal = function (supplyingId) {
@@ -712,9 +720,10 @@ $(document).ready(function() {
 			}
 			if (!found) {
 				var supplyingDetail = {};
+				var descriptionDiscriminator = response.supplyingDetails[i].inStock ? "" : "(*)";
 				supplyingDetail.id = response.supplyingDetails[i].product.id;
 				supplyingDetail.code = response.supplyingDetails[i].product.code;
-				supplyingDetail.description = response.supplyingDetails[i].product.description;
+				supplyingDetail.description = response.supplyingDetails[i].product.description + descriptionDiscriminator;
 				supplyingDetail.amount = response.supplyingDetails[i].amount;
 				supplyingDetail.serialNumber = response.supplyingDetails[i].serialNumber;
 				supplyingDetails.push(supplyingDetail);
@@ -724,13 +733,13 @@ $(document).ready(function() {
             if(response.supplyingDetails[i].gtin != null){
                 gtinNumber = response.supplyingDetails[i].gtin.number;
             }
-			var descriptionDiscriminator = response.supplyingDetails[i].inStock ? "" : "(*)";
+
 			serialDetails = {
 				id: id,
                 gtin: gtinNumber,
 				amount: response.supplyingDetails[i].amount,
-				serialNumber: (response.supplyingDetails[i].serialNumber) ? (response.supplyingDetails[i].serialNumber + descriptionDiscriminator) : response.supplyingDetails[i].serialNumber,
-				batch: (response.supplyingDetails[i].serialNumber) ? response.supplyingDetails[i].batch : (response.supplyingDetails[i].batch + descriptionDiscriminator),
+				serialNumber: response.supplyingDetails[i].serialNumber,
+				batch: response.supplyingDetails[i].batch,
 				expirationDate: myParseDate(response.supplyingDetails[i].expirationDate),
 				viewTraceability: "<a type='button' class='btn btn-sm btn-default' href='searchSerializedProduct.do?productId="+ response.supplyingDetails[i].product.id + "&serial=" + response.supplyingDetails[i].serialNumber + "' target='_blank'><span class='glyphicon glyphicon-search'></span> Ver Traza" + "<//a>"
 			};

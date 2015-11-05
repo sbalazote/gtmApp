@@ -1,5 +1,7 @@
 package com.lsntsolutions.gtmApp.model;
 
+import com.lsntsolutions.gtmApp.constant.State;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -137,6 +139,10 @@ public class ProvisioningRequest implements Serializable {
 
 	public void setProvisioningRequestDetails(List<ProvisioningRequestDetail> provisioningRequestDetails) {
 		this.provisioningRequestDetails = provisioningRequestDetails;
+	}
+
+	public Boolean canCancel(){
+		return (this.state.getId().equals(State.ENTERED.getId()) || this.state.getId().equals(State.AUTHORIZED.getId()) || this.state.getId().equals(State.PRINTED.getId()));
 	}
 
 }

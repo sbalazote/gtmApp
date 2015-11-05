@@ -267,6 +267,12 @@ public class Product implements Serializable {
 		return this.description.hashCode() * this.getCode().hashCode();
 	}
 
+
+	@Override
+	public String toString(){
+		return this.code + " - " + this.description;
+	}
+
 	public ProductGtin getGtinByNumber(String number) {
 		ProductGtin gtin = null;
 		for (ProductGtin productGtin : this.gtins) {

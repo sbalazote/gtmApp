@@ -367,4 +367,17 @@ public class AuditDAOHibernateImpl implements AuditDAO {
         auditResultDTO.setDeliveryNotes(deliveryNoteAuditDTO);
 		return auditResultDTO;
 	}
+
+	@Override
+	public Date getDate(RoleOperation roleOperation, Integer operationId, AuditState auditState) {
+		Query query = this.sessionFactory.getCurrentSession().createQuery("from Audit where role.id = :roleId and operationId = :operationId and auditAction.id = :auditStateId");
+		query.setParameter("roleId",roleOperation.getId());
+		query.setParameter("operationId",operationId);
+		query.setParameter("auditStateId", auditState.getId());
+
+		if(query.list() != null)
+			return ((Audit)query.list().get(0)).getDate();
+		else
+			return null;
+	}
 }

@@ -309,10 +309,10 @@ VALUES (1,86,'FARMACIA','30686437228','FARMACIA',1,'C.A.B.A.','AGUERO 1223','142
 
 insert into `pharmacy_dev`.`role` values (1, 'INPUT', 'Ingreso');
 insert into `pharmacy_dev`.`role` values (2, 'OUTPUT', 'Egreso');
-insert into `pharmacy_dev`.`role` values (3, 'PROVISIONING_REQUEST', 'Solicitud de Abastecimiento');
-insert into `pharmacy_dev`.`role` values (4, 'PROVISIONING_REQUEST_UPDATE', 'Modificación de Solicitudes');
-insert into `pharmacy_dev`.`role` values (5, 'PROVISIONING_REQUEST_AUTHORIZATION', 'Autorización de Solicitudes');
-insert into `pharmacy_dev`.`role` values (6, 'PROVISIONING_REQUEST_CANCELLATION', 'Anulación de Solicitudes');
+insert into `pharmacy_dev`.`role` values (3, 'PROVISIONING_REQUEST', 'Pedido');
+insert into `pharmacy_dev`.`role` values (4, 'PROVISIONING_REQUEST_UPDATE', 'Modificación de Pedidos');
+insert into `pharmacy_dev`.`role` values (5, 'PROVISIONING_REQUEST_AUTHORIZATION', 'Autorización de Pedidos');
+insert into `pharmacy_dev`.`role` values (6, 'PROVISIONING_REQUEST_CANCELLATION', 'Anulación de Pedidos');
 insert into `pharmacy_dev`.`role` values (7, 'PROVISIONING_REQUEST_PRINT', 'Impresión de Hojas de Picking');
 insert into `pharmacy_dev`.`role` values (8, 'ORDER_ASSEMBLY', 'Armado de Pedido');
 insert into `pharmacy_dev`.`role` values (9, 'ORDER_ASSEMBLY_CANCELLATION', 'Anulación de Armado de Pedido');

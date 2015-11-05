@@ -56,29 +56,34 @@ public class ProvisioningRequestServiceImpl implements ProvisioningRequestServic
 	public OperationResult save(ProvisioningRequestDTO provisioningRequestDTO) {
 		ProvisioningRequest provisioningRequest = this.buildModel(provisioningRequestDTO);
 		OperationResult operationResult = new OperationResult();
-		if(this.checkAvaiableStock(provisioningRequest)) {
+		List<String> productsList = this.checkAvaiableStock(provisioningRequest);
+		if(productsList.isEmpty()) {
 			this.provisioningRequestDAO.save(provisioningRequest);
-			logger.info("Se han guardado los cambios exitosamente. Solicitud de Abastecimiento numero: " + provisioningRequest.getId());
+			logger.info("Se han guardado los cambios exitosamente. Pedido numero: " + provisioningRequest.getId());
 			operationResult.setOperationId(String.valueOf(provisioningRequest.getId()));
 			operationResult.setResultado(true);
 			return operationResult;
 		}else{
 			List<String> errors = new ArrayList<>();
-			errors.add("No fue posible asignar el stock por que no hay disponibilidad de algun producto");
+			errors.add("No fue posible asignar el stock por que no hay suficiente disponibilidad de el/los siguiente/s producto/s: ");
+			for(String product : productsList){
+				errors.add(product);
+			}
 			operationResult.setMyOwnErrors(errors);
 			operationResult.setResultado(false);
 		}
 		return operationResult;
 	}
 
-	private boolean checkAvaiableStock(ProvisioningRequest provisioningRequest) {
+	private List<String> checkAvaiableStock(ProvisioningRequest provisioningRequest) {
+		List<String> productsList = new ArrayList<>();
 		for(ProvisioningRequestDetail provisioningRequestDetail : provisioningRequest.getProvisioningRequestDetails()){
 			Long amount = this.stockService.getProductAmount(provisioningRequestDetail.getProduct().getId(),provisioningRequest.getAgreement().getId(),provisioningRequest.getId());
 			if(amount.compareTo(Long.valueOf(provisioningRequestDetail.getAmount())) < 0){
-				return false;
+				productsList.add(provisioningRequestDetail.getProduct().toString());
 			}
 		}
-		return true;
+		return productsList;
 	}
 
 	@Override
@@ -126,7 +131,7 @@ public class ProvisioningRequestServiceImpl implements ProvisioningRequestServic
 		try {
 			provisioningRequest.setDeliveryDate(deliveryDateFormatter.parse(provisioningRequestDTO.getDeliveryDate()));
 		} catch (Exception e) {
-			throw new RuntimeException("No se ha podido actualizar la fecha de entrega para la Solicitud de Abastecimiento " + provisioningRequest.getId(), e);
+			throw new RuntimeException("No se ha podido actualizar la fecha de entrega para el Pedido " + provisioningRequest.getId(), e);
 		}
 
 		Integer logisticsOperatorId = provisioningRequestDTO.getLogisticsOperatorId();
@@ -181,19 +186,20 @@ public class ProvisioningRequestServiceImpl implements ProvisioningRequestServic
 			provisioningRequest.setState(state);
 			this.save(provisioningRequest);
 
-			logger.info("Se ha autorizado la Solicitud de Abastecimiento numero: " + id);
+			logger.info("Se ha autorizado el Pedido numero: " + id);
 		}
 	}
 
 	@Override
-	public void cancelProvisioningRequests(List<Integer> provisioningIds) {
+	public boolean cancelProvisioningRequest(Integer provisioningRequestId) {
 		ProvisioningRequestState state = this.provisioningRequestStateService.get(State.CANCELED.getId());
-		for (Integer id : provisioningIds) {
-			ProvisioningRequest provisioningRequest = this.get(id);
+		ProvisioningRequest provisioningRequest = this.get(provisioningRequestId);
+		if(provisioningRequest.canCancel()) {
 			provisioningRequest.setState(state);
 			this.save(provisioningRequest);
-
-			logger.info("Se ha anulado la Solicitud de Abastecimiento numero: " + id);
+			return true;
+		}else{
+			return false;
 		}
 	}
 

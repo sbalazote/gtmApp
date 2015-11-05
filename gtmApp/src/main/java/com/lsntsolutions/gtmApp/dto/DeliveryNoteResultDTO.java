@@ -1,10 +1,10 @@
 package com.lsntsolutions.gtmApp.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.ibm.icu.text.SimpleDateFormat;
 import com.lsntsolutions.gtmApp.model.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DeliveryNoteResultDTO {
 	private String agreement;
@@ -20,14 +20,14 @@ public class DeliveryNoteResultDTO {
 	private String supplyingId;
 	private String outputId;
 	private String orderId;
-	private List<OutputOrderDetailResultDTO> orderOutputDetails;
+	private List<DeliveryNoteDetailResultDTO> deliveryNoteDetails;
 
-	public List<OutputOrderDetailResultDTO> getOrderOutputDetails() {
-		return this.orderOutputDetails;
+	public List<DeliveryNoteDetailResultDTO> getDeliveryNoteDetails() {
+		return this.deliveryNoteDetails;
 	}
 
-	public void setOrderOutputDetails(List<OutputOrderDetailResultDTO> orderOutputDetails) {
-		this.orderOutputDetails = orderOutputDetails;
+	public void setDeliveryNoteDetails(List<DeliveryNoteDetailResultDTO> deliveryNoteDetails) {
+		this.deliveryNoteDetails = deliveryNoteDetails;
 	}
 
 	public String getAgreement() {
@@ -130,7 +130,7 @@ public class DeliveryNoteResultDTO {
 	public void setFromDeliveryNote(DeliveryNote deliveryNote, Order order, Output output, Supplying supplying) {
 		SimpleDateFormat stringDate = new SimpleDateFormat("dd/MM/yyyy");
 		this.number = deliveryNote.getNumber();
-		List<OutputOrderDetailResultDTO> outpuOrderResultDTO = new ArrayList<OutputOrderDetailResultDTO>();
+		List<DeliveryNoteDetailResultDTO> deliveryNoteDetailResultDTO = new ArrayList<DeliveryNoteDetailResultDTO>();
 		if (output != null) {
 			String code = output.getAgreement().getFormatCode();
 			this.setAgreement(code + " - " + output.getAgreement().getDescription());
@@ -189,29 +189,29 @@ public class DeliveryNoteResultDTO {
 				if(od.getGtin()!=null){
 					gtin = od.getGtin().getNumber();
 				}
-				OutputOrderDetailResultDTO outputDetailDTO = new OutputOrderDetailResultDTO(od.getProduct().getId(), od.getProduct().getCode(), od.getProduct().getDescription(), od.getSerialNumber(),
-						od.getBatch(), stringDate.format(od.getExpirationDate()), od.getAmount(), od.getProduct().getId(),gtin);
-				outpuOrderResultDTO.add(outputDetailDTO);
+				DeliveryNoteDetailResultDTO outputDetailDTO = new DeliveryNoteDetailResultDTO(od.getProduct().getId(), od.getProduct().getCode(), od.getProduct().getDescription(), od.getSerialNumber(),
+						od.getBatch(), stringDate.format(od.getExpirationDate()), od.getAmount(), null, od.getProduct().getId(),gtin);
+				deliveryNoteDetailResultDTO.add(outputDetailDTO);
 			}
 			if (deliveryNoteDetail.getOrderDetail() != null) {
 				OrderDetail od = deliveryNoteDetail.getOrderDetail();
 				if(od.getGtin()!=null){
 					gtin = od.getGtin().getNumber();
 				}
-				OutputOrderDetailResultDTO outputDetailDTO = new OutputOrderDetailResultDTO(od.getProduct().getId(), od.getProduct().getCode(), od.getProduct().getDescription(), od.getSerialNumber(),
-						od.getBatch(), stringDate.format(od.getExpirationDate()), od.getAmount(), od.getProduct().getId(), gtin);
-				outpuOrderResultDTO.add(outputDetailDTO);
+				DeliveryNoteDetailResultDTO outputDetailDTO = new DeliveryNoteDetailResultDTO(od.getProduct().getId(), od.getProduct().getCode(), od.getProduct().getDescription(), od.getSerialNumber(),
+						od.getBatch(), stringDate.format(od.getExpirationDate()), od.getAmount(), null, od.getProduct().getId(), gtin);
+				deliveryNoteDetailResultDTO.add(outputDetailDTO);
 			}
             if (deliveryNoteDetail.getSupplyingDetail() != null) {
                 SupplyingDetail sd = deliveryNoteDetail.getSupplyingDetail();
 				if(sd.getGtin()!=null){
 					gtin = sd.getGtin().getNumber();
 				}
-                OutputOrderDetailResultDTO outputDetailDTO = new OutputOrderDetailResultDTO(sd.getProduct().getId(), sd.getProduct().getCode(), sd.getProduct().getDescription(), sd.getSerialNumber(),
-                        sd.getBatch(), stringDate.format(sd.getExpirationDate()), sd.getAmount(), sd.getProduct().getId(), gtin);
-                outpuOrderResultDTO.add(outputDetailDTO);
+                DeliveryNoteDetailResultDTO outputDetailDTO = new DeliveryNoteDetailResultDTO(sd.getProduct().getId(), sd.getProduct().getCode(), sd.getProduct().getDescription(), sd.getSerialNumber(),
+                        sd.getBatch(), stringDate.format(sd.getExpirationDate()), sd.getAmount(), sd.getInStock(), sd.getProduct().getId(), gtin);
+                deliveryNoteDetailResultDTO.add(outputDetailDTO);
             }
 		}
-		this.setOrderOutputDetails(outpuOrderResultDTO);
+		this.setDeliveryNoteDetails(deliveryNoteDetailResultDTO);
 	}
 }

@@ -41,29 +41,6 @@
 			</select>
 		</div>
 		<div class="col-md-4 col-lg-4 form-group">
-			<input type="hidden" class="form-control" id="affiliateId" value="${affiliate != null ? affiliate.id : ''}">
-			<input type="hidden" class="form-control" id="affiliateCode" value="${affiliate != null ? affiliate.code : ''}">
-			<input type="hidden" class="form-control" id="affiliateName" value="${affiliate != null ? affiliate.name : ''}">
-			<input type="hidden" class="form-control" id="affiliateSurname" value="${affiliate != null ? affiliate.surname : ''}">
-			<label for="affiliateInput"><spring:message code="common.affiliate" /></label>
-			<input type='hidden' id="affiliateInput" name="affiliate" class="form-control">
-				<%-- <c:forEach items="${affiliates}" var="affiliate">
-					<option value="${affiliate.id}" ${affiliateId == affiliate.id ? 'selected' : ''}><c:out value="${affiliate.code}"></c:out> - <c:out value="${affiliate.surname} ${affiliate.name}"></c:out></option>
-				</c:forEach> --%>
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-md-5 col-lg-5 form-group">
-			<label for="deliveryLocationInput"><spring:message code="common.deliveryLocation" /></label>
-			<select id="deliveryLocationInput" name="deliveryLocation" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
-				<option value=""></option>
-				<c:forEach items="${deliveryLocations}" var="deliveryLocation">
-					<option value="${deliveryLocation.id}" ${deliveryLocationId == deliveryLocation.id ? 'selected' : ''}><c:out value="${deliveryLocation.code}"></c:out> - <c:out value="${deliveryLocation.name}"></c:out></option>
-				</c:forEach>
-			</select>
-		</div>
-		<div class="col-md-3 col-lg-3 form-group">
 			<label for="deliveryDateInput"><spring:message code="common.deliveryDate" /></label>
 			<div class="input-group">
 				<input type="hidden" id="deliveryDatePreloadedInput" name="deliveryDatePreloaded" value="<fmt:formatDate pattern="dd/MM/yyyy" value="${deliveryDate}"/>"/>
@@ -73,12 +50,37 @@
 				</span>
 			</div>
 		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-8 col-lg-8 form-group">
+			<input type="hidden" class="form-control" id="affiliateId" value="${affiliate != null ? affiliate.id : ''}">
+			<input type="hidden" class="form-control" id="affiliateCode" value="${affiliate != null ? affiliate.code : ''}">
+			<input type="hidden" class="form-control" id="affiliateName" value="${affiliate != null ? affiliate.name : ''}">
+			<input type="hidden" class="form-control" id="affiliateSurname" value="${affiliate != null ? affiliate.surname : ''}">
+			<label for="affiliateInput"><spring:message code="common.affiliate" /></label>
+			<input type='hidden' id="affiliateInput" name="affiliate" class="form-control">
+			<%-- <c:forEach items="${affiliates}" var="affiliate">
+                <option value="${affiliate.id}" ${affiliateId == affiliate.id ? 'selected' : ''}><c:out value="${affiliate.code}"></c:out> - <c:out value="${affiliate.surname} ${affiliate.name}"></c:out></option>
+            </c:forEach> --%>
+		</div>
 		<div class="col-md-4 col-lg-4 form-group">
 			<label for="logisticsOperatorInput"><spring:message code="common.logisticsOperator" /></label>
 			<select id="logisticsOperatorInput" name="logisticsOperator" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 				<option value=""></option>
 				<c:forEach items="${logisticsOperators}" var="logisticsOperator">
 					<option value="${logisticsOperator.id}" ${logisticsOperatorId == logisticsOperator.id ? 'selected' : ''}><c:out value="${logisticsOperator.code}"></c:out> - <c:out value="${logisticsOperator.name}"></c:out></option>
+				</c:forEach>
+			</select>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12 col-lg-12 form-group">
+			<label for="deliveryLocationInput"><spring:message code="common.deliveryLocation" /></label>
+			<select id="deliveryLocationInput" name="deliveryLocation" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
+				<option value=""></option>
+				<c:forEach items="${deliveryLocations}" var="deliveryLocation">
+					<option value="${deliveryLocation.id}" ${deliveryLocationId == deliveryLocation.id ? 'selected' : ''}><c:out value="${deliveryLocation.code}"></c:out> - <c:out value="${deliveryLocation.name}"></c:out></option>
 				</c:forEach>
 			</select>
 		</div>

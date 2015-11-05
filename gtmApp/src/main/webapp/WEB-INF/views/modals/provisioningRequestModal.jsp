@@ -17,6 +17,9 @@
 						<div class="col-md-5 col-lg-3">
 							<h3 id="provisioningRequestId"></h3>
 						</div>
+						<div class="col-md-3 col-lg-3">
+							<h3 id="provisioningRequestState" style="color: green; font-weight: bold"></h3>
+						</div>
 					</div>
 				</div>
 				<div class="modal-body">
@@ -26,7 +29,6 @@
 
 							</div>
 						</div>
-
 						<div class="row">
 							<div class="col-md-4 col-lg-4 form-group">
 								<label for="agreementProvisioningRequestModal"><spring:message code="common.agreement" /></label>

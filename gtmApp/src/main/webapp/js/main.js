@@ -397,7 +397,7 @@ $(document).ready(function() {
 			var cookieValue = $.cookie('fileDownloadToken');
 			if (cookieValue == token) {
 				finishDownload();
-				myReload("success", "Se ha registrado la solicitud de abastecimiento n\u00famero: " + provisioningRequestId);
+				myReload("success", "Se ha registrado el Pedido n\u00famero: " + provisioningRequestId);
 			}
 		}, 1000);
 	}
@@ -411,7 +411,7 @@ $(document).ready(function() {
 			var cookieValue = $.cookie('fileDownloadToken');
 			if (cookieValue == token) {
 				finishDownload();
-				myReload("success", "Se han generado las hojas de Picking para las solicitudes de abastecimiento n\u00famero: " + provisioningRequestIds);
+				myReload("success", "Se han generado las hojas de Picking para los pedidos n\u00famero: " + provisioningRequestIds);
 			}
 		}, 1000);
 	}

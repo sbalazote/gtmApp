@@ -14,6 +14,7 @@ import javax.print.event.PrintJobAdapter;
 import javax.print.event.PrintJobEvent;
 import java.awt.print.PrinterJob;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
@@ -22,8 +23,9 @@ public class PrintOnPrinter {
 	private static final Logger logger = Logger.getLogger(PrintOnPrinter.class);
 
 	public boolean sendPDFToSpool(String printerName, String jobName, ByteArrayInputStream fileStream) {
+		PDDocument PDFDocument = null;
 		try {
-			PDDocument PDFDocument = PDDocument.load(fileStream);
+			PDFDocument = PDDocument.load(fileStream);
 			PrinterJob job = PrinterJob.getPrinterJob();
 			PrintService printerService = findPrinterService(printerName);
 			if (printerService == null) {
@@ -38,6 +40,15 @@ public class PrintOnPrinter {
 			return true;
 		} catch (Exception e) {
 			logger.error("Error al intentar imprimir documento!", e);
+		}
+		finally {
+			if (PDFDocument != null) {
+				try {
+					PDFDocument.close();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
 		}
 		return false;
 	}

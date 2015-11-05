@@ -42,10 +42,12 @@ $(document).ready(function() {
 			"showDuration": "300",
 			"hideDuration": "1000",
 			"timeOut": time,
+			"extendedTimeOut": time,
 			"showEasing": "swing",
 			"hideEasing": "linear",
 			"showMethod": "fadeIn",
 			"hideMethod": "fadeOut",
+			"tapToDismiss" : false,
 			"target": "#"+myDiv
 		}
 		// Muestro mensaje dependiendo el tipo.
@@ -71,35 +73,7 @@ $(document).ready(function() {
 	};
 	
 	// Alerts
-	assignProductsOutOfStockAlert = function(element) {
-		var assignOutOfStock = false;
-		
-		var dialogInstance = new BootstrapDialog.show({
-			type: BootstrapDialog.TYPE_WARNING,
-			size: BootstrapDialog.SIZE_LARGE,
-	        message: 'Desea asignar productos fuera de inventario?.',
-	        title: 'Advertencia!',
-	        closable: false,
-	        buttons: [{
-                label: 'No',
-                action: function(dialogItself) {
-                    //typeof dialogItself.getData('callback') === 'function' && dialogItself.getData('callback')(false);
-                    dialogItself.close();
-                }
-            }, {
-                label: 'Si',
-                cssClass: 'btn-primary',
-                action: function(dialogItself) {
-                    //typeof dialogItself.getData('callback') === 'function' && dialogItself.getData('callback')(true);
-                	assignOutOfStock = true;
-                    dialogItself.close();
-                }
-            }]
-		});
-		
-		return assignOutOfStock;
-	};
-	
+
 	myGenericError = function(element) {
 		var message = 'Ha ocurrido un error al intentar procesar su solicitud. Por favor, comun\u00edquese con el Administrador del Sistema.';
 		myShowAlert('danger', message, element);

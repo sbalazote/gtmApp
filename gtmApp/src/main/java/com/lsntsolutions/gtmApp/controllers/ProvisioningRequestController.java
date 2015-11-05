@@ -7,7 +7,6 @@ import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.dto.ProvisioningRequestDTO;
 import com.lsntsolutions.gtmApp.model.ProvisioningRequest;
 import com.lsntsolutions.gtmApp.query.ProvisioningQuery;
-import com.lsntsolutions.gtmApp.constant.DocumentType;
 import com.lsntsolutions.gtmApp.service.*;
 import com.lsntsolutions.gtmApp.util.OperationResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -99,7 +99,7 @@ public class ProvisioningRequestController {
 		ProvisioningRequest provisioningRequest = this.provisioningRequestService.get(provisioningRequestId);
 
 		Assert.notNull(provisioningRequest, "Sol. de Abastecimiento con identificador = " + provisioningRequestId + " no encontrada!");
-		Assert.isTrue(provisioningRequest.getState().getId().equals(State.ENTERED.getId()), "Solicitud de Abastecimiento no es modificable!");
+		Assert.isTrue(provisioningRequest.getState().getId().equals(State.ENTERED.getId()), "Pedido no es modificable!");
 
 		modelMap.put("agreements", this.agreementService.getAllActives());
 		modelMap.put("deliveryLocations", this.deliveryLocationService.getAllActives());
@@ -158,20 +158,29 @@ public class ProvisioningRequestController {
 
 	@RequestMapping(value = "/cancelProvisioningRequests", method = RequestMethod.POST)
 	public @ResponseBody
-	void cancelProvisioningRequests(@RequestBody List<Integer> provisioningIds) throws Exception {
-		this.provisioningRequestService.cancelProvisioningRequests(provisioningIds);
+	boolean cancelProvisioningRequests(@RequestBody Integer provisioningId) throws Exception {
+		boolean result = this.provisioningRequestService.cancelProvisioningRequest(provisioningId);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
-			for (Integer provisioningId : provisioningIds) {
-				this.auditService.addAudit(auth.getName(), RoleOperation.PROVISIONING_REQUEST_CANCELLATION.getId(), AuditState.CANCELLED, provisioningId);
-			}
+			this.auditService.addAudit(auth.getName(), RoleOperation.PROVISIONING_REQUEST_CANCELLATION.getId(), AuditState.CANCELLED, provisioningId);
 		}
+		return result;
 	}
 
 	@RequestMapping(value = "/provisionings", method = RequestMethod.POST)
 	public ModelAndView provisionings(HttpServletRequest request) {
 		ProvisioningQuery provisioningQuery = this.getProvisioningQuery(request);
-		return new ModelAndView("provisionings", "provisionings", this.provisioningRequestService.getProvisioningForSearch(provisioningQuery));
+		ModelAndView modelAndView =  new ModelAndView("provisionings");
+		ModelMap modelMap = new ModelMap();
+		List<ProvisioningRequest> provisioningRequests = this.provisioningRequestService.getProvisioningForSearch(provisioningQuery);
+		modelMap.put("provisionings", provisioningRequests);
+		HashMap<Integer, Date> provisioningConfirmDates = new HashMap<>();
+		for(ProvisioningRequest provisioningRequest : provisioningRequests){
+			provisioningConfirmDates.put(provisioningRequest.getId(),this.auditService.getDate(RoleOperation.PROVISIONING_REQUEST, provisioningRequest.getId(),AuditState.COMFIRMED));
+		}
+		modelMap.put("confirmDates", provisioningConfirmDates);
+		modelAndView.addAllObjects(modelMap);
+		return modelAndView;
 	}
 
 	private ProvisioningQuery getProvisioningQuery(HttpServletRequest request) {

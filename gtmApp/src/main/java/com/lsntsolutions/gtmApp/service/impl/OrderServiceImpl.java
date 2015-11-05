@@ -56,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
 		provisioningRequest.setState(this.provisioningRequestStateService.get(State.ASSEMBLED.getId()));
 		this.provisioningRequestService.save(provisioningRequest);
 
-		logger.info("Se ha armado el pedido para la para la Solicitud de Abastecimiento n�mero: " + provisioningRequest.getId() + ". Id de pedido: "
+		logger.info("Se ha armado el pedido para la para el Pedido n�mero: " + provisioningRequest.getId() + ". Id de pedido: "
 				+ order.getId());
 
 		return order;
@@ -109,7 +109,7 @@ public class OrderServiceImpl implements OrderService {
 			return order;
 
 		} catch (Exception e) {
-			throw new RuntimeException("No se ha podido mappear el OrderDTO relacionado con la Solicitud de Abastecimiento " + provisioningRequest.getId(), e);
+			throw new RuntimeException("No se ha podido mappear el OrderDTO relacionado con el Pedido " + provisioningRequest.getId(), e);
 		}
 	}
 
