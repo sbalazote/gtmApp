@@ -44,6 +44,7 @@
 				<th data-column-id="id" data-type="numeric" data-identifier="true"><spring:message code="provisioningRequest.provisioningRequestNumber" /></th>
 				<th data-column-id="client"><spring:message code="common.client" /></th>
 				<th data-column-id="agreement"><spring:message code="common.agreement" /></th>
+				<th data-column-id="state"><spring:message code="common.state" /></th>
 				<th data-column-id="date"><spring:message code="common.date" /></th>
 				<th data-column-id="action" data-formatter="action" data-sortable="false"><spring:message code="common.option" /></th>
 			</tr>

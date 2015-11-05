@@ -191,14 +191,15 @@ public class ProvisioningRequestServiceImpl implements ProvisioningRequestServic
 	}
 
 	@Override
-	public void cancelProvisioningRequests(List<Integer> provisioningIds) {
+	public boolean cancelProvisioningRequest(Integer provisioningRequestId) {
 		ProvisioningRequestState state = this.provisioningRequestStateService.get(State.CANCELED.getId());
-		for (Integer id : provisioningIds) {
-			ProvisioningRequest provisioningRequest = this.get(id);
+		ProvisioningRequest provisioningRequest = this.get(provisioningRequestId);
+		if(provisioningRequest.canCancel()) {
 			provisioningRequest.setState(state);
 			this.save(provisioningRequest);
-
-			logger.info("Se ha anulado el Pedido numero: " + id);
+			return true;
+		}else{
+			return false;
 		}
 	}
 

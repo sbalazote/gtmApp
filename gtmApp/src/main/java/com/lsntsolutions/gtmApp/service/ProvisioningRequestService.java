@@ -25,10 +25,10 @@ public interface ProvisioningRequestService {
 
 	void authorizeProvisioningRequests(List<Integer> provisioningIds);
 
-	void cancelProvisioningRequests(List<Integer> provisioningIds);
+	boolean cancelProvisioningRequest(Integer provisioningRequestId);
 
 	List<ProvisioningRequest> getFilterProvisionings(Integer agreementId, Integer clientId, Integer stateId);
 
-	public void reassignOperators(ProvisioningRequest provisioningRequest, Integer operatorLogisticId);
+	void reassignOperators(ProvisioningRequest provisioningRequest, Integer operatorLogisticId);
 
 }

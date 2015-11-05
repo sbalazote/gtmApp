@@ -7,7 +7,6 @@ import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.dto.ProvisioningRequestDTO;
 import com.lsntsolutions.gtmApp.model.ProvisioningRequest;
 import com.lsntsolutions.gtmApp.query.ProvisioningQuery;
-import com.lsntsolutions.gtmApp.constant.DocumentType;
 import com.lsntsolutions.gtmApp.service.*;
 import com.lsntsolutions.gtmApp.util.OperationResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -159,14 +158,13 @@ public class ProvisioningRequestController {
 
 	@RequestMapping(value = "/cancelProvisioningRequests", method = RequestMethod.POST)
 	public @ResponseBody
-	void cancelProvisioningRequests(@RequestBody List<Integer> provisioningIds) throws Exception {
-		this.provisioningRequestService.cancelProvisioningRequests(provisioningIds);
+	boolean cancelProvisioningRequests(@RequestBody Integer provisioningId) throws Exception {
+		boolean result = this.provisioningRequestService.cancelProvisioningRequest(provisioningId);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
-			for (Integer provisioningId : provisioningIds) {
-				this.auditService.addAudit(auth.getName(), RoleOperation.PROVISIONING_REQUEST_CANCELLATION.getId(), AuditState.CANCELLED, provisioningId);
-			}
+			this.auditService.addAudit(auth.getName(), RoleOperation.PROVISIONING_REQUEST_CANCELLATION.getId(), AuditState.CANCELLED, provisioningId);
 		}
+		return result;
 	}
 
 	@RequestMapping(value = "/provisionings", method = RequestMethod.POST)

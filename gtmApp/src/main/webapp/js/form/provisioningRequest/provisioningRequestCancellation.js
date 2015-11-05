@@ -17,10 +17,15 @@ var ProvisioningRequestCancellation = function() {
 				url: "cancelProvisioningRequests.do",
 				type: "POST",
 				contentType: "application/json",
-				data: JSON.stringify(requestsToCancel),
+				data: JSON.stringify(requestsToCancel[0]),
 				async: false,
 				success: function(response) {
-					myReload("success", "Se han anulado los siguientes pedidos: " + requestsToCancel);
+					if(response == true){
+						myReload("success", "Se han anulado los siguientes pedidos: " + requestsToCancel);
+					}else{
+						myShowAlert('danger', 'No es posible anular el pedido dado el estado actual del mismo.');
+					}
+
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					myGenericError();
@@ -53,7 +58,8 @@ var ProvisioningRequestCancellation = function() {
 					var row = {
 						"id": response.id,
 						"client": response.client.code + " " + response.client.name,
-						"agreement": response.agreement.code + " " + response.agreement.name,
+						"agreement": response.agreement.code + " " + response.agreement.description,
+						"state": response.state.description,
 						"date": myParseDate(response.deliveryDate),
 						"action": "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>"
 					};
