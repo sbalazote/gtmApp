@@ -6,6 +6,7 @@ $(document).ready(function() {
 	var dataSrc;
 	var dataCode;
 	var dataDescription;
+	var dataInStock;
 
 	$("#batchExpirationDatesTable").bootgrid()
 		.on("cleared.rs.jquery.bootgrid", function (e)
@@ -32,7 +33,7 @@ $(document).ready(function() {
 		var productDescription = dataDescription;
 
 		$("#batchExpirationDateProductDescription").text(productCode + " - " + productDescription);
-		serialDetails = serialsMap[productCode];
+		serialDetails = serialsMap[productCode+dataInStock];
 		$("#batchExpirationDatesTable").bootgrid("clear");
 	});
 
@@ -45,7 +46,7 @@ $(document).ready(function() {
 		var productDescription = dataDescription;
 
 		$("#serializedProductDescription").text(productCode + " - " + productDescription);
-		serialDetails = serialsMap[productCode];
+		serialDetails = serialsMap[productCode+dataInStock];
 		$("#serialsTable").bootgrid("clear");
 	});
 
@@ -107,7 +108,7 @@ $(document).ready(function() {
 		}else{
 			$('#logisticsOperatorModal').val("");
 		}
-        var code = addLeadingZeros(response.agreement.code,5);
+		var code = addLeadingZeros(response.agreement.code,5);
 		$('#agreementModal').val(code + " - " + response.agreement.description);
 		$('#deliveryNoteNumberModal').val(response.deliveryNoteNumber);
 		$('#purchaseOrderNumberModal').val(response.purchaseOrderNumber);
@@ -136,13 +137,13 @@ $(document).ready(function() {
 				inputDetails.push(inputDetail);
 			}
 			// Guardo lote/vte y series para mostrar los detalles.
-            var gtinNumber = "";
-            if(response.inputDetails[i].gtin != null){
-                gtinNumber = response.inputDetails[i].gtin.number;
-            }
+			var gtinNumber = "";
+			if(response.inputDetails[i].gtin != null){
+				gtinNumber = response.inputDetails[i].gtin.number;
+			}
 			serialDetails = {
 				id: id,
-                gtin: gtinNumber,
+				gtin: gtinNumber,
 				amount: response.inputDetails[i].amount,
 				serialNumber: response.inputDetails[i].serialNumber,
 				batch: response.inputDetails[i].batch,
@@ -270,13 +271,13 @@ $(document).ready(function() {
 				deliveryNoteDetails.push(deliveryNoteDetail);
 			}
 			// Guardo lote/vte y series para mostrar los detalles.
-            var gtinNumber = "";
-            if(response.deliveryNoteDetails[i].gtinNumber != null){
-                gtinNumber = response.deliveryNoteDetails[i].gtinNumber;
-            }
+			var gtinNumber = "";
+			if(response.deliveryNoteDetails[i].gtinNumber != null){
+				gtinNumber = response.deliveryNoteDetails[i].gtinNumber;
+			}
 			serialDetails = {
 				id: id,
-                gtin: gtinNumber,
+				gtin: gtinNumber,
 				amount: response.deliveryNoteDetails[i].amount,
 				serialNumber: response.deliveryNoteDetails[i].serialNumber,
 				batch: response.deliveryNoteDetails[i].batch,
@@ -332,38 +333,38 @@ $(document).ready(function() {
 
 	var populateOutputModal = function (response) {
 
-        var deliveriesNotesNumbers = [];
-        $.ajax({
-            url: "getOutputsDeliveriesNoteNumbers.do",
-            type: "GET",
-            async: false,
-            data: {
-                outputId: response.id
-            },
-            success: function (res) {
-                deliveriesNotesNumbers = res;
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                myGenericError();
-            }
-        });
+		var deliveriesNotesNumbers = [];
+		$.ajax({
+			url: "getOutputsDeliveriesNoteNumbers.do",
+			type: "GET",
+			async: false,
+			data: {
+				outputId: response.id
+			},
+			success: function (res) {
+				deliveriesNotesNumbers = res;
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				myGenericError();
+			}
+		});
 
-        var id = addLeadingZeros(response.id,8);
-        $("#outputId").text("Numero: " + id);
+		var id = addLeadingZeros(response.id,8);
+		$("#outputId").text("Numero: " + id);
 
-        if (response.cancelled) {
-            $("#outputCancelled").show();
-        } else {
-            $("#outputCancelled").hide();
-        }
+		if (response.cancelled) {
+			$("#outputCancelled").show();
+		} else {
+			$("#outputCancelled").hide();
+		}
 
-        if(deliveriesNotesNumbers.length > 0){
+		if(deliveriesNotesNumbers.length > 0){
 			$("#outputDeliveriesNotesLabel").show();
 			$("#outputDeliveriesNotesNumbers").html("");
 			$.each(deliveriesNotesNumbers, function( index, value ) {
 				$("#outputDeliveriesNotesNumbers").append("<span class=\"label label-info\">" + value + "</span> ");
 			});
-        } else {
+		} else {
 			$("#outputDeliveriesNotesLabel").hide();
 			$("#outputDeliveriesNotesNumbers").html("");
 		}
@@ -388,7 +389,7 @@ $(document).ready(function() {
 			clientOrProviderCode = addLeadingZeros(response.deliveryLocation.code,4);
 			$('#clientOrProviderModalOutput').val(clientOrProviderCode + " - " + response.deliveryLocation.name);
 		}
-        var code = addLeadingZeros(response.agreement.code,5);
+		var code = addLeadingZeros(response.agreement.code,5);
 		$('#agreementModalOutput').val(code + " - " + response.agreement.description);
 
 		var id = 0;
@@ -415,13 +416,13 @@ $(document).ready(function() {
 				outputDetails.push(outputDetail);
 			}
 			// Guardo lote/vte y series para mostrar los detalles.
-            var gtinNumber = "";
-            if(response.outputDetails[i].gtin != null){
-                gtinNumber = response.outputDetails[i].gtin.number;
-            }
+			var gtinNumber = "";
+			if(response.outputDetails[i].gtin != null){
+				gtinNumber = response.outputDetails[i].gtin.number;
+			}
 			serialDetails = {
 				id: id,
-                gtin: gtinNumber,
+				gtin: gtinNumber,
 				amount: response.outputDetails[i].amount,
 				serialNumber: response.outputDetails[i].serialNumber,
 				batch: response.outputDetails[i].batch,
@@ -653,27 +654,27 @@ $(document).ready(function() {
 
 	var populateSupplyingModal = function (response) {
 
-        var deliveriesNotesNumbers = [];
-        $.ajax({
-            url: "getSupplyingsDeliveriesNoteNumbers.do",
-            type: "GET",
-            async: false,
-            data: {
-                supplyingId: response.id
-            },
-            success: function (res) {
-                deliveriesNotesNumbers = res;
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                myGenericError();
-            }
-        });
+		var deliveriesNotesNumbers = [];
+		$.ajax({
+			url: "getSupplyingsDeliveriesNoteNumbers.do",
+			type: "GET",
+			async: false,
+			data: {
+				supplyingId: response.id
+			},
+			success: function (res) {
+				deliveriesNotesNumbers = res;
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				myGenericError();
+			}
+		});
 
-        var id = addLeadingZeros(response.id,8);
+		var id = addLeadingZeros(response.id,8);
 		$("#supplyingId").text("Numero: " + id);
 
 		if (response.cancelled) {
-            $("#supplyingCancelled").show();
+			$("#supplyingCancelled").show();
 		} else {
 			$("#supplyingCancelled").hide();
 		}
@@ -696,7 +697,7 @@ $(document).ready(function() {
 			$("#supplyingModalANMATCode").hide();
 			$("#supplyingModalTransactionCode").text("");
 		}
-        var code = addLeadingZeros(response.agreement.code,5);
+		var code = addLeadingZeros(response.agreement.code,5);
 		$('#supplyingModalAgreementInput').val(code + " - " + response.agreement.description);
 
 		$('#supplyingModalDateInput').val(myParseDate(response.date));
@@ -713,7 +714,7 @@ $(document).ready(function() {
 		for (var i = 0; i < response.supplyingDetails.length; i++) {
 			found = false;
 			for (var j = 0; j < supplyingDetails.length; j++) {
-				if (response.supplyingDetails[i].product.id == supplyingDetails[j].id) {
+				if ((response.supplyingDetails[i].product.description + (response.supplyingDetails[i].inStock ? "" : "(*)")) == supplyingDetails[j].description) {
 					supplyingDetails[j].amount += response.supplyingDetails[i].amount;
 					found = true;
 				}
@@ -726,26 +727,27 @@ $(document).ready(function() {
 				supplyingDetail.description = response.supplyingDetails[i].product.description + descriptionDiscriminator;
 				supplyingDetail.amount = response.supplyingDetails[i].amount;
 				supplyingDetail.serialNumber = response.supplyingDetails[i].serialNumber;
+				supplyingDetail.inStock = descriptionDiscriminator;
 				supplyingDetails.push(supplyingDetail);
 			}
 			// Guardo lote/vte y series para mostrar los detalles.
-            var gtinNumber = "";
-            if(response.supplyingDetails[i].gtin != null){
-                gtinNumber = response.supplyingDetails[i].gtin.number;
-            }
+			var gtinNumber = "";
+			if(response.supplyingDetails[i].gtin != null){
+				gtinNumber = response.supplyingDetails[i].gtin.number;
+			}
 
 			serialDetails = {
 				id: id,
-                gtin: gtinNumber,
+				gtin: gtinNumber,
 				amount: response.supplyingDetails[i].amount,
 				serialNumber: response.supplyingDetails[i].serialNumber,
 				batch: response.supplyingDetails[i].batch,
 				expirationDate: myParseDate(response.supplyingDetails[i].expirationDate),
 				viewTraceability: "<a type='button' class='btn btn-sm btn-default' href='searchSerializedProduct.do?productId="+ response.supplyingDetails[i].product.id + "&serial=" + response.supplyingDetails[i].serialNumber + "' target='_blank'><span class='glyphicon glyphicon-search'></span> Ver Traza" + "<//a>"
 			};
-			var item = serialsMap[response.supplyingDetails[i].product.code] || [];
+			var item = serialsMap[response.supplyingDetails[i].product.code + (response.supplyingDetails[i].inStock ? "" : "(*)")] || [];
 			item.push(serialDetails);
-			serialsMap[response.supplyingDetails[i].product.code] = item;
+			serialsMap[response.supplyingDetails[i].product.code + (response.supplyingDetails[i].inStock ? "" : "(*)")] = item;
 			id++;
 		}
 
@@ -754,9 +756,9 @@ $(document).ready(function() {
 		var aaData = [];
 		for (var i = 0; i < supplyingDetails.length; i++) {
 			if (supplyingDetails[i].serialNumber == null) {
-				command = "<button type=\"button\" data-toggle=\"modal\" data-src=\"#supplyingModal\" data-target=\"#batchExpirationDatesModal\" data-code=\"" + supplyingDetails[i].code + "\" data-description=\"" + supplyingDetails[i].description + "\" class=\"btn btn-sm btn-default command-view\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
+				command = "<button type=\"button\" data-toggle=\"modal\" data-src=\"#supplyingModal\" data-target=\"#batchExpirationDatesModal\" data-code=\"" + supplyingDetails[i].code + "\" data-description=\"" + supplyingDetails[i].description + "\" data-inStock=\"" + supplyingDetails[i].inStock + "\" class=\"btn btn-sm btn-default command-view\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
 			} else {
-				command = "<button type=\"button\" data-toggle=\"modal\" data-src=\"#supplyingModal\" data-target=\"#serialsModal\" data-code=\"" + supplyingDetails[i].code + "\" data-description=\"" + supplyingDetails[i].description + "\" class=\"btn btn-sm btn-default command-view\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
+				command = "<button type=\"button\" data-toggle=\"modal\" data-src=\"#supplyingModal\" data-target=\"#serialsModal\" data-code=\"" + supplyingDetails[i].code + "\" data-description=\"" + supplyingDetails[i].description + "\" data-inStock=\"" + supplyingDetails[i].inStock + "\" class=\"btn btn-sm btn-default command-view\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
 			}
 			tableRow = {
 				code: supplyingDetails[i].code,
@@ -776,6 +778,7 @@ $(document).ready(function() {
 		dataSrc = $(this).attr("data-src");
 		dataCode = $(this).attr("data-code");
 		dataDescription = $(this).attr("data-description");
+		dataInStock = dataSrc == "#supplyingModal" ? $(this).attr("data-inStock") : "";
 		$($(this).attr("data-target")).modal("show");
 	});
 });
