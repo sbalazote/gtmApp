@@ -99,7 +99,7 @@ public class ProvisioningRequestController {
 		ProvisioningRequest provisioningRequest = this.provisioningRequestService.get(provisioningRequestId);
 
 		Assert.notNull(provisioningRequest, "Sol. de Abastecimiento con identificador = " + provisioningRequestId + " no encontrada!");
-		Assert.isTrue(provisioningRequest.getState().getId().equals(State.ENTERED.getId()), "Solicitud de Abastecimiento no es modificable!");
+		Assert.isTrue(provisioningRequest.getState().getId().equals(State.ENTERED.getId()), "Pedido no es modificable!");
 
 		modelMap.put("agreements", this.agreementService.getAllActives());
 		modelMap.put("deliveryLocations", this.deliveryLocationService.getAllActives());

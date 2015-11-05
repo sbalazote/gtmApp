@@ -33,14 +33,14 @@ ProvisioningRequestAuthorization = function() {
 				data: JSON.stringify(requestsToApprove),
 				async: false,
 				success: function(response) {
-					myReload("success", "Se han autorizado las siguientes solicitudes: " + requestsToApprove);
+					myReload("success", "Se han autorizado los siguientes pedidos: " + requestsToApprove);
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					myGenericError();
 				}
 			});
 		}else{
-			myShowAlert('info', 'Seleccione al menos una Solicitud de Abastecimiento para AUTORIZAR');
+			myShowAlert('info', 'Seleccione al menos un Pedido para AUTORIZAR');
 		}
 	});
 	

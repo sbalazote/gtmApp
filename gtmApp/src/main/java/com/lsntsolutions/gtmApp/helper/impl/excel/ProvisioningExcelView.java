@@ -23,7 +23,7 @@ public class ProvisioningExcelView extends AbstractExcelView {
 	@Override
 	protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-		Sheet sheet = workbook.createSheet("SOLICITUDES");
+		Sheet sheet = workbook.createSheet("PEDIDOS");
 
 		@SuppressWarnings("unchecked")
 		List<ProvisioningRequest> provisionings = (List<ProvisioningRequest>) model.get("provisionings");

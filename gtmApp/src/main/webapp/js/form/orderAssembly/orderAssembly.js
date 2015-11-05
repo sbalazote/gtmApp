@@ -197,7 +197,7 @@ OrderAssembly = function() {
 					$.blockUI({ message: 'Espere un Momento por favor...' });
 				},
 				success: function(response) {
-					myRedirect("success", "Se ha generado exitosamente el pedido para la Solicitud n\u00famero: " + response.id, "orderAssemblySelection.do");
+					myRedirect("success", "Se ha generado exitosamente el armadoa para el pedido n\u00famero: " + response.id, "orderAssemblySelection.do");
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					myGenericError();

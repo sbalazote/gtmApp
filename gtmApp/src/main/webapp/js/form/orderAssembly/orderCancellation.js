@@ -47,7 +47,7 @@ var OrderCancellation = function() {
 				data: JSON.stringify(requestsToCancel),
 				async: false,
 				success: function(response) {
-					myReload("success", "Se han anulado las siguientes solicitudes: " + requestsToCancel);
+					myReload("success", "Se han anulado los siguientes pedidos: " + requestsToCancel);
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					myGenericError();
