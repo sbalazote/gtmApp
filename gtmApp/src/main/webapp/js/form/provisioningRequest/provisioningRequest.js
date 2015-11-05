@@ -250,6 +250,7 @@ var ProvisioningRequest = function() {
 	$('#amountModal').on('hidden.bs.modal', function () {
 	    cleanAmountModal();
 	    cleanProductInput();
+		$('#productInput').focus();
 	});
 	
 	$('#amountModal').on('keypress', function(e) {
