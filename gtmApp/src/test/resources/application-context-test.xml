@@ -36,8 +36,8 @@
 	<bean id="webServiceHelper" class="com.lsntsolutions.gtmApp.webservice.WebServiceHelper" />
 	<bean id="inputWSHelper" class="com.lsntsolutions.gtmApp.webservice.helper.InputWSHelper" />
 	<bean id="deliveryNoteWSHelper" class="com.lsntsolutions.gtmApp.webservice.helper.DeliveryNoteWSHelper" />
-	
-	
+
+	<bean id="deliveryNoteConfig" class="com.lsntsolutions.gtmApp.util.DeliveryNoteConfig" />
 	<bean id="webService" class="com.lsntsolutions.gtmApp.webservice.WebService" />
 	
 	<bean id="printOnPrinter" class="com.lsntsolutions.gtmApp.helper.PrintOnPrinter" />

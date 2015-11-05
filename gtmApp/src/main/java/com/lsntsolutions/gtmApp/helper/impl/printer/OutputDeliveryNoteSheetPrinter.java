@@ -35,11 +35,7 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 	private static int SERIAL_DETAIL_LINE_OFFSET_Y = 20;
 
 	@Autowired
-	private ProvisioningRequestService provisioningRequestService;
-	@Autowired
 	private PropertyService PropertyService;
-	@Autowired
-	private ProvisioningRequestStateService provisioningRequestStateService;
 	@Autowired
 	private OutputService outputService;
 	@Autowired
@@ -77,7 +73,6 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 	public List<String> print(String userName, List<Integer> outputsIds) {
 		this.userName = userName;
 		printsNumbers = new ArrayList<>();
-		ProvisioningRequestState state = this.provisioningRequestStateService.get(State.DELIVERY_NOTE_PRINTED.getId());
 		currentDate = new Date();
 		for (Integer id : outputsIds) {
 			output = this.outputService.get(id);

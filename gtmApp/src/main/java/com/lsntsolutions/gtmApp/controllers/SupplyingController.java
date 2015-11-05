@@ -4,8 +4,10 @@ import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.DocumentType;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.SupplyingDTO;
+import com.lsntsolutions.gtmApp.helper.impl.printer.SupplyingDeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.helper.impl.printer.SupplyingFakeDeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.model.DeliveryNote;
+import com.lsntsolutions.gtmApp.model.Property;
 import com.lsntsolutions.gtmApp.model.Supplying;
 import com.lsntsolutions.gtmApp.query.SupplyingQuery;
 import com.lsntsolutions.gtmApp.service.*;
@@ -19,10 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class SupplyingController {
@@ -39,6 +38,10 @@ public class SupplyingController {
 	private DeliveryNoteService deliveryNoteService;
 	@Autowired
 	private SupplyingFakeDeliveryNoteSheetPrinter supplyingFakeDeliveryNoteSheetPrinter;
+	@Autowired
+	private SupplyingDeliveryNoteSheetPrinter supplyingDeliveryNoteSheetPrinter;
+	@Autowired
+	private PropertyService propertyService;
 
 	@RequestMapping(value = "/supplying", method = RequestMethod.GET)
 	public String supplying(ModelMap modelMap) throws Exception {
@@ -52,14 +55,22 @@ public class SupplyingController {
 	@RequestMapping(value = "/saveSupplying", method = RequestMethod.POST)
 	public @ResponseBody
 	Supplying saveSupplying(@RequestBody SupplyingDTO supplyingDTO, HttpServletRequest request) throws Exception {
-		Supplying supplying = this.supplyingService.save(supplyingDTO);
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null) {
-			this.auditService.addAudit(auth.getName(), RoleOperation.SUPPLYING.getId(), AuditState.COMFIRMED, supplying.getId());
+		Supplying supplying = null;
+		if(this.propertyService.get().getSupplyingConcept() != null) {
+			supplying = this.supplyingService.save(supplyingDTO);
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if (auth != null) {
+				this.auditService.addAudit(auth.getName(), RoleOperation.SUPPLYING.getId(), AuditState.COMFIRMED, supplying.getId());
+			}
+			if (this.propertyService.get().getSupplyingConcept().isPrintDeliveryNote()) {
+				List<Integer> supplyings = new ArrayList<>();
+				supplyings.add(supplying.getId());
+				List<String> deliveryNotes = this.supplyingDeliveryNoteSheetPrinter.print(auth.getName(), supplyings);
+			} else {
+				Integer deliveryNote = this.supplyingFakeDeliveryNoteSheetPrinter.print(supplying);
+				this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote);
+			}
 		}
-		Integer deliveryNote = this.supplyingFakeDeliveryNoteSheetPrinter.print(supplying);
-		this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote);
-
 		return supplying;
 	}
 
