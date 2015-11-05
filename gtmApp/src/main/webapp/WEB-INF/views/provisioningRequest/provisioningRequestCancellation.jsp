@@ -19,7 +19,24 @@
 			<h3><spring:message code="provisioningRequest.cancellation.label"/></h3>
 		</div>
 	</div>
-	
+	<div class="row">
+		<div class="col-md-8 col-lg-8 form-group">
+			<label for="provisioningRequestSearch"><spring:message code="provisioningRequest.label"/></label>
+			<input type="text" class="form-control" name="provisioningRequestSearch" id="provisioningRequestSearch" >
+		</div>
+		<div class="col-md-2 col-lg-2 form-margin">
+			<button class="btn btn-success btn-block" type="submit" id="searchButton">
+				<span class="glyphicon glyphicon-search"></span>
+				<spring:message code="common.search" />
+			</button>
+		</div>
+		<div class="col-md-2 col-lg-2 form-margin">
+			<button class="btn btn-info btn-block" type="submit" id="cleanButton">
+				<span class="glyphicon glyphicon-trash"></span>
+				<spring:message code="common.clean" />
+			</button>
+		</div>
+	</div>
 	<div>
 		<table class="table table-condensed table-hover table-striped" id="provisioningTable">
 			<thead>
@@ -27,20 +44,11 @@
 				<th data-column-id="id" data-type="numeric" data-identifier="true"><spring:message code="provisioningRequest.provisioningRequestNumber" /></th>
 				<th data-column-id="client"><spring:message code="common.client" /></th>
 				<th data-column-id="agreement"><spring:message code="common.agreement" /></th>
-				<th data-column-id="data"><spring:message code="common.date" /></th>
+				<th data-column-id="date"><spring:message code="common.date" /></th>
 				<th data-column-id="action" data-formatter="action" data-sortable="false"><spring:message code="common.option" /></th>
 			</tr>
 		</thead>
 	   	 	<tbody id="provisioningTableBody">
-				<c:forEach items="${provisionings}" var="provisioning" varStatus="status">
-				<tr>
-					<td><c:out value="${provisioning.id}"></c:out></td>
-					<td><c:out value="${provisioning.client.name}"></c:out></td>
-					<td><c:out value="${provisioning.agreement.description}"></c:out></td>
-					<td><fmt:formatDate value="${provisioning.deliveryDate}" pattern="dd/MM/yyyy" /></td>
-					<td><spring:message code="common.view"/></td>
-				</tr>
-				</c:forEach>
 			</tbody>
 		</table>
 	</div>

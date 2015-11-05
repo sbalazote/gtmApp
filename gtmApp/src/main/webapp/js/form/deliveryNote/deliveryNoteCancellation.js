@@ -41,26 +41,8 @@ DeliveryNoteCancellation = function() {
 	});
 
 	$("#searchButton").click(function() {
-		/*$.ajax({
-			url: "getCountDeliveryNoteSearch.do",
-			type: "POST",
-			contentType:"application/json",
-			async: false,
-			data: JSON.stringify(jsonInputSearch),
-			success: function(response) {
-				if(response == true){
-					makeQuery(jsonInputSearch);
-				}else{
-					$('#queryTooLarge').modal('show');
-				}
-			},
-			error: function(jqXHR, textStatus, errorThrown) {
-				myGenericError();
-			}
-		});*/
 		var deliveryNoteNumber = "";
 		if($("#POSDeliveryNoteNumberSearch").val() != "" && $("#deliveryNoteNumberSearch").val() != ""){
-			deliveryNoteNumber = $("#POSDeliveryNoteNumberSearch").val() + "-" + $("#deliveryNoteNumberSearch").val();
 			deliveryNoteNumber = $("#POSDeliveryNoteNumberSearch").val() + "-" + $("#deliveryNoteNumberSearch").val();
 		}
 		makeQuery(deliveryNoteNumber);
@@ -83,7 +65,6 @@ DeliveryNoteCancellation = function() {
 						"option": (index.charAt(0) == "A") ? "<button type=\"button\" class=\"btn btn-sm btn-default view-order-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>" : (index.charAt(0) == "E") ? "<button type=\"button\" class=\"btn btn-sm btn-default view-output-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>" : "<button type=\"button\" class=\"btn btn-sm btn-default view-supplying-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>"
 					};
 					aaData.push(row);
-
 				});
 				$("#deliveryNoteTable").bootgrid({
 					caseSensitive: false,

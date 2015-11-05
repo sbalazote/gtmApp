@@ -580,56 +580,58 @@ $(document).ready(function() {
 
 	var populateProvisioningModal = function (response) {
 		var id = addLeadingZeros(response.id,8);
-			$("#provisioningRequestId").text("Numero: " + id);
+		$("#provisioningRequestId").text("Numero: " + id);
 
-			$('#deliveryLocationProvisioningRequestModal').val(response.deliveryLocation.code + " - " + response.deliveryLocation.name);
-			var code = addLeadingZeros(response.agreement.code,5);
-			$('#agreementProvisioningRequestModal').val(code + " - " + response.agreement.description);
-			if (response.logisticsOperator) {
-				$('#logisticsOperatorProvisioningRequestModal').val(response.logisticsOperator.code + " - " + response.logisticsOperator.name);
-			}
-			$('#affiliateProvisioningRequestModal').val(response.affiliate.code + " - " + response.affiliate.surname + " " + response.affiliate.name);
-			$('#deliveryDateProvisioningRequestModal').val(myParseDate(response.deliveryDate));
-			$('#commentProvisioningRequestModal').val(response.comment);
-			var clientCode = addLeadingZeros(response.client.code,4);
-			$('#clientProvisioningRequestModal').val(clientCode + " - " + response.client.name);
+		$("#provisioningRequestState").text(response.state.description);
 
-			var found = false;
-			var provisioningRequestDetails = [];
+		$('#deliveryLocationProvisioningRequestModal').val(response.deliveryLocation.code + " - " + response.deliveryLocation.name);
+		var code = addLeadingZeros(response.agreement.code,5);
+		$('#agreementProvisioningRequestModal').val(code + " - " + response.agreement.description);
+		if (response.logisticsOperator) {
+			$('#logisticsOperatorProvisioningRequestModal').val(response.logisticsOperator.code + " - " + response.logisticsOperator.name);
+		}
+		$('#affiliateProvisioningRequestModal').val(response.affiliate.code + " - " + response.affiliate.surname + " " + response.affiliate.name);
+		$('#deliveryDateProvisioningRequestModal').val(myParseDate(response.deliveryDate));
+		$('#commentProvisioningRequestModal').val(response.comment);
+		var clientCode = addLeadingZeros(response.client.code,4);
+		$('#clientProvisioningRequestModal').val(clientCode + " - " + response.client.name);
 
-			for (var i = 0; i < response.provisioningRequestDetails.length; i++) {
-				found = false;
-				for (var j = 0; j < provisioningRequestDetails.length; j++) {
-					if (response.provisioningRequestDetails[i].product.id == provisioningRequestDetails[j].id) {
-						provisioningRequestDetails[j].amount += response.provisioningRequestDetails[i].amount;
-						found = true;
-					}
-				}
-				if (!found) {
-					var provisioningRequestDetail = {};
-					provisioningRequestDetail.id = response.provisioningRequestDetails[i].product.id;
-					provisioningRequestDetail.code = response.provisioningRequestDetails[i].product.code;
-					provisioningRequestDetail.description = response.provisioningRequestDetails[i].product.description;
-					provisioningRequestDetail.amount = response.provisioningRequestDetails[i].amount;
-					provisioningRequestDetail.serialNumber = response.provisioningRequestDetails[i].serialNumber;
-					provisioningRequestDetails.push(provisioningRequestDetail);
+		var found = false;
+		var provisioningRequestDetails = [];
+
+		for (var i = 0; i < response.provisioningRequestDetails.length; i++) {
+			found = false;
+			for (var j = 0; j < provisioningRequestDetails.length; j++) {
+				if (response.provisioningRequestDetails[i].product.id == provisioningRequestDetails[j].id) {
+					provisioningRequestDetails[j].amount += response.provisioningRequestDetails[i].amount;
+					found = true;
 				}
 			}
-			var tableRow;
-			var aaData = [];
-			for (var i = 0; i < provisioningRequestDetails.length; i++) {
-				tableRow = {
-					code: provisioningRequestDetails[i].code,
-					description: provisioningRequestDetails[i].description,
-					amount: provisioningRequestDetails[i].amount
-				};
-				aaData.push(tableRow);
+			if (!found) {
+				var provisioningRequestDetail = {};
+				provisioningRequestDetail.id = response.provisioningRequestDetails[i].product.id;
+				provisioningRequestDetail.code = response.provisioningRequestDetails[i].product.code;
+				provisioningRequestDetail.description = response.provisioningRequestDetails[i].product.description;
+				provisioningRequestDetail.amount = response.provisioningRequestDetails[i].amount;
+				provisioningRequestDetail.serialNumber = response.provisioningRequestDetails[i].serialNumber;
+				provisioningRequestDetails.push(provisioningRequestDetail);
 			}
-			$("#provisioningRequestModalProductTable").bootgrid("clear").bootgrid("append", aaData);
-			modal = '#provisioningRequestModal';
-			$('#provisioningRequestModal').modal('show');
+		}
+		var tableRow;
+		var aaData = [];
+		for (var i = 0; i < provisioningRequestDetails.length; i++) {
+			tableRow = {
+				code: provisioningRequestDetails[i].code,
+				description: provisioningRequestDetails[i].description,
+				amount: provisioningRequestDetails[i].amount
+			};
+			aaData.push(tableRow);
+		}
+		$("#provisioningRequestModalProductTable").bootgrid("clear").bootgrid("append", aaData);
+		modal = '#provisioningRequestModal';
+		$('#provisioningRequestModal').modal('show');
 
-		};
+	};
 
 
 	showSupplyingModal = function (supplyingId) {
