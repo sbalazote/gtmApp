@@ -38,6 +38,10 @@ var ProvisioningRequestCancellation = function() {
 		}
 	});
 
+	$("#cleanButton").click(function() {
+		$("#provisioningRequestSearch").val('');
+	});
+
 	$("#searchButton").click(function() {
 		var provisioningRequestId = "";
 		if($("#provisioningRequestSearch").val() != ""){
@@ -48,29 +52,29 @@ var ProvisioningRequestCancellation = function() {
 
 	var makeQuery = function(provisioningRequestId) {
 		$.ajax({
-			url: "getProvisioningRequest.do",
-			type: "GET",
+			url: "getCancelablesProvisionings.do",
+			type: "POST",
 			async: false,
 			data: {provisioningId: provisioningRequestId},
 			success: function(response) {
 				var aaData = [];
-				//$.each(response, function( index, value ) {
+				$.each(response, function( index, value ) {
 					var row = {
-						"id": response.id,
-						"client": response.client.code + " " + response.client.name,
-						"agreement": response.agreement.code + " " + response.agreement.description,
-						"state": response.state.description,
-						"date": myParseDate(response.deliveryDate),
+						"id": value.id,
+						"client": value.client.code + " " + value.client.name,
+						"agreement": value.agreement.code + " " + value.agreement.description,
+						"state": value.state.description,
+						"date": myParseDate(value.deliveryDate),
 						"action": "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>"
 					};
 					aaData.push(row);
-				//});
+				});
 
 				$("#provisioningTable").bootgrid({
+					caseSensitive: false,
 					selection: true,
-					multiSelect: false,
 					rowSelect: false,
-					keepSelection: true,
+					keepSelection: true
 				}).on("selected.rs.jquery.bootgrid", function(e, rows) {
 					for (var i = 0; i < rows.length; i++) {
 						requestsToCancel.push(rows[i].id);

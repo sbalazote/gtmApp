@@ -150,10 +150,19 @@ public class ProvisioningRequestController {
 
 	@RequestMapping(value = "/provisioningRequestCancellation", method = RequestMethod.GET)
 	public String provisioningRequestCancellation(ModelMap modelMap) throws Exception {
-		List<ProvisioningRequest> provisionings = this.provisioningRequestService.getAllByState(State.ENTERED.getId());
-		provisionings.addAll(this.provisioningRequestService.getAllByState(State.AUTHORIZED.getId()));
-		modelMap.put("provisionings", provisionings);
 		return "provisioningRequestCancellation";
+	}
+
+	@RequestMapping(value = "/getCancelablesProvisionings", method = RequestMethod.POST)
+	public @ResponseBody
+	List<ProvisioningRequest> getCancelables(@RequestParam String provisioningId) throws Exception {
+		ProvisioningQuery pq = new ProvisioningQuery();
+		pq.setProvisioningId(provisioningId.isEmpty() ? null : Integer.parseInt(provisioningId));
+		pq.setStateId(State.ENTERED.getId());
+		List<ProvisioningRequest> provisionings = this.provisioningRequestService.getProvisioningForSearch(pq);
+		pq.setStateId(State.AUTHORIZED.getId());
+		provisionings.addAll(this.provisioningRequestService.getProvisioningForSearch(pq));
+		return provisionings;
 	}
 
 	@RequestMapping(value = "/cancelProvisioningRequests", method = RequestMethod.POST)
