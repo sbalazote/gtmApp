@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -171,7 +172,17 @@ public class ProvisioningRequestController {
 	@RequestMapping(value = "/provisionings", method = RequestMethod.POST)
 	public ModelAndView provisionings(HttpServletRequest request) {
 		ProvisioningQuery provisioningQuery = this.getProvisioningQuery(request);
-		return new ModelAndView("provisionings", "provisionings", this.provisioningRequestService.getProvisioningForSearch(provisioningQuery));
+		ModelAndView modelAndView =  new ModelAndView("provisionings");
+		ModelMap modelMap = new ModelMap();
+		List<ProvisioningRequest> provisioningRequests = this.provisioningRequestService.getProvisioningForSearch(provisioningQuery);
+		modelMap.put("provisionings", provisioningRequests);
+		HashMap<Integer, Date> provisioningConfirmDates = new HashMap<>();
+		for(ProvisioningRequest provisioningRequest : provisioningRequests){
+			provisioningConfirmDates.put(provisioningRequest.getId(),this.auditService.getDate(RoleOperation.PROVISIONING_REQUEST, provisioningRequest.getId(),AuditState.COMFIRMED));
+		}
+		modelMap.put("confirmDates", provisioningConfirmDates);
+		modelAndView.addAllObjects(modelMap);
+		return modelAndView;
 	}
 
 	private ProvisioningQuery getProvisioningQuery(HttpServletRequest request) {

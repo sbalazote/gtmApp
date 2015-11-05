@@ -174,4 +174,9 @@ public class AuditServiceImpl implements AuditService {
 		}
 		return outputOrderResultDTO;
 	}
+
+	@Override
+	public Date getDate(RoleOperation roleOperation, Integer operationId, AuditState auditState) {
+		return this.auditDAO.getDate(roleOperation,operationId,auditState);
+	}
 }

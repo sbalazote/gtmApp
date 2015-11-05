@@ -1,6 +1,8 @@
 package com.lsntsolutions.gtmApp.helper.impl.excel;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,10 +25,13 @@ public class ProvisioningExcelView extends AbstractExcelView {
 	@Override
 	protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat dateAndHourFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		Sheet sheet = workbook.createSheet("PEDIDOS");
 
 		@SuppressWarnings("unchecked")
 		List<ProvisioningRequest> provisionings = (List<ProvisioningRequest>) model.get("provisionings");
+
+		HashMap<Integer,Date> dates = (HashMap<Integer,Date>) model.get("confirmDates");
 
 		Row row = null;
 		Cell cell = null;
@@ -68,6 +73,10 @@ public class ProvisioningExcelView extends AbstractExcelView {
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
+		cell.setCellValue("FECHA DE ALTA");
+
+		cell = row.createCell(c++);
+		cell.setCellStyle(style);
 		cell.setCellValue("OPERADOR LOGISTICO");
 
 		cell = row.createCell(c++);
@@ -98,6 +107,8 @@ public class ProvisioningExcelView extends AbstractExcelView {
 				row.createCell(c++).setCellValue(provisioningRequest.getAffiliate().getSurname() + " " + provisioningRequest.getAffiliate().getName());
 				row.createCell(c++).setCellValue(provisioningRequest.getDeliveryLocation().getName());
 				row.createCell(c++).setCellValue(dateFormatter.format(provisioningRequest.getDeliveryDate()));
+				Date date = dates.get(provisioningRequest.getId());
+				row.createCell(c++).setCellValue(dateAndHourFormatter.format(date));
 				row.createCell(c++)
 						.setCellValue(provisioningRequest.getLogisticsOperator() != null ? provisioningRequest.getLogisticsOperator().getName() : "");
 				row.createCell(c++).setCellValue(provisioningRequest.getComment() != null ? provisioningRequest.getComment() : "");
