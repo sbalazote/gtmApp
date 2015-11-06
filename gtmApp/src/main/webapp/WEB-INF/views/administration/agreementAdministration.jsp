@@ -89,13 +89,15 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-3 col-lg-3 form-group">
+						<div class="col-md-6 col-lg-6 form-group">
 							<label for="numberOfDeliveryNoteDetailsPerPageInput"><spring:message code="configuration.numberOfDeliveryNoteDetailsPerPage" /></label> <input type="text" class="form-control" id="numberOfDeliveryNoteDetailsPerPageInput" name="numberOfDeliveryNoteDetailsPerPage" value="${numberOfDeliveryNoteDetailsPerPage}">
 						</div>
-						<div class="col-md-3 col-lg-3 form-group">
+						<div class="col-md-6 col-lg-6 form-group">
 							<label for="pickingFilepathInput"><spring:message code="configuration.pickingFilepath" /></label> <input type="text" class="form-control" id="pickingFilepathInput" name="pickingFilepath" value="${pickingFilepath}">
 						</div>
-						<div class="col-md-3 col-lg-3 form-group">
+					</div>
+					<div class="row">
+						<div class="col-md-6 col-lg-6 form-group">
 							<label for="orderLabelPrinterSelect"><spring:message code="configuration.orderLabelFilepath" /></label>
 							<select class="form-control chosen-select" id="orderLabelPrinterSelect" name="orderLabelPrinter">
 								<option value="">- <spring:message code="common.select.option"/> -</option>
@@ -104,7 +106,7 @@
 								</c:forEach>
 							</select>
 						</div>
-						<div class="col-md-3 col-lg-3 form-group">
+						<div class="col-md-6 col-lg-6 form-group">
 							<label for="deliveryNotePrinterSelect"><spring:message code="configuration.deliveryNoteFilepath" /></label>
 							<select class="form-control chosen-select" id="deliveryNotePrinterSelect" name="deliveryNotePrinter">
 								<option value="">- <spring:message code="common.select.option"/> -</option>
