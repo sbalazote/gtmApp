@@ -8,7 +8,6 @@ import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfWriter;
 import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
-import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.helper.DeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.helper.PrintOnPrinter;
 import com.lsntsolutions.gtmApp.model.*;
@@ -28,11 +27,7 @@ import java.util.*;
 @Service
 public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 
-	private static final Logger logger = Logger.getLogger(OrderDeliveryNoteSheetPrinter.class);
-
-	private static int PRODUCT_DETAIL_HEADER_LINE_OFFSET_Y = 30;
-	private static int PRODUCT_BATCH_EXPIRATIONDATE_HEADER_LINE_OFFSET_Y = 20;
-	private static int SERIAL_DETAIL_LINE_OFFSET_Y = 20;
+	private static final Logger logger = Logger.getLogger(OutputDeliveryNoteSheetPrinter.class);
 
 	@Autowired
 	private PropertyService PropertyService;
@@ -68,6 +63,7 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 	private DeliveryNoteDetail deliveryNoteDetail;
 	private List<String> printsNumbers;
 	private String userName;
+    private boolean printHeader;
 
 	@Override
 	public List<String> print(String userName, List<Integer> outputsIds) {
@@ -79,9 +75,9 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 			Integer numberOfDeliveryNoteDetailsPerPage = output.getAgreement().getNumberOfDeliveryNoteDetailsPerPage();
 
 			// agrupo lista de productos por id de producto + lote.
-			HashMap<String, List<OutputDetail>> orderMap = groupByProduct(output);
+			TreeMap<String, List<OutputDetail>> outputMap = groupByProductAndBatch(output);
 			// calculo cuantas lineas de detalles de productos voy a necesitar.
-			int numberOfLinesNeeded = numberOfLinesNeeded(orderMap);
+			int numberOfLinesNeeded = numberOfLinesNeeded(outputMap);
 			// calculo cuantos remitos voy a necesitar en base a la cantidad de detalles de productos.
 			int deliveryNoteNumbersRequired = (int)Math.ceil((float)numberOfLinesNeeded / numberOfDeliveryNoteDetailsPerPage);
 
@@ -117,14 +113,15 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 			offsetY = 0;
 			// cantidad de items totales para esta pagina de remito.
 			totalItems = 0;
+            // id de producto en la iteracion anterior.
+            String previousProductId = "";
 			// recorro el mapa de detalle de productos a imprimir.
-			for (Map.Entry<String, List<OutputDetail>> entry : orderMap.entrySet()) {
+			for (Map.Entry<String, List<OutputDetail>> entry : outputMap.entrySet()) {
 				String key = entry.getKey();
 				List<OutputDetail> outputDetails = entry.getValue();
 				String[] parts = key.split(",");
-                /*String productId = parts[0];
-                String batch = parts[1];*/
-				String type = outputDetails.get(0).getProduct().getType();
+                String currentProductId = parts[0];
+				String productType = outputDetails.get(0).getProduct().getType();
 
 				// si ya esta lleno el remito, sigo en uno nuevo
 				if (currentLine == numberOfDeliveryNoteDetailsPerPage) {
@@ -132,15 +129,21 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 					newPage();
 				}
 
-				// si es de tipo lote/ vto ocupa 1 (una) sola linea.
-				if (type.compareTo("BE") == 0) {
-					String description = outputDetails.get(0).getProduct().getDescription();
-					String monodrug = outputDetails.get(0).getProduct().getMonodrug().getDescription();
-					String brand = outputDetails.get(0).getProduct().getBrand().getDescription();
-					int totalAmount = outputDetails.get(0).getAmount();
+                String description = outputDetails.get(0).getProduct().getDescription();
+                String monodrug = outputDetails.get(0).getProduct().getMonodrug().getDescription();
+                String brand = outputDetails.get(0).getProduct().getBrand().getDescription();
+                int totalAmount = outputDetails.get(0).getAmount();
+                String batch = outputDetails.get(0).getBatch();
+                String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(outputDetails.get(0).getExpirationDate());
+                String batchAmount = Integer.toString(productType.equals("BE") ? totalAmount : outputDetails.size());
+                if (!currentProductId.equals(previousProductId)) {
+                    printProductDetailHeader(description, monodrug, brand, getProductTotalAmount(Integer.parseInt(currentProductId)));
+                }
+                printProductBatchExpirationDateHeader(batch, expirationDate, batchAmount);
 
-					printProductDetailHeader(description, monodrug, brand, totalAmount);
-					printProductBatchExpirationDateHeader(outputDetails.get(0));
+				// si es de tipo lote/ vto ocupa 1 (una) sola linea.
+                DeliveryNoteDetail deliveryNoteDetail;
+                if (productType.equals("BE")) {
 
 					deliveryNoteDetail = new DeliveryNoteDetail();
 					deliveryNoteDetail.setOutputDetail(outputDetails.get(0));
@@ -150,22 +153,12 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 					totalItems += totalAmount;
 					// si es de tipo trazado ocupa 1 (una) sola linea por cada cuatro series.
 				} else {
-					if (currentLine == numberOfDeliveryNoteDetailsPerPage) {
-						savePage();
-						newPage();
-					}
-					List<OutputDetail> temp = new ArrayList<>();
-					Iterator<OutputDetail> it = outputDetails.iterator();
+                    List<OutputDetail> outputDetailAux = new ArrayList<>();
+                    Iterator<OutputDetail> it = outputDetails.iterator();
 					int serialIdx = 0;
-					String description = outputDetails.get(0).getProduct().getDescription();
-					String monodrug = outputDetails.get(0).getProduct().getMonodrug().getDescription();
-					String brand = outputDetails.get(0).getProduct().getBrand().getDescription();
-					int totalAmount = outputDetails.size();
-					printProductDetailHeader(description, monodrug, brand, totalAmount);
-					printProductBatchExpirationDateHeader(outputDetails.get(0));
 					while (it.hasNext()) {
 						OutputDetail od = it.next();
-						temp.add(od);
+						outputDetailAux.add(od);
 
 						deliveryNoteDetail = new DeliveryNoteDetail();
 						deliveryNoteDetail.setOutputDetail(od);
@@ -174,14 +167,15 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 						serialIdx++;
 
 						if ((serialIdx == 4) || (!it.hasNext())) {
-							totalItems += temp.size();
-							printSerialDetails(temp);
+							totalItems += outputDetailAux.size();
+							printSerialDetails(outputDetailAux);
 							currentLine++;
 							serialIdx = 0;
-							temp = new ArrayList<>();
+							outputDetailAux = new ArrayList<>();
 						}
 					}
 				}
+                previousProductId = currentProductId;
 			}
 
 			printFooter(totalItems);
@@ -295,7 +289,9 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 
 		// imprimo egreso.
 		overContent.setTextMatrix(deliveryNoteConfig.getOrderX(), deliveryNoteConfig.getOrderY());
-		overContent.showText(deliveryNoteConfig.isOrderPrint() ? ("Pedido: " + deliveryNoteNumber + "  Egreso: " + output.getAgreement().getCode() + "-" + output.getAgreement().getDescription()) : "");
+		String outputId = StringUtility.addLeadingZeros(output.getId().toString(), 8);
+		String codeAgreement = StringUtility.addLeadingZeros(String.valueOf(output.getAgreement().getCode()),5) + " - " + output.getAgreement().getDescription();
+		overContent.showText(deliveryNoteConfig.isOrderPrint() ? ("Egreso Nro.: " + outputId + "     Convenio: " + codeAgreement) : "");
 
 		// imprimo cliente entrega.
 		overContent.setTextMatrix(deliveryNoteConfig.getDeliveryLocationCorporateNameX(), deliveryNoteConfig.getDeliveryLocationCorporateNameY());
@@ -369,10 +365,12 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 	}
 
 	private void printProductDetailHeader(String description, String monodrug, String brand, int totalAmount) {
-		overContent.saveState();
 
-		// offset con respecto a la linea anterior.
-		offsetY += PRODUCT_DETAIL_HEADER_LINE_OFFSET_Y;
+        // offset con respecto a la linea anterior.
+        int PRODUCT_DETAIL_HEADER_LINE_OFFSET_Y = 30;
+        offsetY += (printHeader ? 0 : PRODUCT_DETAIL_HEADER_LINE_OFFSET_Y);
+
+		overContent.saveState();
 
 		// seteo el tipo de fuente.
 		try {
@@ -401,13 +399,17 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 		overContent.showText(deliveryNoteConfig.isProductAmountPrint() ? Integer.toString(totalAmount) : "");
 
 		overContent.restoreState();
+
+        printHeader = false;
 	}
 
-	private void printProductBatchExpirationDateHeader(OutputDetail outputDetail) {
-		overContent.saveState();
+    private void printProductBatchExpirationDateHeader(String batch, String expirationDate, String batchAmount) {
 
 		// offset con respecto a la linea anterior.
+        int PRODUCT_BATCH_EXPIRATIONDATE_HEADER_LINE_OFFSET_Y = 20;
 		offsetY += PRODUCT_BATCH_EXPIRATIONDATE_HEADER_LINE_OFFSET_Y;
+
+        overContent.saveState();
 
 		// seteo el tipo de fuente.
 		try {
@@ -419,8 +421,6 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 			e.printStackTrace();
 		}
 
-		String batch = outputDetail.getBatch();
-		String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(outputDetail.getExpirationDate());
 
 		// imprimo lote.
 		overContent.setTextMatrix(deliveryNoteConfig.getProductBatchExpirationdateX(), deliveryNoteConfig.getProductDetailsY() - offsetY);
@@ -430,14 +430,20 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 		overContent.setTextMatrix(deliveryNoteConfig.getProductBatchExpirationdateX() + 120, deliveryNoteConfig.getProductDetailsY() - offsetY);
 		overContent.showText(deliveryNoteConfig.isProductBatchExpirationdatePrint() ? ("Vto.: " + expirationDate) : "");
 
+        // imprimo cantidad total del lote.
+        overContent.setTextMatrix(deliveryNoteConfig.getProductAmountX(), deliveryNoteConfig.getProductDetailsY() - offsetY);
+        overContent.showText(deliveryNoteConfig.isProductAmountPrint() ? batchAmount : "");
+
 		overContent.restoreState();
 	}
 
 	private void printSerialDetails(List<OutputDetail> outputDetails) {
-		overContent.saveState();
 
 		// offset con respecto a la linea anterior.
+		int SERIAL_DETAIL_LINE_OFFSET_Y = 10;
 		offsetY += SERIAL_DETAIL_LINE_OFFSET_Y;
+
+		overContent.saveState();
 
 		// seteo el tipo de fuente.
 		try {
@@ -510,8 +516,8 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 		overContent.restoreState();
 	}
 
-	private HashMap<String, List<OutputDetail>> groupByProduct(Output output) {
-		HashMap<String, List<OutputDetail>> details = new HashMap<>();
+	private TreeMap<String, List<OutputDetail>> groupByProductAndBatch(Output output) {
+		TreeMap<String, List<OutputDetail>> details = new TreeMap<>();
 
 		for(OutputDetail outputDetail: output.getOutputDetails()){
 			String id = Integer.toString(outputDetail.getProduct().getId());
@@ -529,7 +535,24 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 		return details;
 	}
 
-	private int numberOfLinesNeeded(HashMap<String, List<OutputDetail>> orderMap) {
+    private int getProductTotalAmount(int productId) {
+        HashMap<Integer, Integer> details = new HashMap<>();
+
+        for(OutputDetail outputDetail: output.getOutputDetails()){
+            Integer id = outputDetail.getProduct().getId();
+
+            Integer currentAmount = details.get(id);
+            if(currentAmount == null) {
+                currentAmount = new Integer(0);
+            }
+            currentAmount += outputDetail.getAmount();
+            details.put(id, currentAmount);
+        }
+
+        return details.get(productId);
+    }
+
+    private int numberOfLinesNeeded(TreeMap<String, List<OutputDetail>> orderMap) {
 		int numberOfLines = 0;
 
 		for(List<OutputDetail> outputDetail: orderMap.values()){

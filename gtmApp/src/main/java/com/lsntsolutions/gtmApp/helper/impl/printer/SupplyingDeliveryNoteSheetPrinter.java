@@ -8,11 +8,13 @@ import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfWriter;
 import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
-import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.helper.DeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.helper.PrintOnPrinter;
 import com.lsntsolutions.gtmApp.model.*;
-import com.lsntsolutions.gtmApp.service.*;
+import com.lsntsolutions.gtmApp.service.AuditService;
+import com.lsntsolutions.gtmApp.service.ConceptService;
+import com.lsntsolutions.gtmApp.service.DeliveryNoteService;
+import com.lsntsolutions.gtmApp.service.SupplyingService;
 import com.lsntsolutions.gtmApp.util.DeliveryNoteConfig;
 import com.lsntsolutions.gtmApp.util.StringUtility;
 import org.apache.log4j.Logger;
@@ -29,13 +31,9 @@ import java.util.*;
  * Created by Lucho on 05/11/2015.
  */
 @Service
-public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter{
+public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
 
     private static final Logger logger = Logger.getLogger(SupplyingDeliveryNoteSheetPrinter.class);
-
-    private static int PRODUCT_DETAIL_HEADER_LINE_OFFSET_Y = 30;
-    private static int PRODUCT_BATCH_EXPIRATIONDATE_HEADER_LINE_OFFSET_Y = 20;
-    private static int SERIAL_DETAIL_LINE_OFFSET_Y = 20;
 
     @Autowired
     private com.lsntsolutions.gtmApp.service.PropertyService PropertyService;
@@ -68,9 +66,9 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
     private DeliveryNote deliveryNote;
     private String deliveryNoteComplete;
     private List<DeliveryNoteDetail> deliveryNoteDetails;
-    private DeliveryNoteDetail deliveryNoteDetail;
     private List<String> printsNumbers;
     private String userName;
+    private boolean printHeader;
 
     @Override
     public List<String> print(String userName, List<Integer> supplyingsIds) {
@@ -82,7 +80,7 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
             Integer numberOfDeliveryNoteDetailsPerPage = supplying.getAgreement().getNumberOfDeliveryNoteDetailsPerPage();
 
             // agrupo lista de productos por id de producto + lote.
-            HashMap<String, List<SupplyingDetail>> orderMap = groupByProduct(supplying);
+            TreeMap<String, List<SupplyingDetail>> orderMap = groupByProductAndBatch(supplying);
             // calculo cuantas lineas de detalles de productos voy a necesitar.
             int numberOfLinesNeeded = numberOfLinesNeeded(orderMap);
             // calculo cuantos remitos voy a necesitar en base a la cantidad de detalles de productos.
@@ -120,14 +118,15 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
             offsetY = 0;
             // cantidad de items totales para esta pagina de remito.
             totalItems = 0;
+            // id de producto en la iteracion anterior.
+            String previousProductId = "";
             // recorro el mapa de detalle de productos a imprimir.
             for (Map.Entry<String, List<SupplyingDetail>> entry : orderMap.entrySet()) {
                 String key = entry.getKey();
                 List<SupplyingDetail> supplyingDetails = entry.getValue();
                 String[] parts = key.split(",");
-            /*String productId = parts[0];
-            String batch = parts[1];*/
-                String type = supplyingDetails.get(0).getProduct().getType();
+                String currentProductId = parts[0];
+                String productType = supplyingDetails.get(0).getProduct().getType();
 
                 // si ya esta lleno el remito, sigo en uno nuevo
                 if (currentLine == numberOfDeliveryNoteDetailsPerPage) {
@@ -135,15 +134,21 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
                     newPage();
                 }
 
-                // si es de tipo lote/ vto ocupa 1 (una) sola linea.
-                if (type.compareTo("BE") == 0) {
-                    String description = supplyingDetails.get(0).getProduct().getDescription();
-                    String monodrug = supplyingDetails.get(0).getProduct().getMonodrug().getDescription();
-                    String brand = supplyingDetails.get(0).getProduct().getBrand().getDescription();
-                    int totalAmount = supplyingDetails.get(0).getAmount();
+                String description = supplyingDetails.get(0).getProduct().getDescription();
+                String monodrug = supplyingDetails.get(0).getProduct().getMonodrug().getDescription();
+                String brand = supplyingDetails.get(0).getProduct().getBrand().getDescription();
+                int totalAmount = supplyingDetails.get(0).getAmount();
+                String batch = supplyingDetails.get(0).getBatch();
+                String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(supplyingDetails.get(0).getExpirationDate());
+                String batchAmount = Integer.toString(productType.equals("BE") ? totalAmount : supplyingDetails.size());
+                if (!currentProductId.equals(previousProductId)) {
+                    printProductDetailHeader(description, monodrug, brand, getProductTotalAmount(Integer.parseInt(currentProductId)));
+                }
+                printProductBatchExpirationDateHeader(batch, expirationDate, batchAmount);
 
-                    printProductDetailHeader(description, monodrug, brand, totalAmount);
-                    printProductBatchExpirationDateHeader(supplyingDetails.get(0));
+                // si es de tipo lote/ vto ocupa 1 (una) sola linea.
+                DeliveryNoteDetail deliveryNoteDetail;
+                if (productType.equals("BE")) {
 
                     deliveryNoteDetail = new DeliveryNoteDetail();
                     deliveryNoteDetail.setSupplyingDetail(supplyingDetails.get(0));
@@ -153,22 +158,12 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
                     totalItems += totalAmount;
                     // si es de tipo trazado ocupa 1 (una) sola linea por cada cuatro series.
                 } else {
-                    if (currentLine == numberOfDeliveryNoteDetailsPerPage) {
-                        savePage();
-                        newPage();
-                    }
-                    List<SupplyingDetail> temp = new ArrayList<>();
+                    List<SupplyingDetail> supplyingDetailAux = new ArrayList<>();
                     Iterator<SupplyingDetail> it = supplyingDetails.iterator();
                     int serialIdx = 0;
-                    String description = supplyingDetails.get(0).getProduct().getDescription();
-                    String monodrug = supplyingDetails.get(0).getProduct().getMonodrug().getDescription();
-                    String brand = supplyingDetails.get(0).getProduct().getBrand().getDescription();
-                    int totalAmount = supplyingDetails.size();
-                    printProductDetailHeader(description, monodrug, brand, totalAmount);
-                    printProductBatchExpirationDateHeader(supplyingDetails.get(0));
                     while (it.hasNext()) {
                         SupplyingDetail od = it.next();
-                        temp.add(od);
+                        supplyingDetailAux.add(od);
 
                         deliveryNoteDetail = new DeliveryNoteDetail();
                         deliveryNoteDetail.setSupplyingDetail(od);
@@ -177,14 +172,15 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
                         serialIdx++;
 
                         if ((serialIdx == 4) || (!it.hasNext())) {
-                            totalItems += temp.size();
-                            printSerialDetails(temp);
+                            totalItems += supplyingDetailAux.size();
+                            printSerialDetails(supplyingDetailAux);
                             currentLine++;
                             serialIdx = 0;
-                            temp = new ArrayList<>();
+                            supplyingDetailAux = new ArrayList<>();
                         }
                     }
                 }
+                previousProductId = currentProductId;
             }
 
             printFooter(totalItems);
@@ -298,7 +294,9 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
 
         // imprimo egreso.
         overContent.setTextMatrix(deliveryNoteConfig.getOrderX(), deliveryNoteConfig.getOrderY());
-        overContent.showText(deliveryNoteConfig.isOrderPrint() ? ("Pedido: " + deliveryNoteNumber + "  Egreso: " + supplying.getAgreement().getCode() + "-" + supplying.getAgreement().getDescription()) : "");
+        String supplyingId = StringUtility.addLeadingZeros(supplying.getId().toString(), 8);
+        String codeAgreement = StringUtility.addLeadingZeros(String.valueOf(supplying.getAgreement().getCode()),5) + " - " + supplying.getAgreement().getDescription();
+        overContent.showText(deliveryNoteConfig.isOrderPrint() ? ("Dispensa Nro.: " + supplyingId + "     Convenio: " + codeAgreement) : "");
 /*
         // imprimo cliente entrega.
         overContent.setTextMatrix(deliveryNoteConfig.getDeliveryLocationCorporateNameX(), deliveryNoteConfig.getDeliveryLocationCorporateNameY());
@@ -372,10 +370,12 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
     }
 
     private void printProductDetailHeader(String description, String monodrug, String brand, int totalAmount) {
-        overContent.saveState();
 
         // offset con respecto a la linea anterior.
-        offsetY += PRODUCT_DETAIL_HEADER_LINE_OFFSET_Y;
+        int PRODUCT_DETAIL_HEADER_LINE_OFFSET_Y = 30;
+        offsetY += (printHeader ? 0 : PRODUCT_DETAIL_HEADER_LINE_OFFSET_Y);
+
+        overContent.saveState();
 
         // seteo el tipo de fuente.
         try {
@@ -404,13 +404,17 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
         overContent.showText(deliveryNoteConfig.isProductAmountPrint() ? Integer.toString(totalAmount) : "");
 
         overContent.restoreState();
+
+        printHeader = false;
     }
 
-    private void printProductBatchExpirationDateHeader(SupplyingDetail supplyingDetail) {
-        overContent.saveState();
+    private void printProductBatchExpirationDateHeader(String batch, String expirationDate, String batchAmount) {
 
         // offset con respecto a la linea anterior.
+        int PRODUCT_BATCH_EXPIRATIONDATE_HEADER_LINE_OFFSET_Y = 20;
         offsetY += PRODUCT_BATCH_EXPIRATIONDATE_HEADER_LINE_OFFSET_Y;
+
+        overContent.saveState();
 
         // seteo el tipo de fuente.
         try {
@@ -422,8 +426,6 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
             e.printStackTrace();
         }
 
-        String batch = supplyingDetail.getBatch();
-        String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(supplyingDetail.getExpirationDate());
 
         // imprimo lote.
         overContent.setTextMatrix(deliveryNoteConfig.getProductBatchExpirationdateX(), deliveryNoteConfig.getProductDetailsY() - offsetY);
@@ -433,14 +435,20 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
         overContent.setTextMatrix(deliveryNoteConfig.getProductBatchExpirationdateX() + 120, deliveryNoteConfig.getProductDetailsY() - offsetY);
         overContent.showText(deliveryNoteConfig.isProductBatchExpirationdatePrint() ? ("Vto.: " + expirationDate) : "");
 
+        // imprimo cantidad total del lote.
+        overContent.setTextMatrix(deliveryNoteConfig.getProductAmountX(), deliveryNoteConfig.getProductDetailsY() - offsetY);
+        overContent.showText(deliveryNoteConfig.isProductAmountPrint() ? batchAmount : "");
+
         overContent.restoreState();
     }
 
-    private void printSerialDetails(List<SupplyingDetail> supplyingDetail) {
-        overContent.saveState();
+    private void printSerialDetails(List<SupplyingDetail> supplyingDetails) {
 
         // offset con respecto a la linea anterior.
+        int SERIAL_DETAIL_LINE_OFFSET_Y = 10;
         offsetY += SERIAL_DETAIL_LINE_OFFSET_Y;
+
+        overContent.saveState();
 
         // seteo el tipo de fuente.
         try {
@@ -452,37 +460,37 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
             e.printStackTrace();
         }
 
-        switch (supplyingDetail.size()) {
+        switch (supplyingDetails.size()) {
             case 1: {
                 overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn1X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(deliveryNoteConfig.isSerialColumn1Print() ? supplyingDetail.get(0).getSerialNumber() : "");
+                overContent.showText(deliveryNoteConfig.isSerialColumn1Print() ? supplyingDetails.get(0).getSerialNumber() : "");
                 break;
             }
             case 2: {
                 overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn1X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(deliveryNoteConfig.isSerialColumn1Print() ? supplyingDetail.get(0).getSerialNumber() : "");
+                overContent.showText(deliveryNoteConfig.isSerialColumn1Print() ? supplyingDetails.get(0).getSerialNumber() : "");
                 overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn2X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(deliveryNoteConfig.isSerialColumn2Print() ? supplyingDetail.get(1).getSerialNumber() : "");
+                overContent.showText(deliveryNoteConfig.isSerialColumn2Print() ? supplyingDetails.get(1).getSerialNumber() : "");
                 break;
             }
             case 3: {
                 overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn1X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(deliveryNoteConfig.isSerialColumn1Print() ? supplyingDetail.get(0).getSerialNumber() : "");
+                overContent.showText(deliveryNoteConfig.isSerialColumn1Print() ? supplyingDetails.get(0).getSerialNumber() : "");
                 overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn2X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(deliveryNoteConfig.isSerialColumn2Print() ? supplyingDetail.get(1).getSerialNumber() : "");
+                overContent.showText(deliveryNoteConfig.isSerialColumn2Print() ? supplyingDetails.get(1).getSerialNumber() : "");
                 overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn3X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(deliveryNoteConfig.isSerialColumn3Print() ? supplyingDetail.get(2).getSerialNumber() : "");
+                overContent.showText(deliveryNoteConfig.isSerialColumn3Print() ? supplyingDetails.get(2).getSerialNumber() : "");
                 break;
             }
             case 4: {
                 overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn1X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(deliveryNoteConfig.isSerialColumn1Print() ? supplyingDetail.get(0).getSerialNumber() : "");
+                overContent.showText(deliveryNoteConfig.isSerialColumn1Print() ? supplyingDetails.get(0).getSerialNumber() : "");
                 overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn2X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(deliveryNoteConfig.isSerialColumn2Print() ? supplyingDetail.get(1).getSerialNumber() : "");
+                overContent.showText(deliveryNoteConfig.isSerialColumn2Print() ? supplyingDetails.get(1).getSerialNumber() : "");
                 overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn3X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(deliveryNoteConfig.isSerialColumn3Print() ? supplyingDetail.get(2).getSerialNumber() : "");
+                overContent.showText(deliveryNoteConfig.isSerialColumn3Print() ? supplyingDetails.get(2).getSerialNumber() : "");
                 overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn4X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(deliveryNoteConfig.isSerialColumn4Print() ? supplyingDetail.get(3).getSerialNumber() : "");
+                overContent.showText(deliveryNoteConfig.isSerialColumn4Print() ? supplyingDetails.get(3).getSerialNumber() : "");
                 break;
             }
             default: {
@@ -513,8 +521,8 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
         overContent.restoreState();
     }
 
-    private HashMap<String, List<SupplyingDetail>> groupByProduct(Supplying supplying) {
-        HashMap<String, List<SupplyingDetail>> details = new HashMap<>();
+    private TreeMap<String, List<SupplyingDetail>> groupByProductAndBatch(Supplying supplying) {
+        TreeMap<String, List<SupplyingDetail>> details = new TreeMap<>();
 
         for(SupplyingDetail supplyingDetail : supplying.getSupplyingDetails()){
             String id = Integer.toString(supplyingDetail.getProduct().getId());
@@ -532,7 +540,24 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
         return details;
     }
 
-    private int numberOfLinesNeeded(HashMap<String, List<SupplyingDetail>> orderMap) {
+    private int getProductTotalAmount(int productId) {
+        HashMap<Integer, Integer> details = new HashMap<>();
+
+        for(SupplyingDetail supplyingDetail: supplying.getSupplyingDetails()){
+            Integer id = supplyingDetail.getProduct().getId();
+
+            Integer currentAmount = details.get(id);
+            if(currentAmount == null) {
+                currentAmount = new Integer(0);
+            }
+            currentAmount += supplyingDetail.getAmount();
+            details.put(id, currentAmount);
+        }
+
+        return details.get(productId);
+    }
+
+    private int numberOfLinesNeeded(TreeMap<String, List<SupplyingDetail>> orderMap) {
         int numberOfLines = 0;
 
         for(List<SupplyingDetail> supplyingDetail : orderMap.values()){
