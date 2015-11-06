@@ -13,7 +13,7 @@
 <jsp:include page="../modals/modals.jsp" />
 <jsp:include page="../modals/provisioningRequestModal.jsp" />
 
-<form action="" onsubmit="return false;">
+<form id="provisioningRequestCancellationForm" action="" onsubmit="return false;">
 	<div class="row">
 		<div class="col-md-12 col-lg-12 form-group">
 			<h3><spring:message code="provisioningRequest.cancellation.label"/></h3>

@@ -10,6 +10,20 @@ var ProvisioningRequestCancellation = function() {
 		
 		showProvisioningRequestModal(provisioningId);
 	});
+
+	var validateForm = function() {
+		var form = $("#provisioningRequestCancellationForm");
+		form.validate({
+			rules: {
+				provisioningRequestSearch: {
+					digits: true
+				}
+			},
+			showErrors: myShowErrors,
+			onsubmit: false
+		});
+		return form.valid();
+	};
 	
 	$("#confirmButton").click(function() {
 		if (requestsToCancel.length == 1) {
@@ -43,11 +57,13 @@ var ProvisioningRequestCancellation = function() {
 	});
 
 	$("#searchButton").click(function() {
-		var provisioningRequestId = "";
-		if($("#provisioningRequestSearch").val() != ""){
-			provisioningRequestId = $("#provisioningRequestSearch").val();
+		if(validateForm()) {
+			var provisioningRequestId = "";
+			if ($("#provisioningRequestSearch").val() != "") {
+				provisioningRequestId = $("#provisioningRequestSearch").val();
+			}
+			makeQuery(provisioningRequestId);
 		}
-		makeQuery(provisioningRequestId);
 	});
 
 	var makeQuery = function(provisioningRequestId) {
