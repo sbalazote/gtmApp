@@ -9,10 +9,7 @@
 	});
 </script>
 
-<div class="alert alert-info alert-block fade in">
-	<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-	<strong> Licencia Expira: <%=PropertyProvider.getInstance().getProp(PropertyProvider.LICENSE_EXPIRATION)%></strong>
-</div>
+<span id="licenseInfo" style="display:none"> Licencia Expira: <%=PropertyProvider.getInstance().getProp(PropertyProvider.LICENSE_EXPIRATION)%></span>
 
 <form id="updatePropertyForm" action="" onsubmit="return false;">
 

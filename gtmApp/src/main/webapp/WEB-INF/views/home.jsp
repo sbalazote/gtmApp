@@ -2,9 +2,9 @@
 
 <script>
 	$(document).ready(function() {
-		$('#alertDiv').html(
-			'<div class="alert alert-info alert-block fade in">' +
-			'<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>' +
-			'<strong> Seleccione una opci&oacute;n del men&uacute; superior para comenzar a operar.</strong></div>');
+		myShowAlert("info", '<strong> Seleccione una opci&oacute;n del men&uacute; superior para comenzar a operar.</strong>', null, 0);
 	});
 </script>
+<div class="page-header">
+	<h1>gtmApp <small>Gestion de Trazabilidad de Medicamentos</small></h1>
+</div>

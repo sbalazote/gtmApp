@@ -15,7 +15,6 @@
 </script>
 
 <form id="supplyingForm" action="" onsubmit="return false;">
-
 	<div class="row">
 		<div class="col-md-6 col-lg-6 form-group">
 			<h3 class="form-supplying-heading"><spring:message code="supplying.label" /></h3> 

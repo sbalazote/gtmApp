@@ -1,5 +1,7 @@
-UpdateProperty = function() {	
-	
+UpdateProperty = function() {
+
+	myShowAlert("info", $("#licenseInfo").html(), null, 0);
+
 	var validateForm = function() {
 		var form = $("#updatePropertyForm");
 		form.validate({
@@ -262,5 +264,4 @@ UpdateProperty = function() {
         {
             width: '100%' /* desired width */
         });
-
 };

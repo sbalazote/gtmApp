@@ -26,11 +26,6 @@ $(document).ready(function() {
 		if (element) {
 			myDiv = element;
 		}
-		/*$('#'+myDiv).html(
-			'<div class="alert alert-' + type + ' alert-block fade in">' +
-			'<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>' +
-			'<button type="button" class="close" data-dismiss="alert">' +
-			'&times;</button> ' + message + '</div>');*/
 
 		toastr.options = {
 			"closeButton": false,
@@ -95,7 +90,6 @@ $(document).ready(function() {
 		//myShowAlert('danger', message, element);
 		BootstrapDialog.show({
 			type: BootstrapDialog.TYPE_WARNING,
-			size: BootstrapDialog.SIZE_LARGE,
 	        title: 'Advertencia!',
 	        message: message,
 	        closable: false,
