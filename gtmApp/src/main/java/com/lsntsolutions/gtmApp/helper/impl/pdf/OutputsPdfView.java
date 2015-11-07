@@ -32,7 +32,7 @@ public class OutputsPdfView extends AbstractPdfView {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		@SuppressWarnings("unchecked")
 		List<Output> outputs = (List<Output>) model.get("outputs");
-		Map<Integer, List<DeliveryNote>> associatedOutputs = (Map<Integer, List<DeliveryNote>>) model.get("associatedOutputs"); ;
+		Map<Integer, List<DeliveryNote>> associatedOutputs = (Map<Integer, List<DeliveryNote>>) model.get("associatedOutputs");
 
 		// Fuentes
 		Font fontHeader = new Font(Font.TIMES_ROMAN, 11f, Font.NORMAL, Color.BLACK);

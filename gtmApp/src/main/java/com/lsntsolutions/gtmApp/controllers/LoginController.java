@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -89,18 +88,14 @@ public class LoginController {
     private boolean isValidLicense() {
         lic = new License();
         try {
-            lic.loadKeyRing((InputStream) this.getClass().getClassLoader().getResourceAsStream("license/pubring.gpg"), digest);
-            lic.setLicenseEncoded((InputStream) this.getClass().getClassLoader().getResourceAsStream("license/license.lic"));
+            lic.loadKeyRing(this.getClass().getClassLoader().getResourceAsStream("license/pubring.gpg"), digest);
+            lic.setLicenseEncoded(this.getClass().getClassLoader().getResourceAsStream("license/license.lic"));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (PGPException e) {
             e.printStackTrace();
         }
-        if (isValidDate()) {
-            return true;
-        } else {
-            return false;
-        }
+        return isValidDate();
     }
 
     protected boolean isValidDate() {
@@ -114,10 +109,6 @@ public class LoginController {
             e.printStackTrace();
         }
         Date currentDate = new Date();
-        if (currentDate.before(validUntilDate)) {
-            return true;
-        } else {
-            return false;
-        }
+        return currentDate.before(validUntilDate);
     }
 }

@@ -1,20 +1,13 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.Constants;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.AuditDTO;
+import com.lsntsolutions.gtmApp.dto.AuditResultDTO;
 import com.lsntsolutions.gtmApp.model.Audit;
 import com.lsntsolutions.gtmApp.persistence.dao.AuditDAO;
 import com.lsntsolutions.gtmApp.query.AuditQuery;
-import com.lsntsolutions.gtmApp.dto.AuditDTO;
-import com.lsntsolutions.gtmApp.dto.AuditResultDTO;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -24,7 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import com.lsntsolutions.gtmApp.dto.AuditDTO;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Repository
 public class AuditDAOHibernateImpl implements AuditDAO {
@@ -99,11 +96,7 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 
 	@Override
 	public boolean getCountAuditSearch(AuditQuery auditQuery) {
-		if (this.getAuditForSearch(auditQuery).size() < Constants.QUERY_MAX_RESULTS) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.getAuditForSearch(auditQuery).size() < Constants.QUERY_MAX_RESULTS;
 	}
 
 	@Override

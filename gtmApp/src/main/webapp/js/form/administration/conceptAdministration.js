@@ -370,7 +370,7 @@ $(document).ready(function() {
                 "deliveryNotesCopies": $("#deliveryNotesCopiesInput").val(),
                 "active": $("#activeSelect option:selected").val(),
                 "client": $("#clientSelect option:selected").val(),
-                "events":  events || new Array()
+                "events":  events || []
             };
 
             //	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.

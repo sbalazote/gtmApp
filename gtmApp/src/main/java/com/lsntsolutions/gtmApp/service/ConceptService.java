@@ -1,8 +1,8 @@
 package com.lsntsolutions.gtmApp.service;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.Concept;
+
+import java.util.List;
 
 public interface ConceptService {
 
@@ -14,7 +14,7 @@ public interface ConceptService {
 
 	List<Concept> getForAutocomplete(String term, Boolean active);
 
-	public List<Concept> getAll();
+	List<Concept> getAll();
 
 	List<Concept> getAllActives(Boolean input);
 

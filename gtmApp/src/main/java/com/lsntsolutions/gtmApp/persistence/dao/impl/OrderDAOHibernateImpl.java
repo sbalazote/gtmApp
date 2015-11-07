@@ -65,11 +65,7 @@ public class OrderDAOHibernateImpl implements OrderDAO {
 
 	@Override
 	public boolean getCountDeliveryNoteSearch(DeliveryNoteQuery deliveryNoteQuery) {
-		if (this.getDeliveryNoteSearch(deliveryNoteQuery).size() < Constants.QUERY_MAX_RESULTS) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.getDeliveryNoteSearch(deliveryNoteQuery).size() < Constants.QUERY_MAX_RESULTS;
 	}
 
 	@Override

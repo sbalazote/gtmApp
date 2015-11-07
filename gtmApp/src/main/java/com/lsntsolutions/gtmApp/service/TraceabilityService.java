@@ -10,9 +10,9 @@ import com.inssjp.mywebservice.business.WebServiceResult;
 
 public interface TraceabilityService {
 
-	public WebServiceResult cancelInputTransaction(Input input) throws Exception;
+	WebServiceResult cancelInputTransaction(Input input) throws Exception;
 
-	public OperationResult processInputPendingTransactions(Input input) throws Exception;
+	OperationResult processInputPendingTransactions(Input input) throws Exception;
 
 	OperationResult processDeliveryNotePendingTransactions(DeliveryNote deliveryNote, Order order, Output output, Supplying supplying) throws Exception;
 

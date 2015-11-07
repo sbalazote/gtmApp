@@ -70,7 +70,7 @@ SaveAffiliate = function() {
 					"document": $("#documentInput").val() || null,
 					"clientId": $("#clientSelect option:selected").val(),
 					"active": $("#activeSelect option:selected").val(),
-					"clients": $("#my-select").val() || new Array()
+					"clients": $("#my-select").val() || []
 			};
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.

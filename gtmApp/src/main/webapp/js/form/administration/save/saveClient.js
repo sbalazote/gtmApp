@@ -95,7 +95,7 @@ SaveClient = function() {
 					"address": $("#addressInput").val(),
 					"zipCode": $("#zipCodeInput").val(),
 					"phone": $("#phoneInput").val(),
-					"deliveryLocations": $("#my-select").val() || new Array(),
+					"deliveryLocations": $("#my-select").val() || [],
 					"active": $("#activeSelect option:selected").val(),
 					"medicalInsuranceCode": $("#medicalInsuranceCodeInput").val()
 			};

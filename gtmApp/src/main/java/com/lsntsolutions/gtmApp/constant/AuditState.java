@@ -7,7 +7,7 @@ public enum AuditState {
 	private Integer id;
 	private String description;
 
-	private AuditState(String description, Integer id) {
+	AuditState(String description, Integer id) {
 		this.id = id;
 		this.description = description;
 	}

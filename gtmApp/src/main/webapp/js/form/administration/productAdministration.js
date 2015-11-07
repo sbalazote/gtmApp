@@ -38,17 +38,17 @@ ProductAdministration = function() {
 				productGtins[i].date = date;
 			}
 		}
-		return;
+
 	};
 	
 	var updatePrice = function(id, price, date) {
 		for (var i = 0; i < productPrices.length; i++) {
 			if (productPrices[i].id == id) {
-				productPrices[i].price = price
+				productPrices[i].price = price;
 				productPrices[i].date = date;
 			}
 		}
-		return;
+
 	};
 	
 	$('#productGtinsModal').on('shown.bs.modal', function () {
@@ -380,7 +380,7 @@ ProductAdministration = function() {
 				var isActive = (response.active) ? "true" : "false";
 				$("#productActiveSelect").val(isActive).trigger('chosen:update');
 				if (response.price != null) {
-					var price = new String(response.price);
+					var price = String(response.price);
 					$('#priceInput').val(price.slice(0,-2) + "," + price.slice(-2));
 				} else {
 					$("#priceInput").val('');
@@ -456,7 +456,7 @@ ProductAdministration = function() {
 	        	if (typeof row.price === "undefined") {
 	        		return "-";
 	        	} else {
-	        		var price = new String(row.price);
+	        		var price = String(row.price);
 	        		return price.slice(0,-2) + "," + price.slice(-2);
 	        	}
 	    	}

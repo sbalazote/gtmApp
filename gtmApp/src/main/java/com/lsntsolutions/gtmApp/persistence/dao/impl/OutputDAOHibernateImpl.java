@@ -1,11 +1,9 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
+import com.lsntsolutions.gtmApp.constant.Constants;
+import com.lsntsolutions.gtmApp.model.Output;
 import com.lsntsolutions.gtmApp.persistence.dao.OutputDAO;
+import com.lsntsolutions.gtmApp.query.OutputQuery;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -16,9 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import com.lsntsolutions.gtmApp.constant.Constants;
-import com.lsntsolutions.gtmApp.model.Output;
-import com.lsntsolutions.gtmApp.query.OutputQuery;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 @Repository
 public class OutputDAOHibernateImpl implements OutputDAO {
@@ -103,11 +102,7 @@ public class OutputDAOHibernateImpl implements OutputDAO {
 
 	@Override
 	public boolean getCountOutputSearch(OutputQuery outputQuery) {
-		if (this.getOutputForSearch(outputQuery).size() < Constants.QUERY_MAX_RESULTS) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.getOutputForSearch(outputQuery).size() < Constants.QUERY_MAX_RESULTS;
 	}
 
 	@SuppressWarnings("unchecked")

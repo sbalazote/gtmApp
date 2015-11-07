@@ -53,7 +53,7 @@ public enum RoleOperation {
 	private Integer id;
 	private String description;
 
-	private RoleOperation(String description, Integer id) {
+	RoleOperation(String description, Integer id) {
 		this.id = id;
 		this.description = description;
 	}

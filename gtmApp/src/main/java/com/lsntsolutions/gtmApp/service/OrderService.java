@@ -1,10 +1,10 @@
 package com.lsntsolutions.gtmApp.service;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.dto.OrderDTO;
 import com.lsntsolutions.gtmApp.model.Order;
 import com.lsntsolutions.gtmApp.query.DeliveryNoteQuery;
+
+import java.util.List;
 
 public interface OrderService {
 
@@ -24,7 +24,7 @@ public interface OrderService {
 
 	boolean existSerial(Integer productId, String serial);
 
-	public List<Order> getAllFilter(Integer agreementId, Integer clientId, Integer stateId);
+	List<Order> getAllFilter(Integer agreementId, Integer clientId, Integer stateId);
 
 	void reassignOperators(List<Integer> ordersToPrint, Integer logisticOperatorId);
 }

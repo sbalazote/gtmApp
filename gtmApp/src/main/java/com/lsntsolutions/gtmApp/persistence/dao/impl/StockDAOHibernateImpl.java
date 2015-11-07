@@ -1,10 +1,5 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.constant.Constants;
 import com.lsntsolutions.gtmApp.model.Product;
 import com.lsntsolutions.gtmApp.model.Stock;
@@ -20,6 +15,11 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 @Repository
 public class StockDAOHibernateImpl implements StockDAO {
@@ -204,11 +204,7 @@ public class StockDAOHibernateImpl implements StockDAO {
 
 	@Override
 	public boolean getCountStockSearch(StockQuery stockQuery) {
-		if (this.getStockForSearch(stockQuery).size() < Constants.QUERY_MAX_RESULTS) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.getStockForSearch(stockQuery).size() < Constants.QUERY_MAX_RESULTS;
 	}
 
 	// TODO cambiar cuando se agregue el gtin_id en stock

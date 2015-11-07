@@ -1,12 +1,9 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
+import com.lsntsolutions.gtmApp.constant.Constants;
 import com.lsntsolutions.gtmApp.model.ProvisioningRequest;
 import com.lsntsolutions.gtmApp.persistence.dao.ProvisioningRequestDAO;
+import com.lsntsolutions.gtmApp.query.ProvisioningQuery;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -16,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import com.lsntsolutions.gtmApp.constant.Constants;
-import com.lsntsolutions.gtmApp.query.ProvisioningQuery;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 @Repository
 public class ProvisioningRequestDAOHibernateImpl implements ProvisioningRequestDAO {
@@ -116,11 +115,7 @@ public class ProvisioningRequestDAOHibernateImpl implements ProvisioningRequestD
 
 	@Override
 	public boolean getCountOfProvisioningSearch(ProvisioningQuery provisioningQuery) {
-		if (this.getProvisioningForSearch(provisioningQuery).size() < Constants.QUERY_MAX_RESULTS) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.getProvisioningForSearch(provisioningQuery).size() < Constants.QUERY_MAX_RESULTS;
 	}
 
 	@SuppressWarnings("unchecked")

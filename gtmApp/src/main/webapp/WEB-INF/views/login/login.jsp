@@ -30,7 +30,7 @@
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut",
                 "target": ".myAlert"
-            }
+            };
             // Muestro mensaje de error, con un titulo.
             toastr.info('La sesi\u00f3n se ha cerrado correctamente.', 'INFO');
         </script>
@@ -56,7 +56,7 @@
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut",
                 "target": ".myAlert"
-            }
+            };
             // Muestro mensaje de error, con un titulo.
             toastr.error('${error}', 'ERROR!');
         </script>

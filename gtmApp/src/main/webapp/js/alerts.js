@@ -44,7 +44,7 @@ $(document).ready(function() {
 			"hideMethod": "fadeOut",
 			"tapToDismiss" : false,
 			"target": "#"+myDiv
-		}
+		};
 		// Muestro mensaje dependiendo el tipo.
 		switch (type) {
 			case 'danger':

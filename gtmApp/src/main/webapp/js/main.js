@@ -358,7 +358,7 @@ $(document).ready(function() {
 
 			}
 		}, 1000);
-	}
+	};
 
 	var fileDownloadCheckTimer;
 	generateSupplyingPDFReport = function(supplyingId) {
@@ -372,7 +372,7 @@ $(document).ready(function() {
 				myReload("success", "Se ha registrado dispensa n\u00famero: " + supplyingId);
 			}
 		}, 1000);
-	}
+	};
 
 	var fileDownloadCheckTimer;
 	generateOutputPDFReport = function(outputId) {
@@ -386,7 +386,7 @@ $(document).ready(function() {
 				myReload("success", "Se ha registrado el egreso de mercader\u00eda n\u00famero: " + outputId);
 			}
 		}, 1000);
-	}
+	};
 
 	var fileDownloadCheckTimer;
 	generateProvisioningRequestPDFReport = function(provisioningRequestId) {
@@ -400,7 +400,7 @@ $(document).ready(function() {
 				myReload("success", "Se ha registrado el Pedido n\u00famero: " + provisioningRequestId);
 			}
 		}, 1000);
-	}
+	};
 
 	var fileDownloadCheckTimer;
 	generatePickingSheetPDF = function(provisioningRequestIds) {
@@ -414,7 +414,7 @@ $(document).ready(function() {
 				myReload("success", "Se han generado las hojas de Picking para los pedidos n\u00famero: " + provisioningRequestIds);
 			}
 		}, 1000);
-	}
+	};
 
 
 	getURLParameter = function(sParam) {

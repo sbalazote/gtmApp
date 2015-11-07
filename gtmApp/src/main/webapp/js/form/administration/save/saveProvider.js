@@ -111,7 +111,7 @@ SaveProvider = function() {
 					"typeId": $("#typeSelect option:selected").val(),
 					"VATLiabilityId": $("#VATLiabilitySelect option:selected").val(),
 					"active": $("#providerActiveSelect option:selected").val(),
-					"logisticsOperators": $("#my-select").val() || new Array(),
+					"logisticsOperators": $("#my-select").val() || [],
 			};
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.

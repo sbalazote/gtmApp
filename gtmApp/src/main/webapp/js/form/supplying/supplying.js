@@ -781,7 +781,7 @@ var Supplying = function() {
 
 	$("#addAffiliateModalAcceptButton").click(function() {
 		if (validateAddAffiliateModalForm()) {
-			var clients =  new Array();
+			var clients =  [];
 			clients.push(parseInt($("#clientInput").val()));
 			var jsonAffiliate = {
 					"code" : $("#affiliateCodeInput").val(),

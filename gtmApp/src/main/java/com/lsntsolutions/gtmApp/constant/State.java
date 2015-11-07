@@ -6,7 +6,7 @@ public enum State {
 
 	private Integer id;
 
-	private State(Integer id) {
+	State(Integer id) {
 		this.id = id;
 	}
 

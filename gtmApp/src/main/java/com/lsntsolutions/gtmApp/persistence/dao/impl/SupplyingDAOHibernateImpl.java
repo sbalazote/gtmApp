@@ -1,10 +1,5 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.constant.Constants;
 import com.lsntsolutions.gtmApp.model.Supplying;
 import com.lsntsolutions.gtmApp.persistence.dao.SupplyingDAO;
@@ -18,6 +13,11 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 @Repository
 public class SupplyingDAOHibernateImpl implements SupplyingDAO {
@@ -107,10 +107,6 @@ public class SupplyingDAOHibernateImpl implements SupplyingDAO {
 
 	@Override
 	public boolean getCountSupplyingSearch(SupplyingQuery supplyingQuery) {
-		if (this.getSupplyingForSearch(supplyingQuery).size() < Constants.QUERY_MAX_RESULTS) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.getSupplyingForSearch(supplyingQuery).size() < Constants.QUERY_MAX_RESULTS;
 	}
 }

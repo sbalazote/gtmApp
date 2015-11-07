@@ -1,12 +1,10 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
+import com.lsntsolutions.gtmApp.constant.Constants;
 import com.lsntsolutions.gtmApp.model.Input;
 import com.lsntsolutions.gtmApp.persistence.dao.InputDAO;
+import com.lsntsolutions.gtmApp.query.InputQuery;
+import com.lsntsolutions.gtmApp.util.StringUtility;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -17,9 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import com.lsntsolutions.gtmApp.constant.Constants;
-import com.lsntsolutions.gtmApp.query.InputQuery;
-import com.lsntsolutions.gtmApp.util.StringUtility;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 @Repository
 public class InputDAOHibernateImpl implements InputDAO {
@@ -124,11 +123,7 @@ public class InputDAOHibernateImpl implements InputDAO {
 
 	@Override
 	public boolean getCountInputSearch(InputQuery inputQuery) {
-		if (this.getInputForSearch(inputQuery).size() < Constants.QUERY_MAX_RESULTS) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.getInputForSearch(inputQuery).size() < Constants.QUERY_MAX_RESULTS;
 	}
 
 	@SuppressWarnings("unchecked")

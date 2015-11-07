@@ -1,13 +1,13 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.ProductGtin;
 import com.lsntsolutions.gtmApp.persistence.dao.ProductGtinDAO;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class ProductGtinDAOHibernateImpl implements ProductGtinDAO {
@@ -69,10 +69,7 @@ public class ProductGtinDAOHibernateImpl implements ProductGtinDAO {
 		String gtinInInputDetailsSentence = "select count(*) from product_gtin as pg, input_detail as id where id.gtin_id = pg.id and pg.number = " + number;
 		Query gtinInInputDetailsQuery = this.sessionFactory.getCurrentSession().createSQLQuery(gtinInInputDetailsSentence);
 		int gtinInInputDetailsQty = ((Number) gtinInInputDetailsQuery.uniqueResult()).intValue();
-		if (gtinInInputDetailsQty > 0) {
-			return true;
-		}
+		return gtinInInputDetailsQty > 0;
 
-		return false;
 	}
 }

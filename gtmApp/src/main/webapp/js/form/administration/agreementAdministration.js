@@ -70,8 +70,8 @@ $(document).ready(function() {
 		$("#activeSelect").prop('disabled', hidden).trigger('chosen:update');
 		$("#numberOfDeliveryNoteDetailsPerPageInput").attr('disabled', hidden);
 		$("#pickingFilepathInput").attr('disabled', hidden);
-		$("#orderLabelPrinterSelect").attr('disabled', hidden).trigger('chosen:update');;
-		$("#deliveryNotePrinterSelect").attr('disabled', hidden).trigger('chosen:update');;
+		$("#orderLabelPrinterSelect").attr('disabled', hidden).trigger('chosen:update');
+		$("#deliveryNotePrinterSelect").attr('disabled', hidden).trigger('chosen:update');
 		$("#deliveryNoteConceptSelect").prop('disabled', hidden).trigger('chosen:update');
 		$("#destructionConceptSelect").prop('disabled', hidden).trigger('chosen:update');
 	};

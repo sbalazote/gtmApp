@@ -98,7 +98,7 @@ SerializedReturns = function() {
 					};
 					aaData.push(row);
 					$("#productTable").bootgrid("append", aaData);
-					return;
+
 				}
 			});
 		});
