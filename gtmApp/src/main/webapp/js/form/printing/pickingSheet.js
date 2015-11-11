@@ -48,6 +48,7 @@ PickingSheet = function() {
 						id: 0,
 						client: "",
 						agreement: "",
+						state: "",
 						date: "",
 						action: ""
 					};
@@ -55,6 +56,7 @@ PickingSheet = function() {
 					orderDetail.id = response[i].id;
 					orderDetail.client = response[i].client.name;
 					orderDetail.agreement = response[i].agreement.description;
+					orderDetail.state =  response[i].state.description;
 					orderDetail.date = myParseDate(response[i].deliveryDate);
 					orderDetail.action = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
 

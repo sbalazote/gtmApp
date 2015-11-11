@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -31,6 +32,7 @@
 	            <th data-column-id="id" data-type="numeric" data-identifier="true"><spring:message code="provisioningRequest.provisioningRequestNumber"/></th>
 	            <th data-column-id="client"><spring:message code="common.client"/></th>
 	            <th data-column-id="agreement"><spring:message code="common.agreement"/></th>
+				<th data-column-id="date"><spring:message code="common.date" /></th>
 	          	<th data-column-id="option" data-formatter="option" data-sortable="false"><spring:message code="common.option"/></th>
 	        </tr>
    	 	</thead>
@@ -40,6 +42,7 @@
 				<td><c:out value="${provisioning.id}"></c:out></td>
 				<td><c:out value="${provisioning.client.name}"></c:out></td>
 				<td><c:out value="${provisioning.agreement.description}"></c:out></td>
+				<td><fmt:formatDate pattern="dd/MM/yyyy" value="${provisioning.deliveryDate}"/></td>
 				<td></td>
 			</tr>
 			</c:forEach>
