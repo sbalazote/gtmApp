@@ -227,7 +227,11 @@ $(document).ready(function() {
 			entity = "Armado: ";
 		}
 		$("#entityId").empty();
+		$("#provisioningRequestId").empty();
 		$("#entityId").append("<span class=\"label label-info\">" + entity + value + "</span> ");
+		if(response.orderId != null) {
+			$("#provisioningRequestId").append("<span class=\"label label-default\">" + "Pedido Nro.: " + response.provisioningRequestId + "</span> ");
+		}
 
 		$("#deliveryNoteModalANMATCode").show();
 
@@ -250,9 +254,16 @@ $(document).ready(function() {
 		for (var i = 0; i < response.deliveryNoteDetails.length; i++) {
 			found = false;
 			for (var j = 0; j < deliveryNoteDetails.length; j++) {
-				if (response.deliveryNoteDetails[i].product.id == deliveryNoteDetails[j].id) {
-					deliveryNoteDetails[j].amount += response.deliveryNoteDetails[i].amount;
-					found = true;
+				if (response.supplyingId != null) {
+					if ((response.deliveryNoteDetails[i].product + (response.deliveryNoteDetails[i].inStock ? "" : "(*)")) == deliveryNoteDetails[j].description) {
+						deliveryNoteDetails[j].amount += response.deliveryNoteDetails[i].amount;
+						found = true;
+					}
+				} else {
+					if (response.deliveryNoteDetails[i].productId == deliveryNoteDetails[j].id) {
+						deliveryNoteDetails[j].amount += response.deliveryNoteDetails[i].amount;
+						found = true;
+					}
 				}
 			}
 			if (!found) {
@@ -268,6 +279,11 @@ $(document).ready(function() {
 				deliveryNoteDetail.description = response.deliveryNoteDetails[i].product + descriptionDiscriminator;
 				deliveryNoteDetail.amount = response.deliveryNoteDetails[i].amount;
 				deliveryNoteDetail.serialNumber = response.deliveryNoteDetails[i].serialNumber;
+				if (response.supplyingId != null) {
+					deliveryNoteDetail.inStock = descriptionDiscriminator;
+				} else {
+					deliveryNoteDetail.inStock = "";
+				}
 				deliveryNoteDetails.push(deliveryNoteDetail);
 			}
 			// Guardo lote/vte y series para mostrar los detalles.
@@ -282,12 +298,18 @@ $(document).ready(function() {
 				serialNumber: response.deliveryNoteDetails[i].serialNumber,
 				batch: response.deliveryNoteDetails[i].batch,
 				expirationDate: response.deliveryNoteDetails[i].expirationDate,
-				viewTraceability: "<a type='button' class='btn btn-sm btn-default' href='searchSerializedProduct.do?productId="+ response.deliveryNoteDetails[i].product.id + "&serial=" + response.deliveryNoteDetails[i].serialNumber + "' target='_blank'><span class='glyphicon glyphicon-search'></span> Ver Traza" + "<//a>"
+				viewTraceability: "<a type='button' class='btn btn-sm btn-default' href='searchSerializedProduct.do?productId="+ response.deliveryNoteDetails[i].productId + "&serial=" + response.deliveryNoteDetails[i].serialNumber + "' target='_blank'><span class='glyphicon glyphicon-search'></span> Ver Traza" + "<//a>"
 
 			};
-			var item = serialsMap[response.deliveryNoteDetails[i].code] || [];
-			item.push(serialDetails);
-			serialsMap[response.deliveryNoteDetails[i].code] = item;
+			if (response.supplyingId != null) {
+				var item = serialsMap[response.deliveryNoteDetails[i].code + (response.deliveryNoteDetails[i].inStock ? "" : "(*)")] || [];
+				item.push(serialDetails);
+				serialsMap[response.deliveryNoteDetails[i].code + (response.deliveryNoteDetails[i].inStock ? "" : "(*)")] = item;
+			} else {
+				var item = serialsMap[response.deliveryNoteDetails[i].code] || [];
+				item.push(serialDetails);
+				serialsMap[response.deliveryNoteDetails[i].code] = item;
+			}
 			id++;
 		}
 
@@ -296,9 +318,9 @@ $(document).ready(function() {
 		var aaData = [];
 		for (var i = 0; i < deliveryNoteDetails.length; i++) {
 			if (deliveryNoteDetails[i].serialNumber == null) {
-				command = "<button type=\"button\" data-toggle=\"modal\" data-src=\"#deliveryNoteModal\" data-target=\"#batchExpirationDatesModal\" data-code=\"" + deliveryNoteDetails[i].code + "\" data-description=\"" + deliveryNoteDetails[i].description + "\" class=\"btn btn-sm btn-default command-view\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
+				command = "<button type=\"button\" data-toggle=\"modal\" data-src=\"#deliveryNoteModal\" data-target=\"#batchExpirationDatesModal\" data-code=\"" + deliveryNoteDetails[i].code + "\" data-description=\"" + deliveryNoteDetails[i].description + "\" data-inStock=\"" + deliveryNoteDetails[i].inStock + "\" class=\"btn btn-sm btn-default command-view\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
 			} else {
-				command = "<button type=\"button\" data-toggle=\"modal\" data-src=\"#deliveryNoteModal\" data-target=\"#serialsModal\" data-code=\"" + deliveryNoteDetails[i].code + "\" data-description=\"" + deliveryNoteDetails[i].description + "\" class=\"btn btn-sm btn-default command-view\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
+				command = "<button type=\"button\" data-toggle=\"modal\" data-src=\"#deliveryNoteModal\" data-target=\"#serialsModal\" data-code=\"" + deliveryNoteDetails[i].code + "\" data-description=\"" + deliveryNoteDetails[i].description + "\" data-inStock=\"" + deliveryNoteDetails[i].inStock + "\" class=\"btn btn-sm btn-default command-view\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
 			}
 			tableRow = {
 				code: deliveryNoteDetails[i].code,
@@ -583,7 +605,31 @@ $(document).ready(function() {
 		var id = addLeadingZeros(response.id,8);
 		$("#provisioningRequestId").text("Numero: " + id);
 
-		$("#provisioningRequestState").text(response.state.description);
+		var provisioningRequestState = response.state.description;
+
+		$("#provisioningRequestState").text(provisioningRequestState);
+
+		$("#deliveryNoteNumbers").empty();
+
+		if (provisioningRequestState === "REMITO IMPRESO") {
+			$.ajax({
+				url: "getAssociatedDeliveryNotes.do",
+				type: "GET",
+				async: false,
+				data: {
+					provisioningId: response.id
+				},
+				success: function (response) {
+					$.each(response, function(index, value) {
+						$("#deliveryNoteNumbers").append("<span class=\"label label-info\">" + value.number + "</span> ");
+					});
+
+				}/*,
+				error: function (jqXHR, textStatus, errorThrown) {
+					myGenericError();
+				}*/
+			});
+		}
 
 		$('#deliveryLocationProvisioningRequestModal').val(response.deliveryLocation.code + " - " + response.deliveryLocation.name);
 		var code = addLeadingZeros(response.agreement.code,5);
@@ -778,7 +824,7 @@ $(document).ready(function() {
 		dataSrc = $(this).attr("data-src");
 		dataCode = $(this).attr("data-code");
 		dataDescription = $(this).attr("data-description");
-		dataInStock = dataSrc == "#supplyingModal" ? $(this).attr("data-inStock") : "";
+		dataInStock = (dataSrc == "#supplyingModal" || dataSrc == "#deliveryNoteModal") ? $(this).attr("data-inStock") : "";
 		$($(this).attr("data-target")).modal("show");
 	});
 });

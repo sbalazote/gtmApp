@@ -67,7 +67,7 @@
 								<thead>
 								<tr>
 									<th data-column-id="code" data-type="numeric"><spring:message code="common.code" /></th>
-									<th data-identifier="true"data-column-id="description" data-header-css-class="descriptionColumn"><spring:message code="common.product" /></th>
+									<th data-identifier="true" data-column-id="description" data-header-css-class="descriptionColumn"><spring:message code="common.product" /></th>
 									<th data-column-id="amount" data-type="numeric"><spring:message code="common.amount" /></th>
 									<th data-column-id="command" data-sortable="false"><spring:message code="common.option" /></th>
 								</tr>

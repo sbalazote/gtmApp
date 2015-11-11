@@ -5,6 +5,8 @@ import com.lsntsolutions.gtmApp.constant.DocumentType;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.dto.ProvisioningRequestDTO;
+import com.lsntsolutions.gtmApp.model.DeliveryNote;
+import com.lsntsolutions.gtmApp.model.Order;
 import com.lsntsolutions.gtmApp.model.ProvisioningRequest;
 import com.lsntsolutions.gtmApp.query.ProvisioningQuery;
 import com.lsntsolutions.gtmApp.service.*;
@@ -29,6 +31,10 @@ public class ProvisioningRequestController {
 
 	@Autowired
 	private ClientService clientService;
+	@Autowired
+	private OrderService orderService;
+	@Autowired
+	private DeliveryNoteService deliveryNoteService;
 	@Autowired
 	private DeliveryLocationService deliveryLocationService;
 	@Autowired
@@ -72,6 +78,14 @@ public class ProvisioningRequestController {
 	public @ResponseBody
 	ProvisioningRequest getProvisioningRequest(@RequestParam Integer provisioningId) {
 		return this.provisioningRequestService.get(provisioningId);
+	}
+
+	@RequestMapping(value = "/getAssociatedDeliveryNotes", method = RequestMethod.GET)
+	public @ResponseBody
+	List<DeliveryNote> getAssociatedDeliveryNotes(@RequestParam Integer provisioningId) {
+		Order order = this.orderService.getOrderByProvisioningRequestId(provisioningId);
+		Map<Integer, List<DeliveryNote>> associatedOrders = this.deliveryNoteService.getAssociatedOrders();
+		return associatedOrders.get(order.getId());
 	}
 
 	@RequestMapping(value = "/getProvisioningForSearch", method = RequestMethod.POST)

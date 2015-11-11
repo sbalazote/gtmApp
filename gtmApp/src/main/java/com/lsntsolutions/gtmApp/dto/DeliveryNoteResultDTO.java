@@ -20,6 +20,8 @@ public class DeliveryNoteResultDTO {
 	private String supplyingId;
 	private String outputId;
 	private String orderId;
+	private String provisioningRequestId;
+
 	private List<DeliveryNoteDetailResultDTO> deliveryNoteDetails;
 
 	public List<DeliveryNoteDetailResultDTO> getDeliveryNoteDetails() {
@@ -111,6 +113,14 @@ public class DeliveryNoteResultDTO {
 		this.orderId = orderId;
 	}
 
+	public String getProvisioningRequestId() {
+		return provisioningRequestId;
+	}
+
+	public void setProvisioningRequestId(String provisioningRequestId) {
+		this.provisioningRequestId = provisioningRequestId;
+	}
+
 	public String getAffiliate() {
 		return affiliate;
 	}
@@ -155,11 +165,12 @@ public class DeliveryNoteResultDTO {
 			code = order.getProvisioningRequest().getDeliveryLocation().getFormatCode();
 			this.setDeliveryLocation(code + " - " + order.getProvisioningRequest().getDeliveryLocation().getName());
 			String id = order.getFormatId();
-
+			String provisioningRequestId = order.getProvisioningRequest().getFormatId();
 			String affiliate = order.getProvisioningRequest().getAffiliate().getCode() + " - " + order.getProvisioningRequest().getAffiliate().getSurname() + " " +
 					order.getProvisioningRequest().getAffiliate().getName();
 			this.setAffiliate(affiliate);
 			this.setOrderId(id);
+			this.setProvisioningRequestId(provisioningRequestId);
 		}
         if(supplying != null){
 			String code = supplying.getAgreement().getFormatCode();

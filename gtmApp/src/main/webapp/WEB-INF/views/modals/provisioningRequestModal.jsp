@@ -9,16 +9,21 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<div class="row">
-						<div class="col-md-4 col-lg-4">
+						<div class="col-md-6 col-lg-6">
 							<h3>
 								<spring:message code="provisioningRequest.label" />
 							</h3>
 						</div>
-						<div class="col-md-5 col-lg-3">
+						<div class="col-md-6 col-lg-6">
 							<h3 id="provisioningRequestId"></h3>
 						</div>
+					</div>
+					<div class="row">
 						<div class="col-md-3 col-lg-3">
 							<h3 id="provisioningRequestState" style="color: green; font-weight: bold"></h3>
+						</div>
+						<div class="col-md-9 col-lg-9">
+							<h3 id="deliveryNoteNumbers" style="color: green; font-weight: bold"></h3>
 						</div>
 					</div>
 				</div>

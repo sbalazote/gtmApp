@@ -206,7 +206,7 @@ SearchDeliveryNote = function() {
 				/*orderDeliveryNoteNumberSearch: {
 					digits: true
 				},*/
-				orderIdSearch: {
+				provisioningIdSearch: {
 					digits: true
 				},
 				/*supplyingDeliveryNoteNumberSearch: {
@@ -257,7 +257,7 @@ SearchDeliveryNote = function() {
 		$("#orderClientSearch").val('').trigger('chosen:updated');
 		$("#orderAffiliate").select2("val", "");
 		affiliateId = null;
-		$("#orderIdSearch").val('');
+		$("#provisioningIdSearch").val('');
 		$("#deliveryNoteTableOrder").bootgrid().bootgrid("clear");
 	});
 
@@ -373,7 +373,7 @@ SearchDeliveryNote = function() {
 				"affiliateId": $("#orderAffiliate").val() || null,
 				"outputId": null,
 				"supplyingId": null,
-				"provisioningRequestId": $("#orderIdSearch").val() || null
+				"provisioningRequestId": $("#provisioningIdSearch").val() || null
 			};
 
 			$.ajax({
@@ -385,17 +385,18 @@ SearchDeliveryNote = function() {
 				success: function(response) {
 					var aaData = [];
 					for (var i = 0, l = response.length; i < l; ++i) {
-						var order = {
+						var deliveryNoteFromOrder = {
 							id:"",
 							number: 0,
 							date: "",
 							action: ""
 						};
-						order.id= response[i].id;
-						order.number = response[i].number;
-						order.date = myParseDate(response[i].date);
-						order.action = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
-						aaData.push(order);
+						deliveryNoteFromOrder.id = response[i].deliveryNote.id;
+						deliveryNoteFromOrder.number = response[i].deliveryNote.number;
+						deliveryNoteFromOrder.provisioningRequestId = response[i].order.provisioningRequest.id;
+						deliveryNoteFromOrder.date = myParseDate(response[i].deliveryNote.date);
+						deliveryNoteFromOrder.action = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
+						aaData.push(deliveryNoteFromOrder);
 					}
 					$("#deliveryNoteTableOrder").bootgrid({
 						caseSensitive: false

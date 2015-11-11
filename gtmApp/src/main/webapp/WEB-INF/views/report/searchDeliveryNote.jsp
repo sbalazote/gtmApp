@@ -22,7 +22,7 @@
 	<div class="bs-example bs-example-tabs">
 		<ul id="myTab" class="nav nav-tabs">
 			<li class="active"><a href="#deliveryNotesOutputs" data-toggle="tab"><spring:message code="common.outputs"/></a></li>
-			<li><a href="#deliveryNotesOrders" data-toggle="tab"><spring:message code="common.orders"/></a></li>
+			<li><a href="#deliveryNotesOrders" data-toggle="tab"><spring:message code="common.provisioningRequests"/></a></li>
             <li><a href="#deliveryNotesSupplyings" data-toggle="tab"><spring:message code="common.supplyings"/></a></li>
         </ul>
 		<br>
@@ -263,8 +263,8 @@
 					</div>
 					<div class="row">
 						<div class="col-md-4 col-lg-4 form-group">
-							<label for="orderIdSearch"><spring:message code="common.orderNumber"/></label>
-							<input type="text" class="form-control" name="orderIdSearch" id="orderIdSearch" >
+							<label for="provisioningIdSearch"><spring:message code="provisioningRequest.provisioningRequestNumber"/></label>
+							<input type="text" class="form-control" name="provisioningIdSearch" id="provisioningIdSearch" >
 						</div>
 						<div class="col-md-4 col-lg-4 form-group">
 							<label for="orderClientSearch"><spring:message code="common.client" /></label>
@@ -324,7 +324,8 @@
                             <thead>
                             <tr>
 								<th data-column-id="id" data-header-css-class="idColumn" data-type="numeric"><spring:message code="common.id"/></th>
-                                <th data-column-id="number" data-header-css-class="descriptionColumn" data-type="numeric"><spring:message code="common.deliveryNote"/></th>
+                                <th data-column-id="number" data-type="numeric"><spring:message code="common.deliveryNote"/></th>
+								<th data-column-id="provisioningRequestId" data-type="numeric"><spring:message code="provisioningRequest.provisioningRequestNumber"/></th>
                                 <th data-column-id="date"><spring:message code="common.date"/></th>
                                 <th data-column-id="action"><spring:message code="common.option"/></th>
                             </tr>
