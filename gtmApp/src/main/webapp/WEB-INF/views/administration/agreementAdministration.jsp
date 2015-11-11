@@ -122,7 +122,7 @@
 							<select class="form-control chosen-select" id="deliveryNoteConceptSelect" name="deliveryNoteConcept">
 							<option value="">- <spring:message code="common.select.option"/> -</option>
 							<c:forEach items="${deliveryNoteConcepts}" var="deliveryNoteConcept" varStatus="status">
-							<option value="${deliveryNoteConcept.id}"><c:out value="${deliveryNoteConcept.description}"></c:out></option>
+							<option value="${deliveryNoteConcept.id}"><c:out value="${deliveryNoteConcept.code}"></c:out> - <c:out value="${deliveryNoteConcept.description}"></c:out></option>
 							</c:forEach>
 							</select>
 						</div>
@@ -131,7 +131,7 @@
 							<select class="form-control chosen-select" id="destructionConceptSelect" name="destructionConcept">
 							<option value="">- <spring:message code="common.select.option"/> -</option>
 							<c:forEach items="${destructionConcepts}" var="destructionConcept" varStatus="status">
-							<option value="${destructionConcept.id}"><c:out value="${destructionConcept.description}"></c:out></option>
+							<option value="${destructionConcept.id}"><c:out value="${destructionConcept.code}"></c:out> - <c:out value="${destructionConcept.description}"></c:out></option>
 							</c:forEach>
 							</select>
 						</div>
