@@ -10,18 +10,66 @@ ProvisioningRequestAuthorization = function() {
 		
 		showProvisioningRequestModal(provisioningId);
 	});
-	
-	refreshTable();
-	window.setInterval(refreshTable, 60000);
-	
+
 	$("#searchButton").click(function() {
-		refreshTable();
+		$.ajax({
+			url: "getProvisioningsToAuthorize.do",
+			type: "GET",
+			async: false,
+			data: {
+				agreementId: $("#agreementSearch").val() || null,
+				clientId: $("#clientSearch").val() || null,
+			},
+			success: function(response) {
+				var aaData = [];
+				for (var i = 0, l = response.length; i < l; ++i) {
+					var orderDetail = {
+						id: 0,
+						client: "",
+						agreement: "",
+						date: "",
+						action: ""
+					};
+
+					orderDetail.id = response[i].id;
+					orderDetail.client = response[i].client.name;
+					orderDetail.agreement = response[i].agreement.description;
+					orderDetail.date = myParseDate(response[i].deliveryDate);
+					orderDetail.action = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
+
+					aaData.push(orderDetail);
+				}
+
+				$("#provisioningTable").bootgrid({
+					caseSensitive: false,
+					selection: true,
+					multiSelect: true,
+					keepSelection: true
+				}).on("selected.rs.jquery.bootgrid", function(e, rows) {
+					for (var i = 0; i < rows.length; i++) {
+						requestsToApprove.push(rows[i].id);
+					}
+				}).on("deselected.rs.jquery.bootgrid", function(e, rows) {
+					for (var i = 0; i < rows.length; i++) {
+						for(var j = requestsToApprove.length - 1; j >= 0; j--) {
+							if(requestsToApprove[j] === rows[i].id) {
+								requestsToApprove.splice(j, 1);
+							}
+						}
+					}
+				});
+				$("#provisioningTable").bootgrid().bootgrid("clear");
+				$("#provisioningTable").bootgrid().bootgrid("append", aaData);
+				$("#provisioningTable").bootgrid().bootgrid("search", $(".search-field").val());
+			},
+			error: function(response) {
+			}
+		});
 	});
 	
 	$("#cleanButton").click(function() {
 		$('#clientSearch').val('').trigger('chosen:updated');
 		$('#agreementSearch').val('').trigger('chosen:updated');
-		refreshTable();
 	});
 	
 	$("#confirmButton").click(function() {
@@ -43,61 +91,4 @@ ProvisioningRequestAuthorization = function() {
 			myShowAlert('info', 'Seleccione al menos un Pedido para AUTORIZAR');
 		}
 	});
-	
-	function refreshTable() {
-		$.ajax({
-			url: "getProvisioningsToAuthorize.do",
-			type: "GET",
-			async: false,
-			data: {
-				agreementId: $("#agreementSearch").val() || null,
-				clientId: $("#clientSearch").val() || null,
-				},
-			success: function(response) {
-				var aaData = [];
-				for (var i = 0, l = response.length; i < l; ++i) {
-					var orderDetail = {
-							id: 0,
-							client: "",
-							agreement: "",
-							date: "",
-							action: ""
-						};
-						
-						orderDetail.id = response[i].id;
-						orderDetail.client = response[i].client.name;
-						orderDetail.agreement = response[i].agreement.description;
-						orderDetail.date = myParseDate(response[i].deliveryDate);
-						orderDetail.action = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
-
-					aaData.push(orderDetail);
-					}
-					
-					$("#provisioningTable").bootgrid({
-						caseSensitive: false,
-						selection: true,
-						multiSelect: true,
-						rowSelect: false,
-						keepSelection: true
-					}).on("selected.rs.jquery.bootgrid", function(e, rows) {
-						for (var i = 0; i < rows.length; i++) {
-							requestsToApprove.push(rows[i].id);
-						}
-					}).on("deselected.rs.jquery.bootgrid", function(e, rows) {
-						for (var i = 0; i < rows.length; i++) {
-							for(var j = requestsToApprove.length - 1; j >= 0; j--) {
-							    if(requestsToApprove[j] === rows[i].id) {
-							    	requestsToApprove.splice(j, 1);
-							    }
-							}
-						}
-					});
-					$("#provisioningTable").bootgrid().bootgrid("clear");
-					$("#provisioningTable").bootgrid().bootgrid("append", aaData);
-					$("#provisioningTable").bootgrid().bootgrid("search", $(".search-field").val());
-			},
-			error: function(response) {
-			}
-		});	
-	}
 };

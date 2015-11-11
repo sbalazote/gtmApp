@@ -114,6 +114,4 @@ var ProvisioningRequestCancellation = function() {
 			}
 		});
 	};
-	
-
 };
