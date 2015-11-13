@@ -94,9 +94,9 @@ public class AgreementsPdfView extends AbstractPdfView {
 				PdfPCell agreementCodeHeader = new PdfPCell(new Paragraph("CÓD.", fontHeader));
 				PdfPCell agreementDescriptionHeader = new PdfPCell(new Paragraph("DESCRIPCIÓN", fontHeader));
 				PdfPCell agreementNumberOfDeliveryNoteDetailsPerPageHeader = new PdfPCell(new Paragraph("NRO.DETALLE REM.", fontHeader));
-				PdfPCell agreementOrderLabelFilepathHeader = new PdfPCell(new Paragraph("RUTA PICKING", fontHeader));
+				PdfPCell agreementOrderLabelFilepathHeader = new PdfPCell(new Paragraph("RUTA ROTULOS", fontHeader));
 				PdfPCell agreementDeliveryNoteFilepathHeader = new PdfPCell(new Paragraph("RUTA REMITOS", fontHeader));
-				PdfPCell agreementPickingFilepathHeader = new PdfPCell(new Paragraph("RUTA ROTULOS", fontHeader));
+				PdfPCell agreementPickingFilepathHeader = new PdfPCell(new Paragraph("RUTA PICKING", fontHeader));
 				PdfPCell agreementDeliveryNoteConceptHeader = new PdfPCell(new Paragraph("CONC. REMITO", fontHeader));
 				PdfPCell agreementDestructionConceptHeader = new PdfPCell(new Paragraph("CONC. DEVOL.", fontHeader));
 				PdfPCell agreementActiveHeader = new PdfPCell(new Paragraph("ACT", fontHeader));
