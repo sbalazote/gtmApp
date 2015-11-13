@@ -101,10 +101,10 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-3 col-lg-3 form-group">
+					<div class="col-md-4 col-lg-4 form-group">
 						<label for="VATLiabilitySelect"><spring:message code="common.VATLiability"/></label>
 						<select class="form-control chosen-select" id="VATLiabilitySelect" name="VATLiability">
-							<option value="${selectedVATLiability.id}"><c:out value="${VATLiability.acronym}: ${VATLiability.description}"></c:out></option>
+							<option value="${selectedVATLiability.id}"><c:out value="${selectedVATLiability.acronym}: ${selectedVATLiability.description}"></c:out></option>
 							<c:forEach items="${VATLiabilities}" var="VATLiability" varStatus="status">
 								<option value="${VATLiability.id}"><c:out value="${VATLiability.acronym}: ${VATLiability.description}"></c:out></option>
 							</c:forEach>

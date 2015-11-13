@@ -21,7 +21,7 @@ import java.util.Map;
 @Controller
 public class PropertyController {
 	@Autowired
-	private com.lsntsolutions.gtmApp.service.PropertyService PropertyService;
+	private PropertyService PropertyService;
 
 	@Autowired
 	private AgentService agentService;
@@ -93,6 +93,9 @@ public class PropertyController {
 			property.setSupplyingConcept(this.conceptService.get(propertyDTO.getSupplyingConceptSelectId()));
 		}
 		property.setLastTag(Property.getLastTag());
+
+		property.setInformAnmat(propertyDTO.isInformAnmat());
+		property.setVATLiability(this.VATLiabilityService.get(propertyDTO.getVATLiabilityId()));
 
 		return property;
 	}

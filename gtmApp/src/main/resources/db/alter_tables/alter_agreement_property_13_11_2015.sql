@@ -1,6 +1,7 @@
 ALTER TABLE agreement DROP picking_filepath;
 ALTER TABLE agreement CHANGE order_label_filepath order_label_printer VARCHAR(255);
 ALTER TABLE agreement CHANGE delivery_note_filepath delivery_note_printer VARCHAR(255);
+ALTER TABLE agreement ADD picking_list BIT DEFAULT 1 NOT NULL AFTER order_label_printer;
 ALTER TABLE property ADD inform_anmat BIT DEFAULT 1 NOT NULL;
 ALTER TABLE property ADD VAT_liability_id INT(11) DEFAULT 1 NOT NULL;
 ALTER TABLE property ADD KEY `fk_property_VAT_liability_idx` (`VAT_liability_id`);
