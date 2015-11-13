@@ -1,8 +1,8 @@
 package com.lsntsolutions.gtmApp.dto;
 
-import java.io.Serializable;
-
 import org.codehaus.jackson.annotate.JsonProperty;
+
+import java.io.Serializable;
 
 public class PropertyDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -23,10 +23,7 @@ public class PropertyDTO implements Serializable {
 	private Integer typeId;
 	private Integer daysAgoPendingTransactions;
 	private Integer numberOfDeliveryNoteDetailsPerPage;
-	private String orderLabelFilepath;
 	private String selfSerializedTagFilepath;
-	private String deliveryNoteFilepath;
-	private String pickingFilepath;
 	private String ANMATName;
 	private String ANMATPassword;
 	private Integer printDeliveryNoteConceptId;
@@ -35,6 +32,8 @@ public class PropertyDTO implements Serializable {
 	private String proxyNumber;
 	private boolean informProxy;
 	private Integer supplyingConceptSelectId;
+	private boolean informAnmat;
+	private Integer VATLiabilityId;
 
 	public Integer getId() {
 		return this.id;
@@ -164,36 +163,12 @@ public class PropertyDTO implements Serializable {
 		this.numberOfDeliveryNoteDetailsPerPage = numberOfDeliveryNoteDetailsPerPage;
 	}
 
-	public String getOrderLabelFilepath() {
-		return this.orderLabelFilepath;
-	}
-
-	public void setOrderLabelFilepath(String orderLabelFilepath) {
-		this.orderLabelFilepath = orderLabelFilepath;
-	}
-
 	public String getSelfSerializedTagFilepath() {
 		return this.selfSerializedTagFilepath;
 	}
 
 	public void setSelfSerializedTagFilepath(String selfSerializedTagFilepath) {
 		this.selfSerializedTagFilepath = selfSerializedTagFilepath;
-	}
-
-	public String getDeliveryNoteFilepath() {
-		return this.deliveryNoteFilepath;
-	}
-
-	public void setDeliveryNoteFilepath(String deliveryNoteFilepath) {
-		this.deliveryNoteFilepath = deliveryNoteFilepath;
-	}
-
-	public String getPickingFilepath() {
-		return this.pickingFilepath;
-	}
-
-	public void setPickingFilepath(String pickingFilepath) {
-		this.pickingFilepath = pickingFilepath;
 	}
 
 	@JsonProperty("ANMATName")
@@ -264,4 +239,21 @@ public class PropertyDTO implements Serializable {
 		this.supplyingConceptSelectId = supplyingConceptSelectId;
 	}
 
+	public boolean isInformAnmat() {
+		return informAnmat;
+	}
+
+	public void setInformAnmat(boolean informAnmat) {
+		this.informAnmat = informAnmat;
+	}
+
+	@JsonProperty("VATLiabilityId")
+	public Integer getVATLiabilityId() {
+		return this.VATLiabilityId;
+	}
+
+	@JsonProperty("VATLiabilityId")
+	public void setVATLiabilityId(Integer VATLiabilityId) {
+		this.VATLiabilityId = VATLiabilityId;
+	}
 }

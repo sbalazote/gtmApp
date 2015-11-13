@@ -69,9 +69,8 @@ public class AgreementAdministrationController {
 		agreement.setDescription(agreementDTO.getDescription());
 		agreement.setActive(agreementDTO.isActive());
 		agreement.setNumberOfDeliveryNoteDetailsPerPage(agreementDTO.getNumberOfDeliveryNoteDetailsPerPage());
-		agreement.setPickingFilepath(agreementDTO.getPickingFilepath());
-		agreement.setOrderLabelFilepath(agreementDTO.getOrderLabelFilepath());
-		agreement.setDeliveryNoteFilepath(agreementDTO.getDeliveryNoteFilepath());
+		agreement.setOrderLabelPrinter(agreementDTO.getOrderLabelPrinter());
+		agreement.setDeliveryNotePrinter(agreementDTO.getDeliveryNotePrinter());
 		agreement.setDeliveryNoteConcept(this.conceptService.get(agreementDTO.getDeliveryNoteConceptId()));
 		agreement.setDestructionConcept(this.conceptService.get(agreementDTO.getDestructionConceptId()));
 		return agreement;
@@ -125,9 +124,8 @@ public class AgreementAdministrationController {
 			dataJson.put("code", agreement.getCode());
 			dataJson.put("description", agreement.getDescription());
 			dataJson.put("numberOfDeliveryNoteDetailsPerPage", agreement.getNumberOfDeliveryNoteDetailsPerPage());
-			dataJson.put("pickingFilepath", agreement.getPickingFilepath());
-			dataJson.put("orderLabelFilepath", agreement.getOrderLabelFilepath());
-			dataJson.put("deliveryNoteFilepath", agreement.getDeliveryNoteFilepath());
+			dataJson.put("orderLabelPrinter", agreement.getOrderLabelPrinter());
+			dataJson.put("deliveryNotePrinter", agreement.getDeliveryNotePrinter());
 			dataJson.put("isActive", agreement.isActive() == true ? "Si" : "No");
 			dataJson.put("deliveryNoteConcept", agreement.getDeliveryNoteConcept().getDescription());
 			dataJson.put("destructionConcept", agreement.getDestructionConcept().getDescription());

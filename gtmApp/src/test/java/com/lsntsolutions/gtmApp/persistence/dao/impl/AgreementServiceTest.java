@@ -1,8 +1,9 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
-import java.util.List;
-
+import com.lsntsolutions.gtmApp.model.Agreement;
+import com.lsntsolutions.gtmApp.model.Concept;
 import com.lsntsolutions.gtmApp.service.AgreementService;
+import com.lsntsolutions.gtmApp.service.ConceptService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -13,9 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
-import com.lsntsolutions.gtmApp.model.Agreement;
-import com.lsntsolutions.gtmApp.model.Concept;
-import com.lsntsolutions.gtmApp.service.ConceptService;
+import java.util.List;
 
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -63,9 +62,8 @@ public class AgreementServiceTest {
 		agreement.setActive(true);
 		agreement.setCode(1234);
 		agreement.setDescription("Test description");
-		agreement.setDeliveryNoteFilepath("");
-		agreement.setOrderLabelFilepath("");
-		agreement.setPickingFilepath("");
+		agreement.setDeliveryNotePrinter("");
+		agreement.setOrderLabelPrinter("");
 		agreement.setNumberOfDeliveryNoteDetailsPerPage(999);
 		agreement.setDeliveryNoteConcept(this.concept);
 		agreement.setDestructionConcept(this.concept);
@@ -83,9 +81,8 @@ public class AgreementServiceTest {
 		agreement1.setDescription("Test description");
 		agreement1.setDeliveryNoteConcept(this.concept);
 		agreement1.setDestructionConcept(this.concept);
-		agreement1.setDeliveryNoteFilepath("");
-		agreement1.setOrderLabelFilepath("");
-		agreement1.setPickingFilepath("");
+		agreement1.setDeliveryNotePrinter("");
+		agreement1.setOrderLabelPrinter("");
 		agreement1.setNumberOfDeliveryNoteDetailsPerPage(999);
 		this.agreementService.save(agreement1);
 
@@ -95,9 +92,8 @@ public class AgreementServiceTest {
 		agreement2.setDescription("Test description 2");
 		agreement2.setDeliveryNoteConcept(this.concept);
 		agreement2.setDestructionConcept(this.concept);
-		agreement2.setDeliveryNoteFilepath("");
-		agreement2.setOrderLabelFilepath("");
-		agreement2.setPickingFilepath("");
+		agreement2.setDeliveryNotePrinter("");
+		agreement2.setOrderLabelPrinter("");
 		agreement2.setNumberOfDeliveryNoteDetailsPerPage(999);
 		this.agreementService.save(agreement2);
 
@@ -112,9 +108,8 @@ public class AgreementServiceTest {
 		agreement1.setActive(true);
 		agreement1.setCode(1234);
 		agreement1.setDescription("Test description");
-		agreement1.setDeliveryNoteFilepath("");
-		agreement1.setOrderLabelFilepath("");
-		agreement1.setPickingFilepath("");
+		agreement1.setDeliveryNotePrinter("");
+		agreement1.setOrderLabelPrinter("");
 		agreement1.setNumberOfDeliveryNoteDetailsPerPage(999);
 		agreement1.setDeliveryNoteConcept(this.concept);
 		agreement1.setDestructionConcept(this.concept);
@@ -124,9 +119,8 @@ public class AgreementServiceTest {
 		agreement2.setActive(false);
 		agreement2.setCode(456);
 		agreement2.setDescription("Test description 2");
-		agreement2.setDeliveryNoteFilepath("");
-		agreement2.setOrderLabelFilepath("");
-		agreement2.setPickingFilepath("");
+		agreement2.setDeliveryNotePrinter("");
+		agreement2.setOrderLabelPrinter("");
 		agreement2.setNumberOfDeliveryNoteDetailsPerPage(999);
 		agreement2.setDeliveryNoteConcept(this.concept);
 		agreement2.setDestructionConcept(this.concept);
@@ -143,9 +137,8 @@ public class AgreementServiceTest {
 		agreement.setActive(true);
 		agreement.setCode(1234);
 		agreement.setDescription("Test description");
-		agreement.setDeliveryNoteFilepath("");
-		agreement.setOrderLabelFilepath("");
-		agreement.setPickingFilepath("");
+		agreement.setDeliveryNotePrinter("");
+		agreement.setOrderLabelPrinter("");
 		agreement.setNumberOfDeliveryNoteDetailsPerPage(999);
 		agreement.setDeliveryNoteConcept(this.concept);
 		agreement.setDestructionConcept(this.concept);

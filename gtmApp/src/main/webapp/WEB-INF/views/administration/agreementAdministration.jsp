@@ -34,9 +34,8 @@
 			<th data-column-id="code" data-header-css-class="codeColumn" data-type="numeric"><spring:message code="common.code" /></th>
 			<th data-column-id="description"><spring:message code="common.description" /></th>
 			<th data-column-id="numberOfDeliveryNoteDetailsPerPage"><spring:message code="configuration.numberOfDeliveryNoteDetailsPerPage" /></th>
-			<th data-column-id="pickingFilepath"><spring:message code="configuration.pickingFilepath" /></th>
-			<th data-column-id="orderLabelFilepath"><spring:message code="configuration.orderLabelFilepath" /></th>
-			<th data-column-id="deliveryNoteFilepath"><spring:message code="configuration.deliveryNoteFilepath" /></th>
+			<th data-column-id="orderLabelPrinter"><spring:message code="configuration.orderLabelPrinter" /></th>
+			<th data-column-id="deliveryNotePrinter"><spring:message code="configuration.deliveryNotePrinter" /></th>
 			<th data-column-id="isActive"><spring:message code="common.active" /></th>
 			<th data-column-id="deliveryNoteConcept"><spring:message code="configuration.deliveryNoteConcept" /></th>
 			<th data-column-id="destructionConcept"><spring:message code="configuration.destructionConcept" /></th>
@@ -75,17 +74,11 @@
 				</div>
 				<form id="agreementAdministrationForm" action="" onsubmit="return false;">
 					<div class="row">
-						<div class="col-md-4 col-lg-4 form-group">
+						<div class="col-md-6 col-lg-6 form-group">
 							<label for="codeInput"><spring:message code="common.code" /></label> <input type="text" class="form-control" id="codeInput" name="code">
 						</div>
-						<div class="col-md-4 col-lg-4 form-group">
+						<div class="col-md-6 col-lg-6 form-group">
 							<label for="descriptionInput"><spring:message code="common.description" /></label> <input type="text" class="form-control" id="descriptionInput" name="description">
-						</div>
-						<div class="col-md-4 col-lg-4 form-group">
-							<label for="activeSelect"><spring:message code="common.active" /></label> <select class="form-control chosen-select" id="activeSelect" name="active">
-								<option value="true"><spring:message code="common.yes" /></option>
-								<option value="false"><spring:message code="common.no" /></option>
-							</select>
 						</div>
 					</div>
 					<div class="row">
@@ -93,12 +86,15 @@
 							<label for="numberOfDeliveryNoteDetailsPerPageInput"><spring:message code="configuration.numberOfDeliveryNoteDetailsPerPage" /></label> <input type="text" class="form-control" id="numberOfDeliveryNoteDetailsPerPageInput" name="numberOfDeliveryNoteDetailsPerPage" value="${numberOfDeliveryNoteDetailsPerPage}">
 						</div>
 						<div class="col-md-6 col-lg-6 form-group">
-							<label for="pickingFilepathInput"><spring:message code="configuration.pickingFilepath" /></label> <input type="text" class="form-control" id="pickingFilepathInput" name="pickingFilepath" value="${pickingFilepath}">
+							<label for="activeSelect"><spring:message code="common.active" /></label> <select class="form-control chosen-select" id="activeSelect" name="active">
+							<option value="true"><spring:message code="common.yes" /></option>
+							<option value="false"><spring:message code="common.no" /></option>
+						</select>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-6 col-lg-6 form-group">
-							<label for="orderLabelPrinterSelect"><spring:message code="configuration.orderLabelFilepath" /></label>
+							<label for="orderLabelPrinterSelect"><spring:message code="configuration.orderLabelPrinter" /></label>
 							<select class="form-control chosen-select" id="orderLabelPrinterSelect" name="orderLabelPrinter">
 								<option value="">- <spring:message code="common.select.option"/> -</option>
 								<c:forEach items="${allPrinters}" var="printer" varStatus="status">
@@ -107,7 +103,7 @@
 							</select>
 						</div>
 						<div class="col-md-6 col-lg-6 form-group">
-							<label for="deliveryNotePrinterSelect"><spring:message code="configuration.deliveryNoteFilepath" /></label>
+							<label for="deliveryNotePrinterSelect"><spring:message code="configuration.deliveryNotePrinter" /></label>
 							<select class="form-control chosen-select" id="deliveryNotePrinterSelect" name="deliveryNotePrinter">
 								<option value="">- <spring:message code="common.select.option"/> -</option>
 								<c:forEach items="${allPrinters}" var="printer" varStatus="status">

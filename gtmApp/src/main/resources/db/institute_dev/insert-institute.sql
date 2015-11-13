@@ -102,8 +102,8 @@ insert into `delivery_note_enumerator` values (1,'0006','00000000',1,0);
 INSERT INTO `concept` VALUES 
 (1,102,'MAN:INGRESO POR COMPRAS',1,1,1,'\0',1,1,0,1);
 /*
-INSERT INTO `agreement` (id, code, description, order_label_filepath, delivery_note_filepath, picking_filepath, delivery_note_concept_id, destruction_concept_id, active) VALUES 
-(1,1,'ONCOMED','C:/ONCOMED/rotulo/','C:/ONCOMED/deliveryNotes/','C:/ONCOMED/pickingSheets/',23,31,1);
+INSERT INTO `agreement` (id, code, description, order_label_printer, delivery_note_printer, delivery_note_concept_id, destruction_concept_id, active) VALUES
+(1,1,'ONCOMED','C:/ONCOMED/rotulo/','C:/ONCOMED/deliveryNotes/',23,31,1);
 */
 insert into serial_separation_mapping (id, code, separator_token) values (1,'G','010');
 insert into serial_separation_mapping (id, code, separator_token) values (2,'S','21');

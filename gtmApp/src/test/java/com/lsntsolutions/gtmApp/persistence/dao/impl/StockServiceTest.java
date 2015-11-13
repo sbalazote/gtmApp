@@ -1,7 +1,7 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
-import java.util.Date;
-
+import com.lsntsolutions.gtmApp.model.*;
+import com.lsntsolutions.gtmApp.service.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -13,22 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
-import com.lsntsolutions.gtmApp.model.Agreement;
-import com.lsntsolutions.gtmApp.model.Concept;
-import com.lsntsolutions.gtmApp.model.Product;
-import com.lsntsolutions.gtmApp.model.ProductBrand;
-import com.lsntsolutions.gtmApp.model.ProductDrugCategory;
-import com.lsntsolutions.gtmApp.model.ProductGroup;
-import com.lsntsolutions.gtmApp.model.ProductMonodrug;
-import com.lsntsolutions.gtmApp.model.Stock;
-import com.lsntsolutions.gtmApp.service.AgreementService;
-import com.lsntsolutions.gtmApp.service.ConceptService;
-import com.lsntsolutions.gtmApp.service.ProductBrandService;
-import com.lsntsolutions.gtmApp.service.ProductDrugCategoryService;
-import com.lsntsolutions.gtmApp.service.ProductGroupService;
-import com.lsntsolutions.gtmApp.service.ProductMonodrugService;
-import com.lsntsolutions.gtmApp.service.ProductService;
-import com.lsntsolutions.gtmApp.service.StockService;
+import java.util.Date;
 
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -82,9 +67,8 @@ public class StockServiceTest {
 		this.agreement.setActive(true);
 		this.agreement.setCode(123);
 		this.agreement.setDescription("Test description");
-		this.agreement.setDeliveryNoteFilepath("");
-		this.agreement.setOrderLabelFilepath("");
-		this.agreement.setPickingFilepath("");
+		this.agreement.setDeliveryNotePrinter("");
+		this.agreement.setOrderLabelPrinter("");
 		this.agreement.setNumberOfDeliveryNoteDetailsPerPage(999);
 		this.agreement.setDeliveryNoteConcept(this.concept);
 		this.agreement.setDestructionConcept(this.concept);

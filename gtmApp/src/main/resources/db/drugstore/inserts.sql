@@ -301,13 +301,13 @@ INSERT INTO `provider` VALUES (117,2776,'ARGIMED SRL','30708072822','ARGIMED SRL
 INSERT INTO `provider` VALUES (118,2778,'DROGUERIA AVANTFAR SA','30708335416','DROGUERIA AVANTFAR SA',1,'CABA','PIZARRO 5336','1',1,NULL,NULL,'7798166060008',1,1,1);
 INSERT INTO `provider` VALUES (119,2779,'GBG PHARMA','30708559063','GBG PHARMA',1,'caba','manuel A. rodriguez 2464','1',1,NULL,NULL,'7798173790004',1,1,1);
 
-INSERT INTO `agreement` (id, code, description, order_label_filepath, delivery_note_filepath, picking_filepath, delivery_note_concept_id, destruction_concept_id, active) VALUES 
-(1,1,'ONCOMED','C:/ONCOMED/rotulo/','C:/ONCOMED/deliveryNotes/','C:/ONCOMED/pickingSheets/',23,31,1),
-(2,2,'OSECAC AC','C:/OSECACAC/rotulo/','C:/OSECACAC/deliveryNotes/','C:/OSECACAC/pickingSheets/',23,31,1),
-(3,3,'EXTRACAPITA','C:/EXTRACAPITA/rotulo/','C:/EXTRACAPITA/deliveryNotes/','C:/EXTRACAPITA/pickingSheets/',23,31,1),
-(4,4,'PAC','C:/PAC/rotulo/','C:/PAC/deliveryNotes/','C:/PAC/pickingSheets/',23,31,1),
-(6,6,'OSECAC PPG','C:/OSECACPPG/rotulo/','C:/OSECACPPG/deliveryNotes/','C:/OSECACPPG/pickingSheets/',23,31,1),
-(7,7,'OTROS ONCOMED','C:/OTROS/rotulo/','C:/OTROS/deliveryNotes/','C:/OTROS/pickingSheets/',23,31,1);
+INSERT INTO `agreement` (id, code, description, order_label_printer, delivery_note_printer, delivery_note_concept_id, destruction_concept_id, active) VALUES
+(1,1,'ONCOMED','C:/ONCOMED/rotulo/','C:/ONCOMED/deliveryNotes/',23,31,1),
+(2,2,'OSECAC AC','C:/OSECACAC/rotulo/','C:/OSECACAC/deliveryNotes/',23,31,1),
+(3,3,'EXTRACAPITA','C:/EXTRACAPITA/rotulo/','C:/EXTRACAPITA/deliveryNotes/',23,31,1),
+(4,4,'PAC','C:/PAC/rotulo/','C:/PAC/deliveryNotes/',23,31,1),
+(6,6,'OSECAC PPG','C:/OSECACPPG/rotulo/','C:/OSECACPPG/deliveryNotes/',23,31,1),
+(7,7,'OTROS ONCOMED','C:/OTROS/rotulo/','C:/OTROS/deliveryNotes/',23,31,1);
 
 insert into provisioning_request_state (id, description) values (1,'INGRESADO');
 insert into provisioning_request_state (id, description) values (2,'AUTORIZADO');

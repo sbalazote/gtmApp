@@ -44,7 +44,7 @@ public class OrderLabelPrinter implements ServletContextAware {
 	private PrintOnPrinter printOnPrinter;
 
 	public void getLabelFile(Order order) throws IOException {
-		String filepath = order.getProvisioningRequest().getAgreement().getOrderLabelFilepath();
+		String filepath = order.getProvisioningRequest().getAgreement().getOrderLabelPrinter();
 
 		Map<Product, Integer> products = order.getProducts(false);
 		Map<Product, Integer> coldProducts = order.getProducts(true);

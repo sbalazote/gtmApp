@@ -191,7 +191,7 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
 
             ByteArrayInputStream pdfDocument = new ByteArrayInputStream(out.toByteArray());
 
-            this.printOnPrinter.sendPDFToSpool(supplying.getAgreement().getDeliveryNoteFilepath(), "REMITO NRO-" + deliveryNoteNumber + ".pdf", pdfDocument);
+            this.printOnPrinter.sendPDFToSpool(supplying.getAgreement().getDeliveryNotePrinter(), "REMITO NRO-" + deliveryNoteNumber + ".pdf", pdfDocument);
 
             try {
                 pdfDocument.close();

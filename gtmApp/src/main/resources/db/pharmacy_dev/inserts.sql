@@ -170,13 +170,13 @@ insert into provider_type (id, code, description, active) values (1, 1,'MEDICAME
 insert into provider_type (id, code, description, active) values (2, 2,'DESCARTABLES', true);
 insert into provider_type (id, code, description, active) values (3, 3,'EMBALAJES', true);
 
-INSERT INTO `agreement` (id, code, description, order_label_filepath, delivery_note_filepath, picking_filepath, delivery_note_concept_id, destruction_concept_id, active) VALUES
-(1,1,'ONCOMED','C:/ONCOMED/rotulo/','C:/ONCOMED/deliveryNotes/','C:/ONCOMED/pickingSheets/',23,31,1),
-(2,2,'OSECAC AC','C:/OSECACAC/rotulo/','C:/OSECACAC/deliveryNotes/','C:/OSECACAC/pickingSheets/',23,31,1),
-(3,3,'EXTRACAPITA','C:/EXTRACAPITA/rotulo/','C:/EXTRACAPITA/deliveryNotes/','C:/EXTRACAPITA/pickingSheets/',23,31,1),
-(4,4,'PAC','C:/PAC/rotulo/','C:/PAC/deliveryNotes/','C:/PAC/pickingSheets/',23,31,1),
-(6,6,'OSECAC PPG','C:/OSECACPPG/rotulo/','C:/OSECACPPG/deliveryNotes/','C:/OSECACPPG/pickingSheets/',23,31,1),
-(7,7,'OTROS ONCOMED','C:/OTROS/rotulo/','C:/OTROS/deliveryNotes/','C:/OTROS/pickingSheets/',23,31,1);
+INSERT INTO `agreement` (id, code, description, order_label_printer, delivery_note_printer, delivery_note_concept_id, destruction_concept_id, active) VALUES
+(1,1,'ONCOMED','C:/ONCOMED/rotulo/','C:/ONCOMED/deliveryNotes/',23,31,1),
+(2,2,'OSECAC AC','C:/OSECACAC/rotulo/','C:/OSECACAC/deliveryNotes/',23,31,1),
+(3,3,'EXTRACAPITA','C:/EXTRACAPITA/rotulo/','C:/EXTRACAPITA/deliveryNotes/',23,31,1),
+(4,4,'PAC','C:/PAC/rotulo/','C:/PAC/deliveryNotes/',23,31,1),
+(6,6,'OSECAC PPG','C:/OSECACPPG/rotulo/','C:/OSECACPPG/deliveryNotes/',23,31,1),
+(7,7,'OTROS ONCOMED','C:/OTROS/rotulo/','C:/OTROS/deliveryNotes/',23,31,1);
 
 insert into provisioning_request_state (id, description) values (1,'INGRESADO');
 insert into provisioning_request_state (id, description) values (2,'AUTORIZADO');
