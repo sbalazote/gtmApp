@@ -1,17 +1,10 @@
 package com.lsntsolutions.gtmApp.controllers;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Resource;
-
 import com.lsntsolutions.gtmApp.dto.InputDTO;
 import com.lsntsolutions.gtmApp.dto.InputDTOBuilder;
 import com.lsntsolutions.gtmApp.dto.InputDetailDTO;
 import com.lsntsolutions.gtmApp.dto.InputDetailDTOBuilder;
+import com.lsntsolutions.gtmApp.service.ConceptService;
 import com.lsntsolutions.gtmApp.service.InputService;
 import com.lsntsolutions.gtmApp.util.IntegrationTestUtil;
 import com.lsntsolutions.gtmApp.util.MockSecurityContext;
@@ -42,7 +35,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import com.lsntsolutions.gtmApp.service.ConceptService;
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:application-context-test.xml")
@@ -98,7 +96,7 @@ public class InputControllerTest {
 
 		System.out.println(this.mockMvc
 				.perform(
-						post("/saveInput.do").session(this.session).secure(true).accept(MediaType.APPLICATION_JSON)
+						post("/saveInput.do").session(this.session).secure(true).param("isSerializedReturn", "false").accept(MediaType.APPLICATION_JSON)
 								.header("Content-Type", MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON)
 								.content(IntegrationTestUtil.convertObjectToJsonBytes(dto))).andDo(MockMvcResultHandlers.print()).andExpect(status().isOk()));
 	}
