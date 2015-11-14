@@ -2,6 +2,7 @@ package com.lsntsolutions.gtmApp.controllers.printing;
 
 import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
+import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.helper.impl.printer.OrderLabelPrinter;
 import com.lsntsolutions.gtmApp.model.Order;
 import com.lsntsolutions.gtmApp.service.AuditService;
@@ -27,13 +28,14 @@ public class OrderLabelController {
 
     @RequestMapping(value = "/printOrderLabel", method = RequestMethod.POST)
     public @ResponseBody
-    Boolean printOrderLabel(@RequestParam Integer orderId) throws Exception {
+    PrinterResultDTO printOrderLabel(@RequestParam Integer orderId) throws Exception {
         Order order = this.orderService.get(orderId);
-        this.orderLabelPrinter.getLabelFile(order);
+        PrinterResultDTO printerResultDTO = new PrinterResultDTO(order.getFormatId());
+        this.orderLabelPrinter.print(order, printerResultDTO);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             this.auditService.addAudit(auth.getName(), RoleOperation.ORDER_ASSEMBLY.getId(), AuditState.COMFIRMED, order.getId());
         }
-        return true;
+        return printerResultDTO;
     }
 }

@@ -5,6 +5,7 @@ import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.dto.AssignOperatorDTO;
 import com.lsntsolutions.gtmApp.dto.OrderDTO;
+import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.helper.impl.printer.OrderLabelPrinter;
 import com.lsntsolutions.gtmApp.model.Order;
 import com.lsntsolutions.gtmApp.model.ProvisioningRequest;
@@ -68,14 +69,19 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/saveOrder", method = RequestMethod.POST)
-	public @ResponseBody Order saveOrder(@RequestBody OrderDTO orderDTO) throws Exception {
+	public @ResponseBody
+	PrinterResultDTO saveOrder(@RequestBody OrderDTO orderDTO) throws Exception {
 		Order order = this.orderService.save(orderDTO);
-		this.orderLabelPrinter.getLabelFile(order);
+		PrinterResultDTO printerResultDTO = new PrinterResultDTO(order.getFormatId());
+		// imprimo rotulo para pedido solo si el parametro 'picking_list' en convenio esta seteado.
+		if (order.getProvisioningRequest().getAgreement().isPickingList()) {
+			this.orderLabelPrinter.print(order, printerResultDTO);
+		}
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
 			this.auditService.addAudit(auth.getName(), RoleOperation.ORDER_ASSEMBLY.getId(), AuditState.COMFIRMED, order.getId());
 		}
-		return order;
+		return printerResultDTO;
 	}
 
 	@RequestMapping(value = "/getBatchExpirationDateStock", method = RequestMethod.GET)

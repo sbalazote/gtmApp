@@ -8,6 +8,7 @@ import com.lowagie.text.pdf.Barcode128;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfWriter;
+import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.helper.PrintOnPrinter;
 import com.lsntsolutions.gtmApp.model.Affiliate;
 import com.lsntsolutions.gtmApp.model.Order;
@@ -28,13 +29,15 @@ import java.util.Map;
 @Service
 public class OrderLabelPrinter implements ServletContextAware {
 
-	private static final String FILE_NAME = "packing_list";
-	private static final String FILE_EXTENSION = ".RPV";
+	private static final String JOB_NAME = "packing_list";
 	private static final int MAX_PRODUCT_LIMIT = 16;
+
 	@Autowired
 	private PropertyService propertyService;
 
 	private ServletContext servletContext;
+
+	private PrinterResultDTO printerResultDTO;
 
 	public void setServletContext(ServletContext servletContext) {
 		this.servletContext = servletContext;
@@ -43,8 +46,10 @@ public class OrderLabelPrinter implements ServletContextAware {
 	@Autowired
 	private PrintOnPrinter printOnPrinter;
 
-	public void getLabelFile(Order order) throws IOException {
-		String filepath = order.getProvisioningRequest().getAgreement().getOrderLabelPrinter();
+	public void print(Order order, PrinterResultDTO printerResultDTO) throws IOException {
+		this.printerResultDTO = printerResultDTO;
+
+		String orderLabelPrinter = order.getProvisioningRequest().getAgreement().getOrderLabelPrinter();
 
 		Map<Product, Integer> products = order.getProducts(false);
 		Map<Product, Integer> coldProducts = order.getProducts(true);
@@ -58,7 +63,7 @@ public class OrderLabelPrinter implements ServletContextAware {
 		if (!products.isEmpty()) {
 			tag += 1;
 			try {
-				this.createFile(order, filepath, "-AMB", products, tag, tags, "AMBIENTE");
+				this.generateOrderLabel(order, orderLabelPrinter, "-AMB", products, tag, tags, "AMBIENTE");
 
 			} catch (FileNotFoundException | UnsupportedEncodingException e) {
 				e.printStackTrace();
@@ -67,7 +72,7 @@ public class OrderLabelPrinter implements ServletContextAware {
 		if (!coldProducts.isEmpty()) {
 			tag += 1;
 			try {
-				this.createFile(order, filepath, "-FRIO", coldProducts, tag, 1, "FRIO");
+				this.generateOrderLabel(order, orderLabelPrinter, "-FRIO", coldProducts, tag, 1, "FRIO");
 
 			} catch (FileNotFoundException | UnsupportedEncodingException e) {
 				e.printStackTrace();
@@ -75,23 +80,23 @@ public class OrderLabelPrinter implements ServletContextAware {
 		}
 	}
 
-	// The coordinates are measured in points. 1 inch is divided into 72 points, so that 1 Millimeter equals 2.8346 points.
-	private void createFile(Order order, String filepath, String type, Map<Product, Integer> products, Integer tag, Integer tagsCount,
-			String temperatureDescription) throws IOException {
+	private void generateOrderLabel(Order order, String orderLabelPrinter, String type, Map<Product, Integer> products, Integer tag, Integer tagsCount,
+												String temperatureDescription) throws IOException {
 
+		Document document = null;
+		ByteArrayInputStream pdfDocument = null;
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 
 		try {
-			//Rectangle pagesize = new Rectangle(283.46f, 283.46f);
 			Rectangle pagesize = new Rectangle(PageSize.A4);
-			Document document = new Document(pagesize);
+			document = new Document(pagesize);
 
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 
 			PdfWriter writer = PdfWriter.getInstance(document, out);
 
 			document.addAuthor("gtmApp");
-			document.addTitle(FILE_NAME + type + FILE_EXTENSION);
+			document.addTitle(JOB_NAME + type);
 			document.open();
 
 			PdfContentByte overContent = writer.getDirectContent();
@@ -144,7 +149,6 @@ public class OrderLabelPrinter implements ServletContextAware {
 			overContent.restoreState();
 
 			overContent.setFontAndSize(timesHelveticaBaseFont, 8.0f);
-			//overContent.setTextMatrix(35.0f * 2.8346f, (297.0f - 15.0f) * 2.8346f);
 			overContent.showTextAligned(PdfContentByte.ALIGN_CENTER, corporateName, 35.0f * 2.8346f, (297.0f - 15.0f) * 2.8346f, 0);
 
 			overContent.saveState();
@@ -244,9 +248,9 @@ public class OrderLabelPrinter implements ServletContextAware {
 
 			document.close();
 
-			ByteArrayInputStream pdfDocument = new ByteArrayInputStream(out.toByteArray());
+			pdfDocument = new ByteArrayInputStream(out.toByteArray());
 
-			this.printOnPrinter.sendPDFToSpool(filepath, number + "_" + FILE_NAME + type + FILE_EXTENSION, pdfDocument);
+			this.printOnPrinter.sendPDFToSpool(orderLabelPrinter, number + "_" + JOB_NAME + type, pdfDocument, printerResultDTO);
 
 			pdfDocument.close();
 

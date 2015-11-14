@@ -33,12 +33,24 @@ var DeliveryNoteSheet = function() {
 				data: JSON.stringify(ordersToPrint),
 				async: false,
 				success: function(response) {
-					var message = "Se han Impreso los siguientes remitos: <p></p><strong>";
-					$.each(response, function( index, value ) {
+					var msgType = "success";
+					var message = "Se han generado los siguientes remitos: <p></p><strong>";
+					$.each(response.deliveryNoteNumbers, function( index, value ) {
 						message += "<p>" + value + "</p>";
 					});
 					message += "</strong>";
-					myReload("success", message);
+					if (response.errorMessages.length > 0) {
+						$.each(response.errorMessages, function (index, value) {
+							message += "<strong><p>" + value + "</p></strong>";
+						});
+						msgType = "warning";
+					}
+					if (response.successMessages.length > 0) {
+						$.each(response.successMessages, function (index, value) {
+							message += "<strong><p>" + value + "</p></strong>";
+						});
+					}
+					myReload(msgType, message);
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					myGenericError();
