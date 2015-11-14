@@ -84,7 +84,6 @@
 <script type="text/javascript" src="${context}/js/select2.js"></script>
 <script type="text/javascript" src="${context}/js/select2_locale_es.js"></script>
 <script type="text/javascript" src="${context}/js/jquery.blockUI.js"></script>
-<script type="text/javascript" src="${context}/js/jspdf.debug.js"></script>
 <script type="text/javascript" src="${context}/js/jquery.base64.js"></script>
 <script type="text/javascript" src="${context}/js/pace.js"></script>
 <script type="text/javascript" src="${context}/js/toastr.js"></script>
