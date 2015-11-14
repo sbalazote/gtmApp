@@ -336,9 +336,9 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 		// imprimo condicion IVA entrega.
 		overContent.setTextMatrix(deliveryNoteConfig.getDeliveryLocationVatliabilityX(), deliveryNoteConfig.getDeliveryLocationVatliabilityY());
 		if (output.getDeliveryLocation() != null) {
-			overContent.showText(deliveryNoteConfig.isDeliveryLocationVatliabilityPrint() ? output.getDeliveryLocation().getVATLiability().getDescription() : "");
+			overContent.showText(deliveryNoteConfig.isDeliveryLocationVatliabilityPrint() ? output.getDeliveryLocation().getVATLiability().getDescription().toUpperCase() : "");
 		} else {
-			overContent.showText(deliveryNoteConfig.isDeliveryLocationVatliabilityPrint() ? output.getProvider().getVATLiability().getDescription() : "");
+			overContent.showText(deliveryNoteConfig.isDeliveryLocationVatliabilityPrint() ? output.getProvider().getVATLiability().getDescription().toUpperCase() : "");
 		}
 
 		// imprimo CUIT entrega.
