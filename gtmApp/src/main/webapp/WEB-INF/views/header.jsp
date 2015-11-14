@@ -89,7 +89,4 @@
 <script type="text/javascript" src="${context}/js/toastr.js"></script>
 <script type="text/javascript" src="${context}/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="${context}/js/jQuery.download.js"></script>
-<script type="text/javascript" src="${context}/js/emulatetab.joelpurra.js"></script>
-<script type="text/javascript" src="${context}/js/plusastab.joelpurra.js"></script>
-<script type="text/javascript" src="${context}/js/jquery.ya-enter2tab.js"></script>
 <script type="text/javascript" src="${context}/js/jquery.numeric.js"></script>
