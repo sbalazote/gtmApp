@@ -4,6 +4,7 @@ import com.lsntsolutions.gtmApp.dto.InputDTO;
 import com.lsntsolutions.gtmApp.dto.InputDTOBuilder;
 import com.lsntsolutions.gtmApp.dto.InputDetailDTO;
 import com.lsntsolutions.gtmApp.dto.InputDetailDTOBuilder;
+import com.lsntsolutions.gtmApp.exceptions.NullInputDetailsException;
 import com.lsntsolutions.gtmApp.service.ConceptService;
 import com.lsntsolutions.gtmApp.service.InputService;
 import com.lsntsolutions.gtmApp.util.IntegrationTestUtil;
@@ -86,7 +87,8 @@ public class InputControllerTest {
 		SecurityContextHolder.clearContext();
 	}
 
-	@Test
+	@Ignore
+	@Test(expected = NullInputDetailsException.class)
 	public void addEmptyInput() throws Exception {
 
 		InputDTO dto = new InputDTOBuilder().agreementId(null).conceptId(null).date(null).deliveryLocationId(null).deliveryNoteNumber(null).providerId(null)
@@ -119,7 +121,7 @@ public class InputControllerTest {
 
 		System.out.println(this.mockMvc
 				.perform(
-						post("/saveInput.do").session(this.session).secure(true).accept(MediaType.APPLICATION_JSON)
+						post("/saveInput.do").session(this.session).secure(true).param("isSerializedReturn", "false").accept(MediaType.APPLICATION_JSON)
 								.header("Content-Type", MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON)
 								.content(IntegrationTestUtil.convertObjectToJsonBytes(dto))).andDo(MockMvcResultHandlers.print()).andExpect(status().isOk()));
 
