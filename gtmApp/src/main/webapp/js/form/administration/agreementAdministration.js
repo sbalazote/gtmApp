@@ -10,6 +10,7 @@ $(document).ready(function() {
 		$("#orderLabelPrinterSelect").val($("#orderLabelPrinterSelect option:first").val());
 		$("#deliveryNotePrinterSelect").val($("#orderLabelPrinterSelect option:first").val());
 		$("#activeSelect").val($("#activeSelect option:first").val());
+		$("#pickingListSelect").val($("#pickingListSelect option:first").val());
 		$("#deliveryNoteConceptSelect").val($("#deliveryNoteConceptSelect option:first").val());
 		$("#destructionConceptSelect").val($("#destructionConceptSelect option:first").val());
 	};
@@ -53,6 +54,8 @@ $(document).ready(function() {
 				$("#deliveryNotePrinterSelect").val(response.deliveryNotePrinter).trigger('chosen:update');
 				var isActive = (response.active) ? "true" : "false";
 				$("#activeSelect").val(isActive).trigger('chosen:update');
+				var isPickingList = (response.pickingList) ? "true" : "false";
+				$("#pickingListSelect").val(isPickingList).trigger('chosen:update');
 				$("#deliveryNoteConceptSelect").val(response.deliveryNoteConcept.id).trigger('chosen:update');
 				$("#destructionConceptSelect").val(response.destructionConcept.id).trigger('chosen:update');
 			},
@@ -66,6 +69,7 @@ $(document).ready(function() {
 		$("#codeInput").attr('disabled', hidden);
 		$("#descriptionInput").attr('disabled', hidden);
 		$("#activeSelect").prop('disabled', hidden).trigger('chosen:update');
+		$("#pickingListSelect").prop('disabled', hidden).trigger('chosen:update');
 		$("#numberOfDeliveryNoteDetailsPerPageInput").attr('disabled', hidden);
 		$("#orderLabelPrinterSelect").attr('disabled', hidden).trigger('chosen:update');
 		$("#deliveryNotePrinterSelect").attr('disabled', hidden).trigger('chosen:update');

@@ -10,6 +10,7 @@ public class AgreementDTO implements Serializable {
 	private Integer code;
 	private String description;
 	private boolean active;
+	private boolean pickingList;
 	private Integer numberOfDeliveryNoteDetailsPerPage;
 	private String orderLabelPrinter;
 	private String deliveryNotePrinter;
@@ -46,6 +47,14 @@ public class AgreementDTO implements Serializable {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public boolean isPickingList() {
+		return pickingList;
+	}
+
+	public void setPickingList(boolean pickingList) {
+		this.pickingList = pickingList;
 	}
 
 	public Integer getNumberOfDeliveryNoteDetailsPerPage() {

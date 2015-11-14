@@ -68,6 +68,7 @@ public class AgreementAdministrationController {
 
 		agreement.setDescription(agreementDTO.getDescription());
 		agreement.setActive(agreementDTO.isActive());
+		agreement.setPickingList(agreementDTO.isPickingList());
 		agreement.setNumberOfDeliveryNoteDetailsPerPage(agreementDTO.getNumberOfDeliveryNoteDetailsPerPage());
 		agreement.setOrderLabelPrinter(agreementDTO.getOrderLabelPrinter());
 		agreement.setDeliveryNotePrinter(agreementDTO.getDeliveryNotePrinter());
@@ -127,6 +128,7 @@ public class AgreementAdministrationController {
 			dataJson.put("orderLabelPrinter", agreement.getOrderLabelPrinter());
 			dataJson.put("deliveryNotePrinter", agreement.getDeliveryNotePrinter());
 			dataJson.put("isActive", agreement.isActive() == true ? "Si" : "No");
+			dataJson.put("isPickingList", agreement.isPickingList() == true ? "Si" : "No");
 			dataJson.put("deliveryNoteConcept", agreement.getDeliveryNoteConcept().getDescription());
 			dataJson.put("destructionConcept", agreement.getDestructionConcept().getDescription());
 			jsonArray.put(dataJson);

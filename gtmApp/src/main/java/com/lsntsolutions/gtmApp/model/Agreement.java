@@ -28,6 +28,9 @@ public class Agreement implements Serializable {
 	@Column(name = "order_label_printer", nullable = false)
 	private String orderLabelPrinter;
 
+	@Column(name = "picking_list", nullable = false)
+	private boolean pickingList;
+
 	@Column(name = "delivery_note_printer", nullable = false)
 	private String deliveryNotePrinter;
 
@@ -84,6 +87,14 @@ public class Agreement implements Serializable {
 
 	public void setOrderLabelPrinter(String orderLabelPrinter) {
 		this.orderLabelPrinter = orderLabelPrinter;
+	}
+
+	public boolean isPickingList() {
+		return pickingList;
+	}
+
+	public void setPickingList(boolean pickingList) {
+		this.pickingList = pickingList;
 	}
 
 	public String getDeliveryNotePrinter() {

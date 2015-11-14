@@ -35,6 +35,7 @@
 			<th data-column-id="description"><spring:message code="common.description" /></th>
 			<th data-column-id="numberOfDeliveryNoteDetailsPerPage"><spring:message code="configuration.numberOfDeliveryNoteDetailsPerPage" /></th>
 			<th data-column-id="orderLabelPrinter"><spring:message code="configuration.orderLabelPrinter" /></th>
+			<th data-column-id="isPickingList"><spring:message code="common.pickingList" /></th>
 			<th data-column-id="deliveryNotePrinter"><spring:message code="configuration.deliveryNotePrinter" /></th>
 			<th data-column-id="isActive"><spring:message code="common.active" /></th>
 			<th data-column-id="deliveryNoteConcept"><spring:message code="configuration.deliveryNoteConcept" /></th>
@@ -82,11 +83,17 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-6 col-lg-6 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="numberOfDeliveryNoteDetailsPerPageInput"><spring:message code="configuration.numberOfDeliveryNoteDetailsPerPage" /></label> <input type="text" class="form-control" id="numberOfDeliveryNoteDetailsPerPageInput" name="numberOfDeliveryNoteDetailsPerPage" value="${numberOfDeliveryNoteDetailsPerPage}">
 						</div>
-						<div class="col-md-6 col-lg-6 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="activeSelect"><spring:message code="common.active" /></label> <select class="form-control chosen-select" id="activeSelect" name="active">
+							<option value="true"><spring:message code="common.yes" /></option>
+							<option value="false"><spring:message code="common.no" /></option>
+						</select>
+						</div>
+						<div class="col-md-4 col-lg-4 form-group">
+							<label for="pickingListSelect"><spring:message code="common.pickingList" /></label> <select class="form-control chosen-select" id="pickingListSelect" name="pickingList">
 							<option value="true"><spring:message code="common.yes" /></option>
 							<option value="false"><spring:message code="common.no" /></option>
 						</select>
