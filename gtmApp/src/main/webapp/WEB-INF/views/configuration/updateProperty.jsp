@@ -103,7 +103,7 @@
 				<div class="row">
 					<div class="col-md-4 col-lg-4 form-group">
 						<label for="VATLiabilitySelect"><spring:message code="common.VATLiability"/></label>
-						<select class="form-control chosen-select" id="VATLiabilitySelect" name="VATLiability">
+						<select class="form-control" id="VATLiabilitySelect" name="VATLiability">
 							<option value="${selectedVATLiability.id}"><c:out value="${selectedVATLiability.acronym}: ${selectedVATLiability.description}"></c:out></option>
 							<c:forEach items="${VATLiabilities}" var="VATLiability" varStatus="status">
 								<option value="${VATLiability.id}"><c:out value="${VATLiability.acronym}: ${VATLiability.description}"></c:out></option>
@@ -113,10 +113,11 @@
 				</div>
 				<div class="row">
 					<div class="col-md-4 col-lg-4 form-group">
-					<span class="btn btn-success fileinput-button">
-        				<i class="glyphicon glyphicon-upload"></i><span><spring:message code="configuration.uploadLogo"/></span>
-        				<input id="uploadLogoInput" type="file" name="uploadLogo" data-url="uploadLogo.do">
-    				</span>
+						<br>
+						<span class="btn btn-success fileinput-button" id="uploadLogoSpan">
+        					<i class="glyphicon glyphicon-upload"></i><span> <spring:message code="configuration.uploadLogo"/></span>
+        					<input id="uploadLogoInput" type="file" name="uploadLogo" data-url="uploadLogo.do">
+    					</span>
 					</div>
 					<br>
 					<br>

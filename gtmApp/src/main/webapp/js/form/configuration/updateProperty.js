@@ -237,36 +237,35 @@ UpdateProperty = function() {
 	    $('#accordion .in').collapse('hide');
 	});
 
-	$("#supplyingConceptSelect").chosen(
-		{
-			width: '100%' /* desired width */
-		});
-	$("#startTraceConceptSelect").chosen(
-		{
-			width: '100%' /* desired width */
-		});
-	$("#changePasswordSelect").chosen(
-		{
-			width: '100%' /* desired width */
-		});
-	$("#proxySelect").chosen(
-		{
-			width: '100%' /* desired width */
-		});
-	$("#provinceSelect").chosen(
-		{
-			width: '100%' /* desired width */
-		});
-	$("#agentSelect").chosen(
-		{
-			width: '100%' /* desired width */
-		});
-	$("#VATLiabilitySelect").chosen(
-		{
-			width: '100%' /* desired width */
-		});
-	$("#informAnmatSelect").chosen(
-		{
-			width: '100%' /* desired width */
-		});
+	$("#supplyingConceptSelect").chosen({
+		width: '100%' /* desired width */
+	});
+
+	$("#startTraceConceptSelect").chosen({
+		width: '100%' /* desired width */
+	});
+
+	$("#changePasswordSelect").chosen({
+		width: '100%' /* desired width */
+	});
+
+	$("#proxySelect").chosen({
+		width: '100%' /* desired width */
+	});
+
+	$("#provinceSelect").chosen({
+		width: '100%' /* desired width */
+	});
+
+	$("#agentSelect").chosen({
+		width: '100%' /* desired width */
+	});
+
+	$("#VATLiabilitySelect").chosen({
+		width: '100%' /* desired width */
+	});
+
+	$("#informAnmatSelect").chosen({
+		width: '100%' /* desired width */
+	});
 };
