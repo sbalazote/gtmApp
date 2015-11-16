@@ -36,7 +36,7 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
     private static final Logger logger = Logger.getLogger(SupplyingDeliveryNoteSheetPrinter.class);
 
     @Autowired
-    private com.lsntsolutions.gtmApp.service.PropertyService PropertyService;
+    private com.lsntsolutions.gtmApp.service.PropertyService propertyService;
     @Autowired
     private SupplyingService supplyingService;
     @Autowired
@@ -86,10 +86,9 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
             // calculo cuantos remitos voy a necesitar en base a la cantidad de detalles de productos.
             int deliveryNoteNumbersRequired = (int)Math.ceil((float)numberOfLinesNeeded / numberOfDeliveryNoteDetailsPerPage);
 
-            Integer conceptId = supplying.getAgreement().getDeliveryNoteConcept().getId();
-            Concept concept = this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
+            property = this.propertyService.get();
+            Concept concept = this.conceptService.getAndUpdateDeliveryNote(property.getSupplyingConcept().getId(), deliveryNoteNumbersRequired);
             POS = StringUtility.addLeadingZeros(concept.getDeliveryNoteEnumerator().getDeliveryNotePOS(), 4);
-            property = this.PropertyService.get();
             deliveryNoteNumber = concept.getDeliveryNoteEnumerator().getLastDeliveryNoteNumber() - deliveryNoteNumbersRequired + 1;
 
             document = new Document(PageSize.A4);
@@ -110,7 +109,7 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
             deliveryNoteComplete = POS + "-" + StringUtility.addLeadingZeros(deliveryNoteNumber, 8);
             deliveryNote.setNumber(deliveryNoteComplete);
 
-            deliveryNoteDetails = new ArrayList<DeliveryNoteDetail>();
+            deliveryNoteDetails = new ArrayList<>();
 
             // numero de linea de detalle de producto actual.
             int currentLine = 0;
@@ -214,7 +213,7 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
         deliveryNoteComplete = POS + "-" + StringUtility.addLeadingZeros(deliveryNoteNumber, 8);
         deliveryNote.setNumber(deliveryNoteComplete);
 
-        deliveryNoteDetails = new ArrayList<DeliveryNoteDetail>();
+        deliveryNoteDetails = new ArrayList<>();
     }
 
     private void savePage() {
