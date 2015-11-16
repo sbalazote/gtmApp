@@ -277,7 +277,6 @@ $(document).ready(function() {
         $("#codeInput").attr('disabled', hidden);
         //$("#deliveryNoteEnumeratorSelect").prop('disabled', hidden).trigger('chosen:update');
         $("#inputSelect").prop('disabled', hidden).trigger('chosen:update');
-        $("#printDeliveryNoteSelect").prop('disabled', hidden).trigger('chosen:update');
         $("#refundSelect").prop('disabled', hidden).trigger('chosen:update');
         $("#informAnmatSelect").prop('disabled', hidden).trigger('chosen:update');
     };
