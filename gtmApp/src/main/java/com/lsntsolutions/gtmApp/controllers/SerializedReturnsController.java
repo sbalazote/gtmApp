@@ -36,7 +36,8 @@ public class SerializedReturnsController {
 	public String serializedReturns(ModelMap modelMap) throws Exception {
 		modelMap.put("currentDate", (new SimpleDateFormat("dd/MM/yyyy").format(new Date())).toString());
 
-		modelMap.put("concepts", this.conceptService.getAllReturnConcepts());
+		//Supuestamente no hay devoluciones de provedores, para no modificar el jsp por las dudas solo se muestran los conceptos que sean de devolucion de clientes.
+		modelMap.put("concepts", this.conceptService.getAllReturnFromClientConcepts());
 		modelMap.put("deliveryLocations", this.deliveryLocationService.getAllActives());
 		modelMap.put("providers", this.providerService.getAllActives());
 		modelMap.put("agreements", this.agreementService.getAllActives());

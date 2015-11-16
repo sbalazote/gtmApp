@@ -18,7 +18,7 @@ public interface ConceptService {
 
 	List<Concept> getAllActives(Boolean input);
 
-	List<Concept> getAllReturnConcepts();
+	List<Concept> getAllReturnFromClientConcepts();
 
 	boolean delete(Integer conceptId);
 

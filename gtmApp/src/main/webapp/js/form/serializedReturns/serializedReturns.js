@@ -325,8 +325,8 @@ SerializedReturns = function() {
 		}
 	});
 	
-	//Se esconde el div de cliente
-	$("#deliveryLocationDiv").hide();
+	//Se esconde el div de proveedor
+	$("#providerDiv").hide();
 	$("#conceptInput").val(27).trigger("chosen:updated");
 	$("#providerInput").attr('disabled', true).trigger("chosen:updated");
 	$("#deliveryLocationInput").attr('disabled', true).trigger("chosen:updated");

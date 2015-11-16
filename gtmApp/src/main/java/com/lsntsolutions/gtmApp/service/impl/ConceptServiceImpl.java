@@ -63,8 +63,8 @@ public class ConceptServiceImpl implements ConceptService {
 	}
 
 	@Override
-	public List<Concept> getAllReturnConcepts() {
-		return this.conceptDAO.getAllReturnConcepts();
+	public List<Concept> getAllReturnFromClientConcepts() {
+		return this.conceptDAO.getAllReturnFromClientConcepts();
 	}
 
 	@Override
