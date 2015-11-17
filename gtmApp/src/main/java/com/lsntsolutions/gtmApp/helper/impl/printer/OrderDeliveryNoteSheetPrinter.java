@@ -220,7 +220,7 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
         deliveryNoteComplete = POS + "-" + StringUtility.addLeadingZeros(deliveryNoteNumber, 8);
         deliveryNote.setNumber(deliveryNoteComplete);
 
-        deliveryNoteDetails = new ArrayList<DeliveryNoteDetail>();
+        deliveryNoteDetails = new ArrayList<>();
     }
 
     private void savePage() {
@@ -229,7 +229,7 @@ public class OrderDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter {
         deliveryNote.setDate(currentDate);
         deliveryNote.setFake(false);
         try {
-            if (order.hasToInform() && provisioningRequest.getAgreement().getDeliveryNoteConcept().isInformAnmat()) {
+            if (order.hasToInform() && provisioningRequest.getAgreement().getDeliveryNoteConcept().isInformAnmat() && PropertyService.get().isInformAnmat()) {
                 deliveryNote.setInformAnmat(true);
             } else {
                 deliveryNote.setInformAnmat(false);

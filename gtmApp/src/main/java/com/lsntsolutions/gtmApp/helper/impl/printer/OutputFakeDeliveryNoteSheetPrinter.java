@@ -9,6 +9,7 @@ import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import com.lsntsolutions.gtmApp.model.DeliveryNoteDetail;
 import com.lsntsolutions.gtmApp.service.ConceptService;
 import com.lsntsolutions.gtmApp.service.DeliveryNoteService;
+import com.lsntsolutions.gtmApp.service.PropertyService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,8 @@ public class OutputFakeDeliveryNoteSheetPrinter {
 	private DeliveryNoteService deliveryNoteService;
 	@Autowired
 	private ConceptService conceptService;
+	@Autowired
+	private PropertyService propertyService;
 
 	public Integer print(Output output) {
 		Date date = new Date();
@@ -52,7 +55,7 @@ public class OutputFakeDeliveryNoteSheetPrinter {
 		}
 		deliveryNote.setDeliveryNoteDetails(deliveryNoteDetails);
 		try {
-			if (output.hasProductThatInform() && output.getConcept().isInformAnmat()) {
+			if (output.hasProductThatInform() && output.getConcept().isInformAnmat() && propertyService.get().isInformAnmat()) {
 				deliveryNote.setInformAnmat(true);
 			} else {
 				deliveryNote.setInformAnmat(false);

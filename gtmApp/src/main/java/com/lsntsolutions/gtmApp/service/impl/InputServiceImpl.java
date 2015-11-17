@@ -334,7 +334,7 @@ public class InputServiceImpl implements InputService {
 		input.setForcedInput(false);
 		input.setInputDetails(details);
 
-		if (input.hasToInform()) {
+		if (input.hasToInform() && this.PropertyService.get().isInformAnmat()) {
 			input.setInformAnmat(true);
 		} else {
 			input.setInformAnmat(false);

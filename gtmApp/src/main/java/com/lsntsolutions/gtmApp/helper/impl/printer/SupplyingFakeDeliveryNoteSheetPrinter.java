@@ -53,7 +53,7 @@ public class SupplyingFakeDeliveryNoteSheetPrinter {
 		}
 		deliveryNote.setDeliveryNoteDetails(deliveryNoteDetails);
 		try {
-			if (supplying.hasProductThatInform() && this.propertyService.get().getSupplyingConcept().isInformAnmat()) {
+			if (supplying.hasProductThatInform() && this.propertyService.get().getSupplyingConcept().isInformAnmat() && propertyService.get().isInformAnmat()) {
 				deliveryNote.setInformAnmat(true);
 			} else {
 				deliveryNote.setInformAnmat(false);

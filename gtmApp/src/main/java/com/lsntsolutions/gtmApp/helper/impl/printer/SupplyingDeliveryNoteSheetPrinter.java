@@ -223,7 +223,7 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
         deliveryNote.setDate(currentDate);
         deliveryNote.setFake(false);
         try {
-            if (supplying.hasToInform() && supplying.getAgreement().getDeliveryNoteConcept().isInformAnmat()) {
+            if (supplying.hasToInform() && supplying.getAgreement().getDeliveryNoteConcept().isInformAnmat() && propertyService.get().isInformAnmat()) {
                 deliveryNote.setInformAnmat(true);
             } else {
                 deliveryNote.setInformAnmat(false);
