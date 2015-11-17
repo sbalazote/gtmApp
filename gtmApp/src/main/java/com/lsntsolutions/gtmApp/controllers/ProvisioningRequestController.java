@@ -8,6 +8,7 @@ import com.lsntsolutions.gtmApp.dto.ProvisioningRequestDTO;
 import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import com.lsntsolutions.gtmApp.model.Order;
 import com.lsntsolutions.gtmApp.model.ProvisioningRequest;
+import com.lsntsolutions.gtmApp.model.ProvisioningRequestDetail;
 import com.lsntsolutions.gtmApp.query.ProvisioningQuery;
 import com.lsntsolutions.gtmApp.service.*;
 import com.lsntsolutions.gtmApp.util.OperationResult;
@@ -78,6 +79,17 @@ public class ProvisioningRequestController {
 	public @ResponseBody
 	ProvisioningRequest getProvisioningRequest(@RequestParam Integer provisioningId) {
 		return this.provisioningRequestService.get(provisioningId);
+	}
+
+	@RequestMapping(value = "/getProvisioningRequestDetails", method = RequestMethod.GET)
+	public @ResponseBody
+	List<ProvisioningRequestDetail> getProvisioningRequestDetails(@RequestParam Integer provisioningId) {
+		ProvisioningRequest provisioningRequest = this.provisioningRequestService.get(provisioningId);
+		if(provisioningRequest != null){
+			return provisioningRequest.getProvisioningRequestDetails();
+		}else{
+			return null;
+		}
 	}
 
 	@RequestMapping(value = "/getAssociatedDeliveryNotes", method = RequestMethod.GET)

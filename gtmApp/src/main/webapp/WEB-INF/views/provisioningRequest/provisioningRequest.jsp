@@ -108,24 +108,10 @@
 				<tr>
 					<th data-identifier="true" data-column-id="description" data-css-class="td-description" data-sortable="false"><spring:message code="common.product"/></th>
 					<th data-column-id="amount" data-type="numeric" data-css-class="td-amount" data-sortable="false"><spring:message code="common.amount"/></th>
-					<c:choose>
-						<c:when test="${provisioningRequestId != null}">
-						</c:when>
-						<c:otherwise>
-							<th data-column-id="command" data-sortable="false"><spring:message code="common.option"/></th>
-						</c:otherwise>
-					</c:choose>
+					<th data-column-id="command" data-sortable="false"><spring:message code="common.option"/></th>
 				</tr>
 			</thead>
 			<tbody id="productTableBody">
-			<c:forEach items="${productsSelected}" var="provisioningDetail" varStatus="status">
-				<tr>
-					<td class='td-description' data-sortable="false"><c:out value="${provisioningDetail.product.code}"></c:out> - <c:out value="${provisioningDetail.product.description}"></c:out></td>
-					<td class='td-amount' data-sortable="false"><c:out value="${provisioningDetail.amount}"></c:out>
-						<span class='span-productId' style='display:none'><c:out value="${provisioningDetail.product.id}"></c:out></span>
-					</td>
-				</tr>
-			</c:forEach>
 			</tbody>
 		</table>
 	</div>

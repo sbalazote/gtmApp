@@ -127,7 +127,38 @@ var ProvisioningRequest = function() {
 		});
 		return form.valid();
 	};
-	
+
+	if(isUpdate){
+		$.ajax({
+			url: "getProvisioningRequestDetails.do",
+			type: "GET",
+			async: false,
+			data: {
+				provisioningId: $("#provisioningId").val()
+			},
+			success: function(response) {
+				for (var i = 0, l = response.length; i < l; ++i) {
+					productDetails.push({
+						productId: response[i].product.id,
+						amount:  response[i].amount
+					});
+					var aaData = [];
+					var row = {
+						description: response[i].product.code + " - " + response[i].product.description,
+						amount: response[i].amount,
+						command: "<span class='span-productId' style='display:none'>" + response[i].product.id + "</span>"+
+						"<button type=\"button\" class=\"btn btn-sm btn-default edit-row\"><span class=\"glyphicon glyphicon-pencil\"></span></button>"+
+						"<button type=\"button\" class=\"btn btn-sm btn-default delete-row\"><span class=\"glyphicon glyphicon-trash\"></span></button>"
+					};
+					aaData.push(row);
+					$("#productTable").bootgrid("append", aaData);
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myGenericError();
+			}
+		});
+	}
 	
 	$("#affiliateInput").select2({
 		//allowClear: true,
