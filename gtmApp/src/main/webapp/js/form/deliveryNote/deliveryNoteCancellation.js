@@ -3,9 +3,12 @@ DeliveryNoteCancellation = function() {
 	var orderId = null;
 	var outputId = null;
 	var supplyingId = null;
-	var deliveryNotesToCancel = [];
+	var deliveryNotesToCancelFromSupplyings = [];
+	var deliveryNotesToCancelFromOrders = [];
+	var deliveryNotesToCancelFromOutput = [];
 	var ordersToReassembly = [];
 	var outputsToReassembly = [];
+	var supplyingsToReassembly = [];
 	
 	$('#deliveryNoteTableBody').on("click", ".view-order-row", function() {
 		var parent = $(this).parent().parent();
@@ -83,14 +86,23 @@ DeliveryNoteCancellation = function() {
 							var orderId = rows[i].orderAssemblyOrOutputNumber;
 							ordersToReassembly.push(orderId);
 							for (var j = 0; j < ids.length; j++) {
-								deliveryNotesToCancel.push(ids[j]);
+								deliveryNotesToCancelFromOrders.push(ids[j]);
 							}
 						} else {
-							var outputId = rows[i].orderAssemblyOrOutputNumber;
-							outputsToReassembly.push(outputId);
-							for (var j = 0; j < ids.length; j++) {
-								deliveryNotesToCancel.push(ids[j]);
+							if(rows[i].class === "EGRESO"){
+								var outputId = rows[i].orderAssemblyOrOutputNumber;
+								outputsToReassembly.push(outputId);
+								for (var j = 0; j < ids.length; j++) {
+									deliveryNotesToCancelFromOutput.push(ids[j]);
+								}
+							}else{
+								var supplyingId = rows[i].orderAssemblyOrOutputNumber;
+								supplyingsToReassembly.push(supplyingId);
+								for (var j = 0; j < ids.length; j++) {
+									deliveryNotesToCancelFromSupplyings.push(ids[j]);
+								}
 							}
+
 						}
 					}
 				}).on("deselected.rs.jquery.bootgrid", function(e, rows)
@@ -105,13 +117,21 @@ DeliveryNoteCancellation = function() {
 							var orderId = rows[i].orderAssemblyOrOutputNumber;
 							ordersToReassembly.splice(ordersToReassembly.indexOf(orderId), 1);
 							for (var j = 0; j < ids.length; j++) {
-								deliveryNotesToCancel.splice(deliveryNotesToCancel.indexOf(ids[j]), 1);
+								deliveryNotesToCancelFromOrders.splice(deliveryNotesToCancelFromOrders.indexOf(ids[j]), 1);
 							}
 						} else {
-							var outputId = rows[i].orderAssemblyOrOutputNumber;
-							outputsToReassembly.splice(outputsToReassembly.indexOf(outputId), 1);
-							for (var j = 0; j < ids.length; j++) {
-								deliveryNotesToCancel.splice(deliveryNotesToCancel.indexOf(ids[j]), 1);
+							if(rows[i].class === "EGRESO") {
+								var outputId = rows[i].orderAssemblyOrOutputNumber;
+								outputsToReassembly.splice(outputsToReassembly.indexOf(outputId), 1);
+								for (var j = 0; j < ids.length; j++) {
+									deliveryNotesToCancelFromOutput.splice(deliveryNotesToCancelFromOutput.indexOf(ids[j]), 1);
+								}
+							}else{
+								var supplyingId = rows[i].orderAssemblyOrOutputNumber;
+								supplyingsToReassembly.splice(supplyingsToReassembly.indexOf(supplyingId), 1);
+								for (var j = 0; j < ids.length; j++) {
+									deliveryNotesToCancelFromSupplyings.splice(deliveryNotesToCancelFromSupplyings.indexOf(ids[j]), 1);
+								}
 							}
 						}
 					}
@@ -127,9 +147,9 @@ DeliveryNoteCancellation = function() {
 	};
 
 	$("#confirmButton").click(function() {
-		if (deliveryNotesToCancel.length == 1) {
-			cancelDeliveryNotes(deliveryNotesToCancel);
-		} else if (deliveryNotesToCancel.length > 1) {
+		if (deliveryNotesToCancelFromOrders.length == 1 || deliveryNotesToCancelFromOutput.length == 1 || deliveryNotesToCancelFromOutput.length == 1 ) {
+			cancelDeliveryNotes(deliveryNotesToCancelFromOrders,deliveryNotesToCancelFromOutput,deliveryNotesToCancelFromSupplyings);
+		} else if(deliveryNotesToCancelFromOrders.length > 1 || deliveryNotesToCancelFromOutput.length > 1 || deliveryNotesToCancelFromOutput.length > 1){
 			BootstrapDialog.show({
 				type: BootstrapDialog.TYPE_WARNING,
 				size: BootstrapDialog.SIZE_LARGE,
@@ -147,7 +167,7 @@ DeliveryNoteCancellation = function() {
 					cssClass: 'btn-primary',
 					action: function(dialogItself) {
 						dialogItself.close();
-						cancelDeliveryNotes(deliveryNotesToCancel);
+						cancelDeliveryNotes(deliveryNotesToCancelFromOrders,deliveryNotesToCancelFromOutput,deliveryNotesToCancelFromSupplyings);
 					}
 				}]
 			});
@@ -156,15 +176,19 @@ DeliveryNoteCancellation = function() {
 		}
 	});
 
-	var cancelDeliveryNotes = function(deliveryNotesToCancel) {
+	var cancelDeliveryNotes = function(deliveryNotesToCancelFromOrders,deliveryNotesToCancelFromOutput,deliveryNotesToCancelFromSupplyings) {
+		var map = new Object(); //Doesn't not have to be a hash map, any key/value map is fine
+		map["A"] = deliveryNotesToCancelFromOrders;
+		map["E"] = deliveryNotesToCancelFromOutput;
+		map["D"] = deliveryNotesToCancelFromSupplyings;
 		$.ajax({
 			url: "cancelDeliveryNotes.do",
 			type: "POST",
 			contentType: "application/json",
-			data: JSON.stringify(deliveryNotesToCancel),
+			data: JSON.stringify(map),
 			async: false,
 			success: function(response) {
-				myReload("success", "Se han anulado los siguientes remitos: " + deliveryNotesToCancel);
+				myReload("success", "Se han anulado los siguientes remitos: " + deliveryNotesToCancelFromOrders + deliveryNotesToCancelFromOutput + deliveryNotesToCancelFromSupplyings );
 				$.ajax({
 					url: "reassemblyOrders.do",
 					type: "POST",

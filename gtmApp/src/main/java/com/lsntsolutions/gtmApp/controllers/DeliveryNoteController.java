@@ -62,12 +62,12 @@ public class DeliveryNoteController {
 		return "deliveryNoteCancellation";
 	}
 
-	@RequestMapping(value = "/cancelDeliveryNotes", method = RequestMethod.POST)
+	@RequestMapping(value = "/cancelDeliveryNotes", method = RequestMethod.POST, consumes = { "application/json" })
 	public @ResponseBody
-	void cancelDeliveryNotes(@RequestBody List<String> deliveryNoteNumbers) throws Exception {
+	void cancelDeliveryNotes(@RequestBody HashMap<String,List<String>> deliveryNotesToCancel) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
-			this.deliveryNoteService.cancelDeliveryNotes(deliveryNoteNumbers, auth.getName());
+			this.deliveryNoteService.cancelDeliveryNotes(deliveryNotesToCancel, auth.getName());
 		}
 	}
 

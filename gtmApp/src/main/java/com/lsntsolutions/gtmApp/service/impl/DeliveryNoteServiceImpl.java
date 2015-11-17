@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -161,50 +162,44 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	}
 
 	@Override
-	public void cancelDeliveryNotes(List<String> deliveryNoteNumbers, String username) {
-		Output output = null;
-		Supplying supplying = null;
-		Order order = null;
+	public void cancelDeliveryNotes(HashMap<String, List<String>> deliveryNoteNumbers, String username) throws Exception {
+		Output output;
+		Supplying supplying;
 
-		for (String deliveryNoteNumber : deliveryNoteNumbers) {
-			DeliveryNote deliveryNote = this.getDeliveryNoteFromNumber(deliveryNoteNumber);
-			deliveryNote.setCancelled(true);
-			try {
+		for(String type : deliveryNoteNumbers.keySet()){
+			for (String deliveryNoteNumber : deliveryNoteNumbers.get(type)) {
+				DeliveryNote deliveryNote = this.deliveryNoteDAO.getDeliveryNoteFromNumber(deliveryNoteNumber, type);
+				deliveryNote.setCancelled(true);
 				try {
-					if (deliveryNote.isInformAnmat() && deliveryNote.isInformed()) {
-						this.traceabilityService.cancelDeliveryNoteTransaction(deliveryNote);
+					try {
+						if (deliveryNote.isInformAnmat() && deliveryNote.isInformed()) {
+							this.traceabilityService.cancelDeliveryNoteTransaction(deliveryNote);
+						}
+					} catch (Exception e) {
+						logger.info("No se ha podido informar la cancelacion a ANMAT " + deliveryNote.getId());
+						e.printStackTrace();
 					}
+					this.save(deliveryNote);
 				} catch (Exception e) {
-					logger.info("No se ha podido informar la cancelacion a ANMAT " + deliveryNote.getId());
-					e.printStackTrace();
+					logger.info("No se ha podido actualizar el estado al remito " + deliveryNote.getId());
 				}
-				this.save(deliveryNote);
-			} catch (Exception e) {
-				logger.info("No se ha podido actualizar el estado al remito " + deliveryNote.getId());
+
+				if (type == "E") {
+					output = this.getOutput(deliveryNote);
+					if (output != null) {
+						this.outputService.cancel(output);
+					}
+				}
+
+				if (type == "D") {
+					supplying = this.getSupplying(deliveryNote);
+					if (supplying != null) {
+						this.supplyingService.cancel(supplying);
+					}
+				}
+				this.auditService.addAudit(username, RoleOperation.DELIVERY_NOTE_CANCELLATION.getId(), AuditState.CANCELLED, deliveryNote.getId());
 			}
 
-			if (output == null) {
-				output = this.getOutput(deliveryNote);
-				if (output != null) {
-					this.outputService.cancel(output);
-				}
-			}
-
-			if (supplying == null) {
-				supplying = this.getSupplying(deliveryNote);
-				if (supplying != null) {
-					this.supplyingService.cancel(supplying);
-				}
-			}
-
-			if (order == null) {
-				order = this.getOrder(deliveryNote);
-				if (order != null) {
-					this.orderService.changeToPrintState(order);
-				}
-			}
-
-			this.auditService.addAudit(username, RoleOperation.DELIVERY_NOTE_CANCELLATION.getId(), AuditState.CANCELLED, deliveryNote.getId());
 		}
 	}
 

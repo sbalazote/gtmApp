@@ -1,5 +1,6 @@
 package com.lsntsolutions.gtmApp.persistence.dao;
 
+import com.lsntsolutions.gtmApp.constant.OutputType;
 import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import com.lsntsolutions.gtmApp.model.Order;
 import com.lsntsolutions.gtmApp.model.Output;
@@ -30,6 +31,8 @@ public interface DeliveryNoteDAO {
 	Order gerOrder(DeliveryNote deliveryNote);
 
 	Output gerOutput(DeliveryNote deliveryNote);
+
+	DeliveryNote getDeliveryNoteFromNumber(String deliveryNoteNumber, String outputType);
 
 	Supplying getSupplying(DeliveryNote deliveryNote);
 
