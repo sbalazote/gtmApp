@@ -3,11 +3,11 @@ package com.lsntsolutions.gtmApp.controllers;
 import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.DocumentType;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
+import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.dto.SupplyingDTO;
 import com.lsntsolutions.gtmApp.helper.impl.printer.SupplyingDeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.helper.impl.printer.SupplyingFakeDeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.model.DeliveryNote;
-import com.lsntsolutions.gtmApp.model.Property;
 import com.lsntsolutions.gtmApp.model.Supplying;
 import com.lsntsolutions.gtmApp.query.SupplyingQuery;
 import com.lsntsolutions.gtmApp.service.*;
@@ -54,10 +54,12 @@ public class SupplyingController {
 
 	@RequestMapping(value = "/saveSupplying", method = RequestMethod.POST)
 	public @ResponseBody
-	Supplying saveSupplying(@RequestBody SupplyingDTO supplyingDTO, HttpServletRequest request) throws Exception {
+	PrinterResultDTO saveSupplying(@RequestBody SupplyingDTO supplyingDTO, HttpServletRequest request) throws Exception {
 		Supplying supplying = null;
+		PrinterResultDTO printerResultDTO = null;
 		if(this.propertyService.get().getSupplyingConcept() != null) {
 			supplying = this.supplyingService.save(supplyingDTO);
+			printerResultDTO = new PrinterResultDTO(supplying.getFormatId());
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			if (auth != null) {
 				this.auditService.addAudit(auth.getName(), RoleOperation.SUPPLYING.getId(), AuditState.COMFIRMED, supplying.getId());
@@ -65,13 +67,13 @@ public class SupplyingController {
 			if (this.propertyService.get().getSupplyingConcept().isPrintDeliveryNote()) {
 				List<Integer> supplyings = new ArrayList<>();
 				supplyings.add(supplying.getId());
-				List<String> deliveryNotes = this.supplyingDeliveryNoteSheetPrinter.print(auth.getName(), supplyings);
+				this.supplyingDeliveryNoteSheetPrinter.print(auth.getName(), supplyings, printerResultDTO);
 			} else {
 				Integer deliveryNote = this.supplyingFakeDeliveryNoteSheetPrinter.print(supplying);
 				this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote);
 			}
 		}
-		return supplying;
+		return printerResultDTO;
 	}
 
 	@RequestMapping(value = "/getSupplying", method = RequestMethod.GET)

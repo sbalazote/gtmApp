@@ -2,15 +2,8 @@ package com.lsntsolutions.gtmApp.model;
 
 import com.lsntsolutions.gtmApp.util.StringUtility;
 
+import javax.persistence.*;
 import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "agreement")
@@ -32,14 +25,14 @@ public class Agreement implements Serializable {
 	@Column(name = "number_of_delivery_note_details_per_page", nullable = false)
 	private Integer numberOfDeliveryNoteDetailsPerPage;
 
-	@Column(name = "order_label_filepath", nullable = false)
-	private String orderLabelFilepath;
+	@Column(name = "order_label_printer", nullable = false)
+	private String orderLabelPrinter;
 
-	@Column(name = "delivery_note_filepath", nullable = false)
-	private String deliveryNoteFilepath;
+	@Column(name = "picking_list", nullable = false)
+	private boolean pickingList;
 
-	@Column(name = "picking_filepath", nullable = false)
-	private String pickingFilepath;
+	@Column(name = "delivery_note_printer", nullable = false)
+	private String deliveryNotePrinter;
 
 	@ManyToOne
 	@JoinColumn(name = "delivery_note_concept_id", nullable = false)
@@ -88,28 +81,28 @@ public class Agreement implements Serializable {
 		this.numberOfDeliveryNoteDetailsPerPage = numberOfDeliveryNoteDetailsPerPage;
 	}
 
-	public String getOrderLabelFilepath() {
-		return this.orderLabelFilepath;
+	public String getOrderLabelPrinter() {
+		return this.orderLabelPrinter;
 	}
 
-	public void setOrderLabelFilepath(String orderLabelFilepath) {
-		this.orderLabelFilepath = orderLabelFilepath;
+	public void setOrderLabelPrinter(String orderLabelPrinter) {
+		this.orderLabelPrinter = orderLabelPrinter;
 	}
 
-	public String getDeliveryNoteFilepath() {
-		return this.deliveryNoteFilepath;
+	public boolean isPickingList() {
+		return pickingList;
 	}
 
-	public void setDeliveryNoteFilepath(String deliveryNoteFilepath) {
-		this.deliveryNoteFilepath = deliveryNoteFilepath;
+	public void setPickingList(boolean pickingList) {
+		this.pickingList = pickingList;
 	}
 
-	public String getPickingFilepath() {
-		return this.pickingFilepath;
+	public String getDeliveryNotePrinter() {
+		return this.deliveryNotePrinter;
 	}
 
-	public void setPickingFilepath(String pickingFilepath) {
-		this.pickingFilepath = pickingFilepath;
+	public void setDeliveryNotePrinter(String deliveryNotePrinter) {
+		this.deliveryNotePrinter = deliveryNotePrinter;
 	}
 
 	public Concept getDeliveryNoteConcept() {

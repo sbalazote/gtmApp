@@ -16,12 +16,12 @@ SaveAgreement = function() {
 				active: {
 					required: true
 				},
+				pickingList: {
+					required: true
+				},
 				numberOfDeliveryNoteDetailsPerPage: {
 					required: true,
 					digits: true
-				},
-				pickingFilepath: {
-					required: true
 				},
 				orderLabelPrinter: {
 					required: true
@@ -68,16 +68,16 @@ SaveAgreement = function() {
 	$("#addButton, #updateButton").click(function(e) {
 		if (validateForm()) {
 			var jsonAgreement = {
-					"id": $("#idInput").val(),
-					"code": $("#codeInput").val(),
-					"description": $("#descriptionInput").val(),
-					"active": $("#activeSelect option:selected").val(),
-					"numberOfDeliveryNoteDetailsPerPage": $("#numberOfDeliveryNoteDetailsPerPageInput").val(),
-					"pickingFilepath": $("#pickingFilepathInput").val(),
-					"orderLabelFilepath": $("#orderLabelPrinterSelect option:selected").val(),
-					"deliveryNoteFilepath": $("#deliveryNotePrinterSelect option:selected").val(),
-					"deliveryNoteConceptId": $("#deliveryNoteConceptSelect option:selected").val(),
-					"destructionConceptId": $("#destructionConceptSelect option:selected").val()
+				"id": $("#idInput").val(),
+				"code": $("#codeInput").val(),
+				"description": $("#descriptionInput").val(),
+				"active": $("#activeSelect option:selected").val(),
+				"pickingList": $("#pickingListSelect option:selected").val(),
+				"numberOfDeliveryNoteDetailsPerPage": $("#numberOfDeliveryNoteDetailsPerPageInput").val(),
+				"orderLabelPrinter": $("#orderLabelPrinterSelect option:selected").val(),
+				"deliveryNotePrinter": $("#deliveryNotePrinterSelect option:selected").val(),
+				"deliveryNoteConceptId": $("#deliveryNoteConceptSelect option:selected").val(),
+				"destructionConceptId": $("#destructionConceptSelect option:selected").val()
 			};
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.

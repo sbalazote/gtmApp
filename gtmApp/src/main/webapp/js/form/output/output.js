@@ -473,7 +473,7 @@ Output = function() {
 					complete: function(jqXHR, textStatus) {
 					    $.unblockUI();
 					    if (textStatus === 'success') {
-						    generateOutputPDFReport(jqXHR.responseJSON.id);
+						    generateOutputPDFReport(jqXHR.responseJSON);
 					    }
 				    }
 				});

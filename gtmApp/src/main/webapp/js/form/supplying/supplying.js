@@ -737,7 +737,7 @@ var Supplying = function() {
 						complete: function(jqXHR, textStatus) {
 							$.unblockUI();
 							if (textStatus === 'success') {
-								generateSupplyingPDFReport(jqXHR.responseJSON.id);
+								generateSupplyingPDFReport(jqXHR.responseJSON);
 							}
 						}
 					});

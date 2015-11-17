@@ -182,101 +182,6 @@ $(document).ready(function() {
 	    return value > param;
 	},"Por favor, ingrese un n\u00famero mayor a cero");
 	
-	printIOPDFHeader = function(doc, mode, title, currentSheet, totalSheets) {
-		doc.setFontSize(16);
-		doc.setFont("helvetica");
-		doc.setFontType("bold");
-		doc.text(20, 20, title);
-		doc.setFont("courier");
-		doc.setFontType("normal");
-		doc.text(180, 10, 'Hoja ' + currentSheet + '/' + totalSheets);
-		doc.text(150, 20, 'Fecha: ' + $("#currentDateInput").val());
-
-		if ((mode == 'input') || (mode == 'output')) {
-		doc.text(20, 40, 'Concepto: ' + $("#conceptInput option:selected").text());
-		if ($("#providerInput").val() != "") {
-			doc.text(20, 50, 'Proveedor: ' + $("#providerInput option:selected").text());
-		} else {
-			if (mode == 'input') {
-				doc.text(20, 50, 'Lugar de Entrega: ' + $("#deliveryLocationInput option:selected").text());
-			} else {
-				doc.text(20, 50, 'Cliente: ' + $("#clientInput option:selected").text());
-			}
-		}
-		} else {
-			doc.text(20, 40, 'Cliente: ' + $("#clientInput option:selected").text());
-			doc.text(20, 50, 'Afiliado: ' + $("#affiliateInput").select2("data").text);
-		}
-		doc.text(20, 60, 'Convenio: ' + $("#agreementInput option:selected").text());
-		if (mode == 'input') {
-			doc.text(20, 70, 'N\u00famero de Remito: R' + $("#deliveryNotePOSInput").val() + '-' + $("#deliveryNoteNumberInput").val());
-			doc.text(20, 80, 'Orden de Compra: ' + $("#purchaseOrderNumberInput").val().trim());
-		}
-
-		doc.setFontSize(8);
-		doc.setFontType("bold");
-		doc.text(10, 90, 'PRODUCTO');
-		doc.text(70, 90, 'SERIE');
-		doc.text(120, 90, 'LOTE');
-		doc.text(150, 90, 'VENCIMIENTO');
-		doc.text(175, 90, 'CANT.');
-		
-		if (mode == 'supplying') {
-			doc.text(190, 90, 'EN STOCK.');
-		}
-		doc.setFontType("normal");
-		doc.setLineWidth(1);
-		doc.line(5, 95, 205, 95);
-	};
-	
-	printIOPDF = function(mode, id, details) {
-		var doc = new jsPDF();
-		var currentSheet = 1;
-		var totalSheets = Math.floor(details.length / 20) + 1;
-		var offsetY = 100;
-		var title;
-			
-		switch(mode) {
-	    	case 'input':
-	    		title = 'Recepci\u00f3n de Mercader\u00eda Nro.: ';
-	    		break;
-	    	case 'output':
-	    		title = 'Egreso de Mercader\u00eda Nro.: ';
-	    		break;
-	    	case 'supplying':
-	    		title = 'Dispensa Nro.: ';
-	    		break;
-		}
-		//var title = (mode == 'input') ? 'Recepci\u00f3n de Mercader\u00eda Nro.: ' : 'Egreso de Mercader\u00eda Nro.: ';
-		
-		printIOPDFHeader(doc, mode, title + id.toString(), currentSheet, totalSheets);
-		
-		// Saltando de a 10mm por detalle -> entran 20 detalles por hoja, del offsetY = 100 hasta el offsetY = 290 (inclusive).
-		$.each(details, function(index, value) {
-			if ((index % 20 == 0) && (index > 0)) {
-				doc.addPage();
-				currentSheet++;
-				offsetY = 100;
-				printIOPDFHeader(doc, title + id.toString(), currentSheet, totalSheets);
-			}
-			if (value.serialNumber == null) {
-				value.serialNumber = "-";
-			}
-			
-			doc.text(10, offsetY, value.product.code.toString() + ' - ' + value.product.description);
-			doc.text(70, offsetY, value.serialNumber);
-			doc.text(120, offsetY, value.batch);
-			doc.text(150, offsetY, myParseDate(value.expirationDate));
-			doc.text(175, offsetY, value.amount.toString());
-			if (mode == 'supplying') {
-				doc.text(190, offsetY, (value.inStock) ? 'SI' : 'NO');
-			}
-			offsetY += 10;
-		});
-		
-		return doc;
-	};
-	
 	var fileDownloadCheckTimer;
 	blockUIForDownload = function(path) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
@@ -351,9 +256,9 @@ $(document).ready(function() {
 			if (cookieValue == token) {
 				finishDownload();
 				if(isUpdate == true){
-					myRedirect("success", "Se ha autorizado el ingreso de mercader\u00eda n\u00famero: " + inputId, "searchInputToUpdate.do");
+					myRedirect("success", "Se ha autorizado el Ingreso de mercader\u00eda n\u00famero: " + inputId, "searchInputToUpdate.do");
 				}else{
-					myReload("success", "Se ha registrado el ingreso de mercader\u00eda n\u00famero: " + inputId);
+					myReload("success", "Se ha registrado el Ingreso de mercader\u00eda n\u00famero: " + inputId);
 				}
 
 			}
@@ -361,29 +266,55 @@ $(document).ready(function() {
 	};
 
 	var fileDownloadCheckTimer;
-	generateSupplyingPDFReport = function(supplyingId) {
+	generateSupplyingPDFReport = function(response) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
-		$.download('./rest/supplyings.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + supplyingId + '&dateTo=&affiliateId=null&clientId=null&agreementId=null&productId=null&cancelled=null', 'POST');
+		$.download('./rest/supplyings.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + response.operationId + '&dateTo=&affiliateId=null&clientId=null&agreementId=null&productId=null&cancelled=null', 'POST');
 		$.blockUI({message: 'Generando Reporte de Dispensa. Espere un Momento por favor...'});
 		fileDownloadCheckTimer = window.setInterval(function () {
 			var cookieValue = $.cookie('fileDownloadToken');
 			if (cookieValue == token) {
 				finishDownload();
-				myReload("success", "Se ha registrado dispensa n\u00famero: " + supplyingId);
+				var msgType = "success";
+				var message = "Se ha registrado la Dispensa de mercader\u00eda n\u00famero: " + response.operationId;
+				if (response.errorMessages.length > 0) {
+					$.each(response.errorMessages, function (index, value) {
+						message += "<strong><p>" + value + "</p></strong>";
+					});
+					msgType = "warning";
+				}
+				if (response.successMessages.length > 0) {
+					$.each(response.successMessages, function (index, value) {
+						message += "<strong><p>" + value + "</p></strong>";
+					});
+				}
+				myReload(msgType, message);
 			}
 		}, 1000);
 	};
 
 	var fileDownloadCheckTimer;
-	generateOutputPDFReport = function(outputId) {
+	generateOutputPDFReport = function(response) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
-		$.download('./rest/outputs.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + outputId + '&dateTo=&conceptId=null&providerId=null&deliveryLocationId=null&agreementId=null&productId=null&cancelled=null', 'POST');
-		$.blockUI({message: 'Generando Reporte de Dispensa. Espere un Momento por favor...'});
+		$.download('./rest/outputs.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + response.operationId + '&dateTo=&conceptId=null&providerId=null&deliveryLocationId=null&agreementId=null&productId=null&cancelled=null', 'POST');
+		$.blockUI({message: 'Generando Reporte de Egreso. Espere un Momento por favor...'});
 		fileDownloadCheckTimer = window.setInterval(function () {
 			var cookieValue = $.cookie('fileDownloadToken');
 			if (cookieValue == token) {
 				finishDownload();
-				myReload("success", "Se ha registrado el egreso de mercader\u00eda n\u00famero: " + outputId);
+				var msgType = "success";
+				var message = "Se ha registrado el Egreso de mercader\u00eda n\u00famero: " + response.operationId;
+				if (response.errorMessages.length > 0) {
+					$.each(response.errorMessages, function (index, value) {
+						message += "<strong><p>" + value + "</p></strong>";
+					});
+					msgType = "warning";
+				}
+				if (response.successMessages.length > 0) {
+					$.each(response.successMessages, function (index, value) {
+						message += "<strong><p>" + value + "</p></strong>";
+					});
+				}
+				myReload(msgType, message);
 			}
 		}, 1000);
 	};

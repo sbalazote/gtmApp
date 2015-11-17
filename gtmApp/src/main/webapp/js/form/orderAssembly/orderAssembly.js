@@ -197,7 +197,20 @@ OrderAssembly = function() {
 					$.blockUI({ message: 'Espere un Momento por favor...' });
 				},
 				success: function(response) {
-					myRedirect("success", "Se ha generado exitosamente el armadoa para el pedido n\u00famero: " + response.id, "orderAssemblySelection.do");
+					var msgType = "success";
+					var message = "Se ha generado exitosamente el armado para el pedido n\u00famero: " + response.operationId;
+					if (response.errorMessages.length > 0) {
+						$.each(response.errorMessages, function (index, value) {
+							message += "<strong><p>" + value + "</p></strong>";
+						});
+						msgType = "warning";
+					}
+					if (response.successMessages.length > 0) {
+						$.each(response.successMessages, function (index, value) {
+							message += "<strong><p>" + value + "</p></strong>";
+						});
+					}
+					myRedirect(msgType, message, "orderAssemblySelection.do");
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					myGenericError();

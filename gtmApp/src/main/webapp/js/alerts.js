@@ -159,10 +159,10 @@ $(document).ready(function() {
 		myShowAlert(jsonObject.type, jsonObject.message);
 		var type = 'type-' + jsonObject.type;
 		var title = 'Operaci\u00f3n Exitosa';
-		if(type == "danger"){
+		if(jsonObject.type == "danger"){
 			title = 'Operaci\u00f3n Fallida';
 		}
-		if(type == "warning"){
+		if(jsonObject.type == "warning"){
 			title = 'Operaci\u00f3n con Errores';
 		}
 		BootstrapDialog.show({

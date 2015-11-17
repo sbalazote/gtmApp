@@ -2,6 +2,7 @@ package com.lsntsolutions.gtmApp.controllers;
 
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.DeliveryNoteResultDTO;
+import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.helper.impl.printer.OrderDeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import com.lsntsolutions.gtmApp.model.Order;
@@ -49,9 +50,11 @@ public class DeliveryNoteController {
 
 	@RequestMapping(value = "/printDeliveryNotes", method = RequestMethod.POST)
 	@ResponseBody
-	public List<String> printDeliveryNotesFromOrders(@RequestBody List<Integer> ordersToPrint) throws Exception {
+	public PrinterResultDTO printDeliveryNotesFromOrders(@RequestBody List<Integer> ordersToPrint) throws Exception {
+		PrinterResultDTO printerResultDTO = new PrinterResultDTO();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return this.orderDeliveryNoteSheetPrinter.print(auth.getName(), ordersToPrint);
+		this.orderDeliveryNoteSheetPrinter.print(auth.getName(), ordersToPrint, printerResultDTO);
+		return printerResultDTO;
 	}
 
 	@RequestMapping(value = "/deliveryNoteCancellation", method = RequestMethod.GET)

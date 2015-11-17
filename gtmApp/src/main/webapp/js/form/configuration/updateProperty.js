@@ -50,6 +50,9 @@ UpdateProperty = function() {
 				agent: {
 					required: true
 				},
+				VATLiability: {
+					required: true
+				},
 				type: {
 					required: true
 				},
@@ -64,16 +67,7 @@ UpdateProperty = function() {
 				phone: {
 					maxlength: 45
 				},
-				orderLabelFilepath: {
-					required: true
-				},
 				selfSerializedTagFilepath: {
-					required: true
-				},
-				deliveryNoteFilepath: {
-					required: true
-				},
-				pickingFilepath: {
 					required: true
 				},
 				ANMATName: {
@@ -86,7 +80,8 @@ UpdateProperty = function() {
 					maxlength: 15
 				},
 				repeatANMATPassword: { 
-	                required: true, equalTo: "#ANMATPasswordInput", 
+	                required: true,
+					equalTo: "#ANMATPasswordInput",
 	                minlength: 5,
 					maxlength: 15
 		        },
@@ -100,6 +95,9 @@ UpdateProperty = function() {
 			            return $("#proxySelect").val() == "true";
 			        },
 					digits: true
+				},
+				informAnmat: {
+					required: true
 				}
 			},
 			showErrors: myShowErrors,
@@ -172,13 +170,11 @@ UpdateProperty = function() {
 					"mail": $("#mailInput").val(),
 					"gln": $("#glnInput").val(),
 					"agentId": $("#agentSelect option:selected").val(),
+					"VATLiabilityId": $("#VATLiabilitySelect option:selected").val(),
 					"typeId": $("#typeSelect option:selected").val(),
 					"daysAgoPendingTransactions": $("#daysAgoPendingTransactionsInput").val(),
 					"numberOfDeliveryNoteDetailsPerPage": $("#numberOfDeliveryNoteDetailsPerPageInput").val(),
-					"orderLabelFilepath": $("#orderLabelFilepathInput").val(),
 					"selfSerializedTagFilepath": $("#selfSerializedTagFilepathInput").val(),
-					"deliveryNoteFilepath": $("#deliveryNoteFilepathInput").val(),
-					"pickingFilepath": $("#pickingFilepathInput").val(),
 					"ANMATName":  $("#ANMATNameInput").val(),
 					"ANMATPassword": $("#ANMATPasswordInput").val(),
 					"printDeliveryNoteConceptId": $("#conceptSelect option:selected").val(),
@@ -186,6 +182,7 @@ UpdateProperty = function() {
 					"proxy":  $("#proxyNameInput").val(),
 					"proxyNumber":  $("#proxyNumberInput").val(),
 					"informProxy": $("#proxySelect").val(),
+					"informAnmat": $("#informAnmatSelect").val(),
 					"supplyingConceptSelectId": $("#supplyingConceptSelect option:selected").val()
 			};
 
@@ -240,28 +237,35 @@ UpdateProperty = function() {
 	    $('#accordion .in').collapse('hide');
 	});
 
-    $("#supplyingConceptSelect").chosen(
-        {
-            width: '100%' /* desired width */
-        });
-    $("#startTraceConceptSelect").chosen(
-        {
-            width: '100%' /* desired width */
-        });
-    $("#changePasswordSelect").chosen(
-        {
-            width: '100%' /* desired width */
-        });
-    $("#proxySelect").chosen(
-        {
-            width: '100%' /* desired width */
-        });
-    $("#provinceSelect").chosen(
-        {
-            width: '100%' /* desired width */
-        });
-    $("#agentSelect").chosen(
-        {
-            width: '100%' /* desired width */
-        });
+	$("#supplyingConceptSelect").chosen({
+		width: '100%' /* desired width */
+	});
+
+	$("#startTraceConceptSelect").chosen({
+		width: '100%' /* desired width */
+	});
+
+	$("#changePasswordSelect").chosen({
+		width: '100%' /* desired width */
+	});
+
+	$("#proxySelect").chosen({
+		width: '100%' /* desired width */
+	});
+
+	$("#provinceSelect").chosen({
+		width: '100%' /* desired width */
+	});
+
+	$("#agentSelect").chosen({
+		width: '100%' /* desired width */
+	});
+
+	$("#VATLiabilitySelect").chosen({
+		width: '100%' /* desired width */
+	});
+
+	$("#informAnmatSelect").chosen({
+		width: '100%' /* desired width */
+	});
 };

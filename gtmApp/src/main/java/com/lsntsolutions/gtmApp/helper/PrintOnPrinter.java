@@ -1,5 +1,6 @@
 package com.lsntsolutions.gtmApp.helper;
 
+import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import org.apache.log4j.Logger;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
@@ -22,7 +23,7 @@ public class PrintOnPrinter {
 
 	private static final Logger logger = Logger.getLogger(PrintOnPrinter.class);
 
-	public boolean sendPDFToSpool(String printerName, String jobName, ByteArrayInputStream fileStream) {
+	public void sendPDFToSpool(String printerName, String jobName, ByteArrayInputStream fileStream, PrinterResultDTO printerResultDTO) {
 		PDDocument PDFDocument = null;
 		try {
 			PDFDocument = PDDocument.load(fileStream);
@@ -30,18 +31,20 @@ public class PrintOnPrinter {
 			PrintService printerService = findPrinterService(printerName);
 			if (printerService == null) {
 				logger.error("Error al intentar imprimir documento. No se encuentra la impresora seleccionada: " + printerName);
-				return false;
+				printerResultDTO.addErrorMessage("Error al intentar imprimir documento. No se encuentra la impresora seleccionada: " + printerName);
+				return;
 			}
 			job.setPrintService(printerService);
 			job.setJobName(jobName);
 			job.setPageable(PDFDocument);
 			job.print();
 			logger.info("Se ha mandado a cola de impresion de la impresora: " + printerName + " el documento: " + jobName);
-			return true;
+			printerResultDTO.addSuccessMessage("Se ha mandado a cola de impresion de la impresora: " + printerName + " el documento: " + jobName);
+			return;
 		} catch (Exception e) {
 			logger.error("Error al intentar imprimir documento!", e);
-		}
-		finally {
+			printerResultDTO.addErrorMessage("Error al intentar imprimir documento! " +  e.getMessage());
+		} finally {
 			if (PDFDocument != null) {
 				try {
 					PDFDocument.close();
@@ -50,7 +53,7 @@ public class PrintOnPrinter {
 				}
 			}
 		}
-		return false;
+		return;
 	}
 
 	public void sendOrderLabelToSpool(String printerName, String jobName, byte[] byteArrayInputStream) {

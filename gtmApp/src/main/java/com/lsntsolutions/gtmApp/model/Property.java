@@ -1,16 +1,9 @@
 package com.lsntsolutions.gtmApp.model;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import com.lsntsolutions.gtmApp.helper.EncryptionHelper;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "property")
@@ -92,6 +85,13 @@ public class Property implements Serializable {
 
 	@Column(name = "inform_proxy", nullable = false)
 	private boolean hasProxy;
+
+	@Column(name = "inform_anmat", nullable = false)
+	private boolean informAnmat;
+
+	@ManyToOne
+	@JoinColumn(name = "VAT_liability_id", nullable = false)
+	private VATLiability VATLiability;
 
 	public Integer getId() {
 		return this.id;
@@ -269,6 +269,22 @@ public class Property implements Serializable {
 		this.hasProxy = hasProxy;
 	}
 
+	public boolean isInformAnmat() {
+		return informAnmat;
+	}
+
+	public void setInformAnmat(boolean informAnmat) {
+		this.informAnmat = informAnmat;
+	}
+
+	public VATLiability getVATLiability() {
+		return VATLiability;
+	}
+
+	public void setVATLiability(VATLiability VATLiability) {
+		this.VATLiability = VATLiability;
+	}
+
 	public Concept getSupplyingConcept() {
 		return this.supplyingConcept;
 	}
@@ -280,5 +296,4 @@ public class Property implements Serializable {
 	public String getDecryptPassword() {
 		return EncryptionHelper.AESDecrypt(this.getANMATPassword());
 	}
-
 }

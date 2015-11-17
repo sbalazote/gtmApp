@@ -1,34 +1,27 @@
 package com.lsntsolutions.gtmApp.controllers.configuration;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
+import com.lsntsolutions.gtmApp.config.PropertyProvider;
 import com.lsntsolutions.gtmApp.dto.PropertyDTO;
 import com.lsntsolutions.gtmApp.helper.EncryptionHelper;
+import com.lsntsolutions.gtmApp.model.Agent;
+import com.lsntsolutions.gtmApp.model.Property;
 import com.lsntsolutions.gtmApp.model.Province;
+import com.lsntsolutions.gtmApp.model.VATLiability;
+import com.lsntsolutions.gtmApp.service.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.lsntsolutions.gtmApp.config.PropertyProvider;
-import com.lsntsolutions.gtmApp.model.Agent;
-import com.lsntsolutions.gtmApp.model.Property;
-import com.lsntsolutions.gtmApp.service.AgentService;
-import com.lsntsolutions.gtmApp.service.ConceptService;
-import com.lsntsolutions.gtmApp.service.ProviderTypeService;
-import com.lsntsolutions.gtmApp.service.ProvinceService;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class PropertyController {
 	@Autowired
-	private com.lsntsolutions.gtmApp.service.PropertyService PropertyService;
+	private PropertyService PropertyService;
 
 	@Autowired
 	private AgentService agentService;
@@ -38,6 +31,9 @@ public class PropertyController {
 
 	@Autowired
 	private ProvinceService provinceService;
+
+	@Autowired
+	private VATLiabilityService VATLiabilityService;
 
 	@Autowired
 	ConceptService conceptService;
@@ -98,6 +94,9 @@ public class PropertyController {
 		}
 		property.setLastTag(Property.getLastTag());
 
+		property.setInformAnmat(propertyDTO.isInformAnmat());
+		property.setVATLiability(this.VATLiabilityService.get(propertyDTO.getVATLiabilityId()));
+
 		return property;
 	}
 
@@ -150,6 +149,13 @@ public class PropertyController {
 		modelMap.put("proxy", property.getProxy());
 		modelMap.put("proxyPort", property.getProxyPort());
 		modelMap.put("informProxy", property.isHasProxy());
+		modelMap.put("informAnmat", property.isInformAnmat());
+
+		VATLiability selectedVATLiability = property.getVATLiability();
+		List<VATLiability> allVATLiabilities = this.VATLiabilityService.getAll();
+		allVATLiabilities.remove(selectedVATLiability);
+		modelMap.put("VATLiabilities", allVATLiabilities);
+		modelMap.put("selectedVATLiability", selectedVATLiability);
 
 		return "updateProperty";
 	}

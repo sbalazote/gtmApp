@@ -3,6 +3,7 @@ package com.lsntsolutions.gtmApp.controllers;
 import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.OutputDTO;
+import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.helper.impl.printer.OutputDeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.helper.impl.printer.OutputFakeDeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.model.Concept;
@@ -66,8 +67,9 @@ public class OutputController {
 
 	@RequestMapping(value = "/saveOutput", method = RequestMethod.POST)
 	public @ResponseBody
-	Output saveOutput(@RequestBody OutputDTO outputDTO, HttpServletRequest request) throws Exception {
+	PrinterResultDTO saveOutput(@RequestBody OutputDTO outputDTO, HttpServletRequest request) throws Exception {
 		Output output = this.outputService.save(outputDTO);
+		PrinterResultDTO printerResultDTO = new PrinterResultDTO(output.getFormatId());
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
 			this.auditService.addAudit(auth.getName(), RoleOperation.OUTPUT.getId(), AuditState.COMFIRMED, output.getId());
@@ -75,12 +77,12 @@ public class OutputController {
 		if (output.getConcept().isPrintDeliveryNote()) {
 			List<Integer> outputs = new ArrayList<Integer>();
 			outputs.add(output.getId());
-			List<String> deliveryNotes = this.outputDeliveryNoteSheetPrinter.print(auth.getName(), outputs);
+			this.outputDeliveryNoteSheetPrinter.print(auth.getName(), outputs, printerResultDTO);
 		} else {
 			Integer deliveryNote = this.outputFakeDeliveryNoteSheetPrinter.print(output);
 			this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote);
 		}
-		return output;
+		return printerResultDTO;
 	}
 
 	@RequestMapping(value = "/getOutput", method = RequestMethod.GET)

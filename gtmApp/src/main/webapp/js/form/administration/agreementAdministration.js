@@ -7,10 +7,10 @@ $(document).ready(function() {
 		$("#codeInput").val('');
 		$("#descriptionInput").val('');
 		$("#numberOfDeliveryNoteDetailsPerPageInput").val('');
-		$("#pickingFilepathInput").val('');
 		$("#orderLabelPrinterSelect").val($("#orderLabelPrinterSelect option:first").val());
 		$("#deliveryNotePrinterSelect").val($("#orderLabelPrinterSelect option:first").val());
 		$("#activeSelect").val($("#activeSelect option:first").val());
+		$("#pickingListSelect").val($("#pickingListSelect option:first").val());
 		$("#deliveryNoteConceptSelect").val($("#deliveryNoteConceptSelect option:first").val());
 		$("#destructionConceptSelect").val($("#destructionConceptSelect option:first").val());
 	};
@@ -50,11 +50,12 @@ $(document).ready(function() {
 				$("#codeInput").val(response.code);
 				$("#descriptionInput").val(response.description);
 				$("#numberOfDeliveryNoteDetailsPerPageInput").val(response.numberOfDeliveryNoteDetailsPerPage);
-				$("#pickingFilepathInput").val(response.pickingFilepath);
-				$("#orderLabelPrinterSelect").val(response.orderLabelFilepath).trigger('chosen:update');
-				$("#deliveryNotePrinterSelect").val(response.deliveryNoteFilepath).trigger('chosen:update');
+				$("#orderLabelPrinterSelect").val(response.orderLabelPrinter).trigger('chosen:update');
+				$("#deliveryNotePrinterSelect").val(response.deliveryNotePrinter).trigger('chosen:update');
 				var isActive = (response.active) ? "true" : "false";
 				$("#activeSelect").val(isActive).trigger('chosen:update');
+				var isPickingList = (response.pickingList) ? "true" : "false";
+				$("#pickingListSelect").val(isPickingList).trigger('chosen:update');
 				$("#deliveryNoteConceptSelect").val(response.deliveryNoteConcept.id).trigger('chosen:update');
 				$("#destructionConceptSelect").val(response.destructionConcept.id).trigger('chosen:update');
 			},
@@ -68,8 +69,8 @@ $(document).ready(function() {
 		$("#codeInput").attr('disabled', hidden);
 		$("#descriptionInput").attr('disabled', hidden);
 		$("#activeSelect").prop('disabled', hidden).trigger('chosen:update');
+		$("#pickingListSelect").prop('disabled', hidden).trigger('chosen:update');
 		$("#numberOfDeliveryNoteDetailsPerPageInput").attr('disabled', hidden);
-		$("#pickingFilepathInput").attr('disabled', hidden);
 		$("#orderLabelPrinterSelect").attr('disabled', hidden).trigger('chosen:update');
 		$("#deliveryNotePrinterSelect").attr('disabled', hidden).trigger('chosen:update');
 		$("#deliveryNoteConceptSelect").prop('disabled', hidden).trigger('chosen:update');

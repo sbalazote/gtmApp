@@ -10,10 +10,10 @@ public class AgreementDTO implements Serializable {
 	private Integer code;
 	private String description;
 	private boolean active;
+	private boolean pickingList;
 	private Integer numberOfDeliveryNoteDetailsPerPage;
-	private String pickingFilepath;
-	private String orderLabelFilepath;
-	private String deliveryNoteFilepath;
+	private String orderLabelPrinter;
+	private String deliveryNotePrinter;
 	private Integer deliveryNoteConceptId;
 	private Integer destructionConceptId;
 
@@ -49,6 +49,14 @@ public class AgreementDTO implements Serializable {
 		this.active = active;
 	}
 
+	public boolean isPickingList() {
+		return pickingList;
+	}
+
+	public void setPickingList(boolean pickingList) {
+		this.pickingList = pickingList;
+	}
+
 	public Integer getNumberOfDeliveryNoteDetailsPerPage() {
 		return this.numberOfDeliveryNoteDetailsPerPage;
 	}
@@ -57,28 +65,20 @@ public class AgreementDTO implements Serializable {
 		this.numberOfDeliveryNoteDetailsPerPage = numberOfDeliveryNoteDetailsPerPage;
 	}
 
-	public String getPickingFilepath() {
-		return this.pickingFilepath;
+	public String getOrderLabelPrinter() {
+		return this.orderLabelPrinter;
 	}
 
-	public void setPickingFilepath(String pickingFilepath) {
-		this.pickingFilepath = pickingFilepath;
+	public void setOrderLabelPrinter(String orderLabelPrinter) {
+		this.orderLabelPrinter = orderLabelPrinter;
 	}
 
-	public String getOrderLabelFilepath() {
-		return this.orderLabelFilepath;
+	public String getDeliveryNotePrinter() {
+		return this.deliveryNotePrinter;
 	}
 
-	public void setOrderLabelFilepath(String orderLabelFilepath) {
-		this.orderLabelFilepath = orderLabelFilepath;
-	}
-
-	public String getDeliveryNoteFilepath() {
-		return this.deliveryNoteFilepath;
-	}
-
-	public void setDeliveryNoteFilepath(String deliveryNoteFilepath) {
-		this.deliveryNoteFilepath = deliveryNoteFilepath;
+	public void setDeliveryNotePrinter(String deliveryNotePrinter) {
+		this.deliveryNotePrinter = deliveryNotePrinter;
 	}
 
 	public Integer getDeliveryNoteConceptId() {

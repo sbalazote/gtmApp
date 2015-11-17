@@ -102,10 +102,22 @@
 				</div>
 				<div class="row">
 					<div class="col-md-4 col-lg-4 form-group">
-					<span class="btn btn-success fileinput-button">
-        				<i class="glyphicon glyphicon-upload"></i><span><spring:message code="configuration.uploadLogo"/></span>
-        				<input id="uploadLogoInput" type="file" name="uploadLogo" data-url="uploadLogo.do">
-    				</span>
+						<label for="VATLiabilitySelect"><spring:message code="common.VATLiability"/></label>
+						<select class="form-control" id="VATLiabilitySelect" name="VATLiability">
+							<option value="${selectedVATLiability.id}"><c:out value="${selectedVATLiability.acronym}: ${selectedVATLiability.description}"></c:out></option>
+							<c:forEach items="${VATLiabilities}" var="VATLiability" varStatus="status">
+								<option value="${VATLiability.id}"><c:out value="${VATLiability.acronym}: ${VATLiability.description}"></c:out></option>
+							</c:forEach>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 col-lg-4 form-group">
+						<br>
+						<span class="btn btn-success fileinput-button" id="uploadLogoSpan">
+        					<i class="glyphicon glyphicon-upload"></i><span> <spring:message code="configuration.uploadLogo"/></span>
+        					<input id="uploadLogoInput" type="file" name="uploadLogo" data-url="uploadLogo.do">
+    					</span>
 					</div>
 					<br>
 					<br>
@@ -184,24 +196,34 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-3 col-lg-3 form-group">
+					<div class="col-md-4 col-lg-4 form-group">
 						<label for="changePasswordSelect"><spring:message code="common.changePassword"/></label>
 						<select class="form-control" id="changePasswordSelect" name="changePassword">
 							<option value="true"><spring:message code="common.yes"/></option>
 							<option value="false" selected><spring:message code="common.no"/></option>
 						</select>
 					</div>
-					<div class="col-md-3 col-lg-3 form-group">
+					<div class="col-md-4 col-lg-4 form-group">
 						<label for="ANMATPasswordInput"><spring:message code="configuration.ANMATPassword"/></label>
 						<input type="password" class="form-control" id="ANMATPasswordInput" name="ANMATPassword" disabled>
 					</div>
-					<div class="col-md-3 col-lg-3 form-group">
+					<div class="col-md-4 col-lg-4 form-group">
 						<label for="repeatANMATPasswordInput"><spring:message code="configuration.repeatANMATPassword"/></label>
 						<input type="password" class="form-control" id="repeatANMATPasswordInput" name="repeatANMATPassword" disabled>
 					</div>
-					<div class="col-md-3 col-lg-3 form-group">
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-lg-6 form-group">
 						<label for="daysAgoPendingTransactionsInput"><spring:message code="configuration.daysAgoPendingTransactions"/></label>
 						<input type="text" class="form-control" id="daysAgoPendingTransactionsInput" name="daysAgoPendingTransactions" value="${daysAgoPendingTransactions}">
+					</div>
+					<div class="col-md-6 col-lg-6 form-group">
+						<label for="informAnmatSelect"><spring:message code="common.informAnmat"/></label>
+						<select class="form-control" id="informAnmatSelect" name="informAnmat">
+							<option value="true" ${informAnmat == 'true' ? 'selected' : ''}><spring:message code="common.yes"/></option>
+							<option value="false" ${informAnmat == 'false' ? 'selected' : ''}><spring:message code="common.no"/></option>
+						</select>
+					</select>
 					</div>
 				</div>
 			</div>
