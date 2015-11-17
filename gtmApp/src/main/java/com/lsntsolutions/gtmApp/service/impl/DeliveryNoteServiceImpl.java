@@ -33,6 +33,8 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	private OutputService outputService;
 	@Autowired
 	private SupplyingService supplyingService;
+	@Autowired
+	private OrderService orderService;
 
 	@Override
 	public DeliveryNote get(Integer id) {
@@ -162,6 +164,7 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	public void cancelDeliveryNotes(List<String> deliveryNoteNumbers, String username) {
 		Output output = null;
 		Supplying supplying = null;
+		Order order = null;
 
 		for (String deliveryNoteNumber : deliveryNoteNumbers) {
 			DeliveryNote deliveryNote = this.getDeliveryNoteFromNumber(deliveryNoteNumber);
@@ -191,6 +194,13 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 				supplying = this.getSupplying(deliveryNote);
 				if (supplying != null) {
 					this.supplyingService.cancel(supplying);
+				}
+			}
+
+			if (order == null) {
+				order = this.getOrder(deliveryNote);
+				if (order != null) {
+					this.orderService.changeToPrintState(order);
 				}
 			}
 

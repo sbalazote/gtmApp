@@ -148,15 +148,23 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void cancelOrders(List<Integer> ordersId) {
-		for (Integer id : ordersId) {
-			Order order = this.get(id);
-			order.setCancelled(true);
-			order.getProvisioningRequest().setState(this.provisioningRequestStateService.get(State.CANCELED.getId()));
-			for (OrderDetail orderDetail : order.getOrderDetails()) {
-				this.addToStock(orderDetail, order.getProvisioningRequest().getAgreement());
+	public void cancel(Order order) {
+		order.setCancelled(true);
+		order.getProvisioningRequest().setState(this.provisioningRequestStateService.get(State.PRINTED.getId()));
+		for (OrderDetail orderDetail : order.getOrderDetails()) {
+			this.addToStock(orderDetail, order.getProvisioningRequest().getAgreement());
+		}
+		logger.info("Se ha anulado el Armado de Pedido n�mero: " + order.getId());
+	}
+
+	@Override
+	public void cancelOrders(List<Integer> orderIds){
+		Order order;
+		for(Integer orderId : orderIds){
+			order = this.get(orderId);
+			if(order != null) {
+				cancel(order);
 			}
-			logger.info("Se ha anulado el Armado de Pedido n�mero: " + id);
 		}
 	}
 
@@ -192,5 +200,12 @@ public class OrderServiceImpl implements OrderService {
 			Order order = this.get(orderId);
 			this.provisioningRequestService.reassignOperators(order.getProvisioningRequest(), logisticOperatorId);
 		}
+	}
+
+	@Override
+	public void changeToPrintState(Order order) {
+		ProvisioningRequest provisioningRequest = order.getProvisioningRequest();
+		provisioningRequest.setState(provisioningRequestStateService.get(State.ASSEMBLED.getId()));
+		this.provisioningRequestService.save(provisioningRequest);
 	}
 }

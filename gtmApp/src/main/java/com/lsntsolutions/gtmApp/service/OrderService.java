@@ -20,11 +20,15 @@ public interface OrderService {
 
 	List<Order> getAllByState(Integer stateId);
 
-	void cancelOrders(List<Integer> ordersId);
+	void cancel(Order order);
+
+	void cancelOrders(List<Integer> orderIds);
 
 	boolean existSerial(Integer productId, String serial);
 
 	List<Order> getAllFilter(Integer agreementId, Integer clientId, Integer stateId);
 
 	void reassignOperators(List<Integer> ordersToPrint, Integer logisticOperatorId);
+
+	void changeToPrintState(Order order);
 }
