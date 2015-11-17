@@ -112,17 +112,19 @@ public class DeliveryNoteController {
 		return "pendingTransactions";
 	}
 
-	@RequestMapping(value = "/confirmPendingDeliveryNotes", method = RequestMethod.POST)
+	@RequestMapping(value = "/confirmPendingDeliveryNotes", method = RequestMethod.POST, consumes = { "application/json" })
 	public @ResponseBody
-	List<OperationResult> confirmPendingDeliveryNotes(@RequestBody List<String> deliveryNoteNumbers) throws Exception {
+	List<OperationResult> confirmPendingDeliveryNotes(@RequestBody HashMap<String, List<String>> deliveryNoteNumbers) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		List<OperationResult> operationResults = new ArrayList<OperationResult>();
 		if (auth != null) {
-			for (String deliveryNoteNumber : deliveryNoteNumbers) {
-				DeliveryNote deliveryNote = this.deliveryNoteService.getDeliveryNoteFromNumber(deliveryNoteNumber);
-				OperationResult operationResult = this.deliveryNoteService.saveAndInform(deliveryNote);
-				this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.AUTHORITED, deliveryNote.getId());
-				operationResults.add(operationResult);
+			for (String type : deliveryNoteNumbers.keySet()) {
+				for(String deliveryNoteNumber : deliveryNoteNumbers.get(type)) {
+					DeliveryNote deliveryNote = this.deliveryNoteService.getDeliveryNoteFromNumber(deliveryNoteNumber, type);
+					OperationResult operationResult = this.deliveryNoteService.saveAndInform(deliveryNote);
+					this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.AUTHORITED, deliveryNote.getId());
+					operationResults.add(operationResult);
+				}
 			}
 		}
 		return operationResults;

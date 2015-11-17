@@ -56,4 +56,6 @@ public interface DeliveryNoteService {
 	List<String> getSupplyingsDeliveriesNoteNumbers(Integer supplyingId);
 
 	List<String> getOutputsDeliveriesNoteNumbers(Integer supplyingId);
+
+	DeliveryNote getDeliveryNoteFromNumber(String deliveryNoteNumber, String type);
 }
