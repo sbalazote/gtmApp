@@ -51,11 +51,9 @@ public interface DeliveryNoteService {
 
 	void authorizeWithoutInform(Map<String,String> deliveryNoteIds, String name);
 
-	void cancelDeliveryNotes(HashMap<String, List<String>> deliveryNoteNumbers, String username) throws Exception;
+	void cancelDeliveryNotes(List<String> deliveryNoteNumbers, String username) throws Exception;
 
 	List<String> getSupplyingsDeliveriesNoteNumbers(Integer supplyingId);
 
 	List<String> getOutputsDeliveriesNoteNumbers(Integer supplyingId);
-
-	DeliveryNote getDeliveryNoteFromNumber(String deliveryNoteNumber, String type);
 }

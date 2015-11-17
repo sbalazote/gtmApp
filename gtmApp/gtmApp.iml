@@ -18,14 +18,14 @@
     <facet type="Spring" name="Spring">
       <configuration>
         <fileset id="fileset" name="Spring Application Context" removed="false">
-          <file>file://$MODULE_DIR$/src/main/resources/security-context.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/application-context.xml</file>
-          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/rest-servlet.xml</file>
           <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/pdf-views.xml</file>
-          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/spreadsheet-views.xml</file>
-          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/servlet-context.xml</file>
-          <file>file://$MODULE_DIR$/src/main/resources/web-service.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/persistence-context.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/rest-servlet.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/security-context.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/servlet-context.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/spreadsheet-views.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/web-service.xml</file>
         </fileset>
       </configuration>
     </facet>

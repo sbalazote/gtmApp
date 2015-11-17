@@ -14,7 +14,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -162,44 +161,43 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	}
 
 	@Override
-	public void cancelDeliveryNotes(HashMap<String, List<String>> deliveryNoteNumbers, String username) throws Exception {
-		Output output;
-		Supplying supplying;
+	public void cancelDeliveryNotes(List<String> deliveryNoteNumbers, String username) {
+		Output output = null;
+		Supplying supplying = null;
+		Order order = null;
 
-		for(String type : deliveryNoteNumbers.keySet()){
-			for (String deliveryNoteNumber : deliveryNoteNumbers.get(type)) {
-				DeliveryNote deliveryNote = this.deliveryNoteDAO.getDeliveryNoteFromNumber(deliveryNoteNumber, type);
-				deliveryNote.setCancelled(true);
+		for (String deliveryNoteNumber : deliveryNoteNumbers) {
+			DeliveryNote deliveryNote = this.getDeliveryNoteFromNumber(deliveryNoteNumber);
+			deliveryNote.setCancelled(true);
+			try {
 				try {
-					try {
-						if (deliveryNote.isInformAnmat() && deliveryNote.isInformed()) {
-							this.traceabilityService.cancelDeliveryNoteTransaction(deliveryNote);
-						}
-					} catch (Exception e) {
-						logger.info("No se ha podido informar la cancelacion a ANMAT " + deliveryNote.getId());
-						e.printStackTrace();
+					if (deliveryNote.isInformAnmat() && deliveryNote.isInformed()) {
+						this.traceabilityService.cancelDeliveryNoteTransaction(deliveryNote);
 					}
-					this.save(deliveryNote);
 				} catch (Exception e) {
-					logger.info("No se ha podido actualizar el estado al remito " + deliveryNote.getId());
+					logger.info("No se ha podido informar la cancelacion a ANMAT " + deliveryNote.getId());
+					e.printStackTrace();
 				}
-
-				if (type == "E") {
-					output = this.getOutput(deliveryNote);
-					if (output != null) {
-						this.outputService.cancel(output);
-					}
-				}
-
-				if (type == "D") {
-					supplying = this.getSupplying(deliveryNote);
-					if (supplying != null) {
-						this.supplyingService.cancel(supplying);
-					}
-				}
-				this.auditService.addAudit(username, RoleOperation.DELIVERY_NOTE_CANCELLATION.getId(), AuditState.CANCELLED, deliveryNote.getId());
+				this.save(deliveryNote);
+			} catch (Exception e) {
+				logger.info("No se ha podido actualizar el estado al remito " + deliveryNote.getId());
 			}
 
+			if (output == null) {
+				output = this.getOutput(deliveryNote);
+				if (output != null) {
+					this.outputService.cancel(output);
+				}
+			}
+
+			if (supplying == null) {
+				supplying = this.getSupplying(deliveryNote);
+				if (supplying != null) {
+					this.supplyingService.cancel(supplying);
+				}
+			}
+
+			this.auditService.addAudit(username, RoleOperation.DELIVERY_NOTE_CANCELLATION.getId(), AuditState.CANCELLED, deliveryNote.getId());
 		}
 	}
 
@@ -222,10 +220,5 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	@Override
 	public List<String> getOutputsDeliveriesNoteNumbers(Integer outputId){
 		return this.deliveryNoteDAO.getOutputsDeliveriesNoteNumbers(outputId);
-	}
-
-	@Override
-	public DeliveryNote getDeliveryNoteFromNumber(String deliveryNoteNumber, String type) {
-		return this.deliveryNoteDAO.getDeliveryNoteFromNumber(deliveryNoteNumber, type);
 	}
 }
