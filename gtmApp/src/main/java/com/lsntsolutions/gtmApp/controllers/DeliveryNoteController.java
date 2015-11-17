@@ -62,12 +62,12 @@ public class DeliveryNoteController {
 		return "deliveryNoteCancellation";
 	}
 
-	@RequestMapping(value = "/cancelDeliveryNotes", method = RequestMethod.POST, consumes = { "application/json" })
+	@RequestMapping(value = "/cancelDeliveryNotes", method = RequestMethod.POST)
 	public @ResponseBody
-	void cancelDeliveryNotes(@RequestBody HashMap<String,List<String>> deliveryNotesToCancel) throws Exception {
+	void cancelDeliveryNotes(@RequestBody List<String> deliveryNoteNumbers) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
-			this.deliveryNoteService.cancelDeliveryNotes(deliveryNotesToCancel, auth.getName());
+			this.deliveryNoteService.cancelDeliveryNotes(deliveryNoteNumbers, auth.getName());
 		}
 	}
 
@@ -112,19 +112,17 @@ public class DeliveryNoteController {
 		return "pendingTransactions";
 	}
 
-	@RequestMapping(value = "/confirmPendingDeliveryNotes", method = RequestMethod.POST, consumes = { "application/json" })
+	@RequestMapping(value = "/confirmPendingDeliveryNotes", method = RequestMethod.POST)
 	public @ResponseBody
-	List<OperationResult> confirmPendingDeliveryNotes(@RequestBody HashMap<String, List<String>> deliveryNoteNumbers) throws Exception {
+	List<OperationResult> confirmPendingDeliveryNotes(@RequestBody List<String> deliveryNoteNumbers) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		List<OperationResult> operationResults = new ArrayList<OperationResult>();
+		List<OperationResult> operationResults = new ArrayList<>();
 		if (auth != null) {
-			for (String type : deliveryNoteNumbers.keySet()) {
-				for(String deliveryNoteNumber : deliveryNoteNumbers.get(type)) {
-					DeliveryNote deliveryNote = this.deliveryNoteService.getDeliveryNoteFromNumber(deliveryNoteNumber, type);
-					OperationResult operationResult = this.deliveryNoteService.saveAndInform(deliveryNote);
-					this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.AUTHORITED, deliveryNote.getId());
-					operationResults.add(operationResult);
-				}
+			for (String deliveryNoteNumber : deliveryNoteNumbers) {
+				DeliveryNote deliveryNote = this.deliveryNoteService.getDeliveryNoteFromNumber(deliveryNoteNumber);
+				OperationResult operationResult = this.deliveryNoteService.saveAndInform(deliveryNote);
+				this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.AUTHORITED, deliveryNote.getId());
+				operationResults.add(operationResult);
 			}
 		}
 		return operationResults;

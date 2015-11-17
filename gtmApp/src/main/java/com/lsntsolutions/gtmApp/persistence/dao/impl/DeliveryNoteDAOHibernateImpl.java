@@ -1,6 +1,5 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
-import com.lsntsolutions.gtmApp.constant.OutputType;
 import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import com.lsntsolutions.gtmApp.model.Order;
 import com.lsntsolutions.gtmApp.model.Output;
@@ -545,33 +544,6 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 		} catch (IndexOutOfBoundsException e) {
 			return null;
 		}
-	}
-
-	@Override
-	public DeliveryNote getDeliveryNoteFromNumber(String deliveryNoteNumber, String outputType) {
-		try {
-			switch (outputType){
-				case "D":{
-					Query query = this.sessionFactory.getCurrentSession().createQuery("select d from DeliveryNote as d inner join d.deliveryNoteDetails as ds where number = :deliveryNoteNumber and ds.supplyingDetail is not null");
-					query.setParameter("deliveryNoteNumber", deliveryNoteNumber);
-					return (DeliveryNote) query.list().get(0);
-				}
-				case "E":{
-					Query query = this.sessionFactory.getCurrentSession().createQuery("select d from DeliveryNote as d inner join d.deliveryNoteDetails as ds where number = :deliveryNoteNumber and ds.outputDetail is not null");
-					query.setParameter("deliveryNoteNumber", deliveryNoteNumber);
-					return (DeliveryNote) query.list().get(0);
-				}
-				case "A":{
-					Query query = this.sessionFactory.getCurrentSession().createQuery("select d from DeliveryNote as d inner join d.deliveryNoteDetails as ds where number = :deliveryNoteNumber and ds.orderDetail is not null");
-					query.setParameter("deliveryNoteNumber", deliveryNoteNumber);
-					return (DeliveryNote) query.list().get(0);
-				}
-
-			}
-		} catch (IndexOutOfBoundsException e) {
-			return null;
-		}
-		return null;
 	}
 
 	@Override

@@ -2,10 +2,9 @@ var PendingTransactions = function() {
 	
 	var orderId = null;
 	var outputId = null;
-	var deliveryNotesToCancelFromSupplyings = [];
-	var deliveryNotesToCancelFromOrders = [];
-	var deliveryNotesToCancelFromOutput = [];
+	var deliveryNotes = [];
 	var ordersToReassembly = [];
+	var outputsToReassembly = [];
 	var map = {};
 	
 	$('#deliveryNoteTableBody').on("click", ".view-order-row-deliveryNoteTable", function() {
@@ -27,16 +26,12 @@ var PendingTransactions = function() {
 	});
 	
 	$("#confirmDeliveryNotesButton").click(function() {
-		if(deliveryNotesToCancelFromSupplyings.length > 0 || deliveryNotesToCancelFromOrders.length > 0 || deliveryNotesToCancelFromOutput.length > 0){
-			var map = new Object();
-			map["A"] = deliveryNotesToCancelFromOrders;
-			map["E"] = deliveryNotesToCancelFromOutput;
-			map["D"] = deliveryNotesToCancelFromSupplyings;
+		if(deliveryNotes.length > 0 ){
 			$.ajax({
 				url: "confirmPendingDeliveryNotes.do",
 				type: "POST",
 				contentType: "application/json",
-				data: JSON.stringify(map),
+				data: JSON.stringify(deliveryNotes),
 				async: true,
 	            beforeSend : function() {
 	            	$.blockUI({ message: 'Espere un Momento por favor...' });
@@ -131,17 +126,15 @@ var PendingTransactions = function() {
 	    		var orderId = rows[i].orderAssemblyOrOutputNumber;
 	    		ordersToReassembly.push(orderId);
 	    		for (var j = 0; j < ids.length; j++) {
-					deliveryNotesToCancelFromOrders.push(ids[j]);
+	    			deliveryNotes.push(ids[j]);
 	    		}
-	    	} else if (rows[i].class === "EGRESO") {
+	    	} else {
+	    		var outputId = rows[i].orderAssemblyOrOutputNumber;
+	    		outputsToReassembly.push(outputId);
 	    		for (var j = 0; j < ids.length; j++) {
-					deliveryNotesToCancelFromOutput.push(ids[j]);
+	    			deliveryNotes.push(ids[j]);
 	    		}
-	    	}else{
-				for (var j = 0; j < ids.length; j++) {
-					deliveryNotesToCancelFromSupplyings.push(ids[j]);
-				}
-			}
+	    	}
 	    }
 	}).on("deselected.rs.jquery.bootgrid", function(e, rows)
 	{
@@ -155,17 +148,15 @@ var PendingTransactions = function() {
 	    		var orderId = rows[i].orderAssemblyOrOutputNumber;
 		    	ordersToReassembly.splice(ordersToReassembly.indexOf(orderId), 1);
 				for (var j = 0; j < ids.length; j++) {
-					deliveryNotesToCancelFromOrders.splice(deliveryNotesToCancelFromOrders.indexOf(ids[j]), 1);
+					deliveryNotes.splice(deliveryNotes.indexOf(ids[j]), 1);
 				}
-		    }  else if (rows[i].class === "EGRESO") {
+		    } else {
+		    	var outputId = rows[i].orderAssemblyOrOutputNumber;
+		    	outputsToReassembly.splice(ordersToReassembly.indexOf(outputId), 1);
 				for (var j = 0; j < ids.length; j++) {
-					deliveryNotesToCancelFromOutput.splice(deliveryNotesToCancelFromOutput.indexOf(ids[j]), 1);
+					deliveryNotes.splice(deliveryNotes.indexOf(ids[j]), 1);
 				}
-		    }else{
-				for (var j = 0; j < ids.length; j++) {
-					deliveryNotesToCancelFromSupplyings.splice(deliveryNotesToCancelFromSupplyings.indexOf(ids[j]), 1);
-				}
-			}
+		    }
 	    }
 	});
 	
