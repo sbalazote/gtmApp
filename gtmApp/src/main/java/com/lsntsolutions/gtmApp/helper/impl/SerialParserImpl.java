@@ -33,7 +33,8 @@ public class SerialParserImpl implements SerialParser {
 			String[] sequence = format.getSplittedSequence();
 			String regexp = "";
 			for (String fieldType : sequence) {
-				regexp += this.getSeparators(fieldType, formatTokens) + "[a-zA-Z0-9]{" + format.getLength(fieldType) + "}";
+				String permittedCharacters = (fieldType.equals("B")) ? ".{" : "[a-zA-Z0-9]{";
+				regexp += this.getSeparators(fieldType, formatTokens) + permittedCharacters + format.getLength(fieldType) + "}";
 			}
 			if (serial.matches(regexp)) {
 				return this.newProductItemDTO(serial, format, formatTokens);
