@@ -76,7 +76,7 @@ public class OrderController {
 		Order order = this.orderService.save(orderDTO);
 		PrinterResultDTO printerResultDTO = new PrinterResultDTO(order.getFormatId());
 		// imprimo rotulo para pedido solo si el parametro 'picking_list' en convenio esta seteado.
-		if (order.getProvisioningRequest().getAgreement().isPickingList() && this.propertyService.get().isPrintPickingList()) {
+		if (order.getProvisioningRequest().getAgreement().isPickingList()) {
 			this.orderLabelPrinter.print(order, printerResultDTO);
 		}
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
