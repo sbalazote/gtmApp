@@ -57,7 +57,7 @@
 		<table class="table table-condensed table-hover table-striped" id="provisioningTable">
 			<thead>
 				<tr>
-					<th data-column-id="id" data-type="numeric" data-identifier="true"><spring:message code="provisioningRequest.provisioningRequestNumber" /></th>
+					<th data-column-id="id" data-type="numeric" data-identifier="true" data-order="asc"><spring:message code="provisioningRequest.provisioningRequestNumber" /></th>
 					<th data-column-id="client"><spring:message code="common.client" /></th>
 					<th data-column-id="agreement"><spring:message code="common.agreement" /></th>
 					<th data-column-id="state"><spring:message code="common.state" /></th>

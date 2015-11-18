@@ -169,7 +169,7 @@
 						</select>
 					</div>
 					<div class="col-md-4 col-lg-4 form-group">
-						<label for="printPickingListSelect"><spring:message code="common.printPickingList"/></label>
+						<label for="printPickingListSelect"><spring:message code="common.pickingList"/></label>
 						<select class="form-control" id="printPickingListSelect" name="printPickingList">
 							<option value="true" ${printPickingList == 'true' ? 'selected' : ''}><spring:message code="common.yes"/></option>
 							<option value="false" ${printPickingList == 'false' ? 'selected' : ''}><spring:message code="common.no"/></option>
