@@ -169,4 +169,10 @@ public class PropertyController {
 	public Property getProperties() throws IOException {
 		return this.PropertyService.get();
 	}
+
+
+	@RequestMapping(value = "/importStock", method = RequestMethod.GET)
+	public String importStock(ModelMap modelMap, @RequestParam Map<String, String> parameters) throws Exception {
+		return "importStock";
+	}
 }
