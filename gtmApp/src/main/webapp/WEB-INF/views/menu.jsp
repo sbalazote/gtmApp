@@ -218,6 +218,9 @@
 			<sec:authorize access="hasRole('PROPERTY_ADMINISTRATION')">
 				<li class="activable"><a href="updateProperty.do"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> <spring:message code="common.configuration" /></a></li>
 			</sec:authorize>
+			<sec:authorize access="hasRole('PROFILE_ADMINISTRATION')">
+				<li><a href="importStock.do"><spring:message code="administration.importStock" /></a></li>
+			</sec:authorize>
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right">

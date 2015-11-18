@@ -25,7 +25,11 @@
     <definition name="updateProperty" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/configuration/updateProperty.jsp" />
     </definition>
-    
+
+    <definition name="importStock" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/configuration/importStock.jsp" />
+    </definition>
+
     <definition name="input" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/input/input.jsp" />
     </definition>
@@ -218,6 +222,8 @@
     <definition name="informForcedInputs" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/input/informForcedInputs.jsp" />
     </definition>
+
+
 
 
 </tiles-definitions>

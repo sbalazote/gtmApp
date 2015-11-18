@@ -4,13 +4,15 @@ import com.lsntsolutions.gtmApp.dto.AlfabetaFileDTO;
 import com.lsntsolutions.gtmApp.helper.FileMeta;
 import com.lsntsolutions.gtmApp.service.ProductService;
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -174,5 +176,81 @@ public class FileController {
 			throw new RuntimeException("Error al procesar el archivo de actualizacion Alfabeta", e);
 		}
 		brManualDat.close();
+	}
+
+
+	@RequestMapping(value = "/uploadStock", method = RequestMethod.POST)
+	public @ResponseBody
+	FileMeta uploadStock(MultipartHttpServletRequest request) {
+
+		MultipartFile mpf = request.getFile("importStock");
+		FileMeta fileMeta = null;
+
+		if (!mpf.isEmpty()) {
+
+			logger.info(mpf.getOriginalFilename() + " subido! ");
+
+			fileMeta = new FileMeta();
+			fileMeta.setFileName(mpf.getOriginalFilename());
+			fileMeta.setFileSize(mpf.getSize() + " bytes");
+
+			try {
+				fileMeta.setBytes(mpf.getBytes());
+
+				String path = request.getSession().getServletContext().getRealPath("/importStock/");
+				new File(path).mkdirs();
+				String timestamp = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+				FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(path + "/" + timestamp + ".xls"));
+
+			} catch (IOException e) {
+				logger.error(e.getMessage());
+				throw new RuntimeException("No se ha podido subir el archivo " + request.getFile("alfabetaUpdateFile").toString(), e);
+			}
+
+		} else {
+			logger.error("No se ha podido subir el archivo porque éste estaba vacío");
+		}
+		return fileMeta;
+	}
+
+	@RequestMapping(value = "/updateImportStock", method = RequestMethod.POST)
+	public @ResponseBody void updateImportStock(HttpServletRequest request, @RequestParam Integer agreementId) throws Exception {
+
+		String path = request.getSession().getServletContext().getRealPath("/importStock/");
+		String timestamp = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+
+		FileInputStream fileInputStream = new FileInputStream(path + "/" + timestamp + ".xls");
+		POIFSFileSystem fs = new POIFSFileSystem(fileInputStream);
+		HSSFWorkbook wb = new HSSFWorkbook(fs);
+		HSSFSheet sheet = wb.getSheetAt(0);
+		HSSFRow row;
+		HSSFCell cell;
+
+		int rows; // No of rows
+		rows = sheet.getPhysicalNumberOfRows();
+
+		int cols = 0; // No of columns
+		int tmp = 0;
+
+		// This trick ensures that we get the data properly even if it doesn't start from first few rows
+		for(int i = 0; i < 10 || i < rows; i++) {
+			row = sheet.getRow(i);
+			if(row != null) {
+				tmp = sheet.getRow(i).getPhysicalNumberOfCells();
+				if(tmp > cols) cols = tmp;
+			}
+		}
+
+		for(int r = 0; r < rows; r++) {
+			row = sheet.getRow(r);
+			if(row != null) {
+				for(int c = 0; c < cols; c++) {
+					cell = row.getCell((short)c);
+					if(cell != null) {
+						// Your code here
+					}
+				}
+			}
+		}
 	}
 }
