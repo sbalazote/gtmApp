@@ -34,6 +34,8 @@ public class PropertyDTO implements Serializable {
 	private Integer supplyingConceptSelectId;
 	private boolean informAnmat;
 	private Integer VATLiabilityId;
+	private boolean provisioningRequireAuthorization;
+	private boolean	printPickingList;
 
 	public Integer getId() {
 		return this.id;
@@ -255,5 +257,21 @@ public class PropertyDTO implements Serializable {
 	@JsonProperty("VATLiabilityId")
 	public void setVATLiabilityId(Integer VATLiabilityId) {
 		this.VATLiabilityId = VATLiabilityId;
+	}
+
+	public boolean isProvisioningRequireAuthorization() {
+		return provisioningRequireAuthorization;
+	}
+
+	public void setProvisioningRequireAuthorization(boolean provisioningRequireAuthorization) {
+		this.provisioningRequireAuthorization = provisioningRequireAuthorization;
+	}
+
+	public boolean isPrintPickingList() {
+		return printPickingList;
+	}
+
+	public void setPrintPickingList(boolean printPickingList) {
+		this.printPickingList = printPickingList;
 	}
 }

@@ -160,6 +160,22 @@
 						<input type="text" class="form-control" id="proxyNumberInput" name="proxyNumber" value="${proxyPort}">
 					</div>
 				</div>
+				<div class="row">
+					<div class="col-md-4 col-lg-4 form-group">
+						<label for="provisioningRequireAuthorizationSelect"><spring:message code="common.provisioningRequireAuthorization"/></label>
+						<select class="form-control" id="provisioningRequireAuthorizationSelect" name="provisioningRequireAuthorization">
+							<option value="true" ${provisioningRequireAuthorization == 'true' ? 'selected' : ''}><spring:message code="common.yes"/></option>
+							<option value="false" ${provisioningRequireAuthorization == 'false' ? 'selected' : ''}><spring:message code="common.no"/></option>
+						</select>
+					</div>
+					<div class="col-md-4 col-lg-4 form-group">
+						<label for="printPickingListSelect"><spring:message code="common.printPickingList"/></label>
+						<select class="form-control" id="printPickingListSelect" name="printPickingList">
+							<option value="true" ${printPickingList == 'true' ? 'selected' : ''}><spring:message code="common.yes"/></option>
+							<option value="false" ${printPickingList == 'false' ? 'selected' : ''}><spring:message code="common.no"/></option>
+						</select>
+					</div>
+				</div>
             </div>
 		</div>
     </div>

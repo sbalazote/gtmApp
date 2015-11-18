@@ -89,6 +89,12 @@ public class Property implements Serializable {
 	@Column(name = "inform_anmat", nullable = false)
 	private boolean informAnmat;
 
+	@Column(name = "provisioning_require_authorization", nullable = false)
+	private boolean provisioningRequireAuthorization;
+
+	@Column(name = "print_picking_list", nullable = false)
+	private boolean printPickingList;
+
 	@ManyToOne
 	@JoinColumn(name = "VAT_liability_id", nullable = false)
 	private VATLiability VATLiability;
@@ -295,5 +301,21 @@ public class Property implements Serializable {
 
 	public String getDecryptPassword() {
 		return EncryptionHelper.AESDecrypt(this.getANMATPassword());
+	}
+
+	public boolean isProvisioningRequireAuthorization() {
+		return provisioningRequireAuthorization;
+	}
+
+	public void setProvisioningRequireAuthorization(boolean provisioningRequireAuthorization) {
+		this.provisioningRequireAuthorization = provisioningRequireAuthorization;
+	}
+
+	public boolean isPrintPickingList() {
+		return printPickingList;
+	}
+
+	public void setPrintPickingList(boolean printPickingList) {
+		this.printPickingList = printPickingList;
 	}
 }

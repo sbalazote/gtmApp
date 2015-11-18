@@ -198,7 +198,7 @@ public class OrderLabelPrinter implements ServletContextAware {
 
 			// imprimo fecha y numero de pedido
 			String date = dateFormatter.format(order.getProvisioningRequest().getDeliveryDate());
-			String number = order.getFormatId();
+			String number = order.getProvisioningRequest().getFormatId();
 			overContent.setTextMatrix(5.0f * 2.8346f, (297.0f - 30.0f) * 2.8346f);
 			overContent.showText("Fecha: " + date + " / NV: " + number);
 

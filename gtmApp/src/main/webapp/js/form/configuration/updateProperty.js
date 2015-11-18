@@ -98,6 +98,12 @@ UpdateProperty = function() {
 				},
 				informAnmat: {
 					required: true
+				},
+				provisioningRequireAuthorization: {
+					required: true
+				},
+				printPickingList: {
+					required: true
 				}
 			},
 			showErrors: myShowErrors,
@@ -183,7 +189,10 @@ UpdateProperty = function() {
 					"proxyNumber":  $("#proxyNumberInput").val(),
 					"informProxy": $("#proxySelect").val(),
 					"informAnmat": $("#informAnmatSelect").val(),
-					"supplyingConceptSelectId": $("#supplyingConceptSelect option:selected").val()
+					"supplyingConceptSelectId": $("#supplyingConceptSelect option:selected").val(),
+					"provisioningRequireAuthorization": $("#provisioningRequireAuthorizationSelect").val(),
+					"printPickingList": $("#printPickingListSelect").val(),
+
 			};
 
 			$.ajax({
@@ -268,4 +277,13 @@ UpdateProperty = function() {
 	$("#informAnmatSelect").chosen({
 		width: '100%' /* desired width */
 	});
+
+	$("#provisioningRequireAuthorizationSelect").chosen({
+		width: '100%' /* desired width */
+	});
+
+	$("#printPickingListSelect").chosen({
+		width: '100%' /* desired width */
+	});
+
 };

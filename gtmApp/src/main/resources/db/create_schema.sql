@@ -616,6 +616,8 @@ CREATE TABLE `property` (
   `proxy` varchar(45),
   `proxy_port` varchar(45),
   `inform_proxy` bit(1) NOT NULL,
+  `provisioning_require_authorization` bit(1) NOT NULL,
+  `print_picking_list` bit(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code_UNIQUE` (`code`),
   KEY `fk_drugstore_property_province_idx` (`province_id`),

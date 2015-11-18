@@ -41,6 +41,8 @@ public class OrderController {
 	private ClientService clientService;
 	@Autowired
 	private LogisticsOperatorService logisticsOperatorService;
+	@Autowired
+	private PropertyService propertyService;
 
 	@RequestMapping(value = "/orderAssembly", method = RequestMethod.GET)
 	public String orderAssembly(ModelMap modelMap, @RequestParam Map<String, String> parameters) throws Exception {
@@ -74,7 +76,7 @@ public class OrderController {
 		Order order = this.orderService.save(orderDTO);
 		PrinterResultDTO printerResultDTO = new PrinterResultDTO(order.getFormatId());
 		// imprimo rotulo para pedido solo si el parametro 'picking_list' en convenio esta seteado.
-		if (order.getProvisioningRequest().getAgreement().isPickingList()) {
+		if (order.getProvisioningRequest().getAgreement().isPickingList() && this.propertyService.get().isPrintPickingList()) {
 			this.orderLabelPrinter.print(order, printerResultDTO);
 		}
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -139,6 +141,9 @@ public class OrderController {
 	public @ResponseBody List<ProvisioningRequest> getAuthorizedProvisioningsForOrders(@RequestParam Integer agreementId, Integer clientId) {
 		List<ProvisioningRequest> provisionings = this.provisioningRequestService.getFilterProvisionings(agreementId, clientId, State.AUTHORIZED.getId());
 		provisionings.addAll(this.provisioningRequestService.getFilterProvisionings(agreementId, clientId, State.PRINTED.getId()));
+		if(!this.propertyService.get().isProvisioningRequireAuthorization()){
+			provisionings.addAll(this.provisioningRequestService.getFilterProvisionings(agreementId, clientId, State.ENTERED.getId()));
+		}
 		return provisionings;
 	}
 

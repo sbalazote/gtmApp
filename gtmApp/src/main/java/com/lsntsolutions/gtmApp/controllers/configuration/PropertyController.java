@@ -96,6 +96,8 @@ public class PropertyController {
 
 		property.setInformAnmat(propertyDTO.isInformAnmat());
 		property.setVATLiability(this.VATLiabilityService.get(propertyDTO.getVATLiabilityId()));
+		property.setProvisioningRequireAuthorization(propertyDTO.isProvisioningRequireAuthorization());
+		property.setPrintPickingList(propertyDTO.isPrintPickingList());
 
 		return property;
 	}
@@ -150,6 +152,8 @@ public class PropertyController {
 		modelMap.put("proxyPort", property.getProxyPort());
 		modelMap.put("informProxy", property.isHasProxy());
 		modelMap.put("informAnmat", property.isInformAnmat());
+		modelMap.put("provisioningRequireAuthorization", property.isProvisioningRequireAuthorization());
+		modelMap.put("printPickingList", property.isPrintPickingList());
 
 		VATLiability selectedVATLiability = property.getVATLiability();
 		List<VATLiability> allVATLiabilities = this.VATLiabilityService.getAll();
