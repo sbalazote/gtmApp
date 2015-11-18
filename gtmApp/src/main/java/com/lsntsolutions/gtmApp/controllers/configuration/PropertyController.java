@@ -47,9 +47,96 @@ public class PropertyController {
 	@RequestMapping(value = "/saveProperty", method = RequestMethod.POST)
 	public @ResponseBody void saveProperty(@RequestBody PropertyDTO propertyDTO) throws Exception {
 		this.PropertyService.save(this.buildModel(propertyDTO));
+		this.updateDeliveryNoteConfig(propertyDTO);
 		PropertyProvider.getInstance().setProp(PropertyProvider.NAME, propertyDTO.getName());
 	}
 
+	private void updateDeliveryNoteConfig(PropertyDTO propertyDTO) {
+		this.deliveryNoteConfig.setFontSize(propertyDTO.getFontSize());
+		this.deliveryNoteConfig.setNumberXInMillimeters(propertyDTO.getNumberX());
+		this.deliveryNoteConfig.setNumberYInMillimeters(propertyDTO.getNumberY());
+		this.deliveryNoteConfig.setNumberPrint(propertyDTO.getNumberPrint());
+		this.deliveryNoteConfig.setDateXInMillimeters(propertyDTO.getDateX());
+		this.deliveryNoteConfig.setDateYInMillimeters(propertyDTO.getDateY());
+		this.deliveryNoteConfig.setDatePrint(propertyDTO.getDatePrint());
+		this.deliveryNoteConfig.setIssuerCorporateNameXInMillimeters(propertyDTO.getIssuerCorporateNameX());
+		this.deliveryNoteConfig.setIssuerCorporateNameYInMillimeters(propertyDTO.getIssuerCorporateNameY());
+		this.deliveryNoteConfig.setIssuerCorporateNamePrint(propertyDTO.getIssuerCorporateNamePrint());
+		this.deliveryNoteConfig.setIssuerAddressXInMillimeters(propertyDTO.getIssuerAddressX());
+		this.deliveryNoteConfig.setIssuerAddressYInMillimeters(propertyDTO.getIssuerAddressY());
+		this.deliveryNoteConfig.setIssuerAddressPrint(propertyDTO.getIssuerAddressPrint());
+		this.deliveryNoteConfig.setIssuerLocalityXInMillimeters(propertyDTO.getIssuerLocalityX());
+		this.deliveryNoteConfig.setIssuerLocalityYInMillimeters(propertyDTO.getIssuerLocalityY());
+		this.deliveryNoteConfig.setIssuerLocalityPrint(propertyDTO.getIssuerLocalityPrint());
+		this.deliveryNoteConfig.setIssuerZipcodeXInMillimeters(propertyDTO.getIssuerZipcodeX());
+		this.deliveryNoteConfig.setIssuerZipcodeYInMillimeters(propertyDTO.getIssuerZipcodeY());
+		this.deliveryNoteConfig.setIssuerZipcodePrint(propertyDTO.getIssuerZipcodePrint());
+		this.deliveryNoteConfig.setIssuerProvinceXInMillimeters(propertyDTO.getIssuerProvinceX());
+		this.deliveryNoteConfig.setIssuerProvinceYInMillimeters(propertyDTO.getIssuerProvinceY());
+		this.deliveryNoteConfig.setIssuerProvincePrint(propertyDTO.getIssuerProvincePrint());
+		this.deliveryNoteConfig.setIssuerVatliabilityXInMillimeters(propertyDTO.getIssuerVatliabilityX());
+		this.deliveryNoteConfig.setIssuerVatliabilityYInMillimeters(propertyDTO.getIssuerVatliabilityY());
+		this.deliveryNoteConfig.setIssuerVatliabilityPrint(propertyDTO.getIssuerVatliabilityPrint());
+		this.deliveryNoteConfig.setIssuerTaxXInMillimeters(propertyDTO.getIssuerTaxX());
+		this.deliveryNoteConfig.setIssuerTaxYInMillimeters(propertyDTO.getIssuerTaxY());
+		this.deliveryNoteConfig.setIssuerTaxPrint(propertyDTO.getIssuerTaxPrint());
+		this.deliveryNoteConfig.setDeliveryLocationCorporateNameXInMillimeters(propertyDTO.getDeliveryLocationCorporateNameX());
+		this.deliveryNoteConfig.setDeliveryLocationCorporateNameYInMillimeters(propertyDTO.getDeliveryLocationCorporateNameY());
+		this.deliveryNoteConfig.setDeliveryLocationCorporateNamePrint(propertyDTO.getDeliveryLocationCorporateNamePrint());
+		this.deliveryNoteConfig.setDeliveryLocationAddressXInMillimeters(propertyDTO.getDeliveryLocationAddressX());
+		this.deliveryNoteConfig.setDeliveryLocationAddressYInMillimeters(propertyDTO.getDeliveryLocationAddressY());
+		this.deliveryNoteConfig.setDeliveryLocationAddressPrint(propertyDTO.getDeliveryLocationAddressPrint());
+		this.deliveryNoteConfig.setDeliveryLocationLocalityXInMillimeters(propertyDTO.getDeliveryLocationLocalityX());
+		this.deliveryNoteConfig.setDeliveryLocationLocalityYInMillimeters(propertyDTO.getDeliveryLocationLocalityY());
+		this.deliveryNoteConfig.setDeliveryLocationLocalityPrint(propertyDTO.getDeliveryLocationLocalityPrint());
+		this.deliveryNoteConfig.setDeliveryLocationZipcodeXInMillimeters(propertyDTO.getDeliveryLocationZipcodeX());
+		this.deliveryNoteConfig.setDeliveryLocationZipcodeYInMillimeters(propertyDTO.getDeliveryLocationZipcodeY());
+		this.deliveryNoteConfig.setDeliveryLocationZipcodePrint(propertyDTO.getDeliveryLocationZipcodePrint());
+		this.deliveryNoteConfig.setDeliveryLocationProvinceXInMillimeters(propertyDTO.getDeliveryLocationProvinceX());
+		this.deliveryNoteConfig.setDeliveryLocationProvinceYInMillimeters(propertyDTO.getDeliveryLocationProvinceY());
+		this.deliveryNoteConfig.setDeliveryLocationProvincePrint(propertyDTO.getDeliveryLocationProvincePrint());
+		this.deliveryNoteConfig.setDeliveryLocationVatliabilityXInMillimeters(propertyDTO.getDeliveryLocationVatliabilityX());
+		this.deliveryNoteConfig.setDeliveryLocationVatliabilityYInMillimeters(propertyDTO.getDeliveryLocationVatliabilityY());
+		this.deliveryNoteConfig.setDeliveryLocationVatliabilityPrint(propertyDTO.getDeliveryLocationVatliabilityPrint());
+		this.deliveryNoteConfig.setDeliveryLocationTaxXInMillimeters(propertyDTO.getDeliveryLocationTaxX());
+		this.deliveryNoteConfig.setDeliveryLocationTaxYInMillimeters(propertyDTO.getDeliveryLocationTaxY());
+		this.deliveryNoteConfig.setDeliveryLocationTaxPrint(propertyDTO.getDeliveryLocationTaxPrint());
+		this.deliveryNoteConfig.setAffiliateXInMillimeters(propertyDTO.getAffiliateX());
+		this.deliveryNoteConfig.setAffiliateYInMillimeters(propertyDTO.getAffiliateY());
+		this.deliveryNoteConfig.setAffiliatePrint(propertyDTO.getAffiliatePrint());
+		this.deliveryNoteConfig.setOrderXInMillimeters(propertyDTO.getOrderX());
+		this.deliveryNoteConfig.setOrderYInMillimeters(propertyDTO.getOrderY());
+		this.deliveryNoteConfig.setOrderPrint(propertyDTO.getOrderPrint());
+		this.deliveryNoteConfig.setIssuerGlnXInMillimeters(propertyDTO.getIssuerGlnX());
+		this.deliveryNoteConfig.setIssuerGlnYInMillimeters(propertyDTO.getIssuerGlnY());
+		this.deliveryNoteConfig.setIssuerGlnPrint(propertyDTO.getIssuerGlnPrint());
+		this.deliveryNoteConfig.setDeliveryLocationGlnXInMillimeters(propertyDTO.getDeliveryLocationGlnX());
+		this.deliveryNoteConfig.setDeliveryLocationGlnYInMillimeters(propertyDTO.getDeliveryLocationGlnY());
+		this.deliveryNoteConfig.setDeliveryLocationGlnPrint(propertyDTO.getDeliveryLocationGlnPrint());
+		this.deliveryNoteConfig.setProductDetailsYInMillimeters(propertyDTO.getProductDetailsY());
+		this.deliveryNoteConfig.setProductDescriptionXInMillimeters(propertyDTO.getProductDescriptionX());
+		this.deliveryNoteConfig.setProductDescriptionPrint(propertyDTO.getProductDescriptionPrint());
+		this.deliveryNoteConfig.setProductMonodrugXInMillimeters(propertyDTO.getProductMonodrugX());
+		this.deliveryNoteConfig.setProductMonodrugPrint(propertyDTO.getProductMonodrugPrint());
+		this.deliveryNoteConfig.setProductBrandXInMillimeters(propertyDTO.getProductBrandX());
+		this.deliveryNoteConfig.setProductBrandPrint(propertyDTO.getProductBrandPrint());
+		this.deliveryNoteConfig.setProductAmountXInMillimeters(propertyDTO.getProductAmountX());
+		this.deliveryNoteConfig.setProductAmountPrint(propertyDTO.getProductAmountPrint());
+		this.deliveryNoteConfig.setProductBatchExpirationdateXInMillimeters(propertyDTO.getProductBatchExpirationdateX());
+		this.deliveryNoteConfig.setProductBatchExpirationdatePrint(propertyDTO.getProductBatchExpirationdatePrint());
+		this.deliveryNoteConfig.setSerialColumn1XInMillimeters(propertyDTO.getSerialColumn1X());
+		this.deliveryNoteConfig.setSerialColumn2XInMillimeters(propertyDTO.getSerialColumn2X());
+		this.deliveryNoteConfig.setSerialColumn3XInMillimeters(propertyDTO.getSerialColumn3X());
+		this.deliveryNoteConfig.setSerialColumn4XInMillimeters(propertyDTO.getSerialColumn4X());
+		this.deliveryNoteConfig.setSerialColumn1Print(propertyDTO.getSerialColumn1Print());
+		this.deliveryNoteConfig.setSerialColumn2Print(propertyDTO.getSerialColumn2Print());
+		this.deliveryNoteConfig.setSerialColumn3Print(propertyDTO.getSerialColumn3Print());
+		this.deliveryNoteConfig.setSerialColumn4Print(propertyDTO.getSerialColumn4Print());
+		this.deliveryNoteConfig.setNumberOfItemsXInMillimeters(propertyDTO.getNumberOfItemsX());
+		this.deliveryNoteConfig.setNumberOfItemsYInMillimeters(propertyDTO.getNumberOfItemsY());
+		this.deliveryNoteConfig.setNumberOfItemsPrint(propertyDTO.getNumberOfItemsPrint());
+	}
+	
 	private Property buildModel(PropertyDTO propertyDTO) {
 		Property property = new Property();
 		if (propertyDTO.getId() != null) {
