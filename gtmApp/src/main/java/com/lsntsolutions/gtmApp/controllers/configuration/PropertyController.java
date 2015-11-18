@@ -8,6 +8,7 @@ import com.lsntsolutions.gtmApp.model.Property;
 import com.lsntsolutions.gtmApp.model.Province;
 import com.lsntsolutions.gtmApp.model.VATLiability;
 import com.lsntsolutions.gtmApp.service.*;
+import com.lsntsolutions.gtmApp.util.DeliveryNoteConfig;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,9 @@ import java.util.Map;
 public class PropertyController {
 	@Autowired
 	private PropertyService PropertyService;
+
+	@Autowired
+	private DeliveryNoteConfig deliveryNoteConfig;
 
 	@Autowired
 	private AgentService agentService;
@@ -156,6 +160,121 @@ public class PropertyController {
 		allVATLiabilities.remove(selectedVATLiability);
 		modelMap.put("VATLiabilities", allVATLiabilities);
 		modelMap.put("selectedVATLiability", selectedVATLiability);
+
+		modelMap.put("fontSize", this.deliveryNoteConfig.getFontSize());
+
+		modelMap.put("numberX", this.deliveryNoteConfig.getNumberXInMillimeters());
+		modelMap.put("numberY", this.deliveryNoteConfig.getNumberYInMillimeters());
+		modelMap.put("numberPrint", this.deliveryNoteConfig.isNumberPrint());
+
+		modelMap.put("dateX", this.deliveryNoteConfig.getDateXInMillimeters());
+		modelMap.put("dateY", this.deliveryNoteConfig.getDateYInMillimeters());
+		modelMap.put("datePrint", this.deliveryNoteConfig.isDatePrint());
+
+		modelMap.put("issuerCorporateNameX", this.deliveryNoteConfig.getIssuerCorporateNameXInMillimeters());
+		modelMap.put("issuerCorporateNameY", this.deliveryNoteConfig.getIssuerCorporateNameYInMillimeters());
+		modelMap.put("issuerCorporateNamePrint", this.deliveryNoteConfig.isIssuerCorporateNamePrint());
+
+		modelMap.put("issuerAddressX", this.deliveryNoteConfig.getIssuerAddressXInMillimeters());
+		modelMap.put("issuerAddressY", this.deliveryNoteConfig.getIssuerAddressYInMillimeters());
+		modelMap.put("issuerAddressPrint", this.deliveryNoteConfig.isIssuerAddressPrint());
+
+		modelMap.put("issuerLocalityX", this.deliveryNoteConfig.getIssuerLocalityXInMillimeters());
+		modelMap.put("issuerLocalityY", this.deliveryNoteConfig.getIssuerLocalityYInMillimeters());
+		modelMap.put("issuerLocalityPrint", this.deliveryNoteConfig.isIssuerLocalityPrint());
+
+		modelMap.put("issuerZipcodeX", this.deliveryNoteConfig.getIssuerZipcodeXInMillimeters());
+		modelMap.put("issuerZipcodeY", this.deliveryNoteConfig.getIssuerZipcodeYInMillimeters());
+		modelMap.put("issuerZipcodePrint", this.deliveryNoteConfig.isIssuerZipcodePrint());
+
+		modelMap.put("issuerProvinceX", this.deliveryNoteConfig.getIssuerProvinceXInMillimeters());
+		modelMap.put("issuerProvinceY", this.deliveryNoteConfig.getIssuerProvinceYInMillimeters());
+		modelMap.put("issuerProvincePrint", this.deliveryNoteConfig.isIssuerProvincePrint());
+
+		modelMap.put("issuerVatliabilityX", this.deliveryNoteConfig.getIssuerVatliabilityXInMillimeters());
+		modelMap.put("issuerVatliabilityY", this.deliveryNoteConfig.getIssuerVatliabilityYInMillimeters());
+		modelMap.put("issuerVatliabilityPrint", this.deliveryNoteConfig.isIssuerVatliabilityPrint());
+
+		modelMap.put("issuerTaxX", this.deliveryNoteConfig.getIssuerTaxXInMillimeters());
+		modelMap.put("issuerTaxY", this.deliveryNoteConfig.getIssuerTaxYInMillimeters());
+		modelMap.put("issuerTaxPrint", this.deliveryNoteConfig.isIssuerTaxPrint());
+
+		modelMap.put("issuerGlnX", this.deliveryNoteConfig.getIssuerGlnXInMillimeters());
+		modelMap.put("issuerGlnY", this.deliveryNoteConfig.getIssuerGlnYInMillimeters());
+		modelMap.put("issuerGlnPrint", this.deliveryNoteConfig.isIssuerGlnPrint());
+
+		modelMap.put("deliveryLocationCorporateNameX", this.deliveryNoteConfig.getDeliveryLocationCorporateNameXInMillimeters());
+		modelMap.put("deliveryLocationCorporateNameY", this.deliveryNoteConfig.getDeliveryLocationCorporateNameYInMillimeters());
+		modelMap.put("deliveryLocationCorporateNamePrint", this.deliveryNoteConfig.isDeliveryLocationCorporateNamePrint());
+
+		modelMap.put("deliveryLocationAddressX", this.deliveryNoteConfig.getDeliveryLocationAddressXInMillimeters());
+		modelMap.put("deliveryLocationAddressY", this.deliveryNoteConfig.getDeliveryLocationAddressYInMillimeters());
+		modelMap.put("deliveryLocationAddressPrint", this.deliveryNoteConfig.isDeliveryLocationAddressPrint());
+
+		modelMap.put("deliveryLocationLocalityX", this.deliveryNoteConfig.getDeliveryLocationLocalityXInMillimeters());
+		modelMap.put("deliveryLocationLocalityY", this.deliveryNoteConfig.getDeliveryLocationLocalityYInMillimeters());
+		modelMap.put("deliveryLocationLocalityPrint", this.deliveryNoteConfig.isDeliveryLocationLocalityPrint());
+
+		modelMap.put("deliveryLocationZipcodeX", this.deliveryNoteConfig.getDeliveryLocationZipcodeXInMillimeters());
+		modelMap.put("deliveryLocationZipcodeY", this.deliveryNoteConfig.getDeliveryLocationZipcodeYInMillimeters());
+		modelMap.put("deliveryLocationZipcodePrint", this.deliveryNoteConfig.isDeliveryLocationZipcodePrint());
+
+		modelMap.put("deliveryLocationProvinceX", this.deliveryNoteConfig.getDeliveryLocationProvinceXInMillimeters());
+		modelMap.put("deliveryLocationProvinceY", this.deliveryNoteConfig.getDeliveryLocationProvinceYInMillimeters());
+		modelMap.put("deliveryLocationProvincePrint", this.deliveryNoteConfig.isDeliveryLocationProvincePrint());
+
+		modelMap.put("deliveryLocationVatliabilityX", this.deliveryNoteConfig.getDeliveryLocationVatliabilityXInMillimeters());
+		modelMap.put("deliveryLocationVatliabilityY", this.deliveryNoteConfig.getDeliveryLocationVatliabilityYInMillimeters());
+		modelMap.put("deliveryLocationVatliabilityPrint", this.deliveryNoteConfig.isDeliveryLocationVatliabilityPrint());
+
+		modelMap.put("deliveryLocationTaxX", this.deliveryNoteConfig.getDeliveryLocationTaxXInMillimeters());
+		modelMap.put("deliveryLocationTaxY", this.deliveryNoteConfig.getDeliveryLocationTaxYInMillimeters());
+		modelMap.put("deliveryLocationTaxPrint", this.deliveryNoteConfig.isDeliveryLocationTaxPrint());
+
+		modelMap.put("deliveryLocationGlnX", this.deliveryNoteConfig.getDeliveryLocationGlnXInMillimeters());
+		modelMap.put("deliveryLocationGlnY", this.deliveryNoteConfig.getDeliveryLocationGlnYInMillimeters());
+		modelMap.put("deliveryLocationGlnPrint", this.deliveryNoteConfig.isDeliveryLocationGlnPrint());
+
+		modelMap.put("affiliateX", this.deliveryNoteConfig.getAffiliateXInMillimeters());
+		modelMap.put("affiliateY", this.deliveryNoteConfig.getAffiliateYInMillimeters());
+		modelMap.put("affiliatePrint", this.deliveryNoteConfig.isAffiliatePrint());
+
+		modelMap.put("orderX", this.deliveryNoteConfig.getOrderXInMillimeters());
+		modelMap.put("orderY", this.deliveryNoteConfig.getOrderYInMillimeters());
+		modelMap.put("orderPrint", this.deliveryNoteConfig.isOrderPrint());
+
+		modelMap.put("productDetailsY", this.deliveryNoteConfig.getProductDetailsYInMillimeters());
+
+		modelMap.put("productDescriptionX", this.deliveryNoteConfig.getProductDescriptionXInMillimeters());
+		modelMap.put("productDescriptionPrint", this.deliveryNoteConfig.isProductDescriptionPrint());
+		
+		modelMap.put("productMonodrugX", this.deliveryNoteConfig.getProductMonodrugXInMillimeters());
+		modelMap.put("productMonodrugPrint", this.deliveryNoteConfig.isProductMonodrugPrint());
+
+		modelMap.put("productBrandX", this.deliveryNoteConfig.getProductBrandXInMillimeters());
+		modelMap.put("productBrandPrint", this.deliveryNoteConfig.isProductBrandPrint());
+
+		modelMap.put("productAmountX", this.deliveryNoteConfig.getProductAmountXInMillimeters());
+		modelMap.put("productAmountPrint", this.deliveryNoteConfig.isProductAmountPrint());
+
+		modelMap.put("productBatchExpirationdateX", this.deliveryNoteConfig.getProductBatchExpirationdateXInMillimeters());
+		modelMap.put("productBatchExpirationdatePrint", this.deliveryNoteConfig.isProductBatchExpirationdatePrint());
+
+		modelMap.put("serialColumn1X", this.deliveryNoteConfig.getSerialColumn1XInMillimeters());
+		modelMap.put("serialColumn1Print", this.deliveryNoteConfig.isSerialColumn1Print());
+
+		modelMap.put("serialColumn2X", this.deliveryNoteConfig.getSerialColumn2XInMillimeters());
+		modelMap.put("serialColumn2Print", this.deliveryNoteConfig.isSerialColumn2Print());
+
+		modelMap.put("serialColumn3X", this.deliveryNoteConfig.getSerialColumn3XInMillimeters());
+		modelMap.put("serialColumn3Print", this.deliveryNoteConfig.isSerialColumn3Print());
+
+		modelMap.put("serialColumn4X", this.deliveryNoteConfig.getSerialColumn4XInMillimeters());
+		modelMap.put("serialColumn4Print", this.deliveryNoteConfig.isSerialColumn4Print());
+
+		modelMap.put("numberOfItemsX", this.deliveryNoteConfig.getNumberOfItemsXInMillimeters());
+		modelMap.put("numberOfItemsY", this.deliveryNoteConfig.getNumberOfItemsYInMillimeters());
+		modelMap.put("numberOfItemsPrint", this.deliveryNoteConfig.isNumberOfItemsPrint());
 
 		return "updateProperty";
 	}
