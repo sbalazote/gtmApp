@@ -1,9 +1,9 @@
 package com.lsntsolutions.gtmApp.persistence.dao;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.ProvisioningRequest;
 import com.lsntsolutions.gtmApp.query.ProvisioningQuery;
+
+import java.util.List;
 
 public interface ProvisioningRequestDAO {
 
@@ -19,5 +19,5 @@ public interface ProvisioningRequestDAO {
 
 	boolean getCountOfProvisioningSearch(ProvisioningQuery provisioningQuery);
 
-	List<ProvisioningRequest> getFilterProvisionings(Integer agreementId, Integer clientId, Integer stateId);
+	List<ProvisioningRequest> getFilterProvisionings(Integer provisioningId, Integer agreementId, Integer clientId, Integer stateId);
 }

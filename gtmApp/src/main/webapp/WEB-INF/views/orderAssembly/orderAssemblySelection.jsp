@@ -14,6 +14,10 @@
 </div>
 <div class="row">
 	<div class="col-md-4 col-lg-4 form-group">
+		<label for="provisioningRequestSearch"><spring:message code="provisioningRequest.provisioningRequestNumber"/></label>
+		<input type="text" class="form-control" name="provisioningRequestSearch" id="provisioningRequestSearch" >
+	</div>
+	<div class="col-md-4 col-lg-4 form-group">
 		<label for="agreementSearch"><spring:message code="common.agreement"/></label>
 		<select id="agreementSearch" name="agreementSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 			<option value=""></option>
@@ -31,6 +35,8 @@
 			</c:forEach>
 		</select>
 	</div>
+</div>
+<div class="row">
 	<div class="col-md-2 col-lg-2 form-margin">
 		<button class="btn btn-success btn-block" type="submit" id="searchButton">
 		<span class="glyphicon glyphicon-search"></span>

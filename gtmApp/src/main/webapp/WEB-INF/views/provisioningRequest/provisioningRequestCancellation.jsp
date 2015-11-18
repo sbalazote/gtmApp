@@ -21,7 +21,7 @@
 	</div>
 	<div class="row">
 		<div class="col-md-8 col-lg-8 form-group">
-			<label for="provisioningRequestSearch"><spring:message code="provisioningRequest.label"/></label>
+			<label for="provisioningRequestSearch"><spring:message code="provisioningRequest.provisioningRequestNumber"/></label>
 			<input type="text" class="form-control" name="provisioningRequestSearch" id="provisioningRequestSearch" >
 		</div>
 		<div class="col-md-2 col-lg-2 form-margin">

@@ -138,11 +138,11 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/getAuthorizedProvisioningsForOrders", method = RequestMethod.GET)
-	public @ResponseBody List<ProvisioningRequest> getAuthorizedProvisioningsForOrders(@RequestParam Integer agreementId, Integer clientId) {
-		List<ProvisioningRequest> provisionings = this.provisioningRequestService.getFilterProvisionings(agreementId, clientId, State.AUTHORIZED.getId());
-		provisionings.addAll(this.provisioningRequestService.getFilterProvisionings(agreementId, clientId, State.PRINTED.getId()));
+	public @ResponseBody List<ProvisioningRequest> getAuthorizedProvisioningsForOrders(@RequestParam Integer provisioningRequestId, Integer agreementId, Integer clientId) {
+		List<ProvisioningRequest> provisionings = this.provisioningRequestService.getFilterProvisionings(provisioningRequestId, agreementId, clientId, State.AUTHORIZED.getId());
+		provisionings.addAll(this.provisioningRequestService.getFilterProvisionings(provisioningRequestId, agreementId, clientId, State.PRINTED.getId()));
 		if(!this.propertyService.get().isProvisioningRequireAuthorization()){
-			provisionings.addAll(this.provisioningRequestService.getFilterProvisionings(agreementId, clientId, State.ENTERED.getId()));
+			provisionings.addAll(this.provisioningRequestService.getFilterProvisionings(provisioningRequestId, agreementId, clientId, State.ENTERED.getId()));
 		}
 		return provisionings;
 	}

@@ -1,11 +1,11 @@
 package com.lsntsolutions.gtmApp.service;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.dto.ProvisioningRequestDTO;
 import com.lsntsolutions.gtmApp.model.ProvisioningRequest;
 import com.lsntsolutions.gtmApp.query.ProvisioningQuery;
 import com.lsntsolutions.gtmApp.util.OperationResult;
+
+import java.util.List;
 
 public interface ProvisioningRequestService {
 
@@ -27,7 +27,7 @@ public interface ProvisioningRequestService {
 
 	boolean cancelProvisioningRequest(Integer provisioningRequestId);
 
-	List<ProvisioningRequest> getFilterProvisionings(Integer agreementId, Integer clientId, Integer stateId);
+	List<ProvisioningRequest> getFilterProvisionings(Integer provisioningId, Integer agreementId, Integer clientId, Integer stateId);
 
 	void reassignOperators(ProvisioningRequest provisioningRequest, Integer operatorLogisticId);
 

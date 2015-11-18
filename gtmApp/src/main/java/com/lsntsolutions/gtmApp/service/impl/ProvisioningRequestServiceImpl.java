@@ -1,11 +1,5 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import com.lsntsolutions.gtmApp.service.*;
 import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.dto.ProvisioningRequestDTO;
 import com.lsntsolutions.gtmApp.dto.ProvisioningRequestDetailDTO;
@@ -14,13 +8,18 @@ import com.lsntsolutions.gtmApp.model.ProvisioningRequest;
 import com.lsntsolutions.gtmApp.model.ProvisioningRequestDetail;
 import com.lsntsolutions.gtmApp.model.ProvisioningRequestState;
 import com.lsntsolutions.gtmApp.persistence.dao.ProvisioningRequestDAO;
+import com.lsntsolutions.gtmApp.query.ProvisioningQuery;
+import com.lsntsolutions.gtmApp.service.*;
 import com.lsntsolutions.gtmApp.util.OperationResult;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lsntsolutions.gtmApp.query.ProvisioningQuery;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 @Service
 @Transactional
@@ -204,8 +203,8 @@ public class ProvisioningRequestServiceImpl implements ProvisioningRequestServic
 	}
 
 	@Override
-	public List<ProvisioningRequest> getFilterProvisionings(Integer agreementId, Integer clientId, Integer stateId) {
-		return this.provisioningRequestDAO.getFilterProvisionings(agreementId, clientId, stateId);
+	public List<ProvisioningRequest> getFilterProvisionings(Integer provisioningId, Integer agreementId, Integer clientId, Integer stateId) {
+		return this.provisioningRequestDAO.getFilterProvisionings(provisioningId, agreementId, clientId, stateId);
 	}
 
 	@Override

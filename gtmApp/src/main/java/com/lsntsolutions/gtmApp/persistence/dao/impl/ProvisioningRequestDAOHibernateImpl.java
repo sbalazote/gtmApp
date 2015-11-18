@@ -120,8 +120,11 @@ public class ProvisioningRequestDAOHibernateImpl implements ProvisioningRequestD
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ProvisioningRequest> getFilterProvisionings(Integer agreementId, Integer clientId, Integer stateId) {
+	public List<ProvisioningRequest> getFilterProvisionings(Integer provisioningId, Integer agreementId, Integer clientId, Integer stateId) {
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(ProvisioningRequest.class);
+		if (provisioningId != null) {
+			criteria.add(Restrictions.eq("id", provisioningId));
+		}
 		if (agreementId != null) {
 			criteria.add(Restrictions.eq("agreement.id", agreementId));
 		}

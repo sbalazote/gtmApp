@@ -159,7 +159,7 @@ public class ProvisioningRequestController {
 	@RequestMapping(value = "/getProvisioningsToAuthorize", method = RequestMethod.GET)
 	public @ResponseBody
 	List<ProvisioningRequest> getProvisioningsToAuthorize(@RequestParam Integer agreementId, Integer clientId) {
-		return this.provisioningRequestService.getFilterProvisionings(agreementId, clientId, State.ENTERED.getId());
+		return this.provisioningRequestService.getFilterProvisionings(null, agreementId, clientId, State.ENTERED.getId());
 	}
 
 	@RequestMapping(value = "/authorizeProvisioningRequests", method = RequestMethod.POST)
