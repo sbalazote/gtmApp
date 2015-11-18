@@ -498,8 +498,8 @@ $(document).ready(function() {
 	};
 
 	var populateOrderModal = function (response) {
-		var id = addLeadingZeros(response.id,8);
-		$("#orderId").text("Numero: " + id);
+		var provisioningId = addLeadingZeros(response.provisioningRequest.id,8);
+		$("#provisioningId").text("Numero Pedido: " + provisioningId);
 
 		if (response.cancelled) {
 			$("#orderCancelled").show();

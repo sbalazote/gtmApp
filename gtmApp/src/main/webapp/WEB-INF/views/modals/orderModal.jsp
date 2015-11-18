@@ -14,7 +14,7 @@
 						</h3>
 					</div>
 					<div class="col-md-5 col-lg-3">
-						<h3 id="orderId"></h3>
+						<h3 id="provisioningId"></h3>
 					</div>
 					<div class="col-md-2 col-lg-2"  id="orderCancelled">
 						<h3><span class="label label-danger">ANULADO</span></h3>

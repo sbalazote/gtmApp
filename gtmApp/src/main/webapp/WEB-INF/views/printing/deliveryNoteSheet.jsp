@@ -54,7 +54,8 @@
 	<table class="table table-condensed table-hover table-striped" id="deliveryNoteTable">
 			<thead>
 		        <tr>
-		            <th data-column-id="id" data-type="numeric" data-identifier="true"><spring:message code="common.orderAssembly"/></th>
+					<th data-column-id="orderId" data-type="numeric" data-identifier="true" data-visible="false"><spring:message code="common.orderAssembly"/></th>
+					<th data-column-id="id" data-type="numeric"><spring:message code="provisioningRequest.provisioningRequestNumber"/></th>
 					<th data-column-id="agreement"><spring:message code="common.agreement"/></th>
 					<th data-column-id="client"><spring:message code="common.client"/></th>
 		          	<th data-column-id="option"><spring:message code="common.option"/></th>
