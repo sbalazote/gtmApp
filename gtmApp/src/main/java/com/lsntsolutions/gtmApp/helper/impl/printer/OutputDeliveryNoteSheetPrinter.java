@@ -138,6 +138,7 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
                 String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(outputDetails.get(0).getExpirationDate());
                 String batchAmount = Integer.toString(productType.equals("BE") ? totalAmount : outputDetails.size());
                 if (!currentProductId.equals(previousProductId)) {
+					totalItems++;
                     printProductDetailHeader(description, monodrug, brand, getProductTotalAmount(Integer.parseInt(currentProductId)));
                 }
                 printProductBatchExpirationDateHeader(batch, expirationDate, batchAmount);
@@ -151,7 +152,6 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 					deliveryNoteDetails.add(deliveryNoteDetail);
 
 					currentLine++;
-					totalItems += totalAmount;
 					// si es de tipo trazado ocupa 1 (una) sola linea por cada cuatro series.
 				} else {
                     List<OutputDetail> outputDetailAux = new ArrayList<>();
@@ -168,7 +168,6 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 						serialIdx++;
 
 						if ((serialIdx == 4) || (!it.hasNext())) {
-							totalItems += outputDetailAux.size();
 							printSerialDetails(outputDetailAux);
 							currentLine++;
 							serialIdx = 0;

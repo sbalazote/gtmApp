@@ -25,7 +25,8 @@
 		<table class="table table-condensed table-hover table-striped" id="orderTable">
 			<thead>
 			<tr>
-				<th data-column-id="id" data-type="numeric" data-identifier="true"><spring:message code="common.id"/></th>
+				<th data-column-id="orderId" data-type="numeric" data-identifier="true" data-visible="false"><spring:message code="common.orderAssembly"/></th>
+				<th data-column-id="id" data-type="numeric"><spring:message code="provisioningRequest.provisioningRequestNumber"/></th>
 				<th data-column-id="client"><spring:message code="common.client"/></th>
 				<th data-column-id="agreement"><spring:message code="common.agreement"/></th>
 				<sec:authorize access="hasRole('ORDER_ASSEMBLY_CANCELLATION')">
@@ -40,6 +41,7 @@
 			<c:forEach items="${orders}" var="order" varStatus="status">
 				<tr>
 					<td><c:out value="${order.id}"></c:out></td>
+					<td><c:out value="${order.provisioningRequest.id}"></c:out></td>
 					<td><c:out value="${order.provisioningRequest.client.name}"></c:out></td>
 					<td><c:out value="${order.provisioningRequest.agreement.description}"></c:out></td>
 				</tr>

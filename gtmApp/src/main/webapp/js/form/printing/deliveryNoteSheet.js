@@ -74,13 +74,15 @@ var DeliveryNoteSheet = function() {
 				var aaData = [];
 				for (var i = 0, l = response.length; i < l; ++i) {
 					var orderDetail = {
+						orderId: 0,
 						id: 0,
 						agreement: "",
 						client: "",
 						option:""
 					};
-					
-					orderDetail.id = response[i].id;
+
+					orderDetail.orderId = response[i].id;
+					orderDetail.id = response[i].provisioningRequest.id;
 					orderDetail.agreement = response[i].provisioningRequest.agreement.description;
 					orderDetail.client = response[i].provisioningRequest.client.name;
 					orderDetail.option = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
@@ -96,11 +98,11 @@ var DeliveryNoteSheet = function() {
 					keepSelection: true
 				}).on("selected.rs.jquery.bootgrid", function(e, rows) {
 					for (var i = 0; i < rows.length; i++) {
-						ordersToPrint.push(rows[i].id);
+						ordersToPrint.push(rows[i].orderId);
 					}
 				}).on("deselected.rs.jquery.bootgrid", function(e, rows) {
 					for (var i = 0; i < rows.length; i++) {
-						ordersToPrint.splice(ordersToPrint.indexOf(rows[i].id), 1);
+						ordersToPrint.splice(ordersToPrint.indexOf(rows[i].orderId), 1);
 					}
 				});
 				$("#deliveryNoteTable").bootgrid().bootgrid("clear");
