@@ -36,9 +36,58 @@ ImportStock = function() {
         }
     });
 
+    $("#firstRowInput").numeric();
+    $("#typeColumnInput").numeric();
+    $("#gtinColumnInput").numeric();
+    $("#batchColumnInput").numeric();
+    $("#expirationColumnInput").numeric();
+    $("#serialColumnInput").numeric();
+    $("#amountColumnInput").numeric();
+
+    var validateForm = function() {
+        var form = $("#importStockForm");
+        form.validate({
+            rules: {
+                concept: {
+                    required: true
+                },
+                provider: {
+                    required: true
+                },
+                agreement: {
+                    required: true
+                },
+                firstRow: {
+                    required: true
+                },
+                typeColumn: {
+                    required: true
+                },
+                gtinColumn: {
+                    required: true
+                },
+                batchColumn: {
+                    required: true
+                },
+                expirationColumn: {
+                    required: true
+                },
+                serialColumn: {
+                    required: true
+                },
+                amountColumn: {
+                    required: true
+                }
+            },
+            showErrors: myShowErrors,
+            onsubmit: false
+        });
+        return form.valid();
+    };
+
     $("#confirm").click(function() {
         var fileSelected = $("#uploaded-files tbody").html() != '';
-        if (fileSelected) {
+        if (validateForm() && fileSelected) {
             var jsonImportStock = {
                 "conceptId": $("#conceptInput").val(),
                 "providerId": $("#providerInput").val(),
