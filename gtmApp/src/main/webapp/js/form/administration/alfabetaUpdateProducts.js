@@ -28,7 +28,7 @@ AlfabetaUpdateProducts = function() {
                 myShowAlert('danger', 'Tipo de archivo no v\u00e1lido.');
             }
 
-            if (data.originalFiles[0]['size'] > (5*1024*1024)) {//5 MB
+            if (data.originalFiles[0]['size'] > (15*1024*1024)) {//5 MB
             	uploadError = true;
             	myShowAlert('danger', 'Tama&ntilde;o de archivo demasiado grande.');
             }
