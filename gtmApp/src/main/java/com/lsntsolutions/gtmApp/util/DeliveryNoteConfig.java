@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 public class DeliveryNoteConfig {
 
 	// The coordinates are measured in points. 1 inch is divided into 72 points so that 1 Millimeter equals 2.8346 points.
-	private static float MILLIMITER_TO_POINTS_FACTOR = 2.8346f;
+	private float MILLIMITER_TO_POINTS_FACTOR = 2.8346f;
 
 	@Value("${font.size}")
 	private Integer fontSize;
@@ -534,5 +534,545 @@ public class DeliveryNoteConfig {
 
 	public Boolean isNumberOfItemsPrint() {
 		return numberOfItemsPrint;
+	}
+
+	public Integer getNumberXInMillimeters() {
+		return numberX;
+	}
+
+	public Integer getNumberYInMillimeters() {
+		return numberY;
+	}
+
+	public Integer getDateXInMillimeters() {
+		return dateX;
+	}
+
+	public Integer getDateYInMillimeters() {
+		return dateY;
+	}
+
+	public Integer getIssuerCorporateNameXInMillimeters() {
+		return issuerCorporateNameX;
+	}
+
+	public Integer getIssuerCorporateNameYInMillimeters() {
+		return issuerCorporateNameY;
+	}
+
+	public Integer getIssuerAddressXInMillimeters() {
+		return issuerAddressX;
+	}
+
+	public Integer getIssuerAddressYInMillimeters() {
+		return issuerAddressY;
+	}
+
+	public Integer getIssuerLocalityXInMillimeters() {
+		return issuerLocalityX;
+	}
+
+	public Integer getIssuerLocalityYInMillimeters() {
+		return issuerLocalityY;
+	}
+
+	public Integer getIssuerZipcodeXInMillimeters() {
+		return issuerZipcodeX;
+	}
+
+	public Integer getIssuerZipcodeYInMillimeters() {
+		return issuerZipcodeY;
+	}
+
+	public Integer getIssuerProvinceXInMillimeters() {
+		return issuerProvinceX;
+	}
+
+	public Integer getIssuerProvinceYInMillimeters() {
+		return issuerProvinceY;
+	}
+
+	public Integer getIssuerVatliabilityXInMillimeters() {
+		return issuerVatliabilityX;
+	}
+
+	public Integer getIssuerVatliabilityYInMillimeters() {
+		return issuerVatliabilityY;
+	}
+
+	public Integer getIssuerTaxXInMillimeters() {
+		return issuerTaxX;
+	}
+
+	public Integer getIssuerTaxYInMillimeters() {
+		return issuerTaxY;
+	}
+
+	public Integer getDeliveryLocationCorporateNameXInMillimeters() {
+		return deliveryLocationCorporateNameX;
+	}
+
+	public Integer getDeliveryLocationCorporateNameYInMillimeters() {
+		return deliveryLocationCorporateNameY;
+	}
+
+	public Integer getDeliveryLocationAddressXInMillimeters() {
+		return deliveryLocationAddressX;
+	}
+
+	public Integer getDeliveryLocationAddressYInMillimeters() {
+		return deliveryLocationAddressY;
+	}
+
+	public Integer getDeliveryLocationLocalityXInMillimeters() {
+		return deliveryLocationLocalityX;
+	}
+
+	public Integer getDeliveryLocationLocalityYInMillimeters() {
+		return deliveryLocationLocalityY;
+	}
+
+	public Integer getDeliveryLocationZipcodeXInMillimeters() {
+		return deliveryLocationZipcodeX;
+	}
+
+	public Integer getDeliveryLocationZipcodeYInMillimeters() {
+		return deliveryLocationZipcodeY;
+	}
+
+	public Integer getDeliveryLocationProvinceXInMillimeters() {
+		return deliveryLocationProvinceX;
+	}
+
+	public Integer getDeliveryLocationProvinceYInMillimeters() {
+		return deliveryLocationProvinceY;
+	}
+
+	public Integer getDeliveryLocationVatliabilityXInMillimeters() {
+		return deliveryLocationVatliabilityX;
+	}
+
+	public Integer getDeliveryLocationVatliabilityYInMillimeters() {
+		return deliveryLocationVatliabilityY;
+	}
+
+	public Integer getDeliveryLocationTaxXInMillimeters() {
+		return deliveryLocationTaxX;
+	}
+
+	public Integer getDeliveryLocationTaxYInMillimeters() {
+		return deliveryLocationTaxY;
+	}
+
+	public Integer getAffiliateXInMillimeters() {
+		return affiliateX;
+	}
+
+	public Integer getAffiliateYInMillimeters() {
+		return affiliateY;
+	}
+
+	public Integer getOrderXInMillimeters() {
+		return orderX;
+	}
+
+	public Integer getOrderYInMillimeters() {
+		return orderY;
+	}
+
+	public Integer getIssuerGlnXInMillimeters() {
+		return issuerGlnX;
+	}
+
+	public Integer getIssuerGlnYInMillimeters() {
+		return issuerGlnY;
+	}
+
+	public Integer getDeliveryLocationGlnXInMillimeters() {
+		return deliveryLocationGlnX;
+	}
+
+	public Integer getDeliveryLocationGlnYInMillimeters() {
+		return deliveryLocationGlnY;
+	}
+
+	public Integer getProductDetailsYInMillimeters() {
+		return productDetailsY;
+	}
+
+	public Integer getProductDescriptionXInMillimeters() {
+		return productDescriptionX;
+	}
+
+	public Integer getProductMonodrugXInMillimeters() {
+		return productMonodrugX;
+	}
+
+	public Integer getProductBrandXInMillimeters() {
+		return productBrandX;
+	}
+
+	public Integer getProductAmountXInMillimeters() {
+		return productAmountX;
+	}
+
+	public Integer getProductBatchExpirationdateXInMillimeters() {
+		return productBatchExpirationdateX;
+	}
+
+	public Integer getSerialColumn1XInMillimeters() {
+		return serialColumn1X;
+	}
+
+	public Integer getSerialColumn2XInMillimeters() {
+		return serialColumn2X;
+	}
+
+	public Integer getSerialColumn3XInMillimeters() {
+		return serialColumn3X;
+	}
+
+	public Integer getSerialColumn4XInMillimeters() {
+		return serialColumn4X;
+	}
+
+	public Integer getNumberOfItemsXInMillimeters() {
+		return numberOfItemsX;
+	}
+
+	public Integer getNumberOfItemsYInMillimeters() {
+		return numberOfItemsY;
+	}
+
+	public void setFontSize(Integer fontSize) {
+		this.fontSize = fontSize;
+	}
+
+	public void setNumberXInMillimeters(Integer numberX) {
+		this.numberX = numberX;
+	}
+
+	public void setNumberYInMillimeters(Integer numberY) {
+		this.numberY = numberY;
+	}
+
+	public void setNumberPrint(Boolean numberPrint) {
+		this.numberPrint = numberPrint;
+	}
+
+	public void setDateXInMillimeters(Integer dateX) {
+		this.dateX = dateX;
+	}
+
+	public void setDateYInMillimeters(Integer dateY) {
+		this.dateY = dateY;
+	}
+
+	public void setDatePrint(Boolean datePrint) {
+		this.datePrint = datePrint;
+	}
+
+	public void setIssuerCorporateNameXInMillimeters(Integer issuerCorporateNameX) {
+		this.issuerCorporateNameX = issuerCorporateNameX;
+	}
+
+	public void setIssuerCorporateNameYInMillimeters(Integer issuerCorporateNameY) {
+		this.issuerCorporateNameY = issuerCorporateNameY;
+	}
+
+	public void setIssuerCorporateNamePrint(Boolean issuerCorporateNamePrint) {
+		this.issuerCorporateNamePrint = issuerCorporateNamePrint;
+	}
+
+	public void setIssuerAddressXInMillimeters(Integer issuerAddressX) {
+		this.issuerAddressX = issuerAddressX;
+	}
+
+	public void setIssuerAddressYInMillimeters(Integer issuerAddressY) {
+		this.issuerAddressY = issuerAddressY;
+	}
+
+	public void setIssuerAddressPrint(Boolean issuerAddressPrint) {
+		this.issuerAddressPrint = issuerAddressPrint;
+	}
+
+	public void setIssuerLocalityXInMillimeters(Integer issuerLocalityX) {
+		this.issuerLocalityX = issuerLocalityX;
+	}
+
+	public void setIssuerLocalityYInMillimeters(Integer issuerLocalityY) {
+		this.issuerLocalityY = issuerLocalityY;
+	}
+
+	public void setIssuerLocalityPrint(Boolean issuerLocalityPrint) {
+		this.issuerLocalityPrint = issuerLocalityPrint;
+	}
+
+	public void setIssuerZipcodeXInMillimeters(Integer issuerZipcodeX) {
+		this.issuerZipcodeX = issuerZipcodeX;
+	}
+
+	public void setIssuerZipcodeYInMillimeters(Integer issuerZipcodeY) {
+		this.issuerZipcodeY = issuerZipcodeY;
+	}
+
+	public void setIssuerZipcodePrint(Boolean issuerZipcodePrint) {
+		this.issuerZipcodePrint = issuerZipcodePrint;
+	}
+
+	public void setIssuerProvinceXInMillimeters(Integer issuerProvinceX) {
+		this.issuerProvinceX = issuerProvinceX;
+	}
+
+	public void setIssuerProvinceYInMillimeters(Integer issuerProvinceY) {
+		this.issuerProvinceY = issuerProvinceY;
+	}
+
+	public void setIssuerProvincePrint(Boolean issuerProvincePrint) {
+		this.issuerProvincePrint = issuerProvincePrint;
+	}
+
+	public void setIssuerVatliabilityXInMillimeters(Integer issuerVatliabilityX) {
+		this.issuerVatliabilityX = issuerVatliabilityX;
+	}
+
+	public void setIssuerVatliabilityYInMillimeters(Integer issuerVatliabilityY) {
+		this.issuerVatliabilityY = issuerVatliabilityY;
+	}
+
+	public void setIssuerVatliabilityPrint(Boolean issuerVatliabilityPrint) {
+		this.issuerVatliabilityPrint = issuerVatliabilityPrint;
+	}
+
+	public void setIssuerTaxXInMillimeters(Integer issuerTaxX) {
+		this.issuerTaxX = issuerTaxX;
+	}
+
+	public void setIssuerTaxYInMillimeters(Integer issuerTaxY) {
+		this.issuerTaxY = issuerTaxY;
+	}
+
+	public void setIssuerTaxPrint(Boolean issuerTaxPrint) {
+		this.issuerTaxPrint = issuerTaxPrint;
+	}
+
+	public void setDeliveryLocationCorporateNameXInMillimeters(Integer deliveryLocationCorporateNameX) {
+		this.deliveryLocationCorporateNameX = deliveryLocationCorporateNameX;
+	}
+
+	public void setDeliveryLocationCorporateNameYInMillimeters(Integer deliveryLocationCorporateNameY) {
+		this.deliveryLocationCorporateNameY = deliveryLocationCorporateNameY;
+	}
+
+	public void setDeliveryLocationCorporateNamePrint(Boolean deliveryLocationCorporateNamePrint) {
+		this.deliveryLocationCorporateNamePrint = deliveryLocationCorporateNamePrint;
+	}
+
+	public void setDeliveryLocationAddressXInMillimeters(Integer deliveryLocationAddressX) {
+		this.deliveryLocationAddressX = deliveryLocationAddressX;
+	}
+
+	public void setDeliveryLocationAddressYInMillimeters(Integer deliveryLocationAddressY) {
+		this.deliveryLocationAddressY = deliveryLocationAddressY;
+	}
+
+	public void setDeliveryLocationAddressPrint(Boolean deliveryLocationAddressPrint) {
+		this.deliveryLocationAddressPrint = deliveryLocationAddressPrint;
+	}
+
+	public void setDeliveryLocationLocalityXInMillimeters(Integer deliveryLocationLocalityX) {
+		this.deliveryLocationLocalityX = deliveryLocationLocalityX;
+	}
+
+	public void setDeliveryLocationLocalityYInMillimeters(Integer deliveryLocationLocalityY) {
+		this.deliveryLocationLocalityY = deliveryLocationLocalityY;
+	}
+
+	public void setDeliveryLocationLocalityPrint(Boolean deliveryLocationLocalityPrint) {
+		this.deliveryLocationLocalityPrint = deliveryLocationLocalityPrint;
+	}
+
+	public void setDeliveryLocationZipcodeXInMillimeters(Integer deliveryLocationZipcodeX) {
+		this.deliveryLocationZipcodeX = deliveryLocationZipcodeX;
+	}
+
+	public void setDeliveryLocationZipcodeYInMillimeters(Integer deliveryLocationZipcodeY) {
+		this.deliveryLocationZipcodeY = deliveryLocationZipcodeY;
+	}
+
+	public void setDeliveryLocationZipcodePrint(Boolean deliveryLocationZipcodePrint) {
+		this.deliveryLocationZipcodePrint = deliveryLocationZipcodePrint;
+	}
+
+	public void setDeliveryLocationProvinceXInMillimeters(Integer deliveryLocationProvinceX) {
+		this.deliveryLocationProvinceX = deliveryLocationProvinceX;
+	}
+
+	public void setDeliveryLocationProvinceYInMillimeters(Integer deliveryLocationProvinceY) {
+		this.deliveryLocationProvinceY = deliveryLocationProvinceY;
+	}
+
+	public void setDeliveryLocationProvincePrint(Boolean deliveryLocationProvincePrint) {
+		this.deliveryLocationProvincePrint = deliveryLocationProvincePrint;
+	}
+
+	public void setDeliveryLocationVatliabilityXInMillimeters(Integer deliveryLocationVatliabilityX) {
+		this.deliveryLocationVatliabilityX = deliveryLocationVatliabilityX;
+	}
+
+	public void setDeliveryLocationVatliabilityYInMillimeters(Integer deliveryLocationVatliabilityY) {
+		this.deliveryLocationVatliabilityY = deliveryLocationVatliabilityY;
+	}
+
+	public void setDeliveryLocationVatliabilityPrint(Boolean deliveryLocationVatliabilityPrint) {
+		this.deliveryLocationVatliabilityPrint = deliveryLocationVatliabilityPrint;
+	}
+
+	public void setDeliveryLocationTaxXInMillimeters(Integer deliveryLocationTaxX) {
+		this.deliveryLocationTaxX = deliveryLocationTaxX;
+	}
+
+	public void setDeliveryLocationTaxYInMillimeters(Integer deliveryLocationTaxY) {
+		this.deliveryLocationTaxY = deliveryLocationTaxY;
+	}
+
+	public void setDeliveryLocationTaxPrint(Boolean deliveryLocationTaxPrint) {
+		this.deliveryLocationTaxPrint = deliveryLocationTaxPrint;
+	}
+
+	public void setAffiliateXInMillimeters(Integer affiliateX) {
+		this.affiliateX = affiliateX;
+	}
+
+	public void setAffiliateYInMillimeters(Integer affiliateY) {
+		this.affiliateY = affiliateY;
+	}
+
+	public void setAffiliatePrint(Boolean affiliatePrint) {
+		this.affiliatePrint = affiliatePrint;
+	}
+
+	public void setOrderXInMillimeters(Integer orderX) {
+		this.orderX = orderX;
+	}
+
+	public void setOrderYInMillimeters(Integer orderY) {
+		this.orderY = orderY;
+	}
+
+	public void setOrderPrint(Boolean orderPrint) {
+		this.orderPrint = orderPrint;
+	}
+
+	public void setIssuerGlnXInMillimeters(Integer issuerGlnX) {
+		this.issuerGlnX = issuerGlnX;
+	}
+
+	public void setIssuerGlnYInMillimeters(Integer issuerGlnY) {
+		this.issuerGlnY = issuerGlnY;
+	}
+
+	public void setIssuerGlnPrint(Boolean issuerGlnPrint) {
+		this.issuerGlnPrint = issuerGlnPrint;
+	}
+
+	public void setDeliveryLocationGlnXInMillimeters(Integer deliveryLocationGlnX) {
+		this.deliveryLocationGlnX = deliveryLocationGlnX;
+	}
+
+	public void setDeliveryLocationGlnYInMillimeters(Integer deliveryLocationGlnY) {
+		this.deliveryLocationGlnY = deliveryLocationGlnY;
+	}
+
+	public void setDeliveryLocationGlnPrint(Boolean deliveryLocationGlnPrint) {
+		this.deliveryLocationGlnPrint = deliveryLocationGlnPrint;
+	}
+
+	public void setProductDetailsYInMillimeters(Integer productDetailsY) {
+		this.productDetailsY = productDetailsY;
+	}
+
+	public void setProductDescriptionXInMillimeters(Integer productDescriptionX) {
+		this.productDescriptionX = productDescriptionX;
+	}
+
+	public void setProductDescriptionPrint(Boolean productDescriptionPrint) {
+		this.productDescriptionPrint = productDescriptionPrint;
+	}
+
+	public void setProductMonodrugXInMillimeters(Integer productMonodrugX) {
+		this.productMonodrugX = productMonodrugX;
+	}
+
+	public void setProductMonodrugPrint(Boolean productMonodrugPrint) {
+		this.productMonodrugPrint = productMonodrugPrint;
+	}
+
+	public void setProductBrandXInMillimeters(Integer productBrandX) {
+		this.productBrandX = productBrandX;
+	}
+
+	public void setProductBrandPrint(Boolean productBrandPrint) {
+		this.productBrandPrint = productBrandPrint;
+	}
+
+	public void setProductAmountXInMillimeters(Integer productAmountX) {
+		this.productAmountX = productAmountX;
+	}
+
+	public void setProductAmountPrint(Boolean productAmountPrint) {
+		this.productAmountPrint = productAmountPrint;
+	}
+
+	public void setProductBatchExpirationdateXInMillimeters(Integer productBatchExpirationdateX) {
+		this.productBatchExpirationdateX = productBatchExpirationdateX;
+	}
+
+	public void setProductBatchExpirationdatePrint(Boolean productBatchExpirationdatePrint) {
+		this.productBatchExpirationdatePrint = productBatchExpirationdatePrint;
+	}
+
+	public void setSerialColumn1XInMillimeters(Integer serialColumn1X) {
+		this.serialColumn1X = serialColumn1X;
+	}
+
+	public void setSerialColumn2XInMillimeters(Integer serialColumn2X) {
+		this.serialColumn2X = serialColumn2X;
+	}
+
+	public void setSerialColumn3XInMillimeters(Integer serialColumn3X) {
+		this.serialColumn3X = serialColumn3X;
+	}
+
+	public void setSerialColumn4XInMillimeters(Integer serialColumn4X) {
+		this.serialColumn4X = serialColumn4X;
+	}
+
+	public void setSerialColumn1Print(Boolean serialColumn1Print) {
+		this.serialColumn1Print = serialColumn1Print;
+	}
+
+	public void setSerialColumn2Print(Boolean serialColumn2Print) {
+		this.serialColumn2Print = serialColumn2Print;
+	}
+
+	public void setSerialColumn3Print(Boolean serialColumn3Print) {
+		this.serialColumn3Print = serialColumn3Print;
+	}
+
+	public void setSerialColumn4Print(Boolean serialColumn4Print) {
+		this.serialColumn4Print = serialColumn4Print;
+	}
+
+	public void setNumberOfItemsXInMillimeters(Integer numberOfItemsX) {
+		this.numberOfItemsX = numberOfItemsX;
+	}
+
+	public void setNumberOfItemsYInMillimeters(Integer numberOfItemsY) {
+		this.numberOfItemsY = numberOfItemsY;
+	}
+
+	public void setNumberOfItemsPrint(Boolean numberOfItemsPrint) {
+		this.numberOfItemsPrint = numberOfItemsPrint;
 	}
 }
