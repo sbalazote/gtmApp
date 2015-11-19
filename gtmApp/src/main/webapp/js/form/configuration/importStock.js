@@ -40,17 +40,39 @@ ImportStock = function() {
         var fileSelected = $("#uploaded-files tbody").html() != '';
         if (fileSelected) {
             var jsonImportStock = {
-                "agreementId": 1,
+                "conceptId": $("#conceptInput").val(),
+                "providerId": $("#providerInput").val(),
+                "agreementId": $("#agreementInput").val(),
+                "firstRow": $("#firstRowInput").val(),
+                "typeColumn": $("#typeColumnInput").val(),
+                "gtinColumn": $("#gtinColumnInput").val(),
+                "batchColumn": $("#batchColumnInput").val(),
+                "expirationColumn": $("#expirationColumnInput").val(),
+                "serialColumn": $("#serialColumnInput").val(),
+                "amountColumn": $("#amountColumnInput").val(),
             };
 
             $.ajax({
                 url: "updateImportStock.do",
                 type: "POST",
-                data: {
-                    agreementId : "1"
-                },
+                contentType:"application/json",
+                data: JSON.stringify(jsonImportStock),
                 async: false,
                 success: function(response) {
+                    if(response.resultado == true){
+                        $.unblockUI();
+                    }else{
+                        var errorsList = [];
+                        $.unblockUI();
+                        var errors = "<strong>Migracion</strong><br />";
+
+                        for (var j = 0, lengthJ = response.myOwnErrors.length; j < lengthJ; j++) {
+                            errors += response.myOwnErrors[j] + "<br />";
+                        }
+                        errorsList.push(errors);
+
+                        myReload("danger", "Han surgido los siguientes errores: " +  errorsList);
+                    }
                     myShowAlert('success', 'Se ha actualizado satisfactoriamente el listado de productos.');
                     $("#uploaded-files").bootgrid("destroy");
                     $("#importStockInput").prop("disabled",false);

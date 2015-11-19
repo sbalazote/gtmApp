@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.lsntsolutions.gtmApp.dto.InputDTO;
 import com.lsntsolutions.gtmApp.model.Input;
+import com.lsntsolutions.gtmApp.model.InputDetail;
 import com.lsntsolutions.gtmApp.query.InputQuery;
 import com.lsntsolutions.gtmApp.util.OperationResult;
 
@@ -46,4 +47,6 @@ public interface InputService {
 	Input authorizeWithoutInform(InputDTO inputDTO, String name);
 
 	boolean isConceptInUse(Integer conceptId);
+
+	Input importStock(List<InputDetail> inputDetails, Integer agreementId, Integer conceptId, Integer providerId);
 }

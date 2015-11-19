@@ -3,6 +3,7 @@ package com.lsntsolutions.gtmApp.service.impl;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.lsntsolutions.gtmApp.constant.AuditState;
@@ -11,6 +12,7 @@ import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.InputDTO;
 import com.lsntsolutions.gtmApp.dto.InputDetailDTO;
 import com.lsntsolutions.gtmApp.helper.SelfSerializedTagsPrinter;
+import com.lsntsolutions.gtmApp.model.*;
 import com.lsntsolutions.gtmApp.persistence.dao.InputDAO;
 import com.lsntsolutions.gtmApp.query.InputQuery;
 import com.lsntsolutions.gtmApp.service.*;
@@ -21,8 +23,6 @@ import com.lsntsolutions.gtmApp.exceptions.NullAgreementIdException;
 import com.lsntsolutions.gtmApp.exceptions.NullAmountException;
 import com.lsntsolutions.gtmApp.exceptions.NullConceptIdException;
 import com.lsntsolutions.gtmApp.exceptions.NullSerialNumberException;
-import com.lsntsolutions.gtmApp.model.Input;
-import com.lsntsolutions.gtmApp.model.Property;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -40,11 +40,6 @@ import com.lsntsolutions.gtmApp.exceptions.NullProductIdException;
 import com.lsntsolutions.gtmApp.exceptions.NullProductTypeException;
 import com.lsntsolutions.gtmApp.exceptions.NullProviderAndDeliveryLocationIdsException;
 import com.lsntsolutions.gtmApp.exceptions.NullSerialNumberException;
-import com.lsntsolutions.gtmApp.model.Agreement;
-import com.lsntsolutions.gtmApp.model.InputDetail;
-import com.lsntsolutions.gtmApp.model.Product;
-import com.lsntsolutions.gtmApp.model.ProductGtin;
-import com.lsntsolutions.gtmApp.model.Stock;
 import com.inssjp.mywebservice.business.WebServiceResult;
 
 @Service
@@ -572,5 +567,20 @@ public class InputServiceImpl implements InputService {
 	@Override
 	public boolean isConceptInUse(Integer conceptId){
 		return this.inputDAO.isConceptInUse(conceptId);
+	}
+
+	@Override
+	public Input importStock(List<InputDetail> inputDetails, Integer agreementId, Integer conceptId, Integer providerId) {
+		Concept concept = this.conceptService.get(conceptId);
+		Agreement agreement = this.agreementService.get(agreementId);
+		Provider provider = this.providerService.get(providerId);
+		Input input = new Input();
+		input.setAgreement(agreement);
+		input.setConcept(concept);
+		input.setProvider(provider);
+		input.setDate(new Date());
+		input.setInputDetails(inputDetails);
+		this.save(input);
+		return input;
 	}
 }

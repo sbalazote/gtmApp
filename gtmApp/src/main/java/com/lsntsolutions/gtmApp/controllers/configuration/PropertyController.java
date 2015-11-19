@@ -27,16 +27,19 @@ public class PropertyController {
 	private AgentService agentService;
 
 	@Autowired
-	private ProviderTypeService providerTypeService;
-
-	@Autowired
 	private ProvinceService provinceService;
 
 	@Autowired
 	private VATLiabilityService VATLiabilityService;
 
 	@Autowired
-	ConceptService conceptService;
+	private ConceptService conceptService;
+
+	@Autowired
+	private AgreementService agreementService;
+
+	@Autowired
+	private ProviderService providerService;
 
 	private static final Logger logger = Logger.getLogger(PropertyController.class);
 
@@ -173,6 +176,9 @@ public class PropertyController {
 
 	@RequestMapping(value = "/importStock", method = RequestMethod.GET)
 	public String importStock(ModelMap modelMap, @RequestParam Map<String, String> parameters) throws Exception {
+		modelMap.put("concepts",this.conceptService.getAll());
+		modelMap.put("agreements", this.agreementService.getAll());
+		modelMap.put("providers", this.providerService.getAll());
 		return "importStock";
 	}
 }

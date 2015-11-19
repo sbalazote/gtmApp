@@ -1,6 +1,7 @@
 package com.lsntsolutions.gtmApp.controllers.file;
 
 import com.lsntsolutions.gtmApp.dto.AlfabetaFileDTO;
+import com.lsntsolutions.gtmApp.dto.ImportStockDTO;
 import com.lsntsolutions.gtmApp.dto.ProviderSerializedProductDTO;
 import com.lsntsolutions.gtmApp.helper.FileMeta;
 import com.lsntsolutions.gtmApp.helper.SerialParser;
@@ -8,8 +9,8 @@ import com.lsntsolutions.gtmApp.model.InputDetail;
 import com.lsntsolutions.gtmApp.model.Product;
 import com.lsntsolutions.gtmApp.service.InputService;
 import com.lsntsolutions.gtmApp.service.ProductService;
+import com.lsntsolutions.gtmApp.util.OperationResult;
 import org.apache.log4j.Logger;
-import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -17,7 +18,10 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -31,7 +35,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 @Controller
 public class FileController {
@@ -227,39 +230,80 @@ public class FileController {
 	}
 
 	@RequestMapping(value = "/updateImportStock", method = RequestMethod.POST)
-	public @ResponseBody void updateImportStock(HttpServletRequest request, @RequestParam Integer agreementId) throws Exception {
-
+	public @ResponseBody
+	OperationResult updateImportStock(HttpServletRequest request, @RequestBody ImportStockDTO importStockDTO) throws Exception {
+		OperationResult operationResult = new OperationResult();
 		String path = request.getSession().getServletContext().getRealPath("/importStock/");
 		String timestamp = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
-
 		FileInputStream fileInputStream = new FileInputStream(path + "/" + timestamp + ".xls");
 		POIFSFileSystem fs = new POIFSFileSystem(fileInputStream);
 		HSSFWorkbook wb = new HSSFWorkbook(fs);
 		HSSFSheet sheet = wb.getSheetAt(0);
 		HSSFRow row;
+
 		int rows; // No of rows
 		rows = sheet.getPhysicalNumberOfRows();
-
 		List<InputDetail> inputDetails = new ArrayList<>();
-		for(int i = 1; i < rows; i++) {
+		List<String> errors = new ArrayList<>();
+		List<Product> productsToActivate = new ArrayList<>();
+		List<Product> serializedProducts = new ArrayList<>();
+		String error;
+		for(int i = importStockDTO.getFirstRow(); i < rows; i++) {
 			row = sheet.getRow(i);
 			if(row != null) {
 				InputDetail inputDetail = new InputDetail();
-				Product product = this.productService.getByGtin(row.getCell(1).getStringCellValue());
-				inputDetail.setProduct(product);
-				inputDetail.setAmount(Integer.valueOf(row.getCell(6).getStringCellValue()));
-				inputDetail.setBatch(row.getCell(4).getStringCellValue());
-				DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-				Date date = format.parse(row.getCell(5).getStringCellValue());
-				inputDetail.setExpirationDate(date);
-				String type = row.getCell(3).getStringCellValue();
-				if(type.indexOf("S") == 0){
-					String serial = row.getCell(7).getStringCellValue();
-					ProviderSerializedProductDTO parse = this.serialParser.parse(serial);
-					inputDetail.setSerialNumber(parse.getSerialNumber());
+				String gtin = row.getCell(importStockDTO.getGtinColumn() - 1).getStringCellValue();
+				Product product = this.productService.getByGtin(gtin);
+				if(product != null){
+					if(!product.isActive()){
+						productsToActivate.add(product);
+					}
+					inputDetail.setProduct(product);
+					inputDetail.setAmount(Integer.valueOf(row.getCell(importStockDTO.getAmountColumn() - 1).getStringCellValue()));
+					inputDetail.setBatch(row.getCell(importStockDTO.getBatchColumn() - 1).getStringCellValue());
+					DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+					Date date = format.parse(row.getCell(importStockDTO.getExpirationColumn() - 1).getStringCellValue());
+					inputDetail.setExpirationDate(date);
+					String type = row.getCell(importStockDTO.getTypeColumn() - 1).getStringCellValue();
+					String serial = row.getCell(importStockDTO.getSerialColumn() - 1).getStringCellValue();
+					ProviderSerializedProductDTO parse = null;
+					if(type.indexOf("S") == 0){
+						if(serial.length() > 0) {
+							if (type.indexOf("S1") == 0) {
+								parse = this.serialParser.parse(serial);
+							}
+							if (type.indexOf("S2") == 0) {
+								parse = this.serialParser.parseSelfSerial(serial);
+							}
+							if (parse != null) {
+								inputDetail.setSerialNumber(parse.getSerialNumber());
+							}
+						}else{
+							error = "Producto con gtin: " + gtin + " no registra Serie, ubicado en la fila: " + row + 1;
+							errors.add(error);
+						}
+						serializedProducts.add(product);
+					}
+					inputDetails.add(inputDetail);
+				}else{
+					error = "El producto asociado al GTIN: "  + gtin;
+					errors.add(error);
 				}
-				inputDetails.add(inputDetail);
 			}
 		}
+		operationResult.setMyOwnErrors(errors);
+		if(errors.size() == 0){
+			this.inputService.importStock(inputDetails, importStockDTO.getAgreementId(), importStockDTO.getConceptId(), importStockDTO.getProviderId());
+			for(Product product : productsToActivate){
+				product.setActive(true);
+				this.productService.save(product);
+			}
+			for(Product product : serializedProducts){
+				product.setType("PS");
+				this.productService.save(product);
+			}
+			operationResult.setResultado(true);
+		}
+		return operationResult;
 	}
 }
