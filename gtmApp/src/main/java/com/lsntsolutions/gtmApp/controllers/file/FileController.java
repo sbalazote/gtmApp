@@ -1,7 +1,12 @@
 package com.lsntsolutions.gtmApp.controllers.file;
 
 import com.lsntsolutions.gtmApp.dto.AlfabetaFileDTO;
+import com.lsntsolutions.gtmApp.dto.ProviderSerializedProductDTO;
 import com.lsntsolutions.gtmApp.helper.FileMeta;
+import com.lsntsolutions.gtmApp.helper.SerialParser;
+import com.lsntsolutions.gtmApp.model.InputDetail;
+import com.lsntsolutions.gtmApp.model.Product;
+import com.lsntsolutions.gtmApp.service.InputService;
 import com.lsntsolutions.gtmApp.service.ProductService;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -21,14 +26,22 @@ import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 @Controller
 public class FileController {
 
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private InputService inputService;
+	@Autowired
+	private SerialParser serialParser;
 
 	private static final Logger logger = Logger.getLogger(FileController.class);
 
@@ -224,32 +237,28 @@ public class FileController {
 		HSSFWorkbook wb = new HSSFWorkbook(fs);
 		HSSFSheet sheet = wb.getSheetAt(0);
 		HSSFRow row;
-		HSSFCell cell;
-
 		int rows; // No of rows
 		rows = sheet.getPhysicalNumberOfRows();
 
-		int cols = 0; // No of columns
-		int tmp = 0;
-
-		// This trick ensures that we get the data properly even if it doesn't start from first few rows
-		for(int i = 0; i < 10 || i < rows; i++) {
+		List<InputDetail> inputDetails = new ArrayList<>();
+		for(int i = 1; i < rows; i++) {
 			row = sheet.getRow(i);
 			if(row != null) {
-				tmp = sheet.getRow(i).getPhysicalNumberOfCells();
-				if(tmp > cols) cols = tmp;
-			}
-		}
-
-		for(int r = 0; r < rows; r++) {
-			row = sheet.getRow(r);
-			if(row != null) {
-				for(int c = 0; c < cols; c++) {
-					cell = row.getCell((short)c);
-					if(cell != null) {
-						// Your code here
-					}
+				InputDetail inputDetail = new InputDetail();
+				Product product = this.productService.getByGtin(row.getCell(1).getStringCellValue());
+				inputDetail.setProduct(product);
+				inputDetail.setAmount(Integer.valueOf(row.getCell(6).getStringCellValue()));
+				inputDetail.setBatch(row.getCell(4).getStringCellValue());
+				DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+				Date date = format.parse(row.getCell(5).getStringCellValue());
+				inputDetail.setExpirationDate(date);
+				String type = row.getCell(3).getStringCellValue();
+				if(type.indexOf("S") == 0){
+					String serial = row.getCell(7).getStringCellValue();
+					ProviderSerializedProductDTO parse = this.serialParser.parse(serial);
+					inputDetail.setSerialNumber(parse.getSerialNumber());
 				}
+				inputDetails.add(inputDetail);
 			}
 		}
 	}
