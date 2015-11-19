@@ -200,7 +200,7 @@ public class OrderLabelPrinter implements ServletContextAware {
 			String date = dateFormatter.format(order.getProvisioningRequest().getDeliveryDate());
 			String number = order.getProvisioningRequest().getFormatId();
 			overContent.setTextMatrix(5.0f * 2.8346f, (297.0f - 30.0f) * 2.8346f);
-			overContent.showText("Fecha: " + date + " / NV: " + number);
+			overContent.showText("Fecha: " + date + " / NP: " + number);
 
 			// genero el codigo de barras EAN-128
 			Barcode128 code128 = new Barcode128();
