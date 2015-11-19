@@ -7,7 +7,9 @@ import com.lsntsolutions.gtmApp.helper.FileMeta;
 import com.lsntsolutions.gtmApp.helper.SerialParser;
 import com.lsntsolutions.gtmApp.model.InputDetail;
 import com.lsntsolutions.gtmApp.model.Product;
+import com.lsntsolutions.gtmApp.model.ProductGtin;
 import com.lsntsolutions.gtmApp.service.InputService;
+import com.lsntsolutions.gtmApp.service.ProductGtinService;
 import com.lsntsolutions.gtmApp.service.ProductService;
 import com.lsntsolutions.gtmApp.util.OperationResult;
 import org.apache.log4j.Logger;
@@ -45,6 +47,8 @@ public class FileController {
 	private InputService inputService;
 	@Autowired
 	private SerialParser serialParser;
+	@Autowired
+	private ProductGtinService productGtinService;
 
 	private static final Logger logger = Logger.getLogger(FileController.class);
 
@@ -258,6 +262,8 @@ public class FileController {
 					if(!product.isActive()){
 						productsToActivate.add(product);
 					}
+					ProductGtin productGtin = this.productGtinService.getByNumber(gtin);
+					inputDetail.setGtin(productGtin);
 					inputDetail.setProduct(product);
 					inputDetail.setAmount(Integer.valueOf(row.getCell(importStockDTO.getAmountColumn() - 1).getStringCellValue()));
 					inputDetail.setBatch(row.getCell(importStockDTO.getBatchColumn() - 1).getStringCellValue());
