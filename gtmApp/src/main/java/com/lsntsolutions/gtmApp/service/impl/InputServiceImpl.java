@@ -580,6 +580,9 @@ public class InputServiceImpl implements InputService {
 		input.setProvider(provider);
 		input.setDate(new Date());
 		input.setInputDetails(inputDetails);
+		for(InputDetail inputDetail : inputDetails){
+			updateStock(inputDetail,agreement);
+		}
 		this.save(input);
 		return input;
 	}
