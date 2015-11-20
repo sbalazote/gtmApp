@@ -30,9 +30,9 @@
 	<task:annotation-driven executor="myExecutor" scheduler="myScheduler" />
 	<task:scheduler id="myScheduler" pool-size="10" />
 	<task:executor id="myExecutor" pool-size="5" />
-
+<!--
     <bean id="jedisConnFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" p:usePool="true"/>
-    <!-- redis template definition -->
-    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate" p:connectionFactory-ref="jedisConnFactory"/>
+    &lt;!&ndash; redis template definition &ndash;&gt;
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate" p:connectionFactory-ref="jedisConnFactory"/>-->
 
 </beans>

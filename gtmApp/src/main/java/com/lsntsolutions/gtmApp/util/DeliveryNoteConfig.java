@@ -3,8 +3,12 @@ package com.lsntsolutions.gtmApp.util;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
+
 @Service
-public class DeliveryNoteConfig {
+public class DeliveryNoteConfig implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	// The coordinates are measured in points. 1 inch is divided into 72 points so that 1 Millimeter equals 2.8346 points.
 	private float MILLIMITER_TO_POINTS_FACTOR = 2.8346f;

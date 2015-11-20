@@ -138,6 +138,7 @@ public class PropertyController {
 		this.deliveryNoteConfig.setNumberOfItemsXInMillimeters(propertyDTO.getNumberOfItemsX());
 		this.deliveryNoteConfig.setNumberOfItemsYInMillimeters(propertyDTO.getNumberOfItemsY());
 		this.deliveryNoteConfig.setNumberOfItemsPrint(propertyDTO.getNumberOfItemsPrint());
+
 	}
 	
 	private Property buildModel(PropertyDTO propertyDTO) {
