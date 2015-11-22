@@ -87,6 +87,22 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 		}
 	}
 
+	//TODO reemplazar el metodo getByGtin(String) por getByGtin(String, boolean)
+	@Override
+	public Product getByGtin(String gtin, Boolean active) {
+		try {
+			String sentence = "select p from Product as p inner join p.gtins as g where g.number = :gtin";
+			if(active != null){
+				sentence += "p.active =" + active;
+			}
+			Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
+			query.setParameter("gtin", StringUtility.removeLeadingZero(gtin));
+			return (Product) query.list().get(0);
+		} catch (IndexOutOfBoundsException e) {
+			return null;
+		}
+	}
+
 	@Override
 	public boolean delete(Integer productId) {
 		Product product = this.get(productId);

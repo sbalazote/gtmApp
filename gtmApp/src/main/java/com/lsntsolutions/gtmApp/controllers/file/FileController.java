@@ -257,7 +257,7 @@ public class FileController {
 			if(row != null) {
 				InputDetail inputDetail = new InputDetail();
 				String gtin = row.getCell(importStockDTO.getGtinColumn() - 1).getStringCellValue();
-				Product product = this.productService.getByGtin(gtin);
+				Product product = this.productService.getByGtin(gtin, null);
 				if(product != null){
 					if(!product.isActive()){
 						productsToActivate.add(product);

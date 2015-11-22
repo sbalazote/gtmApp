@@ -74,6 +74,11 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	public Product getByGtin(String gtin, Boolean active) {
+		return this.productDAO.getByGtin(gtin,active);
+	}
+
+	@Override
 	public boolean delete(Integer productId) {
 		return this.productDAO.delete(productId);
 	}

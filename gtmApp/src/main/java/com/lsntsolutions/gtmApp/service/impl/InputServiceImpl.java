@@ -579,6 +579,10 @@ public class InputServiceImpl implements InputService {
 		input.setConcept(concept);
 		input.setProvider(provider);
 		input.setDate(new Date());
+		input.setInformAnmat(false);
+		input.setCancelled(false);
+		input.setForcedInput(false);
+		input.setInformed(false);
 		input.setInputDetails(inputDetails);
 		for(InputDetail inputDetail : inputDetails){
 			updateStock(inputDetail,agreement);

@@ -17,6 +17,9 @@ public interface ProductService {
 
 	Product getByGtin(String gtin);
 
+	//TODO reemplazar el metodo getByGtin(String) por getByGtin(String, Boolean)
+	Product getByGtin(String gtin, Boolean active);
+
 	boolean delete(Integer productId);
 
 	void updateFromAlfabeta(String description, BigDecimal price, Integer code, String gtin, Boolean cold);
