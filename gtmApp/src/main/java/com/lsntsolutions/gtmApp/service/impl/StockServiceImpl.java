@@ -6,6 +6,7 @@ import java.util.List;
 import com.lsntsolutions.gtmApp.model.Agreement;
 import com.lsntsolutions.gtmApp.persistence.dao.StockDAO;
 import com.lsntsolutions.gtmApp.service.StockService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,8 @@ import com.lsntsolutions.gtmApp.query.StockQuery;
 @Service
 @Transactional
 public class StockServiceImpl implements StockService {
+
+	private static final Logger logger = Logger.getLogger(StockServiceImpl.class);
 
 	@Autowired
 	private StockDAO stockDAO;
@@ -99,8 +102,10 @@ public class StockServiceImpl implements StockService {
 		if (stock.getGtin() != null) {
 			gtin = stock.getGtin().getNumber();
 		}
+		logger.info("Antes de obtener el stock");
 		Stock serializedProductStock = this.stockDAO.getSerializedProductStock(stock.getProduct().getId(), stock.getSerialNumber(), gtin, stock.getAgreement()
 				.getId());
+		logger.info("Despues de obtener el stock" + stock.toString());
 		if (serializedProductStock != null) {
 			this.stockDAO.delete(serializedProductStock);
 		} else {

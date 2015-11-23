@@ -26,7 +26,7 @@ import java.util.List;
 @Repository
 public class StockDAOHibernateImpl implements StockDAO {
 
-	private static final Logger logger = Logger.getLogger(WebServiceHelper.class);
+	private static final Logger logger = Logger.getLogger(StockDAOHibernateImpl.class);
 
 	@Autowired
 	private SessionFactory sessionFactory;
