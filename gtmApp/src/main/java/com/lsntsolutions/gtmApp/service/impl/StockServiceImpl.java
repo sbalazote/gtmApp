@@ -106,12 +106,18 @@ public class StockServiceImpl implements StockService {
 		Stock serializedProductStock = this.stockDAO.getSerializedProductStock(stock.getProduct().getId(), stock.getSerialNumber(), gtin, stock.getAgreement()
 				.getId());
 		logger.info("Despues de obtener el stock" + stock.toString());
-		if (serializedProductStock != null) {
-			this.stockDAO.delete(serializedProductStock);
-		} else {
-			throw new RuntimeException("No existe un registro de stock para el serie '" + stock.getSerialNumber() + "' del producto con id '"
-					+ stock.getProduct().getId() + "'");
+		try{
+			if (serializedProductStock != null) {
+				this.stockDAO.delete(serializedProductStock);
+			} else {
+				throw new RuntimeException("No existe un registro de stock para el serie '" + stock.getSerialNumber() + "' del producto con id '"
+						+ stock.getProduct().getId() + "'");
+			}
+		}catch(Exception e){
+			logger.error("No existe un registro de stock para el serie '" + stock.getSerialNumber() + "' del producto con id '"
+					+ stock.getProduct().getId());
 		}
+
 	}
 
 	private void removeFromBatchExpirationDateStock(Stock stock) {
