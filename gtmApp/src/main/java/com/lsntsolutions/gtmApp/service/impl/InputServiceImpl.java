@@ -18,7 +18,6 @@ import com.lsntsolutions.gtmApp.query.InputQuery;
 import com.lsntsolutions.gtmApp.service.*;
 import com.lsntsolutions.gtmApp.util.OperationResult;
 import com.lsntsolutions.gtmApp.util.StringUtility;
-import com.lsntsolutions.gtmApp.dto.InputDetailDTO;
 import com.lsntsolutions.gtmApp.exceptions.NullAgreementIdException;
 import com.lsntsolutions.gtmApp.exceptions.NullAmountException;
 import com.lsntsolutions.gtmApp.exceptions.NullConceptIdException;
@@ -29,9 +28,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lsntsolutions.gtmApp.dto.InputDetailDTO;
 import com.lsntsolutions.gtmApp.exceptions.DateParseException;
-import com.lsntsolutions.gtmApp.exceptions.NullAmountException;
 import com.lsntsolutions.gtmApp.exceptions.NullBatchException;
 import com.lsntsolutions.gtmApp.exceptions.NullDateException;
 import com.lsntsolutions.gtmApp.exceptions.NullDeliveryNoteNumberException;
@@ -39,7 +36,6 @@ import com.lsntsolutions.gtmApp.exceptions.NullInputDetailsException;
 import com.lsntsolutions.gtmApp.exceptions.NullProductIdException;
 import com.lsntsolutions.gtmApp.exceptions.NullProductTypeException;
 import com.lsntsolutions.gtmApp.exceptions.NullProviderAndDeliveryLocationIdsException;
-import com.lsntsolutions.gtmApp.exceptions.NullSerialNumberException;
 import com.inssjp.mywebservice.business.WebServiceResult;
 
 @Service
@@ -570,7 +566,7 @@ public class InputServiceImpl implements InputService {
 	}
 
 	@Override
-	public Input importStock(List<InputDetail> inputDetails, Integer agreementId, Integer conceptId, Integer providerId) {
+	public Input importStock(List<InputDetail> inputDetails, Integer agreementId, Integer conceptId, Integer providerId, String userName) {
 		Concept concept = this.conceptService.get(conceptId);
 		Agreement agreement = this.agreementService.get(agreementId);
 		Provider provider = this.providerService.get(providerId);
@@ -588,6 +584,8 @@ public class InputServiceImpl implements InputService {
 			updateStock(inputDetail,agreement);
 		}
 		this.save(input);
+
+		this.auditService.addAudit(userName, RoleOperation.INPUT.getId(), AuditState.COMFIRMED, input.getId());
 		return input;
 	}
 }

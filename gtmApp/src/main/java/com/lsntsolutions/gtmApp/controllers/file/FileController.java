@@ -18,6 +18,8 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -238,6 +240,7 @@ public class FileController {
 	OperationResult updateImportStock(HttpServletRequest request, @RequestBody ImportStockDTO importStockDTO) throws Exception {
 		OperationResult operationResult = new OperationResult();
 		String path = request.getSession().getServletContext().getRealPath("/importStock/");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String timestamp = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 		FileInputStream fileInputStream = new FileInputStream(path + "/" + timestamp + ".xls");
 		POIFSFileSystem fs = new POIFSFileSystem(fileInputStream);
@@ -299,7 +302,7 @@ public class FileController {
 		}
 		operationResult.setMyOwnErrors(errors);
 		if(errors.size() == 0){
-			this.inputService.importStock(inputDetails, importStockDTO.getAgreementId(), importStockDTO.getConceptId(), importStockDTO.getProviderId());
+			this.inputService.importStock(inputDetails, importStockDTO.getAgreementId(), importStockDTO.getConceptId(), importStockDTO.getProviderId(), auth.getName());
 			for(Product product : productsToActivate){
 				product.setActive(true);
 				this.productService.save(product);

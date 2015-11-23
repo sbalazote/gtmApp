@@ -304,8 +304,8 @@ insert into provider_serialized_format (id,gtin_length,serial_number_length,expi
 insert into provider_serialized_format (id,gtin_length,serial_number_length,expiration_date_length,batch_length,sequence) values (104,13,20,6,10,'G-S-E-B');
 
 
-INSERT INTO `property` (id, code, name, tax_id, corporate_name, province_id, locality, address, zip_code, phone, mail, gln, agent_id, last_tag, self_serialized_tag_filepath, ANMAT_password, start_trace_concept_id, proxy,proxy_port,inform_proxy,supplying_concept_id)
-VALUES (1,86,'FARMACIA','30686437228','FARMACIA',1,'C.A.B.A.','AGUERO 1223','1425','4963-1500',NULL,'7798169170001',7,0,'C:/selfSerializedTagsPrinter/',"ZrFFnPSO9FCCOwRq7/DYzg==",23,"","",0,1);
+INSERT INTO `property` (id, code, name, tax_id, corporate_name, province_id, locality, address, zip_code, phone, mail, gln, agent_id, last_tag, self_serialized_tag_filepath, ANMAT_password, start_trace_concept_id, proxy,proxy_port,inform_proxy,supplying_concept_id, provisioning_require_authorization, print_picking_list)
+VALUES (1,86,'FARMACIA','30686437228','FARMACIA',1,'C.A.B.A.','AGUERO 1223','1425','4963-1500',NULL,'7798169170001',7,0,'C:/selfSerializedTagsPrinter/',"ZrFFnPSO9FCCOwRq7/DYzg==",23,"","",0,1,0,0);
 
 insert into `pharmacy_dev`.`role` values (1, 'INPUT', 'Ingreso');
 insert into `pharmacy_dev`.`role` values (2, 'OUTPUT', 'Egreso');
