@@ -42,4 +42,5 @@ public interface StockService {
 
 	boolean hasStock(Integer productId, String batch, Date expirationDate, Integer agreementId, Integer amount);
 
+	void removeFromStock(List<Stock> stocks);
 }

@@ -102,22 +102,14 @@ public class StockServiceImpl implements StockService {
 		if (stock.getGtin() != null) {
 			gtin = stock.getGtin().getNumber();
 		}
-		logger.info("Antes de obtener el stock");
 		Stock serializedProductStock = this.stockDAO.getSerializedProductStock(stock.getProduct().getId(), stock.getSerialNumber(), gtin, stock.getAgreement()
 				.getId());
-		logger.info("Despues de obtener el stock" + stock.toString());
-		try{
-			if (serializedProductStock != null) {
-				this.stockDAO.delete(serializedProductStock);
-			} else {
-				throw new RuntimeException("No existe un registro de stock para el serie '" + stock.getSerialNumber() + "' del producto con id '"
-						+ stock.getProduct().getId() + "'");
-			}
-		}catch(Exception e){
-			logger.error("No existe un registro de stock para el serie '" + stock.getSerialNumber() + "' del producto con id '"
-					+ stock.getProduct().getId());
+		if (serializedProductStock != null) {
+			this.stockDAO.delete(serializedProductStock);
+		} else {
+			throw new RuntimeException("No existe un registro de stock para el serie '" + stock.getSerialNumber() + "' del producto con id '"
+					+ stock.getProduct().getId() + "'");
 		}
-
 	}
 
 	private void removeFromBatchExpirationDateStock(Stock stock) {
@@ -181,5 +173,12 @@ public class StockServiceImpl implements StockService {
 	public boolean hasStock(Integer productId, String batch, Date expirationDate, Integer agreementId, Integer amount) {
 		Stock stock = this.stockDAO.getBatchExpirationDateStockForUpdate(productId, batch, expirationDate, agreementId);
 		return stock.getAmount() >= amount;
+	}
+
+	@Override
+	public void removeFromStock(List<Stock> stocks) {
+		for(Stock stock : stocks){
+			this.removeFromStock(stock);
+		}
 	}
 }

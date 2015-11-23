@@ -26,8 +26,6 @@ import java.util.List;
 @Repository
 public class StockDAOHibernateImpl implements StockDAO {
 
-	private static final Logger logger = Logger.getLogger(StockDAOHibernateImpl.class);
-
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -36,9 +34,7 @@ public class StockDAOHibernateImpl implements StockDAO {
 
 	@Override
 	public void save(Stock stock) {
-		logger.info("Antes de guardar stock: " + stock.toString());
 		this.sessionFactory.getCurrentSession().merge(stock);
-		logger.info("Despues de guardar stock: " + stock.toString());
 	}
 
 	@Override

@@ -286,6 +286,9 @@ public class FileController {
 							}
 							if (parse != null) {
 								inputDetail.setSerialNumber(parse.getSerialNumber());
+							}else{
+								error = "No se pudo obtener el serie para el producto con gtin: " + gtin;
+								errors.add(error);
 							}
 						}else{
 							error = "Producto con gtin: " + gtin + " no registra Serie, ubicado en la fila: " + row + 1;
