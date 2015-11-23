@@ -428,6 +428,7 @@ public class InputServiceImpl implements InputService {
 	@Override
 	public void saveAndRemoveFromStock(Input input) {
 		for (InputDetail inputDetail : input.getInputDetails()) {
+			logger.info("Ingresa por un nuevo stock");
 			Stock stock = new Stock();
 			stock.setAgreement(input.getAgreement());
 			stock.setAmount(inputDetail.getAmount());
@@ -440,6 +441,7 @@ public class InputServiceImpl implements InputService {
 			}
 
 			this.stockService.removeFromStock(stock);
+			logger.info("termina de borrar stock");
 		}
 		this.save(input);
 	}
