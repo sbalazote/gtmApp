@@ -275,14 +275,23 @@ public class FileController {
 						Double amount = new Double(row.getCell(importStockDTO.getAmountColumn() - 1).getNumericCellValue());
 						inputDetail.setAmount(Integer.valueOf(amount.intValue()));
 					}
-					inputDetail.setBatch(row.getCell(importStockDTO.getBatchColumn() - 1).getStringCellValue());
+					if(HSSFCell.CELL_TYPE_STRING == row.getCell(importStockDTO.getBatchColumn() - 1).getCellType()) {
+						inputDetail.setBatch(row.getCell(importStockDTO.getBatchColumn() - 1).getStringCellValue());
+					}else if(HSSFCell.CELL_TYPE_NUMERIC == row.getCell(importStockDTO.getBatchColumn() - 1).getCellType()){
+						Double batch = new Double(row.getCell(importStockDTO.getBatchColumn() - 1).getNumericCellValue());
+						inputDetail.setBatch(String.valueOf(batch));
+					}
+
 					DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 					Date date = format.parse(row.getCell(importStockDTO.getExpirationColumn() - 1).getStringCellValue());
 					inputDetail.setExpirationDate(date);
 					String type = row.getCell(importStockDTO.getTypeColumn() - 1).getStringCellValue();
 					String serial = "";
-					if(row.getCell(importStockDTO.getSerialColumn() - 1) != null){
+					if(HSSFCell.CELL_TYPE_STRING == row.getCell(importStockDTO.getSerialColumn() - 1).getCellType()) {
 						serial = row.getCell(importStockDTO.getSerialColumn() - 1).getStringCellValue();
+					}else if(HSSFCell.CELL_TYPE_NUMERIC == row.getCell(importStockDTO.getSerialColumn() - 1).getCellType()){
+						Double serialNumber = new Double(row.getCell(importStockDTO.getSerialColumn() - 1).getNumericCellValue());
+						serial = String.valueOf(serialNumber);
 					}
 					ProviderSerializedProductDTO parse = null;
 					if(type.indexOf("S") == 0){
