@@ -1,5 +1,4 @@
 <%@ page import="com.lsntsolutions.gtmApp.config.PropertyProvider" %>
-<%@ page import="com.lsntsolutions.gtmApp.model.DeliveryNoteConfig" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
