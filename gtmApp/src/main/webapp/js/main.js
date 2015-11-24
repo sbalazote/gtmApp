@@ -258,7 +258,7 @@ $(document).ready(function() {
 				if(isUpdate == true){
 					myRedirect("success", "Se ha autorizado el Ingreso de mercader\u00eda n\u00famero: " + inputId, "searchInputToUpdate.do");
 				}else{
-					myReload("success", "Se ha registrado el Ingreso de mercader\u00eda n\u00famero: " + inputId);
+					myRedirect("success", "Se ha registrado el Ingreso de mercader\u00eda n\u00famero: " + inputId, "input.do" );
 				}
 
 			}
@@ -287,7 +287,7 @@ $(document).ready(function() {
 						message += "<strong><p>" + value + "</p></strong>";
 					});
 				}
-				myReload(msgType, message);
+				myRedirect(msgType, message, "supplying.do");
 			}
 		}, 1000);
 	};
@@ -314,7 +314,7 @@ $(document).ready(function() {
 						message += "<strong><p>" + value + "</p></strong>";
 					});
 				}
-				myReload(msgType, message);
+				myRedirect(msgType, message, "output.do");
 			}
 		}, 1000);
 	};
@@ -328,7 +328,7 @@ $(document).ready(function() {
 			var cookieValue = $.cookie('fileDownloadToken');
 			if (cookieValue == token) {
 				finishDownload();
-				myReload("success", "Se ha registrado el Pedido n\u00famero: " + provisioningRequestId);
+				myRedirect("success", "Se ha registrado el Pedido n\u00famero: " + provisioningRequestId, "provisioningRequest.do");
 			}
 		}, 1000);
 	};
@@ -342,7 +342,7 @@ $(document).ready(function() {
 			var cookieValue = $.cookie('fileDownloadToken');
 			if (cookieValue == token) {
 				finishDownload();
-				myReload("success", "Se han generado las hojas de Picking para los pedidos n\u00famero: " + provisioningRequestIds);
+				myRedirect("success", "Se han generado las hojas de Picking para los pedidos n\u00famero: " + provisioningRequestIds, "pickingSheet.do");
 			}
 		}, 1000);
 	};
