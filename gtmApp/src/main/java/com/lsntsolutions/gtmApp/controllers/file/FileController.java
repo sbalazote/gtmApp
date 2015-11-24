@@ -280,7 +280,10 @@ public class FileController {
 					Date date = format.parse(row.getCell(importStockDTO.getExpirationColumn() - 1).getStringCellValue());
 					inputDetail.setExpirationDate(date);
 					String type = row.getCell(importStockDTO.getTypeColumn() - 1).getStringCellValue();
-					String serial = row.getCell(importStockDTO.getSerialColumn() - 1).getStringCellValue();
+					String serial = "";
+					if(row.getCell(importStockDTO.getSerialColumn() - 1) != null){
+						serial = row.getCell(importStockDTO.getSerialColumn() - 1).getStringCellValue();
+					}
 					ProviderSerializedProductDTO parse = null;
 					if(type.indexOf("S") == 0){
 						if(serial.length() > 0) {
