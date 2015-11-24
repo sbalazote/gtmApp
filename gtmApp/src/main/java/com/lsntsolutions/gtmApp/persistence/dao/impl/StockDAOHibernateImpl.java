@@ -7,6 +7,8 @@ import com.lsntsolutions.gtmApp.persistence.dao.StockDAO;
 import com.lsntsolutions.gtmApp.query.StockQuery;
 import com.lsntsolutions.gtmApp.service.ProductService;
 import com.lsntsolutions.gtmApp.util.StringUtility;
+import com.lsntsolutions.gtmApp.webservice.WebServiceHelper;
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
@@ -32,7 +34,7 @@ public class StockDAOHibernateImpl implements StockDAO {
 
 	@Override
 	public void save(Stock stock) {
-		this.sessionFactory.getCurrentSession().saveOrUpdate(stock);
+		this.sessionFactory.getCurrentSession().merge(stock);
 	}
 
 	@Override

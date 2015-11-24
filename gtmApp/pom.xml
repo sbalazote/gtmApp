@@ -521,6 +521,13 @@
 				<rp.build.warname>pharmacy-dev</rp.build.warname>
 			</properties>
 		</profile>
+		<profile>
+			<id>pharmacy</id>
+			<properties>
+				<env>pharmacy</env>
+				<rp.build.warname>pharmacy</rp.build.warname>
+			</properties>
+		</profile>
     </profiles>
 
 </project> 

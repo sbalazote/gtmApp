@@ -110,4 +110,9 @@ public class Stock implements Serializable {
 		this.amount = amount;
 	}
 
+
+	@Override
+	public String toString(){
+		return "Producto: " + this.getProduct().toString() + "Cantidad: " + this.getAmount() + "Lote: " + this.getBatch() + "Vencimiento: " + this.getExpirationDate();
+	}
 }

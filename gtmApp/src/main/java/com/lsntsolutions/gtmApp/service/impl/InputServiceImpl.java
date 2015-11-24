@@ -427,6 +427,7 @@ public class InputServiceImpl implements InputService {
 
 	@Override
 	public void saveAndRemoveFromStock(Input input) {
+		List<Stock> stocks = new ArrayList<>();
 		for (InputDetail inputDetail : input.getInputDetails()) {
 			Stock stock = new Stock();
 			stock.setAgreement(input.getAgreement());
@@ -438,9 +439,9 @@ public class InputServiceImpl implements InputService {
 			if (inputDetail.getGtin() != null) {
 				stock.setGtin(inputDetail.getGtin());
 			}
-
-			this.stockService.removeFromStock(stock);
+			stocks.add(stock);
 		}
+		this.stockService.removeFromStock(stocks);
 		this.save(input);
 	}
 

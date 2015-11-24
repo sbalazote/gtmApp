@@ -13,6 +13,7 @@ import com.lsntsolutions.gtmApp.service.ProductGtinService;
 import com.lsntsolutions.gtmApp.service.ProductService;
 import com.lsntsolutions.gtmApp.util.OperationResult;
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -268,13 +269,21 @@ public class FileController {
 					ProductGtin productGtin = this.productGtinService.getByNumber(gtin);
 					inputDetail.setGtin(productGtin);
 					inputDetail.setProduct(product);
-					inputDetail.setAmount(Integer.valueOf(row.getCell(importStockDTO.getAmountColumn() - 1).getStringCellValue()));
+					if(HSSFCell.CELL_TYPE_STRING == row.getCell(importStockDTO.getAmountColumn() - 1).getCellType()) {
+						inputDetail.setAmount(Integer.valueOf(row.getCell(importStockDTO.getAmountColumn() - 1).getStringCellValue()));
+					}else if(HSSFCell.CELL_TYPE_NUMERIC == row.getCell(importStockDTO.getAmountColumn() - 1).getCellType()){
+						Double amount = new Double(row.getCell(importStockDTO.getAmountColumn() - 1).getNumericCellValue());
+						inputDetail.setAmount(Integer.valueOf(amount.intValue()));
+					}
 					inputDetail.setBatch(row.getCell(importStockDTO.getBatchColumn() - 1).getStringCellValue());
 					DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 					Date date = format.parse(row.getCell(importStockDTO.getExpirationColumn() - 1).getStringCellValue());
 					inputDetail.setExpirationDate(date);
 					String type = row.getCell(importStockDTO.getTypeColumn() - 1).getStringCellValue();
-					String serial = row.getCell(importStockDTO.getSerialColumn() - 1).getStringCellValue();
+					String serial = "";
+					if(row.getCell(importStockDTO.getSerialColumn() - 1) != null){
+						serial = row.getCell(importStockDTO.getSerialColumn() - 1).getStringCellValue();
+					}
 					ProviderSerializedProductDTO parse = null;
 					if(type.indexOf("S") == 0){
 						if(serial.length() > 0) {
@@ -286,6 +295,9 @@ public class FileController {
 							}
 							if (parse != null) {
 								inputDetail.setSerialNumber(parse.getSerialNumber());
+							}else{
+								error = "No se pudo obtener el serie para el producto con gtin: " + gtin;
+								errors.add(error);
 							}
 						}else{
 							error = "Producto con gtin: " + gtin + " no registra Serie, ubicado en la fila: " + row + 1;

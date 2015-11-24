@@ -38,6 +38,7 @@ PickingSheet = function() {
 			type: "GET",
 			async: false,
 			data: {
+				provisioningRequestId: null,
 				agreementId: $("#agreementSearch").val() || null,
 				clientId: $("#clientSearch").val() || null
 				},
