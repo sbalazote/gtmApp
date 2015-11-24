@@ -39,7 +39,7 @@
 	<div class="row">
 		<div class="col-md-8 col-lg-8 form-group">
 			<label for="clientInput"><spring:message code="common.client" /></label>
-			<select id="clientInput" name="client" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>" autofocus>
+			<select id="clientInput" name="client" autocomplete="off" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>" autofocus>
 				<option value=""></option>
 				<c:forEach items="${clients}" var="client">
 					<option value="${client.id}" ${clientId == client.id ? 'selected' : ''}><c:out value="${client.code}"></c:out> - <c:out value="${client.name}"></c:out></option>
@@ -48,7 +48,7 @@
 		</div>
 		<div class="col-md-4 col-lg-4 form-group">
 			<label for="agreementInput"><spring:message code="common.agreement"/></label>
-			<select id="agreementInput" name="agreement" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
+			<select id="agreementInput" name="agreement" autocomplete="off" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 				<option value=""></option>
 				<c:forEach items="${agreements}" var="agreement">
 					<option value="${agreement.id}"><c:out value="${agreement.code}"></c:out> - <c:out value="${agreement.description}"></c:out></option>

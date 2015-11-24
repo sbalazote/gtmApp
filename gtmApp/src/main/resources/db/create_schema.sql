@@ -699,4 +699,11 @@ CREATE TABLE `provider_logistics_operator` (
   CONSTRAINT `fk_provider_logistics_operator_logistics_operator` FOREIGN KEY (`logistics_operator_id`) REFERENCES `logistics_operator` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `delivery_note_config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `value` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 COMMIT;
