@@ -9,7 +9,6 @@ import com.lsntsolutions.gtmApp.model.Property;
 import com.lsntsolutions.gtmApp.model.Province;
 import com.lsntsolutions.gtmApp.model.VATLiability;
 import com.lsntsolutions.gtmApp.service.*;
-import com.lsntsolutions.gtmApp.model.DeliveryNoteConfig;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,9 +26,6 @@ public class PropertyController {
 
 	@Autowired
 	private PropertyService PropertyService;
-
-	@Autowired
-	private DeliveryNoteConfig deliveryNoteConfig;
 
 	@Autowired
 	private AgentService agentService;
