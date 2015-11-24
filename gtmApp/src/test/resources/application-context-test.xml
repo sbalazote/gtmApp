@@ -37,6 +37,4 @@
 	
 	<bean id="printOnPrinter" class="com.lsntsolutions.gtmApp.helper.PrintOnPrinter" />
 
-	<bean id="deliveryNoteConfig" class="com.lsntsolutions.gtmApp.util.DeliveryNoteConfig" />
-
 </beans>

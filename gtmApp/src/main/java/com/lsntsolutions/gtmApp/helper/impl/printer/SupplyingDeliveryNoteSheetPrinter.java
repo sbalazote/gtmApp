@@ -7,16 +7,13 @@ import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfWriter;
 import com.lsntsolutions.gtmApp.constant.AuditState;
+import com.lsntsolutions.gtmApp.constant.DeliveryNoteConfigParam;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.helper.DeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.helper.PrintOnPrinter;
 import com.lsntsolutions.gtmApp.model.*;
-import com.lsntsolutions.gtmApp.service.AuditService;
-import com.lsntsolutions.gtmApp.service.ConceptService;
-import com.lsntsolutions.gtmApp.service.DeliveryNoteService;
-import com.lsntsolutions.gtmApp.service.SupplyingService;
-import com.lsntsolutions.gtmApp.util.DeliveryNoteConfig;
+import com.lsntsolutions.gtmApp.service.*;
 import com.lsntsolutions.gtmApp.util.StringUtility;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +34,7 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
     private static final Logger logger = Logger.getLogger(SupplyingDeliveryNoteSheetPrinter.class);
 
     @Autowired
-    private com.lsntsolutions.gtmApp.service.PropertyService propertyService;
+    private PropertyService propertyService;
     @Autowired
     private SupplyingService supplyingService;
     @Autowired
@@ -47,7 +44,7 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
     @Autowired
     private ConceptService conceptService;
     @Autowired
-    private DeliveryNoteConfig deliveryNoteConfig;
+    private DeliveryNoteConfigService deliveryNoteConfigService;
     @Autowired
     private AuditService auditService;
 
@@ -70,9 +67,11 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
     private List<String> printsNumbers;
     private String userName;
     private boolean printHeader;
+    private Map<String, Float> dnConfigMap;
 
     @Override
     public void print(String userName, List<Integer> supplyingsIds, PrinterResultDTO printerResultDTO) {
+        dnConfigMap = deliveryNoteConfigService.getAllInMillimiters();
         this.userName = userName;
         printsNumbers = new ArrayList<>();
         currentDate = new Date();
@@ -247,7 +246,7 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
         // seteo el tipo de fuente.
         try {
             bf = BaseFont.createFont(BaseFont.TIMES_BOLD, BaseFont.WINANSI, false);
-            overContent.setFontAndSize(bf, deliveryNoteConfig.getFontSize());
+            overContent.setFontAndSize(bf, dnConfigMap.get(DeliveryNoteConfigParam.FONT_SIZE.name()));
         } catch (DocumentException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -255,46 +254,46 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
         }
 
         // imprimo numero de remito.
-        overContent.setTextMatrix(deliveryNoteConfig.getNumberX(), deliveryNoteConfig.getNumberY());
-        overContent.showText(deliveryNoteConfig.isNumberPrint() ? StringUtility.addLeadingZeros(deliveryNoteNumber, 8): "");
+        overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.NUMBER_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.NUMBER_Y.name()));
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.NUMBER_PRINT.name()) == 1 ? StringUtility.addLeadingZeros(deliveryNoteNumber, 8): "");
 
         // imprimo fecha.
-        overContent.setTextMatrix(deliveryNoteConfig.getDateX(), deliveryNoteConfig.getDateY());
-        overContent.showText(deliveryNoteConfig.isDatePrint() ? new SimpleDateFormat("dd/MM/yyyy").format(supplying.getDate()) : "");
+        overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.DATE_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.DATE_Y.name()));
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.DATE_PRINT.name()) == 1 ? new SimpleDateFormat("dd/MM/yyyy").format(supplying.getDate()) : "");
 
         // imprimo cliente.
-        overContent.setTextMatrix(deliveryNoteConfig.getIssuerCorporateNameX(), deliveryNoteConfig.getIssuerCorporateNameY());
-        overContent.showText(deliveryNoteConfig.isIssuerCorporateNamePrint() ? property.getCorporateName() : "");
+        overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.ISSUER_CORPORATENAME_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.ISSUER_CORPORATENAME_Y.name()));
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.ISSUER_CORPORATENAME_PRINT.name()) == 1 ? property.getCorporateName() : "");
 
         // imprimo domicilio.
-        overContent.setTextMatrix(deliveryNoteConfig.getIssuerAddressX(), deliveryNoteConfig.getIssuerAddressY());
-        overContent.showText(deliveryNoteConfig.isIssuerCorporateNamePrint() ? property.getAddress() : "");
+        overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.ISSUER_ADDRESS_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.ISSUER_ADDRESS_Y.name()));
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.ISSUER_ADDRESS_PRINT.name()) == 1 ? property.getAddress() : "");
 
         // imprimo localidad.
-        overContent.setTextMatrix(deliveryNoteConfig.getIssuerLocalityX(), deliveryNoteConfig.getIssuerLocalityY());
-        overContent.showText(deliveryNoteConfig.isIssuerLocalityPrint() ? property.getLocality() : "");
+        overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.ISSUER_LOCALITY_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.ISSUER_LOCALITY_Y.name()));
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.ISSUER_LOCALITY_PRINT.name()) == 1 ? property.getLocality() : "");
 
         // imprimo cod. postal.
-        overContent.setTextMatrix(deliveryNoteConfig.getIssuerZipcodeX(), deliveryNoteConfig.getIssuerZipcodeY());
-        overContent.showText(deliveryNoteConfig.isIssuerZipcodePrint() ? ("(" + property.getZipCode() + ")") : "");
+        overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.ISSUER_ZIPCODE_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.ISSUER_ZIPCODE_Y.name()));
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.ISSUER_ZIPCODE_PRINT.name()) == 1 ? ("(" + property.getZipCode() + ")") : "");
 
         // imprimo provincia.
-        overContent.setTextMatrix(deliveryNoteConfig.getIssuerProvinceX(), deliveryNoteConfig.getIssuerProvinceY());
-        overContent.showText(deliveryNoteConfig.isIssuerProvincePrint() ? property.getProvince().getName() : "");
+        overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.ISSUER_PROVINCE_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.ISSUER_PROVINCE_Y.name()));
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.ISSUER_PROVINCE_PRINT.name()) == 1 ? property.getProvince().getName() : "");
 
         // imprimo condicion IVA.
-        overContent.setTextMatrix(deliveryNoteConfig.getIssuerVatliabilityX(), deliveryNoteConfig.getIssuerVatliabilityY());
-        overContent.showText(deliveryNoteConfig.isIssuerVatliabilityPrint() ? property.getVATLiability().getDescription().toUpperCase() : "");
+        overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.ISSUER_VATLIABILITY_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.ISSUER_VATLIABILITY_Y.name()));
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.ISSUER_VATLIABILITY_PRINT.name()) == 1 ? property.getVATLiability().getDescription().toUpperCase() : "");
 
         // imprimo CUIT.
-        overContent.setTextMatrix(deliveryNoteConfig.getIssuerTaxX(), deliveryNoteConfig.getIssuerTaxY());
-        overContent.showText(deliveryNoteConfig.isIssuerTaxPrint() ? property.getTaxId() : "");
+        overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.ISSUER_TAX_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.ISSUER_TAX_Y.name()));
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.ISSUER_TAX_PRINT.name()) == 1 ? property.getTaxId() : "");
 
         // imprimo egreso.
-        overContent.setTextMatrix(deliveryNoteConfig.getOrderX(), deliveryNoteConfig.getOrderY());
+        overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.ORDER_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.ORDER_Y.name()));
         String supplyingId = StringUtility.addLeadingZeros(supplying.getId().toString(), 8);
         String codeAgreement = StringUtility.addLeadingZeros(String.valueOf(supplying.getAgreement().getCode()),5) + " - " + supplying.getAgreement().getDescription();
-        overContent.showText(deliveryNoteConfig.isOrderPrint() ? ("Dispensa Nro.: " + supplyingId + "     Convenio: " + codeAgreement) : "");
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.ORDER_PRINT.name()) == 1 ? ("Dispensa Nro.: " + supplyingId + "     Convenio: " + codeAgreement) : "");
 /*
         // imprimo cliente entrega.
         overContent.setTextMatrix(deliveryNoteConfig.getDeliveryLocationCorporateNameX(), deliveryNoteConfig.getDeliveryLocationCorporateNameY());
@@ -378,7 +377,7 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
         // seteo el tipo de fuente.
         try {
             bf = BaseFont.createFont(BaseFont.TIMES_BOLD, BaseFont.WINANSI, false);
-            overContent.setFontAndSize(bf, deliveryNoteConfig.getFontSize());
+            overContent.setFontAndSize(bf, dnConfigMap.get(DeliveryNoteConfigParam.FONT_SIZE.name()));
         } catch (DocumentException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -386,20 +385,20 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
         }
 
         // imprimo descripcion.
-        overContent.setTextMatrix(deliveryNoteConfig.getProductDescriptionX(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-        overContent.showText(deliveryNoteConfig.isProductDescriptionPrint() ? description : "");
+        overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DESCRIPTION_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DETAILS_Y.name()) - offsetY);
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DESCRIPTION_PRINT.name()) == 1 ? description : "");
 
         // imprimo monodraga.
-        overContent.setTextMatrix(deliveryNoteConfig.getProductMonodrugX(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-        overContent.showText(deliveryNoteConfig.isProductMonodrugPrint() ? monodrug : "");
+        overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_MONODRUG_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DETAILS_Y.name()) - offsetY);
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_MONODRUG_PRINT.name()) == 1 ? monodrug : "");
 
         // imprimo marca.
-        overContent.setTextMatrix(deliveryNoteConfig.getProductBrandX(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-        overContent.showText(deliveryNoteConfig.isProductBrandPrint() ? brand : "");
+        overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_BRAND_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DETAILS_Y.name()) - offsetY);
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_BRAND_PRINT.name()) == 1 ? brand : "");
 
         // imprimo cantidad total.
-        overContent.setTextMatrix(deliveryNoteConfig.getProductAmountX(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-        overContent.showText(deliveryNoteConfig.isProductAmountPrint() ? Integer.toString(totalAmount) : "");
+        overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_AMOUNT_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DETAILS_Y.name()) - offsetY);
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_AMOUNT_PRINT.name()) == 1 ? Integer.toString(totalAmount) : "");
 
         overContent.restoreState();
 
@@ -417,7 +416,7 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
         // seteo el tipo de fuente.
         try {
             bf = BaseFont.createFont(BaseFont.TIMES_ROMAN, BaseFont.WINANSI, false);
-            overContent.setFontAndSize(bf, deliveryNoteConfig.getFontSize());
+            overContent.setFontAndSize(bf, dnConfigMap.get(DeliveryNoteConfigParam.FONT_SIZE.name()));
         } catch (DocumentException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -426,16 +425,16 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
 
 
         // imprimo lote.
-        overContent.setTextMatrix(deliveryNoteConfig.getProductBatchExpirationdateX(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-        overContent.showText(deliveryNoteConfig.isProductBatchExpirationdatePrint() ? ("Lote: " + batch) : "");
+        overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_BATCHEXPIRATIONDATE_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DETAILS_Y.name()) - offsetY);
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_BATCHEXPIRATIONDATE_PRINT.name()) == 1 ? ("Lote: " + batch) : "");
 
         // imprimo vencimiento.
-        overContent.setTextMatrix(deliveryNoteConfig.getProductBatchExpirationdateX() + 120, deliveryNoteConfig.getProductDetailsY() - offsetY);
-        overContent.showText(deliveryNoteConfig.isProductBatchExpirationdatePrint() ? ("Vto.: " + expirationDate) : "");
+        overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_BATCHEXPIRATIONDATE_X.name()) + 120, dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DETAILS_Y.name()) - offsetY);
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_BATCHEXPIRATIONDATE_PRINT.name()) == 1 ? ("Vto.: " + expirationDate) : "");
 
         // imprimo cantidad total del lote.
-        overContent.setTextMatrix(deliveryNoteConfig.getProductAmountX(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-        overContent.showText(deliveryNoteConfig.isProductAmountPrint() ? batchAmount : "");
+        overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_AMOUNT_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DETAILS_Y.name()) - offsetY);
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_AMOUNT_PRINT.name()) == 1 ? batchAmount : "");
 
         overContent.restoreState();
     }
@@ -451,7 +450,7 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
         // seteo el tipo de fuente.
         try {
             bf = BaseFont.createFont(BaseFont.TIMES_BOLDITALIC, BaseFont.WINANSI, false);
-            overContent.setFontAndSize(bf, deliveryNoteConfig.getFontSize());
+            overContent.setFontAndSize(bf, dnConfigMap.get(DeliveryNoteConfigParam.FONT_SIZE.name()));
         } catch (DocumentException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -460,35 +459,35 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
 
         switch (supplyingDetails.size()) {
             case 1: {
-                overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn1X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(deliveryNoteConfig.isSerialColumn1Print() ? supplyingDetails.get(0).getSerialNumber() : "");
+                overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.SERIAL_COLUMN1_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DETAILS_Y.name()) - offsetY);
+                overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.SERIAL_COLUMN1_PRINT.name()) == 1 ? supplyingDetails.get(0).getSerialNumber() : "");
                 break;
             }
             case 2: {
-                overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn1X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(deliveryNoteConfig.isSerialColumn1Print() ? supplyingDetails.get(0).getSerialNumber() : "");
-                overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn2X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(deliveryNoteConfig.isSerialColumn2Print() ? supplyingDetails.get(1).getSerialNumber() : "");
+                overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.SERIAL_COLUMN1_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DETAILS_Y.name()) - offsetY);
+                overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.SERIAL_COLUMN1_PRINT.name()) == 1 ? supplyingDetails.get(0).getSerialNumber() : "");
+                overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.SERIAL_COLUMN2_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DETAILS_Y.name()) - offsetY);
+                overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.SERIAL_COLUMN2_PRINT.name()) == 1 ? supplyingDetails.get(1).getSerialNumber() : "");
                 break;
             }
             case 3: {
-                overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn1X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(deliveryNoteConfig.isSerialColumn1Print() ? supplyingDetails.get(0).getSerialNumber() : "");
-                overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn2X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(deliveryNoteConfig.isSerialColumn2Print() ? supplyingDetails.get(1).getSerialNumber() : "");
-                overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn3X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(deliveryNoteConfig.isSerialColumn3Print() ? supplyingDetails.get(2).getSerialNumber() : "");
+                overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.SERIAL_COLUMN1_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DETAILS_Y.name()) - offsetY);
+                overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.SERIAL_COLUMN1_PRINT.name()) == 1 ? supplyingDetails.get(0).getSerialNumber() : "");
+                overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.SERIAL_COLUMN2_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DETAILS_Y.name()) - offsetY);
+                overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.SERIAL_COLUMN2_PRINT.name()) == 1 ? supplyingDetails.get(1).getSerialNumber() : "");
+                overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.SERIAL_COLUMN3_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DETAILS_Y.name()) - offsetY);
+                overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.SERIAL_COLUMN3_PRINT.name()) == 1 ? supplyingDetails.get(2).getSerialNumber() : "");
                 break;
             }
             case 4: {
-                overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn1X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(deliveryNoteConfig.isSerialColumn1Print() ? supplyingDetails.get(0).getSerialNumber() : "");
-                overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn2X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(deliveryNoteConfig.isSerialColumn2Print() ? supplyingDetails.get(1).getSerialNumber() : "");
-                overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn3X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(deliveryNoteConfig.isSerialColumn3Print() ? supplyingDetails.get(2).getSerialNumber() : "");
-                overContent.setTextMatrix(deliveryNoteConfig.getSerialColumn4X(), deliveryNoteConfig.getProductDetailsY() - offsetY);
-                overContent.showText(deliveryNoteConfig.isSerialColumn4Print() ? supplyingDetails.get(3).getSerialNumber() : "");
+                overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.SERIAL_COLUMN1_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DETAILS_Y.name()) - offsetY);
+                overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.SERIAL_COLUMN1_PRINT.name()) == 1 ? supplyingDetails.get(0).getSerialNumber() : "");
+                overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.SERIAL_COLUMN2_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DETAILS_Y.name()) - offsetY);
+                overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.SERIAL_COLUMN2_PRINT.name()) == 1 ? supplyingDetails.get(1).getSerialNumber() : "");
+                overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.SERIAL_COLUMN3_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DETAILS_Y.name()) - offsetY);
+                overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.SERIAL_COLUMN3_PRINT.name()) == 1 ? supplyingDetails.get(2).getSerialNumber() : "");
+                overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.SERIAL_COLUMN4_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DETAILS_Y.name()) - offsetY);
+                overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.SERIAL_COLUMN4_PRINT.name()) == 1 ? supplyingDetails.get(3).getSerialNumber() : "");
                 break;
             }
             default: {
@@ -505,7 +504,7 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
         // seteo el tipo de fuente.
         try {
             bf = BaseFont.createFont(BaseFont.TIMES_BOLD, BaseFont.WINANSI, false);
-            overContent.setFontAndSize(bf, deliveryNoteConfig.getFontSize());
+            overContent.setFontAndSize(bf, dnConfigMap.get(DeliveryNoteConfigParam.FONT_SIZE.name()));
         } catch (DocumentException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -513,8 +512,8 @@ public class SupplyingDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrint
         }
 
         // imprimo Cantidad de Items para el remito.
-        overContent.setTextMatrix(deliveryNoteConfig.getNumberOfItemsX(), deliveryNoteConfig.getNumberOfItemsY());
-        overContent.showText(deliveryNoteConfig.isNumberOfItemsPrint() ? ("Items: " + amount) : "");
+        overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.NUMBEROFITEMS_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.NUMBEROFITEMS_Y.name()));
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.NUMBEROFITEMS_PRINT.name()) == 1 ? ("Items: " + amount) : "");
 
         overContent.restoreState();
     }

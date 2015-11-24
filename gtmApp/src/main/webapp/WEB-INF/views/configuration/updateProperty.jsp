@@ -1,5 +1,5 @@
 <%@ page import="com.lsntsolutions.gtmApp.config.PropertyProvider" %>
-<%@ page import="com.lsntsolutions.gtmApp.util.DeliveryNoteConfig" %>
+<%@ page import="com.lsntsolutions.gtmApp.model.DeliveryNoteConfig" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -267,7 +267,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
 							<input type="text" class="form-control" id="numberYInput" name="numberY" value="${numberY}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="numberPrintInput" name="numberPrint" ${numberPrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="numberPrintInput" name="numberPrint" ${numberPrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -279,7 +279,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
 							<input type="text" class="form-control" id="dateYInput" name="dateY" value="${dateY}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="datePrintInput" name="datePrint" ${datePrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="datePrintInput" name="datePrint" ${datePrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -293,7 +293,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
 							<input type="text" class="form-control" id="issuerCorporateNameYInput" name="issuerCorporateNameY" value="${issuerCorporateNameY}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="issuerCorporateNamePrintInput" name="issuerCorporateNamePrint" ${issuerCorporateNamePrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="issuerCorporateNamePrintInput" name="issuerCorporateNamePrint" ${issuerCorporateNamePrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -305,7 +305,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
 							<input type="text" class="form-control" id="issuerGlnYInput" name="issuerGlnY" value="${issuerGlnY}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="issuerGlnPrintInput" name="issuerGlnPrint" ${issuerGlnPrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="issuerGlnPrintInput" name="issuerGlnPrint" ${issuerGlnPrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -319,7 +319,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
 							<input type="text" class="form-control" id="issuerAddressYInput" name="issuerAddressY" value="${issuerAddressY}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="issuerAddressPrintInput" name="issuerAddressPrint" ${issuerAddressPrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="issuerAddressPrintInput" name="issuerAddressPrint" ${issuerAddressPrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -331,7 +331,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
 							<input type="text" class="form-control" id="issuerLocalityYInput" name="issuerLocalityY" value="${issuerLocalityY}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="issuerLocalityPrintInput" name="issuerLocalityPrint" ${issuerLocalityPrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="issuerLocalityPrintInput" name="issuerLocalityPrint" ${issuerLocalityPrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -343,7 +343,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
 							<input type="text" class="form-control" id="issuerZipcodeYInput" name="issuerLocalityY" value="${issuerZipcodeY}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="issuerZipcodePrintInput" name="issuerZipcodePrint" ${issuerZipcodePrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="issuerZipcodePrintInput" name="issuerZipcodePrint" ${issuerZipcodePrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -357,7 +357,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
 							<input type="text" class="form-control" id="issuerProvinceYInput" name="issuerProvinceY" value="${issuerProvinceY}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="issuerProvincePrintInput" name="issuerAddressPrint" ${issuerProvincePrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="issuerProvincePrintInput" name="issuerAddressPrint" ${issuerProvincePrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -369,7 +369,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
 							<input type="text" class="form-control" id="issuerVatliabilityYInput" name="issuerVatliabilityY" value="${issuerVatliabilityY}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="issuerVatliabilityPrintInput" name="issuerVatliabilityPrint" ${issuerVatliabilityPrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="issuerVatliabilityPrintInput" name="issuerVatliabilityPrint" ${issuerVatliabilityPrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -381,7 +381,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
 							<input type="text" class="form-control" id="issuerTaxYInput" name="issuerTaxY" value="${issuerTaxY}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="issuerTaxPrintInput" name="issuerTaxPrint" ${issuerTaxPrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="issuerTaxPrintInput" name="issuerTaxPrint" ${issuerTaxPrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -395,7 +395,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
 							<input type="text" class="form-control" id="deliveryLocationCorporateNameYInput" name="deliveryLocationCorporateNameY" value="${deliveryLocationCorporateNameY}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="deliveryLocationCorporateNamePrintInput" name="deliveryLocationCorporateNamePrint" ${deliveryLocationCorporateNamePrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="deliveryLocationCorporateNamePrintInput" name="deliveryLocationCorporateNamePrint" ${deliveryLocationCorporateNamePrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -407,7 +407,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
 							<input type="text" class="form-control" id="deliveryLocationGlnYInput" name="deliveryLocationGlnY" value="${deliveryLocationGlnY}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="deliveryLocationGlnPrintInput" name="deliveryLocationGlnPrint" ${deliveryLocationGlnPrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="deliveryLocationGlnPrintInput" name="deliveryLocationGlnPrint" ${deliveryLocationGlnPrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -421,7 +421,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
 							<input type="text" class="form-control" id="deliveryLocationAddressYInput" name="deliveryLocationAddressY" value="${deliveryLocationAddressY}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="deliveryLocationAddressPrintInput" name="deliveryLocationAddressPrint" ${deliveryLocationAddressPrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="deliveryLocationAddressPrintInput" name="deliveryLocationAddressPrint" ${deliveryLocationAddressPrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -433,7 +433,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
 							<input type="text" class="form-control" id="deliveryLocationLocalityYInput" name="deliveryLocationLocalityY" value="${deliveryLocationLocalityY}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="deliveryLocationLocalityPrintInput" name="deliveryLocationLocalityPrint" ${deliveryLocationLocalityPrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="deliveryLocationLocalityPrintInput" name="deliveryLocationLocalityPrint" ${deliveryLocationLocalityPrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -445,7 +445,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
 							<input type="text" class="form-control" id="deliveryLocationZipcodeYInput" name="deliveryLocationLocalityY" value="${deliveryLocationZipcodeY}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="deliveryLocationZipcodePrintInput" name="deliveryLocationZipcodePrint" ${deliveryLocationZipcodePrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="deliveryLocationZipcodePrintInput" name="deliveryLocationZipcodePrint" ${deliveryLocationZipcodePrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -459,7 +459,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
 							<input type="text" class="form-control" id="deliveryLocationProvinceYInput" name="deliveryLocationProvinceY" value="${deliveryLocationProvinceY}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="deliveryLocationProvincePrintInput" name="deliveryLocationAddressPrint" ${deliveryLocationProvincePrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="deliveryLocationProvincePrintInput" name="deliveryLocationAddressPrint" ${deliveryLocationProvincePrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -471,7 +471,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
 							<input type="text" class="form-control" id="deliveryLocationVatliabilityYInput" name="deliveryLocationVatliabilityY" value="${deliveryLocationVatliabilityY}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="deliveryLocationVatliabilityPrintInput" name="deliveryLocationVatliabilityPrint" ${deliveryLocationVatliabilityPrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="deliveryLocationVatliabilityPrintInput" name="deliveryLocationVatliabilityPrint" ${deliveryLocationVatliabilityPrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -483,7 +483,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
 							<input type="text" class="form-control" id="deliveryLocationTaxYInput" name="deliveryLocationTaxY" value="${deliveryLocationTaxY}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="deliveryLocationTaxPrintInput" name="deliveryLocationTaxPrint" ${deliveryLocationTaxPrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="deliveryLocationTaxPrintInput" name="deliveryLocationTaxPrint" ${deliveryLocationTaxPrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -497,7 +497,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
 							<input type="text" class="form-control" id="affiliateYInput" name="affiliateY" value="${affiliateY}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="affiliatePrintInput" name="affiliatePrint" ${affiliatePrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="affiliatePrintInput" name="affiliatePrint" ${affiliatePrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -509,7 +509,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
 							<input type="text" class="form-control" id="orderYInput" name="orderY" value="${orderY}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="orderPrintInput" name="orderPrint" ${orderPrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="orderPrintInput" name="orderPrint" ${orderPrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -526,7 +526,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionX"/></span>
 							<input type="text" class="form-control" id="productDescriptionXInput" name="productDescriptionX" value="${productDescriptionX}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="productDescriptionPrintInput" name="productDescriptionPrint" ${productDescriptionPrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="productDescriptionPrintInput" name="productDescriptionPrint" ${productDescriptionPrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -538,7 +538,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionX"/></span>
 							<input type="text" class="form-control" id="productMonodrugXInput" name="productMonodrugX" value="${productMonodrugX}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="productMonodrugPrintInput" name="productMonodrugPrint" ${productMonodrugPrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="productMonodrugPrintInput" name="productMonodrugPrint" ${productMonodrugPrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -548,7 +548,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionX"/></span>
 							<input type="text" class="form-control" id="productBrandXInput" name="productBrandX" value="${productBrandX}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="productBrandPrintInput" name="productBrandPrint" ${productBrandPrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="productBrandPrintInput" name="productBrandPrint" ${productBrandPrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -558,7 +558,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionX"/></span>
 							<input type="text" class="form-control" id="productAmountXInput" name="productAmountX" value="${productAmountX}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="productAmountPrintInput" name="productAmountPrint" ${productAmountPrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="productAmountPrintInput" name="productAmountPrint" ${productAmountPrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -568,7 +568,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionX"/></span>
 							<input type="text" class="form-control" id="productBatchExpirationdateXInput" name="productBatchExpirationdateX" value="${productBatchExpirationdateX}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="productBatchExpirationdatePrintInput" name="productBatchExpirationdatePrint" ${productBatchExpirationdatePrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="productBatchExpirationdatePrintInput" name="productBatchExpirationdatePrint" ${productBatchExpirationdatePrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -580,7 +580,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionX"/></span>
 							<input type="text" class="form-control" id="serialColumn1XInput" name="serialColumn1X" value="${serialColumn1X}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="serialColumn1PrintInput" name="serialColumn1Print" ${serialColumn1Print == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="serialColumn1PrintInput" name="serialColumn1Print" ${serialColumn1Print == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -590,7 +590,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionX"/></span>
 							<input type="text" class="form-control" id="serialColumn2XInput" name="serialColumn2X" value="${serialColumn2X}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="serialColumn2PrintInput" name="serialColumn2Print" ${serialColumn2Print == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="serialColumn2PrintInput" name="serialColumn2Print" ${serialColumn2Print == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -600,7 +600,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionX"/></span>
 							<input type="text" class="form-control" id="serialColumn3XInput" name="serialColumn3X" value="${serialColumn3X}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="serialColumn3PrintInput" name="serialColumn3Print" ${serialColumn3Print == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="serialColumn3PrintInput" name="serialColumn3Print" ${serialColumn3Print == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -610,7 +610,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionX"/></span>
 							<input type="text" class="form-control" id="serialColumn4XInput" name="serialColumn4X" value="${serialColumn4X}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="serialColumn4PrintInput" name="serialColumn4Print" ${serialColumn4Print == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="serialColumn4PrintInput" name="serialColumn4Print" ${serialColumn4Print == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
@@ -624,7 +624,7 @@
 							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
 							<input type="text" class="form-control" id="numberOfItemsYInput" name="numberOfItemsY" value="${numberOfItemsY}">
 							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
-								<input type="checkbox" id="numberOfItemsPrintInput" name="numberOfItemsPrint" ${numberOfItemsPrint == 'true' ? 'checked' : ''}>
+								<input type="checkbox" id="numberOfItemsPrintInput" name="numberOfItemsPrint" ${numberOfItemsPrint == '1' ? 'checked' : ''}>
 							</span>
 						</div>
 					</div>
