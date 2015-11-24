@@ -13,6 +13,7 @@ import com.lsntsolutions.gtmApp.service.ProductGtinService;
 import com.lsntsolutions.gtmApp.service.ProductService;
 import com.lsntsolutions.gtmApp.util.OperationResult;
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -268,7 +269,12 @@ public class FileController {
 					ProductGtin productGtin = this.productGtinService.getByNumber(gtin);
 					inputDetail.setGtin(productGtin);
 					inputDetail.setProduct(product);
-					inputDetail.setAmount(Integer.valueOf(row.getCell(importStockDTO.getAmountColumn() - 1).getStringCellValue()));
+					if(HSSFCell.CELL_TYPE_STRING == row.getCell(importStockDTO.getAmountColumn() - 1).getCellType()) {
+						inputDetail.setAmount(Integer.valueOf(row.getCell(importStockDTO.getAmountColumn() - 1).getStringCellValue()));
+					}else if(HSSFCell.CELL_TYPE_NUMERIC == row.getCell(importStockDTO.getAmountColumn() - 1).getCellType()){
+						Double amount = new Double(row.getCell(importStockDTO.getAmountColumn() - 1).getNumericCellValue());
+						inputDetail.setAmount(Integer.valueOf(amount.intValue()));
+					}
 					inputDetail.setBatch(row.getCell(importStockDTO.getBatchColumn() - 1).getStringCellValue());
 					DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 					Date date = format.parse(row.getCell(importStockDTO.getExpirationColumn() - 1).getStringCellValue());
