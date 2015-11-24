@@ -241,7 +241,7 @@ insert into `institute_dev`.`role` values (20, 'SUPPLYING_CANCELLATION', 'Anulac
 insert into `institute_dev`.`role` values (21, 'PENDING_TRANSACTIONS', 'Transacciones Pendientes');
 insert into `institute_dev`.`role` values (22, 'LOGISTIC_OPERATOR_ASSIGNMENT', 'Asignacion de Operador Logistico');
 insert into `institute_dev`.`role` values (23, 'SEARCH_INPUTS', 'Busqueda de Ingresos');
-insert into `institute_dev`.`role` values (24, 'SEARCH_OUTPUTS', 'Busqueda de Ingresos');
+insert into `institute_dev`.`role` values (24, 'SEARCH_OUTPUTS', 'Busqueda de Egresos');
 insert into `institute_dev`.`role` values (25, 'SEARCH_PROVISIONING_REQUEST', 'Busqueda de Pedidos');
 insert into `institute_dev`.`role` values (26, 'SEARCH_SUPPLYING', 'Busqueda de Dispensas');
 insert into `institute_dev`.`role` values (27, 'SEARCH_DELIVERY_NOTE', 'Busqueda de Remitos');
