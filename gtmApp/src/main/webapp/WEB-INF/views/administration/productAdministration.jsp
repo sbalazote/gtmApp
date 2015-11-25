@@ -205,20 +205,18 @@
 						<div class="col-md-6 col-lg-6 form-group">
 							<label for="brandSelect"><spring:message code="common.brand" /></label>
 							<select class="form-control chosen-select" id="brandSelect" name="brand">
-								<option value="">-<spring:message code="common.select.option" /> -</option>
+								<option value=""><spring:message code="common.select.option" /></option>
 								<c:forEach items="${brands}" var="brand" varStatus="status">
-									<option value="${brand.id}"><c:out value="${brand.code}">
-									</c:out> -<c:out value="${brand.description}"></c:out></option>
+									<option value="${brand.id}"><c:out value="${brand.code}"></c:out> - <c:out value="${brand.description}"></c:out></option>
 								</c:forEach>
 							</select>
 						</div>
 						<div class="col-md-6 col-lg-6 form-group">
 							<label for="monodrugSelect"><spring:message code="common.monodrug" /></label>
 							<select class="form-control chosen-select" id="monodrugSelect" name="monodrug">
-								<option value="">-<spring:message code="common.select.option" /> -</option>
+								<option value=""><spring:message code="common.select.option" /></option>
 								<c:forEach items="${monodrugs}" var="monodrug" varStatus="status">
-									<option value="${monodrug.id}"><c:out value="${monodrug.code}"></c:out> -
-										<c:out value="${monodrug.description}"></c:out></option>
+									<option value="${monodrug.id}"><c:out value="${monodrug.code}"></c:out> - <c:out value="${monodrug.description}"></c:out></option>
 								</c:forEach>
 							</select>
 						</div>
@@ -227,23 +225,17 @@
 					<div class="row">
 						<div class="col-md-6 col-lg-6 form-group">
 							<label for="productGroupSelect"><spring:message code="common.productGroup" /></label> <select class="form-control chosen-select" id="productGroupSelect" name="productGroup">
-								<option value="">-
-									<spring:message code="common.select.option" /> -
-								</option>
+								<option value=""><spring:message code="common.select.option" /></option>
 								<c:forEach items="${productGroups}" var="productGroup" varStatus="status">
-									<option value="${productGroup.id}"><c:out value="${productGroup.code}"></c:out> -
-										<c:out value="${productGroup.description}"></c:out></option>
+									<option value="${productGroup.id}"><c:out value="${productGroup.code}"></c:out> - <c:out value="${productGroup.description}"></c:out></option>
 								</c:forEach>
 							</select>
 						</div>
 						<div class="col-md-6 col-lg-6 form-group">
 							<label for="drugCategorySelect"><spring:message code="common.drugCategory" /></label> <select class="form-control chosen-select" id="drugCategorySelect" name="drugCategory">
-								<option value="">-
-									<spring:message code="common.select.option" /> -
-								</option>
+								<option value=""><spring:message code="common.select.option" /></option>
 								<c:forEach items="${drugCategories}" var="drugCategory" varStatus="status">
-									<option value="${drugCategory.id}"><c:out value="${drugCategory.code}"></c:out> -
-										<c:out value="${drugCategory.description}"></c:out></option>
+									<option value="${drugCategory.id}"><c:out value="${drugCategory.code}"></c:out> - <c:out value="${drugCategory.description}"></c:out></option>
 								</c:forEach>
 							</select>
 						</div>
