@@ -163,34 +163,52 @@ public class FileController {
 		String currentLineManualDat;
 
 		brManualDat = new BufferedReader(new FileReader(path + "/" + timestamp + ".dat"));
-
+		String updatedName;
+		String updatedPresentation;
+		String updatedDescription;
+		BigDecimal updatedPrice;
+		Integer updatedCode;
+		String updatedGtin;
+		Boolean updatedCold;
+		Integer nameFieldByteOffset;
+		Integer nameFieldLength;
+		Integer presentationFieldByteOffset;
+		Integer presentationFieldLength;
+		Integer priceFieldByteOffset;
+		Integer priceFieldLength;
+		Integer codeFieldByteOffset;
+		Integer codeFieldLength;
+		Integer gtinFieldByteOffset;
+		Integer gtinFieldLength;
+		Integer coldFieldByteOffset;
+		Integer coldFieldLength;
 		try {
 			while ((currentLineManualDat = brManualDat.readLine()) != null) {
-				Integer nameFieldByteOffset = alfabetaFileDTO.getNameFieldByteOffset();
-				Integer nameFieldLength = alfabetaFileDTO.getNameFieldLength();
+				nameFieldByteOffset = alfabetaFileDTO.getNameFieldByteOffset();
+				nameFieldLength= alfabetaFileDTO.getNameFieldLength();
 
-				Integer presentationFieldByteOffset = alfabetaFileDTO.getPresentationFieldByteOffset();
-				Integer presentationFieldLength = alfabetaFileDTO.getPresentationFieldLength();
+				presentationFieldByteOffset= alfabetaFileDTO.getPresentationFieldByteOffset();
+				presentationFieldLength= alfabetaFileDTO.getPresentationFieldLength();
 
-				Integer priceFieldByteOffset = alfabetaFileDTO.getPriceFieldByteOffset();
-				Integer priceFieldLength = alfabetaFileDTO.getPriceFieldLength();
+				priceFieldByteOffset = alfabetaFileDTO.getPriceFieldByteOffset();
+				priceFieldLength = alfabetaFileDTO.getPriceFieldLength();
 
-				Integer codeFieldByteOffset = alfabetaFileDTO.getCodeFieldByteOffset();
-				Integer codeFieldLength = alfabetaFileDTO.getCodeFieldLength();
+				codeFieldByteOffset = alfabetaFileDTO.getCodeFieldByteOffset();
+				codeFieldLength = alfabetaFileDTO.getCodeFieldLength();
 
-				Integer gtinFieldByteOffset = alfabetaFileDTO.getGtinFieldByteOffset();
-				Integer gtinFieldLength = alfabetaFileDTO.getGtinFieldLength();
+				gtinFieldByteOffset = alfabetaFileDTO.getGtinFieldByteOffset();
+				gtinFieldLength = alfabetaFileDTO.getGtinFieldLength();
 
-				Integer coldFieldByteOffset = alfabetaFileDTO.getColdFieldByteOffset();
-				Integer coldFieldLength = alfabetaFileDTO.getColdFieldLength();
+				coldFieldByteOffset = alfabetaFileDTO.getColdFieldByteOffset();
+				coldFieldLength = alfabetaFileDTO.getColdFieldLength();
 
-				String updatedName = currentLineManualDat.substring(nameFieldByteOffset, nameFieldByteOffset + nameFieldLength);
-				String updatedPresentation = currentLineManualDat.substring(presentationFieldByteOffset, presentationFieldByteOffset + presentationFieldLength);
-				String updatedDescription = updatedName.trim().concat(" ").concat(updatedPresentation).trim();
-				BigDecimal updatedPrice = new BigDecimal(currentLineManualDat.substring(priceFieldByteOffset, priceFieldByteOffset + priceFieldLength));
-				Integer updatedCode = Integer.parseInt(currentLineManualDat.substring(codeFieldByteOffset, codeFieldByteOffset + codeFieldLength));
-				String updatedGtin = currentLineManualDat.substring(gtinFieldByteOffset, gtinFieldByteOffset + gtinFieldLength);
-				Boolean updatedCold = (currentLineManualDat.substring(coldFieldByteOffset, coldFieldByteOffset + coldFieldLength) == "1") ? true : false;
+				updatedName = currentLineManualDat.substring(nameFieldByteOffset, nameFieldByteOffset + nameFieldLength);
+				updatedPresentation = currentLineManualDat.substring(presentationFieldByteOffset, presentationFieldByteOffset + presentationFieldLength);
+				updatedDescription = updatedName.trim().concat(" ").concat(updatedPresentation).trim();
+				updatedPrice = new BigDecimal(currentLineManualDat.substring(priceFieldByteOffset, priceFieldByteOffset + priceFieldLength));
+				updatedCode = Integer.parseInt(currentLineManualDat.substring(codeFieldByteOffset, codeFieldByteOffset + codeFieldLength));
+				updatedGtin = currentLineManualDat.substring(gtinFieldByteOffset, gtinFieldByteOffset + gtinFieldLength);
+				updatedCold = (currentLineManualDat.substring(coldFieldByteOffset, coldFieldByteOffset + coldFieldLength) == "1") ? true : false;
 
 				this.productService.updateFromAlfabeta(updatedDescription, updatedPrice, updatedCode, updatedGtin, updatedCold);
 			}
