@@ -1,20 +1,29 @@
 package com.lsntsolutions.gtmApp.helper.impl.printer;
 
 import com.lowagie.text.*;
+import com.lowagie.text.Font;
+import com.lowagie.text.Image;
+import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.*;
+import com.lowagie.text.pdf.draw.DottedLineSeparator;
+import com.lowagie.text.pdf.draw.LineSeparator;
 import com.lsntsolutions.gtmApp.config.PropertyProvider;
+import com.lsntsolutions.gtmApp.constant.DocumentType;
 import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.helper.AbstractPdfView;
 import com.lsntsolutions.gtmApp.model.*;
 import com.lsntsolutions.gtmApp.service.ProvisioningRequestService;
 import com.lsntsolutions.gtmApp.service.ProvisioningRequestStateService;
 import com.lsntsolutions.gtmApp.service.StockService;
+import com.lsntsolutions.gtmApp.util.StringUtility;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -26,124 +35,146 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 	private ProvisioningRequestService provisioningRequestService;
 	private ProvisioningRequestStateService provisioningRequestStateService;
 	private StockService stockService;
+    private Document document;
+    private PdfWriter writer;
+    private String logoPath;
 
-	private PdfPTable addHeaderTable(String logo) {
-		PdfPTable header = new PdfPTable(20);
-		header.setWidthPercentage(100);
-		header.setSpacingBefore(0);
-		header.setSpacingAfter(0);
+    private Document addHeader(ProvisioningRequest provisioningRequest, Boolean firstHalf) {
 
-		PdfPCell cell = null;
-		try {
+        BaseFont bfHelveticaBold;
+        BaseFont bfTimes;
+        try {
+            bfHelveticaBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD, "Cp1252", false);
+            bfTimes = BaseFont.createFont(BaseFont.TIMES_ROMAN, "Cp1252", false);
 
-			Image logoImage = Image.getInstance(logo);
-			logoImage.scaleAbsolute(40f, 40f);
-			header.addCell(new PdfPCell(logoImage, true));
+			Image logoImage = Image.getInstance(logoPath);
+            logoImage.scaleToFit(80f, 80f);
+            logoImage.setAbsolutePosition(10f * 2.8346f, (297.0f - 20.0f - (firstHalf ? 0.0f : 145f)) * 2.8346f);
 
-			String name = PropertyProvider.getInstance().getProp("name");
+            String name = PropertyProvider.getInstance().getProp("name");
 
-			cell = new PdfPCell(new Paragraph(name + "\nHoja de Picking"));
-			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-			cell.setColspan(12);
-			header.addCell(cell);
+            PdfContentByte cb = writer.getDirectContent();
+            cb.beginText();
+            cb.setFontAndSize(bfHelveticaBold, 18f);
+            cb.setTextMatrix(45f * 2.8346f, (297.0f - 10.0f - (firstHalf ? 0.0f : 145f)) * 2.8346f);
+            cb.showText(name);
+            cb.setTextMatrix(45f * 2.8346f, (297.0f - 18.0f - (firstHalf ? 0.0f : 145f)) * 2.8346f);
+            cb.showText("Hoja de Picking");
+            cb.endText();
 
-			cell = new PdfPCell(new Paragraph("Ordenado por Cliente.\nReporte Detallado"));
-			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-			cell.setColspan(7);
-			header.addCell(cell);
+            cb.beginText();
+            cb.setFontAndSize(bfTimes, 12f);
+            cb.setTextMatrix(155f * 2.8346f, (297.0f - 10.0f - (firstHalf ? 0.0f : 145f)) * 2.8346f);
+            cb.showText("Ordenado por Cliente.");
+            cb.setTextMatrix(155f * 2.8346f, (297.0f - 15.0f - (firstHalf ? 0.0f : 145f)) * 2.8346f);
+            cb.showText("Reporte Detallado");
+            cb.endText();
 
-		} catch (Exception e) {
-			throw new RuntimeException("No se ha podido generar el encabezado del archivo pdf", e);
-		}
-		return header;
+            document.add(logoImage);
+            document.add(Chunk.NEWLINE);
+
+            if (!firstHalf) {
+                document.add(Chunk.NEWLINE);
+                document.add(Chunk.NEWLINE);
+                document.add(Chunk.NEWLINE);
+                document.add(Chunk.NEWLINE);
+                document.add(Chunk.NEWLINE);
+                document.add(Chunk.NEWLINE);
+                document.add(Chunk.NEWLINE);
+                document.add(Chunk.NEWLINE);
+                document.add(Chunk.NEWLINE);
+                document.add(Chunk.NEWLINE);
+            }
+
+            LineSeparator ls = new LineSeparator();
+            document.add(new Chunk(ls));
+            document.add(Chunk.NEWLINE);
+
+            Client client = provisioningRequest.getClient();
+            Agreement agreement = provisioningRequest.getAgreement();
+            String deliveryDate = new SimpleDateFormat("dd/MM/yyyy").format(provisioningRequest.getDeliveryDate());
+            DeliveryLocation deliveryLocation = provisioningRequest.getDeliveryLocation();
+            Affiliate affiliate = provisioningRequest.getAffiliate();
+
+            PdfPTable header = new PdfPTable(1);
+            header.setWidthPercentage(100);
+            header.setSpacingBefore(0);
+            header.setSpacingAfter(0);
+
+            Font fontHeader = new Font(Font.HELVETICA, 10f, Font.NORMAL, Color.BLACK);
+            document.add(new Chunk("Suc./Cliente: "));
+
+            Chunk clientDescription = new Chunk("(" + StringUtility.addLeadingZeros(String.valueOf(client.getCode()),4) + ") " + client.getName() + " (" + client.getProvince().getName() + ") " + client.getAddress() + " (CP: " + client.getZipCode() + ")", fontHeader);
+            document.add(clientDescription);
+            document.add(Chunk.NEWLINE);
+
+            document.add(new Chunk("Pedido Nro.: "));
+            Chunk provisioningDescription = new Chunk(provisioningRequest.getFormatId() + " Convenio: " + StringUtility.addLeadingZeros(String.valueOf(agreement.getCode()), 5) + " - " + agreement.getDescription(), fontHeader);
+            document.add(provisioningDescription);
+            document.add(Chunk.NEWLINE);
+
+            document.add(new Chunk("Fecha de Entrega: "));
+            Chunk deliveryDateDescription = new Chunk(deliveryDate, fontHeader);
+            document.add(deliveryDateDescription);
+            document.add(Chunk.NEWLINE);
+
+            document.add(new Chunk("Entregar en: "));
+            Chunk deliveryLocationDescription = new Chunk("(" + deliveryLocation.getProvince().getName() + ") " + deliveryLocation.getAddress() + " (CP: " + deliveryLocation.getZipCode() + ")", fontHeader);
+            document.add(deliveryLocationDescription);
+            document.add(Chunk.NEWLINE);
+
+            document.add(new Chunk("Entregar por: "));
+            Chunk deliveryLocationName = new Chunk("(" + StringUtility.addLeadingZeros(deliveryLocation.getCode().toString(), 8) + ") " + deliveryLocation.getName(), fontHeader);
+            document.add(deliveryLocationName);
+            document.add(Chunk.NEWLINE);
+
+            String documentType;
+            if(affiliate.getDocumentType() != null){
+                documentType = DocumentType.types.get(Integer.valueOf(affiliate.getDocumentType()));
+            }else{
+                documentType = "";
+            }
+            String documentNumber;
+            if(affiliate.getDocument() != null){
+                documentNumber = affiliate.getDocument();
+            }else{
+                documentNumber = "";
+            }
+
+            document.add(new Chunk("Afiliado: "));
+            Chunk affiliateDetails = new Chunk("Cod. " + StringUtility.addLeadingZeros(affiliate.getCode(), 5) + " ) - " + documentType + " " + documentNumber + " - " + affiliate.getName() + " " + affiliate.getSurname(), fontHeader);
+            document.add(affiliateDetails);
+            document.add(Chunk.NEWLINE);
+
+            document.add(new Chunk("Observaciones: "));
+            document.add(Chunk.NEWLINE);
+            document.add(Chunk.NEWLINE);
+
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return document;
 	}
 
-	private PdfPTable addBodyDataTable(ProvisioningRequest provisioningRequest) {
-		Integer idProvisioningRequest = provisioningRequest.getId();
-		Client client = provisioningRequest.getClient();
-		Agreement agreement = provisioningRequest.getAgreement();
-		String deliveryDate = new SimpleDateFormat("dd/MM/yyyy").format(provisioningRequest.getDeliveryDate());
-		DeliveryLocation deliveryLocation = provisioningRequest.getDeliveryLocation();
-		Affiliate affiliate = provisioningRequest.getAffiliate();
-
-		PdfPTable header = new PdfPTable(2);
+	private Document addDetails(ProvisioningRequest provisioningRequest, Boolean firstHalf) throws DocumentException {
+		PdfPTable header = new PdfPTable(3);
 		header.setWidthPercentage(100);
 		header.setSpacingBefore(0);
 		header.setSpacingAfter(0);
+		float[] columnWidths = {2f, 7f, 1f};
+		header.setWidths(columnWidths);
 
-		PdfPCell cell = null;
+		PdfPCell cell;
 
-		cell = new PdfPCell(new Paragraph("Suc./Cliente: (" + client.getId() + "/" + client.getCode() + ") " + client.getName()));
-		header.addCell(cell);
-
-		cell = new PdfPCell(new Paragraph("N. Venta: " + idProvisioningRequest + "(" + agreement.getDescription() + "\tVen: 0002\tConcepto: FIRME"));
-		header.addCell(cell);
-
-		cell = new PdfPCell(new Paragraph(""));
-		header.addCell(cell);
-
-		cell = new PdfPCell(new Paragraph("Receta: 00000000001  F.Entrega: " + deliveryDate));
-		header.addCell(cell);
-
-		cell = new PdfPCell(new Paragraph("Entregar en: (Z:" + deliveryLocation.getProvince().getName() + "\t) " + deliveryLocation.getAddress()));
-		header.addCell(cell);
-		cell = new PdfPCell(new Paragraph(""));
-		header.addCell(cell);
-
-		cell = new PdfPCell(new Paragraph("Entregar por: " + deliveryLocation.getCode() + " " + deliveryLocation.getName()));
-		header.addCell(cell);
-		cell = new PdfPCell(new Paragraph(""));
-		header.addCell(cell);
-
-		cell = new PdfPCell(new Paragraph("Afiliado: " + affiliate.getCode() + "\t" + affiliate.getSurname() + " " + affiliate.getName()));
-		header.addCell(cell);
-		cell = new PdfPCell(new Paragraph(""));
-		header.addCell(cell);
-
-		cell = new PdfPCell(new Paragraph("Observaciones en la Nota de venta:"));
-		header.addCell(cell);
-		cell = new PdfPCell(new Paragraph(""));
-		header.addCell(cell);
-
-		return header;
-	}
-
-	private void addDetailsTable(Document document, ProvisioningRequest provisioningRequest) throws DocumentException {
-		PdfPTable header = new PdfPTable(21);
-		header.setWidthPercentage(100);
-		header.setSpacingBefore(0);
-		header.setSpacingAfter(0);
-
-		PdfPCell cell = null;
-
-		cell = new PdfPCell(new Paragraph("CodInt"));
+		cell = new PdfPCell(new Paragraph("Cod. Prod."));
 		header.addCell(cell);
 
 		cell = new PdfPCell(new Paragraph("Descripcion"));
-		cell.setColspan(8);
 		header.addCell(cell);
 
-		cell = new PdfPCell(new Paragraph("Ruteo"));
-		cell.setColspan(2);
-		header.addCell(cell);
-
-		cell = new PdfPCell(new Paragraph("UxB"));
-		header.addCell(cell);
-
-		cell = new PdfPCell(new Paragraph("Ped_Bult."));
-		cell.setColspan(2);
-		header.addCell(cell);
-
-		cell = new PdfPCell(new Paragraph("Ped_Unid."));
-		cell.setColspan(2);
-		header.addCell(cell);
-
-		cell = new PdfPCell(new Paragraph("Cant_Provista"));
-		cell.setColspan(2);
-		header.addCell(cell);
-
-		cell = new PdfPCell(new Paragraph("Repartidor"));
-		cell.setColspan(3);
+		cell = new PdfPCell(new Paragraph("Cantidad"));
 		header.addCell(cell);
 
 		document.add(header);
@@ -163,7 +194,7 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 		while (it.hasNext()) {
 			ProvisioningRequestDetail prd = it.next();
 			if ((!prd.getProduct().getId().equals(id)) && (id != 0)) {
-				this.printDetail(document, header, cell, code, description, acumAmount, details);
+				this.printDetail(document, code, description, acumAmount, details);
 				acumAmount = 0;
 				neededAmount = 0;
 				details = "";
@@ -199,53 +230,37 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 				} else {
 					amount = stockAmount;
 				}
-				details += "Ptda: 000000  Lt:" + batch + "\t" + expirationDate + "  Cant: " + amount + "\t";
+				details += "Lote: " + batch + " - Vto.: " + expirationDate + "  - Cant.: " + amount + "\t";
 				acumAmount += amount;
 			}
 		}
-		this.printDetail(document, header, cell, code, description, acumAmount, details);
-
+		this.printDetail(document, code, description, acumAmount, details);
+        return document;
 	}
 
-	private void printDetail(Document document, PdfPTable header, PdfPCell cell, Integer code, String description, Integer AcumAmount, String details)
+	private void printDetail(Document document, Integer code, String description, Integer AcumAmount, String details)
 			throws DocumentException {
-		header = new PdfPTable(21);
+        PdfPTable header = new PdfPTable(3);
 		header.setWidthPercentage(100);
 		header.setSpacingBefore(0);
 		header.setSpacingAfter(0);
+		float[] columnWidths = {2f, 7f, 1f};
+		header.setWidths(columnWidths);
 
-		cell = new PdfPCell(new Paragraph(code.toString()));
+        PdfPCell cell = new PdfPCell(new Paragraph(code.toString()));
+        cell.setBorder(Rectangle.NO_BORDER);
 		header.addCell(cell);
 
 		cell = new PdfPCell(new Paragraph(description));
-		cell.setColspan(8);
+        cell.setBorder(Rectangle.NO_BORDER);
 		header.addCell(cell);
 
-		cell = new PdfPCell(new Paragraph("00000000"));
-		cell.setColspan(2);
+		cell = new PdfPCell(new Paragraph(String.valueOf(AcumAmount)));
+        cell.setBorder(Rectangle.NO_BORDER);
 		header.addCell(cell);
 
-		cell = new PdfPCell(new Paragraph("1"));
-		header.addCell(cell);
-
-		cell = new PdfPCell(new Paragraph(String.valueOf(AcumAmount.floatValue())));
-		cell.setColspan(2);
-		header.addCell(cell);
-
-		cell = new PdfPCell(new Paragraph(String.valueOf(AcumAmount.floatValue())));
-		cell.setColspan(2);
-		header.addCell(cell);
-
-		cell = new PdfPCell(new Paragraph("______________"));
-		cell.setColspan(2);
-		header.addCell(cell);
-
-		cell = new PdfPCell(new Paragraph("______________"));
-		cell.setColspan(3);
-		header.addCell(cell);
-
-		document.add(header);
-		document.add(new Paragraph(details));
+        document.add(header);
+        document.add(new Paragraph(details));
 	}
 
 	/** Inner class to add a header and a footer. */
@@ -280,10 +295,18 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 		public void onEndPage(PdfWriter writer, Document document) {
 			Rectangle rect = writer.getBoxSize("art");
 
+            Font fontEndPage = new Font(Font.HELVETICA, 12f, Font.ITALIC, Color.BLACK);
+
 			String timestamp = new SimpleDateFormat("'Fecha:' dd/MM/yyyy 'Hora:' HH:mm:ss").format(new Date());
-			ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER,
-					new Phrase(String.format("%s \t Usr: %s \t gtmApp", timestamp, this.userName.toUpperCase())),
-					(rect.getLeft() + rect.getRight()) / 2, rect.getBottom() - 18, 0);
+            String name = PropertyProvider.getInstance().getProp("name");
+
+            PdfContentByte cb = writer.getDirectContent();
+            LineSeparator separator = new LineSeparator();
+            separator.draw(cb, 0, 0, 210f * 2.8346f, 0, rect.getBottom() - 10);
+
+            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER,
+					new Phrase(String.format("%s  -  Usuario: %s  -  %s", timestamp, this.userName, name), fontEndPage),
+					(rect.getLeft() + rect.getRight()) / 2, rect.getBottom() - 20, 0);
 		}
 	}
 
@@ -300,6 +323,9 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 		writer.setPageEvent(event);
 
 		document.open();
+
+        this.document = document;
+        this.writer = writer;
 
 		provisioningRequestService = (ProvisioningRequestService)model.get("provisioningRequestService");
 		provisioningRequestStateService = (ProvisioningRequestStateService)model.get("provisioningRequestStateService");
@@ -322,14 +348,28 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 			logoPath = getServletContext().getRealPath("/images/logo.png");
 		}
 
-		for (String id : provisioningIds) {
-			ProvisioningRequest provisioningRequest = provisioningRequestService.get(Integer.parseInt(id));
+        this.logoPath = logoPath;
+
+		for (int currentProvisioning = 1; currentProvisioning <= provisioningIds.length; currentProvisioning+=2) {
+			ProvisioningRequest provisioningRequest = provisioningRequestService.get(Integer.parseInt(provisioningIds[currentProvisioning-1]));
 			provisioningRequest.setState(state);
 			provisioningRequestService.save(provisioningRequest);
-			//this.createPdf(userName, provisioningRequest);
-			document.add(this.addHeaderTable(logoPath));
-			document.add(this.addBodyDataTable(provisioningRequest));
-			this.addDetailsTable(document, provisioningRequest);
+
+			addHeader(provisioningRequest, true);
+			addDetails(provisioningRequest, true);
+
+            PdfContentByte cb = writer.getDirectContent();
+			DottedLineSeparator separator = new DottedLineSeparator();
+			separator.draw(cb, 0, 0, 210f * 2.8346f, 0, 150f * 2.8346f);
+
+            if (currentProvisioning + 1 <=  provisioningIds.length) {
+                provisioningRequest = provisioningRequestService.get(Integer.parseInt(provisioningIds[currentProvisioning]));
+                provisioningRequest.setState(state);
+                provisioningRequestService.save(provisioningRequest);
+
+                addHeader(provisioningRequest, false);
+                addDetails(provisioningRequest, false);
+            }
 			document.newPage();
 		}
 	}
