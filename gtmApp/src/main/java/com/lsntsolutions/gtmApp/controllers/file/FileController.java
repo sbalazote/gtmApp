@@ -183,25 +183,25 @@ public class FileController {
 		Integer coldFieldByteOffset;
 		Integer coldFieldLength;
 		try {
+			nameFieldByteOffset = alfabetaFileDTO.getNameFieldByteOffset();
+			nameFieldLength= alfabetaFileDTO.getNameFieldLength();
+
+			presentationFieldByteOffset= alfabetaFileDTO.getPresentationFieldByteOffset();
+			presentationFieldLength= alfabetaFileDTO.getPresentationFieldLength();
+
+			priceFieldByteOffset = alfabetaFileDTO.getPriceFieldByteOffset();
+			priceFieldLength = alfabetaFileDTO.getPriceFieldLength();
+
+			codeFieldByteOffset = alfabetaFileDTO.getCodeFieldByteOffset();
+			codeFieldLength = alfabetaFileDTO.getCodeFieldLength();
+
+			gtinFieldByteOffset = alfabetaFileDTO.getGtinFieldByteOffset();
+			gtinFieldLength = alfabetaFileDTO.getGtinFieldLength();
+
+			coldFieldByteOffset = alfabetaFileDTO.getColdFieldByteOffset();
+			coldFieldLength = alfabetaFileDTO.getColdFieldLength();
+
 			while ((currentLineManualDat = brManualDat.readLine()) != null) {
-				nameFieldByteOffset = alfabetaFileDTO.getNameFieldByteOffset();
-				nameFieldLength= alfabetaFileDTO.getNameFieldLength();
-
-				presentationFieldByteOffset= alfabetaFileDTO.getPresentationFieldByteOffset();
-				presentationFieldLength= alfabetaFileDTO.getPresentationFieldLength();
-
-				priceFieldByteOffset = alfabetaFileDTO.getPriceFieldByteOffset();
-				priceFieldLength = alfabetaFileDTO.getPriceFieldLength();
-
-				codeFieldByteOffset = alfabetaFileDTO.getCodeFieldByteOffset();
-				codeFieldLength = alfabetaFileDTO.getCodeFieldLength();
-
-				gtinFieldByteOffset = alfabetaFileDTO.getGtinFieldByteOffset();
-				gtinFieldLength = alfabetaFileDTO.getGtinFieldLength();
-
-				coldFieldByteOffset = alfabetaFileDTO.getColdFieldByteOffset();
-				coldFieldLength = alfabetaFileDTO.getColdFieldLength();
-
 				updatedName = currentLineManualDat.substring(nameFieldByteOffset, nameFieldByteOffset + nameFieldLength);
 				updatedPresentation = currentLineManualDat.substring(presentationFieldByteOffset, presentationFieldByteOffset + presentationFieldLength);
 				updatedDescription = updatedName.trim().concat(" ").concat(updatedPresentation).trim();

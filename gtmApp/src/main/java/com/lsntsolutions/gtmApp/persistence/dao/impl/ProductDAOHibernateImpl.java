@@ -1,8 +1,5 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.Product;
 import com.lsntsolutions.gtmApp.persistence.dao.ProductDAO;
 import com.lsntsolutions.gtmApp.util.StringUtility;
@@ -10,7 +7,11 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class ProductDAOHibernateImpl implements ProductDAO {
@@ -19,6 +20,7 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 	private SessionFactory sessionFactory;
 
 	@Override
+	@Cacheable(value="saveProductCache", key="#name")
 	public void save(Product product) {
 		this.sessionFactory.getCurrentSession().merge(product);
 	}
@@ -29,6 +31,7 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 	}
 
 	@Override
+	@Cacheable(value="existsProductCache", key="#code")
 	public Boolean exists(Integer code) {
 		Query query = this.sessionFactory.getCurrentSession().createQuery("from Product where code = :code");
 		query.setParameter("code", code);
@@ -125,6 +128,7 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 	}
 
 	@Override
+	@Cacheable(value="getByCodeProductCache", key="#code")
 	public Product getByCode(Integer code) {
 		Query query = this.sessionFactory.getCurrentSession().createQuery("from Product where code = :code");
 		query.setParameter("code", code);

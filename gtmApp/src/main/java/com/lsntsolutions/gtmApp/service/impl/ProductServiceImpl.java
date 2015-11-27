@@ -1,33 +1,26 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import com.lsntsolutions.gtmApp.model.ProductPrice;
 import com.lsntsolutions.gtmApp.model.Product;
-import com.lsntsolutions.gtmApp.model.ProductPrice;
 import com.lsntsolutions.gtmApp.persistence.dao.ProductDAO;
+import com.lsntsolutions.gtmApp.service.*;
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lsntsolutions.gtmApp.model.ProductGtin;
-import com.lsntsolutions.gtmApp.model.ProductPrice;
-import com.lsntsolutions.gtmApp.service.ProductBrandService;
-import com.lsntsolutions.gtmApp.service.ProductDrugCategoryService;
-import com.lsntsolutions.gtmApp.service.ProductGroupService;
-import com.lsntsolutions.gtmApp.service.ProductGtinService;
-import com.lsntsolutions.gtmApp.service.ProductMonodrugService;
-import com.lsntsolutions.gtmApp.service.ProductService;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @Transactional
 public class ProductServiceImpl implements ProductService {
 
 	private static final Logger logger = Logger.getLogger(ProductServiceImpl.class);
+
+	@Autowired
+	private SessionFactory sessionFactory;
 
 	@Autowired
 	private ProductDAO productDAO;
@@ -85,7 +78,13 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public void updateFromAlfabeta(String description, BigDecimal price, Integer code, String gtin, Boolean cold) {
-		Product product;
+		Query query = this.sessionFactory.getCurrentSession().createSQLQuery("CALL update_from_alfabeta_proc(:description, :price, :code, :gtin, :cold)").setParameter("description", description)
+				.setParameter("price", price)
+				.setParameter("code", code)
+				.setParameter("gtin", gtin.trim().isEmpty() ? null : gtin)
+				.setParameter("cold", cold);
+		query.executeUpdate();
+		/*Product product;
 		if (this.productDAO.exists(code)) {
 			product = this.productDAO.getByCode(code);
 			ProductGtin productGtin = new ProductGtin();
@@ -139,7 +138,7 @@ public class ProductServiceImpl implements ProductService {
 			} else {
 				logger.info("El producto con codigo nro. " + code + " no existe pero su GTIN " + gtin + " ya existe. No se puede dar de alta");
 			}
-		}
+		}*/
 	}
 
 	@Override

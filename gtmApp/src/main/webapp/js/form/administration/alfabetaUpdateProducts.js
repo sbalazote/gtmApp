@@ -124,9 +124,11 @@ AlfabetaUpdateProducts = function() {
 				type: "POST",
 				contentType:"application/json",
 				data: JSON.stringify(jsonAlfabetaFile),
-				async: false,
+				beforeSend : function() {
+					$.blockUI({ message: 'Espere un Momento por favor. Actualizando el Manual Alfabeta...' });
+				},
 				success: function(response) {
-					myShowAlert('success', 'Se ha actualizado satisfactoriamente el listado de productos.');
+					myShowAlert('success', 'Se ha actualizado satisfactoriamente el Manual Alfabeta.');
 					$("#uploaded-files").bootgrid("destroy");
 					$("#alfabetaUpdateFileInput").prop("disabled",false);
 					$(".fileinput-button").attr("disabled",false);
@@ -134,6 +136,9 @@ AlfabetaUpdateProducts = function() {
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					myGenericError();
+				},
+				complete: function(jqXHR, textStatus) {
+					$.unblockUI();
 				}
 			});
 		} else {

@@ -1,23 +1,17 @@
 package com.lsntsolutions.gtmApp.helper.impl.excel;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Map;
+import com.lsntsolutions.gtmApp.helper.AbstractExcelView;
+import com.lsntsolutions.gtmApp.model.DeliveryNote;
+import com.lsntsolutions.gtmApp.model.Output;
+import com.lsntsolutions.gtmApp.model.OutputDetail;
+import org.apache.poi.ss.usermodel.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.lsntsolutions.gtmApp.model.DeliveryNote;
-import com.lsntsolutions.gtmApp.helper.AbstractExcelView;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-
-import com.lsntsolutions.gtmApp.model.Output;
-import com.lsntsolutions.gtmApp.model.OutputDetail;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class OutputExcelView extends AbstractExcelView {
 
@@ -28,8 +22,8 @@ public class OutputExcelView extends AbstractExcelView {
 
 		@SuppressWarnings("unchecked")
 		List<Output> outputs = (List<Output>) model.get("outputs");
-
-		Map<Integer, List<DeliveryNote>> associatedOutputs = (Map<Integer, List<DeliveryNote>>) model.get("associatedOutputs");
+		@SuppressWarnings("unchecked")
+		Map<Integer, List<DeliveryNote>> associatedOutputs = (HashMap<Integer, List<DeliveryNote>>) model.get("associatedOutputs");
 
 		Row row = null;
 		Cell cell = null;
