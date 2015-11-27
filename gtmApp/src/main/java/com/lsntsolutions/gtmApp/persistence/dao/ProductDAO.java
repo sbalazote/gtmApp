@@ -1,8 +1,9 @@
 package com.lsntsolutions.gtmApp.persistence.dao;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.Product;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 public interface ProductDAO {
 
@@ -29,6 +30,5 @@ public interface ProductDAO {
 
 	Product getByCode(Integer code);
 
-	boolean updateFromAlfabeta(Product product);
-
+	Integer updateFromAlfabeta(String description, BigDecimal price, Integer code, String gtin, Boolean cold);
 }

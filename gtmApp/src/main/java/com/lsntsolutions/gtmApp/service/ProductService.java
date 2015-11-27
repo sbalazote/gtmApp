@@ -1,9 +1,9 @@
 package com.lsntsolutions.gtmApp.service;
 
+import com.lsntsolutions.gtmApp.model.Product;
+
 import java.math.BigDecimal;
 import java.util.List;
-
-import com.lsntsolutions.gtmApp.model.Product;
 
 public interface ProductService {
 
@@ -22,7 +22,7 @@ public interface ProductService {
 
 	boolean delete(Integer productId);
 
-	void updateFromAlfabeta(String description, BigDecimal price, Integer code, String gtin, Boolean cold);
+	Integer updateFromAlfabeta(String description, BigDecimal price, Integer code, String gtin, Boolean cold);
 
 	List<Product> getAll();
 

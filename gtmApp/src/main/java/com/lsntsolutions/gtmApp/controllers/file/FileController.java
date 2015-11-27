@@ -154,7 +154,8 @@ public class FileController {
 	}
 
 	@RequestMapping(value = "/updateProducts", method = RequestMethod.POST)
-	public @ResponseBody void updateProducts(HttpServletRequest request, @RequestBody AlfabetaFileDTO alfabetaFileDTO) throws Exception {
+	public @ResponseBody Integer updateProducts(HttpServletRequest request, @RequestBody AlfabetaFileDTO alfabetaFileDTO) throws Exception {
+		Integer productCount = 0;
 
 		String path = request.getSession().getServletContext().getRealPath("/alfabeta/");
 		String timestamp = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
@@ -182,6 +183,7 @@ public class FileController {
 		Integer gtinFieldLength;
 		Integer coldFieldByteOffset;
 		Integer coldFieldLength;
+
 		try {
 			nameFieldByteOffset = alfabetaFileDTO.getNameFieldByteOffset();
 			nameFieldLength= alfabetaFileDTO.getNameFieldLength();
@@ -210,13 +212,16 @@ public class FileController {
 				updatedGtin = currentLineManualDat.substring(gtinFieldByteOffset, gtinFieldByteOffset + gtinFieldLength);
 				updatedCold = (currentLineManualDat.substring(coldFieldByteOffset, coldFieldByteOffset + coldFieldLength) == "1") ? true : false;
 
-				this.productService.updateFromAlfabeta(updatedDescription, updatedPrice, updatedCode, updatedGtin, updatedCold);
+				productCount += this.productService.updateFromAlfabeta(updatedDescription, updatedPrice, updatedCode, updatedGtin, updatedCold);
 			}
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 			throw new RuntimeException("Error al procesar el archivo de actualizacion Alfabeta", e);
+		} finally {
+			brManualDat.close();
 		}
-		brManualDat.close();
+
+		return productCount;
 	}
 
 

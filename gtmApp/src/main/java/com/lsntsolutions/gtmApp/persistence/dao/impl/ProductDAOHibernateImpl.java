@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,13 +119,15 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 	}
 
 	@Override
-	public boolean updateFromAlfabeta(Product product) {
-		try {
-			this.sessionFactory.getCurrentSession().saveOrUpdate(product);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
+	public Integer updateFromAlfabeta(String description, BigDecimal price, Integer code, String gtin, Boolean cold) {
+		Query query = this.sessionFactory.getCurrentSession()
+				.createSQLQuery("CALL update_from_alfabeta_proc(:description, :price, :code, :gtin, :cold)")
+				.setParameter("description", description)
+				.setParameter("price", price)
+				.setParameter("code", code)
+				.setParameter("gtin", gtin.trim().isEmpty() ? null : gtin)
+				.setParameter("cold", cold);
+		return query.executeUpdate();
 	}
 
 	@Override

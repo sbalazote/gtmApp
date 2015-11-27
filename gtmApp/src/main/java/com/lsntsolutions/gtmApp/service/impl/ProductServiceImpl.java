@@ -4,7 +4,6 @@ import com.lsntsolutions.gtmApp.model.Product;
 import com.lsntsolutions.gtmApp.persistence.dao.ProductDAO;
 import com.lsntsolutions.gtmApp.service.*;
 import org.apache.log4j.Logger;
-import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -77,13 +76,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void updateFromAlfabeta(String description, BigDecimal price, Integer code, String gtin, Boolean cold) {
-		Query query = this.sessionFactory.getCurrentSession().createSQLQuery("CALL update_from_alfabeta_proc(:description, :price, :code, :gtin, :cold)").setParameter("description", description)
-				.setParameter("price", price)
-				.setParameter("code", code)
-				.setParameter("gtin", gtin.trim().isEmpty() ? null : gtin)
-				.setParameter("cold", cold);
-		query.executeUpdate();
+	public Integer updateFromAlfabeta(String description, BigDecimal price, Integer code, String gtin, Boolean cold) {
+		return this.productDAO.updateFromAlfabeta(description, price, code, gtin, cold);
 		/*Product product;
 		if (this.productDAO.exists(code)) {
 			product = this.productDAO.getByCode(code);

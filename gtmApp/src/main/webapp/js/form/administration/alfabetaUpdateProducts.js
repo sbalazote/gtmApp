@@ -128,7 +128,7 @@ AlfabetaUpdateProducts = function() {
 					$.blockUI({ message: 'Espere un Momento por favor. Actualizando el Manual Alfabeta...' });
 				},
 				success: function(response) {
-					myShowAlert('success', 'Se ha actualizado satisfactoriamente el Manual Alfabeta.');
+					myShowAlert('success', 'Se ha actualizado satisfactoriamente ' + response + ' productos del Manual Alfabeta.');
 					$("#uploaded-files").bootgrid("destroy");
 					$("#alfabetaUpdateFileInput").prop("disabled",false);
 					$(".fileinput-button").attr("disabled",false);
