@@ -1,7 +1,8 @@
 CREATE TABLE `drugstore`.`profile` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
   `description` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`));
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
   
 DROP TABLE `drugstore`.`user_role`;
 
