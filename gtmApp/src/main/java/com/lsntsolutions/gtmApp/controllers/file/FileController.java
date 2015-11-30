@@ -276,8 +276,6 @@ public class FileController {
 		rows = sheet.getPhysicalNumberOfRows();
 		List<InputDetail> inputDetails = new ArrayList<>();
 		List<String> errors = new ArrayList<>();
-		List<Product> productsToActivate = new ArrayList<>();
-		List<Product> serializedProducts = new ArrayList<>();
 		String error;
 		for(int i = importStockDTO.getFirstRow(); i < rows; i++) {
 			row = sheet.getRow(i);
@@ -287,11 +285,12 @@ public class FileController {
 				Product product = this.productService.getByGtin(gtin, null);
 				if(product != null){
 					if(!product.isActive()){
-						productsToActivate.add(product);
+						product.setActive(true);
+						this.productService.save(product);
 					}
 					ProductGtin productGtin = this.productGtinService.getByNumber(gtin);
 					inputDetail.setGtin(productGtin);
-					inputDetail.setProduct(product);
+
 					if(HSSFCell.CELL_TYPE_STRING == row.getCell(importStockDTO.getAmountColumn() - 1).getCellType()) {
 						inputDetail.setAmount(Integer.valueOf(row.getCell(importStockDTO.getAmountColumn() - 1).getStringCellValue()));
 					}else if(HSSFCell.CELL_TYPE_NUMERIC == row.getCell(importStockDTO.getAmountColumn() - 1).getCellType()){
@@ -310,11 +309,13 @@ public class FileController {
 					inputDetail.setExpirationDate(date);
 					String type = row.getCell(importStockDTO.getTypeColumn() - 1).getStringCellValue();
 					String serial = "";
-					if(HSSFCell.CELL_TYPE_STRING == row.getCell(importStockDTO.getSerialColumn() - 1).getCellType()) {
-						serial = row.getCell(importStockDTO.getSerialColumn() - 1).getStringCellValue();
-					}else if(HSSFCell.CELL_TYPE_NUMERIC == row.getCell(importStockDTO.getSerialColumn() - 1).getCellType()){
-						Double serialNumber = new Double(row.getCell(importStockDTO.getSerialColumn() - 1).getNumericCellValue());
-						serial = String.valueOf(serialNumber);
+					if(row.getCell(importStockDTO.getSerialColumn() - 1) != null) {
+						if (HSSFCell.CELL_TYPE_STRING == row.getCell(importStockDTO.getSerialColumn() - 1).getCellType()) {
+							serial = row.getCell(importStockDTO.getSerialColumn() - 1).getStringCellValue();
+						} else if (HSSFCell.CELL_TYPE_NUMERIC == row.getCell(importStockDTO.getSerialColumn() - 1).getCellType()) {
+							Double serialNumber = new Double(row.getCell(importStockDTO.getSerialColumn() - 1).getNumericCellValue());
+							serial = String.valueOf(serialNumber);
+						}
 					}
 					ProviderSerializedProductDTO parse = null;
 					if(type.indexOf("S") == 0){
@@ -335,8 +336,10 @@ public class FileController {
 							error = "Producto con gtin: " + gtin + " no registra Serie, ubicado en la fila: " + row + 1;
 							errors.add(error);
 						}
-						serializedProducts.add(product);
+						product.setType("PS");
+						this.productService.save(product);
 					}
+					inputDetail.setProduct(product);
 					inputDetails.add(inputDetail);
 				}else{
 					error = "El producto asociado al GTIN: "  + gtin;
@@ -347,14 +350,6 @@ public class FileController {
 		operationResult.setMyOwnErrors(errors);
 		if(errors.size() == 0){
 			this.inputService.importStock(inputDetails, importStockDTO.getAgreementId(), importStockDTO.getConceptId(), importStockDTO.getProviderId(), auth.getName());
-			for(Product product : productsToActivate){
-				product.setActive(true);
-				this.productService.save(product);
-			}
-			for(Product product : serializedProducts){
-				product.setType("PS");
-				this.productService.save(product);
-			}
 			operationResult.setResultado(true);
 		}
 		return operationResult;
