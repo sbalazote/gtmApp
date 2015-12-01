@@ -17,7 +17,7 @@ import java.util.Map;
 @Transactional
 public class DeliveryNoteConfigServiceImpl implements DeliveryNoteConfigService {
 
-    // The coordinates are measured in points. 1 inch is divided into 72 points so that 1 Millimeter equals 2.8346 points.
+    // Las coordenadas se miden en puntos ('user points'). 1 pulgada se divide en 72 puntos, por lo tanto 1 milimetro equivale a 2.8346 puntos.
     private float MILLIMITER_TO_POINTS_FACTOR = 2.8346f;
 
     private float PAGE_HEIGTH = 297.0f;
