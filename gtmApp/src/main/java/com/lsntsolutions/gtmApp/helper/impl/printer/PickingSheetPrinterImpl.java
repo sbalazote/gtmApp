@@ -42,8 +42,9 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
     private Document document;
     private PdfWriter writer;
     private String logoPath;
+	private Float offset;
 
-    private Document addHeader(ProvisioningRequest provisioningRequest, Boolean firstHalf) {
+	private Document addHeader(ProvisioningRequest provisioningRequest, Boolean firstHalf) {
 		Client client = provisioningRequest.getClient();
 		Agreement agreement = provisioningRequest.getAgreement();
 		String deliveryDate = new SimpleDateFormat("dd/MM/yyyy").format(provisioningRequest.getDeliveryDate());
@@ -159,7 +160,7 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 		PdfContentByte canvas = writer.getDirectContent();
 		header.writeSelectedRows(0, -1, 15.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 70f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR, canvas);
 
-		float offset = 75.0f + (firstHalf ? 0.0f : 145f);
+		offset = 75.0f + (firstHalf ? 0.0f : 145f);
 
 		// DETALLES
 		Integer id = 0;
@@ -176,7 +177,7 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 		while (it.hasNext()) {
 			ProvisioningRequestDetail prd = it.next();
 			if ((!prd.getProduct().getId().equals(id)) && (id != 0)) {
-				this.printDetail(offset, code, description, acumAmount, details);
+				this.printDetail(code, description, acumAmount, details);
 				acumAmount = 0;
 				neededAmount = 0;
 				details = "";
@@ -217,12 +218,12 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 				acumAmount += amount;
 			}
 		}
-		offset+=5;
-		this.printDetail(offset, code, description, acumAmount, details);
+		//offset+=5;
+		this.printDetail(code, description, acumAmount, details);
         return document;
 	}
 
-	private void printDetail(float offset, Integer code, String description, Integer AcumAmount, String details)
+	private void printDetail(Integer code, String description, Integer AcumAmount, String details)
 			throws DocumentException {
         PdfPTable header = new PdfPTable(3);
 		header.setTotalWidth(180.0f * MILLIMITER_TO_POINTS_FACTOR);
@@ -241,11 +242,20 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
         cell.setBorder(Rectangle.NO_BORDER);
 		header.addCell(cell);
 
-        //document.add(header);
-        //document.add(new Paragraph(details));
 		PdfContentByte canvas = writer.getDirectContent();
+		Font fontBatchExpirationDate = new Font(Font.HELVETICA, 8.0f, Font.ITALIC, Color.BLACK);
 		header.writeSelectedRows(0, -1, 15.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - offset) * MILLIMITER_TO_POINTS_FACTOR, canvas);
-		ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(details), 15.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - offset) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+		if (!details.isEmpty()) {
+			header.flushContent();
+			cell = new PdfPCell(new Paragraph(details, fontBatchExpirationDate));
+			cell.setBorder(Rectangle.NO_BORDER);
+			cell.setColspan(3);
+			header.addCell(cell);
+
+			header.writeSelectedRows(0, -1, 15.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - (offset + 5.0f)) * MILLIMITER_TO_POINTS_FACTOR, canvas);
+
+			offset+=5.0f;
+		}
 	}
 
 	/** Inner class to add a header and a footer. */
