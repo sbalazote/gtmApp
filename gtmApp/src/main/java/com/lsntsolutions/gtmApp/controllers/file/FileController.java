@@ -338,6 +338,9 @@ public class FileController {
 						}
 						product.setType("PS");
 						this.productService.save(product);
+					}else{
+						product.setType("BE");
+						this.productService.save(product);
 					}
 					inputDetail.setProduct(product);
 					inputDetails.add(inputDetail);
