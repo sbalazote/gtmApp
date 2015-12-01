@@ -29,8 +29,12 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.List;
 
 public class PickingSheetPrinterImpl extends AbstractPdfView {
+
+	// Las coordenadas se miden en puntos ('user points'). 1 pulgada se divide en 72 puntos, por lo tanto 1 milimetro equivale a 2.8346 puntos.
+	private float MILLIMITER_TO_POINTS_FACTOR = 2.8346f;
 
 	private ProvisioningRequestService provisioningRequestService;
 	private ProvisioningRequestStateService provisioningRequestStateService;
@@ -40,6 +44,11 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
     private String logoPath;
 
     private Document addHeader(ProvisioningRequest provisioningRequest, Boolean firstHalf) {
+		Client client = provisioningRequest.getClient();
+		Agreement agreement = provisioningRequest.getAgreement();
+		String deliveryDate = new SimpleDateFormat("dd/MM/yyyy").format(provisioningRequest.getDeliveryDate());
+		DeliveryLocation deliveryLocation = provisioningRequest.getDeliveryLocation();
+		Affiliate affiliate = provisioningRequest.getAffiliate();
 
         BaseFont bfHelveticaBold;
         BaseFont bfTimes;
@@ -49,108 +58,80 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 
 			Image logoImage = Image.getInstance(logoPath);
             logoImage.scaleToFit(80f, 80f);
-            logoImage.setAbsolutePosition(10f * 2.8346f, (297.0f - 20.0f - (firstHalf ? 0.0f : 145f)) * 2.8346f);
+            logoImage.setAbsolutePosition(10f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 15.0f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR);
+			document.add(logoImage);
 
             String name = PropertyProvider.getInstance().getProp("name");
 
-            PdfContentByte cb = writer.getDirectContent();
-            cb.beginText();
-            cb.setFontAndSize(bfHelveticaBold, 18f);
-            cb.setTextMatrix(45f * 2.8346f, (297.0f - 10.0f - (firstHalf ? 0.0f : 145f)) * 2.8346f);
-            cb.showText(name);
-            cb.setTextMatrix(45f * 2.8346f, (297.0f - 18.0f - (firstHalf ? 0.0f : 145f)) * 2.8346f);
-            cb.showText("Hoja de Picking");
-            cb.endText();
+            PdfContentByte canvas = writer.getDirectContent();
+            canvas.beginText();
+            canvas.setFontAndSize(bfHelveticaBold, 18f);
+            canvas.setTextMatrix(45f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 10.0f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR);
+            canvas.showText(name);
+            canvas.setTextMatrix(45f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 18.0f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR);
+            canvas.showText("Hoja de Picking");
+            canvas.endText();
 
-            cb.beginText();
-            cb.setFontAndSize(bfTimes, 12f);
-            cb.setTextMatrix(155f * 2.8346f, (297.0f - 10.0f - (firstHalf ? 0.0f : 145f)) * 2.8346f);
-            cb.showText("Ordenado por Cliente.");
-            cb.setTextMatrix(155f * 2.8346f, (297.0f - 15.0f - (firstHalf ? 0.0f : 145f)) * 2.8346f);
-            cb.showText("Reporte Detallado");
-            cb.endText();
+            canvas.beginText();
+            canvas.setFontAndSize(bfTimes, 12f);
+            canvas.setTextMatrix(155f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 10.0f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR);
+            canvas.showText("Ordenado por Cliente.");
+            canvas.setTextMatrix(155f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 15.0f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR);
+            canvas.showText("Reporte Detallado");
+            canvas.endText();
 
-            document.add(logoImage);
-            document.add(Chunk.NEWLINE);
+			// imprimo Separador del logo y resto
+            LineSeparator headerSeparator = new LineSeparator();
+			headerSeparator.drawLine(canvas, 15.0f * MILLIMITER_TO_POINTS_FACTOR, 195.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 20f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR);
 
-            if (!firstHalf) {
-                document.add(Chunk.NEWLINE);
-                document.add(Chunk.NEWLINE);
-                document.add(Chunk.NEWLINE);
-                document.add(Chunk.NEWLINE);
-                document.add(Chunk.NEWLINE);
-                document.add(Chunk.NEWLINE);
-                document.add(Chunk.NEWLINE);
-                document.add(Chunk.NEWLINE);
-                document.add(Chunk.NEWLINE);
-                document.add(Chunk.NEWLINE);
-            }
-
-            LineSeparator ls = new LineSeparator();
-            document.add(new Chunk(ls));
-            document.add(Chunk.NEWLINE);
-
-            Client client = provisioningRequest.getClient();
-            Agreement agreement = provisioningRequest.getAgreement();
-            String deliveryDate = new SimpleDateFormat("dd/MM/yyyy").format(provisioningRequest.getDeliveryDate());
-            DeliveryLocation deliveryLocation = provisioningRequest.getDeliveryLocation();
-            Affiliate affiliate = provisioningRequest.getAffiliate();
-
-            PdfPTable header = new PdfPTable(1);
-            header.setWidthPercentage(100);
-            header.setSpacingBefore(0);
-            header.setSpacingAfter(0);
-
+			// imprimo Suc./Cliente
             Font fontHeader = new Font(Font.HELVETICA, 10f, Font.NORMAL, Color.BLACK);
-            document.add(new Chunk("Suc./Cliente: "));
+			ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Suc./Cliente: "), 15.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 30f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR, 0f);
 
-            Chunk clientDescription = new Chunk("(" + StringUtility.addLeadingZeros(String.valueOf(client.getCode()),4) + ") " + client.getName() + " (" + client.getProvince().getName() + ") " + client.getAddress() + " (CP: " + client.getZipCode() + ")", fontHeader);
-            document.add(clientDescription);
-            document.add(Chunk.NEWLINE);
+            String clientDescription = "(" + StringUtility.addLeadingZeros(String.valueOf(client.getCode()),4) + ") " + client.getName() + " (" + client.getProvince().getName() + ") " + client.getAddress() + " (CP: " + client.getZipCode() + ")";
+			ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(clientDescription, fontHeader), 40.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 30f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR, 0f);
 
-            document.add(new Chunk("Pedido Nro.: "));
-            Chunk provisioningDescription = new Chunk(provisioningRequest.getFormatId() + " Convenio: " + StringUtility.addLeadingZeros(String.valueOf(agreement.getCode()), 5) + " - " + agreement.getDescription(), fontHeader);
-            document.add(provisioningDescription);
-            document.add(Chunk.NEWLINE);
+			// imprimo Pedido Nro.
+			ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Pedido Nro.: "), 15.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 35f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+            String provisioningDescription = provisioningRequest.getFormatId() + " (Convenio: " + StringUtility.addLeadingZeros(String.valueOf(agreement.getCode()), 5) + " - " + agreement.getDescription() + ")";
+			ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(provisioningDescription, fontHeader), 40.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 35f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR, 0f);
 
-            document.add(new Chunk("Fecha de Entrega: "));
-            Chunk deliveryDateDescription = new Chunk(deliveryDate, fontHeader);
-            document.add(deliveryDateDescription);
-            document.add(Chunk.NEWLINE);
+			// imprimo Fecha de Entrega
+			ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Fecha de Entrega: "), 15.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 40f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+			ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(deliveryDate, fontHeader), 51.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 40f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR, 0f);
 
-            document.add(new Chunk("Entregar en: "));
-            Chunk deliveryLocationDescription = new Chunk("(" + deliveryLocation.getProvince().getName() + ") " + deliveryLocation.getAddress() + " (CP: " + deliveryLocation.getZipCode() + ")", fontHeader);
-            document.add(deliveryLocationDescription);
-            document.add(Chunk.NEWLINE);
+			// imprimo Entregar en:
+			ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Entregar en: "), 15.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 45f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+            String deliveryLocationDescription = "(" + deliveryLocation.getProvince().getName() + ") " + deliveryLocation.getAddress() + " (CP: " + deliveryLocation.getZipCode() + ")";
+			ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(deliveryLocationDescription, fontHeader), 40.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 45f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR, 0f);
 
-            document.add(new Chunk("Entregar por: "));
-            Chunk deliveryLocationName = new Chunk("(" + StringUtility.addLeadingZeros(deliveryLocation.getCode().toString(), 8) + ") " + deliveryLocation.getName(), fontHeader);
-            document.add(deliveryLocationName);
-            document.add(Chunk.NEWLINE);
+			// imprimo Entregar por:
+			ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Entregar por: "), 15.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 50f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+			String deliveryLocationName = "(" + StringUtility.addLeadingZeros(deliveryLocation.getCode().toString(), 8) + ") " + deliveryLocation.getName();
+			ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(deliveryLocationName, fontHeader), 41.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 50f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR, 0f);
 
+			// imprimo Afiliado
             String documentType;
-            if(affiliate.getDocumentType() != null){
+            if (affiliate.getDocumentType() != null) {
                 documentType = DocumentType.types.get(Integer.valueOf(affiliate.getDocumentType()));
-            }else{
+            } else {
                 documentType = "";
             }
             String documentNumber;
-            if(affiliate.getDocument() != null){
+            if (affiliate.getDocument() != null) {
                 documentNumber = affiliate.getDocument();
-            }else{
+            } else {
                 documentNumber = "";
             }
 
-            document.add(new Chunk("Afiliado: "));
-            Chunk affiliateDetails = new Chunk("Cod. " + StringUtility.addLeadingZeros(affiliate.getCode(), 5) + " ) - " + documentType + " " + documentNumber + " - " + affiliate.getName() + " " + affiliate.getSurname(), fontHeader);
-            document.add(affiliateDetails);
-            document.add(Chunk.NEWLINE);
+			ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Afiliado: "), 15.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 55f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+			String affiliateDetails = "(Cod. " + StringUtility.addLeadingZeros(affiliate.getCode(), 5) + " ) - " + documentType + " " + documentNumber + " - " + affiliate.getName() + " " + affiliate.getSurname();
+			ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(affiliateDetails, fontHeader), 32.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 55f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR, 0f);
 
-            document.add(new Chunk("Observaciones: "));
-            document.add(Chunk.NEWLINE);
-            document.add(Chunk.NEWLINE);
+			// imprimo Observaciones
+			ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Observaciones: "), 15.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 60f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR, 0f);
 
-        } catch (DocumentException e) {
+		} catch (DocumentException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -160,10 +141,8 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 
 	private Document addDetails(ProvisioningRequest provisioningRequest, Boolean firstHalf) throws DocumentException {
 		PdfPTable header = new PdfPTable(3);
-		header.setWidthPercentage(100);
-		header.setSpacingBefore(0);
-		header.setSpacingAfter(0);
-		float[] columnWidths = {2f, 7f, 1f};
+		header.setTotalWidth(180.0f * MILLIMITER_TO_POINTS_FACTOR);
+		float[] columnWidths = {2f, 6f, 1f};
 		header.setWidths(columnWidths);
 
 		PdfPCell cell;
@@ -177,7 +156,10 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 		cell = new PdfPCell(new Paragraph("Cantidad"));
 		header.addCell(cell);
 
-		document.add(header);
+		PdfContentByte canvas = writer.getDirectContent();
+		header.writeSelectedRows(0, -1, 15.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 70f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR, canvas);
+
+		float offset = 75.0f + (firstHalf ? 0.0f : 145f);
 
 		// DETALLES
 		Integer id = 0;
@@ -194,7 +176,7 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 		while (it.hasNext()) {
 			ProvisioningRequestDetail prd = it.next();
 			if ((!prd.getProduct().getId().equals(id)) && (id != 0)) {
-				this.printDetail(document, code, description, acumAmount, details);
+				this.printDetail(offset, code, description, acumAmount, details);
 				acumAmount = 0;
 				neededAmount = 0;
 				details = "";
@@ -202,6 +184,7 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 				description = "";
 				batch = "";
 				expirationDate = "";
+				offset+=5;
 			}
 
 			id = prd.getProduct().getId();
@@ -234,17 +217,16 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 				acumAmount += amount;
 			}
 		}
-		this.printDetail(document, code, description, acumAmount, details);
+		offset+=5;
+		this.printDetail(offset, code, description, acumAmount, details);
         return document;
 	}
 
-	private void printDetail(Document document, Integer code, String description, Integer AcumAmount, String details)
+	private void printDetail(float offset, Integer code, String description, Integer AcumAmount, String details)
 			throws DocumentException {
         PdfPTable header = new PdfPTable(3);
-		header.setWidthPercentage(100);
-		header.setSpacingBefore(0);
-		header.setSpacingAfter(0);
-		float[] columnWidths = {2f, 7f, 1f};
+		header.setTotalWidth(180.0f * MILLIMITER_TO_POINTS_FACTOR);
+		float[] columnWidths = {2f, 6f, 1f};
 		header.setWidths(columnWidths);
 
         PdfPCell cell = new PdfPCell(new Paragraph(code.toString()));
@@ -259,8 +241,11 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
         cell.setBorder(Rectangle.NO_BORDER);
 		header.addCell(cell);
 
-        document.add(header);
-        document.add(new Paragraph(details));
+        //document.add(header);
+        //document.add(new Paragraph(details));
+		PdfContentByte canvas = writer.getDirectContent();
+		header.writeSelectedRows(0, -1, 15.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - offset) * MILLIMITER_TO_POINTS_FACTOR, canvas);
+		ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(details), 15.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - offset) * MILLIMITER_TO_POINTS_FACTOR, 0f);
 	}
 
 	/** Inner class to add a header and a footer. */
@@ -293,27 +278,23 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 
 		@Override
 		public void onEndPage(PdfWriter writer, Document document) {
-			Rectangle rect = writer.getBoxSize("art");
-
             Font fontEndPage = new Font(Font.HELVETICA, 12f, Font.ITALIC, Color.BLACK);
 
 			String timestamp = new SimpleDateFormat("'Fecha:' dd/MM/yyyy 'Hora:' HH:mm:ss").format(new Date());
             String name = PropertyProvider.getInstance().getProp("name");
 
-            PdfContentByte cb = writer.getDirectContent();
+            PdfContentByte canvas = writer.getDirectContent();
             LineSeparator separator = new LineSeparator();
-            separator.draw(cb, 0, 0, 210f * 2.8346f, 0, rect.getBottom() - 10);
-
-            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER,
+            separator.drawLine(canvas, 0.0f, 210.0f * MILLIMITER_TO_POINTS_FACTOR, 7.0f * MILLIMITER_TO_POINTS_FACTOR);
+            ColumnText.showTextAligned(canvas, Element.ALIGN_CENTER,
 					new Phrase(String.format("%s  -  Usuario: %s  -  %s", timestamp, this.userName, name), fontEndPage),
-					(rect.getLeft() + rect.getRight()) / 2, rect.getBottom() - 20, 0);
+					105.0f * MILLIMITER_TO_POINTS_FACTOR, 2.0f * MILLIMITER_TO_POINTS_FACTOR, 0);
 		}
 	}
 
 	@Override
 	protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		document.setPageSize(PageSize.A4);
-		writer.setBoxSize("art", new Rectangle(36, 54, 559, 788));
 
 		// Obtengo usuario logueado.
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -358,9 +339,9 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 			addHeader(provisioningRequest, true);
 			addDetails(provisioningRequest, true);
 
-            PdfContentByte cb = writer.getDirectContent();
+            PdfContentByte canvas = writer.getDirectContent();
 			DottedLineSeparator separator = new DottedLineSeparator();
-			separator.draw(cb, 0, 0, 210f * 2.8346f, 0, 150f * 2.8346f);
+			separator.draw(canvas, 0, 0, 210f * MILLIMITER_TO_POINTS_FACTOR, 0, 150f * MILLIMITER_TO_POINTS_FACTOR);
 
             if (currentProvisioning + 1 <=  provisioningIds.length) {
                 provisioningRequest = provisioningRequestService.get(Integer.parseInt(provisioningIds[currentProvisioning]));
