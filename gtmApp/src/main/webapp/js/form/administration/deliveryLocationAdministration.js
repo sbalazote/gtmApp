@@ -57,7 +57,7 @@ $(document).ready(function() {
 				$("#taxIdInput").val(response.taxId);
 				$("#corporateNameInput").val(response.corporateName);
 				$("#provinceSelect").val(response.province.id).trigger('chosen:update');
-				$("#localityInput").val(response.province.locality);
+				$("#localityInput").val(response.locality);
 				$("#addressInput").val(response.address);
 				$("#zipCodeInput").val(response.zipCode);
 				$("#VATLiabilitySelect").val(response.vatliability.id).trigger('chosen:update');
