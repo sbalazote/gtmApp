@@ -51,6 +51,10 @@ public class DeliveryNoteController {
 	@RequestMapping(value = "/printDeliveryNotes", method = RequestMethod.POST)
 	@ResponseBody
 	public PrinterResultDTO printDeliveryNotesFromOrders(@RequestBody List<Integer> ordersToPrint) throws Exception {
+		Set<Integer> hs = new HashSet<>();
+		hs.addAll(ordersToPrint);
+		ordersToPrint.clear();
+		ordersToPrint.addAll(hs);
 		PrinterResultDTO printerResultDTO = new PrinterResultDTO();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		this.orderDeliveryNoteSheetPrinter.print(auth.getName(), ordersToPrint, printerResultDTO);
@@ -65,6 +69,10 @@ public class DeliveryNoteController {
 	@RequestMapping(value = "/cancelDeliveryNotes", method = RequestMethod.POST)
 	public @ResponseBody
 	void cancelDeliveryNotes(@RequestBody List<String> deliveryNoteNumbers) throws Exception {
+		Set<String> hs = new HashSet<>();
+		hs.addAll(deliveryNoteNumbers);
+		deliveryNoteNumbers.clear();
+		deliveryNoteNumbers.addAll(hs);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
 			this.deliveryNoteService.cancelDeliveryNotes(deliveryNoteNumbers, auth.getName());
