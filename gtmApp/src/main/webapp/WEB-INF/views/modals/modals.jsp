@@ -23,6 +23,7 @@
             <thead>
             <tr>
               <th data-identifier="true" data-column-id="id" data-type="numeric" data-visible="false"></th>
+              <th data-column-id="gtin"><spring:message code="common.gtin" /></th>
               <th data-column-id="amount" data-type="numeric"><spring:message code="common.amount" /></th>
               <th data-column-id="batch"><spring:message code="common.batch" /></th>
               <th data-column-id="expirationDate"><spring:message code="common.expirationDate" /></th>

@@ -46,6 +46,10 @@ public class DeliveryNoteEnumerator implements Serializable {
         return lastDeliveryNoteNumber;
     }
 
+    public Integer getDeliveryNoteNumber() {
+        return lastDeliveryNoteNumber - 1;
+    }
+
     public void setLastDeliveryNoteNumber(Integer lastDeliveryNoteNumber) {
         this.lastDeliveryNoteNumber = lastDeliveryNoteNumber;
     }

@@ -206,9 +206,14 @@ SearchStock = function() {
 				serialDetails = {};
 				var stockList = [];
 				for (var i = 0, l = response.length; i < l; ++i) {
+					var gtin = "";
+					if(response[i].gtin != null){
+						gtin = response[i].gtin.number;
+					}
 					var stock = {
 						productId: response[i].product.id,
 						productCode: response[i].product.code,
+						gtin: gtin,
 						productDescription: response[i].product.description,
 						agreementId: response[i].agreement.id,
 						agreementDescription: response[i].agreement.description,
@@ -219,7 +224,7 @@ SearchStock = function() {
 					};
 					searchAndAdd(stockList, stock);
 				}
-				
+
 				for (var i = 0, l = stockList.length; i < l; ++i) {
 					var stock = {
 						id: i,
@@ -283,9 +288,9 @@ SearchStock = function() {
 				stockList.push(stock);
 			}
 		}
-		// Guardo lote/vte y series para mostrar los detalles.
 		serialDetails = {
 				id: id,
+				gtin: stock.gtin,
 				amount: stock.amount,
 				serialNumber: stock.serialNumber,
 				batch: stock.batch,

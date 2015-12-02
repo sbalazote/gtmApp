@@ -36,7 +36,7 @@ public class OutputFakeDeliveryNoteSheetPrinter {
 		List<OutputDetail> outputDetails = output.getOutputDetails();
 		Integer conceptId = output.getConcept().getId();
 		Concept concept = this.conceptService.getAndUpdateDeliveryNote(conceptId, 1);
-		Integer deliveryNoteNumber = concept.getDeliveryNoteEnumerator().getLastDeliveryNoteNumber() + 1;
+		Integer deliveryNoteNumber = concept.getDeliveryNoteEnumerator().getDeliveryNoteNumber();
 
 		// Hago el corte de remitos por la cantidad items por pagina que se indique por parametro.
 
