@@ -42,7 +42,11 @@ public class StockExcelView extends AbstractExcelView {
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
-		cell.setCellValue("PRODUCTO");
+		cell.setCellValue("CODIGO");
+
+		cell = row.createCell(c++);
+		cell.setCellStyle(style);
+		cell.setCellValue("DESCRIPCION");
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
@@ -72,7 +76,8 @@ public class StockExcelView extends AbstractExcelView {
 		for (Stock stock : stockList) {
 			row = sheet.createRow(r++);
 			c = 0;
-			row.createCell(c++).setCellValue(stock.getProduct().getCode() + " - " + stock.getProduct().getDescription());
+			row.createCell(c++).setCellValue(stock.getProduct().getCode());
+			row.createCell(c++).setCellValue(stock.getProduct().getDescription());
 			row.createCell(c++).setCellValue(stock.getGtin() != null ? stock.getGtin().getNumber() : "");
 			row.createCell(c++).setCellValue(stock.getAgreement().getDescription());
 			row.createCell(c++).setCellValue(stock.getSerialNumber());
