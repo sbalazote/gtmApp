@@ -88,7 +88,7 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 			Concept concept = this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
 			POS = StringUtility.addLeadingZeros(concept.getDeliveryNoteEnumerator().getDeliveryNotePOS(), 4);
 			property = this.PropertyService.get();
-			deliveryNoteNumber = concept.getDeliveryNoteEnumerator().getLastDeliveryNoteNumber() - deliveryNoteNumbersRequired + 1;
+			deliveryNoteNumber = concept.getDeliveryNoteEnumerator().getDeliveryNoteNumber() - deliveryNoteNumbersRequired;
 
 			document = new Document(PageSize.A4);
 			out = new ByteArrayOutputStream();
@@ -186,14 +186,14 @@ public class OutputDeliveryNoteSheetPrinter implements DeliveryNoteSheetPrinter 
 
 			document.close();
 
-			ByteArrayInputStream pdfDocument = new ByteArrayInputStream(out.toByteArray());
-
-			this.printOnPrinter.sendPDFToSpool(output.getAgreement().getDeliveryNotePrinter(), "REMITO NRO-" + deliveryNoteNumber + ".pdf", pdfDocument, printerResultDTO);
-
-			try {
-				pdfDocument.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+			for(int i = 0; i < concept.getDeliveryNoteCopies(); i++) {
+				ByteArrayInputStream pdfDocument = new ByteArrayInputStream(out.toByteArray());
+				this.printOnPrinter.sendPDFToSpool(output.getAgreement().getDeliveryNotePrinter(), "REMITO NRO-" + deliveryNoteNumber + ".pdf", pdfDocument, printerResultDTO);
+				try {
+					pdfDocument.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		printerResultDTO.setDeliveryNoteNumbers(printsNumbers);
