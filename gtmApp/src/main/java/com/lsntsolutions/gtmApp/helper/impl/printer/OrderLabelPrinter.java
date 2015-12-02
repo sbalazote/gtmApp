@@ -31,6 +31,7 @@ public class OrderLabelPrinter implements ServletContextAware {
 
 	private static final String JOB_NAME = "packing_list";
 	private static final int MAX_PRODUCT_LIMIT = 16;
+	public static final int NUMBER_OF_COPIES = 1;
 
 	@Autowired
 	private PropertyService propertyService;
@@ -250,7 +251,7 @@ public class OrderLabelPrinter implements ServletContextAware {
 
 			pdfDocument = new ByteArrayInputStream(out.toByteArray());
 
-			this.printOnPrinter.sendPDFToSpool(orderLabelPrinter, number + "_" + JOB_NAME + type, pdfDocument, printerResultDTO);
+			this.printOnPrinter.sendPDFToSpool(orderLabelPrinter, number + "_" + JOB_NAME + type, pdfDocument, printerResultDTO, NUMBER_OF_COPIES);
 
 			pdfDocument.close();
 

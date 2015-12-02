@@ -23,7 +23,7 @@ public class PrintOnPrinter {
 
 	private static final Logger logger = Logger.getLogger(PrintOnPrinter.class);
 
-	public void sendPDFToSpool(String printerName, String jobName, ByteArrayInputStream fileStream, PrinterResultDTO printerResultDTO) {
+	public void sendPDFToSpool(String printerName, String jobName, ByteArrayInputStream fileStream, PrinterResultDTO printerResultDTO, Integer numberOfCopies) {
 		PDDocument PDFDocument = null;
 		try {
 			PDFDocument = PDDocument.load(fileStream);
@@ -37,6 +37,7 @@ public class PrintOnPrinter {
 			job.setPrintService(printerService);
 			job.setJobName(jobName);
 			job.setPageable(PDFDocument);
+			job.setCopies(numberOfCopies);
 			job.print();
 			logger.info("Se ha mandado a cola de impresion de la impresora: " + printerName + " el documento: " + jobName);
 			printerResultDTO.addSuccessMessage("Se ha mandado a cola de impresion de la impresora: " + printerName + " el documento: " + jobName);
