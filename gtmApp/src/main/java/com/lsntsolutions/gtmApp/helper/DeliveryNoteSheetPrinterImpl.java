@@ -105,6 +105,7 @@ public class DeliveryNoteSheetPrinterImpl extends DeliveryNoteSheetPrinter{
             document.addTitle("LS&T Solutions");
             document.open();
             overContent = writer.getDirectContent();
+            overContent.setLeading(0f);
 
             printHeader(deliveryNoteNumber,egress);
 

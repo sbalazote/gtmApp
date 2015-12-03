@@ -24,7 +24,9 @@ public abstract class DeliveryNoteSheetPrinter {
 	public BaseFont bf;
 	public Map<String, Float> dnConfigMap;
 	public boolean printHeader;
-
+	int PRODUCT_DETAIL_HEADER_LINE_OFFSET_Y = 15;
+	int SERIAL_DETAIL_LINE_OFFSET_Y = 10;
+	int PRODUCT_BATCH_EXPIRATIONDATE_HEADER_LINE_OFFSET_Y = 15;
 
 	public TreeMap<String, List<? extends Detail>> groupByProductAndBatch(List<?extends Detail> details) {
 		TreeMap<String, List<? extends Detail>> detailsMap = new TreeMap<>();
@@ -100,7 +102,6 @@ public abstract class DeliveryNoteSheetPrinter {
 	public void printSerialDetails(List<? extends Detail> orderDetails) {
 
 		// offset con respecto a la linea anterior.
-		int SERIAL_DETAIL_LINE_OFFSET_Y = 10;
 		offsetY += SERIAL_DETAIL_LINE_OFFSET_Y;
 
 		overContent.saveState();
@@ -159,7 +160,6 @@ public abstract class DeliveryNoteSheetPrinter {
 	public void printProductDetailHeader(String description, String monodrug, String brand, int totalAmount) {
 
 		// offset con respecto a la linea anterior.
-		int PRODUCT_DETAIL_HEADER_LINE_OFFSET_Y = 30;
 		offsetY += (printHeader ? 0 : PRODUCT_DETAIL_HEADER_LINE_OFFSET_Y);
 
 		overContent.saveState();
@@ -198,7 +198,6 @@ public abstract class DeliveryNoteSheetPrinter {
 	public void printProductBatchExpirationDateHeader(String batch, String expirationDate, String batchAmount) {
 
 		// offset con respecto a la linea anterior.
-		int PRODUCT_BATCH_EXPIRATIONDATE_HEADER_LINE_OFFSET_Y = 20;
 		offsetY += PRODUCT_BATCH_EXPIRATIONDATE_HEADER_LINE_OFFSET_Y;
 
 		overContent.saveState();
