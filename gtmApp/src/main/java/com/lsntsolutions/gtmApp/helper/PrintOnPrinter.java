@@ -11,6 +11,7 @@ import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Copies;
 import javax.print.attribute.standard.JobName;
+import javax.print.attribute.standard.SheetCollate;
 import javax.print.event.PrintJobAdapter;
 import javax.print.event.PrintJobEvent;
 import java.awt.print.PrinterJob;
@@ -27,6 +28,8 @@ public class PrintOnPrinter {
 		PDDocument PDFDocument = null;
 		try {
 			PDFDocument = PDDocument.load(fileStream);
+			PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+			aset.add(SheetCollate.UNCOLLATED);
 			PrinterJob job = PrinterJob.getPrinterJob();
 			PrintService printerService = findPrinterService(printerName);
 			if (printerService == null) {
@@ -38,7 +41,7 @@ public class PrintOnPrinter {
 			job.setJobName(jobName);
 			job.setPageable(PDFDocument);
 			job.setCopies(numberOfCopies);
-			job.print();
+			job.print(aset);
 			logger.info("Se ha mandado a cola de impresion de la impresora: " + printerName + " el documento: " + jobName);
 			printerResultDTO.addSuccessMessage("Se ha mandado a cola de impresion de la impresora: " + printerName + " el documento: " + jobName);
 			return;
