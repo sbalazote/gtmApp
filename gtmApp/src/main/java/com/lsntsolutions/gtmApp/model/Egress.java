@@ -8,7 +8,11 @@ import java.util.List;
  */
 public interface Egress {
 
+    Integer getId();
+    String getFormatId();
     Agreement getAgreement();
     Date getDate();
     List getDetails();
+    String getName();
+    boolean hasToInformANMAT();
 }

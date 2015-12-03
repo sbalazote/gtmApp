@@ -106,6 +106,11 @@ public class Output implements Serializable, Egress {
 		return this.getOutputDetails();
 	}
 
+	@Override
+	public String getName() {
+		return "Egreso";
+	}
+
 	public void setDate(Date date) {
 		this.date = date;
 	}
@@ -126,19 +131,26 @@ public class Output implements Serializable, Egress {
 		this.outputDetails = outputDetails;
 	}
 
-	public boolean hasToInform() throws Exception {
+	public boolean hasToInform(){
 		boolean hasToInform = false;
 		if (this.getConcept().isInformAnmat() && !this.getConcept().isPrintDeliveryNote()) {
-			for (OutputDetail outputDetail : this.getOutputDetails()) {
-				if (outputDetail.getProduct().isInformAnmat()
-						&& ("PS".equals(outputDetail.getProduct().getType()) || "SS".equals(outputDetail.getProduct().getType()))) {
-					hasToInform = true;
+			if(outputDetails != null) {
+				for (OutputDetail outputDetail : this.getOutputDetails()) {
+					if (outputDetail.getProduct().isInformAnmat()
+							&& ("PS".equals(outputDetail.getProduct().getType()) || "SS".equals(outputDetail.getProduct().getType()))) {
+						hasToInform = true;
+					}
 				}
 			}
 		} else {
 			hasToInform = false;
 		}
 		return hasToInform;
+	}
+
+	@Override
+	public boolean hasToInformANMAT(){
+		return this.hasToInform() && this.getAgreement().getDeliveryNoteConcept().isInformAnmat();
 	}
 
 	public boolean hasProductThatInform() throws Exception {

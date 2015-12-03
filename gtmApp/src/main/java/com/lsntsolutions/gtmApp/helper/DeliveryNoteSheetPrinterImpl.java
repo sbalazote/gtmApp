@@ -63,10 +63,12 @@ public class DeliveryNoteSheetPrinterImpl extends DeliveryNoteSheetPrinter{
     private List<DeliveryNoteDetail> deliveryNoteDetails;
     private List<String> printsNumbers;
     private String userName;
+    private Property property;
 
     @Override
     public void print(String userName, List<Integer> supplyingsIds, PrinterResultDTO printerResultDTO, boolean printSupplyings, boolean printOutputs, boolean printOrders) {
         dnConfigMap = deliveryNoteConfigService.getAllInMillimiters();
+        property = this.propertyService.get();
         this.userName = userName;
         printsNumbers = new ArrayList<>();
         ProvisioningRequestState state = this.provisioningRequestStateService.get(State.DELIVERY_NOTE_PRINTED.getId());
@@ -166,7 +168,7 @@ public class DeliveryNoteSheetPrinterImpl extends DeliveryNoteSheetPrinter{
                         detailAux.add(od);
 
                         deliveryNoteDetail = new DeliveryNoteDetail();
-
+                        setDeliveryNoteDetail(od,deliveryNoteDetail);
                         deliveryNoteDetails.add(deliveryNoteDetail);
 
                         serialIdx++;
@@ -214,26 +216,52 @@ public class DeliveryNoteSheetPrinterImpl extends DeliveryNoteSheetPrinter{
     }
 
     private void newPage(Egress egress) {
+        printFooter(totalItems);
+        document.newPage();
         if(egress.getClass().equals(Supplying.class)){
-            newPageSupplying((Supplying) egress);
+            printHeaderSupplying(deliveryNoteNumber,(Supplying) egress);
         }
         if(egress.getClass().equals(Output.class)){
-            newPageOutput((Output) egress);
+            printHeaderOutput(deliveryNoteNumber,(Output) egress);
         }
         if(egress.getClass().equals(Order.class)){
-            newPageOrder((Order) egress);
+            printHeaderOrder(deliveryNoteNumber,(Order) egress);
         }
+
+        offsetY = 0;
+        totalItems = 0;
+
+        deliveryNote = new DeliveryNote();
+        deliveryNoteComplete = POS + "-" + StringUtility.addLeadingZeros(deliveryNoteNumber, 8);
+        deliveryNote.setNumber(deliveryNoteComplete);
+
+        deliveryNoteDetails = new ArrayList<>();
     }
 
-    private void savePage(Egress egress) {
-        if(egress.getClass().equals(Supplying.class)){
-            savePageSupplying((Supplying) egress);
-        }
+    public Concept getConcept(Egress egress, Integer deliveryNoteNumbersRequired) {
         if(egress.getClass().equals(Output.class)){
-            savePageOutput((Output) egress);
+            Integer conceptId = egress.getAgreement().getDeliveryNoteConcept().getId();
+            return this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
         }
-        if(egress.getClass().equals(Order.class)){
-            savePageOrder((Order) egress);
+        if(egress.getClass().equals(Supplying.class)){
+            return this.conceptService.getAndUpdateDeliveryNote(property.getSupplyingConcept().getId(), deliveryNoteNumbersRequired);
+        }
+        if(egress.getClass().equals(Order.class)) {
+            Integer conceptId = egress.getAgreement().getDeliveryNoteConcept().getId();
+            return this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
+        }
+        return null;
+    }
+
+    public void setDeliveryNoteDetail(Detail detail, DeliveryNoteDetail deliveryNoteDetail) {
+        if(detail.getClass().equals(SupplyingDetail.class)){
+            deliveryNoteDetail.setSupplyingDetail((SupplyingDetail) detail);
+        }
+        if(detail.getClass().equals(OutputDetail.class)){
+            deliveryNoteDetail.setOutputDetail((OutputDetail) detail);
+        }
+        if(detail.getClass().equals(OrderDetail.class)){
+            deliveryNoteDetail.setOrderDetail((OrderDetail) detail);
         }
     }
 
@@ -249,28 +277,17 @@ public class DeliveryNoteSheetPrinterImpl extends DeliveryNoteSheetPrinter{
         }
     }
 
-    private void newPageSupplying(Supplying supplying) {
-        printFooter(totalItems);
-        document.newPage();
-        printHeaderSupplying(deliveryNoteNumber, supplying);
-
-        offsetY = 0;
-        totalItems = 0;
-
-        deliveryNote = new DeliveryNote();
-        deliveryNoteComplete = POS + "-" + StringUtility.addLeadingZeros(deliveryNoteNumber, 8);
-        deliveryNote.setNumber(deliveryNoteComplete);
-
-        deliveryNoteDetails = new ArrayList<>();
-    }
-
-    private void savePageSupplying(Supplying supplying) {
+    private void savePage(Egress egress) {
         // Guardo el Remito en la base de datos
         deliveryNote.setDeliveryNoteDetails(deliveryNoteDetails);
         deliveryNote.setDate(currentDate);
         deliveryNote.setFake(false);
+        boolean hasToInform = egress.hasToInformANMAT();
+        if(egress.getClass().equals(Supplying.class)){
+            hasToInform = hasToInform && property.getSupplyingConcept().isInformAnmat() && !property.getSupplyingConcept().isPrintDeliveryNote();
+        }
         try {
-            if (supplying.hasToInform() && supplying.getAgreement().getDeliveryNoteConcept().isInformAnmat() && propertyService.get().isInformAnmat()) {
+            if (hasToInform && propertyService.get().isInformAnmat()) {
                 deliveryNote.setInformAnmat(true);
             } else {
                 deliveryNote.setInformAnmat(false);
@@ -278,10 +295,10 @@ public class DeliveryNoteSheetPrinterImpl extends DeliveryNoteSheetPrinter{
             this.deliveryNoteService.save(deliveryNote);
             this.deliveryNoteService.sendTrasactionAsync(deliveryNote);
         } catch (Exception e1) {
-            logger.error("No se ha podido guardar el remito: " + deliveryNoteNumber + " para el Egreso número: " + supplying.getId());
+            logger.error("No se ha podido guardar el remito: " + deliveryNoteNumber + " para " + egress.getName() + " con Id: " + egress.getId());
         }
 
-        logger.info("Se ha guardado el remito numero: " + deliveryNoteNumber + " para el Egreso número: " + supplying.getId());
+        logger.info("Se ha guardado el remito numero: " + deliveryNoteNumber + " para " + egress.getName() + " con Id: " + egress.getId());
         this.auditService.addAudit(this.userName, RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote.getId());
 
 
@@ -291,7 +308,6 @@ public class DeliveryNoteSheetPrinterImpl extends DeliveryNoteSheetPrinter{
 
     private void printHeaderSupplying(Integer deliveryNoteNumber, Supplying supplying) {
         overContent.saveState();
-        Property property = this.propertyService.get();
         // seteo el tipo de fuente.
         try {
             bf = BaseFont.createFont(BaseFont.TIMES_BOLD, BaseFont.WINANSI, false);
@@ -344,46 +360,6 @@ public class DeliveryNoteSheetPrinterImpl extends DeliveryNoteSheetPrinter{
         String codeAgreement = StringUtility.addLeadingZeros(String.valueOf(supplying.getAgreement().getCode()),5) + " - " + supplying.getAgreement().getDescription();
         overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.ORDER_PRINT.name()) == 1 ? ("Dispensa Nro.: " + supplyingId + "     Convenio: " + codeAgreement) : "");
         overContent.restoreState();
-    }
-
-    private void newPageOutput(Output output) {
-        printFooter(totalItems);
-        document.newPage();
-        printHeaderOutput(deliveryNoteNumber, output);
-
-        offsetY = 0;
-        totalItems = 0;
-
-        deliveryNote = new DeliveryNote();
-        deliveryNoteComplete = POS + "-" + StringUtility.addLeadingZeros(deliveryNoteNumber, 8);
-        deliveryNote.setNumber(deliveryNoteComplete);
-
-        deliveryNoteDetails = new ArrayList<>();
-    }
-
-    private void savePageOutput(Output output) {
-        // Guardo el Remito en la base de datos
-        deliveryNote.setDeliveryNoteDetails(deliveryNoteDetails);
-        deliveryNote.setDate(currentDate);
-        deliveryNote.setFake(false);
-        try {
-            if (output.hasToInform() && output.getAgreement().getDeliveryNoteConcept().isInformAnmat() && propertyService.get().isInformAnmat()) {
-                deliveryNote.setInformAnmat(true);
-            } else {
-                deliveryNote.setInformAnmat(false);
-            }
-            this.deliveryNoteService.save(deliveryNote);
-            this.deliveryNoteService.sendTrasactionAsync(deliveryNote);
-        } catch (Exception e1) {
-            logger.error("No se ha podido guardar el remito: " + deliveryNoteNumber + " para el Egreso número: " + output.getId());
-        }
-
-        logger.info("Se ha guardado el remito numero: " + deliveryNoteNumber + " para el Egreso número: " + output.getId());
-        this.auditService.addAudit(this.userName, RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote.getId());
-
-
-        printsNumbers.add(deliveryNote.getNumber());
-        deliveryNoteNumber++;
     }
 
     private void printHeaderOutput(Integer deliveryNoteNumber, Output output) {
@@ -512,75 +488,6 @@ public class DeliveryNoteSheetPrinterImpl extends DeliveryNoteSheetPrinter{
         }
 
         overContent.restoreState();
-    }
-
-    public Concept getConcept(Egress egress, Integer deliveryNoteNumbersRequired) {
-        Property property;
-        if(egress.getClass().equals(Output.class)){
-            Integer conceptId = egress.getAgreement().getDeliveryNoteConcept().getId();
-            return this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
-        }
-        if(egress.getClass().equals(Supplying.class)){
-            property = this.propertyService.get();
-            return this.conceptService.getAndUpdateDeliveryNote(property.getSupplyingConcept().getId(), deliveryNoteNumbersRequired);
-        }
-        if(egress.getClass().equals(Order.class)) {
-            Integer conceptId = egress.getAgreement().getDeliveryNoteConcept().getId();
-            return this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
-        }
-        return null;
-    }
-
-    public void setDeliveryNoteDetail(Detail detail, DeliveryNoteDetail deliveryNoteDetail) {
-         if(detail.getClass().equals(SupplyingDetail.class)){
-             deliveryNoteDetail.setSupplyingDetail((SupplyingDetail) detail);
-         }
-        if(detail.getClass().equals(OutputDetail.class)){
-            deliveryNoteDetail.setOutputDetail((OutputDetail) detail);
-        }
-        if(detail.getClass().equals(OrderDetail.class)){
-            deliveryNoteDetail.setOrderDetail((OrderDetail) detail);
-        }
-    }
-
-    private void newPageOrder(Order order) {
-        printFooter(totalItems);
-        document.newPage();
-        printHeaderOrder(deliveryNoteNumber, order);
-
-        offsetY = 0;
-        totalItems = 0;
-
-        deliveryNote = new DeliveryNote();
-        deliveryNoteComplete = POS + "-" + StringUtility.addLeadingZeros(deliveryNoteNumber, 8);
-        deliveryNote.setNumber(deliveryNoteComplete);
-
-        deliveryNoteDetails = new ArrayList<>();
-    }
-
-    private void savePageOrder(Order order) {
-        // Guardo el Remito en la base de datos
-        deliveryNote.setDeliveryNoteDetails(deliveryNoteDetails);
-        deliveryNote.setDate(currentDate);
-        deliveryNote.setFake(false);
-        try {
-            if (order.hasToInform() && order.getProvisioningRequest().getAgreement().getDeliveryNoteConcept().isInformAnmat() && propertyService.get().isInformAnmat()) {
-                deliveryNote.setInformAnmat(true);
-            } else {
-                deliveryNote.setInformAnmat(false);
-            }
-            this.deliveryNoteService.save(deliveryNote);
-            this.deliveryNoteService.sendTrasactionAsync(deliveryNote);
-        } catch (Exception e1) {
-            logger.error("No se ha podido guardar el remito: " + deliveryNoteNumber + " para el Armado número: " + order.getId());
-        }
-
-        logger.info("Se ha guardado el remito numero: " + deliveryNoteNumber + " para el Armado número: " + order.getId());
-        this.auditService.addAudit(this.userName, RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote.getId());
-
-
-        printsNumbers.add(deliveryNote.getNumber());
-        deliveryNoteNumber++;
     }
 
     private void printHeaderOrder(Integer deliveryNoteNumber, Order order) {

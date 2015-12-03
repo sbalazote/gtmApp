@@ -112,10 +112,27 @@ public class Supplying implements Serializable, Egress {
 	public List getDetails(){
 		return this.getSupplyingDetails();
 	}
-	// TODO
-	public boolean hasToInform() throws Exception {
+
+	@Override
+	public String getName() {
+		return "Dispensa";
+	}
+
+	public boolean hasToInform(){
 		boolean hasToInform = false;
+		if(supplyingDetails != null) {
+			for (SupplyingDetail supplyingDetail : this.getSupplyingDetails()) {
+				if (supplyingDetail.getProduct().isInformAnmat()
+						&& ("PS".equals(supplyingDetail.getProduct().getType()) || "SS".equals(supplyingDetail.getProduct().getType()))) {
+					hasToInform = true;
+				}
+			}
+		}
 		return hasToInform;
+	}
+
+	public boolean hasToInformANMAT(){
+		return this.hasToInform() && this.getAgreement().getDeliveryNoteConcept().isInformAnmat();
 	}
 
 	public boolean hasProductThatInform() throws Exception {

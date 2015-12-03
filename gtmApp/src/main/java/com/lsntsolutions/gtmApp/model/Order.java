@@ -76,12 +76,14 @@ public class Order implements Serializable, Egress {
 		this.cancelled = cancelled;
 	}
 
-	public boolean hasToInform() throws Exception {
+	public boolean hasToInform() {
 		boolean hasToInform = false;
-		for (OrderDetail orderDetail : this.getOrderDetails()) {
-			if (orderDetail.getProduct().isInformAnmat()
-					&& ("PS".equals(orderDetail.getProduct().getType()) || "SS".equals(orderDetail.getProduct().getType()))) {
-				hasToInform = true;
+		if(orderDetails != null) {
+			for (OrderDetail orderDetail : this.getOrderDetails()) {
+				if (orderDetail.getProduct().isInformAnmat()
+						&& ("PS".equals(orderDetail.getProduct().getType()) || "SS".equals(orderDetail.getProduct().getType()))) {
+					hasToInform = true;
+				}
 			}
 		}
 		return hasToInform;
@@ -89,19 +91,21 @@ public class Order implements Serializable, Egress {
 
 	public Map<Product, Integer> getProducts(boolean cold) {
 		Map<Product, Integer> products = new HashMap<Product, Integer>();
-		boolean found = false;
-		for (OrderDetail orderDetail : this.getOrderDetails()) {
-			if (cold == orderDetail.getProduct().isCold()) {
-				found = false;
-				for (Product product : products.keySet()) {
-					if (product.equals(orderDetail.getProduct())) {
-						Integer amount = products.get(product) + orderDetail.getAmount();
-						products.put(product, amount);
-						found = true;
+		boolean found;
+		if(orderDetails != null) {
+			for (OrderDetail orderDetail : this.getOrderDetails()) {
+				if (cold == orderDetail.getProduct().isCold()) {
+					found = false;
+					for (Product product : products.keySet()) {
+						if (product.equals(orderDetail.getProduct())) {
+							Integer amount = products.get(product) + orderDetail.getAmount();
+							products.put(product, amount);
+							found = true;
+						}
 					}
-				}
-				if (!found) {
-					products.put(orderDetail.getProduct(), orderDetail.getAmount());
+					if (!found) {
+						products.put(orderDetail.getProduct(), orderDetail.getAmount());
+					}
 				}
 			}
 		}
@@ -121,5 +125,15 @@ public class Order implements Serializable, Egress {
 	@Override
 	public List getDetails() {
 		return this.getOrderDetails();
+	}
+
+	@Override
+	public String getName() {
+		return "Armado";
+	}
+
+	@Override
+	public boolean hasToInformANMAT() {
+		return this.hasToInform() && this.getProvisioningRequest().getAgreement().getDeliveryNoteConcept().isInformAnmat();
 	}
 }
