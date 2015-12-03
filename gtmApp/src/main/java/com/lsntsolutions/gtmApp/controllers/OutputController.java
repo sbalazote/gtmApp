@@ -4,7 +4,7 @@ import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.OutputDTO;
 import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
-import com.lsntsolutions.gtmApp.helper.impl.printer.OutputDeliveryNoteSheetPrinter;
+import com.lsntsolutions.gtmApp.helper.DeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.helper.impl.printer.OutputFakeDeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.model.Concept;
 import com.lsntsolutions.gtmApp.model.DeliveryNote;
@@ -40,7 +40,7 @@ public class OutputController {
 	@Autowired
 	private AuditService auditService;
 	@Autowired
-	private OutputDeliveryNoteSheetPrinter outputDeliveryNoteSheetPrinter;
+	private DeliveryNoteSheetPrinter deliveryNoteSheetPrinter;
 	@Autowired
 	private DeliveryNoteService deliveryNoteService;
 	@Autowired
@@ -77,7 +77,7 @@ public class OutputController {
 		if (output.getConcept().isPrintDeliveryNote()) {
 			List<Integer> outputs = new ArrayList<Integer>();
 			outputs.add(output.getId());
-			this.outputDeliveryNoteSheetPrinter.print(auth.getName(), outputs, printerResultDTO);
+			this.deliveryNoteSheetPrinter.print(auth.getName(), outputs, printerResultDTO,false,true,false);
 		} else {
 			Integer deliveryNote = this.outputFakeDeliveryNoteSheetPrinter.print(output);
 			this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote);

@@ -21,7 +21,7 @@ import com.lsntsolutions.gtmApp.util.StringUtility;
 @Service
 public class OutputFakeDeliveryNoteSheetPrinter {
 
-	private static final Logger logger = Logger.getLogger(OutputDeliveryNoteSheetPrinter.class);
+	private static final Logger logger = Logger.getLogger(OutputFakeDeliveryNoteSheetPrinter.class);
 
 	@Autowired
 	private DeliveryNoteService deliveryNoteService;

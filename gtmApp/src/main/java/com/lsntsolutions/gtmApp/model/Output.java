@@ -18,7 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "output")
-public class Output implements Serializable {
+public class Output implements Serializable, Egress {
 
 	private static final long serialVersionUID = 1L;
 
@@ -99,6 +99,11 @@ public class Output implements Serializable {
 
 	public Date getDate() {
 		return this.date;
+	}
+
+	@Override
+	public List getDetails() {
+		return this.getOutputDetails();
 	}
 
 	public void setDate(Date date) {

@@ -3,7 +3,7 @@ package com.lsntsolutions.gtmApp.controllers;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.DeliveryNoteResultDTO;
 import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
-import com.lsntsolutions.gtmApp.helper.impl.printer.OrderDeliveryNoteSheetPrinter;
+import com.lsntsolutions.gtmApp.helper.DeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import com.lsntsolutions.gtmApp.model.Order;
 import com.lsntsolutions.gtmApp.model.ProvisioningRequest;
@@ -34,7 +34,7 @@ public class DeliveryNoteController {
 	@Autowired
 	private ProvisioningRequestStateService provisioningRequestStateService;
 	@Autowired
-	private OrderDeliveryNoteSheetPrinter orderDeliveryNoteSheetPrinter;
+	private DeliveryNoteSheetPrinter deliveryNoteSheetPrinter;
 	@Autowired
 	private AgreementService agreementService;
 	@Autowired
@@ -57,7 +57,7 @@ public class DeliveryNoteController {
 		ordersToPrint.addAll(hs);
 		PrinterResultDTO printerResultDTO = new PrinterResultDTO();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		this.orderDeliveryNoteSheetPrinter.print(auth.getName(), ordersToPrint, printerResultDTO);
+		this.deliveryNoteSheetPrinter.print(auth.getName(), ordersToPrint, printerResultDTO,false,false,true);
 		return printerResultDTO;
 	}
 

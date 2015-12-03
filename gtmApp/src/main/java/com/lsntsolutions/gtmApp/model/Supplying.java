@@ -18,7 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "supplying")
-public class Supplying implements Serializable {
+public class Supplying implements Serializable, Egress {
 
 	private static final long serialVersionUID = 1L;
 
@@ -109,6 +109,9 @@ public class Supplying implements Serializable {
 		this.supplyingDetails = supplyingDetails;
 	}
 
+	public List getDetails(){
+		return this.getSupplyingDetails();
+	}
 	// TODO
 	public boolean hasToInform() throws Exception {
 		boolean hasToInform = false;

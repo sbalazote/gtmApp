@@ -5,7 +5,7 @@ import com.lsntsolutions.gtmApp.constant.DocumentType;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.dto.SupplyingDTO;
-import com.lsntsolutions.gtmApp.helper.impl.printer.SupplyingDeliveryNoteSheetPrinter;
+import com.lsntsolutions.gtmApp.helper.DeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.helper.impl.printer.SupplyingFakeDeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import com.lsntsolutions.gtmApp.model.Supplying;
@@ -39,7 +39,7 @@ public class SupplyingController {
 	@Autowired
 	private SupplyingFakeDeliveryNoteSheetPrinter supplyingFakeDeliveryNoteSheetPrinter;
 	@Autowired
-	private SupplyingDeliveryNoteSheetPrinter supplyingDeliveryNoteSheetPrinter;
+	private DeliveryNoteSheetPrinter deliveryNoteSheetPrinter;
 	@Autowired
 	private PropertyService propertyService;
 
@@ -67,7 +67,7 @@ public class SupplyingController {
 			if (this.propertyService.get().getSupplyingConcept().isPrintDeliveryNote()) {
 				List<Integer> supplyings = new ArrayList<>();
 				supplyings.add(supplying.getId());
-				this.supplyingDeliveryNoteSheetPrinter.print(auth.getName(), supplyings, printerResultDTO);
+				this.deliveryNoteSheetPrinter.print(auth.getName(), supplyings, printerResultDTO,true,false,false);
 			} else {
 				Integer deliveryNote = this.supplyingFakeDeliveryNoteSheetPrinter.print(supplying);
 				this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote);

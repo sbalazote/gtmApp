@@ -3,6 +3,7 @@ package com.lsntsolutions.gtmApp.model;
 import com.lsntsolutions.gtmApp.util.StringUtility;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "`order`")
-public class Order implements Serializable {
+public class Order implements Serializable, Egress {
 
 	private static final long serialVersionUID = 1L;
 
@@ -105,5 +106,20 @@ public class Order implements Serializable {
 			}
 		}
 		return products;
+	}
+
+	@Override
+	public Agreement getAgreement() {
+		return this.getProvisioningRequest().getAgreement();
+	}
+
+	@Override
+	public Date getDate() {
+		return null;
+	}
+
+	@Override
+	public List getDetails() {
+		return this.getOrderDetails();
 	}
 }
