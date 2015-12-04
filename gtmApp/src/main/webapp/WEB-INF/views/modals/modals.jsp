@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <div class="modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="batchExpirationDatesModalLabel" id="batchExpirationDatesModal">
-  <div class="modal-dialog" style="width: 60%">
+  <div class="modal-dialog" style="width: 80%">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -44,7 +44,7 @@
 </div>
 
 <div class="modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="serialsModalLabel" id="serialsModal">
-  <div class="modal-dialog" style="width: 60%">
+  <div class="modal-dialog" style="width: 80%">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
