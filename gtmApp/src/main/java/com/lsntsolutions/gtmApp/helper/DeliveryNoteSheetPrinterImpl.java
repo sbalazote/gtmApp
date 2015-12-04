@@ -83,11 +83,11 @@ public class DeliveryNoteSheetPrinterImpl extends DeliveryNoteSheetPrinter{
             }
 
             // agrupo lista de productos por id de producto + lote.
-            TreeMap<String, List<? extends Detail>> orderMap = groupByProductAndBatch(egress.getDetails());
+            TreeMap<String, List<? extends Detail>> productMap = groupByProductAndBatch(egress.getDetails());
 
             TreeMap<String, Integer> productsCount = countByProduct(egress.getDetails());
             // calculo cuantas lineas de detalles de productos voy a necesitar.
-            int numberOfLinesNeeded = numberOfLinesNeeded(orderMap);
+            int numberOfLinesNeeded = numberOfLinesNeeded(productMap);
             // calculo cuantos remitos voy a necesitar en base a la cantidad de detalles de productos.
             int deliveryNoteNumbersRequired = (int)Math.ceil((float)numberOfLinesNeeded / numberOfDeliveryNoteDetailsPerPage);
 
@@ -109,7 +109,7 @@ public class DeliveryNoteSheetPrinterImpl extends DeliveryNoteSheetPrinter{
             overContent = writer.getDirectContent();
             overContent.setLeading(0f);
 
-            printHeader(deliveryNoteNumber,egress);
+            printHeader(deliveryNoteNumber, egress);
 
             deliveryNote = new DeliveryNote();
             deliveryNoteComplete = POS + "-" + StringUtility.addLeadingZeros(deliveryNoteNumber, 8);
@@ -126,19 +126,14 @@ public class DeliveryNoteSheetPrinterImpl extends DeliveryNoteSheetPrinter{
             // id de producto en la iteracion anterior.
             String previousProductId = "";
             // recorro el mapa de detalle de productos a imprimir.
-            for (Map.Entry<String, List<? extends Detail>> entry : orderMap.entrySet()) {
+            for (Map.Entry<String, List<? extends Detail>> entry : productMap.entrySet()) {
                 String key = entry.getKey();
                 List<? extends Detail> details = entry.getValue();
                 String[] parts = key.split(",");
                 String currentProductId = parts[0];
                 String productType = details.get(0).getProduct().getType();
 
-                // si ya esta lleno el remito, sigo en uno nuevo
-                if (currentLine >= (numberOfDeliveryNoteDetailsPerPage-1)) {
-                    savePage(egress);
-                    newPage(egress);
-                    currentLine = 0;
-                }
+                currentLine = checkNewPage(egress, numberOfDeliveryNoteDetailsPerPage, currentLine);
 
                 String description = details.get(0).getProduct().getDescription();
                 String monodrug = details.get(0).getProduct().getMonodrug().getDescription();
@@ -152,17 +147,17 @@ public class DeliveryNoteSheetPrinterImpl extends DeliveryNoteSheetPrinter{
                     printProductDetailHeader(description, monodrug, brand, productsCount.get(currentProductId));
                     currentLine++;
                 }
+                currentLine = checkNewPage(egress, numberOfDeliveryNoteDetailsPerPage, currentLine);
                 printProductBatchExpirationDateHeader(batch, expirationDate, batchAmount);
-
                 // si es de tipo lote/ vto ocupa 1 (una) sola linea.
+                currentLine++;
                 DeliveryNoteDetail deliveryNoteDetail;
                 if (productType.equals("BE")) {
 
                     deliveryNoteDetail = new DeliveryNoteDetail();
-                    setDeliveryNoteDetail(details.get(0),deliveryNoteDetail);
+                    setDeliveryNoteDetail(details.get(0), deliveryNoteDetail);
                     deliveryNoteDetails.add(deliveryNoteDetail);
 
-                    currentLine++;
                     // si es de tipo trazado ocupa 1 (una) sola linea por cada cuatro series.
                 } else {
                     List<Detail> detailAux = new ArrayList<>();
@@ -183,6 +178,7 @@ public class DeliveryNoteSheetPrinterImpl extends DeliveryNoteSheetPrinter{
                             currentLine++;
                             serialIdx = 0;
                             detailAux = new ArrayList<>();
+                            currentLine = checkNewPage(egress,numberOfDeliveryNoteDetailsPerPage,currentLine);
                         }
                     }
                 }
@@ -205,6 +201,16 @@ public class DeliveryNoteSheetPrinterImpl extends DeliveryNoteSheetPrinter{
             }
         }
         printerResultDTO.setDeliveryNoteNumbers(printsNumbers);
+    }
+
+    private int checkNewPage(Egress egress, Integer numberOfDeliveryNoteDetailsPerPage, int currentLine) {
+        // si ya esta lleno el remito, sigo en uno nuevo
+        if (currentLine >= (numberOfDeliveryNoteDetailsPerPage-1)) {
+            savePage(egress);
+            newPage(egress);
+            currentLine = 0;
+        }
+        return currentLine;
     }
 
     private Egress getEgress(Integer id, boolean printSupplyings, boolean printOutputs, boolean printOrders) {
