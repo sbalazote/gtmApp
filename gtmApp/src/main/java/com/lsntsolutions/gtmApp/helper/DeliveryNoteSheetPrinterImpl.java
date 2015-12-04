@@ -132,9 +132,10 @@ public class DeliveryNoteSheetPrinterImpl extends DeliveryNoteSheetPrinter{
                 String productType = details.get(0).getProduct().getType();
 
                 // si ya esta lleno el remito, sigo en uno nuevo
-                if (currentLine == numberOfDeliveryNoteDetailsPerPage) {
+                if (currentLine >= (numberOfDeliveryNoteDetailsPerPage-1)) {
                     savePage(egress);
                     newPage(egress);
+                    currentLine = 0;
                 }
 
                 String description = details.get(0).getProduct().getDescription();
@@ -147,6 +148,7 @@ public class DeliveryNoteSheetPrinterImpl extends DeliveryNoteSheetPrinter{
                 if (!currentProductId.equals(previousProductId)) {
                     totalItems++;
                     printProductDetailHeader(description, monodrug, brand, getProductTotalAmount(Integer.parseInt(currentProductId),details));
+                    currentLine++;
                 }
                 printProductBatchExpirationDateHeader(batch, expirationDate, batchAmount);
 

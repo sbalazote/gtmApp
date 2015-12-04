@@ -24,9 +24,9 @@ public abstract class DeliveryNoteSheetPrinter {
 	public BaseFont bf;
 	public Map<String, Float> dnConfigMap;
 	public boolean printHeader;
-	int PRODUCT_DETAIL_HEADER_LINE_OFFSET_Y = 15;
+	int PRODUCT_DETAIL_HEADER_LINE_OFFSET_Y = 10;
 	int SERIAL_DETAIL_LINE_OFFSET_Y = 10;
-	int PRODUCT_BATCH_EXPIRATIONDATE_HEADER_LINE_OFFSET_Y = 15;
+	int PRODUCT_BATCH_EXPIRATIONDATE_HEADER_LINE_OFFSET_Y = 10;
 
 	public TreeMap<String, List<? extends Detail>> groupByProductAndBatch(List<?extends Detail> details) {
 		TreeMap<String, List<? extends Detail>> detailsMap = new TreeMap<>();
