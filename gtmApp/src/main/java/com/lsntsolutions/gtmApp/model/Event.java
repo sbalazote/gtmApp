@@ -86,4 +86,9 @@ public class Event implements Serializable {
 		this.active = active;
 	}
 
+	@Override
+	public String toString(){
+		return this.code + " - " + this.description;
+	}
+
 }
