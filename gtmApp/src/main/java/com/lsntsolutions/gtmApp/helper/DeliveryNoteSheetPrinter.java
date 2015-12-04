@@ -68,6 +68,7 @@ public abstract class DeliveryNoteSheetPrinter {
 		int numberOfLines = 0;
 
 		for(List<? extends Detail> outputDetail: orderMap.values()){
+			numberOfLines += 1;
 			String type = outputDetail.get(0).getProduct().getType();
 			if (type.compareTo("BE") == 0) {
 				numberOfLines += outputDetail.size();
