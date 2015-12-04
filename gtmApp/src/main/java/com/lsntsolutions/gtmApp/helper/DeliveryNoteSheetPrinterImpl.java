@@ -302,7 +302,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
             // calculo cuantos remitos voy a necesitar en base a la cantidad de detalles de productos.
             int deliveryNoteNumbersRequired = (int)Math.ceil((float)numberOfLinesNeeded / numberOfDeliveryNoteDetailsPerPage);
 
-            deliveryNoteConcept = this.conceptService.getAndUpdateDeliveryNote(egress.getAgreement().getDeliveryNoteConcept().getId(), deliveryNoteNumbersRequired);
+            deliveryNoteConcept = getConcept(egress,deliveryNoteNumbersRequired);
 
             POS = StringUtility.addLeadingZeros(deliveryNoteConcept.getDeliveryNoteEnumerator().getDeliveryNotePOS(), 4);
             deliveryNoteNumber = deliveryNoteConcept.getDeliveryNoteEnumerator().getDeliveryNoteNumber() - deliveryNoteNumbersRequired;
@@ -412,6 +412,21 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
             }
         }
         printerResultDTO.setDeliveryNoteNumbers(printsNumbers);
+    }
+
+    public Concept getConcept(Egress egress, Integer deliveryNoteNumbersRequired) {
+        if(egress.getClass().equals(Output.class)){
+            Integer conceptId = ((Output)egress).getConcept().getId();
+            return this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
+        }
+        if(egress.getClass().equals(Supplying.class)){
+            return this.conceptService.getAndUpdateDeliveryNote(property.getSupplyingConcept().getId(), deliveryNoteNumbersRequired);
+        }
+        if(egress.getClass().equals(Order.class)) {
+            Integer conceptId = egress.getAgreement().getDeliveryNoteConcept().getId();
+            return this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
+        }
+        return null;
     }
 
     private int checkNewPage(Egress egress, Integer numberOfDeliveryNoteDetailsPerPage, int currentLine) {
