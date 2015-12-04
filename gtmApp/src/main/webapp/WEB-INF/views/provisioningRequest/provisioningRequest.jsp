@@ -79,9 +79,9 @@
 			<label for="deliveryLocationInput"><spring:message code="common.deliveryLocation" /></label>
 			<select id="deliveryLocationInput" name="deliveryLocation" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 				<option value=""></option>
-				<c:forEach items="${deliveryLocations}" var="deliveryLocation">
+				<%--<c:forEach items="${deliveryLocations}" var="deliveryLocation">
 					<option value="${deliveryLocation.id}" ${deliveryLocationId == deliveryLocation.id ? 'selected' : ''}><c:out value="${deliveryLocation.code}"></c:out> - <c:out value="${deliveryLocation.name}"></c:out></option>
-				</c:forEach>
+				</c:forEach>--%>
 			</select>
 		</div>
 	</div>

@@ -154,6 +154,17 @@ public class ClientAdministrationController {
 		return this.clientService.exists(code);
 	}
 
+	@RequestMapping(value = "/getDeliveryLocationsByClient", method = RequestMethod.GET)
+	public @ResponseBody
+	List<DeliveryLocation> getDeliveryLocationsByClient(@RequestParam Integer clientId) throws Exception {
+		Client client = this.clientService.get(clientId);
+		List<DeliveryLocation> deliveryLocations = new ArrayList<>();
+		if(client != null) {
+			deliveryLocations = this.clientService.get(clientId).getDeliveryLocations();
+		}
+		return deliveryLocations;
+	}
+
 	@RequestMapping(value = "/getMatchedClients", method = RequestMethod.POST)
 	public @ResponseBody
 	String getMatchedClients(@RequestParam Map<String, String> parametersMap) throws JSONException {

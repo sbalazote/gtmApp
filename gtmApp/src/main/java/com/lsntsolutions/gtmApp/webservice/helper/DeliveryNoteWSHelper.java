@@ -48,7 +48,9 @@ public class DeliveryNoteWSHelper {
 		if (supplying != null) {
 			isInformAnmat = this.PropertyService.get().getSupplyingConcept().isInformAnmat();
 		}
-		String eventId = this.getEvent(output, order, deliveryNote.isFake(), supplying);
+		String eventId = this.getEvent(output, order, supplying);
+
+		logger.error("Se procede a informar");
 
 		if (isInformAnmat) {
 			if (eventId != null) {
@@ -71,6 +73,7 @@ public class DeliveryNoteWSHelper {
 					conceptDescription = order.getProvisioningRequest().getAgreement().getDeliveryNoteConcept().getDescription();
 				}
 				if (supplying != null) {
+					code = this.PropertyService.get().getSupplyingConcept().getCode();
 					conceptDescription = this.PropertyService.get().getSupplyingConcept().getDescription();
 				}
 				String error = "No ha podido obtenerse el evento a informar dado el concepto y el cliente/provedor seleccionados (Concepto: '" + code + " - "
@@ -156,23 +159,14 @@ public class DeliveryNoteWSHelper {
 		return null;
 	}
 
-	public String getEvent(Output output, Order order, boolean isFake, Supplying supplying) {
+	public String getEvent(Output output, Order order, Supplying supplying) {
 		String eventId = null;
 		if (output != null) {
-			if (isFake) {
-				if (output.getDeliveryLocation() != null) {
-					eventId = output.getConcept().getEventOnOutput(output.getDeliveryLocation().getAgent().getId());
-				}
-				if (output.getProvider() != null) {
-					eventId = output.getConcept().getEventOnOutput(output.getProvider().getAgent().getId());
-				}
-			} else {
-				if (output.getDeliveryLocation() != null) {
-					eventId = output.getAgreement().getDeliveryNoteConcept().getEventOnOutput(output.getDeliveryLocation().getAgent().getId());
-				}
-				if (output.getProvider() != null) {
-					eventId = output.getAgreement().getDeliveryNoteConcept().getEventOnOutput(output.getProvider().getAgent().getId());
-				}
+			if (output.getDeliveryLocation() != null) {
+				eventId = output.getConcept().getEventOnOutput(output.getDeliveryLocation().getAgent().getId());
+			}
+			if (output.getProvider() != null) {
+				eventId = output.getConcept().getEventOnOutput(output.getProvider().getAgent().getId());
 			}
 		}
 		if (order != null) {
@@ -180,6 +174,7 @@ public class DeliveryNoteWSHelper {
 					.getEventOnOutput(order.getProvisioningRequest().getDeliveryLocation().getAgent().getId());
 		}
 		if (supplying != null) {
+			logger.error("Lista de eventos asociados a la dispensa: " + this.PropertyService.get().getSupplyingConcept().getEvents() );
 			if (this.PropertyService.get().getSupplyingConcept().getEvents().size() > 0) {
 				eventId = this.PropertyService.get().getSupplyingConcept().getEvents().get(0).getCode().toString();
 			}

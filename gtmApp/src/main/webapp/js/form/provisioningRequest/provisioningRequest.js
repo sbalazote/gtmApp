@@ -568,10 +568,33 @@ var ProvisioningRequest = function() {
 			$("#affiliateInput").select2("enable", false);
 		} else {
 			$("#affiliateInput").select2("enable", true);
+			getDeliveryLocations($("#clientInput").val());
 		}
 		$("#affiliateInput").select2("val", "");
 	});
-	
+
+	var getDeliveryLocations = function(clientId) {
+		$.ajax({
+			url : "getDeliveryLocationsByClient.do",
+			type : "GET",
+			data : {
+				"clientId" : clientId
+			},
+			async : true,
+			success : function(response) {
+				$('#deliveryLocationInput').empty();
+				for(var i = response.length-1; i >= 0 ; i--){
+					$('#deliveryLocationInput').append('<option value='+ response[i].id + '>' + response[i].code + " - " + response[i].name +'</option>');
+				}
+				$('#deliveryLocationInput').trigger('chosen:updated');
+			},
+			error : function(jqXHR, textStatus,
+							 errorThrown) {
+				myGenericError("addAffiliateModalAlertDiv");
+			}
+		});
+	};
+
 	$('#agreementInput').on('change', function(evt, params) {
 		if($("#agreementInput").val() == ""){
 			$("#productInput").attr("disabled", true);
@@ -591,6 +614,7 @@ var ProvisioningRequest = function() {
 			productDetails.push(productDetail);
 		});
         $("#affiliateInput").select2("enable", true);
+		getDeliveryLocations($('#clientInput').val());
 	}else{
 		$("#affiliateInput").select2("enable", false);
 	}
