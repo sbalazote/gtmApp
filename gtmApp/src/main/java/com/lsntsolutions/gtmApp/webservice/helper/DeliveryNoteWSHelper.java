@@ -63,7 +63,6 @@ public class DeliveryNoteWSHelper {
 				Integer code = null;
 				String conceptDescription = "";
 				if (output != null) {
-					// TODO esto esta mal, aca se tiene que mostrar del concepto que correpsonda, el del convenio o el del egreso.
 					clientOrProvider = output.getClientOrProviderDescription();
 					clientOrProviderAgent = output.getClientOrProviderAgentDescription();
 					conceptDescription = output.getConcept().getDescription();
