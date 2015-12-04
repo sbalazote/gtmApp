@@ -47,6 +47,8 @@ public class DeliveryNoteWSHelper {
 		}
 		if (supplying != null) {
 			isInformAnmat = this.PropertyService.get().getSupplyingConcept().isInformAnmat();
+		}else{
+			logger.error("No encontro la dispensa.");
 		}
 		String eventId = this.getEvent(output, order, supplying);
 

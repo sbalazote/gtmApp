@@ -10,6 +10,8 @@ import com.lsntsolutions.gtmApp.service.OrderService;
 import com.lsntsolutions.gtmApp.service.OutputService;
 import com.lsntsolutions.gtmApp.service.SupplyingService;
 import com.lsntsolutions.gtmApp.util.StringUtility;
+import com.lsntsolutions.gtmApp.webservice.WebServiceHelper;
+import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
@@ -21,6 +23,8 @@ import java.util.*;
 
 @Repository
 public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
+
+	private static final Logger logger = Logger.getLogger(DeliveryNoteDAOHibernateImpl.class);
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -536,24 +540,24 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 	}
 
 	@Override
-	public DeliveryNote getDeliveryNoteFromNumber(String deliveryNoteNumber) {
+	public Supplying getSupplying(DeliveryNote deliveryNote) {
 		try {
-			Query query = this.sessionFactory.getCurrentSession().createQuery("from DeliveryNote where number = :deliveryNoteNumber");
-			query.setParameter("deliveryNoteNumber", deliveryNoteNumber);
-			return (DeliveryNote) query.list().get(0);
+			String sentence = "select s.id from supplying_detail as sd, delivery_note_detail as dnd, delivery_note as dn, supplying as s where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and sd.supplying_id = s.id and dnd.delivery_note_id = "
+					+ deliveryNote.getId();
+			logger.error("busca la dispensa con la query: " + sentence);
+			Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+			return this.supplyingService.get((Integer) (query.list().get(0)));
 		} catch (IndexOutOfBoundsException e) {
 			return null;
 		}
 	}
 
 	@Override
-	public Supplying getSupplying(DeliveryNote deliveryNote) {
+	public DeliveryNote getDeliveryNoteFromNumber(String deliveryNoteNumber) {
 		try {
-			String sentence = "select distinct s.id from supplying_detail as sd, delivery_note_detail as dnd, delivery_note as dn, supplying as s where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and sd.supplying_id = s.id and dnd.delivery_note_id = "
-					+ deliveryNote.getId();
-
-			Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
-			return this.supplyingService.get((Integer) (query.list().get(0)));
+			Query query = this.sessionFactory.getCurrentSession().createQuery("from DeliveryNote where number = :deliveryNoteNumber");
+			query.setParameter("deliveryNoteNumber", deliveryNoteNumber);
+			return (DeliveryNote) query.list().get(0);
 		} catch (IndexOutOfBoundsException e) {
 			return null;
 		}
