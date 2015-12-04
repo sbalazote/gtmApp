@@ -84,6 +84,8 @@ public class DeliveryNoteSheetPrinterImpl extends DeliveryNoteSheetPrinter{
 
             // agrupo lista de productos por id de producto + lote.
             TreeMap<String, List<? extends Detail>> orderMap = groupByProductAndBatch(egress.getDetails());
+
+            TreeMap<String, Integer> productsCount = countByProduct(egress.getDetails());
             // calculo cuantas lineas de detalles de productos voy a necesitar.
             int numberOfLinesNeeded = numberOfLinesNeeded(orderMap);
             // calculo cuantos remitos voy a necesitar en base a la cantidad de detalles de productos.
@@ -147,7 +149,7 @@ public class DeliveryNoteSheetPrinterImpl extends DeliveryNoteSheetPrinter{
                 String batchAmount = Integer.toString(productType.equals("BE") ? totalAmount : details.size());
                 if (!currentProductId.equals(previousProductId)) {
                     totalItems++;
-                    printProductDetailHeader(description, monodrug, brand, getProductTotalAmount(Integer.parseInt(currentProductId),details));
+                    printProductDetailHeader(description, monodrug, brand, productsCount.get(currentProductId));
                     currentLine++;
                 }
                 printProductBatchExpirationDateHeader(batch, expirationDate, batchAmount);

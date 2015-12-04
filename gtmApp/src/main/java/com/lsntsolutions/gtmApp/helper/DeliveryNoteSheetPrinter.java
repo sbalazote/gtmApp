@@ -47,6 +47,23 @@ public abstract class DeliveryNoteSheetPrinter {
 		return detailsMap;
 	}
 
+	public TreeMap<String, Integer> countByProduct(List<?extends Detail> details) {
+		TreeMap<String, Integer> detailsMap = new TreeMap<>();
+
+		for(Detail detail : details){
+			String id = Integer.toString(detail.getProduct().getId());
+
+			Integer amount = detailsMap.get(id);
+			if(amount == null) {
+				amount = new Integer(0);
+			}
+			amount += detail.getAmount();
+			detailsMap.put(id, amount);
+		}
+
+		return detailsMap;
+	}
+
 	public int numberOfLinesNeeded(TreeMap<String, List<? extends Detail>> orderMap) {
 		int numberOfLines = 0;
 
