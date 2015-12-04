@@ -115,6 +115,9 @@ SearchBatchExpirateDateProduct = function() {
                         }
 
                         if(response.outputs != null){
+                            if(response.outputs.length > 0){
+                                $('#divMovements').show();
+                            }
                             for (var i = 0, l = response.outputs.length; i < l; ++i) {
                                 var audit = {
                                     id: 0,
@@ -133,6 +136,9 @@ SearchBatchExpirateDateProduct = function() {
                         }
 
                         if(response.orders != null){
+                            if(response.orders.length > 0){
+                                $('#divMovements').show();
+                            }
                             for (var i = 0, l = response.orders.length; i < l; ++i) {
                                 var audit = {
                                     id: 0,
@@ -151,6 +157,9 @@ SearchBatchExpirateDateProduct = function() {
                         }
 
                         if(response.deliveryNotes != null){
+                            if(response.deliveryNotes.length > 0){
+                                $('#divMovements').show();
+                            }
                             for (var i = 0, l = response.deliveryNotes.length; i < l; ++i) {
                                 var audit = {
                                     id: 0,
@@ -169,6 +178,9 @@ SearchBatchExpirateDateProduct = function() {
                         }
 
                         if(response.supplyings != null){
+                            if(response.supplyings.length > 0){
+                                $('#divMovements').show();
+                            }
                             for (var i = 0, l = response.supplyings.length; i < l; ++i) {
                                 var audit = {
                                     id: 0,
@@ -188,9 +200,9 @@ SearchBatchExpirateDateProduct = function() {
                         $("#movementsTable").bootgrid({
                             caseSensitive: false
                         });
-                        $("#movementsTable").bootgrid().bootgrid("clear");
-                        $("#movementsTable").bootgrid().bootgrid("append", aaData);
-                        $("#movementsTable").bootgrid().bootgrid("search", $(".search-field").val());
+                        $("#movementsTable").bootgrid("clear");
+                        $("#movementsTable").bootgrid("append", aaData);
+                        $("#movementsTable").bootgrid("search", $(".search-field").val());
 
                         var params = '&productId=' + productId +
                             '&batch=' + $("#batchSearch").val() +
