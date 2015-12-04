@@ -53,7 +53,9 @@ public class DeliveryNoteWSHelper {
 		logger.error("Se procede a informar");
 
 		if (isInformAnmat) {
+			logger.error("Informa a ANMAT a informar");
 			if (eventId != null) {
+				logger.error("El evento  a ANMAT a informar");
 				webServiceResult = this.sendDrugs(deliveryNote, order, output, medicines, errors, eventId, supplying);
 			} else {
 				String clientOrProvider = "";
@@ -161,6 +163,7 @@ public class DeliveryNoteWSHelper {
 
 	public String getEvent(Output output, Order order, Supplying supplying) {
 		String eventId = null;
+		logger.error("A punto de obtener el evento");
 		if (output != null) {
 			if (output.getDeliveryLocation() != null) {
 				eventId = output.getConcept().getEventOnOutput(output.getDeliveryLocation().getAgent().getId());
