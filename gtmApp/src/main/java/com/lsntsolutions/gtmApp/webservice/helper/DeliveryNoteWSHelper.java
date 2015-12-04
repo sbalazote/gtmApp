@@ -121,7 +121,7 @@ public class DeliveryNoteWSHelper {
 					if(this.propertyService.get().getAgent().getId() == ESTABLECIMIENTO_ASISTENCIAL || this.propertyService.get().getAgent().getId() == FARMACIA){
 						this.webServiceHelper.setDrug(drug, this.propertyService.get().getGln(), null, this.propertyService.get().getTaxId(), null,
 								deliveryNoteFormated, expirationDate, deliveryNoteDetail.getOrderDetail().getGtin().getNumber(), eventId, deliveryNoteDetail
-										.getOrderDetail().getSerialNumber(), deliveryNoteDetail.getOrderDetail().getBatch(), order.getDate(), true,
+										.getOrderDetail().getSerialNumber(), deliveryNoteDetail.getOrderDetail().getBatch(), deliveryNote.getDate(), true,
 								order.getProvisioningRequest().getAffiliate().getSurname(), order.getProvisioningRequest().getAffiliate().getName(), order.getProvisioningRequest().getAffiliate().getCode(), order.getProvisioningRequest()
 										.getAffiliate().getDocumentType(), order.getProvisioningRequest().getClient().getMedicalInsuranceCode());
 					}else{

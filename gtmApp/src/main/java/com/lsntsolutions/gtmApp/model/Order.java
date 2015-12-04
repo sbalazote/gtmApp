@@ -106,7 +106,7 @@ public class Order implements Serializable, Egress {
 
 	@Override
 	public Date getDate() {
-		return null;
+		return this.provisioningRequest.getDeliveryDate();
 	}
 
 	@Override
