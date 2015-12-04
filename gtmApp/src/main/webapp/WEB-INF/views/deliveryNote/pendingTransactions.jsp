@@ -36,8 +36,9 @@
 	   	 	<tbody id="deliveryNoteTableBody">
 				<c:forEach items="${orderDeliveryNotes}" var="orderDeliveryNotes">
 					<tr>
+						<c:set var="key" value="${orderDeliveryNotes.key}"/>
 						<td><c:out value="${orderDeliveryNotes.key}"></c:out></td>
-						<td><c:out value="${orderDeliveryNotes.key}"></c:out></td>
+						<td><c:out value="${fn:substring(key, 1, -1)}"></c:out></td>
 						<td><spring:message code="deliveryNote.class.orderAssembly"/></td>
 						<td><c:out value="${orderDeliveryNotes.value}"></c:out></td>
 						<td><spring:message code="common.view"/></td>
@@ -46,8 +47,9 @@
 	
 				<c:forEach items="${outputDeliveryNotes}" var="outputDeliveryNotes">
 					<tr>
+						<c:set var="key" value="${outputDeliveryNotes.key}"/>
 						<td><c:out value="${outputDeliveryNotes.key}"></c:out></td>
-						<td><c:out value="${outputDeliveryNotes.key}"></c:out></td>
+						<td><c:out value="${fn:substring(key, 1, -1)}"></c:out></td>
 						<td><spring:message code="deliveryNote.class.output"/></td>
 						<td><c:out value="${outputDeliveryNotes.value}"></c:out></td>
 						<td><spring:message code="common.view"/></td>
