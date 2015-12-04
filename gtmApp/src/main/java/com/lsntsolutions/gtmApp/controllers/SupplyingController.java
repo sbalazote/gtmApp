@@ -6,7 +6,7 @@ import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.dto.SupplyingDTO;
 import com.lsntsolutions.gtmApp.helper.DeliveryNoteSheetPrinter;
-import com.lsntsolutions.gtmApp.helper.impl.printer.SupplyingFakeDeliveryNoteSheetPrinter;
+import com.lsntsolutions.gtmApp.helper.impl.printer.FakeDeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import com.lsntsolutions.gtmApp.model.Supplying;
 import com.lsntsolutions.gtmApp.query.SupplyingQuery;
@@ -37,7 +37,7 @@ public class SupplyingController {
 	@Autowired
 	private DeliveryNoteService deliveryNoteService;
 	@Autowired
-	private SupplyingFakeDeliveryNoteSheetPrinter supplyingFakeDeliveryNoteSheetPrinter;
+	private FakeDeliveryNoteSheetPrinter fakeDeliveryNoteSheetPrinter;
 	@Autowired
 	private DeliveryNoteSheetPrinter deliveryNoteSheetPrinter;
 	@Autowired
@@ -69,7 +69,7 @@ public class SupplyingController {
 				supplyings.add(supplying.getId());
 				this.deliveryNoteSheetPrinter.print(auth.getName(), supplyings, printerResultDTO,true,false,false);
 			} else {
-				Integer deliveryNote = this.supplyingFakeDeliveryNoteSheetPrinter.print(supplying);
+				Integer deliveryNote = this.fakeDeliveryNoteSheetPrinter.print(supplying);
 				this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote);
 			}
 		}

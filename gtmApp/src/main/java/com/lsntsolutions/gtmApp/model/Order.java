@@ -76,19 +76,6 @@ public class Order implements Serializable, Egress {
 		this.cancelled = cancelled;
 	}
 
-	public boolean hasToInform() {
-		boolean hasToInform = false;
-		if(orderDetails != null) {
-			for (OrderDetail orderDetail : this.getOrderDetails()) {
-				if (orderDetail.getProduct().isInformAnmat()
-						&& ("PS".equals(orderDetail.getProduct().getType()) || "SS".equals(orderDetail.getProduct().getType()))) {
-					hasToInform = true;
-				}
-			}
-		}
-		return hasToInform;
-	}
-
 	public Map<Product, Integer> getProducts(boolean cold) {
 		Map<Product, Integer> products = new HashMap<Product, Integer>();
 		boolean found;
@@ -134,6 +121,15 @@ public class Order implements Serializable, Egress {
 
 	@Override
 	public boolean hasToInformANMAT() {
-		return this.hasToInform() && this.getProvisioningRequest().getAgreement().getDeliveryNoteConcept().isInformAnmat();
+		boolean hasToInform = false;
+		if(orderDetails != null) {
+			for (OrderDetail orderDetail : this.getOrderDetails()) {
+				if (orderDetail.getProduct().isInformAnmat()
+						&& ("PS".equals(orderDetail.getProduct().getType()) || "SS".equals(orderDetail.getProduct().getType()))) {
+					hasToInform = true;
+				}
+			}
+		}
+		return hasToInform;
 	}
 }

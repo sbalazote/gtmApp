@@ -150,15 +150,13 @@ public class Output implements Serializable, Egress {
 
 	@Override
 	public boolean hasToInformANMAT(){
-		return this.hasToInform() && this.getAgreement().getDeliveryNoteConcept().isInformAnmat();
-	}
-
-	public boolean hasProductThatInform() throws Exception {
 		boolean hasToInform = false;
-		for (OutputDetail outputDetail : this.getOutputDetails()) {
-			if (outputDetail.getProduct().isInformAnmat()
-					&& ("PS".equals(outputDetail.getProduct().getType()) || "SS".equals(outputDetail.getProduct().getType()))) {
-				hasToInform = true;
+		if(outputDetails != null) {
+			for (OutputDetail outputDetail : this.getOutputDetails()) {
+				if (outputDetail.getProduct().isInformAnmat()
+						&& ("PS".equals(outputDetail.getProduct().getType()) || "SS".equals(outputDetail.getProduct().getType()))) {
+					hasToInform = true;
+				}
 			}
 		}
 		return hasToInform;

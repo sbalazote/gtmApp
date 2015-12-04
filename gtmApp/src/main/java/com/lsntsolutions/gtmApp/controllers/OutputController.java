@@ -5,7 +5,7 @@ import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.OutputDTO;
 import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.helper.DeliveryNoteSheetPrinter;
-import com.lsntsolutions.gtmApp.helper.impl.printer.OutputFakeDeliveryNoteSheetPrinter;
+import com.lsntsolutions.gtmApp.helper.impl.printer.FakeDeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.model.Concept;
 import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import com.lsntsolutions.gtmApp.model.Output;
@@ -44,7 +44,7 @@ public class OutputController {
 	@Autowired
 	private DeliveryNoteService deliveryNoteService;
 	@Autowired
-	private OutputFakeDeliveryNoteSheetPrinter outputFakeDeliveryNoteSheetPrinter;
+	private FakeDeliveryNoteSheetPrinter fakeDeliveryNoteSheetPrinter;
     @Autowired
     private PropertyService propertyService;
 
@@ -79,7 +79,7 @@ public class OutputController {
 			outputs.add(output.getId());
 			this.deliveryNoteSheetPrinter.print(auth.getName(), outputs, printerResultDTO,false,true,false);
 		} else {
-			Integer deliveryNote = this.outputFakeDeliveryNoteSheetPrinter.print(output);
+			Integer deliveryNote = this.fakeDeliveryNoteSheetPrinter.print(output);
 			this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote);
 		}
 		return printerResultDTO;

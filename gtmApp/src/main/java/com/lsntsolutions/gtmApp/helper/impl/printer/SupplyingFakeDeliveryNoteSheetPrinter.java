@@ -4,23 +4,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.lsntsolutions.gtmApp.model.DeliveryNote;
-import com.lsntsolutions.gtmApp.model.DeliveryNoteDetail;
+import com.lsntsolutions.gtmApp.model.*;
 import com.lsntsolutions.gtmApp.service.ConceptService;
 import com.lsntsolutions.gtmApp.service.PropertyService;
 import com.lsntsolutions.gtmApp.util.StringUtility;
-import com.lsntsolutions.gtmApp.model.SupplyingDetail;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lsntsolutions.gtmApp.model.Concept;
-import com.lsntsolutions.gtmApp.model.Supplying;
 import com.lsntsolutions.gtmApp.service.DeliveryNoteService;
 
 @Service
 public class SupplyingFakeDeliveryNoteSheetPrinter {
-
+/*
 	private static final Logger logger = Logger.getLogger(SupplyingFakeDeliveryNoteSheetPrinter.class);
 
 	@Autowired
@@ -34,7 +30,7 @@ public class SupplyingFakeDeliveryNoteSheetPrinter {
 		Date date = new Date();
 
 		List<SupplyingDetail> supplyingDetails = supplying.getSupplyingDetails();
-		Integer conceptId = this.propertyService.get().getSupplyingConcept().getId();
+
 		Concept concept = this.conceptService.getAndUpdateDeliveryNote(conceptId, 1);
 		Integer deliveryNoteNumber = concept.getDeliveryNoteEnumerator().getDeliveryNoteNumber();
 
@@ -68,4 +64,6 @@ public class SupplyingFakeDeliveryNoteSheetPrinter {
 		}
 		return deliveryNote.getId();
 	}
+
+	*/
 }
