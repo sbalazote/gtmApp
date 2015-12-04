@@ -21,9 +21,12 @@ import com.inssjp.mywebservice.business.WebServiceResult;
 
 public class DeliveryNoteWSHelper {
 	private static final Logger logger = Logger.getLogger(WebServiceHelper.class);
+	//TODO HACER UN enum o algo para esto.
+	public static final int ESTABLECIMIENTO_ASISTENCIAL = 6;
+	public static final int FARMACIA = 7;
 
 	@Autowired
-	private PropertyService PropertyService;
+	private PropertyService propertyService;
 
 	@Autowired
 	private WebServiceHelper webServiceHelper;
@@ -46,7 +49,7 @@ public class DeliveryNoteWSHelper {
 			isInformAnmat = order.getProvisioningRequest().getAgreement().getDeliveryNoteConcept().isInformAnmat();
 		}
 		if (supplying != null) {
-			isInformAnmat = this.PropertyService.get().getSupplyingConcept().isInformAnmat();
+			isInformAnmat = this.propertyService.get().getSupplyingConcept().isInformAnmat();
 		}else{
 			logger.error("No encontro la dispensa.");
 		}
@@ -76,8 +79,8 @@ public class DeliveryNoteWSHelper {
 					conceptDescription = order.getProvisioningRequest().getAgreement().getDeliveryNoteConcept().getDescription();
 				}
 				if (supplying != null) {
-					code = this.PropertyService.get().getSupplyingConcept().getCode();
-					conceptDescription = this.PropertyService.get().getSupplyingConcept().getDescription();
+					code = this.propertyService.get().getSupplyingConcept().getCode();
+					conceptDescription = this.propertyService.get().getSupplyingConcept().getDescription();
 				}
 				String error = "No ha podido obtenerse el evento a informar dado el concepto y el cliente/provedor seleccionados (Concepto: '" + code + " - "
 						+ conceptDescription + "' Cliente/Proveedor '" + clientOrProvider + "' Tipo de Agente: '" + clientOrProviderAgent
@@ -115,8 +118,8 @@ public class DeliveryNoteWSHelper {
 								.getProduct().getType()))) {
 					String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(deliveryNoteDetail.getOrderDetail().getExpirationDate()).toString();
 
-					this.webServiceHelper.setDrug(drug, this.PropertyService.get().getGln(), order.getProvisioningRequest().getDeliveryLocation().getGln(),
-							this.PropertyService.get().getTaxId(), order.getProvisioningRequest().getDeliveryLocation().getTaxId(), deliveryNoteFormated,
+					this.webServiceHelper.setDrug(drug, this.propertyService.get().getGln(), order.getProvisioningRequest().getDeliveryLocation().getGln(),
+							this.propertyService.get().getTaxId(), order.getProvisioningRequest().getDeliveryLocation().getTaxId(), deliveryNoteFormated,
 							expirationDate, deliveryNoteDetail.getOrderDetail().getGtin().getNumber(), eventId, deliveryNoteDetail.getOrderDetail()
 									.getSerialNumber(), deliveryNoteDetail.getOrderDetail().getBatch(), deliveryNote.getDate(), true, null, null, null, null,
 							null);
@@ -129,7 +132,7 @@ public class DeliveryNoteWSHelper {
 								.getProduct().getType()))) {
 					String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(deliveryNoteDetail.getOutputDetail().getExpirationDate()).toString();
 
-					this.webServiceHelper.setDrug(drug, this.PropertyService.get().getGln(), output.getDestinationGln(), this.PropertyService.get().getTaxId(),
+					this.webServiceHelper.setDrug(drug, this.propertyService.get().getGln(), output.getDestinationGln(), this.propertyService.get().getTaxId(),
 							output.getDestinationTax(), deliveryNoteFormated, expirationDate, deliveryNoteDetail.getOutputDetail().getGtin().getNumber(),
 							eventId, deliveryNoteDetail.getOutputDetail().getSerialNumber(), deliveryNoteDetail.getOutputDetail().getBatch(),
 							output.getDate(), true, null, null, null, null, null);
@@ -143,7 +146,7 @@ public class DeliveryNoteWSHelper {
 								.getProduct().getType()))) {
 					String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(deliveryNoteDetail.getSupplyingDetail().getExpirationDate()).toString();
 
-					this.webServiceHelper.setDrug(drug, this.PropertyService.get().getGln(), null, this.PropertyService.get().getTaxId(), null,
+					this.webServiceHelper.setDrug(drug, this.propertyService.get().getGln(), null, this.propertyService.get().getTaxId(), null,
 							deliveryNoteFormated, expirationDate, deliveryNoteDetail.getSupplyingDetail().getGtin().getNumber(), eventId, deliveryNoteDetail
 									.getSupplyingDetail().getSerialNumber(), deliveryNoteDetail.getSupplyingDetail().getBatch(), supplying.getDate(), true,
 							supplying.getAffiliate().getSurname(), supplying.getAffiliate().getName(), supplying.getAffiliate().getCode(), supplying
@@ -155,8 +158,8 @@ public class DeliveryNoteWSHelper {
 
 		if (!medicines.isEmpty()) {
 			logger.info("Iniciando consulta con ANMAT");
-			WebServiceResult result = this.webServiceHelper.run(medicines, this.PropertyService.get().getANMATName(),
-					EncryptionHelper.AESDecrypt(this.PropertyService.get().getANMATPassword()), errors);
+			WebServiceResult result = this.webServiceHelper.run(medicines, this.propertyService.get().getANMATName(),
+					EncryptionHelper.AESDecrypt(this.propertyService.get().getANMATPassword()), errors);
 			return result;
 		}
 		return null;
@@ -174,13 +177,20 @@ public class DeliveryNoteWSHelper {
 			}
 		}
 		if (order != null) {
-			eventId = order.getProvisioningRequest().getAgreement().getDeliveryNoteConcept()
-					.getEventOnOutput(order.getProvisioningRequest().getDeliveryLocation().getAgent().getId());
+			if(this.propertyService.get().getAgent().getId() == ESTABLECIMIENTO_ASISTENCIAL || this.propertyService.get().getAgent().getId() == FARMACIA){
+				if (this.propertyService.get().getSupplyingConcept().getEvents().size() > 0) {
+					eventId = order.getProvisioningRequest().getAgreement().getDeliveryNoteConcept()
+						.getEvents().get(0).getCode().toString();
+				}
+			}else {
+				eventId = order.getProvisioningRequest().getAgreement().getDeliveryNoteConcept()
+						.getEventOnOutput(order.getProvisioningRequest().getDeliveryLocation().getAgent().getId());
+			}
 		}
 		if (supplying != null) {
-			logger.error("Lista de eventos asociados a la dispensa: " + this.PropertyService.get().getSupplyingConcept().getEvents() );
-			if (this.PropertyService.get().getSupplyingConcept().getEvents().size() > 0) {
-				eventId = this.PropertyService.get().getSupplyingConcept().getEvents().get(0).getCode().toString();
+			logger.error("Lista de eventos asociados a la dispensa: " + this.propertyService.get().getSupplyingConcept().getEvents());
+			if (this.propertyService.get().getSupplyingConcept().getEvents().size() > 0) {
+				eventId = this.propertyService.get().getSupplyingConcept().getEvents().get(0).getCode().toString();
 			}
 		}
 		return eventId;
