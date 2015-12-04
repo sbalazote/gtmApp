@@ -35,17 +35,35 @@ DeliveryNoteCancellation = function() {
 			$("#deliveryNoteNumberSearch").val(addLeadingZeros($("#deliveryNoteNumberSearch").val(), 8));
 	});
 
+	var validateForm = function() {
+		var form = $("#deliveryNoteCancellationForm");
+		form.validate({
+			rules: {
+				POSDeliveryNoteNumberSearch: {
+					required: true,
+					digits: true
+				},
+				deliveryNoteNumberSearch: {
+					required: true,
+					digits: true
+				}
+			},
+			showErrors: myShowErrors,
+			onsubmit: false
+		});
+		return form.valid();
+	};
+
 	$("#cleanButton").click(function() {
 		$("#POSDeliveryNoteNumberSearch").val('');
 		$("#deliveryNoteNumberSearch").val('');
 	});
 
 	$("#searchButton").click(function() {
-		var deliveryNoteNumber = "";
-		if($("#POSDeliveryNoteNumberSearch").val() != "" && $("#deliveryNoteNumberSearch").val() != ""){
-			deliveryNoteNumber = $("#POSDeliveryNoteNumberSearch").val() + "-" + $("#deliveryNoteNumberSearch").val();
+		if(validateForm()) {
+			var deliveryNoteNumber = $("#POSDeliveryNoteNumberSearch").val() + "-" + $("#deliveryNoteNumberSearch").val();
+			makeQuery(deliveryNoteNumber);
 		}
-		makeQuery(deliveryNoteNumber);
 	});
 
 	var makeQuery = function(deliveryNoteNumber) {
@@ -69,8 +87,6 @@ DeliveryNoteCancellation = function() {
 				$("#deliveryNoteTable").bootgrid({
 					caseSensitive: false,
 					selection: true,
-					multiSelect: true,
-					rowSelect: true,
 					keepSelection: true
 				}).on("selected.rs.jquery.bootgrid", function(e, rows)
 				{
