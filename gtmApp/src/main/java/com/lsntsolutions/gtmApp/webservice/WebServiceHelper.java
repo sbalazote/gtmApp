@@ -71,8 +71,8 @@ public class WebServiceHelper {
 	}
 
 	public void setDrug(MedicamentosDTO drug, String originGLN, String destinationGLN, String originTax, String destinationTax, String deliveryNote,
-			String expirationDate, String gtin, String eventId, String serialNumber, String batch, Date date, boolean isDeliveryNote, String affiliateSurname,
-			String affiliateName, String document, String documentType, Integer medicalInsuranceCode) {
+						String expirationDate, String gtin, String eventId, String serialNumber, String batch, Date date, boolean isDeliveryNote,
+						String document, Integer medicalInsuranceCode) {
 		String dateFormatted = new SimpleDateFormat("dd/MM/yyyy").format(date).toString();
 		drug.setF_evento(dateFormatted);
 
@@ -90,13 +90,6 @@ public class WebServiceHelper {
 			drug.setCuit_destino(destinationTax);
 			drug.setId_evento(eventId);
 			drug.setGtin(StringUtility.addLeadingZeros(gtin, 14));
-			/* if (affiliateSurname != null) { drug.setApellido(affiliateSurname); } if (affiliateName != null) { drug.setNombres(affiliateName); } */
-			// if (document != null) {
-			// drug.setN_documento(document);
-			// }
-			// if (documentType != null) {
-			// drug.setTipo_documento(documentType);
-			// }
 			if (document != null) {
 				drug.setNro_asociado(document);
 			}
@@ -111,13 +104,6 @@ public class WebServiceHelper {
 			drug.setCuit_destino(Constants.TEST_DESTINATION_TAXID);
 			drug.setId_evento(Constants.TEST_EVENT);
 			drug.setGtin(Constants.TEST_GTIN);
-			/* if (affiliateSurname != null) { drug.setApellido(affiliateSurname); } if (affiliateName != null) { drug.setNombres(affiliateName); } */
-			// if (document != null) {
-			// drug.setN_documento(document);
-			// }
-			// if (documentType != null) {
-			// drug.setTipo_documento("dni");
-			// }
 			if (document != null) {
 				drug.setNro_asociado(document);
 			}

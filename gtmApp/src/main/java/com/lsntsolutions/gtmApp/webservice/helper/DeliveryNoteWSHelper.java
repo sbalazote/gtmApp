@@ -5,15 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lsntsolutions.gtmApp.helper.EncryptionHelper;
-import com.lsntsolutions.gtmApp.model.DeliveryNote;
+import com.lsntsolutions.gtmApp.model.*;
 import com.lsntsolutions.gtmApp.webservice.WebServiceHelper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.lsntsolutions.gtmApp.model.DeliveryNoteDetail;
-import com.lsntsolutions.gtmApp.model.Order;
-import com.lsntsolutions.gtmApp.model.Output;
-import com.lsntsolutions.gtmApp.model.Supplying;
 import com.lsntsolutions.gtmApp.service.PropertyService;
 import com.lsntsolutions.gtmApp.util.OperationResult;
 import com.inssjp.mywebservice.business.MedicamentosDTO;
@@ -113,52 +109,52 @@ public class DeliveryNoteWSHelper {
                 deliveryNoteFormated = "R" + deliveryNoteFormated;
             }
             if (deliveryNoteDetail.getOrderDetail() != null) {
-				if (deliveryNoteDetail.getOrderDetail().getProduct().isInformAnmat()
-						&& ("PS".equals(deliveryNoteDetail.getOrderDetail().getProduct().getType()) || "SS".equals(deliveryNoteDetail.getOrderDetail()
+				OrderDetail orderDetail = deliveryNoteDetail.getOrderDetail();
+				if (orderDetail.getProduct().isInformAnmat()
+						&& ("PS".equals(orderDetail.getProduct().getType()) || "SS".equals(orderDetail
 								.getProduct().getType()))) {
-					String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(deliveryNoteDetail.getOrderDetail().getExpirationDate()).toString();
+					String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(orderDetail.getExpirationDate()).toString();
 
 					if(this.propertyService.get().getAgent().getId() == ESTABLECIMIENTO_ASISTENCIAL || this.propertyService.get().getAgent().getId() == FARMACIA){
 						this.webServiceHelper.setDrug(drug, this.propertyService.get().getGln(), null, this.propertyService.get().getTaxId(), null,
-								deliveryNoteFormated, expirationDate, deliveryNoteDetail.getOrderDetail().getGtin().getNumber(), eventId, deliveryNoteDetail
-										.getOrderDetail().getSerialNumber(), deliveryNoteDetail.getOrderDetail().getBatch(), deliveryNote.getDate(), true,
-								order.getProvisioningRequest().getAffiliate().getSurname(), order.getProvisioningRequest().getAffiliate().getName(), order.getProvisioningRequest().getAffiliate().getCode(), order.getProvisioningRequest()
-										.getAffiliate().getDocumentType(), order.getProvisioningRequest().getClient().getMedicalInsuranceCode());
+								deliveryNoteFormated, expirationDate, orderDetail.getGtin().getNumber(), eventId, deliveryNoteDetail
+										.getOrderDetail().getSerialNumber(), orderDetail.getBatch(), deliveryNote.getDate(), true,
+								order.getProvisioningRequest().getAffiliate().getCode(), order.getProvisioningRequest().getClient().getMedicalInsuranceCode());
 					}else{
 						this.webServiceHelper.setDrug(drug, this.propertyService.get().getGln(), order.getProvisioningRequest().getDeliveryLocation().getGln(),
 								this.propertyService.get().getTaxId(), order.getProvisioningRequest().getDeliveryLocation().getTaxId(), deliveryNoteFormated,
-								expirationDate, deliveryNoteDetail.getOrderDetail().getGtin().getNumber(), eventId, deliveryNoteDetail.getOrderDetail()
-										.getSerialNumber(), deliveryNoteDetail.getOrderDetail().getBatch(), deliveryNote.getDate(), true, null, null, null, null,
+								expirationDate, orderDetail.getGtin().getNumber(), eventId, orderDetail.getSerialNumber(), orderDetail.getBatch(), deliveryNote.getDate(), true, null,
 								null);
 					}
 					medicines.add(drug);
 				}
 			}
 			if (deliveryNoteDetail.getOutputDetail() != null) {
-				if (deliveryNoteDetail.getOutputDetail().getProduct().isInformAnmat()
-						&& ("PS".equals(deliveryNoteDetail.getOutputDetail().getProduct().getType()) || "SS".equals(deliveryNoteDetail.getOutputDetail()
+				OutputDetail outputDetail = deliveryNoteDetail.getOutputDetail();
+				if (outputDetail.getProduct().isInformAnmat()
+						&& ("PS".equals(outputDetail.getProduct().getType()) || "SS".equals(outputDetail
 								.getProduct().getType()))) {
-					String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(deliveryNoteDetail.getOutputDetail().getExpirationDate()).toString();
+					String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(outputDetail.getExpirationDate()).toString();
 
 					this.webServiceHelper.setDrug(drug, this.propertyService.get().getGln(), output.getDestinationGln(), this.propertyService.get().getTaxId(),
-							output.getDestinationTax(), deliveryNoteFormated, expirationDate, deliveryNoteDetail.getOutputDetail().getGtin().getNumber(),
-							eventId, deliveryNoteDetail.getOutputDetail().getSerialNumber(), deliveryNoteDetail.getOutputDetail().getBatch(),
-							output.getDate(), true, null, null, null, null, null);
+							output.getDestinationTax(), deliveryNoteFormated, expirationDate, outputDetail.getGtin().getNumber(),
+							eventId, outputDetail.getSerialNumber(), outputDetail.getBatch(),
+							output.getDate(), true, null, null);
 					medicines.add(drug);
 				}
 			}
 			if (deliveryNoteDetail.getSupplyingDetail() != null) {
-				if (deliveryNoteDetail.getSupplyingDetail().getProduct().isInformAnmat()
-						&& deliveryNoteDetail.getSupplyingDetail().getInStock()
-						&& ("PS".equals(deliveryNoteDetail.getSupplyingDetail().getProduct().getType()) || "SS".equals(deliveryNoteDetail.getSupplyingDetail()
+				SupplyingDetail supplyingDetail = deliveryNoteDetail.getSupplyingDetail();
+				if (supplyingDetail.getProduct().isInformAnmat()
+						&& supplyingDetail.getInStock()
+						&& ("PS".equals(supplyingDetail.getProduct().getType()) || "SS".equals(supplyingDetail
 								.getProduct().getType()))) {
-					String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(deliveryNoteDetail.getSupplyingDetail().getExpirationDate()).toString();
+					String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(supplyingDetail.getExpirationDate()).toString();
 
 					this.webServiceHelper.setDrug(drug, this.propertyService.get().getGln(), null, this.propertyService.get().getTaxId(), null,
-							deliveryNoteFormated, expirationDate, deliveryNoteDetail.getSupplyingDetail().getGtin().getNumber(), eventId, deliveryNoteDetail
-									.getSupplyingDetail().getSerialNumber(), deliveryNoteDetail.getSupplyingDetail().getBatch(), supplying.getDate(), true,
-							supplying.getAffiliate().getSurname(), supplying.getAffiliate().getName(), supplying.getAffiliate().getCode(), supplying
-									.getAffiliate().getDocumentType(), supplying.getClient().getMedicalInsuranceCode());
+							deliveryNoteFormated, expirationDate, supplyingDetail.getGtin().getNumber(), eventId, deliveryNoteDetail
+									.getSupplyingDetail().getSerialNumber(), supplyingDetail.getBatch(), supplying.getDate(), true,
+							supplying.getAffiliate().getCode(), supplying.getClient().getMedicalInsuranceCode());
 					medicines.add(drug);
 				}
 			}
