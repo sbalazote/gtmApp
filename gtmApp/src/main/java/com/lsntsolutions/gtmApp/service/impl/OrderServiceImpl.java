@@ -1,32 +1,20 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.dto.OrderDTO;
 import com.lsntsolutions.gtmApp.dto.OrderDetailDTO;
+import com.lsntsolutions.gtmApp.model.*;
 import com.lsntsolutions.gtmApp.persistence.dao.OrderDAO;
 import com.lsntsolutions.gtmApp.query.DeliveryNoteQuery;
-import com.lsntsolutions.gtmApp.model.Order;
-import com.lsntsolutions.gtmApp.model.Product;
-import com.lsntsolutions.gtmApp.model.ProvisioningRequest;
+import com.lsntsolutions.gtmApp.service.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lsntsolutions.gtmApp.model.Agreement;
-import com.lsntsolutions.gtmApp.model.OrderDetail;
-import com.lsntsolutions.gtmApp.model.ProductGtin;
-import com.lsntsolutions.gtmApp.model.Stock;
-import com.lsntsolutions.gtmApp.service.OrderService;
-import com.lsntsolutions.gtmApp.service.ProductGtinService;
-import com.lsntsolutions.gtmApp.service.ProductService;
-import com.lsntsolutions.gtmApp.service.ProvisioningRequestService;
-import com.lsntsolutions.gtmApp.service.ProvisioningRequestStateService;
-import com.lsntsolutions.gtmApp.service.StockService;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -192,14 +180,6 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<Order> getAllFilter(Integer agreementId, Integer clientId, Integer stateId) {
 		return this.orderDAO.getAllFilter(agreementId, clientId, stateId);
-	}
-
-	@Override
-	public void reassignOperators(List<Integer> ordersToPrint, Integer logisticOperatorId) {
-		for (Integer orderId : ordersToPrint) {
-			Order order = this.get(orderId);
-			this.provisioningRequestService.reassignOperators(order.getProvisioningRequest(), logisticOperatorId);
-		}
 	}
 
 	@Override

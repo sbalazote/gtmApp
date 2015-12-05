@@ -4,7 +4,7 @@ import java.util.List;
 
 public class AssignOperatorDTO {
 	private Integer logisticOperatorId;
-	private List<Integer> ordersIdsToReassign;
+	private List<Integer> provisioningsIdsToReassign;
 
 	public Integer getLogisticOperatorId() {
 		return this.logisticOperatorId;
@@ -14,12 +14,12 @@ public class AssignOperatorDTO {
 		this.logisticOperatorId = logisticOperatorId;
 	}
 
-	public List<Integer> getOrdersIdsToReassign() {
-		return this.ordersIdsToReassign;
+	public List<Integer> getProvisioningsIdsToReassign() {
+		return this.provisioningsIdsToReassign;
 	}
 
-	public void setOrdersIdsToReassign(List<Integer> ordersIdsToReassign) {
-		this.ordersIdsToReassign = ordersIdsToReassign;
+	public void setProvisioningsIdsToReassign(List<Integer> provisioningsIdsToReassign) {
+		this.provisioningsIdsToReassign = provisioningsIdsToReassign;
 	}
 
 }

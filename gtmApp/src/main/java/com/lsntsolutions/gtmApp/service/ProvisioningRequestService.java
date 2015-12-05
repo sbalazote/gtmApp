@@ -29,6 +29,5 @@ public interface ProvisioningRequestService {
 
 	List<ProvisioningRequest> getFilterProvisionings(Integer provisioningId, Integer agreementId, Integer clientId, Integer stateId);
 
-	void reassignOperators(ProvisioningRequest provisioningRequest, Integer operatorLogisticId);
-
+	void reassignOperators(List<Integer> provisioningsIdsToReassign, Integer operatorLogisticId);
 }

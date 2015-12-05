@@ -3,7 +3,6 @@ package com.lsntsolutions.gtmApp.controllers;
 import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.constant.State;
-import com.lsntsolutions.gtmApp.dto.AssignOperatorDTO;
 import com.lsntsolutions.gtmApp.dto.OrderDTO;
 import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.helper.impl.printer.OrderLabelPrinter;
@@ -154,18 +153,5 @@ public class OrderController {
 		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAllActives());
 
 		return "logisticOperatorAssignment";
-	}
-
-	@RequestMapping(value = "/assignOperatorToOrders", method = RequestMethod.POST)
-	@ResponseBody
-	public List<Integer> assignOperatorToOrders(@RequestBody AssignOperatorDTO assignOperatorDTO) throws Exception {
-		this.orderService.reassignOperators(assignOperatorDTO.getOrdersIdsToReassign(), assignOperatorDTO.getLogisticOperatorId());
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null) {
-			for (Integer orderId : assignOperatorDTO.getOrdersIdsToReassign()) {
-				this.auditService.addAudit(auth.getName(), RoleOperation.ORDER_ASSEMBLY.getId(), AuditState.MODIFIED, orderId);
-			}
-		}
-		return assignOperatorDTO.getOrdersIdsToReassign();
 	}
 }

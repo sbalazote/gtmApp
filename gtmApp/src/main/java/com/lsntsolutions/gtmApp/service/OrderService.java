@@ -28,7 +28,5 @@ public interface OrderService {
 
 	List<Order> getAllFilter(Integer agreementId, Integer clientId, Integer stateId);
 
-	void reassignOperators(List<Integer> ordersToPrint, Integer logisticOperatorId);
-
 	void changeToPrintState(Order order);
 }

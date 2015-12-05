@@ -3,10 +3,7 @@ package com.lsntsolutions.gtmApp.service.impl;
 import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.dto.ProvisioningRequestDTO;
 import com.lsntsolutions.gtmApp.dto.ProvisioningRequestDetailDTO;
-import com.lsntsolutions.gtmApp.model.LogisticsOperator;
-import com.lsntsolutions.gtmApp.model.ProvisioningRequest;
-import com.lsntsolutions.gtmApp.model.ProvisioningRequestDetail;
-import com.lsntsolutions.gtmApp.model.ProvisioningRequestState;
+import com.lsntsolutions.gtmApp.model.*;
 import com.lsntsolutions.gtmApp.persistence.dao.ProvisioningRequestDAO;
 import com.lsntsolutions.gtmApp.query.ProvisioningQuery;
 import com.lsntsolutions.gtmApp.service.*;
@@ -208,10 +205,12 @@ public class ProvisioningRequestServiceImpl implements ProvisioningRequestServic
 	}
 
 	@Override
-	public void reassignOperators(ProvisioningRequest provisioningRequest, Integer operatorLogisticId) {
+	public void reassignOperators(List<Integer> provisioningsIdsToReassign, Integer operatorLogisticId) {
 		LogisticsOperator logisticsOperator = this.logisticsOperatorService.get(operatorLogisticId);
-		provisioningRequest.setLogisticsOperator(logisticsOperator);
-		this.save(provisioningRequest);
+		for (Integer provisioningRequestId : provisioningsIdsToReassign) {
+			ProvisioningRequest provisioningRequest = this.get(provisioningRequestId);
+			provisioningRequest.setLogisticsOperator(logisticsOperator);
+			this.save(provisioningRequest);
+		}
 	}
-
 }

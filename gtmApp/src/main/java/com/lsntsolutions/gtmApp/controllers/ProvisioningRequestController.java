@@ -4,6 +4,7 @@ import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.DocumentType;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.constant.State;
+import com.lsntsolutions.gtmApp.dto.AssignOperatorDTO;
 import com.lsntsolutions.gtmApp.dto.ProvisioningRequestDTO;
 import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import com.lsntsolutions.gtmApp.model.Order;
@@ -256,5 +257,18 @@ public class ProvisioningRequestController {
 				logisticsOperator, stateId);
 
 		return provisioningQuery;
+	}
+
+	@RequestMapping(value = "/assignOperatorToProvisionings", method = RequestMethod.POST)
+	@ResponseBody
+	public List<Integer> assignOperatorToOrders(@RequestBody AssignOperatorDTO assignOperatorDTO) throws Exception {
+		this.provisioningRequestService.reassignOperators(assignOperatorDTO.getProvisioningsIdsToReassign(), assignOperatorDTO.getLogisticOperatorId());
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null) {
+			for (Integer orderId : assignOperatorDTO.getProvisioningsIdsToReassign()) {
+				this.auditService.addAudit(auth.getName(), RoleOperation.ORDER_ASSEMBLY.getId(), AuditState.MODIFIED, orderId);
+			}
+		}
+		return assignOperatorDTO.getProvisioningsIdsToReassign();
 	}
 }
