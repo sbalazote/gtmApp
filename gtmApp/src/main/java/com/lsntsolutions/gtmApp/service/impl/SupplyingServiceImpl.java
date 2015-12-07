@@ -157,22 +157,6 @@ public class SupplyingServiceImpl implements SupplyingService {
 		}
 	}
 
-	private void addToStock(SupplyingDetail supplyingDetail, Agreement agreement) {
-		Stock stock = new Stock();
-		stock.setAgreement(agreement);
-		stock.setAmount(supplyingDetail.getAmount());
-		stock.setBatch(supplyingDetail.getBatch());
-		stock.setExpirationDate(supplyingDetail.getExpirationDate());
-		stock.setProduct(supplyingDetail.getProduct());
-		stock.setSerialNumber(supplyingDetail.getSerialNumber());
-
-		if (supplyingDetail.getGtin() != null) {
-			stock.setGtin(supplyingDetail.getGtin());
-		}
-
-		this.stockService.addToStock(stock);
-	}
-
 	@Override
 	public List<Supplying> getCancelleables() {
 		return this.supplyingDAO.getCancelleables();
@@ -182,7 +166,7 @@ public class SupplyingServiceImpl implements SupplyingService {
 	public void addSupplyingToStock(Supplying supplying) {
 		for (SupplyingDetail supplyingDetail : supplying.getSupplyingDetails()) {
 			if (supplyingDetail.getInStock()) {
-				this.addToStock(supplyingDetail, supplying.getAgreement());
+				this.stockService.updateStock(supplyingDetail, supplying.getAgreement());
 			}
 		}
 	}

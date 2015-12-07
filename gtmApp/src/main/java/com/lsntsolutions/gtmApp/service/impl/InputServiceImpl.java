@@ -330,7 +330,7 @@ public class InputServiceImpl implements InputService {
 		} else {
 			input.setInformAnmat(false);
 			for (InputDetail inputDetail : input.getInputDetails()) {
-				this.updateStock(inputDetail, agreement);
+				this.stockService.updateStock(inputDetail, agreement);
 			}
 		}
 
@@ -339,20 +339,6 @@ public class InputServiceImpl implements InputService {
 		input.setInformed(false);
 
 		return input;
-	}
-
-	private void updateStock(InputDetail inputDetail, Agreement agreement) {
-		Stock stock = new Stock();
-		stock.setAgreement(agreement);
-		stock.setAmount(inputDetail.getAmount());
-		stock.setBatch(inputDetail.getBatch());
-		stock.setExpirationDate(inputDetail.getExpirationDate());
-		stock.setProduct(inputDetail.getProduct());
-		stock.setSerialNumber(inputDetail.getSerialNumber());
-		if (inputDetail.getGtin() != null) {
-			stock.setGtin(inputDetail.getGtin());
-		}
-		this.stockService.addToStock(stock);
 	}
 
 	@Override
@@ -373,7 +359,7 @@ public class InputServiceImpl implements InputService {
 	@Override
 	public void saveAndUpdateStock(Input input) {
 		for (InputDetail inputDetail : input.getInputDetails()) {
-			this.updateStock(inputDetail, input.getAgreement());
+			this.stockService.updateStock(inputDetail, input.getAgreement());
 		}
 		this.inputDAO.save(input);
 	}
@@ -416,7 +402,7 @@ public class InputServiceImpl implements InputService {
 			} else {
 				input.setInformAnmat(false);
 				for (InputDetail inputDetail : input.getInputDetails()) {
-					this.updateStock(inputDetail, input.getAgreement());
+					this.stockService.updateStock(inputDetail, input.getAgreement());
 				}
 			}
 		} catch (Exception e) {
@@ -582,7 +568,7 @@ public class InputServiceImpl implements InputService {
 		input.setInformed(false);
 		input.setInputDetails(inputDetails);
 		for(InputDetail inputDetail : inputDetails){
-			updateStock(inputDetail,agreement);
+			this.stockService.updateStock(inputDetail,agreement);
 		}
 		this.save(input);
 

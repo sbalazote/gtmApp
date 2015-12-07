@@ -166,23 +166,6 @@ public class OutputServiceImpl implements OutputService {
 		}
 	}
 
-	private void addToStock(OutputDetail outputDetail, Agreement agreement) {
-		Stock stock = new Stock();
-		stock.setAgreement(agreement);
-		stock.setAmount(outputDetail.getAmount());
-		stock.setBatch(outputDetail.getBatch());
-		stock.setExpirationDate(outputDetail.getExpirationDate());
-		stock.setProduct(outputDetail.getProduct());
-		stock.setSerialNumber(outputDetail.getSerialNumber());
-
-		if (outputDetail.getGtin() != null) {
-			stock.setGtin(outputDetail.getGtin());
-		}
-
-		this.stockService.addToStock(stock);
-	}
-
-
 	@Override
 	public List<Output> getCancelleables() {
 		return this.outputDAO.getCancelleables();
@@ -192,7 +175,7 @@ public class OutputServiceImpl implements OutputService {
 	@Override
 	public void addOutputToStock(Output output) {
 		for (OutputDetail outputDetail : output.getOutputDetails()) {
-			this.addToStock(outputDetail, output.getAgreement());
+			this.stockService.updateStock(outputDetail, output.getAgreement());
 		}
 	}
 

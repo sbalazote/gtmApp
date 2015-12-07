@@ -140,7 +140,7 @@ public class OrderServiceImpl implements OrderService {
 		order.setCancelled(true);
 		order.getProvisioningRequest().setState(this.provisioningRequestStateService.get(State.PRINTED.getId()));
 		for (OrderDetail orderDetail : order.getOrderDetails()) {
-			this.addToStock(orderDetail, order.getProvisioningRequest().getAgreement());
+			this.stockService.updateStock(orderDetail, order.getProvisioningRequest().getAgreement());
 		}
 		logger.info("Se ha anulado el Armado de Pedido n�mero: " + order.getId());
 	}
@@ -154,22 +154,6 @@ public class OrderServiceImpl implements OrderService {
 				cancel(order);
 			}
 		}
-	}
-
-	private void addToStock(OrderDetail orderDetail, Agreement agreement) {
-		Stock stock = new Stock();
-		stock.setAgreement(agreement);
-		stock.setAmount(orderDetail.getAmount());
-		stock.setBatch(orderDetail.getBatch());
-		stock.setExpirationDate(orderDetail.getExpirationDate());
-		stock.setProduct(orderDetail.getProduct());
-		stock.setSerialNumber(orderDetail.getSerialNumber());
-
-		if (orderDetail.getGtin() != null) {
-			stock.setGtin(orderDetail.getGtin());
-		}
-
-		this.stockService.addToStock(stock);
 	}
 
 	@Override

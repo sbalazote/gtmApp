@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.lsntsolutions.gtmApp.model.Agreement;
+import com.lsntsolutions.gtmApp.model.Detail;
 import com.lsntsolutions.gtmApp.model.Product;
 import com.lsntsolutions.gtmApp.model.Stock;
 import com.lsntsolutions.gtmApp.query.StockQuery;
@@ -17,6 +18,8 @@ public interface StockService {
 	List<Stock> getAll();
 
 	void addToStock(Stock stock);
+
+	void updateStock(Detail detail, Agreement agreement);
 
 	void removeFromStock(Stock stock);
 

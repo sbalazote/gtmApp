@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "input_detail")
-public class InputDetail implements Serializable {
+public class InputDetail implements Serializable, Detail {
 
 	private static final long serialVersionUID = 1L;
 

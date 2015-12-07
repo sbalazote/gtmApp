@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.lsntsolutions.gtmApp.model.Agreement;
+import com.lsntsolutions.gtmApp.model.Detail;
 import com.lsntsolutions.gtmApp.persistence.dao.StockDAO;
 import com.lsntsolutions.gtmApp.service.StockService;
 import org.apache.log4j.Logger;
@@ -66,6 +67,21 @@ public class StockServiceImpl implements StockService {
 			}
 		}
 		this.save(stock);
+	}
+
+	@Override
+	public void updateStock(Detail detail, Agreement agreement) {
+		Stock stock = new Stock();
+		stock.setAgreement(agreement);
+		stock.setAmount(detail.getAmount());
+		stock.setBatch(detail.getBatch());
+		stock.setExpirationDate(detail.getExpirationDate());
+		stock.setProduct(detail.getProduct());
+		stock.setSerialNumber(detail.getSerialNumber());
+		if (detail.getGtin() != null) {
+			stock.setGtin(detail.getGtin());
+		}
+		this.addToStock(stock);
 	}
 
 	@Override
