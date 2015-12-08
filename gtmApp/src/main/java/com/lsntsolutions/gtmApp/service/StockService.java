@@ -23,6 +23,8 @@ public interface StockService {
 
 	void removeFromStock(Stock stock);
 
+	void removeFromStock(Detail detail, Agreement agreement);
+
 	Long getProductAmount(Integer productId, Integer agreementId, Integer provisioningId);
 
 	List<Stock> getBatchExpirationDateStock(Integer productId, Integer agreementId);

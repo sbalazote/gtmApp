@@ -94,6 +94,21 @@ public class StockServiceImpl implements StockService {
 	}
 
 	@Override
+	public void removeFromStock(Detail detail, Agreement agreement) {
+		Stock stock = new Stock();
+		stock.setAgreement(agreement);
+		stock.setAmount(detail.getAmount());
+		stock.setBatch(detail.getBatch());
+		stock.setExpirationDate(detail.getExpirationDate());
+		stock.setProduct(detail.getProduct());
+		stock.setSerialNumber(detail.getSerialNumber());
+		if (detail.getGtin() != null) {
+			stock.setGtin(detail.getGtin());
+		}
+		this.removeFromStock(stock);
+	}
+
+	@Override
 	public Long getProductAmount(Integer productId, Integer agreementId, Integer provisioningId) {
 		return this.stockDAO.getProductAmount(productId, agreementId, provisioningId);
 	}

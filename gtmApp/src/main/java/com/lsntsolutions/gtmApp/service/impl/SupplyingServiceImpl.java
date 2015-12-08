@@ -104,7 +104,7 @@ public class SupplyingServiceImpl implements SupplyingService {
 				supplyingDetail.setProduct(product);
 				supplyingDetail.setInStock(supplyingDetailDTO.getInStock());
 				if (supplyingDetail.getInStock()) {
-					this.updateStock(supplyingDetail, agreement);
+					this.stockService.removeFromStock(supplyingDetail, agreement);
 				}
 				details.add(supplyingDetail);
 			}
@@ -115,21 +115,6 @@ public class SupplyingServiceImpl implements SupplyingService {
 		} catch (Exception e) {
 			throw new RuntimeException("No se ha podido mapear el SupplyingDTO", e);
 		}
-	}
-
-	private void updateStock(SupplyingDetail supplyingDetail, Agreement agreement) {
-		Stock stock = new Stock();
-		stock.setAgreement(agreement);
-		stock.setAmount(supplyingDetail.getAmount());
-		stock.setBatch(supplyingDetail.getBatch());
-		stock.setExpirationDate(supplyingDetail.getExpirationDate());
-		stock.setProduct(supplyingDetail.getProduct());
-		stock.setSerialNumber(supplyingDetail.getSerialNumber());
-		if (supplyingDetail.getGtin() != null) {
-			stock.setGtin(supplyingDetail.getGtin());
-		}
-
-		this.stockService.removeFromStock(stock);
 	}
 
 	@Override

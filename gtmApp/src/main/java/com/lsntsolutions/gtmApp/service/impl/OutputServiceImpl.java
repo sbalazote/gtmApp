@@ -104,7 +104,7 @@ public class OutputServiceImpl implements OutputService {
 				}
 
 				outputDetail.setProduct(product);
-				this.updateStock(outputDetail, agreement);
+				this.stockService.removeFromStock(outputDetail, agreement);
 				details.add(outputDetail);
 			}
 			output.setOutputDetails(details);
@@ -114,21 +114,6 @@ public class OutputServiceImpl implements OutputService {
 		} catch (Exception e) {
 			throw new RuntimeException("No se ha podido mapear el OutputDTO", e);
 		}
-	}
-
-	private void updateStock(OutputDetail outputDetail, Agreement agreement) {
-		Stock stock = new Stock();
-		stock.setAgreement(agreement);
-		stock.setAmount(outputDetail.getAmount());
-		stock.setBatch(outputDetail.getBatch());
-		stock.setExpirationDate(outputDetail.getExpirationDate());
-		stock.setProduct(outputDetail.getProduct());
-		stock.setSerialNumber(outputDetail.getSerialNumber());
-		if (outputDetail.getGtin() != null) {
-			stock.setGtin(outputDetail.getGtin());
-		}
-
-		this.stockService.removeFromStock(stock);
 	}
 
 	@Override

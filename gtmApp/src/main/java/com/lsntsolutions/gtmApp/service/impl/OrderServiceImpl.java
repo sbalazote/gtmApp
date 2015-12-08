@@ -88,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
 						orderDetail.setGtin(product.getLastProductGtin());
 					}
 				}
-				this.updateStock(orderDetail, agreement);
+				this.stockService.removeFromStock(orderDetail, agreement);
 				details.add(orderDetail);
 			}
 
@@ -99,20 +99,6 @@ public class OrderServiceImpl implements OrderService {
 		} catch (Exception e) {
 			throw new RuntimeException("No se ha podido mappear el OrderDTO relacionado con el Pedido " + provisioningRequest.getId(), e);
 		}
-	}
-
-	private void updateStock(OrderDetail orderDetail, Agreement agreement) {
-		Stock stock = new Stock();
-		stock.setAgreement(agreement);
-		stock.setAmount(orderDetail.getAmount());
-		stock.setBatch(orderDetail.getBatch());
-		stock.setExpirationDate(orderDetail.getExpirationDate());
-		stock.setProduct(orderDetail.getProduct());
-		stock.setSerialNumber(orderDetail.getSerialNumber());
-		if (orderDetail.getGtin() != null) {
-			stock.setGtin(orderDetail.getGtin());
-		}
-		this.stockService.removeFromStock(stock);
 	}
 
 	@Override
