@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script type="text/javascript" src="js/form/report/searchInput.js"></script>
+<script type="text/javascript" src="js/form/inputEgressUtils.js"></script>
 <script type="text/javascript" src="js/form/modals.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
