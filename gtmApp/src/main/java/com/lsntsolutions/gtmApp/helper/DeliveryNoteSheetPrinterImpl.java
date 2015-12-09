@@ -3,12 +3,8 @@ package com.lsntsolutions.gtmApp.helper;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.PageSize;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfWriter;
-import com.lsntsolutions.gtmApp.constant.AuditState;
+import com.lowagie.text.pdf.*;
 import com.lsntsolutions.gtmApp.constant.DeliveryNoteConfigParam;
-import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.model.*;
@@ -30,7 +26,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
     private static final Logger logger = Logger.getLogger(DeliveryNoteSheetPrinterImpl.class);
 
     @Autowired
-    private com.lsntsolutions.gtmApp.service.PropertyService propertyService;
+    private PropertyService propertyService;
     @Autowired
     private OutputService outputService;
     @Autowired
@@ -56,11 +52,9 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
     private ByteArrayOutputStream out;
     private PdfWriter writer;
     private int totalItems;
-    private Integer deliveryNoteNumber;
-    private String POS;
     private Date currentDate;
+    private List<DeliveryNote> deliveryNoteList;
     private DeliveryNote deliveryNote;
-    private String deliveryNoteComplete;
     private List<DeliveryNoteDetail> deliveryNoteDetails;
     private List<String> printsNumbers;
     private String userName;
@@ -71,6 +65,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
     private Map<String, Float> dnConfigMap;
     private boolean printHeader;
     private Concept deliveryNoteConcept;
+    private Integer deliveryNoteNumbersRequired;
     int PRODUCT_DETAIL_HEADER_LINE_OFFSET_Y = 10;
     int SERIAL_DETAIL_LINE_OFFSET_Y = 10;
     int PRODUCT_BATCH_EXPIRATIONDATE_HEADER_LINE_OFFSET_Y = 10;
@@ -277,14 +272,15 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
 
 
     @Override
-    public void print(String userName, List<Integer> supplyingsIds, PrinterResultDTO printerResultDTO, boolean printSupplyings, boolean printOutputs, boolean printOrders) {
+    public void print(String userName, List<Integer> egressIds, PrinterResultDTO printerResultDTO, boolean printSupplyings, boolean printOutputs, boolean printOrders) {
+        deliveryNoteList = new ArrayList<DeliveryNote>();
         dnConfigMap = deliveryNoteConfigService.getAllInMillimiters();
         property = this.propertyService.get();
         this.userName = userName;
         printsNumbers = new ArrayList<>();
         ProvisioningRequestState state = this.provisioningRequestStateService.get(State.DELIVERY_NOTE_PRINTED.getId());
         currentDate = new Date();
-        for (Integer id : supplyingsIds) {
+        for (Integer id : egressIds) {
             Egress egress = getEgress(id, printSupplyings, printOutputs, printOrders);
             Integer numberOfDeliveryNoteDetailsPerPage = egress.getAgreement().getNumberOfDeliveryNoteDetailsPerPage();
             if(printOrders){
@@ -297,7 +293,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
             TreeMap<String, List<? extends Detail>> productMap = groupByProductAndBatch(egress.getDetails());
 
             TreeMap<String, Integer> productsCount = countByProduct(egress.getDetails());
-            // calculo cuantas lineas de detalles de productos voy a necesitar.
+            /*// calculo cuantas lineas de detalles de productos voy a necesitar.
             int numberOfLinesNeeded = numberOfLinesNeeded(productMap);
             // calculo cuantos remitos voy a necesitar en base a la cantidad de detalles de productos.
             int deliveryNoteNumbersRequired = (int)Math.ceil((float)numberOfLinesNeeded / numberOfDeliveryNoteDetailsPerPage);
@@ -305,7 +301,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
             deliveryNoteConcept = getConcept(egress,deliveryNoteNumbersRequired);
 
             POS = StringUtility.addLeadingZeros(deliveryNoteConcept.getDeliveryNoteEnumerator().getDeliveryNotePOS(), 4);
-            deliveryNoteNumber = deliveryNoteConcept.getDeliveryNoteEnumerator().getDeliveryNoteNumber() - deliveryNoteNumbersRequired;
+            deliveryNoteNumber = deliveryNoteConcept.getDeliveryNoteEnumerator().getDeliveryNoteNumber() - deliveryNoteNumbersRequired;*/
 
             document = new Document(PageSize.A4);
             out = new ByteArrayOutputStream();
@@ -314,20 +310,21 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
             } catch (DocumentException e) {
                 e.printStackTrace();
             }
-            document.addAuthor("REMITO-" + deliveryNoteNumber);
-            document.addTitle("LS&T Solutions");
+            document.addCreationDate();
+            document.addCreator("LS&T Solutions");
             document.open();
             overContent = writer.getDirectContent();
             overContent.setLeading(0f);
 
-            printHeader(deliveryNoteNumber, egress);
+            printHeader(egress);
 
             deliveryNote = new DeliveryNote();
-            deliveryNoteComplete = POS + "-" + StringUtility.addLeadingZeros(deliveryNoteNumber, 8);
-            deliveryNote.setNumber(deliveryNoteComplete);
+            /*deliveryNoteComplete = POS + "-" + StringUtility.addLeadingZeros(deliveryNoteNumber, 8);
+            deliveryNote.setNumber(deliveryNoteComplete);*/
 
             deliveryNoteDetails = new ArrayList<>();
-
+            // numero de remitos requeridos
+            deliveryNoteNumbersRequired = 0;
             // numero de linea de detalle de producto actual.
             int currentLine = 0;
             // offset coordenada vertical a partir de donde se indico el detalle de productos.
@@ -344,8 +341,6 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
                 String currentProductId = parts[0];
                 String productType = details.get(0).getProduct().getType();
 
-                currentLine = checkNewPage(egress, numberOfDeliveryNoteDetailsPerPage, currentLine);
-
                 String description = details.get(0).getProduct().getDescription();
                 String monodrug = details.get(0).getProduct().getMonodrug().getDescription();
                 String brand = details.get(0).getProduct().getBrand().getDescription();
@@ -353,14 +348,26 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
                 String batch = details.get(0).getBatch();
                 String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(details.get(0).getExpirationDate());
                 String batchAmount = Integer.toString(productType.equals("BE") ? totalAmount : details.size());
+
+                // si el id de producto actual es distinto del anterior//sino, significa que es el mismo producto pero otro lote
                 if (!currentProductId.equals(previousProductId)) {
+                    currentLine = checkNewPage(egress, numberOfDeliveryNoteDetailsPerPage, currentLine, false, productType.equals("BE") ? true : false);
                     totalItems++;
                     printProductDetailHeader(description, monodrug, brand, productsCount.get(currentProductId));
                     currentLine++;
+
+                } else {
+                    currentLine = checkNewPage(egress, numberOfDeliveryNoteDetailsPerPage, currentLine, true, productType.equals("BE") ? true : false);
+                    // si es el mismo producto con otro lote, pero hubo corte de hoja, tengo que poner de vuelta el detalle del producto en la nueva.
+                    if (currentLine == 0) {
+                        totalItems++;
+                        printProductDetailHeader(description, monodrug, brand, productsCount.get(currentProductId));
+                        currentLine++;
+                    }
                 }
-                currentLine = checkNewPage(egress, numberOfDeliveryNoteDetailsPerPage, currentLine);
+                //currentLine = checkNewPage(egress, numberOfDeliveryNoteDetailsPerPage, currentLine);
                 printProductBatchExpirationDateHeader(batch, expirationDate, batchAmount);
-                // si es de tipo lote/ vto ocupa 1 (una) sola linea.
+                // si es de tipo lote/ vto voy a necesitar 2 (dos) lineas. 1 para el nombre del producto y otro para el lote.
                 currentLine++;
                 DeliveryNoteDetail deliveryNoteDetail;
                 if (productType.equals("BE")) {
@@ -389,7 +396,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
                             currentLine++;
                             serialIdx = 0;
                             detailAux = new ArrayList<>();
-                            currentLine = checkNewPage(egress,numberOfDeliveryNoteDetailsPerPage,currentLine);
+                            currentLine = checkNewPageMoreSerials(egress, numberOfDeliveryNoteDetailsPerPage, currentLine);
                         }
                     }
                 }
@@ -400,14 +407,59 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
 
             savePage(egress);
 
+           //pido los numeros necesarios a la base y los asigno a los remitos
+           deliveryNoteConcept = getConcept(egress,deliveryNoteNumbersRequired);
+            String POS = StringUtility.addLeadingZeros(deliveryNoteConcept.getDeliveryNoteEnumerator().getDeliveryNotePOS(), 4);
+            Integer currentDeliveryNoteNumber, currentDeliveryNoteNumberCopy;
+            currentDeliveryNoteNumber = currentDeliveryNoteNumberCopy = deliveryNoteConcept.getDeliveryNoteEnumerator().getDeliveryNoteNumber() - deliveryNoteNumbersRequired;
+            String deliveryNoteComplete;
+            for (int i = 0; i < deliveryNoteList.size(); i++) {
+                DeliveryNote dn = deliveryNoteList.get(i);
+                deliveryNoteComplete = POS + "-" + StringUtility.addLeadingZeros(currentDeliveryNoteNumber, 8);
+                dn.setNumber(deliveryNoteComplete);
+                currentDeliveryNoteNumber++;
+            }
+
             document.close();
 
+            // estampo los numeros recien generados en la hojas pdf
+            PdfReader reader = null;
+            PdfStamper stamper = null;
+            try {
+            // Create a reader
+            reader = new PdfReader(out.toByteArray());
+            // Create a stamper
+            stamper = new PdfStamper(reader, out);
+
+                int n = reader.getNumberOfPages();
+                PdfImportedPage page;
+                for (int i = 1; i <= n; i++) {
+                    //page = writer.getImportedPage(reader, i);
+                    PdfContentByte canvas = stamper.getOverContent(i);
+                    // imprimo numero de remito.
+                    bf = BaseFont.createFont(BaseFont.TIMES_BOLD, BaseFont.WINANSI, false);
+                    canvas.setFontAndSize(bf, dnConfigMap.get(DeliveryNoteConfigParam.FONT_SIZE.name()));
+                    canvas.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.NUMBER_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.NUMBER_Y.name()));
+                    canvas.showText(dnConfigMap.get(DeliveryNoteConfigParam.NUMBER_PRINT.name()) == 1 ? StringUtility.addLeadingZeros(currentDeliveryNoteNumberCopy, 8): "");
+                    currentDeliveryNoteNumberCopy++;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (DocumentException e) {
+                e.printStackTrace();
+            }
+
+
             ByteArrayInputStream pdfDocument = new ByteArrayInputStream(out.toByteArray());
-            this.printOnPrinter.sendPDFToSpool(egress.getAgreement().getDeliveryNotePrinter(), "REMITO NRO-" + deliveryNoteNumber + ".pdf", pdfDocument, printerResultDTO, deliveryNoteConcept.getDeliveryNoteCopies());
+            this.printOnPrinter.sendPDFToSpool(egress.getAgreement().getDeliveryNotePrinter(), "remito-" + new SimpleDateFormat("dd/MM/yyyy_HH:mm:ss").format(new Date()), pdfDocument, printerResultDTO, deliveryNoteConcept.getDeliveryNoteCopies());
 
             try {
                 pdfDocument.close();
+                stamper.close();
+                reader.close();
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (DocumentException e) {
                 e.printStackTrace();
             }
         }
@@ -429,9 +481,34 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         return null;
     }
 
-    private int checkNewPage(Egress egress, Integer numberOfDeliveryNoteDetailsPerPage, int currentLine) {
-        // si ya esta lleno el remito, sigo en uno nuevo
-        if (currentLine >= (numberOfDeliveryNoteDetailsPerPage-1)) {
+    // si ya esta lleno el remito, sigo en uno nuevo
+    private int checkNewPage(Egress egress, Integer numberOfDeliveryNoteDetailsPerPage, int currentLine, boolean sameSucessiveProduct, boolean isBatchExpirationDateProduct) {
+        int neededLines;
+        // si el producto anterior es el mismo del actual y es lote/vto necesito 1 linea sola el lote nuevo, sino 2
+        //sino si es serializado necesito minimo 2 lineas si es el mismo producto q el anterior, sino minimo voy a necesitar 3
+        if (isBatchExpirationDateProduct) {
+            if (sameSucessiveProduct) {
+                neededLines = 1;
+            } else {
+                neededLines = 2;
+            }
+        } else {
+            if (sameSucessiveProduct) {
+                neededLines = 2;
+            } else {
+                neededLines = 3;
+            }
+        }
+        if ((currentLine + neededLines) > numberOfDeliveryNoteDetailsPerPage) {
+            savePage(egress);
+            newPage(egress);
+            currentLine = 0;
+        }
+        return currentLine;
+    }
+
+    private int checkNewPageMoreSerials(Egress egress, Integer numberOfDeliveryNoteDetailsPerPage, int currentLine) {
+        if (currentLine > numberOfDeliveryNoteDetailsPerPage) {
             savePage(egress);
             newPage(egress);
             currentLine = 0;
@@ -455,14 +532,14 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
     private void newPage(Egress egress) {
         printFooter(totalItems);
         document.newPage();
-        printHeader(deliveryNoteNumber, egress);
+        printHeader(egress);
         offsetY = 0;
         totalItems = 0;
 
         deliveryNote = new DeliveryNote();
-        deliveryNoteComplete = POS + "-" + StringUtility.addLeadingZeros(deliveryNoteNumber, 8);
-        deliveryNote.setNumber(deliveryNoteComplete);
-
+        /*deliveryNoteComplete = POS + "-" + StringUtility.addLeadingZeros(deliveryNoteNumber, 8);
+        deliveryNote.setNumber(deliveryNoteComplete);*/
+        deliveryNoteNumbersRequired++;
         deliveryNoteDetails = new ArrayList<>();
     }
 
@@ -478,15 +555,15 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         }
     }
 
-    private void printHeader(Integer deliveryNoteNumber, Egress egress){
+    private void printHeader(Egress egress){
         if(egress.getClass().equals(Supplying.class)){
-            printHeaderSupplying(deliveryNoteNumber, (Supplying) egress);
+            printHeaderSupplying((Supplying) egress);
         }
         if(egress.getClass().equals(Output.class)){
-            printHeaderOutput(deliveryNoteNumber, (Output) egress);
+            printHeaderOutput((Output) egress);
         }
         if(egress.getClass().equals(Order.class)){
-            printHeaderOrder(deliveryNoteNumber, (Order) egress);
+            printHeaderOrder((Order) egress);
         }
     }
 
@@ -501,21 +578,23 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
             } else {
                 deliveryNote.setInformAnmat(false);
             }
-            this.deliveryNoteService.save(deliveryNote);
-            this.deliveryNoteService.sendTrasactionAsync(deliveryNote);
+            /*this.deliveryNoteService.save(deliveryNote);
+            this.deliveryNoteService.sendTrasactionAsync(deliveryNote);*/
         } catch (Exception e1) {
-            logger.error("No se ha podido guardar el remito: " + deliveryNoteNumber + " para " + egress.getName() + " con Id: " + egress.getId());
+            //logger.error("No se ha podido guardar el remito: " + deliveryNoteNumber + " para " + egress.getName() + " con Id: " + egress.getId());
         }
 
-        logger.info("Se ha guardado el remito numero: " + deliveryNoteNumber + " para " + egress.getName() + " con Id: " + egress.getId());
-        this.auditService.addAudit(this.userName, RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote.getId());
+        //logger.info("Se ha guardado el remito numero: " + deliveryNoteNumber + " para " + egress.getName() + " con Id: " + egress.getId());
+        /*this.auditService.addAudit(this.userName, RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote.getId());
 
 
         printsNumbers.add(deliveryNote.getNumber());
-        deliveryNoteNumber++;
+        deliveryNoteNumber++;*/
+
+        deliveryNoteList.add(deliveryNote);
     }
 
-    private void printHeaderSupplying(Integer deliveryNoteNumber, Supplying supplying) {
+    private void printHeaderSupplying(Supplying supplying) {
         overContent.saveState();
         // seteo el tipo de fuente.
         try {
@@ -526,10 +605,10 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        /*
         // imprimo numero de remito.
         overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.NUMBER_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.NUMBER_Y.name()));
-        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.NUMBER_PRINT.name()) == 1 ? StringUtility.addLeadingZeros(deliveryNoteNumber, 8): "");
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.NUMBER_PRINT.name()) == 1 ? StringUtility.addLeadingZeros(deliveryNoteNumber, 8): "");*/
 
         // imprimo fecha.
         overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.DATE_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.DATE_Y.name()));
@@ -571,7 +650,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         overContent.restoreState();
     }
 
-    private void printHeaderOutput(Integer deliveryNoteNumber, Output output) {
+    private void printHeaderOutput(Output output) {
         overContent.saveState();
 
         Property property = this.propertyService.get();
@@ -585,10 +664,10 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        /*
         // imprimo numero de remito.
         overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.NUMBER_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.NUMBER_Y.name()));
-        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.NUMBER_PRINT.name()) == 1 ? StringUtility.addLeadingZeros(deliveryNoteNumber, 8): "");
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.NUMBER_PRINT.name()) == 1 ? StringUtility.addLeadingZeros(deliveryNoteNumber, 8): "");*/
 
         // imprimo fecha.
         overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.DATE_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.DATE_Y.name()));
@@ -699,7 +778,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         overContent.restoreState();
     }
 
-    private void printHeaderOrder(Integer deliveryNoteNumber, Order order) {
+    private void printHeaderOrder(Order order) {
         overContent.saveState();
         ProvisioningRequest provisioningRequest = order.getProvisioningRequest();
         String drugstoreGln = this.propertyService.get().getGln();
@@ -712,10 +791,10 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        /*
         // imprimo numero de remito.
         overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.NUMBER_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.NUMBER_Y.name()));
-        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.NUMBER_PRINT.name()) == 1 ? StringUtility.addLeadingZeros(deliveryNoteNumber, 8): "");
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.NUMBER_PRINT.name()) == 1 ? StringUtility.addLeadingZeros(deliveryNoteNumber, 8): "");*/
 
         // imprimo fecha.
         overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.DATE_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.DATE_Y.name()));

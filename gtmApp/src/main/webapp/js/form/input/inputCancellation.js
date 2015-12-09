@@ -154,9 +154,9 @@ InputCancellation = function() {
 						}
 					}
 				});
-				$("#inputTable").bootgrid().bootgrid("clear");
-				$("#inputTable").bootgrid().bootgrid("append", aaData);
-				$("#inputTable").bootgrid().bootgrid("search", $(".search-field").val());
+				$("#inputTable").bootgrid("clear");
+				$("#inputTable").bootgrid("append", aaData);
+				$("#inputTable").bootgrid("search", $(".search-field").val());
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myGenericError();

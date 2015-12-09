@@ -133,9 +133,9 @@ DeliveryNoteCancellation = function() {
 						}
 					}
 				});
-				$("#deliveryNoteTable").bootgrid().bootgrid("clear");
-				$("#deliveryNoteTable").bootgrid().bootgrid("append", aaData);
-				$("#deliveryNoteTable").bootgrid().bootgrid("search", $(".search-field").val());
+				$("#deliveryNoteTable").bootgrid("clear");
+				$("#deliveryNoteTable").bootgrid("append", aaData);
+				$("#deliveryNoteTable").bootgrid("search", $(".search-field").val());
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myGenericError();

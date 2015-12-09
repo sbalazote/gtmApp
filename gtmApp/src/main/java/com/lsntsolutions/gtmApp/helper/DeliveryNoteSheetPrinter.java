@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface DeliveryNoteSheetPrinter {
 
-	void print(String userName, List<Integer> supplyingsIds, PrinterResultDTO printerResultDTO, boolean printSupplyings, boolean printOutputs, boolean printOrders);
+	void print(String userName, List<Integer> egressIds, PrinterResultDTO printerResultDTO, boolean printSupplyings, boolean printOutputs, boolean printOrders);
 }
