@@ -615,6 +615,7 @@ var ProvisioningRequest = function() {
 		});
         $("#affiliateInput").select2("enable", true);
 		getDeliveryLocations($('#clientInput').val());
+		$("#productInput").attr("disabled", false);
 	}else{
 		$("#affiliateInput").select2("enable", false);
 	}
