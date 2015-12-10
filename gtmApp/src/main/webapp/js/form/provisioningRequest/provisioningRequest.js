@@ -632,6 +632,7 @@ var ProvisioningRequest = function() {
 			async : true,
 			success : function(response) {
 				$('#deliveryLocationInput').empty();
+				$('#deliveryLocationInput').append('<option value=""></option>');
 				for(var i = response.length-1; i >= 0 ; i--){
 					$('#deliveryLocationInput').append('<option value='+ response[i].id + '>' + response[i].code + " - " + response[i].name +'</option>');
 				}
