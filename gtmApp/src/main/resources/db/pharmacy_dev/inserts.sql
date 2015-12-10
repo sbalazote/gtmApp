@@ -185,7 +185,6 @@ insert into provisioning_request_state (id, description) values (4,'ARMADO');
 insert into provisioning_request_state (id, description) values (5,'REMITO IMPRESO');
 insert into provisioning_request_state (id, description) values (6,'FACTURADO');
 insert into provisioning_request_state (id, description) values (7,'ANULADO');
-insert into provisioning_request_state (id, description) values (8,'CERRADO');
 
 insert into logistics_operator (id, code, name, tax_id, corporate_name, gln, province_id, locality, address, zip_code, phone, active) 
 values (1, 8686,'OCA','30-99991111-0','OCA. SA', 11111, 1,'Capital Federal','Segurola 417','1407','4567-8901', true);

@@ -2,7 +2,7 @@ package com.lsntsolutions.gtmApp.constant;
 
 public enum State {
 
-	ENTERED(1), AUTHORIZED(2), PRINTED(3), ASSEMBLED(4), DELIVERY_NOTE_PRINTED(5), INVOICED(6), CANCELED(7), CLOSED(8);
+	ENTERED(1), AUTHORIZED(2), PRINTED(3), ASSEMBLED(4), DELIVERY_NOTE_PRINTED(5), INVOICED(6), CANCELED(7);
 
 	private Integer id;
 

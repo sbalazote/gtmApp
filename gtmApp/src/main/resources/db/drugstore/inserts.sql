@@ -316,7 +316,6 @@ insert into provisioning_request_state (id, description) values (4,'ARMADO');
 insert into provisioning_request_state (id, description) values (5,'REMITO IMPRESO');
 insert into provisioning_request_state (id, description) values (6,'FACTURADO');
 insert into provisioning_request_state (id, description) values (7,'ANULADO');
-insert into provisioning_request_state (id, description) values (8,'CERRADO');
 
 INSERT INTO `delivery_location` VALUES (1,1,'BAHIA BLANCA /F.ITALO ARG./ADMI','30566545345','(FCIA) ITALO ARGENTINA S.C.S',2,'BAHIA BLANCA','BROWN 340','8000',1,NULL,NULL,'9991092800009',7,1);
 INSERT INTO `delivery_location` VALUES (2,3,'CONCORDIA / VELEZ S. / ADMI','23054871414','(FCIA) PEREIRA ANA LIA',8,'CONCORDIA','VELEZ SARFIELD 248','3200',1,NULL,NULL,'9991264000008',7,1);
