@@ -3,6 +3,8 @@ var ProvisioningRequest = function() {
 	
 	var productId = null;
 	var productDescription = null;
+	var cold = null;
+	var avaiableAmount = null;
 	var productAmount = null;
 	var productDetails = [];
 	
@@ -236,7 +238,8 @@ var ProvisioningRequest = function() {
 						return {
 							id:	item.id,
 							label: item.code + " - " + item.description + " - " + item.brand.description + " - " + item.monodrug.description,
-							value: item.code + " - " + item.description
+							value: item.code + " - " + item.description,
+							cold: item.cold
 						};
 					});
 					response(array);
@@ -251,6 +254,7 @@ var ProvisioningRequest = function() {
 				productId = ui.item.id;
 				productDescription = ui.item.value;
 				isAdd = true;
+				cold = ui.item.cold;
 				
 				$('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
 				$("#productInput").val(productDescription);
@@ -275,8 +279,52 @@ var ProvisioningRequest = function() {
 	});
 	
 	$('#amountModal').on('shown.bs.modal', function () {
+		getStockAmount();
+		if(cold == true){
+			$('#productColdInput').text("Si");
+		}else{
+			$('#productColdInput').text("No");
+		}
+		$('#productDescriptionInput').text(productDescription);
+		$('#productAmountAvaiableInput').text(avaiableAmount);
 	    $('#productAmountInput').focus();
 	});
+
+	var getStockAmount = function() {
+		$.ajax({
+			url: "getProductAmount.do",
+			type: "GET",
+			async: false,
+			data: {
+				productId: productId,
+				agreementId: $("#agreementInput").val(),
+				provisioningId: $("#provisioningId").val()
+			},
+			success: function (response) {
+				avaiableAmount = response;
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				myGenericError();
+			}
+		});
+	};
+
+	var getProduct = function() {
+		$.ajax({
+			url: "getProduct.do",
+			type: "GET",
+			async: false,
+			data: {
+				productId: productId,
+			},
+			success: function (response) {
+				return response;
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				myGenericError();
+			}
+		});
+	};
 	
 	$('#amountModal').on('hidden.bs.modal', function () {
 	    cleanAmountModal();
@@ -314,6 +362,7 @@ var ProvisioningRequest = function() {
 						}
 						$("#amountModal").modal('hide');
 					}else{
+						$('#productAmountAvaiableInput').text(response);
 						$("#productAmountInput").tooltip("destroy").data("title", "Stock disponible: " + response).addClass("has-error").tooltip();
 						return false;
 					}
