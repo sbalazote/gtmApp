@@ -106,6 +106,7 @@
 		        	<th data-column-id="code" data-type="numeric"><spring:message code="common.code" /></th>
 		            <th data-column-id="product" data-header-css-class="descriptionColumn"><spring:message code="common.product"/></th>
 		            <th data-column-id="agreement"><spring:message code="common.agreement"/></th>
+					<th data-column-id="cold"><spring:message code="common.cold"/></th>
 		            <th data-column-id="amount" data-type="numeric"><spring:message code="common.amount"/></th>
 		            <th data-column-id="command" data-sortable="false"><spring:message code="common.option"/></th>
 		        </tr>
