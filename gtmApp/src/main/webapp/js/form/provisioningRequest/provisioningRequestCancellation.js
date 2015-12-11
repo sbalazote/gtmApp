@@ -16,6 +16,7 @@ var ProvisioningRequestCancellation = function() {
 		form.validate({
 			rules: {
 				provisioningRequestSearch: {
+					required: true,
 					digits: true
 				}
 			},
@@ -24,7 +25,6 @@ var ProvisioningRequestCancellation = function() {
 		});
 		return form.valid();
 	};
-	
 	$("#confirmButton").click(function() {
 		if (requestsToCancel.length == 1) {
 			$.ajax({

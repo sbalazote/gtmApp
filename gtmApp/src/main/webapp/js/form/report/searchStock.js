@@ -67,9 +67,11 @@ SearchStock = function() {
 				},
 				success: function(data) {
 					var array = $.map(data, function(item) {
+						var cold = " Frio: ";
+						cold += item.cold == true ? "Si" : "No";
 						return {
 							id:	item.id,
-							label: item.code + " - " + item.description + " - " + item.brand.description + " - " + item.monodrug.description,
+							label: item.code + " - " + item.description + " - " + item.brand.description + " - " + item.monodrug.description+ " - " + cold,
 							value: item.code + " - " + item.description,
 							gtin: item.gtin,
 							type: item.type
@@ -222,6 +224,7 @@ SearchStock = function() {
 						batch: response[i].batch,
 						expirationDate: response[i].expirationDate,
 						serialNumber: response[i].serialNumber,
+						cold: (response[i].product.cold == true) ? "Si" : "No",
 						amount: response[i].amount
 					};
 					searchAndAdd(stockList, stock);
@@ -233,6 +236,7 @@ SearchStock = function() {
 						code: stockList[i].productCode,
 						product: stockList[i].productDescription,
 						agreement: "<span class='span-agreementId' style='display:none'>" + stockList[i].agreementId + "</span>" + stockList[i].agreementDescription,
+						cold: stockList[i].cold,
 						amount: stockList[i].amount,
 						command: ""
 					};

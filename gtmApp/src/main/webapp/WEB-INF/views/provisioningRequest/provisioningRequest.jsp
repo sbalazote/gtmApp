@@ -186,9 +186,30 @@
 <!-- Modal Cantidad de Productos -->
 <form id="productAmountModalForm" action="" onsubmit="return false;">
 	<div class="modal fade" data-backdrop="static" id="amountModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog" style="width:250px">
+		<div class="modal-dialog" style="width:300px">
 			<div class="modal-content">
 				<div class="modal-body">
+					<div class="row form-group">
+						<div class="col-md-12 col-lg-12">
+							<h5 id="productDescriptionInput" style="font-weight: bold"></h5>
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-8 col-lg-8">
+							<label for="productAmountAvaiableInput"><spring:message code="common.amountAvailable"/>:</label>
+						</div>
+						<div class="col-md-4 col-lg-4">
+							<span id="productAmountAvaiableInput"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-2 col-lg-2">
+							<label for="productColdInput"><spring:message code="common.cold"/>:</label>
+						</div>
+						<div class="col-md-3 col-lg-3">
+							<span id="productColdInput"></span>
+						</div>
+					</div>
 					<label for="productAmountInput"><spring:message code="common.amount"/></label>
 					<input type="text" class="form-control" name="productAmount" id="productAmountInput"/>
 				</div>
