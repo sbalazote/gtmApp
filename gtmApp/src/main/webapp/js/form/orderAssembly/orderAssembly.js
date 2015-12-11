@@ -198,7 +198,7 @@ OrderAssembly = function() {
 				},
 				success: function(response) {
 					var msgType = "success";
-					var message = "Se ha generado exitosamente el armado para el pedido n\u00famero: " + response.operationId;
+					var message = "Se ha generado exitosamente el armado para el pedido n\u00famero: " + $("#provisioningRequestId").val();
 					if (response.errorMessages.length > 0) {
 						$.each(response.errorMessages, function (index, value) {
 							message += "<strong><p>" + value + "</p></strong>";
