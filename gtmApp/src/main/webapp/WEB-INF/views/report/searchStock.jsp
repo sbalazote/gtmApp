@@ -81,13 +81,13 @@
 		<div>
 			<div class="row">
 				<div class="col-md-3 col-lg-2 col-md-offset-6 col-lg-offset-8">
-					<button class="btn btn-success btn-block" type="submit" id="searchButton">
+					<button class="btn btn-success btn-block" type="button" id="searchButton">
 						<span class="glyphicon glyphicon-search"></span>
 						<spring:message code="common.search" />
 					</button>
 				</div>
 				<div class="col-md-3 col-lg-2">
-					<button class="btn btn-info btn-block" type="submit" id="cleanButton">
+					<button class="btn btn-info btn-block" type="button" id="cleanButton">
 						<span class="glyphicon glyphicon-trash"></span>
 						<spring:message code="common.clean" />
 					</button>

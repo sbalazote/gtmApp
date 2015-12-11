@@ -115,6 +115,8 @@ SearchStock = function() {
 							$('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
 
 							$("#productInput").val(productDescription);
+
+							$("#searchButton").trigger("click");
 						} else {
 							$('#productInput').tooltip("destroy").data("title", "Producto Inexistente").addClass("has-error").tooltip();
 							$('#productInput').val('');
