@@ -89,9 +89,9 @@
 			<div class="col-md-4 col-lg-4">
 				<label for="cancelledSelect"><spring:message code="common.state"/></label>
 				<select class="form-control chosen-select" id="cancelledSelect" name="cancelled">
-					<option value="">Todos</option>
-					<option value="false">Confirmados</option>
-					<option value="true">Anulados</option>
+					<option value=""><spring:message code="search.state.all"/></option>
+					<option value="false"><spring:message code="search.state.confirmed"/></option>
+					<option value="true"><spring:message code="search.state.cancelled"/></option>
 				</select>
 			</div>
 		</div>

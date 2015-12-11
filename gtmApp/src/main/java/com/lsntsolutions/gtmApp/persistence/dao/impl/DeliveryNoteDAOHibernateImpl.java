@@ -10,7 +10,6 @@ import com.lsntsolutions.gtmApp.service.OrderService;
 import com.lsntsolutions.gtmApp.service.OutputService;
 import com.lsntsolutions.gtmApp.service.SupplyingService;
 import com.lsntsolutions.gtmApp.util.StringUtility;
-import com.lsntsolutions.gtmApp.webservice.WebServiceHelper;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -402,6 +401,9 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 			if (deliveryNoteQuery.getProductId() != null) {
 				sentence += " and od.product_id = " + deliveryNoteQuery.getProductId();
 			}
+			if (deliveryNoteQuery.getCancelled() != null) {
+				sentence += " and dn.cancelled = " + deliveryNoteQuery.getCancelled();
+			}
             sentence += " order by dn.id desc";
 			Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("dn", DeliveryNote.class)
 					.addJoin("dnd", "dn.deliveryNoteDetails").addEntity("dn", DeliveryNote.class)
@@ -451,6 +453,9 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 			if (deliveryNoteQuery.getProductId() != null) {
 				sentence += " and od.product_id = " + deliveryNoteQuery.getProductId();
 			}
+			if (deliveryNoteQuery.getCancelled() != null) {
+				sentence += " and dn.cancelled = " + deliveryNoteQuery.getCancelled();
+			}
             sentence += " order by dn.id desc";
 			Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("dn", DeliveryNote.class)
 					.addJoin("dnd", "dn.deliveryNoteDetails").addEntity("dn", DeliveryNote.class)
@@ -495,6 +500,9 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
             }
 			if (deliveryNoteQuery.getProductId() != null) {
 				sentence += " and sd.product_id = " + deliveryNoteQuery.getProductId();
+			}
+			if (deliveryNoteQuery.getCancelled() != null) {
+				sentence += " and dn.cancelled = " + deliveryNoteQuery.getCancelled();
 			}
             sentence += " order by dn.id desc";
             Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("dn", DeliveryNote.class)

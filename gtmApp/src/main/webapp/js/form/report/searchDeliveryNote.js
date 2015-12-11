@@ -235,6 +235,7 @@ SearchDeliveryNote = function() {
 		$("#outputProviderSearch").val('').trigger('chosen:updated');
 		$("#outputDeliveryLocationSearch").val('').trigger('chosen:updated');
 		$("#outputAgreementSearch").val('').trigger('chosen:updated');
+		$('#cancelledDeliveryNotesOutputsSelect').val('').trigger('chosen:updated');
 		$("#outputProductInput").removeAttr("productId");
 		$("#outputProductInput").val('');
 		$("#outputIdSearch").val('');
@@ -252,6 +253,7 @@ SearchDeliveryNote = function() {
 		}
 		$("#orderDeliveryLocationSearch").val('').trigger('chosen:updated');
 		$("#orderAgreementSearch").val('').trigger('chosen:updated');
+		$('#cancelledDeliveryNotesOrdersSelect').val('').trigger('chosen:updated');
 		$("#orderProductInput").removeAttr("productId");
 		$("#orderProductInput").val('');
 		$("#orderClientSearch").val('').trigger('chosen:updated');
@@ -271,6 +273,7 @@ SearchDeliveryNote = function() {
 			$.datepicker._clearDate('#supplyingDateToSearch');
 		}
 		$("#supplyingAgreementSearch").val('').trigger('chosen:updated');
+		$('#cancelledDeliveryNotesSupplyingsSelect').val('').trigger('chosen:updated');
 		$("#supplyingProductInput").removeAttr("productId");
 		$("#supplyingProductInput").val('');
 		$("#supplyingClientSearch").val('').trigger('chosen:updated');
@@ -308,7 +311,8 @@ SearchDeliveryNote = function() {
 				"affiliateId": null,
 				"outputId": $("#outputIdSearch").val(),
 				"supplyingId": null,
-				"provisioningRequestId": null
+				"provisioningRequestId": null,
+				"cancelled": $("#cancelledDeliveryNotesOutputsSelect").val() || null
 			};
 			
 			$.ajax({
@@ -324,11 +328,17 @@ SearchDeliveryNote = function() {
 							id:"",
 							number: 0,
 							date: "",
+							cancelled: "",
 							action: ""
 						};
 						output.id= response[i].id;
 						output.number = response[i].number;
 						output.date = myParseDate(response[i].date);
+						if(response[i].cancelled){
+							output.cancelled = "Si";
+						}else{
+							output.cancelled = "No";
+						}
 						output.action = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
 						aaData.push(output);
 					}
@@ -373,7 +383,8 @@ SearchDeliveryNote = function() {
 				"affiliateId": $("#orderAffiliate").val() || null,
 				"outputId": null,
 				"supplyingId": null,
-				"provisioningRequestId": $("#provisioningIdSearch").val() || null
+				"provisioningRequestId": $("#provisioningIdSearch").val() || null,
+				"cancelled": $("#cancelledDeliveryNotesOrdersSelect").val() || null
 			};
 
 			$.ajax({
@@ -389,12 +400,18 @@ SearchDeliveryNote = function() {
 							id:"",
 							number: 0,
 							date: "",
+							cancelled: "",
 							action: ""
 						};
 						deliveryNoteFromOrder.id = response[i].deliveryNote.id;
 						deliveryNoteFromOrder.number = response[i].deliveryNote.number;
 						deliveryNoteFromOrder.provisioningRequestId = response[i].order.provisioningRequest.id;
 						deliveryNoteFromOrder.date = myParseDate(response[i].deliveryNote.date);
+						if(response[i].deliveryNote.cancelled){
+							deliveryNoteFromOrder.cancelled = "Si";
+						}else{
+							deliveryNoteFromOrder.cancelled = "No";
+						}
 						deliveryNoteFromOrder.action = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
 						aaData.push(deliveryNoteFromOrder);
 					}
@@ -439,7 +456,8 @@ SearchDeliveryNote = function() {
 				"affiliateId": $("#supplyingAffiliate").val() || null,
 				"outputId": null,
 				"supplyingId": $("#supplyingIdSearch").val() || null,
-				"provisioningRequestId": null
+				"provisioningRequestId": null,
+				"cancelled": $("#cancelledDeliveryNotesSupplyingsSelect").val() || null
 			};
 
 			$.ajax({
@@ -455,11 +473,17 @@ SearchDeliveryNote = function() {
 							id:"",
 							number: 0,
 							date: "",
+							cancelled: "",
 							action: ""
 						};
 						output.id= response[i].id;
 						output.number = response[i].number;
 						output.date = myParseDate(response[i].date);
+						if(response[i].cancelled){
+							output.cancelled = "Si";
+						}else{
+							output.cancelled = "No";
+						}
 						output.action = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
 
 						aaData.push(output);
@@ -514,6 +538,18 @@ SearchDeliveryNote = function() {
 	});
 
 	$("#orderAgreementSearch").chosen({
+		width: '100%'
+	});
+
+	$("#cancelledDeliveryNotesOrdersSelect").chosen({
+		width: '100%'
+	});
+
+	$("#cancelledDeliveryNotesOrdersSelect").chosen({
+		width: '100%'
+	});
+
+	$("#cancelledDeliveryNotesSupplyingsSelect").chosen({
 		width: '100%'
 	});
 };

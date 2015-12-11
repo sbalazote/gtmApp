@@ -100,6 +100,14 @@
 								</c:forEach>
 							</select>
 						</div>
+						<div class="col-md-4 col-lg-4 form-group">
+							<label for="cancelledDeliveryNotesOutputsSelect"><spring:message code="common.state"/></label>
+							<select class="form-control chosen-select" id="cancelledDeliveryNotesOutputsSelect" name="cancelledDeliveryNotesOutputs">
+								<option value=""><spring:message code="search.state.all"/></option>
+								<option value="false"><spring:message code="search.state.confirmed"/></option>
+								<option value="true"><spring:message code="search.state.cancelled"/></option>
+							</select>
+						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-6 col-lg-8 form-group">
@@ -127,6 +135,7 @@
 									<th data-column-id="id" data-header-css-class="idColumn" data-type="numeric"><spring:message code="common.id"/></th>
 						            <th data-column-id="number" data-header-css-class="descriptionColumn" data-type="numeric"><spring:message code="common.deliveryNote"/></th>
 						            <th data-column-id="date"><spring:message code="common.date"/></th>
+									<th data-column-id="cancelled"><spring:message code="common.cancelled"/></th>
 						          	<th data-column-id="action"><spring:message code="common.option"/></th>
 						        </tr>
 					   	 	</thead>
@@ -195,19 +204,27 @@
 								</c:forEach>
 							</select>
 						</div>
-						<div class="col-md-8 col-lg-8 form-group">
-							<label for="supplyingProductInput"><spring:message code="common.product"/></label>
-							<input id="supplyingProductInput" name="supplyingProductInput" type="search" placeholder='<spring:message code="search.product.description"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental" />
+						<div class="col-md-4 col-lg-4 form-group">
+							<label for="cancelledDeliveryNotesSupplyingsSelect"><spring:message code="common.state"/></label>
+							<select class="form-control" id="cancelledDeliveryNotesSupplyingsSelect" name="cancelledDeliveryNotesSupplyings">
+								<option value=""><spring:message code="search.state.all"/></option>
+								<option value="false"><spring:message code="search.state.confirmed"/></option>
+								<option value="true"><spring:message code="search.state.cancelled"/></option>
+							</select>
 						</div>
 					</div>
 					<div class="row">
-                        <div class="col-md-3 col-lg-2 col-md-offset-6 col-lg-offset-8">
+						<div class="col-md-6 col-lg-8 form-group">
+							<label for="supplyingProductInput"><spring:message code="common.product"/></label>
+							<input id="supplyingProductInput" name="supplyingProductInput" type="search" placeholder='<spring:message code="search.product.description"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental" />
+						</div>
+                        <div class="col-md-3 col-lg-2 form-margin">
 							<button class="btn btn-success btn-block" type="submit" id="searchSupplyingButton">
 							<span class="glyphicon glyphicon-search"></span>
 							<spring:message code="common.search" />
 							</button>
 						</div>
-						<div class="col-md-3 col-lg-2">
+						<div class="col-md-3 col-lg-2 form-margin">
 							<button class="btn btn-info btn-block" type="submit" id="cleanSupplyingButton">
 							<span class="glyphicon glyphicon-trash"></span>
 							<spring:message code="common.clean" />
@@ -222,6 +239,7 @@
 									<th data-column-id="id" data-header-css-class="idColumn" data-type="numeric"><spring:message code="common.id"/></th>
                                     <th data-column-id="number" data-header-css-class="descriptionColumn" data-type="numeric"><spring:message code="common.deliveryNote"/></th>
                                     <th data-column-id="date"><spring:message code="common.date"/></th>
+									<th data-column-id="cancelled"><spring:message code="common.cancelled"/></th>
                                     <th data-column-id="action"><spring:message code="common.option"/></th>
                                 </tr>
                             </thead>
@@ -299,6 +317,14 @@
 								</c:forEach>
 							</select>
 						</div>
+						<div class="col-md-4 col-lg-4 form-group">
+							<label for="cancelledDeliveryNotesOrdersSelect"><spring:message code="common.state"/></label>
+							<select class="form-control" id="cancelledDeliveryNotesOrdersSelect" name="cancelledDeliveryNotesOrders">
+								<option value=""><spring:message code="search.state.all"/></option>
+								<option value="false"><spring:message code="search.state.confirmed"/></option>
+								<option value="true"><spring:message code="search.state.cancelled"/></option>
+							</select>
+						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-6 col-lg-8 form-group">
@@ -327,6 +353,7 @@
                                 <th data-column-id="number" data-type="numeric"><spring:message code="common.deliveryNote"/></th>
 								<th data-column-id="provisioningRequestId" data-type="numeric"><spring:message code="provisioningRequest.provisioningRequestNumber"/></th>
                                 <th data-column-id="date"><spring:message code="common.date"/></th>
+								<th data-column-id="cancelled"><spring:message code="common.cancelled"/></th>
                                 <th data-column-id="action"><spring:message code="common.option"/></th>
                             </tr>
                             </thead>

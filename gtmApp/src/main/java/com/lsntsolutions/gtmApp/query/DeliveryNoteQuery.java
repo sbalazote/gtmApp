@@ -15,6 +15,7 @@ public class DeliveryNoteQuery {
 	private Integer outputId;
 	private Integer supplyingId;
 	private Integer provisioningRequestId;
+	private Boolean cancelled;
 
 	public String getDeliveryNoteNumber() {
 		return deliveryNoteNumber;
@@ -118,5 +119,13 @@ public class DeliveryNoteQuery {
 
 	public void setSupplyingId(Integer supplyingId) {
 		this.supplyingId = supplyingId;
+	}
+
+	public Boolean getCancelled() {
+		return cancelled;
+	}
+
+	public void setCancelled(Boolean cancelled) {
+		this.cancelled = cancelled;
 	}
 }
