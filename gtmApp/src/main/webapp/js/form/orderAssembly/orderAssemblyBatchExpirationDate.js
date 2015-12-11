@@ -130,8 +130,8 @@ OrderAssemblyBatchExpirationDate = function() {
 			}
 			
 			var batchExpirationDate = $("#batchExpirationDateSelect option:selected").html();
-			var batch = batchExpirationDate.split("-")[0].trim();
-			var expirationDate = batchExpirationDate.split("-")[1].trim();
+			var batch = batchExpirationDate.split(" - ")[0].trim();
+			var expirationDate = batchExpirationDate.split(" - ")[1].trim();
 			
 			addToTable(batch, expirationDate, amount, stockId);
 			
