@@ -128,6 +128,7 @@ public class OrderServiceImpl implements OrderService {
 		for (OrderDetail orderDetail : order.getOrderDetails()) {
 			this.stockService.updateStock(orderDetail, order.getProvisioningRequest().getAgreement());
 		}
+		this.orderDAO.save(order);
 		logger.info("Se ha anulado el Armado de Pedido n�mero: " + order.getId());
 	}
 

@@ -77,12 +77,12 @@ var OrderCancellation = function() {
 	    }
 	}).on("selected.rs.jquery.bootgrid", function(e, rows) {
 	    for (var i = 0; i < rows.length; i++) {
-	    	requestsToCancel.push(rows[i].id);
+	    	requestsToCancel.push(rows[i].orderId);
 	    }
 	}).on("deselected.rs.jquery.bootgrid", function(e, rows) {
 	    for (var i = 0; i < rows.length; i++) {
 	    	for(var j = requestsToCancel.length - 1; j >= 0; j--) {
-			    if(requestsToCancel[j] === rows[i].id) {
+			    if(requestsToCancel[j] === rows[i].orderId) {
 			    	requestsToCancel.splice(j, 1);
 			    }
 			}
