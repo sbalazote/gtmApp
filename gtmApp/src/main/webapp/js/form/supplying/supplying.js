@@ -224,9 +224,11 @@ var Supplying = function() {
 				data : data,
 				success : function(data) {
 					var array = $.map(data, function(item) {
+						var cold = " Frio: ";
+						cold += item.cold == true ? "Si" : "No";
 						return {
 							id : item.id,
-							label : item.code + " - " + item.description + " - " + item.brand.description + " - " + item.monodrug.description,
+							label : item.code + " - " + item.description + " - " + item.brand.description + " - " + item.monodrug.description+ " - " + cold,
 							value : item.code + " - " + item.description,
 							gtin: item.lastGtin,
 							type: item.type
