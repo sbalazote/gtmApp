@@ -59,7 +59,8 @@ var ProvisioningRequest = function() {
 					required: true
 				},
 				deliveryDate: {
-					required: true
+					required: true,
+					formatDate: true
 				}
 			},
 			showErrors: myShowErrors,
@@ -205,7 +206,7 @@ var ProvisioningRequest = function() {
 	    formatResult: function(data) { 
 	        return "<div class='select2-user-result'>" + data.text + "</div>"; 
 	    },
-	    formatSelection: function(data) { 
+	    formatSelection: function(data) {
 	        return data.text;
 	    }
 	}).select2('val', []);

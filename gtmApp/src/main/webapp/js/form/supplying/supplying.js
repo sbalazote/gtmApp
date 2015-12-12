@@ -79,7 +79,8 @@ var Supplying = function() {
 					required: true
 				},
 				currentDate : {
-					required : true
+					required : true,
+					formatDate: true
 				}
 			},
 			showErrors : myShowErrors,

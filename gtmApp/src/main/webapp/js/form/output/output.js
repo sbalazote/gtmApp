@@ -56,7 +56,8 @@ Output = function() {
 		form.validate({
 			rules: {
 				currentDate: {
-					required: true
+					required: true,
+					formatDate: true
 				},
 				concept: {
 					required: true

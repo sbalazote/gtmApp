@@ -51,6 +51,7 @@ public class OrderController {
 		Assert.notNull(provisioningRequest, "Sol. de Abastecimiento con identificador = " + provisioningRequestId + " no encontrada!");
 
 		modelMap.put("provisioningRequestId", provisioningRequest.getId());
+		modelMap.put("provisioningRequestIdFormated", provisioningRequest.getFormatId());
 		modelMap.put("deliveryLocation", provisioningRequest.getDeliveryLocation());
 		modelMap.put("agreement", provisioningRequest.getAgreement());
 		modelMap.put("logisticsOperator", provisioningRequest.getLogisticsOperator());

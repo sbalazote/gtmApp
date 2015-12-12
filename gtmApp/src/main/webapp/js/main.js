@@ -131,7 +131,16 @@ $(document).ready(function() {
         }
         return this.optional(element) || check;
     }, "Por favor, escribe una fecha mayor a la fecha del d\u00eda. (Formato: ddmmaa)");
-    
+
+	jQuery.validator.addMethod("formatDate", function(value, element) {
+		var check = false;
+		var re = re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;;
+		if (re.test(value)) {
+			check = true;
+		}
+		return this.optional(element) || check;
+	}, "Por favor, escribe una fecha con Formato: dd/mm/aaaa");
+
     jQuery.validator.addMethod("minDate", function(value, element, param) {
     	var partsTo = value.split("/");
     	var partsFrom = param.val().split("/");
