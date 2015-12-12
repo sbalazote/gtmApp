@@ -21,7 +21,7 @@
 		<input type="hidden" class="form-control" id="agreementId" value="${agreement.id}">
 	</div>
 	<div class="col-md-3 form-group">
-		<h3 class="form-provisioningRequest-heading text-right"><spring:message code="provisioningRequest.provisioningRequestNumber" />: <span style="color:blue">${provisioningRequestIdFormated != null ? provisioningRequestIdFormated : ''}</span></h3>
+		<h3 id="provisioningRequestIdFormated" class="form-provisioningRequest-heading text-right"><spring:message code="provisioningRequest.provisioningRequestNumber" />: <span style="color:blue">${provisioningRequestIdFormated != null ? provisioningRequestIdFormated : ''}</span></h3>
 	</div>
 </div>
 

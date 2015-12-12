@@ -8,7 +8,6 @@ public class ProvisioningQuery {
 	private Integer agreementId;
 	private Integer clientId;
 	private Integer affiliateId;
-	private String comment;
 	private Integer deliveryLocation;
 	private Integer logisticsOperator;
 	private Integer stateId;
@@ -61,14 +60,6 @@ public class ProvisioningQuery {
 		this.affiliateId = affiliateId;
 	}
 
-	public String getComment() {
-		return this.comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-
 	public Integer getDeliveryLocation() {
 		return this.deliveryLocation;
 	}
@@ -94,7 +85,7 @@ public class ProvisioningQuery {
 	}
 
 	public static ProvisioningQuery createFromParameters(Integer id, String dateFrom, String dateTo, Integer agreementId, Integer clientId,
-			Integer affiliateId, String comment, Integer deliveryLocation, Integer logisticsOperator, Integer stateId) {
+														 Integer affiliateId, Integer deliveryLocation, Integer logisticsOperator, Integer stateId) {
 		ProvisioningQuery provisioningQuery = new ProvisioningQuery();
 		provisioningQuery.provisioningId = id;
 		provisioningQuery.dateFrom = dateFrom;
@@ -102,7 +93,6 @@ public class ProvisioningQuery {
 		provisioningQuery.agreementId = agreementId;
 		provisioningQuery.clientId = clientId;
 		provisioningQuery.affiliateId = affiliateId;
-		provisioningQuery.comment = comment;
 		provisioningQuery.deliveryLocation = deliveryLocation;
 		provisioningQuery.logisticsOperator = logisticsOperator;
 		provisioningQuery.stateId = stateId;

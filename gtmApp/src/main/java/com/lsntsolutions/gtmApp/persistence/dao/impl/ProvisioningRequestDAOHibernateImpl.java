@@ -92,10 +92,6 @@ public class ProvisioningRequestDAOHibernateImpl implements ProvisioningRequestD
 			criteria.add(Restrictions.eq("client.id", provisioningQuery.getClientId()));
 		}
 
-		if (!StringUtils.isEmpty(provisioningQuery.getComment())) {
-			criteria.add(Restrictions.like("comment", provisioningQuery.getComment(), MatchMode.ANYWHERE));
-		}
-
 		if (provisioningQuery.getLogisticsOperator() != null) {
 			criteria.add(Restrictions.eq("logisticsOperator.id", provisioningQuery.getLogisticsOperator()));
 		}

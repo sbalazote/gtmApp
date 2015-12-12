@@ -99,7 +99,6 @@ SearchProvisioningRequest = function() {
 				"clientId": $("#clientSearch").val() || null,
 				"affiliateId": $("#affiliateSearch").attr("affiliateId") || null,
 				"agreementId": $("#agreementSearch").val() || null,
-				"comment": $("#commentTextArea").val().trim(),
 				"deliveryLocation": $("#deliveryLocationSearch").val() || null,
 				"logisticsOperator": $("#logisticsOperatorSearch").val() || null,
 				"stateId": $("#stateSearch").val() || null

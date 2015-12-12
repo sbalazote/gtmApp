@@ -253,7 +253,7 @@ public class ProvisioningRequestController {
 			stateId = Integer.valueOf(request.getParameterValues("stateId")[0]);
 		}
 		ProvisioningQuery provisioningQuery = ProvisioningQuery.createFromParameters(id, request.getParameterValues("dateFrom")[0],
-				request.getParameterValues("dateTo")[0], agreementId, clientId, affiliateId, request.getParameterValues("comment")[0], deliveryLocation,
+				request.getParameterValues("dateTo")[0], agreementId, clientId, affiliateId, deliveryLocation,
 				logisticsOperator, stateId);
 
 		return provisioningQuery;

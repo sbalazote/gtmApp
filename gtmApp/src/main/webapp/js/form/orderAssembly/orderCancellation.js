@@ -2,6 +2,7 @@ var OrderCancellation = function() {
 	
 	var orderId = null;
 	var requestsToCancel = [];
+	var provisioningToCancel = [];
 	
 	$('#orderTableBody').on("click", ".view-row", function() {
 		var parent = $(this).parent().parent();
@@ -47,7 +48,7 @@ var OrderCancellation = function() {
 				data: JSON.stringify(requestsToCancel),
 				async: false,
 				success: function(response) {
-					myReload("success", "Se han anulado los siguientes pedidos: " + requestsToCancel);
+					myReload("success", "Se han anulado los armados correspondientes a los siguientes pedidos: " + provisioningToCancel);
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					myGenericError();
@@ -78,12 +79,14 @@ var OrderCancellation = function() {
 	}).on("selected.rs.jquery.bootgrid", function(e, rows) {
 	    for (var i = 0; i < rows.length; i++) {
 	    	requestsToCancel.push(rows[i].orderId);
+			provisioningToCancel.push(rows[i].id);
 	    }
 	}).on("deselected.rs.jquery.bootgrid", function(e, rows) {
 	    for (var i = 0; i < rows.length; i++) {
 	    	for(var j = requestsToCancel.length - 1; j >= 0; j--) {
 			    if(requestsToCancel[j] === rows[i].orderId) {
 			    	requestsToCancel.splice(j, 1);
+					provisioningToCancel.splice(j,1);
 			    }
 			}
 	    }
