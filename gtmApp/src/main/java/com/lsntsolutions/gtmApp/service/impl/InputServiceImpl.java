@@ -453,11 +453,10 @@ public class InputServiceImpl implements InputService {
 
 	@Override
 	public boolean cancelInput(Integer inputId) {
-		boolean canCancel = true;
-		boolean hasNoSerials = false;
 		boolean toReturn = false;
 		Input input = this.get(inputId);
-		this.canCancelInput(input, canCancel, hasNoSerials);
+		boolean hasNoSerials = input.hasSerials();
+		boolean canCancel = this.canCancelInput(input);
 		if (canCancel && !hasNoSerials) {
 			// Si tiene serie tiene que informar a ANMAT la cancelacion.
 			try {
@@ -511,22 +510,22 @@ public class InputServiceImpl implements InputService {
 		return input;
 	}
 
-	private void canCancelInput(Input input, boolean canCancel, boolean hasNoSerials) {
+	private boolean canCancelInput(Input input) {
 		for (InputDetail inputDetail : input.getInputDetails()) {
 			// Los serializados se fija si existen en stock
 			if (inputDetail.getSerialNumber() != null) {
-				hasNoSerials = false;
 				if (!this.existsSerial(inputDetail.getSerialNumber(), inputDetail.getProduct().getId(), inputDetail.getGtin().getNumber())) {
-					canCancel = false;
+					return false;
 				}
 			} else {
 				// Si no tiene serie entonces es lote y vencimiento, se fija que haya la cantidad suficiente.
 				if (!this.stockService.hasStock(inputDetail.getProduct().getId(), inputDetail.getBatch(), inputDetail.getExpirationDate(), input.getAgreement()
 						.getId(), inputDetail.getAmount())) {
-					canCancel = false;
+					return false;
 				}
 			}
 		}
+		return true;
 	}
 
     @Override

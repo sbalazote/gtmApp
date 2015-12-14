@@ -113,7 +113,7 @@ OrderAssemblySerialized = function() {
 						return;
 					}
 					
-		           var gtinFound = false;
+		           	var gtinFound = false;
                     var gtin;
                     if(response.gtin != null) {
                        $.ajax({

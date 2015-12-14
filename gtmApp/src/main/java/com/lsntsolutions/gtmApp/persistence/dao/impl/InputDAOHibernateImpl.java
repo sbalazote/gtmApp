@@ -199,10 +199,6 @@ public class InputDAOHibernateImpl implements InputDAO {
 			sentence += " and i.purchase_order_number = " + inputQuery.getPurchaseOrderNumber();
 		}
 
-		sentence += " and not exists (select * from order_detail as od,input_detail as id1, `order` as o where o.cancelled = 0 and id1.input_id = i.id and id1.product_id = od.product_id and od.batch = id1.batch and od.expiration_date = id1.expiration_date and (od.serial_number is null or od.serial_number=id1.serial_number))";
-
-		sentence += " and not exists (select * from output_detail as oud,input_detail as id2, output as o where o.cancelled = 0 and id2.input_id = i.id and id2.product_id = oud.product_id and oud.batch = id2.batch and oud.expiration_date = id2.expiration_date and (oud.serial_number is null or oud.serial_number=id2.serial_number));";
-
 		Query query;
 		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("i", Input.class).addJoin("id", "i.inputDetails")
 				.addEntity("i", Input.class).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);

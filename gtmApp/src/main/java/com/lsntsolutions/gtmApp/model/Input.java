@@ -295,4 +295,13 @@ public class Input implements Serializable {
 		return agentId;
 	}
 
+	public boolean hasSerials(){
+		boolean result = false;
+		for(InputDetail inputDetail : inputDetails){
+			if(inputDetail.getSerialNumber() != null){
+				result = true;
+			}
+		}
+		return result;
+	}
 }
