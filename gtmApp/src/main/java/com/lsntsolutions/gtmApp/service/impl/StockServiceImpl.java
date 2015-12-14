@@ -1,20 +1,19 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
-import java.util.Date;
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.Agreement;
 import com.lsntsolutions.gtmApp.model.Detail;
+import com.lsntsolutions.gtmApp.model.Product;
+import com.lsntsolutions.gtmApp.model.Stock;
 import com.lsntsolutions.gtmApp.persistence.dao.StockDAO;
+import com.lsntsolutions.gtmApp.query.StockQuery;
 import com.lsntsolutions.gtmApp.service.StockService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lsntsolutions.gtmApp.model.Product;
-import com.lsntsolutions.gtmApp.model.Stock;
-import com.lsntsolutions.gtmApp.query.StockQuery;
+import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -203,7 +202,7 @@ public class StockServiceImpl implements StockService {
 	@Override
 	public boolean hasStock(Integer productId, String batch, Date expirationDate, Integer agreementId, Integer amount) {
 		Stock stock = this.stockDAO.getBatchExpirationDateStockForUpdate(productId, batch, expirationDate, agreementId);
-		return stock.getAmount() >= amount;
+		return stock != null && stock.getAmount() >= amount;
 	}
 
 	@Override
