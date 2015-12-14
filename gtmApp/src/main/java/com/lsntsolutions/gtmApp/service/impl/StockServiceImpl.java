@@ -205,6 +205,13 @@ public class StockServiceImpl implements StockService {
 		return stock != null && stock.getAmount() >= amount;
 	}
 
+
+	@Override
+	public boolean existsSerial(Integer productId, String gtin, Integer agreementId, String serial) {
+		Stock stock = this.stockDAO.getSerializedProductStock(productId,serial, gtin, agreementId);
+		return stock != null && stock.getAmount() > 0;
+	}
+
 	@Override
 	public void removeFromStock(List<Stock> stocks) {
 		for(Stock stock : stocks){

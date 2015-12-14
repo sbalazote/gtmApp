@@ -47,5 +47,7 @@ public interface StockService {
 
 	boolean hasStock(Integer productId, String batch, Date expirationDate, Integer agreementId, Integer amount);
 
+	boolean existsSerial(Integer productId, String gtin, Integer agreementId, String serial);
+
 	void removeFromStock(List<Stock> stocks);
 }

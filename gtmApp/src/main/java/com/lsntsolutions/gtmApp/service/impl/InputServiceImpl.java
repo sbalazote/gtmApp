@@ -502,8 +502,8 @@ public class InputServiceImpl implements InputService {
 		for (InputDetail inputDetail : input.getInputDetails()) {
 			// Los serializados se fija si existen en stock
 			if (inputDetail.getSerialNumber() != null) {
-				// TODO modif this !
-				if (!this.existsSerial(inputDetail.getSerialNumber(), inputDetail.getProduct().getId(), inputDetail.getGtin().getNumber())) {
+				String gtin = inputDetail.getGtin() != null ? inputDetail.getGtin().getNumber() : null;
+				if (!this.stockService.existsSerial(inputDetail.getProduct().getId(),gtin,input.getAgreement().getId(),inputDetail.getSerialNumber())) {
 					return false;
 				}
 			} else {
