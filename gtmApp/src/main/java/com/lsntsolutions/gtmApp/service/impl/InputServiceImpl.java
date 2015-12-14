@@ -473,7 +473,7 @@ public class InputServiceImpl implements InputService {
 				e.printStackTrace();
 			}
 		}
-		if (!hasSerials) {
+		if (canCancel && !hasSerials) {
 			input.setCancelled(true);
 			this.saveAndRemoveFromStock(input);
 			toReturn = true;
