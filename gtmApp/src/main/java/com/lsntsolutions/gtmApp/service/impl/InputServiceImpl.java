@@ -1,16 +1,12 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import com.inssjp.mywebservice.business.WebServiceResult;
 import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.Constants;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.InputDTO;
 import com.lsntsolutions.gtmApp.dto.InputDetailDTO;
+import com.lsntsolutions.gtmApp.exceptions.*;
 import com.lsntsolutions.gtmApp.helper.SelfSerializedTagsPrinter;
 import com.lsntsolutions.gtmApp.model.*;
 import com.lsntsolutions.gtmApp.persistence.dao.InputDAO;
@@ -18,25 +14,17 @@ import com.lsntsolutions.gtmApp.query.InputQuery;
 import com.lsntsolutions.gtmApp.service.*;
 import com.lsntsolutions.gtmApp.util.OperationResult;
 import com.lsntsolutions.gtmApp.util.StringUtility;
-import com.lsntsolutions.gtmApp.exceptions.NullAgreementIdException;
-import com.lsntsolutions.gtmApp.exceptions.NullAmountException;
-import com.lsntsolutions.gtmApp.exceptions.NullConceptIdException;
-import com.lsntsolutions.gtmApp.exceptions.NullSerialNumberException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lsntsolutions.gtmApp.exceptions.DateParseException;
-import com.lsntsolutions.gtmApp.exceptions.NullBatchException;
-import com.lsntsolutions.gtmApp.exceptions.NullDateException;
-import com.lsntsolutions.gtmApp.exceptions.NullDeliveryNoteNumberException;
-import com.lsntsolutions.gtmApp.exceptions.NullInputDetailsException;
-import com.lsntsolutions.gtmApp.exceptions.NullProductIdException;
-import com.lsntsolutions.gtmApp.exceptions.NullProductTypeException;
-import com.lsntsolutions.gtmApp.exceptions.NullProviderAndDeliveryLocationIdsException;
-import com.inssjp.mywebservice.business.WebServiceResult;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -455,9 +443,9 @@ public class InputServiceImpl implements InputService {
 	public boolean cancelInput(Integer inputId) {
 		boolean toReturn = false;
 		Input input = this.get(inputId);
-		boolean hasNoSerials = input.hasSerials();
+		boolean hasSerials = input.hasSerials();
 		boolean canCancel = this.canCancelInput(input);
-		if (canCancel && !hasNoSerials) {
+		if (canCancel && hasSerials) {
 			// Si tiene serie tiene que informar a ANMAT la cancelacion.
 			try {
 				if (input.hasToInform() && !input.isForcedInput() && input.getTransactionCodeANMAT() != null) {
@@ -485,7 +473,7 @@ public class InputServiceImpl implements InputService {
 				e.printStackTrace();
 			}
 		}
-		if (hasNoSerials) {
+		if (!hasSerials) {
 			input.setCancelled(true);
 			this.saveAndRemoveFromStock(input);
 			toReturn = true;
@@ -514,6 +502,7 @@ public class InputServiceImpl implements InputService {
 		for (InputDetail inputDetail : input.getInputDetails()) {
 			// Los serializados se fija si existen en stock
 			if (inputDetail.getSerialNumber() != null) {
+				// TODO modif this !
 				if (!this.existsSerial(inputDetail.getSerialNumber(), inputDetail.getProduct().getId(), inputDetail.getGtin().getNumber())) {
 					return false;
 				}
