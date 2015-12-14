@@ -48,7 +48,7 @@ SearchAudit = function() {
 		$('#userSearch').val('').trigger('chosen:updated');
 		$("#auditActionSearch").val('').trigger('chosen:updated');
 		$('#operationNumberSearch').val('');
-		$("#auditTable").bootgrid().bootgrid("clear");
+		$("#auditTable").bootgrid("clear");
 	});
 	
 	$("#searchButton").click(function() {
@@ -111,9 +111,9 @@ SearchAudit = function() {
 				$("#auditTable").bootgrid({
 					caseSensitive: false
 				});
-				$("#auditTable").bootgrid().bootgrid("clear");
-				$("#auditTable").bootgrid().bootgrid("append", aaData);
-				$("#auditTable").bootgrid().bootgrid("search", $(".search-field").val());
+				$("#auditTable").bootgrid("clear");
+				$("#auditTable").bootgrid("append", aaData);
+				$("#auditTable").bootgrid("search", $(".search-field").val());
 				
 				var params = '&dateFrom=' + jsonAuditSearch.dateFrom + 
 				'&dateTo=' + jsonAuditSearch.dateTo +

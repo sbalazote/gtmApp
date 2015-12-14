@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	
 	// My Global Functions
-	myReload = function(type, message) {
+	var myReload = function(type, message) {
 		var postObject = {
 			"type": type,
 			"message": message
@@ -9,8 +9,8 @@ $(document).ready(function() {
 		sessionStorage.setItem("postSaveMessage", JSON.stringify(postObject));
 		window.location = window.location;
 	};
-	
-	myRedirect = function(type, message, redirectLocation) {
+
+	var myRedirect = function (type, message, redirectLocation) {
 		var postObject = {
 			"type": type,
 			"message": message
@@ -18,8 +18,8 @@ $(document).ready(function() {
 		sessionStorage.setItem("postSaveMessage", JSON.stringify(postObject));
 		window.location.href = redirectLocation;
 	};
-	
-	myShowAlert = function(type, message, element, time) {
+
+	var myShowAlert = function(type, message, element, time) {
 		if (typeof(time)==='undefined') time = 3000;
 
 		var myDiv = "alertDiv";
@@ -62,14 +62,14 @@ $(document).ready(function() {
 		}
 	};
 
-	myHideAlert = function() {
+	var myHideAlert = function() {
 		var myDiv = "alertDiv";
 		$('#'+myDiv).empty();
 	};
 	
 	// Alerts
 
-	myGenericError = function(element) {
+	var myGenericError = function(element) {
 		var message = 'Ha ocurrido un error al intentar procesar su solicitud. Por favor, comun\u00edquese con el Administrador del Sistema.';
 		myShowAlert('danger', message, element);
 		BootstrapDialog.show({
@@ -84,8 +84,8 @@ $(document).ready(function() {
             }]
 		});
 	};
-	
-	myAbortWarning = function(element) {
+
+	var myAbortWarning = function(element) {
 		var message = 'Desea regresar a la pagina principal?';
 		//myShowAlert('danger', message, element);
 		BootstrapDialog.show({
@@ -113,42 +113,42 @@ $(document).ready(function() {
                 }]
 		});
 	};
-	
-	myDeleteError = function() {
+
+	var myDeleteError = function() {
 		myShowAlert('danger', 'No es posible eliminar el elemento porque se encuentra utilizado. Si lo desea, puede desactivarlo.');
 	};
-	
-	myExistentCodeError = function() {
+
+	var myExistentCodeError = function() {
 		myShowAlert('danger', 'C\u00f3digo existente. Por favor, ingrese uno diferente.');
 	};
-	
-	myUpdateSuccessful = function() {
+
+	var myUpdateSuccessful = function() {
 		myShowAlert('success', 'Se ha registrado la modificaci\u00f3n correctamente.');
 	};
 	
 	// Alerts que redirigen o recargan la paginas
-	
-	myCreateSuccessful = function() {
+
+	var myCreateSuccessful = function() {
 		myReload('success', 'Se ha registrado el alta correctamente.');
 	};
-	
-	myDeleteRedirect = function(redirectLocation) {
+
+	var myDeleteRedirect = function(redirectLocation) {
 		myRedirect('success', 'Se ha registrado la baja correctamente.', redirectLocation);
 	};
-	
-	myNotFoundDeleteError = function(redirectLocation) {
+
+	var myNotFoundDeleteError = function(redirectLocation) {
 		myRedirect('danger', 'El registro no existe o ya ha sido dado de baja.', redirectLocation);
 	};
-	
-	myDeleteInputError = function() {
+
+	var myDeleteInputError = function() {
 		myShowAlert('danger', 'No es posible anular el ingreso porque se registran movimientos para alguno de los productos relacionados.');
 	};
-	
-	myQueryTooLargeAlert = function() {
+
+	var myQueryTooLargeAlert = function() {
 		myShowAlert('danger', 'Consulta demasiado amplia. Por favor sea m\u00e1s especifico.');
 	};
 
-	myEmptyQueryAlert = function() {
+	var myEmptyQueryAlert = function() {
 		myShowAlert('info', 'No se han encontrado elementos para la consulta realizada.');
 	};
 	

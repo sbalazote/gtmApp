@@ -239,7 +239,7 @@ SearchDeliveryNote = function() {
 		$("#outputProductInput").removeAttr("productId");
 		$("#outputProductInput").val('');
 		$("#outputIdSearch").val('');
-		$("#deliveryNoteTableOutput").bootgrid().bootgrid("clear");
+		$("#deliveryNoteTableOutput").bootgrid("clear");
 	});
 
 	$("#cleanOrderButton").click(function() {
@@ -260,7 +260,7 @@ SearchDeliveryNote = function() {
 		$("#orderAffiliate").select2("val", "");
 		affiliateId = null;
 		$("#provisioningIdSearch").val('');
-		$("#deliveryNoteTableOrder").bootgrid().bootgrid("clear");
+		$("#deliveryNoteTableOrder").bootgrid("clear");
 	});
 
 	$("#cleanSupplyingButton").click(function() {
@@ -280,7 +280,7 @@ SearchDeliveryNote = function() {
 		$("#supplyingAffiliate").select2("val", "");
 		affiliateId = null;
 		$("#supplyingIdSearch").val('');
-		$("#deliveryNoteTableSupplying").bootgrid().bootgrid("clear");
+		$("#deliveryNoteTableSupplying").bootgrid("clear");
 	});
 
 	
@@ -345,9 +345,9 @@ SearchDeliveryNote = function() {
 					$("#deliveryNoteTableOutput").bootgrid({
 							caseSensitive: false
 						});
-						$("#deliveryNoteTableOutput").bootgrid().bootgrid("clear");
-						$("#deliveryNoteTableOutput").bootgrid().bootgrid("append", aaData);
-						$("#deliveryNoteTableOutput").bootgrid().bootgrid("search", $(".search-field").val());
+						$("#deliveryNoteTableOutput").bootgrid("clear");
+						$("#deliveryNoteTableOutput").bootgrid("append", aaData);
+						$("#deliveryNoteTableOutput").bootgrid("search", $(".search-field").val());
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					myGenericError();
@@ -418,9 +418,9 @@ SearchDeliveryNote = function() {
 					$("#deliveryNoteTableOrder").bootgrid({
 						caseSensitive: false
 					});
-					$("#deliveryNoteTableOrder").bootgrid().bootgrid("clear");
-					$("#deliveryNoteTableOrder").bootgrid().bootgrid("append", aaData);
-					$("#deliveryNoteTableOrder").bootgrid().bootgrid("search", $(".search-field").val());
+					$("#deliveryNoteTableOrder").bootgrid("clear");
+					$("#deliveryNoteTableOrder").bootgrid("append", aaData);
+					$("#deliveryNoteTableOrder").bootgrid("search", $(".search-field").val());
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					myGenericError();
@@ -491,9 +491,9 @@ SearchDeliveryNote = function() {
 					$("#deliveryNoteTableSupplying").bootgrid({
 						caseSensitive: false
 					});
-					$("#deliveryNoteTableSupplying").bootgrid().bootgrid("clear");
-					$("#deliveryNoteTableSupplying").bootgrid().bootgrid("append", aaData);
-					$("#deliveryNoteTableSupplying").bootgrid().bootgrid("search", $(".search-field").val());
+					$("#deliveryNoteTableSupplying").bootgrid("clear");
+					$("#deliveryNoteTableSupplying").bootgrid("append", aaData);
+					$("#deliveryNoteTableSupplying").bootgrid("search", $(".search-field").val());
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					myGenericError();

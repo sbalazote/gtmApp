@@ -224,7 +224,7 @@ SearchBatchExpirateDateProduct = function() {
 
                 },
 				error: function(jqXHR, textStatus, errorThrown) {
-					myGenericError();
+                    myGenericError();
 				}
 			});
 			

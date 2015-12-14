@@ -105,9 +105,9 @@ var DeliveryNoteSheet = function() {
 						ordersToPrint.splice(ordersToPrint.indexOf(rows[i].orderId), 1);
 					}
 				});
-				$("#deliveryNoteTable").bootgrid().bootgrid("clear");
-				$("#deliveryNoteTable").bootgrid().bootgrid("append", aaData);
-				$("#deliveryNoteTable").bootgrid().bootgrid("search", $(".search-field").val());
+				$("#deliveryNoteTable").bootgrid("clear");
+				$("#deliveryNoteTable").bootgrid("append", aaData);
+				$("#deliveryNoteTable").bootgrid("search", $(".search-field").val());
 			},
 			error: function(response) {
 			}

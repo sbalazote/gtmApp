@@ -64,7 +64,7 @@ SearchProvisioningRequest = function() {
 		$('#affiliateSearch').attr("affiliateId","");
 		$('#affiliateSearch').val("");
 		$('#stateSearch').val('').trigger('chosen:updated');
-		$("#provisioningTable").bootgrid().bootgrid("clear");
+		$("#provisioningTable").bootgrid("clear");
 	});
 	
 	var validateForm = function() {
@@ -153,9 +153,9 @@ SearchProvisioningRequest = function() {
 				$("#provisioningTable").bootgrid({
 					caseSensitive: false
 				});
-				$("#provisioningTable").bootgrid().bootgrid("clear");
-				$("#provisioningTable").bootgrid().bootgrid("append", aaData);
-				$("#provisioningTable").bootgrid().bootgrid("search", $(".search-field").val());
+				$("#provisioningTable").bootgrid("clear");
+				$("#provisioningTable").bootgrid("append", aaData);
+				$("#provisioningTable").bootgrid("search", $(".search-field").val());
 				
 				var params = '&dateFrom=' + jsonProvisioningSearch.dateFrom + 
 				'&id=' + jsonProvisioningSearch.provisioningId +

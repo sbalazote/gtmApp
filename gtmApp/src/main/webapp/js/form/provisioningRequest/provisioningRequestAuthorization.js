@@ -58,9 +58,9 @@ ProvisioningRequestAuthorization = function() {
 						}
 					}
 				});
-				$("#provisioningTable").bootgrid().bootgrid("clear");
-				$("#provisioningTable").bootgrid().bootgrid("append", aaData);
-				$("#provisioningTable").bootgrid().bootgrid("search", $(".search-field").val());
+				$("#provisioningTable").bootgrid("clear");
+				$("#provisioningTable").bootgrid("append", aaData);
+				$("#provisioningTable").bootgrid("search", $(".search-field").val());
 			},
 			error: function(response) {
 			}

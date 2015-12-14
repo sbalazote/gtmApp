@@ -63,7 +63,7 @@ SearchOutput = function() {
 		$('#cancelledSelect').val('').trigger('chosen:updated');
 		$("#productInput").removeAttr("productId");
 		$("#productInput").val('');
-		$("#outputTable").bootgrid().bootgrid("clear");
+		$("#outputTable").bootgrid("clear");
 	});
 	
 	$("#searchButton").click(function() {
@@ -140,9 +140,9 @@ SearchOutput = function() {
 				$("#outputTable").bootgrid({
 					caseSensitive: false
 				});
-				$("#outputTable").bootgrid().bootgrid("clear");
-				$("#outputTable").bootgrid().bootgrid("append", aaData);
-				$("#outputTable").bootgrid().bootgrid("search", $(".search-field").val());
+				$("#outputTable").bootgrid("clear");
+				$("#outputTable").bootgrid("append", aaData);
+				$("#outputTable").bootgrid("search", $(".search-field").val());
 				
 				var params = '&dateFrom=' + jsonOutputSearch.dateFrom + 
 				'&id=' + jsonOutputSearch.id +

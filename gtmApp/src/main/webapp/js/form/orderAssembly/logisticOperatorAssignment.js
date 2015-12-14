@@ -106,9 +106,9 @@ var LogisticOperatorAssignment = function() {
 						}
 					}
 				});
-				$("#logisticsOperatorTable").bootgrid().bootgrid("clear");
-				$("#logisticsOperatorTable").bootgrid().bootgrid("append", aaData);
-				$("#logisticsOperatorTable").bootgrid().bootgrid("search", $(".search-field").val());
+				$("#logisticsOperatorTable").bootgrid("clear");
+				$("#logisticsOperatorTable").bootgrid("append", aaData);
+				$("#logisticsOperatorTable").bootgrid("search", $(".search-field").val());
 			},
 			error: function(response) {
 			}

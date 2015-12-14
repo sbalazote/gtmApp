@@ -176,7 +176,7 @@ SearchStock = function() {
 		
 		$('#serialNumberSearch').val('');
 		$('#batchNumberSearch').val('');
-		$("#stockTable").bootgrid().bootgrid("clear");
+		$("#stockTable").bootgrid("clear");
 	});
 	
 	$("#searchButton").click(function() {
@@ -250,9 +250,9 @@ SearchStock = function() {
 				$("#stockTable").bootgrid({
 					caseSensitive: false
 				});
-				$("#stockTable").bootgrid().bootgrid("clear");
-				$("#stockTable").bootgrid().bootgrid("append", aaData);
-				$("#stockTable").bootgrid().bootgrid("search", $(".search-field").val());
+				$("#stockTable").bootgrid("clear");
+				$("#stockTable").bootgrid("append", aaData);
+				$("#stockTable").bootgrid("search", $(".search-field").val());
 				
 				var params = '&expirateDateFrom=' + jsonStockSearch.expirateDateFrom + 
 				'&expirateDateTo=' + jsonStockSearch.expirateDateTo +

@@ -77,7 +77,7 @@ SearchSerializedProduct = function() {
         $('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
         $('#serialNumberSearch').data("title", "").removeClass("has-error").tooltip("destroy");
         productId = "";
-        $("#movementsTable").bootgrid().bootgrid("clear");
+        $("#movementsTable").bootgrid("clear");
         $('#divMovements').hide();
     });
 
@@ -90,7 +90,7 @@ SearchSerializedProduct = function() {
     $("#cleanSerialButton").click(function() {
         productId = "";
         $('#serialParserSearch').val('');
-        $("#movementsTable").bootgrid().bootgrid("clear");
+        $("#movementsTable").bootgrid("clear");
         $('#divMovements').hide();
         $('#serialParserSearch').data("title", "").removeClass("has-error").tooltip("destroy");
     });
@@ -248,9 +248,9 @@ SearchSerializedProduct = function() {
                     $("#movementsTable").bootgrid({
                         caseSensitive: false
                     });
-                    $("#movementsTable").bootgrid().bootgrid("clear");
-                    $("#movementsTable").bootgrid().bootgrid("append", aaData);
-                    $("#movementsTable").bootgrid().bootgrid("search", $(".search-field").val());
+                    $("#movementsTable").bootgrid("clear");
+                    $("#movementsTable").bootgrid("append", aaData);
+                    $("#movementsTable").bootgrid("search", $(".search-field").val());
 
                     var params = '&productId=' + productId +
                         '&serialNumber=' + serial;

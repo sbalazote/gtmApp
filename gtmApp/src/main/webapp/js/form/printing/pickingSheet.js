@@ -78,9 +78,9 @@ PickingSheet = function() {
 						provisioningsToPrint.splice(provisioningsToPrint.indexOf(rows[i].id), 1);
 					}
 				});
-				$("#provisioningTable").bootgrid().bootgrid("clear");
-				$("#provisioningTable").bootgrid().bootgrid("append", aaData);
-				$("#provisioningTable").bootgrid().bootgrid("search", $(".search-field").val());
+				$("#provisioningTable").bootgrid("clear");
+				$("#provisioningTable").bootgrid("append", aaData);
+				$("#provisioningTable").bootgrid("search", $(".search-field").val());
 			},
 			error: function(response) {
 			}

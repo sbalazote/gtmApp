@@ -42,9 +42,9 @@ OrderAssemblySelection = function() {
 				$("#orderTable").bootgrid({
 					caseSensitive: false
 				});
-				$("#orderTable").bootgrid().bootgrid("clear");
-				$("#orderTable").bootgrid().bootgrid("append", aaData);
-				$("#orderTable").bootgrid().bootgrid("search", $(".search-field").val());
+				$("#orderTable").bootgrid("clear");
+				$("#orderTable").bootgrid("append", aaData);
+				$("#orderTable").bootgrid("search", $(".search-field").val());
 			},
 			error: function(response) {
 			}
