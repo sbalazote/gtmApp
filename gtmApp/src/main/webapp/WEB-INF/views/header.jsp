@@ -90,3 +90,4 @@
 <script type="text/javascript" src="${context}/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="${context}/js/jQuery.download.js"></script>
 <script type="text/javascript" src="${context}/js/jquery.numeric.js"></script>
+<script type="text/javascript" src="${context}/js/underscore.js"></script>

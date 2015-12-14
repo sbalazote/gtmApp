@@ -166,7 +166,7 @@ InputCancellation = function() {
 	
 
 	$("#confirmButton").click(function() {
-		if(requestsToCancel.length == 1){
+		if(_.uniq(requestsToCancel).length == 1){
 			$.ajax({
 				url: "cancelInput.do",
 				type: "POST",
