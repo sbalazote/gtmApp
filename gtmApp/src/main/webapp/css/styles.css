@@ -277,3 +277,20 @@ div.blockMsg {
 body, .ui-widget {
 	font-family: "Roboto", Helvetica, Arial, sans-serif!important;
 }
+
+.form-group {
+	margin-bottom: 2px;
+}
+
+.h3 {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+#toast-container {
+	position: inherit;
+}
+
+#toast-container > div {
+	width: auto;
+}
