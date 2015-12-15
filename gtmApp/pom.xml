@@ -526,6 +526,13 @@
 				<rp.build.warname>pharmacy</rp.build.warname>
 			</properties>
 		</profile>
+		<profile>
+			<id>drugstore-dev</id>
+			<properties>
+				<env>drugstore-dev</env>
+				<rp.build.warname>drugstore-dev</rp.build.warname>
+			</properties>
+		</profile>
     </profiles>
 
 </project> 
