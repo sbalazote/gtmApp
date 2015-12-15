@@ -53,12 +53,12 @@ var OrderCancellation = function() {
 	});
 	
 	$("#confirmButton").click(function() {
-		if(requestsToCancel.length > 0){
+		if(_.uniq(requestsToCancel).length > 0){
 			$.ajax({
 				url: "cancelOrders.do",
 				type: "POST",
 				contentType: "application/json",
-				data: JSON.stringify(requestsToCancel),
+				data: JSON.stringify(_.uniq(requestsToCancel)),
 				async: false,
 				success: function(response) {
 					myReload("success", "Se han anulado los armados correspondientes a los siguientes pedidos: " + provisioningToCancel);
