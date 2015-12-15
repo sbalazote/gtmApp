@@ -28,7 +28,20 @@ var OrderCancellation = function() {
 				$.blockUI({ message: 'Espere un Momento por favor...' });
 			},
 			success: function(response) {
-				myShowAlert('success', 'Se ha mandado a imprimir el rotulo de la orden nro.: ' + orderId);
+				var msgType = "success";
+				var message = "Se han mandado a imprimir las etiquetas para el siguiente pedido: <strong>" + response.operationId + "</strong>";
+				if (response.errorMessages.length > 0) {
+					$.each(response.errorMessages, function (index, value) {
+						message += "<strong><p>" + value + "</p></strong>";
+					});
+					msgType = "warning";
+				}
+				if (response.successMessages.length > 0) {
+					$.each(response.successMessages, function (index, value) {
+						message += "<strong><p>" + value + "</p></strong>";
+					});
+				}
+				myReload(msgType, message);
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myGenericError();

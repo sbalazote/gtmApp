@@ -112,6 +112,7 @@ public class OrderController {
 	@RequestMapping(value = "/orderCancellation", method = RequestMethod.GET)
 	public String orderCancellation(ModelMap modelMap) throws Exception {
 		modelMap.put("orders", this.orderService.getAllByState(State.ASSEMBLED.getId()));
+		modelMap.put("isPrintPickingList", this.propertyService.get().isPrintPickingList());
 		return "orderCancellation";
 	}
 

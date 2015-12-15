@@ -73,7 +73,7 @@ public class OrderLabelPrinter implements ServletContextAware {
 		if (!coldProducts.isEmpty()) {
 			tag += 1;
 			try {
-				this.generateOrderLabel(order, orderLabelPrinter, "-FRIO", coldProducts, tag, 1, "FRIO");
+				this.generateOrderLabel(order, orderLabelPrinter, "-FRIO", coldProducts, tag, tags, "FRIO");
 
 			} catch (FileNotFoundException | UnsupportedEncodingException e) {
 				e.printStackTrace();

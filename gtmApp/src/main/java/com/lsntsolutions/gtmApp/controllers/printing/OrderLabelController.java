@@ -30,7 +30,7 @@ public class OrderLabelController {
     public @ResponseBody
     PrinterResultDTO printOrderLabel(@RequestParam Integer orderId) throws Exception {
         Order order = this.orderService.get(orderId);
-        PrinterResultDTO printerResultDTO = new PrinterResultDTO(order.getFormatId());
+        PrinterResultDTO printerResultDTO = new PrinterResultDTO(order.getProvisioningRequest().getFormatId());
         this.orderLabelPrinter.print(order, printerResultDTO);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
