@@ -1,6 +1,7 @@
 package com.lsntsolutions.gtmApp.helper.impl.pdf;
 
 import com.lsntsolutions.gtmApp.config.PropertyProvider;
+import com.lsntsolutions.gtmApp.constant.Constants;
 import com.lsntsolutions.gtmApp.constant.DocumentType;
 import com.lsntsolutions.gtmApp.helper.AbstractPdfView;
 import com.lsntsolutions.gtmApp.model.SupplyingDetail;
@@ -44,7 +45,7 @@ public class SupplyingsPdfView extends AbstractPdfView {
 
 		// Fuentes
 		Font fontHeader = new Font(Font.TIMES_ROMAN, 11f, Font.NORMAL, Color.BLACK);
-		Font fontDetails = new Font(Font.TIMES_ROMAN, 8f, Font.NORMAL, Color.BLACK);
+		Font fontDetails = new Font(Font.TIMES_ROMAN, 10f, Font.NORMAL, Color.BLACK);
 		// Logo
 		String realPath = getServletContext().getRealPath("/images/uploadedLogo.png");
 
@@ -71,9 +72,8 @@ public class SupplyingsPdfView extends AbstractPdfView {
 			table.setSpacingBefore(10f);
 
 			table.setSpacingAfter(10f);
-			float[] columnWidths = {1f, 7f, 1.5f, 0.7f, 1.7f, 0.6f};
 
-			table.setWidths(columnWidths);
+			table.setWidths(PdfConstants.columnWidths);
 
 			//Encabezado
 

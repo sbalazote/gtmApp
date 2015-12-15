@@ -30,9 +30,6 @@ public class StockPdfView extends AbstractPdfView {
 		@SuppressWarnings("unchecked")
 		List<Stock> stockList = (List<Stock>) model.get("stocks");
 
-		// Fuentes
-		Font fontHeader = new Font(Font.TIMES_ROMAN, 11f, Font.NORMAL, Color.BLACK);
-		Font fontDetails = new Font(Font.TIMES_ROMAN, 8f, Font.NORMAL, Color.BLACK);
 		// Logo
 		String realPath = getServletContext().getRealPath("/images/uploadedLogo.png");
 
@@ -59,7 +56,7 @@ public class StockPdfView extends AbstractPdfView {
 			table.setSpacingBefore(10f);
 
 			table.setSpacingAfter(10f);
-			float[] columnWidths = {1f, 4f, 2f, 1.5f, 0.7f, 1.7f, 0.6f};
+			float[] columnWidths = {1.3f, 4f, 2f, 1.5f, 1.2f, 1.7f, 0.6f};
 
 			table.setWidths(columnWidths);
 
@@ -126,17 +123,17 @@ public class StockPdfView extends AbstractPdfView {
 				boolean isGroup = false;
                 if(groupByProduct.get(productId).size() > 1) {
 					isGroup = true;
-                    stockGtinDetail = new PdfPCell(new Paragraph(gtin, fontDetails));
-                    stockDescriptionDetail = new PdfPCell(new Paragraph(id.getProduct().getDescription() + " (" + String.valueOf(id.getProduct().getCode()) + ")", fontDetails));
-					stockAgreementDetail = new PdfPCell(new Paragraph("", fontDetails));
-                    stockBatchDetail = new PdfPCell(new Paragraph("", fontDetails));
-                    stockExpirationDateDetail = (new PdfPCell(new Paragraph("", fontDetails)));
-                    stockSerialNumberDetail = new PdfPCell(new Paragraph("", fontDetails));
+                    stockGtinDetail = new PdfPCell(new Paragraph(gtin, PdfConstants.fontDetails));
+                    stockDescriptionDetail = new PdfPCell(new Paragraph(id.getProduct().getDescription() + " (" + String.valueOf(id.getProduct().getCode()) + ")", PdfConstants.fontDetails));
+					stockAgreementDetail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
+                    stockBatchDetail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
+                    stockExpirationDateDetail = (new PdfPCell(new Paragraph("", PdfConstants.fontDetails)));
+                    stockSerialNumberDetail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
                     Integer total = 0;
                     for(Stock inputDetail : groupByProduct.get(productId)){
                         total += inputDetail.getAmount();
                     }
-                    stockAmountDetail = new PdfPCell(new Paragraph(String.valueOf(total), fontDetails));
+                    stockAmountDetail = new PdfPCell(new Paragraph(String.valueOf(total), PdfConstants.fontDetails));
 
                     stockGtinDetail.setBorder(Rectangle.NO_BORDER);
                     stockDescriptionDetail.setBorder(Rectangle.NO_BORDER);
@@ -160,22 +157,22 @@ public class StockPdfView extends AbstractPdfView {
                     if(inputDetail.getGtin() != null){
                         gtin = inputDetail.getGtin().getNumber();
                     }
-                    stockGtinDetail = new PdfPCell(new Paragraph(gtin, fontDetails));
+                    stockGtinDetail = new PdfPCell(new Paragraph(gtin, PdfConstants.fontDetails));
 					String stockDescription = "";
 					if(!isGroup){
 						stockDescription = inputDetail.getProduct().getDescription() + " (" + String.valueOf(inputDetail.getProduct().getCode()) + ")";
 					}
-                    stockDescriptionDetail = new PdfPCell(new Paragraph(stockDescription, fontDetails));
-					stockAgreementDetail = new PdfPCell(new Paragraph(inputDetail.getAgreement().getDescription(), fontDetails));
-                    stockBatchDetail = new PdfPCell(new Paragraph(inputDetail.getBatch(), fontDetails));
-                    stockExpirationDateDetail = (new PdfPCell(new Paragraph(dateFormatter.format(inputDetail.getExpirationDate()), fontDetails)));
+                    stockDescriptionDetail = new PdfPCell(new Paragraph(stockDescription, PdfConstants.fontDetails));
+					stockAgreementDetail = new PdfPCell(new Paragraph(inputDetail.getAgreement().getDescription(), PdfConstants.fontDetails));
+                    stockBatchDetail = new PdfPCell(new Paragraph(inputDetail.getBatch(), PdfConstants.fontDetails));
+                    stockExpirationDateDetail = (new PdfPCell(new Paragraph(dateFormatter.format(inputDetail.getExpirationDate()), PdfConstants.fontDetails)));
 
                     String serialNumber = "-";
                     if(inputDetail.getSerialNumber() != null){
                         serialNumber = inputDetail.getSerialNumber();
                     }
-                    stockSerialNumberDetail = new PdfPCell(new Paragraph(serialNumber, fontDetails));
-                    stockAmountDetail = new PdfPCell(new Paragraph(String.valueOf(inputDetail.getAmount()), fontDetails));
+                    stockSerialNumberDetail = new PdfPCell(new Paragraph(serialNumber, PdfConstants.fontDetails));
+                    stockAmountDetail = new PdfPCell(new Paragraph(String.valueOf(inputDetail.getAmount()), PdfConstants.fontDetails));
 
                     stockGtinDetail.setBorder(Rectangle.NO_BORDER);
                     stockDescriptionDetail.setBorder(Rectangle.NO_BORDER);

@@ -1,6 +1,7 @@
 package com.lsntsolutions.gtmApp.helper.impl.pdf;
 
 import com.lsntsolutions.gtmApp.config.PropertyProvider;
+import com.lsntsolutions.gtmApp.constant.Constants;
 import com.lsntsolutions.gtmApp.helper.AbstractPdfView;
 import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import com.lsntsolutions.gtmApp.model.Output;
@@ -34,9 +35,6 @@ public class OutputsPdfView extends AbstractPdfView {
 		List<Output> outputs = (List<Output>) model.get("outputs");
 		Map<Integer, List<DeliveryNote>> associatedOutputs = (Map<Integer, List<DeliveryNote>>) model.get("associatedOutputs");
 
-		// Fuentes
-		Font fontHeader = new Font(Font.TIMES_ROMAN, 11f, Font.NORMAL, Color.BLACK);
-		Font fontDetails = new Font(Font.TIMES_ROMAN, 8f, Font.NORMAL, Color.BLACK);
 		// Logo
 		String realPath = getServletContext().getRealPath("/images/uploadedLogo.png");
 
@@ -63,9 +61,8 @@ public class OutputsPdfView extends AbstractPdfView {
 			table.setSpacingBefore(10f);
 
 			table.setSpacingAfter(10f);
-			float[] columnWidths = {1f, 7f, 1.5f, 0.7f, 1.7f, 0.6f};
 
-			table.setWidths(columnWidths);
+			table.setWidths(PdfConstants.columnWidths);
 
 			//Encabezado
 
@@ -149,20 +146,20 @@ public class OutputsPdfView extends AbstractPdfView {
 
 			document.add(Chunk.NEWLINE);
 
-			document.add(new Chunk("Convenio: ", fontHeader));
+			document.add(new Chunk("Convenio: ", PdfConstants.fontHeader));
 			String codeAgreement = StringUtility.addLeadingZeros(String.valueOf(output.getAgreement().getCode()),5);
-			Chunk description = new Chunk(codeAgreement + " - " + output.getAgreement().getDescription(), fontHeader);
+			Chunk description = new Chunk(codeAgreement + " - " + output.getAgreement().getDescription(), PdfConstants.fontHeader);
 			document.add(description);
 			document.add(Chunk.NEWLINE);
 
-			document.add(new Chunk("Cliente/Proveedor: ", fontHeader));
-			Chunk active = new Chunk(output.getClientOrProviderDescription(), fontHeader);
+			document.add(new Chunk("Cliente/Proveedor: ", PdfConstants.fontHeader));
+			Chunk active = new Chunk(output.getClientOrProviderDescription(), PdfConstants.fontHeader);
 			document.add(active);
 			document.add(Chunk.NEWLINE);
 
-			document.add(new Chunk("Concepto: ", fontHeader));
+			document.add(new Chunk("Concepto: ", PdfConstants.fontHeader));
 			String conceptCode = StringUtility.addLeadingZeros(output.getConcept().getCode(),4);
-			Chunk code = new Chunk(conceptCode + " - " + output.getConcept().getDescription(), fontHeader);
+			Chunk code = new Chunk(conceptCode + " - " + output.getConcept().getDescription(), PdfConstants.fontHeader);
 			document.add(code);
 			document.add(Chunk.NEWLINE);
 
@@ -182,16 +179,16 @@ public class OutputsPdfView extends AbstractPdfView {
 				boolean isGroup = false;
 				if(groupByProduct.get(productId).size() > 1) {
 					isGroup = true;
-					productCodeDetail = new PdfPCell(new Paragraph(gtin, fontDetails));
-					productDescriptionDetail = new PdfPCell(new Paragraph(id.getProduct().getDescription() + " (" + String.valueOf(id.getProduct().getCode()) + ")", fontDetails));
-					productBatchDetail = new PdfPCell(new Paragraph("", fontDetails));
-					productExpirationDateDetail = (new PdfPCell(new Paragraph("", fontDetails)));
-					productSerialNumberDetail = new PdfPCell(new Paragraph("", fontDetails));
+					productCodeDetail = new PdfPCell(new Paragraph(gtin, PdfConstants.fontDetails));
+					productDescriptionDetail = new PdfPCell(new Paragraph(id.getProduct().getDescription() + " (" + String.valueOf(id.getProduct().getCode()) + ")", PdfConstants.fontDetails));
+					productBatchDetail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
+					productExpirationDateDetail = (new PdfPCell(new Paragraph("", PdfConstants.fontDetails)));
+					productSerialNumberDetail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
 					Integer total = 0;
 					for(OutputDetail outputDetail : groupByProduct.get(productId)){
 						total += outputDetail.getAmount();
 					}
-					productAmountDetail = new PdfPCell(new Paragraph(String.valueOf(total), fontDetails));
+					productAmountDetail = new PdfPCell(new Paragraph(String.valueOf(total), PdfConstants.fontDetails));
 
 					productCodeDetail.setBorder(Rectangle.NO_BORDER);
 					productDescriptionDetail.setBorder(Rectangle.NO_BORDER);
@@ -213,20 +210,20 @@ public class OutputsPdfView extends AbstractPdfView {
 					if(outputDetail.getGtin() != null){
 						gtin = outputDetail.getGtin().getNumber();
 					}
-					productCodeDetail = new PdfPCell(new Paragraph(gtin, fontDetails));
+					productCodeDetail = new PdfPCell(new Paragraph(gtin, PdfConstants.fontDetails));
 					String productDescription = "";
 					if(!isGroup){
 						productDescription = outputDetail.getProduct().getDescription() + " (" + String.valueOf(outputDetail.getProduct().getCode()) + ")";
 					}
-					productDescriptionDetail = new PdfPCell(new Paragraph(productDescription, fontDetails));
-					productBatchDetail = new PdfPCell(new Paragraph(outputDetail.getBatch(), fontDetails));
-					productExpirationDateDetail = (new PdfPCell(new Paragraph(dateFormatter.format(outputDetail.getExpirationDate()), fontDetails)));
+					productDescriptionDetail = new PdfPCell(new Paragraph(productDescription, PdfConstants.fontDetails));
+					productBatchDetail = new PdfPCell(new Paragraph(outputDetail.getBatch(), PdfConstants.fontDetails));
+					productExpirationDateDetail = (new PdfPCell(new Paragraph(dateFormatter.format(outputDetail.getExpirationDate()), PdfConstants.fontDetails)));
 					String serialNumber = "-";
 					if(outputDetail.getSerialNumber() != null){
 						serialNumber = outputDetail.getSerialNumber();
 					}
-					productSerialNumberDetail = new PdfPCell(new Paragraph(serialNumber, fontDetails));
-					productAmountDetail = new PdfPCell(new Paragraph(String.valueOf(outputDetail.getAmount()), fontDetails));
+					productSerialNumberDetail = new PdfPCell(new Paragraph(serialNumber, PdfConstants.fontDetails));
+					productAmountDetail = new PdfPCell(new Paragraph(String.valueOf(outputDetail.getAmount()), PdfConstants.fontDetails));
 
 					productCodeDetail.setBorder(Rectangle.NO_BORDER);
 					productDescriptionDetail.setBorder(Rectangle.NO_BORDER);

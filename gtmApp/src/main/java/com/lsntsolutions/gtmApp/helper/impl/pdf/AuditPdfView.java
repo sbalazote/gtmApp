@@ -113,17 +113,13 @@ public class AuditPdfView extends AbstractPdfView {
 		@SuppressWarnings("unchecked")
 		List<Audit> audits = (List<Audit>) model.get("audits");
 
-		// Fuentes
-		Font fontHeader = new Font(Font.TIMES_ROMAN, 11f, Font.NORMAL, Color.BLACK);
-		Font fontDetails = new Font(Font.TIMES_ROMAN, 8f, Font.NORMAL, Color.BLACK);
-
 		for (Audit audit : audits) {
 
-			PdfPCell auditDateTimeDetail = new PdfPCell(new Paragraph(dateFormatter.format(audit.getDate()), fontDetails));
-			PdfPCell auditRoleDetail = new PdfPCell(new Paragraph(audit.getRole().getDescription(), fontDetails));
-			PdfPCell auditOperationNumberDetail = new PdfPCell(new Paragraph(StringUtility.addLeadingZeros(audit.getOperationId().toString(), 8), fontDetails));
-			PdfPCell auditActionDetail = (new PdfPCell(new Paragraph(audit.getAuditAction().getDescription(), fontDetails)));
-			PdfPCell auditUserDetail = (new PdfPCell(new Paragraph(audit.getUser().getName(), fontDetails)));
+			PdfPCell auditDateTimeDetail = new PdfPCell(new Paragraph(dateFormatter.format(audit.getDate()), PdfConstants.fontDetails));
+			PdfPCell auditRoleDetail = new PdfPCell(new Paragraph(audit.getRole().getDescription(), PdfConstants.fontDetails));
+			PdfPCell auditOperationNumberDetail = new PdfPCell(new Paragraph(StringUtility.addLeadingZeros(audit.getOperationId().toString(), 8), PdfConstants.fontDetails));
+			PdfPCell auditActionDetail = (new PdfPCell(new Paragraph(audit.getAuditAction().getDescription(), PdfConstants.fontDetails)));
+			PdfPCell auditUserDetail = (new PdfPCell(new Paragraph(audit.getUser().getName(), PdfConstants.fontDetails)));
 
 			auditDateTimeDetail.setBorder(Rectangle.NO_BORDER);
 			auditRoleDetail.setBorder(Rectangle.NO_BORDER);
