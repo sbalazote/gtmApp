@@ -1,3 +1,4 @@
+<%@ page import="com.lsntsolutions.gtmApp.config.PropertyProvider" %>
 <%@ page import="java.io.File" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -218,10 +219,14 @@
 			<sec:authorize access="hasRole('PROPERTY_ADMINISTRATION')">
 				<li class="activable"><a href="updateProperty.do"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> <spring:message code="common.configuration" /></a></li>
 			</sec:authorize>
-<%--
-			<sec:authorize access="hasRole('PROFILE_ADMINISTRATION')">
+
+			<%
+				Boolean importStock = PropertyProvider.getInstance().getProp(PropertyProvider.IMPORT_STOCK).equals("true");
+			%>
+			<c:if test="<%=importStock%>">
 				<li><a href="importStock.do"><span class="glyphicon glyphicon-import" aria-hidden="true"></span> <spring:message code="administration.importStock" /></a></li>
-			</sec:authorize>  --%>
+			</c:if>
+
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right">
