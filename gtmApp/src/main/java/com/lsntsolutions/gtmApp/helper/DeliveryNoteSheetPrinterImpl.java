@@ -224,7 +224,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         printHeader = false;
     }
 
-    public void printProductBatchExpirationDateHeader(String batch, String expirationDate, String batchAmount) {
+    public void printProductGtinBatchExpirationDateHeader(String gtin, String batch, String expirationDate, String batchAmount) {
 
         // offset con respecto a la linea anterior.
         offsetY += PRODUCT_BATCH_EXPIRATIONDATE_HEADER_LINE_OFFSET_Y;
@@ -241,12 +241,16 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
             e.printStackTrace();
         }
 
-        // imprimo lote.
+        // imprimo GTIN.
         overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_BATCHEXPIRATIONDATE_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DETAILS_Y.name()) - offsetY);
+        overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_BATCHEXPIRATIONDATE_PRINT.name()) == 1 ? ("GTIN: " + gtin) : "");
+
+        // imprimo lote.
+        overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_BATCHEXPIRATIONDATE_X.name()) + 120, dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DETAILS_Y.name()) - offsetY);
         overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_BATCHEXPIRATIONDATE_PRINT.name()) == 1 ? ("Lote: " + batch) : "");
 
         // imprimo vencimiento.
-        overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_BATCHEXPIRATIONDATE_X.name()) + 120, dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DETAILS_Y.name()) - offsetY);
+        overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_BATCHEXPIRATIONDATE_X.name()) + 240, dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_DETAILS_Y.name()) - offsetY);
         overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.PRODUCT_BATCHEXPIRATIONDATE_PRINT.name()) == 1 ? ("Vto.: " + expirationDate) : "");
 
         // imprimo cantidad total del lote.
@@ -314,6 +318,8 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
                 String monodrug = details.get(0).getProduct().getMonodrug().getDescription();
                 String brand = details.get(0).getProduct().getBrand().getDescription();
                 int totalAmount = details.get(0).getAmount();
+                ProductGtin productGtin = details.get(0).getGtin();
+                String gtin = (productGtin != null) ? productGtin.getNumber() : "";
                 String batch = details.get(0).getBatch();
                 String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(details.get(0).getExpirationDate());
                 String batchAmount = Integer.toString(productType.equals("BE") ? totalAmount : details.size());
@@ -334,7 +340,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
                         currentLine++;
                     }
                 }
-                printProductBatchExpirationDateHeader(batch, expirationDate, batchAmount);
+                printProductGtinBatchExpirationDateHeader(gtin, batch, expirationDate, batchAmount);
                 // si es de tipo lote/ vto voy a necesitar 2 (dos) lineas. 1 para el nombre del producto y otro para el lote.
                 currentLine++;
                 DeliveryNoteDetail deliveryNoteDetail;
