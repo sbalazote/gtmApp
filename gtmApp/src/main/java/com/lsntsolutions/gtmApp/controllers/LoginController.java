@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 @Controller
 public class LoginController {
@@ -100,11 +101,11 @@ public class LoginController {
 
     protected boolean isValidDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        SimpleDateFormat spFormatter = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy", new Locale("ES"));
         Date validUntilDate = null;
         try {
             validUntilDate = sdf.parse(lic.getFeature("valid-until"));
-            //PropertyProvider.getInstance().setProp(PropertyProvider.LICENSE_EXPIRATION, DateFormat.getInstance().format(validUntilDate));
-            PropertyProvider.getInstance().setProp(PropertyProvider.LICENSE_EXPIRATION, validUntilDate.toString());
+            PropertyProvider.getInstance().setProp(PropertyProvider.LICENSE_EXPIRATION, spFormatter.format(validUntilDate));
         } catch (ParseException e) {
             e.printStackTrace();
         }

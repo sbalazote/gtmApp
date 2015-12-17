@@ -9,7 +9,7 @@
 	});
 </script>
 
-<span id="licenseInfo" style="display:none"> Licencia Expira: <%=PropertyProvider.getInstance().getProp(PropertyProvider.LICENSE_EXPIRATION)%></span>
+<div class="alert alert-warning fade in" role="alert">  <i class="fa fa-unlock fa-2x"></i> Licencia v&aacute;lida hasta el <strong><%=PropertyProvider.getInstance().getProp(PropertyProvider.LICENSE_EXPIRATION)%></strong></div>
 
 <form id="updatePropertyForm" action="" onsubmit="return false;">
 
