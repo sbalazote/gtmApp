@@ -1,6 +1,7 @@
 package com.lsntsolutions.gtmApp.service;
 
 import com.lsntsolutions.gtmApp.dto.OrderDTO;
+import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.model.Order;
 import com.lsntsolutions.gtmApp.query.DeliveryNoteQuery;
 
@@ -29,4 +30,6 @@ public interface OrderService {
 	List<Order> getAllFilter(Integer agreementId, Integer clientId, Integer stateId);
 
 	void changeToPrintState(Order order);
+
+	List<Integer> filterAlreadyPrinted(List<Integer> ordersToPrint, PrinterResultDTO printerResultDTO);
 }

@@ -50,12 +50,13 @@ public class DeliveryNoteController {
 
 	@RequestMapping(value = "/printDeliveryNotes", method = RequestMethod.POST)
 	@ResponseBody
-	public PrinterResultDTO printDeliveryNotesFromOrders(@RequestBody List<Integer> ordersToPrint) throws Exception {
+	public synchronized PrinterResultDTO printDeliveryNotesFromOrders(@RequestBody List<Integer> ordersToPrint) throws Exception {
 		Set<Integer> hs = new HashSet<>();
 		hs.addAll(ordersToPrint);
 		ordersToPrint.clear();
 		ordersToPrint.addAll(hs);
 		PrinterResultDTO printerResultDTO = new PrinterResultDTO();
+		ordersToPrint = this.orderService.filterAlreadyPrinted(ordersToPrint, printerResultDTO);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		this.deliveryNoteSheetPrinter.print(auth.getName(), ordersToPrint, printerResultDTO,false,false,true);
 		return printerResultDTO;

@@ -3,6 +3,7 @@ package com.lsntsolutions.gtmApp.service.impl;
 import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.dto.OrderDTO;
 import com.lsntsolutions.gtmApp.dto.OrderDetailDTO;
+import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.model.*;
 import com.lsntsolutions.gtmApp.persistence.dao.OrderDAO;
 import com.lsntsolutions.gtmApp.query.DeliveryNoteQuery;
@@ -158,5 +159,23 @@ public class OrderServiceImpl implements OrderService {
 		ProvisioningRequest provisioningRequest = order.getProvisioningRequest();
 		provisioningRequest.setState(provisioningRequestStateService.get(State.ASSEMBLED.getId()));
 		this.provisioningRequestService.save(provisioningRequest);
+	}
+
+	@Override
+	public List<Integer> filterAlreadyPrinted(List<Integer> ordersToPrint, PrinterResultDTO printerResultDTO) {
+		Order order;
+		List<Integer> filteredIds = new ArrayList<>();
+		for(Integer id : ordersToPrint){
+			order = this.get(id);
+			if(order != null){
+				if(order.getProvisioningRequest().getState().getId().equals(State.DELIVERY_NOTE_PRINTED.getId())){
+					printerResultDTO.addErrorMessage("El remito correspondiente al pedido: " + order.getProvisioningRequest().getId() + " ya fue impreso.");
+				}else{
+					filteredIds.add(id);
+				}
+			}
+		}
+
+		return  filteredIds;
 	}
 }
