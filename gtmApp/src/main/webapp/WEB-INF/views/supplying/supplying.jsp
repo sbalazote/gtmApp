@@ -8,6 +8,7 @@
 <script type="text/javascript" src="js/form/supplying/batchExpirationDate.js"></script>
 <script type="text/javascript" src="js/form/supplying/providerSerialized.js"></script>
 <script type="text/javascript" src="js/form/supplying/selfSerialized.js"></script>
+<script type="text/javascript" src="js/form/inputEgressUtils.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		new Supplying();

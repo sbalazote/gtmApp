@@ -89,30 +89,6 @@ var Supplying = function() {
 		return form.valid();
 	};
 
-	var validateAddAffiliateModalForm = function() {
-		var form = $("#addAffiliateModalForm");
-		addAffiliateModalFormValidator = form.validate({
-			rules : {
-				affiliateCode : {
-					required : true,
-					digits : true
-				},
-				affiliateSurname : {
-					required : true
-				},
-				affiliateName : {
-					required : true
-				},
-				affiliateDocument : {
-					digits : true
-				}
-			},
-			showErrors : myShowErrors,
-			onsubmit : false
-		});
-		return form.valid();
-	};
-
 	var validateProductAmountForm = function() {
 		var form = $("#productAmountModalForm");
 		amountFormValidator = form.validate({
@@ -763,99 +739,7 @@ var Supplying = function() {
 
 	$('#my-select').multiSelect();
 
-	var existsAffiliate = function() {
-		var exists = false;
-		$.ajax({
-			url : "existsAffiliate.do",
-			type : "GET",
-			async : false,
-			data : {
-				code : $("#affiliateCodeInput").val()
-			},
-			success : function(response) {
-				exists = response;
-			},
-			error : function(jqXHR, textStatus, errorThrown) {
-				myGenericError();
-			}
-		});
-		return exists;
-	};
-
-	$("#addAffiliateModalAcceptButton").click(function() {
-		if (validateAddAffiliateModalForm()) {
-			var clients =  [];
-			clients.push(parseInt($("#clientInput").val()));
-			var jsonAffiliate = {
-					"code" : $("#affiliateCodeInput").val(),
-					"name" : $("#affiliateNameInput").val(),
-					"surname" : $("#affiliateSurnameInput").val(),
-					"documentType" : $("#affiliateDocumentTypeSelect option:selected").val() || null,
-					"document" : $("#affiliateDocumentInput").val() || null,
-					"clients": clients,
-					"active" : true
-			};
-			if (existsAffiliate()) {
-				$("#addAffiliateModal").modal('hide');
-				$("#addExistAffiliateConfirmationModal").modal('show');
-			} else {
-				$.ajax({
-					url : "saveAffiliate.do",
-					type : "POST",
-					contentType : "application/json",
-					data : JSON.stringify(jsonAffiliate),
-					async : true,
-					success : function(response) {
-						$("#addAffiliateModal").modal('hide');
-						$('#affiliateInput').select2("data",
-							{
-							id : response.id,
-							text : response.code
-							+ ' - '
-							+ response.surname
-							+ ' '
-							+ response.name
-								});
-                        $("#agreementInput").trigger('chosen:activate');
-					},
-					error : function(jqXHR, textStatus,
-							errorThrown) {
-						myGenericError("addAffiliateModalAlertDiv");
-					}
-				});
-			}
-		}
-	});
-
-	$("#addAffiliateToClient").click(function() {
-		$.ajax({
-			url : "addAffiliateToClient.do",
-			type : "POST",
-			data : {
-				"code" : $("#affiliateCodeInput").val(),
-				"clientId" : parseInt($("#clientInput").val())
-			},
-			async : true,
-			success : function(response) {
-				$("#addExistAffiliateConfirmationModal").modal('hide');
-				$('#affiliateInput').select2("data",
-					{
-						id : response.id,
-						text : response.code
-						+ ' - '
-						+ response.surname
-						+ ' '
-						+ response.name
-					});
-				$("#agreementInput").trigger('chosen:activate');
-			},
-			error : function(jqXHR, textStatus,
-							 errorThrown) {
-				myGenericError("addAffiliateModalAlertDiv");
-			}
-		});
-	});
-
+	new AddAffiliate();
 
 	var productEntered = function(productId) {
 		if (!assignOutOfStock) {
