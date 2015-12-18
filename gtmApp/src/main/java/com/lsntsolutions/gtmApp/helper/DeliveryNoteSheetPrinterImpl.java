@@ -382,11 +382,15 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
             }
 
             printFooter(totalItems);
-
+            // pido los numeros necesarios a la base, los asigno e imprimo los remitos.
+            try {
+                deliveryNoteConcept = getConcept(egress, deliveryNoteNumbersRequired);
+            } catch (Exception e) {
+                logger.error("No se ha podido obtener el Concepto");
+                e.printStackTrace();
+            }
             savePage(egress);
 
-            // pido los numeros necesarios a la base, los asigno e imprimo los remitos.
-            deliveryNoteConcept = getConcept(egress, deliveryNoteNumbersRequired);
             String POS = StringUtility.addLeadingZeros(deliveryNoteConcept.getDeliveryNoteEnumerator().getDeliveryNotePOS(), 4);
             Integer currentDeliveryNoteNumber, currentDeliveryNoteNumberCopy;
             currentDeliveryNoteNumber = currentDeliveryNoteNumberCopy = deliveryNoteConcept.getDeliveryNoteEnumerator().getDeliveryNoteNumber() - deliveryNoteNumbersRequired + 1;
@@ -469,7 +473,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         printerResultDTO.setDeliveryNoteNumbers(printsNumbers);
     }
 
-    public Concept getConcept(Egress egress, Integer deliveryNoteNumbersRequired) {
+    public Concept getConcept(Egress egress, Integer deliveryNoteNumbersRequired) throws Exception {
         logger.error("Se procede a obtener el concepto para "  + egress.getClass());
         if(this.printSupplyings){
             logger.error("Se obtiene el concepto de egreso");
@@ -486,7 +490,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
             return this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
         }
         logger.error("No se obtuvo el concepto");
-        return null;
+        throw new Exception();
     }
 
     // si ya esta lleno el remito, sigo en uno nuevo
