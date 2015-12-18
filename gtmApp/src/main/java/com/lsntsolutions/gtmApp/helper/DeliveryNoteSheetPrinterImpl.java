@@ -494,7 +494,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
             return this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
         }
         logger.error("No se obtuvo el concepto");
-        throw new Exception();
+        return null;
     }
 
     // si ya esta lleno el remito, sigo en uno nuevo
