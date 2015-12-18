@@ -276,8 +276,16 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         printsNumbers = new ArrayList<>();
         ProvisioningRequestState state = this.provisioningRequestStateService.get(State.DELIVERY_NOTE_PRINTED.getId());
         currentDate = new Date();
+
         for (Integer id : egressIds) {
             Egress egress = getEgress(id, printSupplyings, printOutputs, printOrders);
+            // pido los numeros necesarios a la base, los asigno e imprimo los remitos.
+            try {
+                deliveryNoteConcept = getConcept(egress, deliveryNoteNumbersRequired);
+            } catch (Exception e) {
+                logger.error("No se ha podido obtener el Concepto");
+                e.printStackTrace();
+            }
             Integer numberOfDeliveryNoteDetailsPerPage = egress.getAgreement().getNumberOfDeliveryNoteDetailsPerPage();
 
             // agrupo lista de productos por id de producto + lote.
@@ -382,13 +390,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
             }
 
             printFooter(totalItems);
-            // pido los numeros necesarios a la base, los asigno e imprimo los remitos.
-            try {
-                deliveryNoteConcept = getConcept(egress, deliveryNoteNumbersRequired);
-            } catch (Exception e) {
-                logger.error("No se ha podido obtener el Concepto");
-                e.printStackTrace();
-            }
+
             savePage(egress);
 
             String POS = StringUtility.addLeadingZeros(deliveryNoteConcept.getDeliveryNoteEnumerator().getDeliveryNotePOS(), 4);
