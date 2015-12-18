@@ -464,17 +464,22 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
     }
 
     public Concept getConcept(Egress egress, Integer deliveryNoteNumbersRequired) {
+        logger.error("Se procede a obtener el concepto");
         if(egress.getClass().equals(Output.class)){
+            logger.error("Se obtiene el concepto de egreso");
             Integer conceptId = ((Output)egress).getConcept().getId();
             return this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
         }
         if(egress.getClass().equals(Supplying.class)){
+            logger.error("Se obtiene el concepto de dispensa");
             return this.conceptService.getAndUpdateDeliveryNote(property.getSupplyingConcept().getId(), deliveryNoteNumbersRequired);
         }
         if(egress.getClass().equals(Order.class)) {
+            logger.error("Se obtiene el concepto de armado");
             Integer conceptId = egress.getAgreement().getDeliveryNoteConcept().getId();
             return this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
         }
+        logger.error("No se obtuvo el concepto");
         return null;
     }
 
@@ -515,12 +520,15 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
 
     private Egress getEgress(Integer id, boolean printSupplyings, boolean printOutputs, boolean printOrders) {
         if(printSupplyings){
+            logger.error("Se obtiene la dispensa");
             return this.supplyingService.get(id);
         }
         if(printOutputs){
+            logger.error("Se obtiene el egreso");
             return this.outputService.get(id);
         }
         if(printOrders){
+            logger.error("Se obtiene el armado");
             return this.orderService.get(id);
         }
         return null;
@@ -567,8 +575,9 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         deliveryNote.setFake(false);
         logger.error("El egreso que se esta por guardar es: " + egress);
         logger.error("El concepto de remito es: " + deliveryNoteConcept);
+        logger.error("La configuracion del sistema es: " + property);
 
-        if (egress.hasToInformANMAT() && deliveryNoteConcept.isInformAnmat() && propertyService.get().isInformAnmat()) {
+        if (egress.hasToInformANMAT() && deliveryNoteConcept.isInformAnmat() && property.isInformAnmat()) {
             deliveryNote.setInformAnmat(true);
         } else {
             deliveryNote.setInformAnmat(false);
