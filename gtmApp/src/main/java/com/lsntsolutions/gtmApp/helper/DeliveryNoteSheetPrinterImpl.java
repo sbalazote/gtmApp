@@ -71,6 +71,9 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
     int PRODUCT_DETAIL_HEADER_LINE_OFFSET_Y = 10;
     int SERIAL_DETAIL_LINE_OFFSET_Y = 10;
     int PRODUCT_BATCH_EXPIRATIONDATE_HEADER_LINE_OFFSET_Y = 10;
+    private boolean printSupplyings;
+    private boolean printOutputs;
+    private boolean printOrders;
 
     public TreeMap<String, List<? extends Detail>> groupByProductAndBatch(List<?extends Detail> details) {
         TreeMap<String, List<? extends Detail>> detailsMap = new TreeMap<>();
@@ -263,6 +266,9 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
 
     @Override
     public void print(String userName, List<Integer> egressIds, PrinterResultDTO printerResultDTO, boolean printSupplyings, boolean printOutputs, boolean printOrders) {
+        this.printSupplyings = printSupplyings;
+        this.printOutputs = printOutputs;
+        this.printOrders = printOrders;
         deliveryNoteList = new ArrayList<DeliveryNote>();
         dnConfigMap = deliveryNoteConfigService.getAllInMillimiters();
         property = this.propertyService.get();
@@ -465,16 +471,16 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
 
     public Concept getConcept(Egress egress, Integer deliveryNoteNumbersRequired) {
         logger.error("Se procede a obtener el concepto");
-        if(egress.getClass().equals(Output.class)){
+        if(this.printSupplyings){
             logger.error("Se obtiene el concepto de egreso");
             Integer conceptId = ((Output)egress).getConcept().getId();
             return this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
         }
-        if(egress.getClass().equals(Supplying.class)){
+        if(this.printSupplyings){
             logger.error("Se obtiene el concepto de dispensa");
             return this.conceptService.getAndUpdateDeliveryNote(property.getSupplyingConcept().getId(), deliveryNoteNumbersRequired);
         }
-        if(egress.getClass().equals(Order.class)) {
+        if(this.printOrders) {
             logger.error("Se obtiene el concepto de armado");
             Integer conceptId = egress.getAgreement().getDeliveryNoteConcept().getId();
             return this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
