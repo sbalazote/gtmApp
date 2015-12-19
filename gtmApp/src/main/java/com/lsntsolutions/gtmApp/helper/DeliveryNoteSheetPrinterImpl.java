@@ -280,6 +280,8 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
             Egress egress = getEgress(id, printSupplyings, printOutputs, printOrders);
             Integer numberOfDeliveryNoteDetailsPerPage = egress.getAgreement().getNumberOfDeliveryNoteDetailsPerPage();
 
+            deliveryNoteConcept = getConcept(egress);
+
             // agrupo lista de productos por id de producto + lote.
             TreeMap<String, List<? extends Detail>> productMap = groupByProductAndBatch(egress.getDetails());
 
@@ -386,7 +388,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
             savePage(egress);
 
             // pido los numeros necesarios a la base, los asigno e imprimo los remitos.
-            deliveryNoteConcept = getConcept(egress, deliveryNoteNumbersRequired);
+            deliveryNoteConcept = this.conceptService.getAndUpdateDeliveryNote(deliveryNoteConcept.getId(), deliveryNoteNumbersRequired);
             String POS = StringUtility.addLeadingZeros(deliveryNoteConcept.getDeliveryNoteEnumerator().getDeliveryNotePOS(), 4);
             Integer currentDeliveryNoteNumber, currentDeliveryNoteNumberCopy;
             currentDeliveryNoteNumber = currentDeliveryNoteNumberCopy = deliveryNoteConcept.getDeliveryNoteEnumerator().getDeliveryNoteNumber() - deliveryNoteNumbersRequired + 1;
@@ -469,24 +471,23 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         printerResultDTO.setDeliveryNoteNumbers(printsNumbers);
     }
 
-    public Concept getConcept(Egress egress, Integer deliveryNoteNumbersRequired) {
+    public Concept getConcept(Egress egress) {
         logger.error("Se procede a obtener el concepto");
+        Integer conceptId = null;
         if(this.printSupplyings){
             logger.error("Se obtiene el concepto de egreso");
-            Integer conceptId = ((Output)egress).getConcept().getId();
-            return this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
+            conceptId = ((Output)egress).getConcept().getId();
         }
         if(this.printSupplyings){
             logger.error("Se obtiene el concepto de dispensa");
-            return this.conceptService.getAndUpdateDeliveryNote(property.getSupplyingConcept().getId(), deliveryNoteNumbersRequired);
+            conceptId = property.getSupplyingConcept().getId();
         }
         if(this.printOrders) {
             logger.error("Se obtiene el concepto de armado");
-            Integer conceptId = egress.getAgreement().getDeliveryNoteConcept().getId();
-            return this.conceptService.getAndUpdateDeliveryNote(conceptId, deliveryNoteNumbersRequired);
+            conceptId = egress.getAgreement().getDeliveryNoteConcept().getId();
         }
         logger.error("No se obtuvo el concepto");
-        return null;
+        return this.conceptService.get(conceptId);
     }
 
     // si ya esta lleno el remito, sigo en uno nuevo
