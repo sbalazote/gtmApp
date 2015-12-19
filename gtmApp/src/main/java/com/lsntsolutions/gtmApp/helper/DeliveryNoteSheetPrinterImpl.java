@@ -553,25 +553,25 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
     }
 
     public void setDeliveryNoteDetail(Detail detail, DeliveryNoteDetail deliveryNoteDetail) {
-        if(detail.getClass().equals(SupplyingDetail.class)){
+        if(printSupplyings){
             deliveryNoteDetail.setSupplyingDetail((SupplyingDetail) detail);
         }
-        if(detail.getClass().equals(OutputDetail.class)){
+        if(printOutputs){
             deliveryNoteDetail.setOutputDetail((OutputDetail) detail);
         }
-        if(detail.getClass().equals(OrderDetail.class)){
+        if(printOrders){
             deliveryNoteDetail.setOrderDetail((OrderDetail) detail);
         }
     }
 
     private void printHeader(Egress egress){
-        if(egress.getClass().equals(Supplying.class)){
+        if(printSupplyings){
             printHeaderSupplying((Supplying) egress);
         }
-        if(egress.getClass().equals(Output.class)){
+        if(printOutputs){
             printHeaderOutput((Output) egress);
         }
-        if(egress.getClass().equals(Order.class)){
+        if(printOrders){
             printHeaderOrder((Order) egress);
         }
     }
