@@ -279,13 +279,8 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
 
         for (Integer id : egressIds) {
             Egress egress = getEgress(id, printSupplyings, printOutputs, printOrders);
+            deliveryNoteConcept = getConcept(egress, deliveryNoteNumbersRequired);
             // pido los numeros necesarios a la base, los asigno e imprimo los remitos.
-            try {
-                deliveryNoteConcept = getConcept(egress, deliveryNoteNumbersRequired);
-            } catch (Exception e) {
-                logger.error("No se ha podido obtener el Concepto");
-                e.printStackTrace();
-            }
             Integer numberOfDeliveryNoteDetailsPerPage = egress.getAgreement().getNumberOfDeliveryNoteDetailsPerPage();
 
             // agrupo lista de productos por id de producto + lote.
@@ -475,7 +470,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         printerResultDTO.setDeliveryNoteNumbers(printsNumbers);
     }
 
-    public Concept getConcept(Egress egress, Integer deliveryNoteNumbersRequired) throws Exception {
+    public Concept getConcept(Egress egress, Integer deliveryNoteNumbersRequired){
         logger.error("Se procede a obtener el concepto para "  + egress.getClass());
         if(this.printOutputs){
             logger.error("Se obtiene el concepto de egreso");

@@ -90,7 +90,9 @@ public class ConceptServiceImpl implements ConceptService {
 		Integer lastNumber = concept.getDeliveryNoteEnumerator().getLastDeliveryNoteNumber();
 		Integer newLastNumber = lastNumber + amount;
 		concept.getDeliveryNoteEnumerator().setLastDeliveryNoteNumber(newLastNumber);
+		logger.error("va a guardar el concepto" + concept);
 		this.conceptDAO.save(concept);
+		logger.error("ya guardo el concepto" + concept);
 		return concept;
 	}
 
