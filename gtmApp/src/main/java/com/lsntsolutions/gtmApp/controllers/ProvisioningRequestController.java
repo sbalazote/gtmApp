@@ -189,6 +189,8 @@ public class ProvisioningRequestController {
 		List<ProvisioningRequest> provisionings = this.provisioningRequestService.getProvisioningForSearch(pq);
 		pq.setStateId(State.AUTHORIZED.getId());
 		provisionings.addAll(this.provisioningRequestService.getProvisioningForSearch(pq));
+		pq.setStateId(State.PRINTED.getId());
+		provisionings.addAll(this.provisioningRequestService.getProvisioningForSearch(pq));
 		return provisionings;
 	}
 
