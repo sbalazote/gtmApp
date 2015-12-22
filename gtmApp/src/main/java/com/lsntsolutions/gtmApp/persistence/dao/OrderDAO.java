@@ -1,9 +1,9 @@
 package com.lsntsolutions.gtmApp.persistence.dao;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.Order;
 import com.lsntsolutions.gtmApp.query.DeliveryNoteQuery;
+
+import java.util.List;
 
 public interface OrderDAO {
 
@@ -21,5 +21,5 @@ public interface OrderDAO {
 
 	boolean existSerial(Integer productId, String serial);
 
-	List<Order> getAllFilter(Integer agreementId, Integer clientId, Integer stateId);
+	List<Order> getAllFilter(Integer provisioningRequestId, Integer agreementId, Integer logisticsOperatorId, Integer clientId, Integer deliveryLocationId, Integer stateId);
 }

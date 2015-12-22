@@ -2,6 +2,8 @@ var DeliveryNoteSheet = function() {
 	
 	var orderId = null;
 	var ordersToPrint = [];
+
+	$("#idSearch").numeric();
 	
 	$('#deliveryNoteTableBody').on("click", ".view-row", function() {
 		var parent = $(this).parent().parent();
@@ -19,18 +21,21 @@ var DeliveryNoteSheet = function() {
 	});
 	
 	$("#cleanButton").click(function() {
+		$('#idSearch').val('').trigger('chosen:updated');
+		$('#logisticsOperatorSearch').val('').trigger('chosen:updated');
 		$('#clientSearch').val('').trigger('chosen:updated');
+		$('#deliveryLocationSearch').val('').trigger('chosen:updated');
 		$('#agreementSearch').val('').trigger('chosen:updated');
 		refreshTable();
 	});
 
 	$("#confirmButton").click(function() {
-		if(ordersToPrint.length > 0) {
+		if(_.uniq(ordersToPrint).length > 0) {
 			$.ajax({
 				url: "printDeliveryNotes.do",
 				type: "POST",
 				contentType: "application/json",
-				data: JSON.stringify(ordersToPrint),
+				data: JSON.stringify(_.uniq(ordersToPrint)),
 				async: false,
 				success: function(response) {
 					var msgType = "success";
@@ -67,9 +72,12 @@ var DeliveryNoteSheet = function() {
 			type: "GET",
 			async: false,
 			data: {
+				provisioningRequestId: $('#idSearch').val() || null,
 				agreementId: $("#agreementSearch").val() || null,
-				clientId: $("#clientSearch").val() || null
-				},
+				logisticsOperatorId: $('#logisticsOperatorSearch').val() || null,
+				clientId: $("#clientSearch").val() || null,
+				deliveryLocationId: $('#deliveryLocationSearch').val() || null
+			},
 			success: function(response) {
 				var aaData = [];
 				for (var i = 0, l = response.length; i < l; ++i) {
@@ -77,14 +85,18 @@ var DeliveryNoteSheet = function() {
 						orderId: 0,
 						id: 0,
 						agreement: "",
+						logisticsOperator: "",
 						client: "",
+						deliveryLocation: "",
 						option:""
 					};
 
 					orderDetail.orderId = response[i].id;
 					orderDetail.id = response[i].provisioningRequest.id;
 					orderDetail.agreement = response[i].provisioningRequest.agreement.description;
+					orderDetail.logisticsOperator = (response[i].provisioningRequest.logisticsOperator != null) ?  response[i].provisioningRequest.logisticsOperator.name : "N/I";
 					orderDetail.client = response[i].provisioningRequest.client.name;
+					orderDetail.deliveryLocation = response[i].provisioningRequest.deliveryLocation.name;
 					orderDetail.option = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
 
 					aaData.push(orderDetail);

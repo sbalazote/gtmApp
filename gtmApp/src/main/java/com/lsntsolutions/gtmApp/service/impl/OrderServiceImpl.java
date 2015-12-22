@@ -150,8 +150,8 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> getAllFilter(Integer agreementId, Integer clientId, Integer stateId) {
-		return this.orderDAO.getAllFilter(agreementId, clientId, stateId);
+	public List<Order> getAllFilter(Integer provisioningRequestId, Integer agreementId, Integer logisticsOperatorId, Integer clientId, Integer deliveryLocationId, Integer stateId) {
+		return this.orderDAO.getAllFilter(provisioningRequestId, agreementId, logisticsOperatorId, clientId, deliveryLocationId, stateId);
 	}
 
 	@Override
