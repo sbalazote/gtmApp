@@ -94,24 +94,42 @@ public class OrderDAOHibernateImpl implements OrderDAO {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Order> getAllFilter(Integer agreementId, Integer clientId, Integer stateId) {
+	public List<Order> getAllFilter(Integer provisioningRequestId, Integer agreementId, Integer logisticsOperatorId, Integer clientId, Integer deliveryLocationId, Integer stateId) {
 		String sentence = "from Order where (provisioningRequest.state.id = :stateId and ";
+		if (provisioningRequestId != null) {
+			sentence += "provisioningRequest.id =:provisioningRequestId and ";
+		}
 		if (agreementId != null) {
 			sentence += "provisioningRequest.agreement.id =:agreementId and ";
 		}
+		if (logisticsOperatorId != null) {
+			sentence += "provisioningRequest.logisticsOperator.id =:logisticsOperatorId and ";
+		}
 		if (clientId != null) {
 			sentence += "provisioningRequest.client.id =:clientId and ";
+		}
+		if (deliveryLocationId != null) {
+			sentence += "provisioningRequest.deliveryLocation.id =:deliveryLocationId and ";
 		}
 		sentence += "cancelled = false)";
 		Query query;
 		query = this.sessionFactory.getCurrentSession().createQuery(sentence);
 		query.setParameter("stateId", stateId);
 
+		if (provisioningRequestId != null) {
+			query.setParameter("provisioningRequestId", provisioningRequestId);
+		}
 		if (agreementId != null) {
 			query.setParameter("agreementId", agreementId);
 		}
+		if (logisticsOperatorId != null) {
+			query.setParameter("logisticsOperatorId", logisticsOperatorId);
+		}
 		if (clientId != null) {
 			query.setParameter("clientId", clientId);
+		}
+		if (deliveryLocationId != null) {
+			query.setParameter("deliveryLocationId", deliveryLocationId);
 		}
 
 		return query.list();

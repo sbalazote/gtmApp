@@ -27,7 +27,7 @@ public interface OrderService {
 
 	boolean existSerial(Integer productId, String serial);
 
-	List<Order> getAllFilter(Integer agreementId, Integer clientId, Integer stateId);
+	List<Order> getAllFilter(Integer provisioningRequestId, Integer agreementId, Integer logisticsOperatorId, Integer clientId, Integer deliveryLocationId, Integer stateId);
 
 	void changeToPrintState(Order order);
 

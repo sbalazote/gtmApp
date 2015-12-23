@@ -139,8 +139,8 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/getOrdersToPrint", method = RequestMethod.GET)
-	public @ResponseBody List<Order> getOrdersToPrint(@RequestParam Integer agreementId, Integer clientId) {
-		return this.orderService.getAllFilter(agreementId, clientId, State.ASSEMBLED.getId());
+	public @ResponseBody List<Order> getOrdersToPrint(@RequestParam Integer provisioningRequestId, Integer agreementId, Integer logisticsOperatorId, Integer clientId, Integer deliveryLocationId) {
+		return this.orderService.getAllFilter(provisioningRequestId, agreementId, logisticsOperatorId, clientId, deliveryLocationId, State.ASSEMBLED.getId());
 	}
 
 	@RequestMapping(value = "/getAuthorizedProvisioningsForOrders", method = RequestMethod.GET)

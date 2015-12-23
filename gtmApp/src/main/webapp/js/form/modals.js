@@ -621,7 +621,12 @@ $(document).ready(function() {
 				},
 				success: function (response) {
 					$.each(response, function(index, value) {
-						$("#deliveryNoteNumbers").append("<span class=\"label label-info\">" + value.number + "</span> ");
+						if(value.cancelled == false){
+							$("#deliveryNoteNumbers").append("<span class=\"label label-info\">" + value.number + "</span> ");
+						}else{
+							$("#deliveryNoteNumbers").append("<span class=\"label label-danger\">" + value.number + "</span> ");
+						}
+
 					});
 
 				}/*,
