@@ -276,6 +276,12 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         printsNumbers = new ArrayList<>();
         ProvisioningRequestState state = this.provisioningRequestStateService.get(State.DELIVERY_NOTE_PRINTED.getId());
         currentDate = new Date();
+
+        // si son ordenes las agrupo por operador -> cliente -> lugar de entrega.
+        if (printOrders) {
+            egressIds = sortOrdersByDeliveryLocation(egressIds);
+        }
+
         for (Integer id : egressIds) {
             Egress egress = getEgress(id, printSupplyings, printOutputs, printOrders);
             Integer numberOfDeliveryNoteDetailsPerPage = egress.getAgreement().getNumberOfDeliveryNoteDetailsPerPage();
@@ -471,6 +477,31 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         printerResultDTO.setDeliveryNoteNumbers(printsNumbers);
     }
 
+    private List<Integer> sortOrdersByDeliveryLocation(List<Integer> orderIds) {
+        Map<Integer, List<Integer>> ascSortedMap = new TreeMap();
+
+        for (Integer orderId : orderIds) {
+            Egress egress = getEgress(orderId, false, false, true);
+            ProvisioningRequest provisioningRequest = this.provisioningRequestService.get(((Order) egress).getProvisioningRequest().getId());
+            Integer deliveryLocationId = provisioningRequest.getDeliveryLocation().getId();
+
+            if (ascSortedMap.containsKey(deliveryLocationId)) {
+                List<Integer> deliveryLocationIds = ascSortedMap.get(deliveryLocationId);
+                deliveryLocationIds.add(orderId);
+            } else {
+                List<Integer> newOrderIdsList = new ArrayList<Integer>();
+                newOrderIdsList.add(orderId);
+                ascSortedMap.put(deliveryLocationId, newOrderIdsList);
+            }
+        }
+        List<Integer> sortedOrders = new ArrayList<>();
+        for (Map.Entry entry : ascSortedMap.entrySet()) {
+            List<Integer> value  = (List<Integer>) entry.getValue();
+            sortedOrders.addAll(value);
+        }
+        return sortedOrders;
+    }
+
     public Concept getConcept(Egress egress) {
         logger.error("Se procede a obtener el concepto");
         Integer conceptId = null;
@@ -527,15 +558,15 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
 
     private Egress getEgress(Integer id, boolean printSupplyings, boolean printOutputs, boolean printOrders) {
         if(printSupplyings){
-            logger.error("Se obtiene la dispensa");
+            logger.info("Se obtiene la dispensa");
             return this.supplyingService.get(id);
         }
         if(printOutputs){
-            logger.error("Se obtiene el egreso");
+            logger.info("Se obtiene el egreso");
             return this.outputService.get(id);
         }
         if(printOrders){
-            logger.error("Se obtiene el armado");
+            logger.info("Se obtiene el armado");
             return this.orderService.get(id);
         }
         return null;
