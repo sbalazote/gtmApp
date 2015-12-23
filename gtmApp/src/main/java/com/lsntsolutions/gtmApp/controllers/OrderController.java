@@ -70,6 +70,11 @@ public class OrderController {
 		return "orderAssemblySelection";
 	}
 
+	@RequestMapping(value = "/batchExpirationDateOrderAssemblySerch", method = RequestMethod.GET)
+	public String batchExpirationDateOrderAssemblySerch(ModelMap modelMap) throws Exception {
+		return "batchExpirationDateOrderAssemblySerch";
+	}
+
 	@RequestMapping(value = "/saveOrder", method = RequestMethod.POST)
 	public @ResponseBody
 	PrinterResultDTO saveOrder(@RequestBody OrderDTO orderDTO) throws Exception {

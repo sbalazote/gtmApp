@@ -533,6 +533,13 @@
 				<rp.build.warname>drugstore-dev</rp.build.warname>
 			</properties>
 		</profile>
+		<profile>
+			<id>drugstore</id>
+			<properties>
+				<env>drugstore</env>
+				<rp.build.warname>drugstore</rp.build.warname>
+			</properties>
+		</profile>
     </profiles>
 
 </project> 

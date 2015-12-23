@@ -54,6 +54,14 @@
         <put-attribute name="body" value="/WEB-INF/views/orderAssembly/orderAssembly.jsp" />
     </definition>
 
+    <definition name="batchExpirationDateOrderAssembly" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/orderAssembly/batchExpirationDateOrderAssembly.jsp" />
+    </definition>
+
+    <definition name="batchExpirationDateOrderAssemblySerch" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/orderAssembly/batchExpirationDateOrderAssemblySerch.jsp" />
+    </definition>
+
     <definition name="productAdministration" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/administration/productAdministration.jsp" />
     </definition>
