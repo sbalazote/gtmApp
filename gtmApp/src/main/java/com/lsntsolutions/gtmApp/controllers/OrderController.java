@@ -5,10 +5,10 @@ import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.dto.OrderDTO;
 import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
+import com.lsntsolutions.gtmApp.form.OrderAssemblyForm;
+import com.lsntsolutions.gtmApp.form.SearchProvisioningForm;
 import com.lsntsolutions.gtmApp.helper.impl.printer.OrderLabelPrinter;
-import com.lsntsolutions.gtmApp.model.Order;
-import com.lsntsolutions.gtmApp.model.ProvisioningRequest;
-import com.lsntsolutions.gtmApp.model.Stock;
+import com.lsntsolutions.gtmApp.model.*;
 import com.lsntsolutions.gtmApp.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -17,7 +17,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -70,9 +74,55 @@ public class OrderController {
 		return "orderAssemblySelection";
 	}
 
-	@RequestMapping(value = "/batchExpirationDateOrderAssemblySerch", method = RequestMethod.GET)
-	public String batchExpirationDateOrderAssemblySerch(ModelMap modelMap) throws Exception {
-		return "batchExpirationDateOrderAssemblySerch";
+	@RequestMapping(value = "/batchExpirationDateOrderAssemblySearch", method = RequestMethod.GET)
+	public String batchExpirationDateOrderAssemblySearch(ModelMap modelMap) throws Exception {
+		return "batchExpirationDateOrderAssemblySearch";
+	}
+
+	@RequestMapping(value = "/searchProvisioningById", method = RequestMethod.POST)
+	public RedirectView searchProvisioningById(ModelMap modelMap, SearchProvisioningForm searchProvisioningForm){
+		RedirectView mv = new RedirectView("batchExpirationDateOrderAssembly.do");
+		modelMap.put("provisioningRequestId", searchProvisioningForm.getProvisioningRequestId());
+		return mv;
+	}
+
+	@RequestMapping(value = "/batchExpirationDateOrderAssembly", method = RequestMethod.GET)
+	public String batchExpirationDateOrderAssembly(ModelMap modelMap, @RequestParam Integer provisioningRequestId, OrderAssemblyForm orderAssemblyForm) throws Exception {
+		ProvisioningRequest provisioningRequest = this.provisioningRequestService.get(provisioningRequestId);
+		Boolean setModel = (Boolean) modelMap.get("setModel");
+		modelMap.put("provisioningRequestId", provisioningRequestId);
+		if(setModel == null) {
+			setBatchExpirationDateOrderForm(modelMap, provisioningRequest);
+		}
+		HashMap<Integer, Integer> provisioningDetailsToAssign = (HashMap<Integer, Integer>) modelMap.get("provisioningDetailsToAssign");
+		HashMap<Integer, ProvisioningRequestDetail> provisioningRequestDetailsMap = (HashMap<Integer, ProvisioningRequestDetail>) modelMap.get("provisioningRequestDetailsMap");
+		HashMap<Integer, List<OrderDetail>> orderDetailsMap = (HashMap<Integer, List<OrderDetail>>) modelMap.get("orderDetailsMap");
+		for(Integer provisioningDetailId : provisioningDetailsToAssign.keySet()){
+			ProvisioningRequestDetail provisioningRequestDetail = provisioningRequestDetailsMap.get(provisioningDetailId);
+			if(orderDetailsMap.get(provisioningDetailId).size() < provisioningDetailsToAssign.get(provisioningDetailId)){
+				modelMap.put("stock", this.stockService.getBatchExpirationDateStock(provisioningRequestDetail.getProduct().getId(), provisioningRequest.getAgreement().getId()));
+				modelMap.put("productDescription", provisioningRequestDetail.getProduct().getCode() + " - " + provisioningRequestDetail.getProduct().getDescription());
+			}
+		}
+		return "batchExpirationDateOrderAssembly";
+	}
+
+	private void setBatchExpirationDateOrderForm(ModelMap modelMap, ProvisioningRequest provisioningRequest) {
+		modelMap.put("setModel", new Boolean(true));
+		modelMap.put("provisioningRequestId", provisioningRequest.getFormatId());
+		modelMap.put("provisioningRequestIdFormated", provisioningRequest.getFormatId());
+		HashMap<Integer, Integer> provisioningDetailsToAssign = new HashMap<>();
+		HashMap<Integer, List<OrderDetail>> orderDetailsMap = new HashMap<>();
+		HashMap<Integer, ProvisioningRequestDetail> provisioningRequestDetailsMap = new HashMap<>();
+
+		for(ProvisioningRequestDetail provisioningRequestDetail : provisioningRequest.getProvisioningRequestDetails()){
+			provisioningDetailsToAssign.put(provisioningRequestDetail.getId(), provisioningRequestDetail.getAmount());
+			orderDetailsMap.put(provisioningRequestDetail.getId(), new ArrayList<OrderDetail>());
+			provisioningRequestDetailsMap.put(provisioningRequestDetail.getId(),provisioningRequestDetail);
+		}
+		modelMap.put("provisioningDetailsToAssign", provisioningDetailsToAssign);
+		modelMap.put("orderDetailsMap", orderDetailsMap);
+		modelMap.put("provisioningRequestDetailsMap", provisioningRequestDetailsMap);
 	}
 
 	@RequestMapping(value = "/saveOrder", method = RequestMethod.POST)
