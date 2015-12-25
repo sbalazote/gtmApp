@@ -1,22 +1,18 @@
 package com.lsntsolutions.gtmApp.helper.impl.pdf;
 
-import com.lsntsolutions.gtmApp.config.PropertyProvider;
-import com.lsntsolutions.gtmApp.constant.Constants;
-import com.lsntsolutions.gtmApp.helper.AbstractPdfView;
-import com.lsntsolutions.gtmApp.model.Input;
-import com.lsntsolutions.gtmApp.model.InputDetail;
-import com.lsntsolutions.gtmApp.util.StringUtility;
 import com.lowagie.text.*;
-import com.lowagie.text.Font;
-import com.lowagie.text.Image;
-import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.*;
 import com.lowagie.text.pdf.draw.LineSeparator;
 import com.lowagie.text.pdf.draw.VerticalPositionMark;
+import com.lsntsolutions.gtmApp.config.PropertyProvider;
+import com.lsntsolutions.gtmApp.helper.AbstractPdfView;
+import com.lsntsolutions.gtmApp.model.Input;
+import com.lsntsolutions.gtmApp.model.InputDetail;
+import com.lsntsolutions.gtmApp.model.LogisticsOperator;
+import com.lsntsolutions.gtmApp.util.StringUtility;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -142,6 +138,19 @@ public class InputsPdfView extends AbstractPdfView {
 			String conceptCode = StringUtility.addLeadingZeros(input.getConcept().getCode(),4);
 			Chunk code = new Chunk(conceptCode + " - " + input.getConcept().getDescription(), PdfConstants.fontHeader);
 			document.add(code);
+			document.add(Chunk.NEWLINE);
+
+			document.add(new Chunk("Operador Logístico: ", PdfConstants.fontHeader));
+			LogisticsOperator logisticsOperator = input.getLogisticsOperator();
+			String logisticsOperatorString;
+			if(logisticsOperator == null){
+				logisticsOperatorString = " - ";
+			} else {
+				logisticsOperatorString = StringUtility.addLeadingZeros(logisticsOperator.getCode(),4) + " - " + logisticsOperator.getName();
+
+			}
+			Chunk logisticsOperatorChunk = new Chunk(logisticsOperatorString, PdfConstants.fontHeader);
+			document.add(logisticsOperatorChunk);
 			document.add(Chunk.NEWLINE);
 
 			document.add(new Chunk("Orden de Compra: ", PdfConstants.fontHeader));
