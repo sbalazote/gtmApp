@@ -30,11 +30,6 @@
 				<div class="modal-body">
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col-md-8 col-lg-8 form-group">
-
-							</div>
-						</div>
-						<div class="row">
 							<div class="col-md-4 col-lg-4 form-group">
 								<label for="agreementProvisioningRequestModal"><spring:message code="common.agreement" /></label>
 								<input id="agreementProvisioningRequestModal" name="agreementProvisioningRequestModal" placeholder='<spring:message code="common.select.option"/>' class="form-control" disabled>
