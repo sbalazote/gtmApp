@@ -25,9 +25,9 @@ PickingSheet = function() {
 	});
 	
 	$("#confirmButton").click(function() {
-		if(provisioningsToPrint.length > 0){
-			generatePickingSheetPDF(provisioningsToPrint);
-		}else{
+		if (_.uniq(provisioningsToPrint).length > 0) {
+			generatePickingSheetPDF(_.uniq(provisioningsToPrint));
+		} else {
 			myShowAlert('info', 'Seleccione al menos una Hoja de Picking');
 		}
 	});
