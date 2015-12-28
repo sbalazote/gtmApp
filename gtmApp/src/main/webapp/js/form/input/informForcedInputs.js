@@ -29,9 +29,9 @@ PendingInputs = function() {
         }
     }).on("deselected.rs.jquery.bootgrid", function(e, rows) {
         for (var i = 0; i < rows.length; i++) {
-            for(var i = input.length - 1; i >= 0; i--) {
-                if(inputs[i] === rows[i].input) {
-                    inputs.splice(i, 1);
+            for(var j = inputs.length - 1; j >= 0; j--) {
+                if(inputs[j] === rows[i].input) {
+                    inputs.splice(j, 1);
                 }
             }
         }

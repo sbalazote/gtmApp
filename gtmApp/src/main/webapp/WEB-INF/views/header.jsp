@@ -66,7 +66,8 @@
 <script type="text/javascript" src="${context}/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="${context}/js/chosen.jquery.min.js"></script>
 <script type="text/javascript" src="${context}/js/additional-methods.min.js"></script>
-<script type="text/javascript" src="${context}/js/jquery.bootgrid.min.js"></script>
+<%--<script type="text/javascript" src="${context}/js/jquery.bootgrid.min.js"></script>--%>
+<script type="text/javascript" src="${context}/js/jquery.bootgrid.js"></script>
 <script type="text/javascript" src="${context}/js/localization/messages_es.js"></script>
 <script type="text/javascript" src="${context}/js/localization/jquery.ui.datepicker-es.min.js"></script>
 <script type="text/javascript" src="${context}/js/bootstrap.min.js"></script>
