@@ -183,7 +183,7 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
         return document;
 	}
 
-	private void printDetail(String gtin, String description, Integer AcumAmount, String details)
+	private void printDetail(String gtin, String description, Integer acumAmount, String details)
 			throws DocumentException {
         PdfPTable header = new PdfPTable(3);
 		header.setTotalWidth(180.0f * MILLIMITER_TO_POINTS_FACTOR);
@@ -198,7 +198,7 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
         cell.setBorder(Rectangle.NO_BORDER);
 		header.addCell(cell);
 
-		cell = new PdfPCell(new Paragraph(String.valueOf(AcumAmount)));
+		cell = new PdfPCell(new Paragraph(String.valueOf(acumAmount)));
         cell.setBorder(Rectangle.NO_BORDER);
 		header.addCell(cell);
 

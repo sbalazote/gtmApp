@@ -27,8 +27,8 @@ PickingSheet = function() {
 	});
 
 	$("#confirmButton").click(function() {
-		if (_.uniq(provisioningsToPrint).length > 0) {
-			generatePickingSheetPDF(_.uniq(provisioningsToPrint));
+		if (provisioningsToPrint.length > 0) {
+			generatePickingSheetPDF(_.uniq(_.pluck(_.sortBy(provisioningsToPrint, 'deliveryLocation'), 'id')));
 		} else {
 			myShowAlert('info', 'Seleccione al menos una Hoja de Picking');
 		}
@@ -52,6 +52,7 @@ PickingSheet = function() {
 					var orderDetail = {
 						id: 0,
 						client: "",
+						deliveryLocation: "",
 						agreement: "",
 						state: "",
 						date: "",
@@ -60,6 +61,7 @@ PickingSheet = function() {
 					
 					orderDetail.id = response[i].id;
 					orderDetail.client = response[i].client.name;
+					orderDetail.deliveryLocation = response[i].deliveryLocation.name;
 					orderDetail.agreement = response[i].agreement.description;
 					orderDetail.state =  response[i].state.description;
 					orderDetail.date = myParseDate(response[i].deliveryDate);
@@ -76,11 +78,19 @@ PickingSheet = function() {
 					keepSelection: true
 				}).on("selected.rs.jquery.bootgrid", function(e, rows) {
 					for (var i = 0; i < rows.length; i++) {
-						provisioningsToPrint.push(rows[i].id);
+						//provisioningsToPrint.push(rows[i].id);
+						var elem = {
+							id: rows[i].id,
+							deliveryLocation: rows[i].deliveryLocation
+						};
+						provisioningsToPrint.push(elem);
 					}
 				}).on("deselected.rs.jquery.bootgrid", function(e, rows) {
 					for (var i = 0; i < rows.length; i++) {
-						provisioningsToPrint.splice(provisioningsToPrint.indexOf(rows[i].id), 1);
+						//provisioningsToPrint.splice(provisioningsToPrint.indexOf(rows[i].id), 1);
+						provisioningsToPrint = _.reject(provisioningsToPrint, function(obj) {
+							return obj.id === rows[i].id;
+						});
 					}
 				});
 				$("#provisioningTable").bootgrid("clear");

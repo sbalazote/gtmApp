@@ -611,9 +611,9 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         deliveryNote.setDeliveryNoteDetails(deliveryNoteDetails);
         deliveryNote.setDate(currentDate);
         deliveryNote.setFake(false);
-        logger.error("El egreso que se esta por guardar es: " + egress);
-        logger.error("El concepto de remito es: " + deliveryNoteConcept);
-        logger.error("La configuracion del sistema es: " + property);
+        logger.info("El egreso que se esta por guardar es: " + egress);
+        logger.info("El concepto de remito es: " + deliveryNoteConcept);
+        logger.info("La configuracion del sistema es: " + property);
 
         if (egress.hasToInformANMAT() && deliveryNoteConcept.isInformAnmat() && property.isInformAnmat()) {
             deliveryNote.setInformAnmat(true);
