@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -72,57 +73,6 @@ public class OrderController {
 		modelMap.put("agreements", this.agreementService.getAllActives());
 		modelMap.put("clients", this.clientService.getAllActives());
 		return "orderAssemblySelection";
-	}
-
-	@RequestMapping(value = "/batchExpirationDateOrderAssemblySearch", method = RequestMethod.GET)
-	public String batchExpirationDateOrderAssemblySearch(ModelMap modelMap) throws Exception {
-		return "batchExpirationDateOrderAssemblySearch";
-	}
-
-	@RequestMapping(value = "/searchProvisioningById", method = RequestMethod.POST)
-	public RedirectView searchProvisioningById(ModelMap modelMap, SearchProvisioningForm searchProvisioningForm){
-		RedirectView mv = new RedirectView("batchExpirationDateOrderAssembly.do");
-		modelMap.put("provisioningRequestId", searchProvisioningForm.getProvisioningRequestId());
-		return mv;
-	}
-
-	@RequestMapping(value = "/batchExpirationDateOrderAssembly", method = RequestMethod.GET)
-	public String batchExpirationDateOrderAssembly(ModelMap modelMap, @RequestParam Integer provisioningRequestId, OrderAssemblyForm orderAssemblyForm) throws Exception {
-		ProvisioningRequest provisioningRequest = this.provisioningRequestService.get(provisioningRequestId);
-		Boolean setModel = (Boolean) modelMap.get("setModel");
-		modelMap.put("provisioningRequestId", provisioningRequestId);
-		if(setModel == null) {
-			setBatchExpirationDateOrderForm(modelMap, provisioningRequest);
-		}
-		HashMap<Integer, Integer> provisioningDetailsToAssign = (HashMap<Integer, Integer>) modelMap.get("provisioningDetailsToAssign");
-		HashMap<Integer, ProvisioningRequestDetail> provisioningRequestDetailsMap = (HashMap<Integer, ProvisioningRequestDetail>) modelMap.get("provisioningRequestDetailsMap");
-		HashMap<Integer, List<OrderDetail>> orderDetailsMap = (HashMap<Integer, List<OrderDetail>>) modelMap.get("orderDetailsMap");
-		for(Integer provisioningDetailId : provisioningDetailsToAssign.keySet()){
-			ProvisioningRequestDetail provisioningRequestDetail = provisioningRequestDetailsMap.get(provisioningDetailId);
-			if(orderDetailsMap.get(provisioningDetailId).size() < provisioningDetailsToAssign.get(provisioningDetailId)){
-				modelMap.put("stock", this.stockService.getBatchExpirationDateStock(provisioningRequestDetail.getProduct().getId(), provisioningRequest.getAgreement().getId()));
-				modelMap.put("productDescription", provisioningRequestDetail.getProduct().getCode() + " - " + provisioningRequestDetail.getProduct().getDescription());
-			}
-		}
-		return "batchExpirationDateOrderAssembly";
-	}
-
-	private void setBatchExpirationDateOrderForm(ModelMap modelMap, ProvisioningRequest provisioningRequest) {
-		modelMap.put("setModel", new Boolean(true));
-		modelMap.put("provisioningRequestId", provisioningRequest.getFormatId());
-		modelMap.put("provisioningRequestIdFormated", provisioningRequest.getFormatId());
-		HashMap<Integer, Integer> provisioningDetailsToAssign = new HashMap<>();
-		HashMap<Integer, List<OrderDetail>> orderDetailsMap = new HashMap<>();
-		HashMap<Integer, ProvisioningRequestDetail> provisioningRequestDetailsMap = new HashMap<>();
-
-		for(ProvisioningRequestDetail provisioningRequestDetail : provisioningRequest.getProvisioningRequestDetails()){
-			provisioningDetailsToAssign.put(provisioningRequestDetail.getId(), provisioningRequestDetail.getAmount());
-			orderDetailsMap.put(provisioningRequestDetail.getId(), new ArrayList<OrderDetail>());
-			provisioningRequestDetailsMap.put(provisioningRequestDetail.getId(),provisioningRequestDetail);
-		}
-		modelMap.put("provisioningDetailsToAssign", provisioningDetailsToAssign);
-		modelMap.put("orderDetailsMap", orderDetailsMap);
-		modelMap.put("provisioningRequestDetailsMap", provisioningRequestDetailsMap);
 	}
 
 	@RequestMapping(value = "/saveOrder", method = RequestMethod.POST)

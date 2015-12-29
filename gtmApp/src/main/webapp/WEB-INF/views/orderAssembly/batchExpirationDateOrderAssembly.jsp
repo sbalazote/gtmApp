@@ -5,6 +5,7 @@
 
 <form id="orderAssemblyForm" action="/gtmApp/batchExpirationDateOrderAssembly.do" method="get">
     <input type="hidden" class="form-control" id="provisioningRequestId" name="provisioningRequestId" value="${provisioningRequestId}">
+    <input type="hidden" class="form-control" id="provisioningRequestDetailId" name="provisioningRequestDetailId" value="${provisioningRequestDetailId}">
 
     <div class="row">
         <div class="col-md-3 form-group">
@@ -16,10 +17,21 @@
             <span class="form-provisioningRequest-heading">${productDescription}</span>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-2 col-lg-2 form-group">
+            <label for="amount"><spring:message code="common.amount"/>: ${amount}</label>
+            <input type="hidden" class="form-control" id="amount" name="amount" value="${amount}">
+        </div>
+        <div class="col-md-2 col-lg-2 form-group">
+            <label for="assignAmount"><spring:message code="common.assignAmount"/>: ${amountAssign}</label>
+            <input type="hidden" class="form-control" id="assignAmount" name="assignAmount" value="${amountAssign}">
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-4 col-lg-4 form-group">
             <label for="stockInput"><spring:message code="common.stock"/></label>
-            <select id="stockInput" name="stock" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>" autofocus>
+            <select id="stockInput" name="stockInput" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>" autofocus>
                 <option value=""></option>
                 <c:forEach items="${stock}" var="stock">
                     <option value="${stock.id}"><c:out value="${stock.batch}"></c:out> - <c:out value="${stock.expirationDate}"></c:out> - <c:out value="${stock.amount}"></c:out></option>
@@ -30,7 +42,7 @@
     <div class="row">
         <div class="col-md-4 col-lg-4 form-group">
             <label for="stockAmountInput"><spring:message code="common.amount"/></label>
-            <input type="text" class="form-control" name="stockAmount" id="stockAmountInput">
+            <input type="text" class="form-control" name="stockAmountInput" id="stockAmountInput">
         </div>
     </div>
     <br>

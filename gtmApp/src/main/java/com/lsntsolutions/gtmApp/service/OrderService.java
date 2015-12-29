@@ -11,6 +11,8 @@ public interface OrderService {
 
 	Order save(OrderDTO orderDTO);
 
+	Order save(Order order);
+
 	Order get(Integer id);
 
 	Order getOrderByProvisioningRequestId(Integer provisioningRequestId);

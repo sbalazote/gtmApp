@@ -52,6 +52,15 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	public Order save(Order order) {
+		this.orderDAO.save(order);
+		for(OrderDetail orderDetail : order.getOrderDetails()){
+			this.stockService.removeFromStock(orderDetail, order.getAgreement());
+		}
+		return order;
+	}
+
+	@Override
 	public Order get(Integer id) {
 		return this.orderDAO.get(id);
 	}
