@@ -3,6 +3,8 @@ var LogisticOperatorAssignment = function() {
 	var orderId = null;
 	var provisioningsToAssign = [];
 
+	$("#idSearch").numeric();
+
 	$('#logisticsOperatorTableBody').on("click", ".view-row", function() {
 		var parent = $(this).parent().parent();
 
@@ -11,15 +13,15 @@ var LogisticOperatorAssignment = function() {
 		showOrderModal(orderId);
 	});
 
-	refreshTable();
-	window.setInterval(refreshTable, 60000);
-
 	$("#searchButton").click(function() {
 		refreshTable();
 	});
 
 	$("#cleanButton").click(function() {
+		$('#idSearch').val('').trigger('chosen:updated');
+		$('#logisticsOperatorSearch').val('').trigger('chosen:updated');
 		$('#clientSearch').val('').trigger('chosen:updated');
+		$('#deliveryLocationSearch').val('').trigger('chosen:updated');
 		$('#agreementSearch').val('').trigger('chosen:updated');
 		refreshTable();
 	});
@@ -27,11 +29,11 @@ var LogisticOperatorAssignment = function() {
 	$("#confirmButton").click(function() {
 
 		var jsonAssignOperator = {
-			"provisioningsIdsToReassign": provisioningsToAssign,
+			"provisioningsIdsToReassign": _.uniq(provisioningsToAssign),
 			"logisticOperatorId": $("#logisticsOperatorInput").val(),
 		};
 
-		if(provisioningsToAssign.length > 0 && $("#logisticsOperatorInput").val() != ""){
+		if(_.uniq(provisioningsToAssign).length > 0 && $("#logisticsOperatorInput").val() != ""){
 			$.ajax({
 				url: "assignOperatorToProvisionings.do",
 				type: "POST",
@@ -60,8 +62,11 @@ var LogisticOperatorAssignment = function() {
 			type: "GET",
 			async: false,
 			data: {
+				provisioningRequestId: $('#idSearch').val() || null,
 				agreementId: $("#agreementSearch").val() || null,
+				logisticsOperatorId: $('#logisticsOperatorSearch').val() || null,
 				clientId: $("#clientSearch").val() || null,
+				deliveryLocationId: $('#deliveryLocationSearch').val() || null
 			},
 			success: function(response) {
 				var aaData = [];

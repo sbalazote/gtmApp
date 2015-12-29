@@ -28,11 +28,17 @@ public class PickingSheetController {
 	@Autowired
 	private AgreementService agreementService;
 	@Autowired
+	private DeliveryLocationService deliveryLocationService;
+	@Autowired
+	private LogisticsOperatorService logisticsOperatorService;
+	@Autowired
 	private ClientService clientService;
 
 	@RequestMapping(value = "/pickingSheet", method = RequestMethod.GET)
 	public String pickingSheet(ModelMap modelMap) throws Exception {
 		modelMap.put("agreements", this.agreementService.getAllActives());
+		modelMap.put("deliveryLocations", this.deliveryLocationService.getAll());
+		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAll());
 		modelMap.put("clients", this.clientService.getAllActives());
 		return "pickingSheet";
 	}

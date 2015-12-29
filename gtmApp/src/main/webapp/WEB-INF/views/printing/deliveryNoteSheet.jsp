@@ -79,22 +79,24 @@
 
 <div id="divTable">
 	<table class="table table-condensed table-hover table-striped" id="deliveryNoteTable">
-			<thead>
-		        <tr>
-					<th data-column-id="orderId" data-type="numeric" data-identifier="true" data-visible="false"><spring:message code="common.orderAssembly"/></th>
-					<th data-column-id="id" data-type="numeric"><spring:message code="provisioningRequest.provisioningRequestNumber"/></th>
-					<th data-column-id="agreement"><spring:message code="common.agreement"/></th>
-					<th data-column-id="logisticsOperator"><spring:message code="common.logisticsOperator"/></th>
-					<th data-column-id="client"><spring:message code="common.client"/></th>
-					<th data-column-id="deliveryLocation"><spring:message code="common.deliveryLocation"/></th>
-		          	<th data-column-id="option"><spring:message code="common.option"/></th>
-		        </tr>
-	   	 	</thead>
-	   	 	<tbody id="deliveryNoteTableBody">
-			</tbody>
+		<thead>
+		<tr>
+			<th data-column-id="orderId" data-type="numeric" data-identifier="true" data-visible="false"><spring:message code="common.orderAssembly"/></th>
+			<th data-column-id="id" data-type="numeric"><spring:message code="provisioningRequest.provisioningRequestNumber"/></th>
+			<th data-column-id="agreement"><spring:message code="common.agreement"/></th>
+			<th data-column-id="logisticsOperator"><spring:message code="common.logisticsOperator"/></th>
+			<th data-column-id="client"><spring:message code="common.client"/></th>
+			<th data-column-id="deliveryLocation"><spring:message code="common.deliveryLocation"/></th>
+			<th data-column-id="option"><spring:message code="common.option"/></th>
+		</tr>
+		</thead>
+		<tbody id="deliveryNoteTableBody">
+		</tbody>
 	</table>
 </div>
+
 <br>
+
 <div class="row">
 	<div class="col-md-3 col-lg-2 col-md-offset-9 col-lg-offset-10">
 		<button class="btn btn-success btn-block" type="submit" id="confirmButton">

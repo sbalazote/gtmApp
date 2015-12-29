@@ -19,5 +19,5 @@ public interface ProvisioningRequestDAO {
 
 	boolean getCountOfProvisioningSearch(ProvisioningQuery provisioningQuery);
 
-	List<ProvisioningRequest> getFilterProvisionings(Integer provisioningId, Integer agreementId, Integer clientId, Integer stateId);
+	List<ProvisioningRequest> getFilterProvisionings(Integer provisioningRequestId, Integer agreementId, Integer logisticsOperatorId, Integer clientId, Integer deliveryLocationId, Integer stateId);
 }

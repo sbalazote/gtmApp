@@ -13,9 +13,6 @@ var DeliveryNoteSheet = function() {
 		showOrderModal(orderId);
 	});
 	
-	refreshTable();
-	window.setInterval(refreshTable, 60000);
-	
 	$("#searchButton").click(function() {
 		refreshTable();
 	});

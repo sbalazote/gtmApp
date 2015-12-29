@@ -2,9 +2,8 @@ PickingSheet = function() {
 	
 	var provisioningId = null;
 	var provisioningsToPrint = [];
-	
-	refreshTable();
-	window.setInterval(refreshTable, 60000);
+
+	$("#idSearch").numeric();
 	
 	$('#provisioningTableBody').on("click", ".view-row", function() {
 		var parent = $(this).parent().parent();
@@ -19,11 +18,14 @@ PickingSheet = function() {
 	});
 	
 	$("#cleanButton").click(function() {
+		$('#idSearch').val('').trigger('chosen:updated');
+		$('#logisticsOperatorSearch').val('').trigger('chosen:updated');
 		$('#clientSearch').val('').trigger('chosen:updated');
+		$('#deliveryLocationSearch').val('').trigger('chosen:updated');
 		$('#agreementSearch').val('').trigger('chosen:updated');
 		refreshTable();
 	});
-	
+
 	$("#confirmButton").click(function() {
 		if (_.uniq(provisioningsToPrint).length > 0) {
 			generatePickingSheetPDF(_.uniq(provisioningsToPrint));
@@ -38,10 +40,12 @@ PickingSheet = function() {
 			type: "GET",
 			async: false,
 			data: {
-				provisioningRequestId: null,
+				provisioningRequestId: $('#idSearch').val() || null,
 				agreementId: $("#agreementSearch").val() || null,
-				clientId: $("#clientSearch").val() || null
-				},
+				logisticsOperatorId: $('#logisticsOperatorSearch').val() || null,
+				clientId: $("#clientSearch").val() || null,
+				deliveryLocationId: $('#deliveryLocationSearch').val() || null
+			},
 			success: function(response) {
 				var aaData = [];
 				for (var i = 0, l = response.length; i < l; ++i) {
@@ -68,6 +72,7 @@ PickingSheet = function() {
 					caseSensitive: false,
 					selection: true,
 					multiSelect: true,
+					rowSelect: false,
 					keepSelection: true
 				}).on("selected.rs.jquery.bootgrid", function(e, rows) {
 					for (var i = 0; i < rows.length; i++) {

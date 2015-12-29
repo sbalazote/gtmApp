@@ -5,10 +5,10 @@ import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.dto.OrderDTO;
 import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
-import com.lsntsolutions.gtmApp.form.OrderAssemblyForm;
-import com.lsntsolutions.gtmApp.form.SearchProvisioningForm;
 import com.lsntsolutions.gtmApp.helper.impl.printer.OrderLabelPrinter;
-import com.lsntsolutions.gtmApp.model.*;
+import com.lsntsolutions.gtmApp.model.Order;
+import com.lsntsolutions.gtmApp.model.ProvisioningRequest;
+import com.lsntsolutions.gtmApp.model.Stock;
 import com.lsntsolutions.gtmApp.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -17,12 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,9 +37,11 @@ public class OrderController {
 	@Autowired
 	private AgreementService agreementService;
 	@Autowired
-	private ClientService clientService;
+	private DeliveryLocationService deliveryLocationService;
 	@Autowired
 	private LogisticsOperatorService logisticsOperatorService;
+	@Autowired
+	private ClientService clientService;
 	@Autowired
 	private PropertyService propertyService;
 
@@ -144,11 +141,11 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/getAuthorizedProvisioningsForOrders", method = RequestMethod.GET)
-	public @ResponseBody List<ProvisioningRequest> getAuthorizedProvisioningsForOrders(@RequestParam Integer provisioningRequestId, Integer agreementId, Integer clientId) {
-		List<ProvisioningRequest> provisionings = this.provisioningRequestService.getFilterProvisionings(provisioningRequestId, agreementId, clientId, State.AUTHORIZED.getId());
-		provisionings.addAll(this.provisioningRequestService.getFilterProvisionings(provisioningRequestId, agreementId, clientId, State.PRINTED.getId()));
+	public @ResponseBody List<ProvisioningRequest> getAuthorizedProvisioningsForOrders(@RequestParam Integer provisioningRequestId, Integer agreementId, Integer logisticsOperatorId, Integer clientId, Integer deliveryLocationId) {
+		List<ProvisioningRequest> provisionings = this.provisioningRequestService.getFilterProvisionings(provisioningRequestId, agreementId, logisticsOperatorId, clientId, deliveryLocationId, State.AUTHORIZED.getId());
+		provisionings.addAll(this.provisioningRequestService.getFilterProvisionings(provisioningRequestId, agreementId, logisticsOperatorId, clientId, deliveryLocationId, State.PRINTED.getId()));
 		if(!this.propertyService.get().isProvisioningRequireAuthorization()){
-			provisionings.addAll(this.provisioningRequestService.getFilterProvisionings(provisioningRequestId, agreementId, clientId, State.ENTERED.getId()));
+			provisionings.addAll(this.provisioningRequestService.getFilterProvisionings(provisioningRequestId, agreementId, logisticsOperatorId, clientId, deliveryLocationId, State.ENTERED.getId()));
 		}
 		return provisionings;
 	}
@@ -156,9 +153,9 @@ public class OrderController {
 	@RequestMapping(value = "/logisticOperatorAssignment", method = RequestMethod.GET)
 	public String deliveryNoteSheet(ModelMap modelMap) throws Exception {
 		modelMap.put("agreements", this.agreementService.getAllActives());
+		modelMap.put("deliveryLocations", this.deliveryLocationService.getAll());
+		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAll());
 		modelMap.put("clients", this.clientService.getAllActives());
-		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAllActives());
-
 		return "logisticOperatorAssignment";
 	}
 }

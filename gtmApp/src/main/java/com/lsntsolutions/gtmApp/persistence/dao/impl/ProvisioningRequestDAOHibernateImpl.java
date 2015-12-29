@@ -7,7 +7,6 @@ import com.lsntsolutions.gtmApp.query.ProvisioningQuery;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -116,16 +115,22 @@ public class ProvisioningRequestDAOHibernateImpl implements ProvisioningRequestD
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ProvisioningRequest> getFilterProvisionings(Integer provisioningId, Integer agreementId, Integer clientId, Integer stateId) {
+	public List<ProvisioningRequest> getFilterProvisionings(Integer provisioningRequestId, Integer agreementId, Integer logisticsOperatorId, Integer clientId, Integer deliveryLocationId, Integer stateId) {
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(ProvisioningRequest.class);
-		if (provisioningId != null) {
-			criteria.add(Restrictions.eq("id", provisioningId));
+		if (provisioningRequestId != null) {
+			criteria.add(Restrictions.eq("id", provisioningRequestId));
 		}
 		if (agreementId != null) {
 			criteria.add(Restrictions.eq("agreement.id", agreementId));
 		}
+		if (logisticsOperatorId != null) {
+			criteria.add(Restrictions.eq("logisticsOperator.id", logisticsOperatorId));
+		}
 		if (clientId != null) {
 			criteria.add(Restrictions.eq("client.id", clientId));
+		}
+		if (deliveryLocationId != null) {
+			criteria.add(Restrictions.eq("deliveryLocation.id", deliveryLocationId));
 		}
 		criteria.add(Restrictions.eq("state.id", stateId));
 
