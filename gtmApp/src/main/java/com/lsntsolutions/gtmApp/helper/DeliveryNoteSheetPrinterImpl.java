@@ -269,11 +269,9 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         this.printSupplyings = printSupplyings;
         this.printOutputs = printOutputs;
         this.printOrders = printOrders;
-        deliveryNoteList = new ArrayList<DeliveryNote>();
         dnConfigMap = deliveryNoteConfigService.getAllInMillimiters();
         property = this.propertyService.get();
         this.userName = userName;
-        printsNumbers = new ArrayList<>();
         ProvisioningRequestState state = this.provisioningRequestStateService.get(State.DELIVERY_NOTE_PRINTED.getId());
         currentDate = new Date();
 
@@ -287,6 +285,8 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
             Integer numberOfDeliveryNoteDetailsPerPage = egress.getAgreement().getNumberOfDeliveryNoteDetailsPerPage();
 
             deliveryNoteConcept = getConcept(egress);
+            deliveryNoteList = new ArrayList<>();
+            printsNumbers = new ArrayList<>();
 
             // agrupo lista de productos por id de producto + lote.
             TreeMap<String, List<? extends Detail>> productMap = groupByProductAndBatch(egress.getDetails());
@@ -311,7 +311,6 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
             deliveryNote = new DeliveryNote();
             deliveryNoteDetails = new ArrayList<>();
             // numero de remitos requeridos
-            deliveryNoteNumbersRequired = 0;
             // numero de linea de detalle de producto actual.
             int currentLine = 0;
             // offset coordenada vertical a partir de donde se indico el detalle de productos.
@@ -394,10 +393,10 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
             savePage(egress);
 
             // pido los numeros necesarios a la base, los asigno e imprimo los remitos.
-            deliveryNoteConcept = this.conceptService.getAndUpdateDeliveryNote(deliveryNoteConcept.getId(), deliveryNoteNumbersRequired);
+            deliveryNoteConcept = this.conceptService.getAndUpdateDeliveryNote(deliveryNoteConcept.getId(), deliveryNoteList.size());
             String POS = StringUtility.addLeadingZeros(deliveryNoteConcept.getDeliveryNoteEnumerator().getDeliveryNotePOS(), 4);
             Integer currentDeliveryNoteNumber, currentDeliveryNoteNumberCopy;
-            currentDeliveryNoteNumber = currentDeliveryNoteNumberCopy = deliveryNoteConcept.getDeliveryNoteEnumerator().getDeliveryNoteNumber() - deliveryNoteNumbersRequired + 1;
+            currentDeliveryNoteNumber = currentDeliveryNoteNumberCopy = deliveryNoteConcept.getDeliveryNoteEnumerator().getDeliveryNoteNumber() - deliveryNoteList.size() + 1;
             String deliveryNoteComplete;
             for (int i = 0; i < deliveryNoteList.size(); i++) {
                 DeliveryNote dn = deliveryNoteList.get(i);
@@ -620,7 +619,6 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         } else {
             deliveryNote.setInformAnmat(false);
         }
-        deliveryNoteNumbersRequired++;
         deliveryNoteList.add(deliveryNote);
     }
 
