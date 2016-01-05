@@ -416,37 +416,41 @@ AgreementTransfer = function() {
 	
 	$("#confirmButton").click(function() {
 		if (validateForm()) {
-			if (agreementTransferDetailGroup.length > 0) {
-				$(this).attr("disabled", true);
-				var jsonAgreementTransfer = {
-						"originAgreementId": $("#originAgreementInput").val(),
-						"destinationAgreementId": $("#destinationAgreementInput").val(),
-						"agreementTransferDetails": []
-				};
-		
-				for (var i = 0, lengthI = agreementTransferDetailGroup.length; i < lengthI; i++) {
-					for (var j = 0; lengthJ = agreementTransferDetailGroup[i].length, j < lengthJ; j++) {
-						jsonAgreementTransfer.agreementTransferDetails.push(agreementTransferDetailGroup[i][j]);
+			if($("#originAgreementInput").val() != $("#destinationAgreementInput").val()){
+				if (agreementTransferDetailGroup.length > 0) {
+					$(this).attr("disabled", true);
+					var jsonAgreementTransfer = {
+							"originAgreementId": $("#originAgreementInput").val(),
+							"destinationAgreementId": $("#destinationAgreementInput").val(),
+							"agreementTransferDetails": []
+					};
+
+					for (var i = 0, lengthI = agreementTransferDetailGroup.length; i < lengthI; i++) {
+						for (var j = 0; lengthJ = agreementTransferDetailGroup[i].length, j < lengthJ; j++) {
+							jsonAgreementTransfer.agreementTransferDetails.push(agreementTransferDetailGroup[i][j]);
+						}
 					}
+
+					isButtonConfirm = true;
+
+					$.ajax({
+						url: "updateProductsAgreement.do",
+						type: "POST",
+						contentType:"application/json",
+						data: JSON.stringify(jsonAgreementTransfer),
+						async: false,
+						success: function(response) {
+							myRedirect("success", "Se ha generado exitosamente la transferencia de convenio", "agreementTransfer.do");
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+							myGenericError();
+						}
+					});
+				} else {
+					myShowAlert('warning', 'Por favor, ingrese al menos un producto.');
 				}
-		
-				isButtonConfirm = true;
-		
-				$.ajax({
-					url: "updateProductsAgreement.do",
-					type: "POST",
-					contentType:"application/json",
-					data: JSON.stringify(jsonAgreementTransfer),
-					async: false,
-					success: function(response) {
-						myRedirect("success", "Se ha generado exitosamente la transferencia de convenio", "agreementTransfer.do");
-					},
-					error: function(jqXHR, textStatus, errorThrown) {
-						myGenericError();
-					}
-				});
-			} else {
-				myShowAlert('warning', 'Por favor, ingrese al menos un producto.');
+			}else{
+				myShowAlert('warning', 'El convenio de origen y destino deben ser distintos.');
 			}
 		}
 	});
