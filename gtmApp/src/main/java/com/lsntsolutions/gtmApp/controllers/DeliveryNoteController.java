@@ -36,20 +36,14 @@ public class DeliveryNoteController {
 	@Autowired
 	private DeliveryNoteSheetPrinter deliveryNoteSheetPrinter;
 	@Autowired
-	private AgreementService agreementService;
-	@Autowired
-	private DeliveryLocationService deliveryLocationService;
-	@Autowired
 	private LogisticsOperatorService logisticsOperatorService;
-	@Autowired
-	private ClientService clientService;
 
 	@RequestMapping(value = "/deliveryNoteSheet", method = RequestMethod.GET)
 	public String deliveryNoteSheet(ModelMap modelMap) throws Exception {
-		modelMap.put("agreements", this.agreementService.getAllActives());
-		modelMap.put("deliveryLocations", this.deliveryLocationService.getAll());
+		modelMap.put("agreements", this.orderService.getAgreementForOrderToPrint());
+		modelMap.put("deliveryLocations", this.orderService.getDeliveryLocationsForOrderToPrint());
 		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAll());
-		modelMap.put("clients", this.clientService.getAllActives());
+		modelMap.put("clients", this.orderService.getClientForOrderToPrint());
 
 		return "deliveryNoteSheet";
 	}

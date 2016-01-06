@@ -187,4 +187,19 @@ public class OrderServiceImpl implements OrderService {
 
 		return  filteredIds;
 	}
+
+	@Override
+	public List<Agreement> getAgreementForOrderToPrint() {
+		return this.orderDAO.getAgreementForOrderToPrint();
+	}
+
+	@Override
+	public List<Client> getClientForOrderToPrint() {
+		return this.orderDAO.getClientForOrderToPrint();
+	}
+
+	@Override
+	public List<DeliveryLocation> getDeliveryLocationsForOrderToPrint() {
+		return this.orderDAO.getDeliveryLocationsForOrderToPrint();
+	}
 }

@@ -1,6 +1,10 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
 import com.lsntsolutions.gtmApp.constant.Constants;
+import com.lsntsolutions.gtmApp.constant.State;
+import com.lsntsolutions.gtmApp.model.Agreement;
+import com.lsntsolutions.gtmApp.model.Client;
+import com.lsntsolutions.gtmApp.model.DeliveryLocation;
 import com.lsntsolutions.gtmApp.model.Order;
 import com.lsntsolutions.gtmApp.persistence.dao.OrderDAO;
 import com.lsntsolutions.gtmApp.query.DeliveryNoteQuery;
@@ -132,6 +136,30 @@ public class OrderDAOHibernateImpl implements OrderDAO {
 			query.setParameter("deliveryLocationId", deliveryLocationId);
 		}
 
+		return query.list();
+	}
+
+	@Override
+	public List<Agreement> getAgreementForOrderToPrint() {
+		Query query;
+		query = this.sessionFactory.getCurrentSession().createQuery("select o.provisioningRequest.agreement from Order as o where o.provisioningRequest.state.id = :stateId");
+		query.setParameter("stateId", State.ASSEMBLED.getId());
+		return query.list();
+	}
+
+	@Override
+	public List<Client> getClientForOrderToPrint() {
+		Query query;
+		query = this.sessionFactory.getCurrentSession().createQuery("select o.provisioningRequest.client from Order as o where o.provisioningRequest.state.id = :stateId");
+		query.setParameter("stateId", State.ASSEMBLED.getId());
+		return query.list();
+	}
+
+	@Override
+	public List<DeliveryLocation> getDeliveryLocationsForOrderToPrint() {
+		Query query;
+		query = this.sessionFactory.getCurrentSession().createQuery("select o.provisioningRequest.deliveryLocation from Order as o where o.provisioningRequest.state.id = :stateId");
+		query.setParameter("stateId", State.ASSEMBLED.getId());
 		return query.list();
 	}
 }
