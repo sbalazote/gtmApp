@@ -142,7 +142,7 @@ public class OrderDAOHibernateImpl implements OrderDAO {
 	@Override
 	public List<Agreement> getAgreementForOrderToPrint() {
 		Query query;
-		query = this.sessionFactory.getCurrentSession().createQuery("select o.provisioningRequest.agreement from Order as o where o.provisioningRequest.state.id = :stateId");
+		query = this.sessionFactory.getCurrentSession().createQuery("select distinct o.provisioningRequest.agreement from Order as o where o.provisioningRequest.state.id = :stateId");
 		query.setParameter("stateId", State.ASSEMBLED.getId());
 		return query.list();
 	}
@@ -150,7 +150,7 @@ public class OrderDAOHibernateImpl implements OrderDAO {
 	@Override
 	public List<Client> getClientForOrderToPrint() {
 		Query query;
-		query = this.sessionFactory.getCurrentSession().createQuery("select o.provisioningRequest.client from Order as o where o.provisioningRequest.state.id = :stateId");
+		query = this.sessionFactory.getCurrentSession().createQuery("select distinct o.provisioningRequest.client from Order as o where o.provisioningRequest.state.id = :stateId");
 		query.setParameter("stateId", State.ASSEMBLED.getId());
 		return query.list();
 	}
@@ -158,7 +158,7 @@ public class OrderDAOHibernateImpl implements OrderDAO {
 	@Override
 	public List<DeliveryLocation> getDeliveryLocationsForOrderToPrint() {
 		Query query;
-		query = this.sessionFactory.getCurrentSession().createQuery("select o.provisioningRequest.deliveryLocation from Order as o where o.provisioningRequest.state.id = :stateId");
+		query = this.sessionFactory.getCurrentSession().createQuery("select distinct o.provisioningRequest.deliveryLocation from Order as o where o.provisioningRequest.state.id = :stateId");
 		query.setParameter("stateId", State.ASSEMBLED.getId());
 		return query.list();
 	}
