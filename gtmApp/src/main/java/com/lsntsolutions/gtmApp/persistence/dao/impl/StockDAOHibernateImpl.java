@@ -1,19 +1,21 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
 import com.lsntsolutions.gtmApp.constant.Constants;
+import com.lsntsolutions.gtmApp.dto.StockDTO;
 import com.lsntsolutions.gtmApp.model.Product;
 import com.lsntsolutions.gtmApp.model.Stock;
 import com.lsntsolutions.gtmApp.persistence.dao.StockDAO;
 import com.lsntsolutions.gtmApp.query.StockQuery;
 import com.lsntsolutions.gtmApp.service.ProductService;
 import com.lsntsolutions.gtmApp.util.StringUtility;
-import com.lsntsolutions.gtmApp.webservice.WebServiceHelper;
-import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.StandardBasicTypes;
+import org.hibernate.type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -265,5 +267,108 @@ public class StockDAOHibernateImpl implements StockDAO {
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public List<StockDTO> getForAutocomplete(String searchPhrase, String sortCode, String sortProduct, String sortAgreement, String sortGtin, String sortAmount, String agreementId, String batchNumber, String expirateDateFrom, String expirateDateTo, String monodrugId, String productId, String serialNumber) {
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Stock.class, "stock");
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+		Date dateFromFormated;
+		Date dateToFormated;
+		criteria.createAlias("stock.product", "product");
+		criteria.createAlias("stock.agreement", "agreement");
+		criteria.createAlias("stock.gtin", "gtin");
+
+		criteria.add(Restrictions.or(Restrictions.ilike("gtin.number", searchPhrase, MatchMode.ANYWHERE), Restrictions.ilike("product.description", searchPhrase, MatchMode.ANYWHERE)));
+
+		if (!StringUtils.isEmpty(expirateDateFrom)) {
+			try {
+				dateFromFormated = dateFormatter.parse(expirateDateFrom);
+				criteria.add(Restrictions.ge("expirationDate", dateFromFormated));
+			} catch (ParseException e) {
+				throw new RuntimeException("El formato de la fecha ingresada no es valido.", e);
+			}
+		}
+		if (!StringUtils.isEmpty(expirateDateTo)) {
+			try {
+				dateToFormated = dateFormatter.parse(expirateDateTo);
+				criteria.add(Restrictions.le("expirationDate", dateToFormated));
+			} catch (ParseException e) {
+				throw new RuntimeException("El formato de la fecha ingresada no es valido.", e);
+			}
+		}
+
+		if (!StringUtils.isEmpty(productId)) {
+			criteria.add(Restrictions.eq("product.id", Integer.parseInt(productId)));
+		}
+
+		if (!StringUtils.isEmpty(agreementId)) {
+			criteria.add(Restrictions.eq("agreement.id", Integer.parseInt(agreementId)));
+		}
+
+		if (!StringUtils.isEmpty(serialNumber)) {
+			criteria.add(Restrictions.eq("serialNumber", serialNumber));
+		}
+
+		if (!StringUtils.isEmpty(batchNumber)) {
+			criteria.add(Restrictions.eq("batch", batchNumber));
+		}
+
+		if (!StringUtils.isEmpty(monodrugId)) {
+			criteria.add(Restrictions.eq("product.monodrug.id", Integer.parseInt(monodrugId)));
+		}
+
+		ProjectionList projectionList = Projections.projectionList();
+		projectionList.add(Projections.groupProperty("product.id"), "productId");
+		projectionList.add(Projections.groupProperty("agreement.id"), "agreementId");
+		projectionList.add(Projections.property("product.code"), "productCode");
+		projectionList.add(Projections.property("product.description"), "productDescription");
+		projectionList.add(Projections.property("agreement.description"), "agreementDescription");
+		projectionList.add(Projections.property("gtin.number"), "gtinNumber");
+		projectionList.add(Projections.property("serialNumber"), "serialNumber");
+		projectionList.add(Projections.sqlProjection("sum(amount) as amount", new String[]{"amount"}, new Type[]{StandardBasicTypes.INTEGER}));
+
+
+		criteria.setProjection(projectionList);
+
+		if (sortCode != null) {
+			if (sortCode.equals("asc")) {
+				criteria.addOrder(Order.asc("product.code"));
+			} else {
+				criteria.addOrder(Order.desc("product.code"));
+			}
+		} else if (sortProduct != null) {
+			if (sortProduct.equals("asc")) {
+				criteria.addOrder(Order.asc("product.description"));
+			} else {
+				criteria.addOrder(Order.desc("product.description"));
+			}
+		} else if (sortAgreement != null) {
+			if (sortAgreement.equals("asc")) {
+				criteria.addOrder(Order.asc("agreement.description"));
+			} else {
+				criteria.addOrder(Order.desc("agreement.description"));
+			}
+		} else if (sortGtin != null) {
+			if (sortGtin.equals("asc")) {
+				criteria.addOrder(Order.asc("gtin.number"));
+			} else {
+				criteria.addOrder(Order.desc("gtin.number"));
+			}
+		} else if (sortAmount != null) {
+			if (sortAmount.equals("asc")) {
+				criteria.addOrder(Order.asc("amount"));
+			} else {
+				criteria.addOrder(Order.desc("amount"));
+			}
+		} else {
+			criteria.addOrder(Order.asc("product.id"));
+		}
+
+		criteria.setResultTransformer(Transformers.aliasToBean(StockDTO.class));
+
+		List<StockDTO> results = (List<StockDTO>) criteria.list();
+
+		return results;
 	}
 }

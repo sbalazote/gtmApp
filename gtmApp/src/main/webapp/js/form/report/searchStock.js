@@ -5,10 +5,6 @@ SearchStock = function() {
 	var productDescription;
 	var productType;
 	
-	var id;
-	var serialsMap = {};
-	var serialDetails = {};
-
 	var autocomplete = false;
 
 	$('#dateFromButton').click(function() {
@@ -25,32 +21,67 @@ SearchStock = function() {
 
 	$("#dateFromSearch").datepicker();
 	$("#dateToSearch").datepicker();
+
+	function getStockFromProductAndAgreement(productId, agreementId) {
+		var aaData = [];
+		$.ajax({
+			url: "getStockFromProductAndAgreement.do",
+			type: "POST",
+			async: false,
+			data: {
+				productId: productId,
+				agreementId: agreementId
+			},
+			success: function (stock) {
+				for (var i = 0, l = stock.length; i < l; ++i) {
+					var gtin = "";
+					if (stock[i].gtin != null) {
+						gtin = stock[i].gtin.number;
+					}
+					var serialDetails = {
+						id: i,
+						gtin: gtin,
+						amount: stock[i].amount,
+						serialNumber: stock[i].serialNumber,
+						batch: stock[i].batch,
+						expirationDate: myParseDate(stock[i].expirationDate),
+						viewTraceability: "<a type='button' class='btn btn-sm btn-default' href='searchSerializedProduct.do?productId=" + stock[i].product.id + "&serial=" + stock[i].serialNumber + "' target='_blank'><span class='glyphicon glyphicon-search'></span> Ver Traza" + "<//a>"
+					};
+					aaData.push(serialDetails);
+				}
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				myGenericError();
+			}
+		});
+		return aaData;
+	}
 	
 	$('#stockTable tbody').on("click", ".view-batchExpirationDateDetails-row", function(e) {
 		$("#batchExpirationDatesTable").bootgrid("clear");
 		var parent = $(this).parent().parent();
+		var productId = parent.attr("data-row-id");
 		var agreementId = parent.find(".span-agreementId").html();
 		var productCode = parent.find("td:first-child").html();
 		var productDescription = parent.find("td:nth(1)").html();
 		$("#batchExpirationDateProductDescription").text(productCode + " - " + productDescription);
 		
-		var serialDetails = serialsMap[agreementId + "-" + productCode];
-		$("#batchExpirationDatesTable").bootgrid("append", serialDetails);
-		
+		var aaData = getStockFromProductAndAgreement(productId, agreementId);
+		$("#batchExpirationDatesTable").bootgrid("append", aaData);
 		$('#batchExpirationDatesModal').modal('show');
 	});
 
 	$('#stockTable tbody').on("click", ".view-serializedDetails-row", function(e) {
 		$("#serialsTable").bootgrid("clear");
 		var parent = $(this).parent().parent();
+		var productId = parent.attr("data-row-id");
 		var agreementId = parent.find(".span-agreementId").html();
 		var productCode = parent.find("td:first-child").html();
 		var productDescription = parent.find("td:nth(1)").html();
 		$("#serializedProductDescription").text(productCode + " - " + productDescription);
 		
-		var serialDetails = serialsMap[agreementId + "-" + productCode];
-		$("#serialsTable").bootgrid("append", serialDetails);
-		
+		var aaData = getStockFromProductAndAgreement(productId, agreementId);
+		$("#serialsTable").bootgrid("append", aaData);
 		$('#serialsModal').modal('show');
 	});
 	
@@ -176,7 +207,7 @@ SearchStock = function() {
 		
 		$('#serialNumberSearch').val('');
 		$('#batchNumberSearch').val('');
-		$("#stockTable").bootgrid("clear");
+		refreshTable();
 	});
 	
 	$("#searchButton").click(function() {
@@ -191,121 +222,49 @@ SearchStock = function() {
 				"batchNumber": $("#batchNumberSearch").val().trim(),
 				"monodrugId": $("#monodrugSearch").val() || null
 			};
-			jsonStock = jsonStockSearch;
-			makeQuery(jsonStockSearch);
+			refreshTable(jsonStockSearch);
 		}
 	});
 	
-	var makeQuery = function(jsonStockSearch) {
-		$.ajax({
-			url: "getStockForSearch.do",
-			type: "POST",
-			contentType:"application/json",
-			async: false,
-			data: JSON.stringify(jsonStockSearch),
-			success: function(response) {
-				var aaData = [];
-				id = 0;
-				serialsMap = {};
-				serialDetails = {};
-				var stockList = [];
-				for (var i = 0, l = response.length; i < l; ++i) {
-					var gtin = "";
-					if(response[i].gtin != null){
-						gtin = response[i].gtin.number;
-					}
-					var stock = {
-						productId: response[i].product.id,
-						productCode: response[i].product.code,
-						gtin: gtin,
-						productDescription: response[i].product.description,
-						agreementId: response[i].agreement.id,
-						agreementDescription: response[i].agreement.description,
-						batch: response[i].batch,
-						expirationDate: response[i].expirationDate,
-						serialNumber: response[i].serialNumber,
-						cold: (response[i].product.cold == true) ? "Si" : "No",
-						amount: response[i].amount
-					};
-					searchAndAdd(stockList, stock);
-				}
-
-				for (var i = 0, l = stockList.length; i < l; ++i) {
-					var stock = {
-						id: i,
-						code: stockList[i].productCode,
-						product: stockList[i].productDescription,
-						agreement: "<span class='span-agreementId' style='display:none'>" + stockList[i].agreementId + "</span>" + stockList[i].agreementDescription,
-						cold: stockList[i].cold,
-						amount: stockList[i].amount,
-						command: ""
-					};
-					if (stockList[i].serialNumber == null) {
-						stock.command = "<button type=\"button\" class=\"btn btn-sm btn-default view-batchExpirationDateDetails-row\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
-					} else {
-						stock.command = "<button type=\"button\" class=\"btn btn-sm btn-default view-serializedDetails-row\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
-					}
-					aaData.push(stock);
-				}
-				$("#stockTable").bootgrid({
-					caseSensitive: false
-				});
-				$("#stockTable").bootgrid("clear");
-				$("#stockTable").bootgrid("append", aaData);
-				$("#stockTable").bootgrid("search", $(".search-field").val());
-				
-				var params = '&expirateDateFrom=' + jsonStockSearch.expirateDateFrom + 
-				'&expirateDateTo=' + jsonStockSearch.expirateDateTo +
-				'&productId=' + jsonStockSearch.productId +
-				'&agreementId=' + jsonStockSearch.agreementId +
-				'&serialNumber=' + jsonStockSearch.serialNumber +
-				'&batchNumber=' + jsonStockSearch.batchNumber +
-				'&monodrugId=' + jsonStockSearch.monodrugId;
-				
-				var exportHTML = exportQueryTableHTML("./rest/stocks", params);
-				var searchHTML = $(".search");
-				
-				if (searchHTML.prev().length == 0) {
-					$(".search").before(exportHTML);
-				} else {
-					$(".search").prev().html(exportHTML);
-				}
-				
+	function refreshTable(jsonStockSearch) {
+		$("#stockTable").bootgrid("destroy").bootgrid({
+			requestHandler: function (request) {
+				request.stockSearch = jsonStockSearch;
+				return request;
 			},
-			error: function(jqXHR, textStatus, errorThrown) {
-				myGenericError();
+			ajax: true,
+			url: 'getStockForSearch.do',
+			formatters: {
+				"command": function(column, row)
+				{
+					if (row.serialNumber == null) {
+						return "<button type=\"button\" class=\"btn btn-sm btn-default view-batchExpirationDateDetails-row\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
+					} else {
+						return "<button type=\"button\" class=\"btn btn-sm btn-default view-serializedDetails-row\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
+					}
+				},
+				"agreement": function(column, row)
+				{
+					return "<span class='span-agreementId' style='display:none'>" + row.agreementId + "</span>" + row.agreement;
+				}
 			}
 		});
-	};
-	
-	var searchAndAdd = function(stockList, stock) {
-		if(stockList.length == 0){
-			stockList.push(stock);
-		}else{
-			var found = false;
-			for(var i = 0, l = stockList.length; i < l; ++i){
-				if((stockList[i].productId == stock.productId) && 
-						(stockList[i].agreementId == stock.agreementId)){
-					stockList[i].amount += stock.amount;
-					found = true;
-				}
-			}
-			if(!found){
-				stockList.push(stock);
-			}
+
+		var params = '&expirateDateFrom=' + jsonStockSearch.expirateDateFrom +
+			'&expirateDateTo=' + jsonStockSearch.expirateDateTo +
+			'&productId=' + jsonStockSearch.productId +
+			'&agreementId=' + jsonStockSearch.agreementId +
+			'&serialNumber=' + jsonStockSearch.serialNumber +
+			'&batchNumber=' + jsonStockSearch.batchNumber +
+			'&monodrugId=' + jsonStockSearch.monodrugId;
+
+		var exportHTML = exportQueryTableHTML("./rest/stocks", params);
+		var searchHTML = $(".search");
+
+		if (searchHTML.prev().length == 0) {
+			$(".search").before(exportHTML);
+		} else {
+			$(".search").prev().html(exportHTML);
 		}
-		serialDetails = {
-				id: id,
-				gtin: stock.gtin,
-				amount: stock.amount,
-				serialNumber: stock.serialNumber,
-				batch: stock.batch,
-				expirationDate: myParseDate(stock.expirationDate),
-				viewTraceability: "<a type='button' class='btn btn-sm btn-default' href='searchSerializedProduct.do?productId="+ stock.productId + "&serial=" + stock.serialNumber + "' target='_blank'><span class='glyphicon glyphicon-search'></span> Ver Traza" + "<//a>"
-		};
-		var item = serialsMap[stock.agreementId + "-" + stock.productCode] || [];
-		item.push(serialDetails);
-		serialsMap[stock.agreementId + "-" + stock.productCode] = item;
-		id++;
 	}
 };

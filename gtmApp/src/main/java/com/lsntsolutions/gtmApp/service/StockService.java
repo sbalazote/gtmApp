@@ -1,13 +1,14 @@
 package com.lsntsolutions.gtmApp.service;
 
-import java.util.Date;
-import java.util.List;
-
+import com.lsntsolutions.gtmApp.dto.StockDTO;
 import com.lsntsolutions.gtmApp.model.Agreement;
 import com.lsntsolutions.gtmApp.model.Detail;
 import com.lsntsolutions.gtmApp.model.Product;
 import com.lsntsolutions.gtmApp.model.Stock;
 import com.lsntsolutions.gtmApp.query.StockQuery;
+
+import java.util.Date;
+import java.util.List;
 
 public interface StockService {
 
@@ -50,4 +51,6 @@ public interface StockService {
 	boolean existsSerial(Integer productId, String gtin, Integer agreementId, String serial);
 
 	void removeFromStock(List<Stock> stocks);
+
+	List<StockDTO> getForAutocomplete(String searchPhrase, String sortCode, String sortProduct, String sortAgreement, String sortGtin, String sortAmount, String agreementId, String batchNumber, String expirateDateFrom, String expirateDateTo, String monodrugId, String productId, String serialNumber);
 }

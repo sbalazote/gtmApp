@@ -1,11 +1,12 @@
 package com.lsntsolutions.gtmApp.persistence.dao;
 
-import java.util.Date;
-import java.util.List;
-
+import com.lsntsolutions.gtmApp.dto.StockDTO;
 import com.lsntsolutions.gtmApp.model.Product;
 import com.lsntsolutions.gtmApp.model.Stock;
 import com.lsntsolutions.gtmApp.query.StockQuery;
+
+import java.util.Date;
+import java.util.List;
 
 public interface StockDAO {
 
@@ -36,4 +37,6 @@ public interface StockDAO {
 	Product getByGtin(String gtin, Integer agreementId);
 
 	boolean delete(Integer stockId);
+
+	List<StockDTO> getForAutocomplete(String searchPhrase, String sortCode, String sortProduct, String sortAgreement, String sortGtin, String sortAmount, String agreementId, String batchNumber, String expirateDateFrom, String expirateDateTo, String monodrugId, String productId, String serialNumber);
 }

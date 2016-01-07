@@ -105,10 +105,11 @@
 		        	<th data-identifier="true" data-column-id="id" data-type="numeric" data-visible="false"></th>
 		        	<th data-column-id="code" data-type="numeric"><spring:message code="common.code" /></th>
 		            <th data-column-id="product" data-header-css-class="descriptionColumn"><spring:message code="common.product"/></th>
-		            <th data-column-id="agreement"><spring:message code="common.agreement"/></th>
-					<th data-column-id="cold"><spring:message code="common.cold"/></th>
+					<th data-column-id="agreement" data-formatter="agreement"><spring:message code="common.agreement"/></th>
+					<th data-column-id="gtin"><spring:message code="common.gtin"/></th>
+					<th data-column-id="serialNumber" data-visible="false"><spring:message code="common.serialNumber"/></th>
 		            <th data-column-id="amount" data-type="numeric"><spring:message code="common.amount"/></th>
-		            <th data-column-id="command" data-sortable="false"><spring:message code="common.option"/></th>
+		            <th data-column-id="command" data-formatter="command" data-sortable="false"><spring:message code="common.option"/></th>
 		        </tr>
 	   	 	</thead>
 	   	 	<tbody id="stockTableBody">

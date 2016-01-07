@@ -1,15 +1,8 @@
 package com.lsntsolutions.gtmApp.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "stock")
@@ -109,7 +102,6 @@ public class Stock implements Serializable {
 	public void setAmount(Integer amount) {
 		this.amount = amount;
 	}
-
 
 	@Override
 	public String toString(){
