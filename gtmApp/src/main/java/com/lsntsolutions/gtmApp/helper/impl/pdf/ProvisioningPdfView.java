@@ -144,7 +144,7 @@ public class ProvisioningPdfView extends AbstractPdfView {
 				documentNumber = "";
 			}
 
-			Chunk code = new Chunk("(Cod. " + StringUtility.addLeadingZeros(provisioningRequest.getAffiliate().getCode(), 5) + " ) - " + documentType + " " + documentNumber + " - " + provisioningRequest.getAffiliate().getName() + " " + provisioningRequest.getAffiliate().getSurname(), PdfConstants.fontHeader);
+			Chunk code = new Chunk("(Cod. " + StringUtility.addLeadingZeros(provisioningRequest.getAffiliate().getCode(), 5) + " ) - " + documentType + " " + documentNumber + " - " + provisioningRequest.getAffiliate().getSurname() + " " + provisioningRequest.getAffiliate().getName(), PdfConstants.fontHeader);
 			document.add(code);
 			document.add(Chunk.NEWLINE);
 
