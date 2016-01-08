@@ -67,6 +67,7 @@ public class LogisticsOperatorAdministrationController {
 		logisticsOperator.setPhone(logisticsOperatorDTO.getPhone());
 		logisticsOperator.setActive(logisticsOperatorDTO.isActive());
 		logisticsOperator.setGln(logisticsOperatorDTO.getGln());
+		logisticsOperator.setInput(logisticsOperatorDTO.isInput());
 
 		return logisticsOperator;
 	}
@@ -126,6 +127,7 @@ public class LogisticsOperatorAdministrationController {
 			dataJson.put("zipCode", logisticsOperator.getZipCode());
 			dataJson.put("phone", logisticsOperator.getPhone());
 			dataJson.put("isActive", logisticsOperator.isActive() == true ? "Si" : "No");
+			dataJson.put("isInput", logisticsOperator.isInput() == true ? "Si" : "No");
 			jsonArray.put(dataJson);
 		}
 

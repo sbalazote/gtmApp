@@ -69,6 +69,12 @@ public class LogisticsOperatorDAOHibernateImpl implements LogisticsOperatorDAO {
 		return this.sessionFactory.getCurrentSession().createQuery("from LogisticsOperator where active = true").list();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<LogisticsOperator> getAllActives(boolean input) {
+		return this.sessionFactory.getCurrentSession().createQuery("from LogisticsOperator where active = true and input = " + input).list();
+	}
+
 	@Override
 	public boolean delete(Integer logisticsOperatorId) {
 		LogisticsOperator logisticsOperator = this.get(logisticsOperatorId);

@@ -54,7 +54,7 @@ public class ProvisioningRequestController {
 	public String provisioningRequest(ModelMap modelMap) throws Exception {
 		modelMap.put("agreements", this.agreementService.getAllActives());
 		modelMap.put("deliveryLocations", this.deliveryLocationService.getAllActives());
-		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAllActives());
+		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAllActives(false));
 		modelMap.put("clients", this.clientService.getAllActives());
 		modelMap.put("deliveryDate", new Date());
 		modelMap.put("documentTypes", DocumentType.types);

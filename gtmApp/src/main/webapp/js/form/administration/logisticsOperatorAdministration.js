@@ -15,6 +15,7 @@ $(document).ready(function() {
 		$("#phoneInput").val('');
 		$("#glnInput").val('');
 		$("#activeSelect").val($("#activeSelect option:first").val());
+		$("#isInputSelect").val($("#isInputSelect option:first").val());
 	};
 	
 	var deleteLogisticsOperator = function(logisticsOperatorId) {
@@ -55,12 +56,14 @@ $(document).ready(function() {
 				$("#corporateNameInput").val(response.corporateName);
 				$("#glnInput").val(response.gln);
 				$("#provinceSelect").val(response.province.id).trigger('chosen:update');
-				$("#localityInput").val(response.province.locality);
+				$("#localityInput").val(response.locality);
 				$("#addressInput").val(response.address);
 				$("#zipCodeInput").val(response.zipCode);
 				$("#phoneInput").val(response.phone);
 				var isActive = (response.active) ? "true" : "false";
+				var isInput = (response.input) ? "true" : "false";
 				$("#activeSelect").val(isActive).trigger('chosen:update');
+				$("#isInputSelect").val(isInput).trigger('chosen:update');
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myDeleteError();
@@ -79,6 +82,7 @@ $(document).ready(function() {
 		$("#zipCodeInput").attr('disabled', hidden);
 		$("#phoneInput").attr('disabled', hidden);
 		$("#activeSelect").prop('disabled', hidden).trigger('chosen:update');
+		$("#isInputSelect").prop('disabled', hidden).trigger('chosen:update');
 		$("#glnInput").attr('disabled', hidden);
 	};
 	

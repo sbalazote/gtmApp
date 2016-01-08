@@ -1,0 +1,1 @@
+ALTER TABLE logistics_operator ADD input BIT(1) DEFAULT NULL;

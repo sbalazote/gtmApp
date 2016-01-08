@@ -55,6 +55,9 @@ public class LogisticsOperator implements Serializable {
 	@Column(name = "active", nullable = false)
 	private boolean active;
 
+	@Column(name = "input", nullable = false)
+	private boolean input;
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -149,5 +152,13 @@ public class LogisticsOperator implements Serializable {
 
 	public void setGln(String gln) {
 		this.gln = gln;
+	}
+
+	public boolean isInput() {
+		return input;
+	}
+
+	public void setInput(boolean input) {
+		this.input = input;
 	}
 }

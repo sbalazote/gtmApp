@@ -46,6 +46,9 @@ SaveLogisticsOperator = function() {
 				},
 				active: {
 					required: true
+				},
+				isInput: {
+					required: true
 				}
 			},
 			showErrors: myShowErrors,
@@ -92,6 +95,7 @@ SaveLogisticsOperator = function() {
 					"zipCode": $("#zipCodeInput").val(),
 					"phone": $("#phoneInput").val(),
 					"active": $("#activeSelect option:selected").val(),
+					"input": $("#isInputSelect option:selected").val(),
 			};
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.

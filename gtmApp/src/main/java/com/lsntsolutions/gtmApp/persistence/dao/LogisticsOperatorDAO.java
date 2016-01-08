@@ -23,4 +23,6 @@ public interface LogisticsOperatorDAO {
 	List<LogisticsOperator> getPaginated(int start, int length);
 
 	Long getTotalNumber();
+
+	List<LogisticsOperator> getAllActives(boolean input);
 }

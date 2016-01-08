@@ -18,6 +18,8 @@ public interface LogisticsOperatorService {
 
 	List<LogisticsOperator> getAllActives();
 
+	List<LogisticsOperator> getAllActives(boolean input);
+
 	boolean delete(Integer logisticsOperatorId);
 
 	List<LogisticsOperator> getPaginated(int start, int length);

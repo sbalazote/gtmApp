@@ -109,7 +109,7 @@ public class ProviderAdministrationController {
 		modelMap.put("types", this.providerTypeService.getAll());
 		modelMap.put("agents", this.agentService.getAll());
 		modelMap.put("VATLiabilities", this.VATLiabilityService.getAll());
-		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAll());
+		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAllActives(true));
 	}
 
 	@RequestMapping(value = "/readProvider", method = RequestMethod.GET)

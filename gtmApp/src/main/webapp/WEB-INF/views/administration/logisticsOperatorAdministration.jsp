@@ -35,12 +35,8 @@
 			<th data-column-id="name" data-header-css-class="nameColumn"><spring:message code="common.entity.name" /></th>
 			<th data-column-id="taxId" data-type="numeric"><spring:message code="common.taxId" /></th>
 			<th data-column-id="corporateName"><spring:message code="common.corporateName" /></th>
-			<%-- <th data-column-id="province"><spring:message code="common.province" /></th>
-			<th data-column-id="locality"><spring:message code="common.locality" /></th>
-			<th data-column-id="address"><spring:message code="common.address" /></th>
-			<th data-column-id="zipCode"><spring:message code="common.zipCode" /></th>
-			<th data-column-id="phone"><spring:message code="common.phone" /></th> --%>
 			<th data-column-id="isActive"><spring:message code="common.active" /></th>
+			<th data-column-id="isInput"><spring:message code="common.logisticOperator.isInput" /></th>
 			<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
 		</tr>
 	</thead>
@@ -123,13 +119,20 @@
 							<label for="phoneInput"><spring:message code="common.phone" /></label>
 							<input type="text" class="form-control" id="phoneInput" name="phone">
 						</div>
-						<div class="col-md-3 col-lg-3 form-group">
+						<div class="col-md-2 col-lg-2 form-group">
 							<label for="zipCodeInput"><spring:message code="common.zipCode" /></label>
 							<input type="text" class="form-control" id="zipCodeInput" name="zipCode">
 						</div>
-						<div class="col-md-3 col-lg-3 form-group">
+						<div class="col-md-2 col-lg-2 form-group">
 							<label for="activeSelect"><spring:message code="common.active" /></label>
 							<select class="form-control chosen-select" id="activeSelect" name="active">
+								<option value="true"><spring:message code="common.yes" /></option>
+								<option value="false"><spring:message code="common.no" /></option>
+							</select>
+						</div>
+						<div class="col-md-2 col-lg-2 form-group">
+							<label for="isInputSelect"><spring:message code="common.logisticOperator.isInput" /></label>
+							<select class="form-control chosen-select" id="isInputSelect" name="isInput">
 								<option value="true"><spring:message code="common.yes" /></option>
 								<option value="false"><spring:message code="common.no" /></option>
 							</select>

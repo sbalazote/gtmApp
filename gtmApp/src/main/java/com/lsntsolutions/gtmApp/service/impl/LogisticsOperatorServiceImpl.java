@@ -52,6 +52,11 @@ public class LogisticsOperatorServiceImpl implements LogisticsOperatorService {
 	}
 
 	@Override
+	public List<LogisticsOperator> getAllActives(boolean input) {
+		return logisticsOperatorDAO.getAllActives(input);
+	}
+
+	@Override
 	public boolean delete(Integer logisticsOperatorId) {
 		return this.logisticsOperatorDAO.delete(logisticsOperatorId);
 	}
