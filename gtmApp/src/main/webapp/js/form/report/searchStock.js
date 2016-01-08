@@ -4,7 +4,9 @@ SearchStock = function() {
 	var productGtin;
 	var productDescription;
 	var productType;
-	
+
+	var stockTable;
+
 	var autocomplete = false;
 
 	$('#dateFromButton').click(function() {
@@ -227,9 +229,17 @@ SearchStock = function() {
 	});
 	
 	function refreshTable(jsonStockSearch) {
-		$("#stockTable").bootgrid("destroy").bootgrid({
+		stockTable = $("#stockTable").bootgrid({
 			requestHandler: function (request) {
-				request.stockSearch = jsonStockSearch;
+				//request.stockSearch = jsonStockSearch;
+				//request.searchVal1 = $('#search-field-1').val();
+				request.expirateDateFrom =  $("#dateFromSearch").val();
+				request.expirateDateTo = $("#dateToSearch").val();
+				request.productId = productId || null;
+				request.agreementId = $("#agreementSearch").val() || null;
+				request.serialNumber = $("#serialNumberSearch").val().trim();
+				request.batchNumber = $("#batchNumberSearch").val().trim();
+				request.monodrugId = $("#monodrugSearch").val() || null;
 				return request;
 			},
 			ajax: true,
@@ -248,7 +258,7 @@ SearchStock = function() {
 					return "<span class='span-agreementId' style='display:none'>" + row.agreementId + "</span>" + row.agreement;
 				}
 			}
-		});
+		}).bootgrid("reload");
 
 		var params = '&expirateDateFrom=' + jsonStockSearch.expirateDateFrom +
 			'&expirateDateTo=' + jsonStockSearch.expirateDateTo +

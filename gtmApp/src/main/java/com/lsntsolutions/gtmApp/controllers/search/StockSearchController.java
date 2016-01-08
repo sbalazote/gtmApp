@@ -59,13 +59,13 @@ public class StockSearchController {
 		String sortGtin = (String) parametersMap.get("sort[gtin]");
 		String sortAmount = (String) parametersMap.get("sort[amount]");
 
-		String agreementId = (String) parametersMap.get("stockSearch[agreementId]");
-		String batchNumber = (String) parametersMap.get("stockSearch[batchNumber]");
-		String expirateDateFrom = (String) parametersMap.get("stockSearch[expirateDateFrom]");
-		String expirateDateTo = (String) parametersMap.get("stockSearch[expirateDateTo]");
-		String monodrugId = (String) parametersMap.get("stockSearch[monodrugId]");
-		String productId = (String) parametersMap.get("stockSearch[productId]");
-		String serialNumber = (String) parametersMap.get("stockSearch[serialNumber]");
+		String agreementId = (String) parametersMap.get("agreementId");
+		String batchNumber = (String) parametersMap.get("batchNumber");
+		String expirateDateFrom = (String) parametersMap.get("expirateDateFrom");
+		String expirateDateTo = (String) parametersMap.get("expirateDateTo");
+		String monodrugId = (String) parametersMap.get("monodrugId");
+		String productId = (String) parametersMap.get("productId");
+		String serialNumber = (String) parametersMap.get("serialNumber");
 
 		JSONArray jsonArray = new JSONArray();
 		int start = (current - 1) * rowCount;
