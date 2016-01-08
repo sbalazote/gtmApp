@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -53,14 +54,24 @@ public class ProvisioningRequestServiceImpl implements ProvisioningRequestServic
 		ProvisioningRequest provisioningRequest = this.buildModel(provisioningRequestDTO);
 		OperationResult operationResult = new OperationResult();
 		List<String> productsList = this.checkAvaiableStock(provisioningRequest);
+		List<String> errors = new ArrayList<>();
 		if(productsList.isEmpty()) {
-			this.provisioningRequestDAO.save(provisioningRequest);
-			logger.info("Se han guardado los cambios exitosamente. Pedido numero: " + provisioningRequest.getId());
-			operationResult.setOperationId(String.valueOf(provisioningRequest.getId()));
-			operationResult.setResultado(true);
-			return operationResult;
+			List<String> repeatProducts = checkRepeatProducts(provisioningRequest);
+			if(repeatProducts.size() > 0){
+				errors.add("El/Los siguientes productos se encuentran duplicados: ");
+				for(String product : productsList){
+					errors.add(product);
+				}
+				operationResult.setMyOwnErrors(errors);
+				operationResult.setResultado(false);
+			}else {
+				this.provisioningRequestDAO.save(provisioningRequest);
+				logger.info("Se han guardado los cambios exitosamente. Pedido numero: " + provisioningRequest.getId());
+				operationResult.setOperationId(String.valueOf(provisioningRequest.getId()));
+				operationResult.setResultado(true);
+				return operationResult;
+			}
 		}else{
-			List<String> errors = new ArrayList<>();
 			errors.add("No fue posible asignar el stock por que no hay suficiente disponibilidad de el/los siguiente/s producto/s: ");
 			for(String product : productsList){
 				errors.add(product);
@@ -69,6 +80,20 @@ public class ProvisioningRequestServiceImpl implements ProvisioningRequestServic
 			operationResult.setResultado(false);
 		}
 		return operationResult;
+	}
+
+	private List<String> checkRepeatProducts(ProvisioningRequest provisioningRequest) {
+		HashMap<Integer,Product> products = new HashMap<>();
+		List<String> repeatProducts = new ArrayList<>();
+		for(ProvisioningRequestDetail provisioningRequestDetail : provisioningRequest.getProvisioningRequestDetails()){
+			Product product = products.get(provisioningRequestDetail.getProduct().getId());
+			if(product == null){
+				products.put(provisioningRequestDetail.getProduct().getId(),provisioningRequestDetail.getProduct());
+			}else{
+				repeatProducts.add(product.toString());
+			}
+		}
+		return repeatProducts;
 	}
 
 	private List<String> checkAvaiableStock(ProvisioningRequest provisioningRequest) {
