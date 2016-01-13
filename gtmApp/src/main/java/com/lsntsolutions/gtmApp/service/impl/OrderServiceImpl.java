@@ -45,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
 		provisioningRequest.setState(this.provisioningRequestStateService.get(State.ASSEMBLED.getId()));
 		this.provisioningRequestService.save(provisioningRequest);
 
-		logger.info("Se ha armado el pedido para la para el Pedido n�mero: " + provisioningRequest.getId() + ". Id de pedido: "
+		logger.info("Se ha armado el pedido para la para el Pedido n�mero: " + provisioningRequest.getId() + ". Id de Armado: "
 				+ order.getId());
 
 		return order;
