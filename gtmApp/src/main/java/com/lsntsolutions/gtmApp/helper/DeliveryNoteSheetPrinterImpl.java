@@ -502,21 +502,16 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
     }
 
     public Concept getConcept(Egress egress) {
-        logger.error("Se procede a obtener el concepto");
         Integer conceptId = null;
         if(this.printOutputs){
-            logger.error("Se obtiene el concepto de egreso");
             conceptId = ((Output)egress).getConcept().getId();
         }
         if(this.printSupplyings){
-            logger.error("Se obtiene el concepto de dispensa");
             conceptId = property.getSupplyingConcept().getId();
         }
         if(this.printOrders) {
-            logger.error("Se obtiene el concepto de armado");
             conceptId = egress.getAgreement().getDeliveryNoteConcept().getId();
         }
-        logger.error("No se obtuvo el concepto");
         return this.conceptService.get(conceptId);
     }
 

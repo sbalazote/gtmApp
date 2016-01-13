@@ -84,15 +84,11 @@ public class ConceptServiceImpl implements ConceptService {
 
 	@Override
 	public synchronized Concept getAndUpdateDeliveryNote(Integer id, Integer amount) {
-		logger.error("Se procede a obtener el concepto con el id " + id);
 		Concept concept = this.conceptDAO.get(id);
-		logger.error("Se obtiene el concepto" + concept);
 		Integer lastNumber = concept.getDeliveryNoteEnumerator().getLastDeliveryNoteNumber();
 		Integer newLastNumber = lastNumber + amount;
 		concept.getDeliveryNoteEnumerator().setLastDeliveryNoteNumber(newLastNumber);
-		logger.error("va a guardar el concepto" + concept);
 		this.conceptDAO.save(concept);
-		logger.error("ya guardo el concepto" + concept);
 		return concept;
 	}
 
