@@ -500,7 +500,7 @@ var ProvisioningRequest = function() {
 				$('#deliveryLocationInput').empty();
 				$('#deliveryLocationInput').append('<option value=""></option>');
 				for(var i = response.length-1; i >= 0 ; i--){
-					$('#deliveryLocationInput').append('<option value='+ response[i].id + '>' + response[i].code + " - " + response[i].name +'</option>');
+					$('#deliveryLocationInput').append('<option value='+ response[i].id + '>' + response[i].code + " - " + response[i].name + " - " + response[i].locality + " - " + response[i].address +'</option>');
 				}
 				$('#deliveryLocationInput').trigger('chosen:updated');
 			},
