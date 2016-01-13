@@ -306,7 +306,7 @@ CREATE TABLE `logistics_operator` (
   `zip_code` varchar(10) NOT NULL,
   `phone` varchar(45) DEFAULT NULL,
   `active` bit(1) NOT NULL,
-  `is_input` BIT(1) DEFAULT NULL,
+  `input` BIT(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code_UNIQUE` (`code`),
   KEY `fk_logistics_operator_province_idx` (`province_id`),
