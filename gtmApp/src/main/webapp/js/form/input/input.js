@@ -731,7 +731,7 @@ Input = function() {
 		$('#deliveryNotePOSInput').focus();
 	});
 	
-	$("#delete").click(function() {
+	$("#cancelInputConfirmation").click(function() {
 		$.ajax({
 			url: "cancelInputWithoutStock.do",
 			type: "GET",
@@ -747,5 +747,9 @@ Input = function() {
 				myDeleteInputError();
 			}
 		});
+	});
+
+	$("#delete").click(function() {
+		$('#deleteInputConfirmationModal').modal();
 	});
 };

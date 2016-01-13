@@ -417,6 +417,21 @@
 </div>
 
 <%-- Confirmaci�n del delete de una row --%>
+<div class="modal fade" data-backdrop="static" id="deleteInputConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width: 20%">
+		<div class="modal-content">
+			<div class="modal-body">
+				<strong><span style="color:red"><spring:message code="input.cancelInputConfirmationModal.text"/></span></strong>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.no"/></button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" id="cancelInputConfirmation"><spring:message code="common.yes"/></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%-- Confirmaci�n del delete de una row --%>
 <div class="modal fade" data-backdrop="static" id="forcedInputConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width: 40%">
 		<div class="modal-content">
