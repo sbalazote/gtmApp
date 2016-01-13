@@ -89,7 +89,7 @@ public class InputServiceImpl implements InputService {
 
 	private void printSelfSerializedTags(Input input) {
 		SelfSerializedTagsPrinter selfSerializedTagsPrinter = new SelfSerializedTagsPrinter(this.PropertyService.get().getSelfSerializedTagFilepath());
-
+		String gln = this.PropertyService.get().getGln();
 		String inputId = input.getId().toString();
 		for (InputDetail inputDetail : input.getInputDetails()) {
 			if ("SS".equals(inputDetail.getProduct().getType())) {
@@ -98,7 +98,7 @@ public class InputServiceImpl implements InputService {
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				String expirationDate = sdf.format(inputDetail.getExpirationDate());
 				String serialNumber = inputDetail.getSerialNumber();
-				String tag = serialNumber.replaceFirst(Constants.SELF_SERIALIZED_TAG_LEADING_REGEX, "");
+				String tag = serialNumber.replaceFirst(gln, "");
 				selfSerializedTagsPrinter.print(inputId, productCode, batch, expirationDate, tag);
 			}
 		}

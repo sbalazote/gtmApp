@@ -32,8 +32,8 @@ public class SelfSerializedTagsPrinter {
 
 	public void print(String inputId, String productCode, String batch, String expirationDate, String serialNumber) {
 		try {
-			this.bufferWritter.write(String.format("%1$10s%2$11s%3$-29s%4$-10s%5$-33s%6$-7s%7$-20s", inputId, productCode, batch, "0", expirationDate,
-					serialNumber, "2306652"));
+			this.bufferWritter.write(String.format("%1$10s%2$10s%3$-30s%4$-10s%5$-32s%6$-7s", inputId, productCode, batch, "0", expirationDate,
+					serialNumber));
 			this.bufferWritter.newLine();
 
 		} catch (IOException e) {
