@@ -47,7 +47,7 @@ OutputSerialized = function() {
 	};
 	
 	// TODO mejorar esto- ahora no hace el paginado.
-	$("#providerSerializedTable").bootgrid({
+	$("#serializedTable").bootgrid({
 		rowCount: -1
 	});
 	
