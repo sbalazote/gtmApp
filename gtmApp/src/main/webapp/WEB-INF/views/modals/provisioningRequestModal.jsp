@@ -39,13 +39,14 @@
 								<input id="clientProvisioningRequestModal" name="clientProvisioningRequestModal" class="form-control" disabled>
 							</div>
 							<div class="col-md-4 col-lg-4 form-group">
-								<label for="affiliateProvisioningRequestModal"><spring:message code="common.affiliate" /></label>
-								<input id="affiliateProvisioningRequestModal" name="affiliateProvisioningRequestModal" type="text" class="form-control" disabled/>
+								<label for="logisticsOperatorProvisioningRequestModal"><spring:message code="common.logisticsOperator" /></label>
+								<input id="logisticsOperatorProvisioningRequestModal" name="logisticsOperatorProvisioningRequestModal" class="form-control" disabled>
 							</div>
+
 						</div>
 
 						<div class="row">
-							<div class="col-md-4 col-lg-4 form-group">
+							<div class="col-md-8 col-lg-8 form-group">
 								<label for="deliveryLocationProvisioningRequestModal"><spring:message code="common.deliveryLocation" /></label>
 								<input id="deliveryLocationProvisioningRequestModal" name="deliveryLocationProvisioningRequestModal" class="form-control" disabled>
 							</div>
@@ -53,12 +54,13 @@
 								<label for="deliveryDateProvisioningRequestModal"><spring:message code="common.deliveryDate" /></label>
 								<input id="deliveryDateProvisioningRequestModal" name="deliveryDateProvisioningRequestModal" type="text" class="form-control" disabled>
 							</div>
-							<div class="col-md-4 col-lg-4 form-group">
-								<label for="logisticsOperatorProvisioningRequestModal"><spring:message code="common.logisticsOperator" /></label>
-								<input id="logisticsOperatorProvisioningRequestModal" name="logisticsOperatorProvisioningRequestModal" class="form-control" disabled>
+						</div>
+						<div class="row">
+							<div class="col-md-12 col-lg-12 form-group">
+								<label for="affiliateProvisioningRequestModal"><spring:message code="common.affiliate" /></label>
+								<input id="affiliateProvisioningRequestModal" name="affiliateProvisioningRequestModal" type="text" class="form-control" disabled/>
 							</div>
 						</div>
-
 						<div class="row">
 							<div class="col-md-12 col-lg-12 form-group">
 								<label for="commentProvisioningRequestModal"><spring:message code="provisioningRequest.comment.label" /></label>
