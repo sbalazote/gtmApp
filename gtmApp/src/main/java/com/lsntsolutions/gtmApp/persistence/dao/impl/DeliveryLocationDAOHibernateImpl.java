@@ -38,7 +38,7 @@ public class DeliveryLocationDAOHibernateImpl implements DeliveryLocationDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<DeliveryLocation> getForAutocomplete(String term, Boolean active) {
-		String sentence = "from DeliveryLocation where (taxId like :taxId or corporateName like :corporateName or locality like :locality";
+		String sentence = "from DeliveryLocation where (taxId like :taxId or corporateName like :corporateName or name like :name or locality like :locality";
 		if (StringUtility.isInteger(term)) {
 			sentence += " or convert(code, CHAR) like :code";
 		}
@@ -51,6 +51,7 @@ public class DeliveryLocationDAOHibernateImpl implements DeliveryLocationDAO {
 		query.setParameter("taxId", "%" + term + "%");
 		query.setParameter("corporateName", "%" + term + "%");
 		query.setParameter("locality", "%" + term + "%");
+		query.setParameter("name", "%" + term + "%");
 
 		if (StringUtility.isInteger(term)) {
 			query.setParameter("code", "%" + term + "%");
