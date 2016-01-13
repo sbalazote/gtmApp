@@ -1,9 +1,13 @@
 package com.lsntsolutions.gtmApp.helper;
 
+import com.lsntsolutions.gtmApp.model.InputDetail;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 public class SelfSerializedTagsPrinter {
 
@@ -38,6 +42,21 @@ public class SelfSerializedTagsPrinter {
 
 		} catch (IOException e) {
 			throw new RuntimeException("No se ha podido escribir en el archivo", e);
+		}
+	}
+
+	public void print(List<InputDetail> inputDetailList, String inputId, String gln){
+
+		for (InputDetail inputDetail : inputDetailList) {
+			if ("SS".equals(inputDetail.getProduct().getType())) {
+				String productCode = inputDetail.getProduct().getCode().toString();
+				String batch = inputDetail.getBatch();
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				String expirationDate = sdf.format(inputDetail.getExpirationDate());
+				String serialNumber = inputDetail.getSerialNumber();
+				String tag = serialNumber.replaceFirst(gln, "");
+				this.print(inputId, productCode, batch, expirationDate, tag);
+			}
 		}
 	}
 

@@ -18,6 +18,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -73,19 +74,28 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/saveOrder", method = RequestMethod.POST)
-	public @ResponseBody
+	synchronized public @ResponseBody
 	PrinterResultDTO saveOrder(@RequestBody OrderDTO orderDTO) throws Exception {
-		Order order = this.orderService.save(orderDTO);
-		PrinterResultDTO printerResultDTO = new PrinterResultDTO(order.getFormatId());
-		// imprimo rotulo para pedido solo si el parametro 'picking_list' en convenio esta seteado.
-		if (order.getProvisioningRequest().getAgreement().isPickingList() && this.propertyService.get().isPrintPickingList()) {
-			this.orderLabelPrinter.print(order, printerResultDTO);
+		ProvisioningRequest provisioningRequest = this.provisioningRequestService.get(orderDTO.getProvisioningRequestId());
+		if(provisioningRequest != null && provisioningRequest.getState().getId() < State.ASSEMBLED.getId()) {
+			Order order = this.orderService.save(orderDTO);
+			PrinterResultDTO printerResultDTO = new PrinterResultDTO(order.getFormatId());
+			// imprimo rotulo para pedido solo si el parametro 'picking_list' en convenio esta seteado.
+			if (order.getProvisioningRequest().getAgreement().isPickingList() && this.propertyService.get().isPrintPickingList()) {
+				this.orderLabelPrinter.print(order, printerResultDTO);
+			}
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if (auth != null) {
+				this.auditService.addAudit(auth.getName(), RoleOperation.ORDER_ASSEMBLY.getId(), AuditState.COMFIRMED, order.getId());
+			}
+			return printerResultDTO;
+		}else{
+			PrinterResultDTO printerResultDTO = new PrinterResultDTO();
+			List<String> errors = new ArrayList<>();
+			errors.add("No se puede generar el armado dado que el pedido ya se encuentra cerrado");
+			printerResultDTO.setErrorMessages(errors);
+			return printerResultDTO;
 		}
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null) {
-			this.auditService.addAudit(auth.getName(), RoleOperation.ORDER_ASSEMBLY.getId(), AuditState.COMFIRMED, order.getId());
-		}
-		return printerResultDTO;
 	}
 
 	@RequestMapping(value = "/getBatchExpirationDateStock", method = RequestMethod.GET)
