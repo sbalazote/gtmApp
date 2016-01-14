@@ -1,0 +1,1 @@
+ALTER TABLE input ADD self_serialized_transaction_code_anmat BIT(1) NULL;

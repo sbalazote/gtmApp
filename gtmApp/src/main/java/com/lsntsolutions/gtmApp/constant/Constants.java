@@ -26,6 +26,9 @@ public final class Constants {
 	public static final String TEST_GTIN = "07793081057133";
 	public static final String TEST_EVENT = "133";
 
+	public static final String PROVIDER_SERIALIZED = "PS";
+	public static final String SELF_SERIALIZED = "SS";
+
 	private Constants() {
 
 	}

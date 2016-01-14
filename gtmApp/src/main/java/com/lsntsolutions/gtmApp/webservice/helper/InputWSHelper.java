@@ -171,31 +171,45 @@ public class InputWSHelper {
         return inputDetails;
     }
 
-    private WebServiceResult sendDrugs(Input input, List<MedicamentosDTO> medicines, List<String> errors, String eventId) {
+    public OperationResult sendDrugs(Input input) {
+        List<MedicamentosDTO> medicines = new ArrayList<>();
+        List<String> errors = new ArrayList<>();
         WebServiceResult webServiceResult = null;
-        for (InputDetail inputDetail : input.getInputDetails()) {
-            // Solo si el producto informa anmat se hace el servicio
-            if (inputDetail.getProduct().isInformAnmat()
-                    && ("PS".equals(inputDetail.getProduct().getType()) || "SS".equals(inputDetail.getProduct().getType()))) {
-                if (inputDetail.getGtin() != null) {
-                    MedicamentosDTO drug = this.setDrug(input, eventId, inputDetail);
-                    medicines.add(drug);
-                } else {
-                    String error = "El producto " + inputDetail.getProduct().getDescription() + " no registra GTIN, no puede ser informado.";
-                    errors.add(error);
+        String eventId = input.getEvent();
+        OperationResult operationResult = new OperationResult();
+        operationResult.setResultado(false);
+        if (eventId != null) {
+            for (InputDetail inputDetail : input.getInputDetails()) {
+                if (inputDetail.getProduct().isInformAnmat() && "SS".equals(inputDetail.getProduct().getType())) {
+                    if (inputDetail.getGtin() != null) {
+                        MedicamentosDTO drug = this.setDrug(input, eventId, inputDetail);
+                        medicines.add(drug);
+                    } else {
+                        String error = "El producto " + inputDetail.getProduct().getDescription() + " no registra GTIN, no puede ser informado.";
+                        errors.add(error);
+                    }
                 }
             }
-        }
-        if (!medicines.isEmpty() && errors.isEmpty()) {
-            logger.info("Iniciando consulta con ANMAT");
-            webServiceResult = this.webServiceHelper.run(medicines, this.PropertyService.get().getANMATName(), this.PropertyService.get().getDecryptPassword(),
-                    errors);
-            if (webServiceResult == null) {
-                errors.add(ERROR_CANNOT_CONNECT_TO_ANMAT);
+            if (!medicines.isEmpty() && errors.isEmpty()) {
+                logger.info("Iniciando consulta con ANMAT");
+                webServiceResult = this.webServiceHelper.run(medicines, this.PropertyService.get().getANMATName(), this.PropertyService.get().getDecryptPassword(),
+                        errors);
+                if (webServiceResult == null) {
+                    errors.add(ERROR_CANNOT_CONNECT_TO_ANMAT);
+                }
             }
+        }else {
+            String error = "No ha podido obtenerse el evento a informar dado el concepto y el cliente/provedor seleccionados (Concepto: '"
+                    + input.getConcept().toString() + "' Cliente/Proveedor '" + input.getClientOrProviderDescription() + "' Tipo de Agente: '"
+                    + input.getClientOrProviderAgentDescription() + "'). El ingreso no fue informado.";
+            errors.add(error);
+        }
+        operationResult.setMySelfSerializedOwnErrors(errors);
+        if (webServiceResult != null) {
+            operationResult.setFromWebServiceResult(webServiceResult);
         }
         logger.info(errors);
-        return webServiceResult;
+        return operationResult;
     }
 
 

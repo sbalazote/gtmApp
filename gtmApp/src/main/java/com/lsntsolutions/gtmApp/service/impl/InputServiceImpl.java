@@ -72,21 +72,6 @@ public class InputServiceImpl implements InputService {
 		return input;
 	}
 
-	@Override
-	@Async
-	public void sendAsyncTransaction(Input input) throws Exception {
-		// Se corre el proceso asyncronicamente
-		OperationResult result = this.traceabilityService.processInputPendingTransactions(input);
-		if (result != null) {
-			// Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
-			if (result.getResultado()) {
-				input.setTransactionCodeANMAT(result.getCodigoTransaccion());
-				this.saveAndUpdateStock(input);
-				input.setInformed(true);
-			}
-		}
-	}
-
 	private void printSelfSerializedTags(Input input) {
 		SelfSerializedTagsPrinter selfSerializedTagsPrinter = new SelfSerializedTagsPrinter(this.PropertyService.get().getSelfSerializedTagFilepath());
 		String gln = this.PropertyService.get().getGln();
@@ -440,6 +425,50 @@ public class InputServiceImpl implements InputService {
 	}
 
 	@Override
+	@Async
+	public void sendAsyncTransaction(Input input) throws Exception {
+		informANMAT(input);
+	}
+
+	private OperationResult informANMAT(Input input) throws Exception {
+		boolean selfSerializedHasinformed = true;
+		boolean providerSerializedHasInformed = true;
+		OperationResult providerSerializedResult = null;
+		OperationResult selfSerializedResult = null;
+		OperationResult result = new OperationResult();
+		result.setProviderSerializedInform(false);
+		result.setSelfSerializedInform(false);
+		if(input.hasToInform(Constants.PROVIDER_SERIALIZED)) {
+			providerSerializedResult = this.traceabilityService.processInputPendingTransactions(input);
+			providerSerializedHasInformed = (providerSerializedResult != null && providerSerializedResult.getResultado());
+		}
+		if(input.hasToInform(Constants.SELF_SERIALIZED)) {
+			selfSerializedResult = this.traceabilityService.processSelfSerializedInputPendingTransactions(input);
+			selfSerializedHasinformed = (selfSerializedResult != null && selfSerializedResult.getResultado());
+		}
+		if(selfSerializedHasinformed && providerSerializedHasInformed){
+			if (input.hasToInform(Constants.SELF_SERIALIZED) && selfSerializedHasinformed && selfSerializedResult != null && selfSerializedResult.getResultado()) {
+				input.setSelfSerializedTransactionCodeANMAT(selfSerializedResult.getCodigoTransaccion());
+				result.setSelfSerializedInform(true);
+			}
+			if(input.hasToInform(Constants.PROVIDER_SERIALIZED) && providerSerializedHasInformed && providerSerializedResult != null && providerSerializedResult.getResultado()){
+				input.setTransactionCodeANMAT(providerSerializedResult.getCodigoTransaccion());
+				result.setProviderSerializedInform(true);
+			}
+			if(selfSerializedResult != null){
+				result.setMySelfSerializedOwnErrors(selfSerializedResult.getMySelfSerializedOwnErrors());
+			}
+			if(providerSerializedResult != null){
+				result.setMyOwnErrors(providerSerializedResult.getMyOwnErrors());
+			}
+			input.setInformed(true);
+			this.saveAndUpdateStock(input);
+			result.setResultado(true);
+		}
+		return result;
+	}
+
+	@Override
 	public boolean cancelInput(Integer inputId) {
 		boolean toReturn = false;
 		Input input = this.get(inputId);
@@ -448,21 +477,21 @@ public class InputServiceImpl implements InputService {
 		if (canCancel && hasSerials) {
 			// Si tiene serie tiene que informar a ANMAT la cancelacion.
 			try {
-				if (input.hasToInform() && !input.isForcedInput() && input.getTransactionCodeANMAT() != null) {
-					WebServiceResult result = this.traceabilityService.cancelInputTransaction(input);
-					boolean alreadyCancelled = false;
-					if (result != null) {
-						if (result.getErrores() != null) {
-							// Esto hay que verlo
-							if (result.getErrores(0).get_c_error().equals(Constants.ERROR_ANMAT_ALREADY_CANCELLED)) {
-								alreadyCancelled = true;
-							}
-						}
-						if (result.getResultado() || alreadyCancelled) {
-							input.setCancelled(true);
-							this.saveAndRemoveFromStock(input);
-							toReturn = true;
-						}
+				if (input.hasToInform() && !input.isForcedInput()) {
+					boolean selfSerializedHasinformed = true;
+					boolean providerSerializedHasInformed = true;
+					if(input.hasToInform(Constants.PROVIDER_SERIALIZED)){
+						WebServiceResult providerSerializedResult = this.traceabilityService.cancelInputTransaction(input.getTransactionCodeANMAT());
+						providerSerializedHasInformed = (providerSerializedResult != null && providerSerializedResult.getResultado());
+					}
+					if(input.hasToInform(Constants.SELF_SERIALIZED)){
+						WebServiceResult selfSerializedResult = this.traceabilityService.cancelInputTransaction(input.getSelfSerializedTransactionCodeANMAT());
+						selfSerializedHasinformed = (selfSerializedResult != null && selfSerializedResult.getResultado());
+					}
+					if(selfSerializedHasinformed && providerSerializedHasInformed) {
+						input.setCancelled(true);
+						this.saveAndRemoveFromStock(input);
+						toReturn = true;
 					}
 				} else {
 					input.setCancelled(true);
@@ -494,7 +523,6 @@ public class InputServiceImpl implements InputService {
 		}
 		this.saveAndUpdateStock(input);
 		this.auditService.addAudit(name, RoleOperation.INPUT_AUTHORIZATION.getId(), AuditState.COMFIRMED, input.getId());
-
 		return input;
 	}
 
@@ -520,19 +548,7 @@ public class InputServiceImpl implements InputService {
     @Override
     public OperationResult updateForcedInput(Input input, String username) throws Exception {
         this.auditService.addAudit(username, RoleOperation.INPUT.getId(), AuditState.AUTHORITED, input.getId());
-        OperationResult operationResult = null;
-        if (input.isInformAnmat()) {
-            operationResult = this.traceabilityService.processInputPendingTransactions(input);
-        }
-        if (operationResult != null) {
-            // Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
-            if (operationResult.getResultado()) {
-                input.setTransactionCodeANMAT(operationResult.getCodigoTransaccion());
-                input.setInformed(true);
-            }
-            operationResult.setOperationId(String.valueOf(input.getId()));
-        }
-        return operationResult;
+		return informANMAT(input);
     }
 
 	@Override

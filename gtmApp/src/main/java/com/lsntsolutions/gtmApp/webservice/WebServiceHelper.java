@@ -32,7 +32,7 @@ public class WebServiceHelper {
 			for (int i = 0; i < medicines.size(); ++i) {
 				medicamentos[i] = medicines.get(i);
 			}
-			return result = this.webService.sendMedicamentos(medicamentos, username, password);
+			return this.webService.sendMedicamentos(medicamentos, username, password);
 
 		} catch (Exception e) {
 			errors.add("No se pudo enviar la transacci�n");

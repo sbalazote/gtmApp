@@ -1,5 +1,6 @@
 package com.lsntsolutions.gtmApp.model;
 
+import com.lsntsolutions.gtmApp.constant.Constants;
 import com.lsntsolutions.gtmApp.util.StringUtility;
 
 import javax.persistence.*;
@@ -49,6 +50,9 @@ public class Input implements Serializable {
 
 	@Column(name = "transaction_code_anmat")
 	private String transactionCodeANMAT;
+
+	@Column(name = "self_serialized_transaction_code_anmat")
+	private String selfSerializedTransactionCodeANMAT;
 
 	@Column(name = "cancelled", nullable = false)
 	private boolean cancelled;
@@ -188,15 +192,19 @@ public class Input implements Serializable {
 
 	public boolean hasToInform() throws Exception {
 		boolean hasToInform = false;
-		if (this.getConcept().isInformAnmat()) {
-			for (InputDetail inputDetail : this.getInputDetails()) {
-				if (inputDetail.getProduct().isInformAnmat()
-						&& ("PS".equals(inputDetail.getProduct().getType()) || "SS".equals(inputDetail.getProduct().getType()))) {
-					hasToInform = true;
-				}
+		if (this.getConcept().isInformAnmat() && (hasToInform(Constants.PROVIDER_SERIALIZED) || hasToInform(Constants.SELF_SERIALIZED))) {
+			hasToInform = true;
+		}
+		return hasToInform;
+	}
+
+	public boolean hasToInform(String productType) throws Exception {
+		boolean hasToInform = false;
+		for (InputDetail inputDetail : this.getInputDetails()) {
+			if (inputDetail.getProduct().isInformAnmat()
+					&& (productType.equals(inputDetail.getProduct().getType()))) {
+				hasToInform = true;
 			}
-		} else {
-			hasToInform = false;
 		}
 		return hasToInform;
 	}
@@ -293,5 +301,13 @@ public class Input implements Serializable {
 			}
 		}
 		return false;
+	}
+
+	public String getSelfSerializedTransactionCodeANMAT() {
+		return selfSerializedTransactionCodeANMAT;
+	}
+
+	public void setSelfSerializedTransactionCodeANMAT(String selfSerializedTransactionCodeANMAT) {
+		this.selfSerializedTransactionCodeANMAT = selfSerializedTransactionCodeANMAT;
 	}
 }

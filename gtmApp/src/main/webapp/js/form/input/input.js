@@ -543,6 +543,10 @@ Input = function() {
 								for (var i = 0, lengthI = response.myOwnErrors.length; i < lengthI; i++) {
 									errors += response.myOwnErrors[i] + "<br />";
 								}
+
+								for (var i = 0, lengthI = response.mySelfSerializedOwnErrors.length; i < lengthI; i++) {
+									errors += response.mySelfSerializedOwnErrors[i] + "<br />";
+								}
 								
 								if(response.errores != null){
 									errors += "<strong>Errores informados por ANMAT:</strong><br />";

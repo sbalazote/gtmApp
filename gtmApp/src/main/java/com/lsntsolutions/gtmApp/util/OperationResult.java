@@ -11,6 +11,33 @@ public class OperationResult extends WebServiceResult {
 
 	private String operationId;
 	private List<String> myOwnErrors;
+	private List<String> mySelfSerializedOwnErrors;
+	private boolean selfSerializedInform;
+	private boolean providerSerializedInform;
+
+	public List<String> getMySelfSerializedOwnErrors() {
+		return mySelfSerializedOwnErrors;
+	}
+
+	public void setMySelfSerializedOwnErrors(List<String> mySelfSerializedOwnErrors) {
+		this.mySelfSerializedOwnErrors = mySelfSerializedOwnErrors;
+	}
+
+	public boolean isSelfSerializedInform() {
+		return selfSerializedInform;
+	}
+
+	public void setSelfSerializedInform(boolean selfSerializedInform) {
+		this.selfSerializedInform = selfSerializedInform;
+	}
+
+	public boolean isProviderSerializedInform() {
+		return providerSerializedInform;
+	}
+
+	public void setProviderSerializedInform(boolean providerSerializedInform) {
+		this.providerSerializedInform = providerSerializedInform;
+	}
 
 	public String getOperationId() {
 		return operationId;
