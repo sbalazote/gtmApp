@@ -91,6 +91,15 @@ $(document).ready(function() {
 				$("#transactionCode").text("No informa");
 			}
 		}
+		if (response.selfSerializedTransactionCodeANMAT != null) {
+			$("#selfSerializedTransactionCode").text(response.selfSerializedTransactionCodeANMAT);
+		} else {
+			if(response.informAnmat == true) {
+				$("#selfSerializedTransactionCode").text("Pendiente");
+			}else{
+				$("#selfSerializedTransactionCode").text("No informa");
+			}
+		}
 		$('#dateModal').val(myParseDate(response.date));
 		var conceptCode = addLeadingZeros(response.concept.code,4);
 		$('#conceptModal').val(conceptCode + " - " + response.concept.description);

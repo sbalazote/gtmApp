@@ -23,13 +23,21 @@
 					</div>
 					<div id="ANMATCode">
 						<div class="row">
-							<div class="col-md-5 col-lg-4">
+							<div class="col-md-4 col-lg-4">
 								<h4 id="transactionCodeDescription">
 									<spring:message code="common.transactionCodeDescription" />
 								</h4>
 							</div>
 							<div class="col-md-2 col-lg-2">
 								<h4 id="transactionCode" style="color: blue; font-weight: bold"></h4>
+							</div>
+							<div class="col-md-4 col-lg-4">
+								<h4 id="selfSerializedTransactionCodeDescription">
+									<spring:message code="common.selfSerializedTransactionCodeDescription" />
+								</h4>
+							</div>
+							<div class="col-md-2 col-lg-2">
+								<h4 id="selfSerializedTransactionCode" style="color: blue; font-weight: bold"></h4>
 							</div>
 						</div>
 					</div>
