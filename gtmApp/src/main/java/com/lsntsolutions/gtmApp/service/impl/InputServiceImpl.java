@@ -407,21 +407,7 @@ public class InputServiceImpl implements InputService {
 	@Override
 	public OperationResult updateInput(InputDTO inputDTO, String username) throws Exception {
 		Input input = this.update(inputDTO);
-		this.auditService.addAudit(username, RoleOperation.INPUT.getId(), AuditState.AUTHORITED, input.getId());
-		OperationResult operationResult = null;
-		if (input.isInformAnmat()) {
-			operationResult = this.traceabilityService.processInputPendingTransactions(input);
-		}
-		if (operationResult != null) {
-			// Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
-			if (operationResult.getResultado()) {
-				input.setTransactionCodeANMAT(operationResult.getCodigoTransaccion());
-				input.setInformed(true);
-				this.saveAndUpdateStock(input);
-			}
-			operationResult.setOperationId(String.valueOf(input.getId()));
-		}
-		return operationResult;
+		return informANMAT(input);
 	}
 
 	@Override
@@ -475,7 +461,6 @@ public class InputServiceImpl implements InputService {
 		boolean hasSerials = input.hasSerials();
 		boolean canCancel = this.canCancelInput(input);
 		if (canCancel && hasSerials) {
-			// Si tiene serie tiene que informar a ANMAT la cancelacion.
 			try {
 				if (input.hasToInform() && !input.isForcedInput()) {
 					boolean selfSerializedHasinformed = true;
