@@ -437,6 +437,8 @@ public class InputServiceImpl implements InputService {
 			input.setInformed(true);
 			this.saveAndUpdateStock(input);
 			result.setResultado(true);
+		}else{
+			result.setResultado(false);
 		}
 		if(selfSerializedResult != null){
 			result.setMySelfSerializedOwnErrors(selfSerializedResult.getMySelfSerializedOwnErrors());
