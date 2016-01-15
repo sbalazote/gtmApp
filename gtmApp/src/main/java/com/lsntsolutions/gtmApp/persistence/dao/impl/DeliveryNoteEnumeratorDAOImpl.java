@@ -76,6 +76,14 @@ public class DeliveryNoteEnumeratorDAOImpl implements DeliveryNoteEnumeratorDAO 
 	}
 
 	@Override
+	public Boolean checkNewDeliveryNoteNumber(Integer deliveryNotePOS, Integer lastDeliveryNoteNumberInput) {
+		Query query = this.sessionFactory.getCurrentSession().createQuery("from DeliveryNoteEnumerator where deliveryNotePOS = :deliveryNotePOS and lastDeliveryNoteNumber <= :lastDeliveryNoteNumberInput");
+		query.setParameter("deliveryNotePOS", deliveryNotePOS);
+		query.setParameter("lastDeliveryNoteNumberInput", lastDeliveryNoteNumberInput);
+		return !query.list().isEmpty();
+	}
+
+	@Override
 	public boolean delete(Integer deliveryNoteEnumeratorId) {
 		DeliveryNoteEnumerator DeliveryNoteEnumerator = this.get(deliveryNoteEnumeratorId);
 		if (DeliveryNoteEnumerator != null) {

@@ -69,8 +69,14 @@ public class DeliveryNoteEnumeratorController {
 
 	@RequestMapping(value = "/existsDeliveryNoteEnumerator", method = RequestMethod.GET)
 	public @ResponseBody
-	Boolean existsAgent(@RequestParam Integer deliveryNotePOS, Boolean fake) throws Exception {
+	Boolean existsDeliveryNoteEnumerator(@RequestParam Integer deliveryNotePOS, Boolean fake) throws Exception {
 		return this.deliveryNoteEnumeratorService.exists(deliveryNotePOS, fake);
+	}
+
+	@RequestMapping(value = "/checkNewDeliveryNoteNumber", method = RequestMethod.GET)
+	public @ResponseBody
+	Boolean checkNewDeliveryNoteNumber(@RequestParam Integer deliveryNotePOS, Integer lastDeliveryNoteNumberInput) throws Exception {
+		return this.deliveryNoteEnumeratorService.checkNewDeliveryNoteNumber(deliveryNotePOS, lastDeliveryNoteNumberInput);
 	}
 
 	@RequestMapping(value = "/getMatchedDeliveryNoteEnumerators", method = RequestMethod.POST)

@@ -51,6 +51,11 @@ public class DeliveryNoteEnumeratorImpl implements DeliveryNoteEnumeratorService
 	}
 
 	@Override
+	public Boolean checkNewDeliveryNoteNumber(Integer deliveryNotePOS, Integer lastDeliveryNoteNumberInput) {
+		return this.deliveryNoteEnumeratorDAO.checkNewDeliveryNoteNumber(deliveryNotePOS,lastDeliveryNoteNumberInput);
+	}
+
+	@Override
 	public boolean delete(Integer agentId) {
 		return this.deliveryNoteEnumeratorDAO.delete(agentId);
 	}

@@ -51,6 +51,26 @@ SaveDeliveryNoteEnumerator = function() {
         return exists;
     };
 
+    var checkNewDeliveryNoteNumber = function() {
+        var exists = false;
+        $.ajax({
+            url: "checkNewDeliveryNoteNumber.do",
+            type: "GET",
+            async: false,
+            data: {
+                deliveryNotePOS: $("#deliveryNotePOSInput").val(),
+                lastDeliveryNoteNumberInput: $("#lastDeliveryNoteNumberInput").val()
+            },
+            success: function(response) {
+                exists = response;
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                myGenericError();
+            }
+        });
+        return exists;
+    };
+
     $("#addButton, #updateButton").click(function(e) {
         if (validateForm()) {
             var jsonDeliveryNoteEnumerator = {
@@ -65,25 +85,29 @@ SaveDeliveryNoteEnumerator = function() {
             if (existsDeliveryNoteEnumerator() && (e.currentTarget.id === 'addButton')) {
                 myExistentCodeError();
             } else {
-                $.ajax({
-                    url: "saveDeliveryNoteEnumerator.do",
-                    type: "POST",
-                    contentType:"application/json",
-                    data: JSON.stringify(jsonDeliveryNoteEnumerator),
-                    async: true,
-                    success: function(response) {
-                        if (response.id === parseInt($("#idInput").val())) {
-                            myUpdateSuccessful();
-                        } else {
-                            myCreateSuccessful();
+                if(checkNewDeliveryNoteNumber()){
+                    $.ajax({
+                        url: "saveDeliveryNoteEnumerator.do",
+                        type: "POST",
+                        contentType:"application/json",
+                        data: JSON.stringify(jsonDeliveryNoteEnumerator),
+                        async: true,
+                        success: function(response) {
+                            if (response.id === parseInt($("#idInput").val())) {
+                                myUpdateSuccessful();
+                            } else {
+                                myCreateSuccessful();
+                            }
+                            $('#deliveryNoteEnumeratorModal').modal('hide');
+                            $("#deliveryNoteEnumeratorsTable").bootgrid("reload");
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            myGenericError();
                         }
-                        $('#deliveryNoteEnumeratorModal').modal('hide');
-                        $("#deliveryNoteEnumeratorsTable").bootgrid("reload");
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        myGenericError();
-                    }
-                });
+                    });
+                }else{
+                    myShowAlert('danger', 'El numero de remito no puede ser menor o igual a los existentes');
+                }
             }
         }
     });

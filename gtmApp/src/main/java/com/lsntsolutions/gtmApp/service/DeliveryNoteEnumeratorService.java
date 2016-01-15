@@ -23,4 +23,6 @@ public interface DeliveryNoteEnumeratorService {
 	Long getTotalNumber();
 
 	List<DeliveryNoteEnumerator> getReals(boolean fake);
+
+	Boolean checkNewDeliveryNoteNumber(Integer id, Integer lastDeliveryNoteNumberInput);
 }
