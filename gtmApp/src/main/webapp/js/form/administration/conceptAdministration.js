@@ -3,6 +3,7 @@ $(document).ready(function() {
 	var conceptId;
 	var events = [];
     var conceptInUse;
+	var isEdit;
 	var resetForm = function() {
 		$("#idInput").val('');
 		$("#codeInput").val('');
@@ -166,6 +167,10 @@ $(document).ready(function() {
     $('#inputSelect').on('change', function(evt, params) {
         $('#my-select').multiSelect('deselect_all');
         getEvents();
+
+		// si es un egreso se bloquea el '¿Es devol. cliente?'
+		var refundSelectDisabled = params.selected === "false";
+		$("#refundSelect").prop('disabled', refundSelectDisabled).trigger('chosen:updated');
     });
     
     $('#printDeliveryNoteSelect').on('change', function(evt, params) {
@@ -220,6 +225,7 @@ $(document).ready(function() {
 	}).on("loaded.rs.jquery.bootgrid", function() {
 		/* Executes after data is loaded and rendered */
 		conceptsTable.find(".command-edit").on("click", function(e) {
+			isEdit = true;
 			resetForm();
 			toggleElements(false);
 			readConcept($(this).data("row-id"));
@@ -241,6 +247,7 @@ $(document).ready(function() {
 			conceptId = $(this).data("row-id");
 			$('#deleteConfirmationModal').modal('show');
 		}).end().find(".command-view").on("click", function(e) {
+			isEdit = false;
 			resetForm();
 			toggleElements(true);
 			readConcept($(this).data("row-id"));
@@ -312,7 +319,7 @@ $(document).ready(function() {
                 deliveryNotesCopies: {
                     required: true,
                     digits: true,
-                    maxlength: 9,
+                    maxlength: 9
                 },
                 active: {
                     required: true
@@ -350,7 +357,12 @@ $(document).ready(function() {
     };
 
     $('#conceptModal').on('shown.bs.modal', function () {
-        $('.chosen-select', this).chosen('destroy').chosen();
+		if (isEdit) {
+			// si es un egreso se bloquea el '¿Es devol. cliente?'
+			var refundSelectDisabled = $("#inputSelect").val() === "false";
+			$("#refundSelect").prop('disabled', refundSelectDisabled).trigger('chosen:update');
+		}
+		$('.chosen-select', this).chosen('destroy').chosen();
     });
 
     $('#my-select').multiSelect();
