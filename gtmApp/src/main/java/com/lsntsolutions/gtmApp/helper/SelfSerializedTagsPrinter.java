@@ -11,27 +11,11 @@ import java.util.List;
 
 public class SelfSerializedTagsPrinter {
 
-	private static final String FILE_NAME = "I1491.001";
-
 	private FileWriter fileWritter;
-	private final BufferedWriter bufferWritter;
-	private final File selfSerializedTagsPrinter;
+	private BufferedWriter bufferWritter;
+	private File selfSerializedTagsPrinter;
 
-	public SelfSerializedTagsPrinter(String filepath) {
-
-		new File(filepath).mkdirs();
-		this.selfSerializedTagsPrinter = new File(filepath + FILE_NAME);
-
-		try {
-			if (!this.selfSerializedTagsPrinter.exists()) {
-				this.selfSerializedTagsPrinter.createNewFile();
-			}
-
-			this.fileWritter = new FileWriter(this.selfSerializedTagsPrinter.getAbsolutePath(), true);
-		} catch (IOException e) {
-			throw new RuntimeException("No se ha podido abrir el archivo: " + filepath + FILE_NAME, e);
-		}
-		this.bufferWritter = new BufferedWriter(this.fileWritter);
+	public SelfSerializedTagsPrinter() {
 	}
 
 	public void print(String inputId, String productCode, String batch, String expirationDate, String serialNumber) {
@@ -45,10 +29,24 @@ public class SelfSerializedTagsPrinter {
 		}
 	}
 
-	public void print(List<InputDetail> inputDetailList, String inputId, String gln){
-
+	public void print(List<InputDetail> inputDetailList, String inputId, String gln, String filepath){
+		Integer productId = 0;
+		Integer count = 1;
+		String currentBatch = "";
 		for (InputDetail inputDetail : inputDetailList) {
 			if ("SS".equals(inputDetail.getProduct().getType())) {
+				if(productId != inputDetail.getProduct().getId()){
+					productId = inputDetail.getProduct().getId();
+					currentBatch = inputDetail.getBatch();
+					count = 1;
+					createFile(inputId, filepath, count, inputDetail);
+				}else{
+					if(!inputDetail.getBatch().equals(currentBatch)){
+						count++;
+						currentBatch = inputDetail.getBatch();
+						createFile(inputId, filepath, count, inputDetail);
+					}
+				}
 				String productCode = inputDetail.getProduct().getCode().toString();
 				String batch = inputDetail.getBatch();
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -60,11 +58,30 @@ public class SelfSerializedTagsPrinter {
 		}
 	}
 
-	public void close() {
+	private void createFile(String inputId, String filepath, Integer count, InputDetail inputDetail) {
+		close();
+		new File(filepath).mkdirs();
+		//"I" de ingreso + "nro de ingreso" + "P" de producto + "código de producto" + "N" + "un número incremental para identificar lote".
+		String fileName = "I" + inputId + "P" + inputDetail.getProduct().getCode() + "N" + count + ".001";
+		this.selfSerializedTagsPrinter = new File(filepath + fileName);
 		try {
-			this.bufferWritter.close();
-		} catch (IOException e) {
-			throw new RuntimeException("No se ha podido cerrar en el archivo", e);
+            if (!this.selfSerializedTagsPrinter.exists()) {
+                this.selfSerializedTagsPrinter.createNewFile();
+            }
+            this.fileWritter = new FileWriter(this.selfSerializedTagsPrinter.getAbsolutePath(), true);
+			this.bufferWritter = new BufferedWriter(this.fileWritter);
+        } catch (IOException e) {
+            throw new RuntimeException("No se ha podido abrir el archivo: " + filepath + fileName, e);
+        }
+	}
+
+	public void close(){
+		if(bufferWritter != null){
+			try {
+				this.bufferWritter.close();
+			} catch (IOException e) {
+				throw new RuntimeException("No se ha podido cerrar en el archivo", e);
+			}
 		}
 	}
 
