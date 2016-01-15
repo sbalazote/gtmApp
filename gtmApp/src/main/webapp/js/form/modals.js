@@ -216,7 +216,9 @@ $(document).ready(function() {
 		$('#dateDeliveryNoteModal').val(response.date);
 		//var clientCode = addLeadingZeros(response.deliveryLocation.code, 4);
 		//$('#clientOrProviderDeliveryNoteModal').val(clientCode + " - " + response.deliveryLocation);
-		$('#clientOrProviderDeliveryNoteModal').val(response.deliveryLocation);
+		$('#deliveryLocationOrProviderDeliveryNoteModal').val(response.deliveryLocation);
+		$('#clientDeliveryNoteModal').val(response.client);
+
 		$('#agreementDeliveryNoteModal').val(response.agreement);
 
 		$('#affiliateDeliveryNoteModal').val(response.affiliate);

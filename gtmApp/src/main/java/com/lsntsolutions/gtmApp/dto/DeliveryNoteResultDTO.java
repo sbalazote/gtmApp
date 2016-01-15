@@ -153,6 +153,7 @@ public class DeliveryNoteResultDTO {
 				code = output.getProvider().getFormatCode();
 				this.setDeliveryLocation(code + " - " +output.getProvider().getName());
 			}
+			this.setClient("NO SE INFORMA");
 			String id = output.getFormatId();
 			String affiliate = "NO SE INFORMA";
 			this.setAffiliate(affiliate);
@@ -164,6 +165,7 @@ public class DeliveryNoteResultDTO {
 			this.setDate(stringDate.format(order.getProvisioningRequest().getDeliveryDate()));
 			code = order.getProvisioningRequest().getDeliveryLocation().getFormatCode();
 			this.setDeliveryLocation(code + " - " + order.getProvisioningRequest().getDeliveryLocation().getName());
+			this.setClient("NO SE INFORMA");
 			String id = order.getFormatId();
 			String provisioningRequestId = order.getProvisioningRequest().getFormatId();
 			String affiliate = order.getProvisioningRequest().getAffiliate().getCode() + " - " + order.getProvisioningRequest().getAffiliate().getSurname() + " " +
@@ -177,7 +179,8 @@ public class DeliveryNoteResultDTO {
             this.setAgreement(code + " - " + supplying.getAgreement().getDescription());
             this.setDate(stringDate.format(supplying.getDate()));
 			code = supplying.getClient().getFormatCode();
-            this.setDeliveryLocation(code + " - " +supplying.getClient().getName());
+			this.setClient(code + " - " +supplying.getClient().getName());
+            this.setDeliveryLocation("NO SE INFORMA");
 			String id = supplying.getFormatId();
 			String affiliate = supplying.getAffiliate().getCode() + " - " + supplying.getAffiliate().getSurname() + " " +
 					supplying.getAffiliate().getName();

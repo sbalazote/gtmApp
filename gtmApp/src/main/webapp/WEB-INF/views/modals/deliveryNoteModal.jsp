@@ -49,8 +49,8 @@
 							<input id="dateDeliveryNoteModal" name="dateDeliveryNoteModal" class="form-control" disabled>
 						</div>
 						<div class="col-md-6 col-lg-6 form-group">
-							<label for="clientOrProviderDeliveryNoteModal"><spring:message code="common.clientOrProvider"/></label>
-							<input id="clientOrProviderDeliveryNoteModal" name="clientOrProviderDeliveryNoteModal" class="form-control" disabled>
+							<label for="deliveryLocationOrProviderDeliveryNoteModal"><spring:message code="common.deliveryLocationOrProvider"/></label>
+							<input id="deliveryLocationOrProviderDeliveryNoteModal" name="deliveryLocationOrProviderDeliveryNoteModal" class="form-control" disabled>
 						</div>
 						<div class="col-md-4 col-lg-4 form-group">
 							<label for="agreementDeliveryNoteModal"><spring:message code="common.agreement"/></label>
@@ -59,9 +59,13 @@
 					</div>
 
 					<div class="row">
-						<div class="col-md-4 col-lg-4 form-group">
+						<div class="col-md-6 col-lg-6 form-group">
 							<label for="affiliateDeliveryNoteModal"><spring:message code="common.affiliate"/></label>
 							<input id="affiliateDeliveryNoteModal" name="affiliateDeliveryNoteModal" class="form-control" disabled>
+						</div>
+						<div class="col-md-6 col-lg-6 form-group">
+							<label for="clientDeliveryNoteModal"><spring:message code="common.client"/></label>
+							<input id="clientDeliveryNoteModal" name="clientDeliveryNoteModal" class="form-control" disabled>
 						</div>
 					</div>
 					<br>
