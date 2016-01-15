@@ -29,4 +29,6 @@ public interface ConceptService {
 	Concept getAndUpdateDeliveryNote(Integer id, Integer deliveryNoteNumbersRequired);
 
 	boolean isAlreadyInUse(Integer conceptId);
+
+	List<Concept> getConceptForInput();
 }

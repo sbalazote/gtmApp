@@ -44,7 +44,7 @@ public class InputController {
 	public String input(ModelMap modelMap) throws Exception {
 		modelMap.put("currentDate", (new SimpleDateFormat("dd/MM/yyyy").format(new Date())).toString());
 
-		modelMap.put("concepts", this.conceptService.getAllActives(true));
+		modelMap.put("concepts", this.conceptService.getConceptForInput());
 		modelMap.put("deliveryLocations", this.deliveryLocationService.getAllActives());
 		modelMap.put("providers", this.providerService.getAllActives());
 		modelMap.put("agreements", this.agreementService.getAllActives());

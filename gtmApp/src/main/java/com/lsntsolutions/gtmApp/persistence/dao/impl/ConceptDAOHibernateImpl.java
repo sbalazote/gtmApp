@@ -126,4 +126,10 @@ public class ConceptDAOHibernateImpl implements ConceptDAO {
 	public Concept getForUpdate(Integer id) {
 		return (Concept) this.sessionFactory.getCurrentSession().get(Concept.class, id, LockOptions.UPGRADE);
 	}
+
+	@Override
+	public List<Concept> getConceptForInput() {
+		Query query = this.sessionFactory.getCurrentSession().createQuery("from Concept where input = true and destruction = false and refund = false and active = true");
+		return query.list();
+	}
 }

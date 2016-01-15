@@ -108,4 +108,9 @@ public class ConceptServiceImpl implements ConceptService {
 
         return toReturn;
     }
+
+	@Override
+	public List<Concept> getConceptForInput() {
+		return this.conceptDAO.getConceptForInput();
+	}
 }

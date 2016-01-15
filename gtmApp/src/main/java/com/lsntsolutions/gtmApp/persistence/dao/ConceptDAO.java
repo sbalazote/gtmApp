@@ -29,4 +29,6 @@ public interface ConceptDAO {
 	Long getTotalNumber();
 
 	Concept getForUpdate(Integer id);
+
+	List<Concept> getConceptForInput();
 }
