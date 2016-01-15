@@ -88,23 +88,30 @@
 					</div>
 
 					<div class="row">
-						<div class="col-md-4 col-lg-4 form-group">
+						<div class="col-md-3 col-lg-3 form-group">
 							<label for="inputSelect"><spring:message code="common.isInput" /></label>
 							<select	class="form-control chosen-select" id="inputSelect" name="input">
 								<option value="true"><spring:message code="common.yes" /></option>
 								<option value="false"><spring:message code="common.no" /></option>
 							</select>
 						</div>
-						<div class="col-md-4 col-lg-4 form-group">
+						<div class="col-md-3 col-lg-3 form-group">
 							<label for="printDeliveryNoteSelect"><spring:message code="common.printDeliveryNote" /></label>
 							<select	class="form-control chosen-select" id="printDeliveryNoteSelect"	name="printDeliveryNote">
 								<option value="true"><spring:message code="common.yes" /></option>
 								<option value="false"><spring:message code="common.no" /></option>
 							</select>
 						</div>
-						<div class="col-md-4 col-lg-4 form-group">
+						<div class="col-md-3 col-lg-3 form-group">
 							<label for="refundSelect"><spring:message code="common.refund" /></label>
 							<select	class="form-control chosen-select" id="refundSelect" name="refund">
+								<option value="true"><spring:message code="common.yes" /></option>
+								<option value="false"><spring:message code="common.no" /></option>
+							</select>
+						</div>
+						<div class="col-md-3 col-lg-3 form-group">
+							<label for="destructionSelect"><spring:message code="common.destruction" /></label>
+							<select	class="form-control chosen-select" id="destructionSelect" name="destruction">
 								<option value="true"><spring:message code="common.yes" /></option>
 								<option value="false"><spring:message code="common.no" /></option>
 							</select>
@@ -113,25 +120,25 @@
 
 
 					<div class="row">
-						<div class="col-md-3 col-lg-4 form-group">
+						<div class="col-md-3 col-lg-3 form-group">
 							<label for="informAnmatSelect"><spring:message code="common.informAnmat" /></label>
 							<select	class="form-control chosen-select" id="informAnmatSelect" name="informAnmat">
 								<option value="true"><spring:message code="common.yes" /></option>
 								<option value="false"><spring:message code="common.no" /></option>
 							</select>
 						</div>
-						<div class="col-md-3 col-lg-4 form-group">
+						<div class="col-md-3 col-lg-3 form-group">
 							<label for="deliveryNotesCopiesInput"><spring:message code="common.deliveryNotesCopies" /></label>
 							<input type="text" class="form-control" id="deliveryNotesCopiesInput" name="deliveryNotesCopies">
 						</div>
-						<div class="col-md-3 col-lg-4 form-group">
+						<div class="col-md-3 col-lg-3 form-group">
 							<label for="activeSelect"><spring:message code="common.active" /></label>
 							<select	class="form-control chosen-select" id="activeSelect" name="active">
 								<option value="true"><spring:message code="common.yes" /></option>
 								<option value="false"><spring:message code="common.no" /></option>
 							</select>
 						</div>
-						<div class="col-md-3 col-lg-4 form-group">
+						<div class="col-md-3 col-lg-3 form-group">
 							<label for="clientSelect"><spring:message code="common.isClient" /></label>
 							<select	class="form-control chosen-select" id="clientSelect" name="client">
 								<option value="true"><spring:message code="common.yes" /></option>

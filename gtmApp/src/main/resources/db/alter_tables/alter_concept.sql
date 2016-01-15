@@ -1,0 +1,1 @@
+ALTER TABLE concept ADD destruction BIT(1) DEFAULT false NOT NULL;

@@ -74,6 +74,7 @@ public class ConceptAdministrationController {
 		concept.setDeliveryNoteCopies(conceptDTO.getDeliveryNotesCopies());
 		concept.setActive(conceptDTO.isActive());
 		concept.setClient(conceptDTO.isClient());
+		concept.setDestruction(conceptDTO.isDestruction());
 
 		List<Integer> eventIds = conceptDTO.getEvents();
 

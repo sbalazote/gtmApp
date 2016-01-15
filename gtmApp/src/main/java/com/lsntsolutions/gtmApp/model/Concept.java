@@ -54,6 +54,9 @@ public class Concept implements Serializable {
 	@Column(name = "client", nullable = false)
 	private boolean client;
 
+	@Column(name = "destruction", nullable = false)
+	private boolean destruction;
+
 	@ManyToOne
 	@JoinColumn(name = "delivery_note_enumerator_id")
 	private DeliveryNoteEnumerator deliveryNoteEnumerator;
@@ -160,6 +163,14 @@ public class Concept implements Serializable {
 
 	public void setDeliveryNoteEnumerator(DeliveryNoteEnumerator deliveryNoteEnumerator) {
 		this.deliveryNoteEnumerator = deliveryNoteEnumerator;
+	}
+
+	public boolean isDestruction() {
+		return destruction;
+	}
+
+	public void setDestruction(boolean destruction) {
+		this.destruction = destruction;
 	}
 
 	public String getEventOnInput(Integer agentId) {

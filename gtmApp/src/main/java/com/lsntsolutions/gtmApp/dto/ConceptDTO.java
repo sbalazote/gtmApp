@@ -18,6 +18,7 @@ public class ConceptDTO implements Serializable {
 	private List<Integer> events;
 	private boolean active;
 	private boolean client;
+	private boolean destruction;
 	private Integer deliveryNoteEnumeratorId;
 
 	public Integer getId() {
@@ -120,4 +121,11 @@ public class ConceptDTO implements Serializable {
 		this.deliveryNoteEnumeratorId = deliveryNoteEnumeratorId;
 	}
 
+	public boolean isDestruction() {
+		return destruction;
+	}
+
+	public void setDestruction(boolean destruction) {
+		this.destruction = destruction;
+	}
 }

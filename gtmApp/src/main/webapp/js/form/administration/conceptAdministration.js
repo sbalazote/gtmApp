@@ -15,6 +15,7 @@ $(document).ready(function() {
 		$("#deliveryNotesCopiesInput").val('');
 		$("#activeSelect").val($("#activeSelect option:first").val());
 		$("#clientSelect").val($("#clientSelect option:first").val());
+		$("#destructionSelect").val($("#destructionSelect option:first").val());
 		$('#my-select').multiSelect('deselect_all');
         events = [];
 	};
@@ -66,6 +67,9 @@ $(document).ready(function() {
 				$("#activeSelect").val(isActive).trigger('chosen:update');
 				var isClient = (response.client) ? "true" : "false";
 				$("#clientSelect").val(isClient).trigger('chosen:update');
+				var isDestruction = (response.destruction) ? "true" : "false";
+				$("#destructionSelect").val(isDestruction).trigger('chosen:update');
+
 				getEvents();
 				getDeliveryNoteEnumeratos();
 				if(response.deliveryNoteEnumerator != null){
@@ -183,6 +187,7 @@ $(document).ready(function() {
 		$("#deliveryNotesCopiesInput").attr('disabled', hidden);
 		$("#activeSelect").prop('disabled', hidden).trigger('chosen:update');
 		$("#clientSelect").prop('disabled', hidden).trigger('chosen:update');
+		$("#destructionSelect").prop('disabled', hidden).trigger('chosen:update');
 		// TODO KNOWN-BUG deshabilitar multiSelect https://github.com/lou/multi-select/issues/68
 		/* $('#my-select').prop('disabled', true);
 		$('#my-select').multiSelect('refresh'); */
@@ -279,6 +284,7 @@ $(document).ready(function() {
         $("#inputSelect").prop('disabled', hidden).trigger('chosen:update');
         $("#refundSelect").prop('disabled', hidden).trigger('chosen:update');
         $("#informAnmatSelect").prop('disabled', hidden).trigger('chosen:update');
+		$("#destructionSelect").prop('disabled', hidden).trigger('chosen:update');
     };
 
     var validateForm = function() {
@@ -369,6 +375,7 @@ $(document).ready(function() {
                 "deliveryNotesCopies": $("#deliveryNotesCopiesInput").val(),
                 "active": $("#activeSelect option:selected").val(),
                 "client": $("#clientSelect option:selected").val(),
+				"destruction": $("#destructionSelect option:selected").val(),
                 "events":  events || []
             };
 
