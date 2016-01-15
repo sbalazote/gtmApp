@@ -31,4 +31,6 @@ public interface ConceptDAO {
 	Concept getForUpdate(Integer id);
 
 	List<Concept> getConceptForInput();
+
+	List<Concept> getDestructionConcept();
 }

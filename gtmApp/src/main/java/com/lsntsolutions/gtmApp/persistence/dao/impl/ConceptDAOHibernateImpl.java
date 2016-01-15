@@ -132,4 +132,10 @@ public class ConceptDAOHibernateImpl implements ConceptDAO {
 		Query query = this.sessionFactory.getCurrentSession().createQuery("from Concept where input = true and destruction = false and refund = false and active = true");
 		return query.list();
 	}
+
+	@Override
+	public List<Concept> getDestructionConcept() {
+		Query query = this.sessionFactory.getCurrentSession().createQuery("from Concept where destruction = true and active = true");
+		return query.list();
+	}
 }

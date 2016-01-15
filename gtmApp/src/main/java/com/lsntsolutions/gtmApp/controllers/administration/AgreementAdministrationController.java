@@ -48,7 +48,7 @@ public class AgreementAdministrationController {
 	public String agreementAdministration(ModelMap modelMap) throws Exception {
 		modelMap.put("allPrinters", this.printOnPrinter.findAllPrinters());
 		modelMap.put("deliveryNoteConcepts", this.conceptService.getAll());
-		modelMap.put("destructionConcepts", this.conceptService.getAll());
+		modelMap.put("destructionConcepts", this.conceptService.getDestructionConcept());
 		return "agreementAdministration";
 	}
 

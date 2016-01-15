@@ -31,4 +31,6 @@ public interface ConceptService {
 	boolean isAlreadyInUse(Integer conceptId);
 
 	List<Concept> getConceptForInput();
+
+	List<Concept> getDestructionConcept();
 }

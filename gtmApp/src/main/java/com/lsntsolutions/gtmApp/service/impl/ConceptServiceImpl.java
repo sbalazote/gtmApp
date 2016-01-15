@@ -113,4 +113,9 @@ public class ConceptServiceImpl implements ConceptService {
 	public List<Concept> getConceptForInput() {
 		return this.conceptDAO.getConceptForInput();
 	}
+
+	@Override
+	public List<Concept> getDestructionConcept() {
+		return this.conceptDAO.getDestructionConcept();
+	}
 }
