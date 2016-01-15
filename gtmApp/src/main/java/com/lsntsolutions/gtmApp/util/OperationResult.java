@@ -14,6 +14,7 @@ public class OperationResult extends WebServiceResult {
 	private List<String> mySelfSerializedOwnErrors;
 	private boolean selfSerializedInform;
 	private boolean providerSerializedInform;
+	private String selfSerializedTransactionCode;
 
 	public List<String> getMySelfSerializedOwnErrors() {
 		return mySelfSerializedOwnErrors;
@@ -53,6 +54,14 @@ public class OperationResult extends WebServiceResult {
 
 	public void setMyOwnErrors(List<String> myOwnErrors) {
 		this.myOwnErrors = myOwnErrors;
+	}
+
+	public String getSelfSerializedTransactionCode() {
+		return selfSerializedTransactionCode;
+	}
+
+	public void setSelfSerializedTransactionCode(String selfSerializedTransactionCode) {
+		this.selfSerializedTransactionCode = selfSerializedTransactionCode;
 	}
 
 	public void setFromWebServiceResult(WebServiceResult webServiceResult) {

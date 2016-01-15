@@ -424,6 +424,7 @@ public class InputServiceImpl implements InputService {
 		OperationResult result = new OperationResult();
 		result.setProviderSerializedInform(false);
 		result.setSelfSerializedInform(false);
+		result.setOperationId(String.valueOf(input.getId()));
 		if(input.hasToInform(Constants.PROVIDER_SERIALIZED)) {
 			providerSerializedResult = this.traceabilityService.processInputPendingTransactions(input);
 			providerSerializedHasInformed = (providerSerializedResult != null && providerSerializedResult.getResultado());
@@ -436,9 +437,11 @@ public class InputServiceImpl implements InputService {
 			if (input.hasToInform(Constants.SELF_SERIALIZED) && selfSerializedHasinformed && selfSerializedResult != null && selfSerializedResult.getResultado()) {
 				input.setSelfSerializedTransactionCodeANMAT(selfSerializedResult.getCodigoTransaccion());
 				result.setSelfSerializedInform(true);
+				result.setSelfSerializedTransactionCode(selfSerializedResult.getCodigoTransaccion());
 			}
 			if(input.hasToInform(Constants.PROVIDER_SERIALIZED) && providerSerializedHasInformed && providerSerializedResult != null && providerSerializedResult.getResultado()){
 				input.setTransactionCodeANMAT(providerSerializedResult.getCodigoTransaccion());
+				result.setCodigoTransaccion(providerSerializedResult.getCodigoTransaccion());
 				result.setProviderSerializedInform(true);
 			}
 			if(selfSerializedResult != null){
