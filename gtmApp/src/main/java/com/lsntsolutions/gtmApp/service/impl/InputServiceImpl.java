@@ -434,15 +434,15 @@ public class InputServiceImpl implements InputService {
 				result.setCodigoTransaccion(providerSerializedResult.getCodigoTransaccion());
 				result.setProviderSerializedInform(true);
 			}
-			if(selfSerializedResult != null){
-				result.setMySelfSerializedOwnErrors(selfSerializedResult.getMySelfSerializedOwnErrors());
-			}
-			if(providerSerializedResult != null){
-				result.setMyOwnErrors(providerSerializedResult.getMyOwnErrors());
-			}
 			input.setInformed(true);
 			this.saveAndUpdateStock(input);
 			result.setResultado(true);
+		}
+		if(selfSerializedResult != null){
+			result.setMySelfSerializedOwnErrors(selfSerializedResult.getMySelfSerializedOwnErrors());
+		}
+		if(providerSerializedResult != null){
+			result.setMyOwnErrors(providerSerializedResult.getMyOwnErrors());
 		}
 		return result;
 	}
