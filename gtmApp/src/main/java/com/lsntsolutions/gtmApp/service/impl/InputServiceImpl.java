@@ -425,11 +425,11 @@ public class InputServiceImpl implements InputService {
 		result.setProviderSerializedInform(false);
 		result.setSelfSerializedInform(false);
 		result.setOperationId(String.valueOf(input.getId()));
-		if(input.hasToInform(Constants.PROVIDER_SERIALIZED)) {
+		if(input.hasToInform(Constants.PROVIDER_SERIALIZED) && input.getTransactionCodeANMAT() == null) {
 			providerSerializedResult = this.traceabilityService.processInputPendingTransactions(input);
 			providerSerializedHasInformed = (providerSerializedResult != null && providerSerializedResult.getResultado());
 		}
-		if(input.hasToInform(Constants.SELF_SERIALIZED)) {
+		if(input.hasToInform(Constants.SELF_SERIALIZED) && input.getSelfSerializedTransactionCodeANMAT() == null) {
 			selfSerializedResult = this.traceabilityService.processSelfSerializedInputPendingTransactions(input);
 			selfSerializedHasinformed = (selfSerializedResult != null && selfSerializedResult.getResultado());
 		}
@@ -470,11 +470,13 @@ public class InputServiceImpl implements InputService {
 					boolean providerSerializedHasInformed = true;
 					if(input.hasToInform(Constants.PROVIDER_SERIALIZED)){
 						WebServiceResult providerSerializedResult = this.traceabilityService.cancelInputTransaction(input.getTransactionCodeANMAT());
-						providerSerializedHasInformed = (providerSerializedResult != null && providerSerializedResult.getResultado());
+						providerSerializedHasInformed = (providerSerializedResult != null && (providerSerializedResult.getResultado() ||
+								(providerSerializedResult.getErrores() != null && providerSerializedResult.getErrores(0).get_c_error().equals(Constants.ERROR_ANMAT_ALREADY_CANCELLED))));
 					}
 					if(input.hasToInform(Constants.SELF_SERIALIZED)){
 						WebServiceResult selfSerializedResult = this.traceabilityService.cancelInputTransaction(input.getSelfSerializedTransactionCodeANMAT());
-						selfSerializedHasinformed = (selfSerializedResult != null && selfSerializedResult.getResultado());
+						selfSerializedHasinformed = (selfSerializedResult != null && selfSerializedResult.getResultado() ||
+								(selfSerializedResult.getErrores() != null && selfSerializedResult.getErrores(0).get_c_error().equals(Constants.ERROR_ANMAT_ALREADY_CANCELLED)));
 					}
 					if(selfSerializedHasinformed && providerSerializedHasInformed) {
 						input.setCancelled(true);
