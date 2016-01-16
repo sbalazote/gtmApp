@@ -442,9 +442,13 @@ public class InputServiceImpl implements InputService {
 		}
 		if(selfSerializedResult != null){
 			result.setMySelfSerializedOwnErrors(selfSerializedResult.getMySelfSerializedOwnErrors());
+		}else{
+			result.setMySelfSerializedOwnErrors(new ArrayList<String>());
 		}
 		if(providerSerializedResult != null){
 			result.setMyOwnErrors(providerSerializedResult.getMyOwnErrors());
+		}else{
+			result.setMyOwnErrors(new ArrayList<String>());
 		}
 		return result;
 	}

@@ -43,7 +43,7 @@ public class InputWSHelper {
             List<ConfirmacionTransaccionDTO> toConfirm = new ArrayList<>();
             this.getPendingTransactions(input.getInputDetails(), errors, toConfirm, input);
             // Si la lista esta vacia es porque de los productos que informan ninguno esta pendiente de informar por el agente de origen
-            if(Boolean.valueOf(PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION))) {
+            if(!Boolean.valueOf(PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION))) {
                 if (errors.isEmpty()) {
                     webServiceResult = this.confirmDrugs(toConfirm, errors);
                 }
