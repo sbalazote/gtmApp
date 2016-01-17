@@ -4,7 +4,7 @@ SerializedReturns = function() {
 	var inputDetails = [];
 	var outputOrderDetails = [];
 	var serialNumber = null;
-	
+	var inputId = "";
 	var currentDate = new Date();
 
     $("#deliveryNotePOSInput").numeric();
@@ -324,7 +324,15 @@ SerializedReturns = function() {
 			}
 		}
 	});
-	
+
+	$("input").blur(function() {
+		if ($("#deliveryNotePOSInput").val() != "")
+			$("#deliveryNotePOSInput").val(addLeadingZeros($("#deliveryNotePOSInput").val(), 4));
+		if ($("#deliveryNoteNumberInput").val() != "")
+			$("#deliveryNoteNumberInput").val(addLeadingZeros($("#deliveryNoteNumberInput").val(), 8));
+	});
+
+
 	//Se esconde el div de proveedor
 	$("#providerDiv").hide();
 	$("#conceptInput").val(27).trigger("chosen:updated");
@@ -359,7 +367,8 @@ SerializedReturns = function() {
 					data: JSON.stringify(jsonInput),
 					async: false,
 					success: function(response, textStatus, jqXHR) {
-						myReload("success", "Se ha registrado la devoluci\u00f3n de serie con n\u00famero: " + response.id);
+						inputId = response.id;
+						$('#destructionModal').modal({backdrop: 'static', keyboard: false})
 					},
 					error: function(response, jqXHR, textStatus, errorThrown) {
 						myGenericError();
@@ -371,7 +380,11 @@ SerializedReturns = function() {
 			}
 		}
 	});
-	
+
+	$("#cancelDestruction").click(function() {
+		myReload("success", "Se ha registrado la devoluci\u00f3n de serie con n\u00famero: " + inputId);
+	});
+
 	var hasChanged = function() {
 		if (inputDetails.length > 0) {
 			return true;
@@ -399,5 +412,9 @@ SerializedReturns = function() {
 		} else {
 			return event.keyCode != 13;
 		}
+	});
+
+	$("#destructionConceptInput").chosen({
+		width: '100%'
 	});
 };

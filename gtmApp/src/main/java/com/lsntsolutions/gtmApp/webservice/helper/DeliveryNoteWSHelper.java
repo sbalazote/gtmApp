@@ -35,11 +35,7 @@ public class DeliveryNoteWSHelper {
 		List<String> errors = new ArrayList<>();
 		boolean isInformAnmat = false;
 		if (output != null) {
-			if (deliveryNote.isFake()) {
-				isInformAnmat = output.getConcept().isInformAnmat();
-			} else {
-				isInformAnmat = output.getAgreement().getDeliveryNoteConcept().isInformAnmat();
-			}
+			isInformAnmat = output.getConcept().isInformAnmat();
 		}
 		if (order != null) {
 			isInformAnmat = order.getProvisioningRequest().getAgreement().getDeliveryNoteConcept().isInformAnmat();

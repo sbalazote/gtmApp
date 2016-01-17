@@ -130,3 +130,32 @@
 </div>
 
 </form>
+
+<%-- Confirmaci�n del delete de una row --%>
+<div class="modal fade" data-backdrop="static" id="destructionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width: 40%">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title"><spring:message code="serializedReturns.destructionModal"/></h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12 col-lg-12 form-group">
+						<label for="destructionConceptInput"><spring:message code="common.concept"/></label>
+						<select id="destructionConceptInput" name="destructionConcept" class="form-control" data-placeholder="<spring:message code='common.select.option'/>" autofocus>
+							<option value=""></option>
+							<c:forEach items="${destructionConcepts}" var="concept">
+								<option value="${concept.id}"  ${conceptId == concept.id ? 'selected' : ''}><c:out value="${concept.code}"></c:out> - <c:out value="${concept.description}"></c:out></option>
+							</c:forEach>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="cancelDestruction" class="btn btn-default" data-dismiss="modal"><spring:message code="common.no"/></button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" id="authorizeWithoutInform"><spring:message code="common.yes"/></button>
+			</div>
+		</div>
+	</div>
+</div>
