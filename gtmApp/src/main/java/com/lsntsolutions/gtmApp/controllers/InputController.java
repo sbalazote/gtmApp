@@ -71,7 +71,8 @@ public class InputController {
 	OperationResult saveRefundInput(@RequestBody InputDTO inputDTO, HttpServletRequest request) throws Exception {
 		Input input;
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		OperationResult result = null;
+		OperationResult result = new OperationResult();
+		result.setResultado(true);
 		if (auth != null) {
 			input = this.inputService.save(inputDTO, true, auth.getName());
 			if (input.isInformAnmat()) {
