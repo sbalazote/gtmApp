@@ -72,14 +72,16 @@ public class StockSearchController {
 		int length = rowCount;
 		long total;
 
-		List<StockDTO> stockList = null;
-			stockList = this.stockService.getForAutocomplete(searchPhrase, sortCode, sortProduct, sortAgreement, sortGtin, sortAmount, agreementId, batchNumber, expirateDateFrom, expirateDateTo, monodrugId, productId, serialNumber);
-			total = stockList.size();
-			if (total < start + length) {
-				stockList = stockList.subList(start, (int) total);
-			} else {
+		List<StockDTO> stockList;
+		stockList = this.stockService.getForAutocomplete(searchPhrase, sortCode, sortProduct, sortAgreement, sortGtin, sortAmount, agreementId, batchNumber, expirateDateFrom, expirateDateTo, monodrugId, productId, serialNumber);
+		total = stockList.size();
+		if (total < start + length) {
+			stockList = stockList.subList(start, (int) total);
+		} else {
+			if(length > 0) {
 				stockList = stockList.subList(start, start + length);
 			}
+		}
 
 		for (StockDTO stockDTO: stockList) {
 			JSONObject dataJson = new JSONObject();
