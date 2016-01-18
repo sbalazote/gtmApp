@@ -1,8 +1,8 @@
 package com.lsntsolutions.gtmApp.persistence.dao;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.DeliveryLocation;
+
+import java.util.List;
 
 public interface DeliveryLocationDAO {
 
@@ -12,7 +12,7 @@ public interface DeliveryLocationDAO {
 
 	Boolean exists(Integer code);
 
-	List<DeliveryLocation> getForAutocomplete(String term, Boolean active);
+	List<DeliveryLocation> getForAutocomplete(String searchPhrase, Boolean active, String sortId, String sortCode, String sortName, String sortLocality, String sortAddress, String sortIsActive);
 
 	List<DeliveryLocation> getAll();
 

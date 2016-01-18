@@ -1,15 +1,14 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
-import java.util.List;
-
+import com.lsntsolutions.gtmApp.model.DeliveryLocation;
+import com.lsntsolutions.gtmApp.persistence.dao.DeliveryLocationDAO;
 import com.lsntsolutions.gtmApp.service.DeliveryLocationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lsntsolutions.gtmApp.model.DeliveryLocation;
-import com.lsntsolutions.gtmApp.persistence.dao.DeliveryLocationDAO;
+import java.util.List;
 
 @Service
 @Transactional
@@ -37,8 +36,8 @@ public class DeliveryLocationServiceImpl implements DeliveryLocationService {
 	}
 
 	@Override
-	public List<DeliveryLocation> getForAutocomplete(String term, Boolean active) {
-		return this.deliveryLocationDAO.getForAutocomplete(term, active);
+	public List<DeliveryLocation> getForAutocomplete(String searchPhrase, Boolean active, String sortId, String sortCode, String sortName, String sortLocality, String sortAddress, String sortIsActive) {
+		return this.deliveryLocationDAO.getForAutocomplete(searchPhrase, active, sortId, sortCode, sortName, sortLocality, sortAddress, sortIsActive);
 	}
 
 	@Override

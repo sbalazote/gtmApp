@@ -39,7 +39,7 @@ public class DeliveryLocationAdministrationController {
 		if (searchPhrase.matches("")) {
 			return new ModelAndView("deliveryLocations", "deliveryLocations", this.deliveryLocationService.getAll());
 		} else {
-			return new ModelAndView("deliveryLocations", "deliveryLocations", this.deliveryLocationService.getForAutocomplete(searchPhrase, null));
+			return new ModelAndView("deliveryLocations", "deliveryLocations", this.deliveryLocationService.getForAutocomplete(searchPhrase, null, null, null, null, null, null, null));
 		}
 	}
 
@@ -104,21 +104,25 @@ public class DeliveryLocationAdministrationController {
 		Integer current = Integer.parseInt(parametersMap.get("current"));
 		Integer rowCount = Integer.parseInt(parametersMap.get("rowCount"));
 
+		String sortId = parametersMap.get("sort[id]");
+		String sortCode = parametersMap.get("sort[code]");
+		String sortName = parametersMap.get("sort[name]");
+		String sortLocality = parametersMap.get("sort[locality]");
+		String sortAddress = parametersMap.get("sort[address]");
+		String sortIsActive = parametersMap.get("sort[isActive]");
+
 		JSONArray jsonArray = new JSONArray();
 		int start = (current - 1) * rowCount;
 		int length = rowCount;
 		long total;
 
 		List<DeliveryLocation> listDeliveryLocations;
-		if (searchPhrase.matches("")) {
-			listDeliveryLocations = this.deliveryLocationService.getPaginated(start, length);
-			total = this.deliveryLocationService.getTotalNumber();
+		listDeliveryLocations = this.deliveryLocationService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortName, sortLocality, sortAddress, sortIsActive);
+		total = listDeliveryLocations.size();
+		if (total < start + length) {
+			listDeliveryLocations = listDeliveryLocations.subList(start, (int) total);
 		} else {
-			listDeliveryLocations = this.deliveryLocationService.getForAutocomplete(searchPhrase, null);
-			total = listDeliveryLocations.size();
-			if (total < start + length) {
-				listDeliveryLocations = listDeliveryLocations.subList(start, (int) total);
-			} else {
+			if(length > 0) {
 				listDeliveryLocations = listDeliveryLocations.subList(start, start + length);
 			}
 		}
