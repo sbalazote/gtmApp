@@ -361,14 +361,36 @@ SerializedReturns = function() {
 				}
 				
 				$.ajax({
-					url: "saveInput.do?isSerializedReturn=true",
+					url: "saveRefundInput.do",
 					type: "POST",
 					contentType:"application/json",
 					data: JSON.stringify(jsonInput),
 					async: false,
 					success: function(response, textStatus, jqXHR) {
-						inputId = response.id;
-						$('#destructionModal').modal({backdrop: 'static', keyboard: false})
+						$.unblockUI();
+						if(response.resultado == true){
+							if (textStatus === 'success') {
+								inputId = response.id;
+								$('#destructionModal').modal({backdrop: 'static', keyboard: false})
+							}
+						}else{
+							var errors = "";
+							for (var i = 0, lengthI = response.myOwnErrors.length; i < lengthI; i++) {
+								errors += response.myOwnErrors[i] + "<br />";
+							}
+
+							for (var i = 0, lengthI = response.mySelfSerializedOwnErrors.length; i < lengthI; i++) {
+								errors += response.mySelfSerializedOwnErrors[i] + "<br />";
+							}
+
+							if(response.errores != null){
+								errors += "<strong>Errores informados por ANMAT:</strong><br />";
+								for (var i = 0, lengthI = response.errores.length; i < lengthI; i++) {
+									errors += response.errores[i]._c_error + " - " + response.errores[i]._d_error + "<br />";
+								}
+							}
+							myShowAlert("danger", errors,null,0);
+						}
 					},
 					error: function(response, jqXHR, textStatus, errorThrown) {
 						myGenericError();
@@ -382,6 +404,10 @@ SerializedReturns = function() {
 	});
 
 	$("#cancelDestruction").click(function() {
+		myReload("success", "Se ha registrado la devoluci\u00f3n de serie con n\u00famero: " + inputId);
+	});
+
+	$("#destructionAccept").click(function() {
 		myReload("success", "Se ha registrado la devoluci\u00f3n de serie con n\u00famero: " + inputId);
 	});
 

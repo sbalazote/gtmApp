@@ -54,17 +54,33 @@ public class InputController {
 
 	@RequestMapping(value = "/saveInput", method = RequestMethod.POST)
 	public @ResponseBody
-	Input saveInput(@RequestBody InputDTO inputDTO, @RequestParam Boolean isSerializedReturn, HttpServletRequest request) throws Exception {
+	Input saveInput(@RequestBody InputDTO inputDTO, HttpServletRequest request) throws Exception {
 		Input input = null;
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
-			input = this.inputService.save(inputDTO, isSerializedReturn, auth.getName());
+			input = this.inputService.save(inputDTO, false, auth.getName());
 			if (input.isInformAnmat()) {
 				this.inputService.sendAsyncTransaction(input);
 			}
 		}
 		return input;
 	}
+
+	@RequestMapping(value = "/saveRefundInput", method = RequestMethod.POST)
+	public @ResponseBody
+	OperationResult saveRefundInput(@RequestBody InputDTO inputDTO, HttpServletRequest request) throws Exception {
+		Input input;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		OperationResult result = null;
+		if (auth != null) {
+			input = this.inputService.save(inputDTO, true, auth.getName());
+			if (input.isInformAnmat()) {
+				result = this.inputService.sendTransaction(input);
+			}
+		}
+		return result;
+	}
+
 
 	@RequestMapping(value = "/updateInput", method = RequestMethod.POST)
 	public @ResponseBody
@@ -85,7 +101,8 @@ public class InputController {
         Input input = this.inputService.get(inputId);
         OperationResult result = null;
         if (auth != null) {
-            result = this.inputService.updateForcedInput(input, auth.getName());
+            result = this.inputService.sendTransaction(input);
+			this.auditService.addAudit(auth.getName(), RoleOperation.INPUT.getId(), AuditState.AUTHORITED, input.getId());
         }
 
         return result;

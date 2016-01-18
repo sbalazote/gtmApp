@@ -532,8 +532,7 @@ public class InputServiceImpl implements InputService {
 	}
 
     @Override
-    public OperationResult updateForcedInput(Input input, String username) throws Exception {
-        this.auditService.addAudit(username, RoleOperation.INPUT.getId(), AuditState.AUTHORITED, input.getId());
+    public OperationResult sendTransaction(Input input) throws Exception {
 		return informANMAT(input);
     }
 

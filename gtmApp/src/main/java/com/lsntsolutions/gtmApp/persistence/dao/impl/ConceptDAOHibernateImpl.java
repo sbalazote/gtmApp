@@ -91,7 +91,7 @@ public class ConceptDAOHibernateImpl implements ConceptDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Concept> getAllReturnFromClientConcepts() {
-		Query query = this.sessionFactory.getCurrentSession().createQuery("from Concept where code = 60 or code = 160 and client = true");
+		Query query = this.sessionFactory.getCurrentSession().createQuery("from Concept where refund = true and client = true");
 		return query.list();
 	}
 

@@ -154,7 +154,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" id="cancelDestruction" class="btn btn-default" data-dismiss="modal"><spring:message code="common.no"/></button>
-				<button type="button" class="btn btn-primary" data-dismiss="modal" id="authorizeWithoutInform"><spring:message code="common.yes"/></button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" id="destructionAccept"><spring:message code="common.yes"/></button>
 			</div>
 		</div>
 	</div>

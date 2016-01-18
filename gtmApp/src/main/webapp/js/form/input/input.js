@@ -502,7 +502,7 @@ Input = function() {
 	
 				if(!isUpdate){
 					$.ajax({
-						url: "saveInput.do?isSerializedReturn=false",
+						url: "saveInput.do",
 						type: "POST",
 						contentType:"application/json",
 						data: JSON.stringify(jsonInput),
