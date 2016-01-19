@@ -163,6 +163,11 @@ public class StockDAOHibernateImpl implements StockDAO {
 		Date dateFromFormated;
 		Date dateToFormated;
 		criteria.createAlias("stock.product", "product");
+		criteria.createAlias("stock.gtin", "gtin");
+
+		if (stockQuery.getSearchPhrase() != null) {
+			criteria.add(Restrictions.or(Restrictions.ilike("gtin.number", stockQuery.getSearchPhrase(), MatchMode.ANYWHERE), Restrictions.ilike("product.description", stockQuery.getSearchPhrase(), MatchMode.ANYWHERE)));
+		}
 
 		if (!StringUtils.isEmpty(stockQuery.getExpirateDateFrom())) {
 			try {

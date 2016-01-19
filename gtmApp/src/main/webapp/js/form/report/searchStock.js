@@ -222,7 +222,8 @@ SearchStock = function() {
 				"agreementId": $("#agreementSearch").val() || null,
 				"serialNumber": $("#serialNumberSearch").val().trim(),
 				"batchNumber": $("#batchNumberSearch").val().trim(),
-				"monodrugId": $("#monodrugSearch").val() || null
+				"monodrugId": $("#monodrugSearch").val() || null,
+				"searchPhrase": $(".search-field").val() || null
 			};
 			refreshTable(jsonStockSearch);
 		}
@@ -260,13 +261,14 @@ SearchStock = function() {
 			}
 		}).bootgrid("reload");
 
-		var params = '&expirateDateFrom=' + jsonStockSearch.expirateDateFrom +
-			'&expirateDateTo=' + jsonStockSearch.expirateDateTo +
-			'&productId=' + jsonStockSearch.productId +
-			'&agreementId=' + jsonStockSearch.agreementId +
-			'&serialNumber=' + jsonStockSearch.serialNumber +
-			'&batchNumber=' + jsonStockSearch.batchNumber +
-			'&monodrugId=' + jsonStockSearch.monodrugId;
+		var params = '&expirateDateFrom=' + (jsonStockSearch.expirateDateFrom || null) +
+			'&expirateDateTo=' + (jsonStockSearch.expirateDateTo || null) +
+			'&productId=' + (jsonStockSearch.productId || null) +
+			'&agreementId=' + (jsonStockSearch.agreementId || null) +
+			'&serialNumber=' + (jsonStockSearch.serialNumber || null) +
+			'&batchNumber=' + (jsonStockSearch.batchNumber || null) +
+			'&monodrugId=' + (jsonStockSearch.monodrugId || null) +
+			'&searchPhrase=' + (jsonStockSearch.searchPhrase || null);
 
 		var exportHTML = exportQueryTableHTML("./rest/stocks", params);
 		var searchHTML = $(".search");

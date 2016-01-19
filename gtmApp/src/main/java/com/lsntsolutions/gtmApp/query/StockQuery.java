@@ -9,9 +9,10 @@ public class StockQuery {
 	private String serialNumber;
 	private String batchNumber;
 	private Integer monodrugId;
+	private String searchPhrase;
 
 	public static StockQuery createFromParameters(String expirateDateFrom, String expirateDateTo, Integer productId, Integer agreementId, String serialNumber,
-												  String batchNumber, Integer monodrugId) {
+												  String batchNumber, Integer monodrugId, String searchPhrase) {
 		StockQuery stockQuery = new StockQuery();
 		stockQuery.expirateDateFrom = expirateDateFrom;
 		stockQuery.expirateDateTo = expirateDateTo;
@@ -20,6 +21,7 @@ public class StockQuery {
 		stockQuery.serialNumber = serialNumber;
 		stockQuery.batchNumber = batchNumber;
 		stockQuery.monodrugId = monodrugId;
+		stockQuery.searchPhrase = searchPhrase;
 		return stockQuery;
 	}
 
@@ -77,5 +79,13 @@ public class StockQuery {
 
 	public void setMonodrugId(Integer monodrugId) {
 		this.monodrugId = monodrugId;
+	}
+
+	public String getSearchPhrase() {
+		return searchPhrase;
+	}
+
+	public void setSearchPhrase(String searchPhrase) {
+		this.searchPhrase = searchPhrase;
 	}
 }

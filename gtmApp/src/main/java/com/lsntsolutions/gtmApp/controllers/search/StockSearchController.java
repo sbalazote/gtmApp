@@ -4,11 +4,16 @@ import com.lsntsolutions.gtmApp.constant.Constants;
 import com.lsntsolutions.gtmApp.dto.ProviderSerializedProductDTO;
 import com.lsntsolutions.gtmApp.dto.StockDTO;
 import com.lsntsolutions.gtmApp.helper.SerialParser;
+import com.lsntsolutions.gtmApp.model.Agreement;
 import com.lsntsolutions.gtmApp.model.Product;
+import com.lsntsolutions.gtmApp.model.ProductMonodrug;
 import com.lsntsolutions.gtmApp.model.Stock;
 import com.lsntsolutions.gtmApp.query.StockQuery;
+import com.lsntsolutions.gtmApp.service.AgreementService;
+import com.lsntsolutions.gtmApp.service.ProductMonodrugService;
 import com.lsntsolutions.gtmApp.service.ProductService;
 import com.lsntsolutions.gtmApp.service.StockService;
+import com.lsntsolutions.gtmApp.util.StringUtility;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +31,10 @@ public class StockSearchController {
 	@Autowired
 	private ProductService productService;
 	@Autowired
+	private ProductMonodrugService productMonodrugService;
+	@Autowired
+	private AgreementService agreementService;
+	@Autowired
 	private StockService stockService;
 	@Autowired
 	private SerialParser serialParser;
@@ -42,7 +51,7 @@ public class StockSearchController {
 
 	@RequestMapping(value = "/getStockFromProductAndAgreement", method = RequestMethod.POST)
 	public @ResponseBody List<Stock> getStockFromProductAndAgreement(@RequestParam Integer productId, @RequestParam Integer agreementId) throws Exception {
-		StockQuery stockQuery = StockQuery.createFromParameters(null, null, productId, agreementId, null, null, null);
+		StockQuery stockQuery = StockQuery.createFromParameters(null, null, productId, agreementId, null, null, null, null);
 		return this.stockService.getStockForSearch(stockQuery);
 	}
 
@@ -127,7 +136,36 @@ public class StockSearchController {
 	@RequestMapping(value = "/stocks", method = RequestMethod.POST)
 	public @ResponseBody ModelAndView stocks(HttpServletRequest request) throws Exception {
 		StockQuery stockQuery = this.getStockQuery(request);
-		return new ModelAndView("stocks", "stocks", this.stockService.getStockForSearch(stockQuery));
+		ModelAndView modelAndView = new ModelAndView("stocks", "stocks", this.stockService.getStockForSearch(stockQuery));
+
+		if (stockQuery.getProductId() != null) {
+			Product product = this.productService.get(stockQuery.getProductId());
+			modelAndView.addObject("product", StringUtility.addLeadingZeros(String.valueOf(product.getCode()), 4) + " - " + product.getDescription());
+		} else {
+			modelAndView.addObject("product", "*");
+		}
+
+		modelAndView.addObject("batchNumber", (stockQuery.getBatchNumber() != null) ? stockQuery.getBatchNumber() : "*");
+
+		modelAndView.addObject("expirateDateFrom", (stockQuery.getExpirateDateFrom() != null) ? stockQuery.getExpirateDateFrom() : "*");
+		modelAndView.addObject("expirateDateTo", (stockQuery.getExpirateDateTo() != null) ? stockQuery.getExpirateDateTo() : "*");
+		modelAndView.addObject("serialNumber", (stockQuery.getSerialNumber() != null) ? stockQuery.getSerialNumber() : "*");
+
+		if (stockQuery.getAgreementId() != null) {
+			Agreement agreement = this.agreementService.get(stockQuery.getAgreementId());
+			modelAndView.addObject("agreement", StringUtility.addLeadingZeros(String.valueOf(agreement.getCode()), 4) + " - " + agreement.getDescription());
+		} else {
+			modelAndView.addObject("agreement", "*");
+		}
+
+		if (stockQuery.getMonodrugId() != null) {
+			ProductMonodrug productMonodrug = this.productMonodrugService.get(stockQuery.getMonodrugId());
+			modelAndView.addObject("monodrug", StringUtility.addLeadingZeros(String.valueOf(productMonodrug.getCode()), 4) + " - " + productMonodrug.getDescription());
+		} else {
+			modelAndView.addObject("monodrug", "*");
+		}
+
+		return modelAndView;
 	}
 
 	private StockQuery getStockQuery(HttpServletRequest request) {
@@ -141,11 +179,29 @@ public class StockSearchController {
 		}
 		Integer monodrugId = null;
 		if (!(request.getParameterValues("monodrugId")[0]).equals("null")) {
-			agreementId = Integer.valueOf(request.getParameterValues("monodrugId")[0]);
+			monodrugId = Integer.valueOf(request.getParameterValues("monodrugId")[0]);
 		}
-		StockQuery stockQuery = StockQuery.createFromParameters(request.getParameterValues("expirateDateFrom")[0],
-				request.getParameterValues("expirateDateTo")[0], productId, agreementId, request.getParameterValues("serialNumber")[0],
-				request.getParameterValues("batchNumber")[0],monodrugId);
+		String expirateDateFrom = null;
+		if (!(request.getParameterValues("expirateDateFrom")[0]).equals("null")) {
+			expirateDateFrom = request.getParameterValues("expirateDateFrom")[0];
+		}
+		String expirateDateTo = null;
+		if (!(request.getParameterValues("expirateDateTo")[0]).equals("null")) {
+			expirateDateTo = request.getParameterValues("expirateDateTo")[0];
+		}
+		String serialNumber = null;
+		if (!(request.getParameterValues("serialNumber")[0]).equals("null")) {
+			serialNumber = request.getParameterValues("serialNumber")[0];
+		}
+		String batchNumber = null;
+		if (!(request.getParameterValues("batchNumber")[0]).equals("null")) {
+			batchNumber = request.getParameterValues("batchNumber")[0];
+		}
+		String searchPhrase = null;
+		if (!(request.getParameterValues("searchPhrase")[0]).equals("null")) {
+			searchPhrase = request.getParameterValues("searchPhrase")[0];
+		}
+		StockQuery stockQuery = StockQuery.createFromParameters(expirateDateFrom, expirateDateTo, productId, agreementId, serialNumber, batchNumber, monodrugId, searchPhrase);
 		return stockQuery;
 	}
 }
