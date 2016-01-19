@@ -397,16 +397,16 @@ public class InputServiceImpl implements InputService {
 	@Override
 	public OperationResult updateInput(InputDTO inputDTO, String username) throws Exception {
 		Input input = this.update(inputDTO);
-		return informANMAT(input);
+		return informANMAT(input, true);
 	}
 
 	@Override
 	@Async
 	public void sendAsyncTransaction(Input input) throws Exception {
-		informANMAT(input);
+		informANMAT(input, true);
 	}
 
-	private OperationResult informANMAT(Input input) throws Exception {
+	private OperationResult informANMAT(Input input, boolean addStock) throws Exception {
 		boolean selfSerializedHasinformed = true;
 		boolean providerSerializedHasInformed = true;
 		OperationResult providerSerializedResult = null;
@@ -436,7 +436,9 @@ public class InputServiceImpl implements InputService {
 			}
 			if(!input.isInformed()){
 				input.setInformed(true);
-				this.saveAndUpdateStock(input);
+				if(addStock) {
+					this.saveAndUpdateStock(input);
+				}
 			}
 			result.setResultado(true);
 		}else{
@@ -534,8 +536,8 @@ public class InputServiceImpl implements InputService {
 	}
 
     @Override
-    public OperationResult sendTransaction(Input input) throws Exception {
-		return informANMAT(input);
+    public OperationResult sendTransaction(Input input, boolean addStock) throws Exception {
+		return informANMAT(input, addStock);
     }
 
 	@Override

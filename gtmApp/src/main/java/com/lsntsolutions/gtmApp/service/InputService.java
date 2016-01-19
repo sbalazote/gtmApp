@@ -36,7 +36,7 @@ public interface InputService {
 
 	OperationResult updateInput(InputDTO inputDTO, String username) throws Exception;
 
-    OperationResult sendTransaction(Input input) throws Exception;
+    OperationResult sendTransaction(Input input, boolean addStock) throws Exception;
 
 	boolean cancelInput(Integer inputId);
 

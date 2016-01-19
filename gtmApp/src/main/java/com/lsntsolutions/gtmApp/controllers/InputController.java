@@ -76,7 +76,7 @@ public class InputController {
 		if (auth != null) {
 			input = this.inputService.save(inputDTO, true, auth.getName());
 			if (input.isInformAnmat()) {
-				result = this.inputService.sendTransaction(input);
+				result = this.inputService.sendTransaction(input, true);
 			}
 		}
 		return result;
@@ -97,12 +97,12 @@ public class InputController {
 
     @RequestMapping(value = "/updateForcedInput", method = RequestMethod.POST)
     public @ResponseBody
-    OperationResult updateInput(@RequestBody Integer inputId, HttpServletRequest request) throws Exception {
+    OperationResult updateForcedInput(@RequestBody Integer inputId, HttpServletRequest request) throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Input input = this.inputService.get(inputId);
         OperationResult result = null;
         if (auth != null) {
-            result = this.inputService.sendTransaction(input);
+            result = this.inputService.sendTransaction(input, false);
 			this.auditService.addAudit(auth.getName(), RoleOperation.INPUT.getId(), AuditState.AUTHORITED, input.getId());
         }
 
