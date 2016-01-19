@@ -36,11 +36,11 @@ var ProvisioningRequest = function() {
 		$('#productInput').val("");
 	};
 
-	$("#affiliateDocumentTypeSelect").chosen(
-		{
-			width: '100%' /* desired width */
-		});
+	$("#affiliateDocumentTypeSelect").chosen({
+		width: '100%' /* desired width */
+	});
 
+	$("#deliveryLocationInput").chosen({ search_contains : true });
 
 	var validateForm = function() {
 		var form = $("#provisioningRequestForm");
