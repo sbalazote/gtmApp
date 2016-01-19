@@ -171,13 +171,9 @@ var Supplying = function() {
 	$('.select2-input').on('keydown', function(e) {
 		if (e.keyCode === 121) {
 			cleanAddAffiliateModal();
+			e.preventDefault();
 			$("#affiliateInput").select2("close");
-			$('#addAffiliateModal').modal('show');
 		}
-	});
-
-	$('#addAffiliateModal').on('show.bs.modal', function () {
-		$('#affiliateCodeInput').focus();
 	});
 
 	$('#currentDateButton').click(function() {
@@ -788,5 +784,13 @@ var Supplying = function() {
 		} else {
 			return event.keyCode != 13;
 		}
+	});
+
+	$('#addAffiliateModal').on('shown.bs.modal', function (e) {
+		$('#affiliateCodeInput').focus();
+	});
+
+	$("#affiliateInput").on("select2-close", function(e) {
+		$('#addAffiliateModal').modal('show');
 	});
 };

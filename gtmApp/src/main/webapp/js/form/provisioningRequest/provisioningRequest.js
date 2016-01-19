@@ -118,7 +118,7 @@ var ProvisioningRequest = function() {
 			}
 		});
 	}
-	
+
 	$("#affiliateInput").select2({
 		//allowClear: true,
 	    placeholder: "Buscar afiliado...",
@@ -145,21 +145,21 @@ var ProvisioningRequest = function() {
 	        },
 	        results: function (data, page, query) {
 	        	var more = (data.length == 10); // whether or not there are more results available
-	 
+
 	        	var parsedResults = [];
-	        	
+
 	        	$.each(data, function(index, value) {
 	        		parsedResults.push({
-	                    id: value.id, 
+	                    id: value.id,
 	                    text:  value.code + "-" + value.name + " " + value.surname
 	                });
 	        	});
-	        	
+
 	            // notice we return the value of more so Select2 knows if more results can be loaded
 	            return { results: parsedResults, more: more };
 	        }
 	    },
-	    formatResult: function(data) { 
+	    formatResult: function(data) {
 	        return "<div class='select2-user-result'>" + data.text + "</div>"; 
 	    },
 	    formatSelection: function(data) {
@@ -168,13 +168,14 @@ var ProvisioningRequest = function() {
 	}).select2('val', []);
 	
 	$("#affiliateInput").select2("enable", false);
-	
+
 	$('.select2-input').on('keydown', function(e) {
-		   if(e.keyCode === 121) {
-			   cleanAddAffiliateModal();
-				$('#addAffiliateModal').modal('show');
-		   }
-		});
+		if(e.keyCode === 121) {
+			cleanAddAffiliateModal();
+			e.preventDefault();
+			$("#affiliateInput").select2("close");
+		}
+	});
 
 	$('#deliveryDateButton').click(function() {
 		$("#deliveryDateInput").datepicker().focus();
@@ -478,7 +479,7 @@ var ProvisioningRequest = function() {
 		}*/
 	});
 
-	$('#clientInput').on('change', function(evt, params) {
+	 $('#clientInput').on('change', function(evt, params) {
 		if ($("#clientInput").val() == "") {
 			$("#affiliateInput").select2("enable", false);
 		} else {
@@ -547,5 +548,13 @@ var ProvisioningRequest = function() {
 		} else {
 			return event.keyCode != 13;
 		}
+	});
+
+	$('#addAffiliateModal').on('shown.bs.modal', function (e) {
+		$('#affiliateCodeInput').focus();
+	});
+
+	$("#affiliateInput").on("select2-close", function(e) {
+		$('#addAffiliateModal').modal('show');
 	});
 };
