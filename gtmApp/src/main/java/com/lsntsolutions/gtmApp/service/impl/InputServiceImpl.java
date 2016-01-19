@@ -434,8 +434,10 @@ public class InputServiceImpl implements InputService {
 				result.setCodigoTransaccion(providerSerializedResult.getCodigoTransaccion());
 				result.setProviderSerializedInform(true);
 			}
-			input.setInformed(true);
-			this.saveAndUpdateStock(input);
+			if(!input.isInformed()){
+				input.setInformed(true);
+				this.saveAndUpdateStock(input);
+			}
 			result.setResultado(true);
 		}else{
 			result.setResultado(false);

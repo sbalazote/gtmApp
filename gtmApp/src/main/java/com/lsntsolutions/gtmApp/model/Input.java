@@ -310,4 +310,8 @@ public class Input implements Serializable {
 	public void setSelfSerializedTransactionCodeANMAT(String selfSerializedTransactionCodeANMAT) {
 		this.selfSerializedTransactionCodeANMAT = selfSerializedTransactionCodeANMAT;
 	}
+
+	public boolean isInformed() {
+		return informed;
+	}
 }
