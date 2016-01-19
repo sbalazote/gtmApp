@@ -14,7 +14,7 @@ public interface UserDAO {
 
 	Boolean exists(String name);
 
-	List<User> getForAutocomplete(String term, Boolean active);
+	List<User> getForAutocomplete(String searchPhrase, Boolean active, String sortId, String sortName, String sortIsActive, String sortProfile);
 
 	List<User> getAll();
 

@@ -15,7 +15,7 @@ public interface UserService {
 
 	Boolean exists(String name);
 
-	List<User> getForAutocomplete(String term, Boolean active);
+	List<User> getForAutocomplete(String searchPhrase, Boolean active, String sortId, String sortName, String sortActive, String sortProfile);
 
 	boolean delete(Integer userId);
 

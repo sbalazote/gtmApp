@@ -50,7 +50,7 @@ public class UsersExcelView extends AbstractExcelView {
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
-		cell.setCellValue("CONTRASENIA");
+		cell.setCellValue("PERFIL");
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
@@ -62,7 +62,7 @@ public class UsersExcelView extends AbstractExcelView {
 			c = 0;
 			row.createCell(c++).setCellValue(user.getId());
 			row.createCell(c++).setCellValue(user.getName());
-			row.createCell(c++).setCellValue(user.getPassword());
+			row.createCell(c++).setCellValue(user.getProfile().getDescription());
 			row.createCell(c++).setCellValue(user.isActive());
 
 		}

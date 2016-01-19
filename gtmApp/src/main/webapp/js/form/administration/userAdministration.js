@@ -77,7 +77,6 @@ $(document).ready(function() {
 	
 	var usersTable = $("#usersTable").bootgrid({
 		columnSelection: false,
-		sorting: false,
 	    ajax: true,
 	    requestHandler: function (request) {
 	    	return request; 
@@ -118,10 +117,9 @@ $(document).ready(function() {
 			$('#userModal').modal('show');
 		});
 	});
-	
-	var exportHTML = exportTableHTML("./rest/users");
-	$(".search").before(exportHTML);
-	
+
+	$('div#user .search').before(exportQueryTableHTML("./rest/users", '&searchPhrase=' + $('div#user .search-field').val()));
+
 	$("#deleteEntityButton").click(function() {
 		deleteUser(userId);
 	});

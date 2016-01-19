@@ -92,17 +92,17 @@ public class UsersPdfView extends AbstractPdfView {
 				//Encabezado
 				PdfPCell userIdHeader = new PdfPCell(new Paragraph("ID", fontHeader));
 				PdfPCell userNameHeader = new PdfPCell(new Paragraph("NOMBRE", fontHeader));
-				PdfPCell userPasswordHeader = new PdfPCell(new Paragraph("CONTRASEÑA", fontHeader));
+				PdfPCell userProfileHeader = new PdfPCell(new Paragraph("PERFIL", fontHeader));
 				PdfPCell userActiveHeader = new PdfPCell(new Paragraph("ACTIVO", fontHeader));
 
 				userIdHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 				userNameHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
-				userPasswordHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+				userProfileHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 				userActiveHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 
 				table.addCell(userIdHeader);
 				table.addCell(userNameHeader);
-				table.addCell(userPasswordHeader);
+				table.addCell(userProfileHeader);
 				table.addCell(userActiveHeader);
 				document.add(table);
 				table.flushContent();
@@ -138,17 +138,17 @@ public class UsersPdfView extends AbstractPdfView {
 
 			PdfPCell userIdDetail = new PdfPCell(new Paragraph(user.getId().toString(), fontDetails));
 			PdfPCell userNameDetail = new PdfPCell(new Paragraph(user.getName(), fontDetails));
-			PdfPCell userPasswordDetail = new PdfPCell(new Paragraph(user.getPassword(), fontDetails));
+			PdfPCell userProfileDetail = new PdfPCell(new Paragraph(user.getProfile().getDescription(), fontDetails));
 			PdfPCell userActiveDetail = new PdfPCell(new Paragraph(user.isActive() ? "SI" : "NO", fontDetails));
 
 			userIdDetail.setBorder(Rectangle.NO_BORDER);
 			userNameDetail.setBorder(Rectangle.NO_BORDER);
-			userPasswordDetail.setBorder(Rectangle.NO_BORDER);
+			userProfileDetail.setBorder(Rectangle.NO_BORDER);
 			userActiveDetail.setBorder(Rectangle.NO_BORDER);
 
 			table.addCell(userIdDetail);
 			table.addCell(userNameDetail);
-			table.addCell(userPasswordDetail);
+			table.addCell(userProfileDetail);
 			table.addCell(userActiveDetail);
 			document.add(table);
 			table.flushContent();

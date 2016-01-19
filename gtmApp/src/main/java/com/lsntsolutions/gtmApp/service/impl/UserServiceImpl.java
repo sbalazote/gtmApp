@@ -44,8 +44,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getForAutocomplete(String term, Boolean active) {
-		return this.userDAO.getForAutocomplete(term, active);
+	public List<User> getForAutocomplete(String searchPhrase, Boolean active, String sortId, String sortName, String sortActive, String sortProfile) {
+		return this.userDAO.getForAutocomplete(searchPhrase, active, sortId,sortName ,sortActive ,sortProfile );
 	}
 
 	@Override

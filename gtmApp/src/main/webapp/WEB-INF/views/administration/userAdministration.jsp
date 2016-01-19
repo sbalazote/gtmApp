@@ -27,18 +27,19 @@
 </div>
 
 <br>
-<table id="usersTable" class="table table-condensed table-hover table-striped">
-	<thead>
-		<tr>
-			<th data-column-id="id" data-type="numeric"><spring:message code="common.id" /></th>
-			<th data-column-id="name"><spring:message code="common.entity.name" /></th>
-			<th data-column-id="password"><spring:message code="common.password" /></th>
-			<th data-column-id="isActive"><spring:message code="common.active" /></th>
-			<th data-column-id="profile"><spring:message code="common.profile" /></th>
-			<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
-		</tr>
-	</thead>
-</table>
+<div id="user">
+	<table id="usersTable" class="table table-condensed table-hover table-striped">
+		<thead>
+			<tr>
+				<th data-column-id="id" data-type="numeric"><spring:message code="common.id" /></th>
+				<th data-column-id="name"><spring:message code="common.entity.name" /></th>
+				<th data-column-id="isActive"><spring:message code="common.active" /></th>
+				<th data-column-id="profile"><spring:message code="common.profile" /></th>
+				<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
+			</tr>
+		</thead>
+	</table>
+</div>
 
 <%-- Confirmaci�n de que se borrar� definitivamente --%>
 <div class="modal fade" data-backdrop="static" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

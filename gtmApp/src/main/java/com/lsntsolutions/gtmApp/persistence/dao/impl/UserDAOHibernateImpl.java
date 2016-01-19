@@ -3,9 +3,13 @@ package com.lsntsolutions.gtmApp.persistence.dao.impl;
 import java.util.List;
 
 import com.lsntsolutions.gtmApp.persistence.dao.UserDAO;
+import com.lsntsolutions.gtmApp.util.StringUtility;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -47,18 +51,48 @@ public class UserDAOHibernateImpl implements UserDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> getForAutocomplete(String term, Boolean active) {
-		String sentence = "from User where (name like :name";
-		sentence += ")";
-
-		if (active != null && Boolean.TRUE.equals(active)) {
-			sentence += " and active = true";
+	public List<User> getForAutocomplete(String searchPhrase, Boolean active, String sortId, String sortName, String sortIsActive, String sortProfile) {
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(User.class, "user");
+		criteria.createAlias("user.profile", "profile");
+		if (StringUtility.isInteger(searchPhrase)) {
+			criteria.add(Restrictions.or(Restrictions.ilike("id", searchPhrase, MatchMode.ANYWHERE), Restrictions.ilike("code", searchPhrase, MatchMode.ANYWHERE)));
+		} else {
+			criteria.add(Restrictions.or(Restrictions.ilike("name", searchPhrase, MatchMode.ANYWHERE), Restrictions.ilike("profile.description", searchPhrase, MatchMode.ANYWHERE)));
 		}
 
-		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
-		query.setParameter("name", "%" + term + "%");
+		if (active != null && Boolean.TRUE.equals(active)) {
+			criteria.add(Restrictions.eq("active", "true"));
+		}
 
-		return query.list();
+		if (sortId != null) {
+			if (sortId.equals("asc")) {
+				criteria.addOrder(Order.asc("id"));
+			} else {
+				criteria.addOrder(Order.desc("id"));
+			}
+		} else if (sortName != null) {
+			if (sortName.equals("asc")) {
+				criteria.addOrder(Order.asc("name"));
+			} else {
+				criteria.addOrder(Order.desc("name"));
+			}
+		}  else if (sortIsActive != null) {
+			if (sortIsActive.equals("asc")) {
+				criteria.addOrder(Order.asc("active"));
+			} else {
+				criteria.addOrder(Order.desc("active"));
+			}
+		}else if (sortProfile != null) {
+				if (sortProfile.equals("asc")) {
+					criteria.addOrder(Order.asc("profile.description"));
+				} else {
+					criteria.addOrder(Order.desc("profile.description"));
+				}
+		}else {
+			criteria.addOrder(Order.asc("id"));
+		}
+
+		return (List<User>) criteria.list();
 	}
 
 	@SuppressWarnings("unchecked")

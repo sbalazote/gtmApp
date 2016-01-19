@@ -36,7 +36,7 @@ public class UserAdministrationController {
 		if (searchPhrase.matches("")) {
 			return new ModelAndView("users", "users", this.userService.getAll());
 		} else {
-			return new ModelAndView("users", "users", this.userService.getForAutocomplete(searchPhrase, null));
+			return new ModelAndView("users", "users", this.userService.getForAutocomplete(searchPhrase, null,null ,null ,null ,null ));
 		}
 	}
 
@@ -105,18 +105,18 @@ public class UserAdministrationController {
 		int length = rowCount;
 		long total;
 
+		String sortId = parametersMap.get("sort[id]");
+		String sortName = parametersMap.get("sort[name]");
+		String sortActive = parametersMap.get("sort[isActive]");
+		String sortProfile = parametersMap.get("sort[profile]");
+
 		List<User> listUsers;
-		if (searchPhrase.matches("")) {
-			listUsers = this.userService.getPaginated(start, length);
-			total = this.userService.getTotalNumber();
-		} else {
-			listUsers = this.userService.getForAutocomplete(searchPhrase, null);
-			total = listUsers.size();
-			if (total < start + length) {
-				listUsers = listUsers.subList(start, (int) total);
-			} else {
-				listUsers = listUsers.subList(start, start + length);
-			}
+		listUsers = this.userService.getForAutocomplete(searchPhrase, null,sortId ,sortName ,sortActive ,sortProfile );
+		total = listUsers.size();
+		if (total < start + length) {
+			listUsers = listUsers.subList(start, (int) total);
+		} else if(length > 0) {
+			listUsers = listUsers.subList(start, start + length);
 		}
 
 		for (User user : listUsers) {
@@ -124,7 +124,6 @@ public class UserAdministrationController {
 
 			dataJson.put("id", user.getId());
 			dataJson.put("name", user.getName());
-			dataJson.put("password", user.getPassword());
 			dataJson.put("isActive", user.isActive() == true ? "Si" : "No");
 			dataJson.put("profile", user.getProfile().getDescription());
 			jsonArray.put(dataJson);
