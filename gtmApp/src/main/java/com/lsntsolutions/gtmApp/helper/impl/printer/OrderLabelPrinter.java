@@ -151,7 +151,7 @@ public class OrderLabelPrinter implements ServletContextAware {
 			overContent.restoreState();
 
 			overContent.setFontAndSize(timesHelveticaBaseFont, 8.0f);
-			overContent.showTextAligned(PdfContentByte.ALIGN_CENTER, corporateName, 35.0f * 2.8346f, (297.0f - 15.0f - Y_OFFSET) * 2.8346f, 0);
+			overContent.showTextAligned(PdfContentByte.ALIGN_CENTER, order.getAgreement().getDescription(), 35.0f * 2.8346f, (297.0f - 15.0f - Y_OFFSET) * 2.8346f, 0);
 
 			overContent.saveState();
 			overContent.setLineWidth(0.05f);
