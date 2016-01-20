@@ -509,6 +509,23 @@ $(document).ready(function() {
 	};
 
 	var populateOrderModal = function (response) {
+
+		var deliveriesNotesNumbers = [];
+		$.ajax({
+			url: "getOrdersDeliveriesNoteNumbers.do",
+			type: "GET",
+			async: false,
+			data: {
+				orderId: response.id
+			},
+			success: function (res) {
+				deliveriesNotesNumbers = res;
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				myGenericError();
+			}
+		});
+
 		var provisioningId = addLeadingZeros(response.provisioningRequest.id,8);
 		$("#provisioningId").text("Numero Pedido: " + provisioningId);
 
@@ -516,6 +533,17 @@ $(document).ready(function() {
 			$("#orderCancelled").show();
 		} else {
 			$("#orderCancelled").hide();
+		}
+
+		if(deliveriesNotesNumbers.length > 0){
+			$("#orderDeliveriesNotesLabel").show();
+			$("#orderDeliveriesNotesNumbers").html("");
+			$.each(deliveriesNotesNumbers, function( index, value ) {
+				$("#orderDeliveriesNotesNumbers").append("<span class=\"label label-info\">" + value + "</span> ");
+			});
+		} else {
+			$("#orderDeliveriesNotesLabel").hide();
+			$("#orderDeliveriesNotesNumbers").html("");
 		}
 
 		$('#orderModalDeliveryLocationInput').val(response.provisioningRequest.deliveryLocation.code + " - " + response.provisioningRequest.deliveryLocation.name);

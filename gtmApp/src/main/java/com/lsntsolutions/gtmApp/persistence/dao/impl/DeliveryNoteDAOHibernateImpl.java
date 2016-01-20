@@ -599,4 +599,18 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
             return null;
         }
     }
+
+	@Override
+	public List<String> getOrdersDeliveriesNoteNumbers(Integer orderId){
+		try {
+			String sentence = "select distinct concat(case fake when true THEN 'X' when false then 'R' END, dn.number) " +
+					"from order_detail as od, delivery_note_detail as dnd, delivery_note as dn, `order` as o " +
+					"where od.id = dnd.order_detail_id and dn.id = dnd.delivery_note_id and od.order_id = o.id and o.id ="
+					+ orderId;
+			Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+			return query.list();
+		} catch (IndexOutOfBoundsException e) {
+			return null;
+		}
+	}
 }

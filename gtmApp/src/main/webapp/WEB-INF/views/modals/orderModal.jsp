@@ -65,7 +65,13 @@
 						</div>
 					</div>
 
-					<br>
+					<div class="row">
+						<div class="col-md-12 col-lg-12 form-group">
+							<br>
+							<h4 id="orderDeliveriesNotesLabel" style="display: none"><label><spring:message code="common.deliveryNotes"/></label></h4>
+							<h3 id="orderDeliveriesNotesNumbers"></h3>
+						</div>
+					</div>
 
 					<div>
 						<table id="orderModalProductTable" class="table table-condensed table-hover table-striped">

@@ -45,6 +45,8 @@ public class OrderController {
 	private ClientService clientService;
 	@Autowired
 	private PropertyService propertyService;
+	@Autowired
+	private DeliveryNoteService deliveryNoteService;
 
 	@RequestMapping(value = "/orderAssembly", method = RequestMethod.GET)
 	public String orderAssembly(ModelMap modelMap, @RequestParam Map<String, String> parameters) throws Exception {
@@ -167,5 +169,11 @@ public class OrderController {
 		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAll());
 		modelMap.put("clients", this.clientService.getAllActives());
 		return "logisticOperatorAssignment";
+	}
+
+	@RequestMapping(value = "/getOrdersDeliveriesNoteNumbers", method = RequestMethod.GET)
+	public @ResponseBody
+	List<String> getOrdersDeliveriesNoteNumbers(@RequestParam Integer orderId) {
+		return this.deliveryNoteService.getOrdersDeliveriesNoteNumbers(orderId);
 	}
 }

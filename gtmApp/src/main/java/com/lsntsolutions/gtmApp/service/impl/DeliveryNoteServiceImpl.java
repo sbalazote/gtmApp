@@ -221,4 +221,9 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	public List<String> getOutputsDeliveriesNoteNumbers(Integer outputId){
 		return this.deliveryNoteDAO.getOutputsDeliveriesNoteNumbers(outputId);
 	}
+
+	@Override
+	public List<String> getOrdersDeliveriesNoteNumbers(Integer orderId){
+		return this.deliveryNoteDAO.getOrdersDeliveriesNoteNumbers(orderId);
+	}
 }

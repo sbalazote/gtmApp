@@ -7,7 +7,6 @@ import com.lsntsolutions.gtmApp.model.Supplying;
 import com.lsntsolutions.gtmApp.query.DeliveryNoteQuery;
 import com.lsntsolutions.gtmApp.util.OperationResult;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,4 +55,6 @@ public interface DeliveryNoteService {
 	List<String> getSupplyingsDeliveriesNoteNumbers(Integer supplyingId);
 
 	List<String> getOutputsDeliveriesNoteNumbers(Integer supplyingId);
+
+	List<String> getOrdersDeliveriesNoteNumbers(Integer orderId);
 }

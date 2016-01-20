@@ -46,4 +46,6 @@ public interface DeliveryNoteDAO {
 	List<String> getSupplyingsDeliveriesNoteNumbers(Integer supplyingId);
 
     List<String> getOutputsDeliveriesNoteNumbers(Integer outputId);
+
+	List<String> getOrdersDeliveriesNoteNumbers(Integer orderId);
 }
