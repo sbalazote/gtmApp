@@ -3,9 +3,12 @@ package com.lsntsolutions.gtmApp.persistence.dao.impl;
 import java.util.List;
 
 import com.lsntsolutions.gtmApp.model.Client;
+import com.lsntsolutions.gtmApp.model.DeliveryLocation;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -95,5 +98,14 @@ public class ClientDAOHibernateImpl implements ClientDAO {
 	public Long getTotalNumber() {
 		Long count = (Long) this.sessionFactory.getCurrentSession().createQuery("select count(*) from Client").uniqueResult();
 		return count;
+	}
+
+	@Override
+	public List<DeliveryLocation> getDeliveriesLocations(Integer clientId) {
+		String sentence = "select distinct dl from Client as c inner join c.deliveryLocations dl where c.id = :clientId order by dl.name";
+
+		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
+		query.setParameter("clientId", clientId);
+		return query.list();
 	}
 }

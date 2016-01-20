@@ -3,6 +3,7 @@ package com.lsntsolutions.gtmApp.persistence.dao;
 import java.util.List;
 
 import com.lsntsolutions.gtmApp.model.Client;
+import com.lsntsolutions.gtmApp.model.DeliveryLocation;
 
 public interface ClientDAO {
 
@@ -23,4 +24,6 @@ public interface ClientDAO {
 	List<Client> getPaginated(int start, int length);
 
 	Long getTotalNumber();
+
+	public List<DeliveryLocation> getDeliveriesLocations(Integer clientId);
 }

@@ -3,6 +3,7 @@ package com.lsntsolutions.gtmApp.service;
 import java.util.List;
 
 import com.lsntsolutions.gtmApp.model.Client;
+import com.lsntsolutions.gtmApp.model.DeliveryLocation;
 
 public interface ClientService {
 
@@ -23,4 +24,6 @@ public interface ClientService {
 	List<Client> getPaginated(int start, int length);
 
 	Long getTotalNumber();
+
+	List<DeliveryLocation> getDeliveriesLocations(Integer clientId);
 }

@@ -3,6 +3,7 @@ package com.lsntsolutions.gtmApp.service.impl;
 import java.util.List;
 
 import com.lsntsolutions.gtmApp.model.Client;
+import com.lsntsolutions.gtmApp.model.DeliveryLocation;
 import com.lsntsolutions.gtmApp.service.ClientService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,5 +65,10 @@ public class ClientServiceImpl implements ClientService {
 	@Override
 	public Long getTotalNumber() {
 		return this.clientDAO.getTotalNumber();
+	}
+
+	@Override
+	public List<DeliveryLocation> getDeliveriesLocations(Integer clientId) {
+		return this.clientDAO.getDeliveriesLocations(clientId);
 	}
 }

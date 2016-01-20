@@ -57,7 +57,7 @@ public class ClientAdministrationController {
 	@RequestMapping(value = "/clientAdministration", method = RequestMethod.GET)
 	public String clientAdministration(ModelMap modelMap) throws Exception {
 		modelMap.put("provinces", this.provinceService.getAll());
-		modelMap.put("deliveryLocations", this.deliveryLocationService.getAll());
+		modelMap.put("deliveryLocations", this.deliveryLocationService.getAllActives());
 		modelMap.put("VATLiabilities", this.VATLiabilityService.getAll());
 		return "clientAdministration";
 	}
@@ -160,7 +160,8 @@ public class ClientAdministrationController {
 		Client client = this.clientService.get(clientId);
 		List<DeliveryLocation> deliveryLocations = new ArrayList<>();
 		if(client != null) {
-			deliveryLocations = this.clientService.get(clientId).getDeliveryLocations();
+			deliveryLocations = this.clientService.getDeliveriesLocations(clientId);
+			//deliveryLocations = this.clientService.get(clientId).getDeliveryLocations();
 		}
 		return deliveryLocations;
 	}

@@ -104,7 +104,7 @@ public class DeliveryLocationDAOHibernateImpl implements DeliveryLocationDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<DeliveryLocation> getAllActives() {
-		return this.sessionFactory.getCurrentSession().createQuery("from DeliveryLocation where active = true").list();
+		return this.sessionFactory.getCurrentSession().createCriteria(DeliveryLocation.class).add(Restrictions.eq("active", true)).addOrder(Order.asc("name")).list();
 	}
 
 	@Override
