@@ -254,7 +254,12 @@ ProviderSerialized = function() {
 							
 							readSerialNumber.val("");
 							formValidator.resetForm();
-							
+
+							/*readSerialNumber.data("title", "").removeClass("has-error").tooltip("destroy");
+							$("#providerSerializedBatchInput").data("title", "").removeClass("has-error").tooltip("destroy");
+							$("#providerSerializedExpirationDateInput").data("title", "").removeClass("has-error").tooltip("destroy");*/
+
+
 							readSerialNumber.focus();
 						} else {
 							if (batch == "") {

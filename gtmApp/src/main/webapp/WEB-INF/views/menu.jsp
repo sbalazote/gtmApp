@@ -98,9 +98,9 @@
 						<sec:authorize access="hasRole('ORDER_ASSEMBLY')">
 							<li><a href="orderAssemblySelection.do"><spring:message code="common.assembly" /></a></li>
 						</sec:authorize>
-<%--						<sec:authorize access="hasRole('ORDER_ASSEMBLY')">
+						<sec:authorize access="hasRole('ORDER_ASSEMBLY')">
 							<li><a href="batchExpirationDateOrderAssemblySearch.do"><spring:message code="common.assemblyBatchExpirationDate" /></a></li>
-						</sec:authorize>--%>
+						</sec:authorize>
 						<sec:authorize access="hasRole('LOGISTIC_OPERATOR_ASSIGNMENT')">
 							<li><a href="logisticOperatorAssignment.do"><spring:message code="common.logisticOperatorAssingment" /></a></li>
 						</sec:authorize>
