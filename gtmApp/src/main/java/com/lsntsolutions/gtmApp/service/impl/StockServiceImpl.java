@@ -152,15 +152,19 @@ public class StockServiceImpl implements StockService {
 			if (amount == stock.getAmount()) {
 				this.stockDAO.delete(batchExpirationDateStock);
 				return;
-			} else if (amount < 0) {
+			} else if (amount < stock.getAmount()) {
 				throw new RuntimeException("Stock insuficiente del producto con lote '" + stock.getBatch() + "', vencimiento '" + stock.getExpirationDate()
 						+ "' y id '" + stock.getProduct().getId() + "'. Stock disponible: " + batchExpirationDateStock.getAmount() + " - Stock solicitado: "
 						+ stock.getAmount());
 			}
 			amount -= stock.getAmount();
 
-			batchExpirationDateStock.setAmount(amount);
-			this.stockDAO.save(batchExpirationDateStock);
+			if(amount == 0){
+				this.stockDAO.delete(batchExpirationDateStock);
+			}else{
+				batchExpirationDateStock.setAmount(amount);
+				this.stockDAO.save(batchExpirationDateStock);
+			}
 
 		} else {
 			throw new RuntimeException("No existe un registro de stock para el producto con lote '" + stock.getBatch() + "', vencimiento '"
