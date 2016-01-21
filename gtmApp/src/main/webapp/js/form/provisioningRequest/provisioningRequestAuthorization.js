@@ -73,6 +73,7 @@ ProvisioningRequestAuthorization = function() {
 	});
 	
 	$("#confirmButton").click(function() {
+		requestsToApprove = jQuery.unique(requestsToApprove);
 		if(requestsToApprove.length > 0){
 			$.ajax({
 				url: "authorizeProvisioningRequests.do",

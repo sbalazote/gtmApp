@@ -57,9 +57,15 @@
         <div class="modal-content">
             <div class="modal-body">
                 <strong><span style="color:red"><spring:message code="input.forcedInput.confirmationDefinitelyModal.text"/></span></strong>
-                <div row="class">
-                    <label for="transactionCodeInput"><spring:message code="input.forcedInput.transactionCode"/></label>
-                    <input type="text" class="form-control" name="transactionCode" id="transactionCodeInput"/>
+                <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                        <label for="selfSerializedTransactionCodeInput"><spring:message code="input.forcedInput.selfSerializedTransactionCode"/></label>
+                        <input type="text" class="form-control" name="selfSerializedTransactionCode" id="selfSerializedTransactionCodeInput"/>
+                    </div>
+                    <div class="col-md-12 col-lg-12">
+                        <label for="transactionCodeInput"><spring:message code="input.forcedInput.transactionCode"/></label>
+                        <input type="text" class="form-control" name="transactionCode" id="transactionCodeInput"/>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

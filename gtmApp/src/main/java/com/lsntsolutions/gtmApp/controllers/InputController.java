@@ -228,12 +228,14 @@ public class InputController {
 
 	@RequestMapping(value = "/forceInputDefinitely", method = RequestMethod.POST)
 	public @ResponseBody
-	void forceInputDefinitely(@RequestParam Integer inputId, String transactionCode) throws Exception {
+	void forceInputDefinitely(@RequestParam Integer inputId, String transactionCode, String selfSerializedTransactionCode) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Input input = this.inputService.get(inputId);
 		input.setForcedInput(true);
         transactionCode = (transactionCode == "") ? null : transactionCode;
+		selfSerializedTransactionCode = (selfSerializedTransactionCode == "") ? null : selfSerializedTransactionCode;
 		input.setTransactionCodeANMAT(transactionCode);
+		input.setSelfSerializedTransactionCodeANMAT(selfSerializedTransactionCode);
 		this.inputService.save(input);
 		if (auth != null) {
 			this.auditService.addAudit(auth.getName(), RoleOperation.INPUT_AUTHORIZATION.getId(), AuditState.AUTHORITED, inputId);
