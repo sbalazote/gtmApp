@@ -209,7 +209,7 @@ SearchStock = function() {
 		
 		$('#serialNumberSearch').val('');
 		$('#batchNumberSearch').val('');
-		refreshTable();
+		$("#stockTable").bootgrid("destroy");
 	});
 	
 	$("#searchButton").click(function() {
