@@ -120,6 +120,9 @@ public class PropertyDTO implements Serializable {
 	private Integer numberOfItemsX;
 	private Integer numberOfItemsY;
 	private Boolean numberOfItemsPrint;
+	private Integer logisticsOperatorX;
+	private Integer logisticsOperatorY;
+	private Boolean logisticsOperatorPrint;
 
 	public Integer getId() {
 		return this.id;
@@ -1021,5 +1024,29 @@ public class PropertyDTO implements Serializable {
 
 	public void setNumberOfItemsPrint(Boolean numberOfItemsPrint) {
 		this.numberOfItemsPrint = numberOfItemsPrint;
+	}
+
+	public Integer getLogisticsOperatorX() {
+		return logisticsOperatorX;
+	}
+
+	public void setLogisticsOperatorX(Integer logisticsOperatorX) {
+		this.logisticsOperatorX = logisticsOperatorX;
+	}
+
+	public Integer getLogisticsOperatorY() {
+		return logisticsOperatorY;
+	}
+
+	public void setLogisticsOperatorY(Integer logisticsOperatorY) {
+		this.logisticsOperatorY = logisticsOperatorY;
+	}
+
+	public Boolean getLogisticsOperatorPrint() {
+		return logisticsOperatorPrint;
+	}
+
+	public void setLogisticsOperatorPrint(Boolean logisticsOperatorPrint) {
+		this.logisticsOperatorPrint = logisticsOperatorPrint;
 	}
 }

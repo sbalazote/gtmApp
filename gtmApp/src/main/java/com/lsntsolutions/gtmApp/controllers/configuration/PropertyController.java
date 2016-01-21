@@ -172,6 +172,10 @@ public class PropertyController {
 		deliveryNoteConfigServiceAll.put(DeliveryNoteConfigParam.NUMBEROFITEMS_Y.name(), propertyDTO.getNumberOfItemsY());
 		deliveryNoteConfigServiceAll.put(DeliveryNoteConfigParam.NUMBEROFITEMS_PRINT.name(), propertyDTO.getNumberOfItemsPrint() ? 1 : 0);
 
+		deliveryNoteConfigServiceAll.put(DeliveryNoteConfigParam.LOGISTICS_OPERATOR_X.name(), propertyDTO.getLogisticsOperatorX());
+		deliveryNoteConfigServiceAll.put(DeliveryNoteConfigParam.LOGISTICS_OPERATOR_Y.name(), propertyDTO.getLogisticsOperatorY());
+		deliveryNoteConfigServiceAll.put(DeliveryNoteConfigParam.LOGISTICS_OPERATOR_PRINT.name(), propertyDTO.getLogisticsOperatorPrint() ? 1 : 0);
+
 		deliveryNoteConfigService.saveAll(deliveryNoteConfigServiceAll);
 	}
 	
@@ -406,6 +410,10 @@ public class PropertyController {
 		modelMap.put("numberOfItemsX", deliveryNoteConfigServiceAll.get(DeliveryNoteConfigParam.NUMBEROFITEMS_X.name()));
 		modelMap.put("numberOfItemsY", deliveryNoteConfigServiceAll.get(DeliveryNoteConfigParam.NUMBEROFITEMS_Y.name()));
 		modelMap.put("numberOfItemsPrint", deliveryNoteConfigServiceAll.get(DeliveryNoteConfigParam.NUMBEROFITEMS_PRINT.name()));
+
+		modelMap.put("logisticsOperatorX", deliveryNoteConfigServiceAll.get(DeliveryNoteConfigParam.LOGISTICS_OPERATOR_X.name()));
+		modelMap.put("logisticsOperatorY", deliveryNoteConfigServiceAll.get(DeliveryNoteConfigParam.LOGISTICS_OPERATOR_Y.name()));
+		modelMap.put("logisticsOperatorPrint", deliveryNoteConfigServiceAll.get(DeliveryNoteConfigParam.LOGISTICS_OPERATOR_PRINT.name()));
 
 		return "updateProperty";
 	}

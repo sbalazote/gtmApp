@@ -123,3 +123,7 @@ INSERT INTO `delivery_note_config` VALUES (80, 'SERIAL_COLUMN4_PRINT', 1);
 INSERT INTO `delivery_note_config` VALUES (81, 'NUMBEROFITEMS_X', 10);
 INSERT INTO `delivery_note_config` VALUES (82, 'NUMBEROFITEMS_Y', 270);1
 INSERT INTO `delivery_note_config` VALUES (83, 'NUMBEROFITEMS_PRINT', 1);
+
+INSERT INTO `delivery_note_config` VALUES (84, 'LOGISTICS_OPERATOR_X', 10);
+INSERT INTO `delivery_note_config` VALUES (85, 'LOGISTICS_OPERATOR_Y', 280);
+INSERT INTO `delivery_note_config` VALUES (86, 'LOGISTICS_OPERATOR_PRINT', 1);

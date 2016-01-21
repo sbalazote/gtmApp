@@ -627,6 +627,18 @@
 							</span>
 						</div>
 					</div>
+					<div class="col-md-4 col-lg-4 form-group">
+						<label><spring:message code="configuration.logisticsOperator"/></label>
+						<div class="input-group">
+							<span class="input-group-addon"><spring:message code="configuration.positionX"/></span>
+							<input type="text" class="form-control" id="logisticsOperatorXInput" name="logisticsOperatorX" value="${logisticsOperatorX}">
+							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
+							<input type="text" class="form-control" id="logisticsOperatorYInput" name="logisticsOperatorY" value="${logisticsOperatorY}">
+							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
+								<input type="checkbox" id="logisticsOperatorPrintInput" name="logisticsOperatorPrint" ${logisticsOperatorPrint == '1' ? 'checked' : ''}>
+							</span>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

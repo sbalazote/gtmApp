@@ -51,7 +51,6 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
     private ProvisioningRequestService provisioningRequestService;
 
     private Document document;
-    private ByteArrayOutputStream out;
     private PdfWriter writer;
     private int totalItems;
     private Date currentDate;
@@ -59,7 +58,6 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
     private DeliveryNote deliveryNote;
     private List<DeliveryNoteDetail> deliveryNoteDetails;
     private List<String> printsNumbers;
-    private String userName;
     private Property property;
     private int offsetY;
     private PdfContentByte overContent;
@@ -67,7 +65,6 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
     private Map<String, Float> dnConfigMap;
     private boolean printHeader;
     private Concept deliveryNoteConcept;
-    private Integer deliveryNoteNumbersRequired;
     int PRODUCT_DETAIL_HEADER_LINE_OFFSET_Y = 10;
     int SERIAL_DETAIL_LINE_OFFSET_Y = 10;
     int PRODUCT_BATCH_EXPIRATIONDATE_HEADER_LINE_OFFSET_Y = 10;
@@ -111,22 +108,26 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         return detailsMap;
     }
 
-    public void printFooter(int amount) {
+    private void printFooter(int amount, LogisticsOperator logisticsOperator) {
         overContent.saveState();
 
         // seteo el tipo de fuente.
         try {
             bf = BaseFont.createFont(BaseFont.TIMES_BOLD, BaseFont.WINANSI, false);
             overContent.setFontAndSize(bf, dnConfigMap.get(DeliveryNoteConfigParam.FONT_SIZE.name()));
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (DocumentException | IOException e) {
+            logger.error(e.getMessage());
         }
 
         // imprimo Cantidad de Items para el remito.
         overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.NUMBEROFITEMS_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.NUMBEROFITEMS_Y.name()));
         overContent.showText(dnConfigMap.get(DeliveryNoteConfigParam.NUMBEROFITEMS_PRINT.name()) == 1 ? ("Items: " + amount) : "");
+
+        // imprimo Razon Social y CUIT del Operador Logistico.
+        if ((dnConfigMap.get(DeliveryNoteConfigParam.LOGISTICS_OPERATOR_PRINT.name()) == 1) && (logisticsOperator != null)) {
+            overContent.setTextMatrix(dnConfigMap.get(DeliveryNoteConfigParam.LOGISTICS_OPERATOR_X.name()), dnConfigMap.get(DeliveryNoteConfigParam.LOGISTICS_OPERATOR_Y.name()));
+            overContent.showText(logisticsOperator.getName() + " - " + logisticsOperator.getTaxId());
+        }
 
         overContent.restoreState();
     }
@@ -142,10 +143,8 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         try {
             bf = BaseFont.createFont(BaseFont.TIMES_BOLDITALIC, BaseFont.WINANSI, false);
             overContent.setFontAndSize(bf, dnConfigMap.get(DeliveryNoteConfigParam.FONT_SIZE.name()));
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (DocumentException | IOException e) {
+            logger.error(e.getMessage());
         }
 
         switch (orderDetails.size()) {
@@ -200,10 +199,8 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         try {
             bf = BaseFont.createFont(BaseFont.TIMES_BOLD, BaseFont.WINANSI, false);
             overContent.setFontAndSize(bf, dnConfigMap.get(DeliveryNoteConfigParam.FONT_SIZE.name()));
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (DocumentException | IOException e) {
+            logger.error(e.getMessage());
         }
 
         // imprimo descripcion.
@@ -238,10 +235,8 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         try {
             bf = BaseFont.createFont(BaseFont.TIMES_ROMAN, BaseFont.WINANSI, false);
             overContent.setFontAndSize(bf, dnConfigMap.get(DeliveryNoteConfigParam.FONT_SIZE.name()));
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (DocumentException | IOException e) {
+            logger.error(e.getMessage());
         }
 
         // imprimo GTIN.
@@ -271,7 +266,6 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         this.printOrders = printOrders;
         dnConfigMap = deliveryNoteConfigService.getAllInMillimiters();
         property = this.propertyService.get();
-        this.userName = userName;
         ProvisioningRequestState state = this.provisioningRequestStateService.get(State.DELIVERY_NOTE_PRINTED.getId());
         currentDate = new Date();
 
@@ -294,11 +288,11 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
             TreeMap<String, Integer> productsCount = countByProduct(egress.getDetails());
 
             document = new Document(PageSize.A4);
-            out = new ByteArrayOutputStream();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
             try {
                 writer = PdfWriter.getInstance(document, out);
             } catch (DocumentException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
             document.addCreationDate();
             document.addCreator("LS&T Solutions");
@@ -388,7 +382,11 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
                 previousProductId = currentProductId;
             }
 
-            printFooter(totalItems);
+            LogisticsOperator logisticsOperator = null;
+            if(printOrders){
+                logisticsOperator = ((Order) egress).getProvisioningRequest().getLogisticsOperator();
+            }
+            printFooter(totalItems, logisticsOperator);
 
             savePage(egress);
 
@@ -398,8 +396,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
             Integer currentDeliveryNoteNumber, currentDeliveryNoteNumberCopy;
             currentDeliveryNoteNumber = currentDeliveryNoteNumberCopy = deliveryNoteConcept.getDeliveryNoteEnumerator().getDeliveryNoteNumber() - deliveryNoteList.size() + 1;
             String deliveryNoteComplete;
-            for (int i = 0; i < deliveryNoteList.size(); i++) {
-                DeliveryNote dn = deliveryNoteList.get(i);
+            for (DeliveryNote dn : deliveryNoteList) {
                 deliveryNoteComplete = POS + "-" + StringUtility.addLeadingZeros(currentDeliveryNoteNumber, 8);
                 dn.setNumber(deliveryNoteComplete);
 
@@ -411,7 +408,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
                 }
 
                 logger.info("Se ha guardado el remito numero: " + currentDeliveryNoteNumber + " para " + egress.getName() + " con Id: " + egress.getId());
-                this.auditService.addAudit(this.userName, RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, dn.getId());
+                this.auditService.addAudit(userName, RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, dn.getId());
 
                 currentDeliveryNoteNumber++;
                 printsNumbers.add(dn.getNumber());
@@ -441,17 +438,13 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
                     canvas.endText();
                     currentDeliveryNoteNumberCopy++;
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (DocumentException e) {
-                e.printStackTrace();
+            } catch (IOException | DocumentException e) {
+                logger.error(e.getMessage());
             } finally {
                 try {
                     stamper.close();
-                } catch (DocumentException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (DocumentException | IOException e) {
+                    logger.error(e.getMessage());
                 }
                 reader.close();
             }
@@ -463,7 +456,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
             try {
                 pdfDocument.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
 
             // solo si se pudo imprimir correctamente seteo como impreso la solicitud asociada al armado.
@@ -567,7 +560,11 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
     }
 
     private void newPage(Egress egress) {
-        printFooter(totalItems);
+        LogisticsOperator logisticsOperator = null;
+        if(printOrders){
+            logisticsOperator = ((Order) egress).getProvisioningRequest().getLogisticsOperator();
+        }
+        printFooter(totalItems, logisticsOperator);
         document.newPage();
         printHeader(egress);
         offsetY = 0;
@@ -624,10 +621,8 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         try {
             bf = BaseFont.createFont(BaseFont.TIMES_BOLD, BaseFont.WINANSI, false);
             overContent.setFontAndSize(bf, dnConfigMap.get(DeliveryNoteConfigParam.FONT_SIZE.name()));
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (DocumentException | IOException e) {
+            logger.error(e.getMessage());
         }
 
         // imprimo fecha.
@@ -722,10 +717,8 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         try {
             bf = BaseFont.createFont(BaseFont.TIMES_BOLD, BaseFont.WINANSI, false);
             overContent.setFontAndSize(bf, dnConfigMap.get(DeliveryNoteConfigParam.FONT_SIZE.name()));
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (DocumentException | IOException e) {
+            logger.error(e.getMessage());
         }
 
         // imprimo fecha.
@@ -845,10 +838,8 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         try {
             bf = BaseFont.createFont(BaseFont.TIMES_BOLD, BaseFont.WINANSI, false);
             overContent.setFontAndSize(bf, dnConfigMap.get(DeliveryNoteConfigParam.FONT_SIZE.name()));
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (DocumentException | IOException e) {
+            logger.error(e.getMessage());
         }
 
         // imprimo fecha.
