@@ -42,8 +42,8 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public List<Profile> getForAutocomplete(String term, Boolean active) {
-        return this.profileDAO.getForAutocomplete(term, active);
+    public List<Profile> getForAutocomplete(String term, Boolean active, String sortId, String sortDescription) {
+        return this.profileDAO.getForAutocomplete(term, active, sortId,sortDescription);
     }
 
     @Override

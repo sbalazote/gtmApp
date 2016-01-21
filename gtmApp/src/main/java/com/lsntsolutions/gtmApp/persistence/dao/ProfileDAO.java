@@ -16,7 +16,7 @@ public interface ProfileDAO {
 
     long getTotalNumber();
 
-    List<Profile> getForAutocomplete(String term, Boolean active);
+    List<Profile> getForAutocomplete(String term, Boolean active, String sortId, String sortDescription);
 
     boolean delete(Integer profileId);
 

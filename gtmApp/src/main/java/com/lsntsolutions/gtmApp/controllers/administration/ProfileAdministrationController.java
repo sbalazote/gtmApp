@@ -113,16 +113,16 @@ public class ProfileAdministrationController {
         int length = rowCount;
         long total;
 
+        String sortId = parametersMap.get("sort[id]");
+        String sortDescription = parametersMap.get("sort[description]");
+
         List<Profile> listProfiles;
-        if (searchPhrase.matches("")) {
-            listProfiles = this.profileService.getPaginated(start, length);
-            total = this.profileService.getTotalNumber();
+        listProfiles = this.profileService.getForAutocomplete(searchPhrase, null, sortId, sortDescription);
+        total = listProfiles.size();
+        if (total < start + length) {
+            listProfiles = listProfiles.subList(start, (int) total);
         } else {
-            listProfiles = this.profileService.getForAutocomplete(searchPhrase, null);
-            total = listProfiles.size();
-            if (total < start + length) {
-                listProfiles = listProfiles.subList(start, (int) total);
-            } else {
+            if(length > 0) {
                 listProfiles = listProfiles.subList(start, start + length);
             }
         }

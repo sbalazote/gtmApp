@@ -2,9 +2,13 @@ package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
 import com.lsntsolutions.gtmApp.model.Profile;
 import com.lsntsolutions.gtmApp.persistence.dao.ProfileDAO;
+import com.lsntsolutions.gtmApp.util.StringUtility;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -34,18 +38,35 @@ public class ProfileDAOHibernateImpl implements ProfileDAO {
     }
 
     @Override
-    public List<Profile> getForAutocomplete(String term, Boolean active) {
-        String sentence = "from Profile where (name like :name";
-        sentence += ")";
-
-        if (active != null && Boolean.TRUE.equals(active)) {
-            sentence += " and active = true";
+    public List<Profile> getForAutocomplete(String term, Boolean active, String sortId, String sortDescription) {
+        Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Profile.class);
+        if(!term.matches("")) {
+            if (StringUtility.isInteger(term)) {
+                criteria.add(Restrictions.ilike("id", term, MatchMode.ANYWHERE));
+            } else {
+                criteria.add( Restrictions.ilike("description", term, MatchMode.ANYWHERE));
+            }
         }
 
-        Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
-        query.setParameter("name", "%" + term + "%");
-
-        return query.list();
+        if (active != null && Boolean.TRUE.equals(active)) {
+            criteria.add(Restrictions.eq("active", "true"));
+        }
+        if (sortId != null) {
+            if (sortId.equals("asc")) {
+                criteria.addOrder(Order.asc("id"));
+            } else {
+                criteria.addOrder(Order.desc("id"));
+            }
+        } else if (sortDescription != null) {
+            if (sortDescription.equals("asc")) {
+                criteria.addOrder(Order.asc("description"));
+            } else {
+                criteria.addOrder(Order.desc("description"));
+            }
+        }else {
+            criteria.addOrder(Order.asc("id"));
+        }
+        return (List<Profile>) criteria.list();
     }
 
     @SuppressWarnings("unchecked")
