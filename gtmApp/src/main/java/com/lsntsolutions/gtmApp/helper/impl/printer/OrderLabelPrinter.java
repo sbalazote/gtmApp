@@ -32,7 +32,7 @@ public class OrderLabelPrinter implements ServletContextAware {
 	private static final String JOB_NAME = "packing_list";
 	private static final int MAX_PRODUCT_LIMIT = 16;
 	public static final int NUMBER_OF_COPIES = 1;
-	private float Y_OFFSET = 10.0f;
+	private float Y_OFFSET = 15.0f;
 
 	@Autowired
 	private PropertyService propertyService;
