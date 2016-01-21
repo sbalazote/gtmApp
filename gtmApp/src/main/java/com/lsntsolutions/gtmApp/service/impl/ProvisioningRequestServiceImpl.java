@@ -238,4 +238,24 @@ public class ProvisioningRequestServiceImpl implements ProvisioningRequestServic
 			this.save(provisioningRequest);
 		}
 	}
+
+	@Override
+	public List<Agreement> getProvisioningsAgreement(boolean provisioningRequireAuthorization) {
+		return this.provisioningRequestDAO.getProvisioningsAgreement(provisioningRequireAuthorization);
+	}
+
+	@Override
+	public List<DeliveryLocation> getProvisioningsDeliveryLocations(boolean provisioningRequireAuthorization) {
+		return this.provisioningRequestDAO.getProvisioningsDeliveryLocations(provisioningRequireAuthorization);
+	}
+
+	@Override
+	public List<LogisticsOperator> getProvisioningsLogisticsOperators(boolean provisioningRequireAuthorization) {
+		return this.provisioningRequestDAO.getProvisioningsLogisticsOperators(provisioningRequireAuthorization);
+	}
+
+	@Override
+	public List<Client> getProvisioningsClient(boolean provisioningRequireAuthorization) {
+		return this.provisioningRequestDAO.getProvisioningsClient(provisioningRequireAuthorization);
+	}
 }

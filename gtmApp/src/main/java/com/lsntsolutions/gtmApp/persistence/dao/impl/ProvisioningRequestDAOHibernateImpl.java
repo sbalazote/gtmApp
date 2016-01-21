@@ -1,7 +1,8 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
 import com.lsntsolutions.gtmApp.constant.Constants;
-import com.lsntsolutions.gtmApp.model.ProvisioningRequest;
+import com.lsntsolutions.gtmApp.constant.State;
+import com.lsntsolutions.gtmApp.model.*;
 import com.lsntsolutions.gtmApp.persistence.dao.ProvisioningRequestDAO;
 import com.lsntsolutions.gtmApp.query.ProvisioningQuery;
 import org.hibernate.Criteria;
@@ -135,5 +136,53 @@ public class ProvisioningRequestDAOHibernateImpl implements ProvisioningRequestD
 		criteria.add(Restrictions.eq("state.id", stateId));
 
 		return criteria.list();
+	}
+
+	@Override
+	public List<Agreement> getProvisioningsAgreement(boolean provisioningRequireAuthorization) {
+		String sentence = "select distinct p.agreement from ProvisioningRequest as p where p.state.id = :stateId";
+		if(!provisioningRequireAuthorization){
+			sentence = " or p.state.id = " + State.ENTERED.getId();
+		}
+		Query query;
+		query = this.sessionFactory.getCurrentSession().createQuery(sentence);
+		query.setParameter("stateId", State.AUTHORIZED.getId());
+		return query.list();
+	}
+
+	@Override
+	public List<DeliveryLocation> getProvisioningsDeliveryLocations(boolean provisioningRequireAuthorization) {
+		String sentence = "select distinct p.deliveryLocation from ProvisioningRequest as p where p.state.id = :stateId";
+		if(!provisioningRequireAuthorization){
+			sentence = " or p.state.id = " + State.ENTERED.getId();
+		}
+		Query query;
+		query = this.sessionFactory.getCurrentSession().createQuery(sentence);
+		query.setParameter("stateId", State.AUTHORIZED.getId());
+		return query.list();
+	}
+
+	@Override
+	public List<LogisticsOperator> getProvisioningsLogisticsOperators(boolean provisioningRequireAuthorization) {
+		String sentence = "select distinct p.logisticsOperator from ProvisioningRequest as p where p.logisticsOperator IS NOT NULL and p.state.id = :stateId";
+		if(!provisioningRequireAuthorization){
+			sentence = " or p.state.id = " + State.ENTERED.getId();
+		}
+		Query query;
+		query = this.sessionFactory.getCurrentSession().createQuery(sentence);
+		query.setParameter("stateId", State.AUTHORIZED.getId());
+		return query.list();
+	}
+
+	@Override
+	public List<Client> getProvisioningsClient(boolean provisioningRequireAuthorization) {
+		String sentence = "select distinct p.client from ProvisioningRequest as p where p.state.id = :stateId";
+		if(!provisioningRequireAuthorization){
+			sentence = " or p.state.id = " + State.ENTERED.getId();
+		}
+		Query query;
+		query = this.sessionFactory.getCurrentSession().createQuery(sentence);
+		query.setParameter("stateId", State.AUTHORIZED.getId());
+		return query.list();
 	}
 }

@@ -2,10 +2,7 @@ package com.lsntsolutions.gtmApp.service;
 
 import com.lsntsolutions.gtmApp.dto.OrderDTO;
 import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
-import com.lsntsolutions.gtmApp.model.Agreement;
-import com.lsntsolutions.gtmApp.model.Client;
-import com.lsntsolutions.gtmApp.model.DeliveryLocation;
-import com.lsntsolutions.gtmApp.model.Order;
+import com.lsntsolutions.gtmApp.model.*;
 import com.lsntsolutions.gtmApp.query.DeliveryNoteQuery;
 
 import java.util.List;
@@ -43,4 +40,6 @@ public interface OrderService {
 	List<Client> getClientForOrderToPrint();
 
 	List<DeliveryLocation> getDeliveryLocationsForOrderToPrint();
+
+	List<LogisticsOperator> getLogisticsOperatorsForOrderToPrint();
 }

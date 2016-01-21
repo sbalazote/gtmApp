@@ -23,7 +23,7 @@ PickingSheet = function() {
 		$('#clientSearch').val('').trigger('chosen:updated');
 		$('#deliveryLocationSearch').val('').trigger('chosen:updated');
 		$('#agreementSearch').val('').trigger('chosen:updated');
-		refreshTable();
+		$("#provisioningTable").bootgrid("clear");
 	});
 
 	$("#confirmButton").click(function() {

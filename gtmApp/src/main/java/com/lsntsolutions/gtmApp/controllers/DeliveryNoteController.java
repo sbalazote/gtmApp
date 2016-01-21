@@ -42,7 +42,7 @@ public class DeliveryNoteController {
 	public String deliveryNoteSheet(ModelMap modelMap) throws Exception {
 		modelMap.put("agreements", this.orderService.getAgreementForOrderToPrint());
 		modelMap.put("deliveryLocations", this.orderService.getDeliveryLocationsForOrderToPrint());
-		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAll());
+		modelMap.put("logisticsOperators", this.orderService.getLogisticsOperatorsForOrderToPrint());
 		modelMap.put("clients", this.orderService.getClientForOrderToPrint());
 
 		return "deliveryNoteSheet";

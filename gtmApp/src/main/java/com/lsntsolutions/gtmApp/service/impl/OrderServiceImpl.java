@@ -202,4 +202,9 @@ public class OrderServiceImpl implements OrderService {
 	public List<DeliveryLocation> getDeliveryLocationsForOrderToPrint() {
 		return this.orderDAO.getDeliveryLocationsForOrderToPrint();
 	}
+
+	@Override
+	public List<LogisticsOperator> getLogisticsOperatorsForOrderToPrint() {
+		return this.orderDAO.getLogisticsOperatorsForOrderToPrint();
+	}
 }
