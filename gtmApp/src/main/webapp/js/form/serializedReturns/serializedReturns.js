@@ -366,6 +366,9 @@ SerializedReturns = function() {
 					contentType:"application/json",
 					data: JSON.stringify(jsonInput),
 					async: false,
+					beforeSend : function() {
+						$.blockUI({ message: 'Espere un Momento por favor...' });
+					},
 					success: function(response, textStatus, jqXHR) {
 						$.unblockUI();
 						if(response.resultado == true){
@@ -393,6 +396,7 @@ SerializedReturns = function() {
 						}
 					},
 					error: function(response, jqXHR, textStatus, errorThrown) {
+						$.unblockUI();
 						myGenericError();
 					}
 				});
