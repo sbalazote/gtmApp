@@ -1,8 +1,8 @@
 package com.lsntsolutions.gtmApp.persistence.dao;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.ProductDrugCategory;
+
+import java.util.List;
 
 public interface ProductDrugCategoryDAO {
 
@@ -12,7 +12,7 @@ public interface ProductDrugCategoryDAO {
 
 	Boolean exists(Integer code);
 
-	List<ProductDrugCategory> getForAutocomplete(String term, Boolean active);
+	List<ProductDrugCategory> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortIsActive);
 
 	List<ProductDrugCategory> getForAutocomplete(String term);
 

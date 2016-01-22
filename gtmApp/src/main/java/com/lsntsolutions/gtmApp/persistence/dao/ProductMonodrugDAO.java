@@ -1,8 +1,8 @@
 package com.lsntsolutions.gtmApp.persistence.dao;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.ProductMonodrug;
+
+import java.util.List;
 
 public interface ProductMonodrugDAO {
 
@@ -12,7 +12,7 @@ public interface ProductMonodrugDAO {
 
 	Boolean exists(Integer code);
 
-	List<ProductMonodrug> getForAutocomplete(String term, Boolean active);
+	List<ProductMonodrug> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortIsActive);
 
 	List<ProductMonodrug> getForAutocomplete(String term);
 

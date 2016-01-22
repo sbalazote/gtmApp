@@ -36,8 +36,8 @@ public class ProductGroupServiceImpl implements ProductGroupService {
 	}
 
 	@Override
-	public List<ProductGroup> getForAutocomplete(String term, Boolean active) {
-		return this.productGroupDAO.getForAutocomplete(term, active);
+	public List<ProductGroup> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortIsActive) {
+		return this.productGroupDAO.getForAutocomplete(term, active, sortId, sortCode, sortDescription, sortIsActive);
 	}
 
 	@Override

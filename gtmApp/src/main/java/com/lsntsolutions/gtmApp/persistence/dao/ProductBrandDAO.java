@@ -1,8 +1,8 @@
 package com.lsntsolutions.gtmApp.persistence.dao;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.ProductBrand;
+
+import java.util.List;
 
 public interface ProductBrandDAO {
 
@@ -12,7 +12,7 @@ public interface ProductBrandDAO {
 
 	Boolean exists(Integer code);
 
-	List<ProductBrand> getForAutocomplete(String term, Boolean active);
+	List<ProductBrand> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortIsActive);
 
 	List<ProductBrand> getForAutocomplete(String term);
 

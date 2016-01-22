@@ -1,37 +1,25 @@
 package com.lsntsolutions.gtmApp.controllers.administration;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import com.lsntsolutions.gtmApp.dto.ProductDTO;
+import com.lsntsolutions.gtmApp.dto.ProductGtinDTO;
 import com.lsntsolutions.gtmApp.dto.ProductPriceDTO;
 import com.lsntsolutions.gtmApp.model.Product;
+import com.lsntsolutions.gtmApp.model.ProductGtin;
 import com.lsntsolutions.gtmApp.model.ProductPrice;
-import com.lsntsolutions.gtmApp.model.ProductPrice;
-import com.lsntsolutions.gtmApp.service.ProductGroupService;
-import com.lsntsolutions.gtmApp.service.ProductService;
+import com.lsntsolutions.gtmApp.service.*;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.lsntsolutions.gtmApp.dto.ProductGtinDTO;
-import com.lsntsolutions.gtmApp.model.ProductGtin;
-import com.lsntsolutions.gtmApp.model.ProductPrice;
-import com.lsntsolutions.gtmApp.service.ProductBrandService;
-import com.lsntsolutions.gtmApp.service.ProductDrugCategoryService;
-import com.lsntsolutions.gtmApp.service.ProductGtinService;
-import com.lsntsolutions.gtmApp.service.ProductMonodrugService;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ProductAdministrationController {
@@ -60,7 +48,7 @@ public class ProductAdministrationController {
 		if (searchPhrase.matches("")) {
 			return new ModelAndView("products", "products", this.productService.getAll());
 		} else {
-			return new ModelAndView("products", "products", this.productService.getForAutocomplete(searchPhrase, null));
+			return new ModelAndView("products", "products", this.productService.getForAutocomplete(searchPhrase, null, null, null, null, null, null, null));
 		}
 	}
 
@@ -250,16 +238,20 @@ public class ProductAdministrationController {
 		int length = rowCount;
 		long total;
 
+		String sortId = parametersMap.get("sort[id]");
+		String sortCode = parametersMap.get("sort[code]");
+		String sortDescription = parametersMap.get("sort[description]");
+		String sortGtin = parametersMap.get("sort[gtin]");
+		String sortPrice = parametersMap.get("sort[price]");
+		String sortIsCold = parametersMap.get("sort[isCold]");
+
 		List<Product> listProducts = null;
-		if (searchPhrase.matches("")) {
-			listProducts = this.productService.getPaginated(start, length);
-			total = this.productService.getTotalNumber();
+		listProducts = this.productService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortDescription, sortGtin, sortPrice, sortIsCold);
+		total = listProducts.size();
+		if (total < start + length) {
+			listProducts = listProducts.subList(start, (int) total);
 		} else {
-			listProducts = this.productService.getForAutocomplete(searchPhrase, null);
-			total = listProducts.size();
-			if (total < start + length) {
-				listProducts = listProducts.subList(start, (int) total);
-			} else {
+			if(length > 0) {
 				listProducts = listProducts.subList(start, start + length);
 			}
 		}
@@ -276,10 +268,10 @@ public class ProductAdministrationController {
 			dataJson.put("group", product.getGroup().getDescription());
 			dataJson.put("drugCategory", product.getDrugCategory().getDescription());
 			dataJson.put("price", product.getLastPrice());
-			dataJson.put("isCold", product.isCold() == true ? "Si" : "No");
-			dataJson.put("isInformAnmat", product.isInformAnmat() == true ? "Si" : "No");
+			dataJson.put("isCold", product.isCold() ? "Si" : "No");
+			dataJson.put("isInformAnmat", product.isInformAnmat() ? "Si" : "No");
 			dataJson.put("type", product.getType() == "BE" ? "Lote/Vto." : (product.getType() == "PS") ? "Origen" : "Propio");
-			dataJson.put("isActive", product.isActive() == true ? "Si" : "No");
+			dataJson.put("isActive", product.isActive() ? "Si" : "No");
 			jsonArray.put(dataJson);
 		}
 

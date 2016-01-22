@@ -37,8 +37,8 @@ public class ProductBrandServiceImpl implements ProductBrandService {
 	}
 
 	@Override
-	public List<ProductBrand> getForAutocomplete(String term, Boolean active) {
-		return this.productBrandDAO.getForAutocomplete(term, active);
+	public List<ProductBrand> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortIsActive) {
+		return this.productBrandDAO.getForAutocomplete(term, active, sortId, sortCode, sortDescription, sortIsActive);
 	}
 
 	@Override

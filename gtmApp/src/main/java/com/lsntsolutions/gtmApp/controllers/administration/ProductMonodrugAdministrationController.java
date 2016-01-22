@@ -26,7 +26,7 @@ public class ProductMonodrugAdministrationController {
 		if (searchPhrase.matches("")) {
 			return new ModelAndView("productMonodrugs", "productMonodrugs", this.productMonodrugService.getAll());
 		} else {
-			return new ModelAndView("productMonodrugs", "productMonodrugs", this.productMonodrugService.getForAutocomplete(searchPhrase, null));
+			return new ModelAndView("productMonodrugs", "productMonodrugs", this.productMonodrugService.getForAutocomplete(searchPhrase, null, null, null, null, null));
 		}
 	}
 
@@ -77,16 +77,18 @@ public class ProductMonodrugAdministrationController {
 		int length = rowCount;
 		long total;
 
+		String sortId = parametersMap.get("sort[id]");
+		String sortCode = parametersMap.get("sort[code]");
+		String sortDescription = parametersMap.get("sort[description]");
+		String sortIsActive = parametersMap.get("sort[isActive]");
+
 		List<ProductMonodrug> listProductMonodrugs = null;
-		if (searchPhrase.matches("")) {
-			listProductMonodrugs = this.productMonodrugService.getPaginated(start, length);
-			total = this.productMonodrugService.getTotalNumber();
+		listProductMonodrugs = this.productMonodrugService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortDescription, sortIsActive);
+		total = listProductMonodrugs.size();
+		if (total < start + length) {
+			listProductMonodrugs = listProductMonodrugs.subList(start, (int) total);
 		} else {
-			listProductMonodrugs = this.productMonodrugService.getForAutocomplete(searchPhrase, null);
-			total = listProductMonodrugs.size();
-			if (total < start + length) {
-				listProductMonodrugs = listProductMonodrugs.subList(start, (int) total);
-			} else {
+			if(length > 0) {
 				listProductMonodrugs = listProductMonodrugs.subList(start, start + length);
 			}
 		}
@@ -97,7 +99,7 @@ public class ProductMonodrugAdministrationController {
 			dataJson.put("id", productMonodrug.getId());
 			dataJson.put("code", productMonodrug.getCode());
 			dataJson.put("description", productMonodrug.getDescription());
-			dataJson.put("isActive", productMonodrug.isActive() == true ? "Si" : "No");
+			dataJson.put("isActive", productMonodrug.isActive() ? "Si" : "No");
 			jsonArray.put(dataJson);
 		}
 

@@ -26,7 +26,7 @@ public class ProductGroupAdministrationController {
 		if (searchPhrase.matches("")) {
 			return new ModelAndView("productGroups", "productGroups", this.productGroupService.getAll());
 		} else {
-			return new ModelAndView("productGroups", "productGroups", this.productGroupService.getForAutocomplete(searchPhrase, null));
+			return new ModelAndView("productGroups", "productGroups", this.productGroupService.getForAutocomplete(searchPhrase, null, null, null, null, null));
 		}
 	}
 
@@ -77,16 +77,18 @@ public class ProductGroupAdministrationController {
 		int length = rowCount;
 		long total;
 
+		String sortId = parametersMap.get("sort[id]");
+		String sortCode = parametersMap.get("sort[code]");
+		String sortDescription = parametersMap.get("sort[description]");
+		String sortIsActive = parametersMap.get("sort[isActive]");
+
 		List<ProductGroup> listProductGroups = null;
-		if (searchPhrase.matches("")) {
-			listProductGroups = this.productGroupService.getPaginated(start, length);
-			total = this.productGroupService.getTotalNumber();
+		listProductGroups = this.productGroupService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortDescription, sortIsActive);
+		total = listProductGroups.size();
+		if (total < start + length) {
+			listProductGroups = listProductGroups.subList(start, (int) total);
 		} else {
-			listProductGroups = this.productGroupService.getForAutocomplete(searchPhrase, null);
-			total = listProductGroups.size();
-			if (total < start + length) {
-				listProductGroups = listProductGroups.subList(start, (int) total);
-			} else {
+			if(length > 0) {
 				listProductGroups = listProductGroups.subList(start, start + length);
 			}
 		}
@@ -97,7 +99,7 @@ public class ProductGroupAdministrationController {
 			dataJson.put("id", productGroup.getId());
 			dataJson.put("code", productGroup.getCode());
 			dataJson.put("description", productGroup.getDescription());
-			dataJson.put("isActive", productGroup.isActive() == true ? "Si" : "No");
+			dataJson.put("isActive", productGroup.isActive() ? "Si" : "No");
 			jsonArray.put(dataJson);
 		}
 

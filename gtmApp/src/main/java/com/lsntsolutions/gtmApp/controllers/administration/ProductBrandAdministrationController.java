@@ -26,7 +26,7 @@ public class ProductBrandAdministrationController {
 		if (searchPhrase.matches("")) {
 			return new ModelAndView("productBrands", "productBrands", this.productBrandService.getAll());
 		} else {
-			return new ModelAndView("productBrands", "productBrands", this.productBrandService.getForAutocomplete(searchPhrase, null));
+			return new ModelAndView("productBrands", "productBrands", this.productBrandService.getForAutocomplete(searchPhrase, null, null, null, null, null));
 		}
 	}
 
@@ -79,16 +79,18 @@ public class ProductBrandAdministrationController {
 		int length = rowCount;
 		long total;
 
+		String sortId = parametersMap.get("sort[id]");
+		String sortCode = parametersMap.get("sort[code]");
+		String sortDescription = parametersMap.get("sort[description]");
+		String sortIsActive = parametersMap.get("sort[isActive]");
+
 		List<ProductBrand> listProductBrands = null;
-		if (searchPhrase.matches("")) {
-			listProductBrands = this.productBrandService.getPaginated(start, length);
-			total = this.productBrandService.getTotalNumber();
+		listProductBrands = this.productBrandService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortDescription, sortIsActive);
+		total = listProductBrands.size();
+		if (total < start + length) {
+			listProductBrands = listProductBrands.subList(start, (int) total);
 		} else {
-			listProductBrands = this.productBrandService.getForAutocomplete(searchPhrase, null);
-			total = listProductBrands.size();
-			if (total < start + length) {
-				listProductBrands = listProductBrands.subList(start, (int) total);
-			} else {
+			if(length > 0) {
 				listProductBrands = listProductBrands.subList(start, start + length);
 			}
 		}
@@ -99,7 +101,7 @@ public class ProductBrandAdministrationController {
 			dataJson.put("id", productBrand.getId());
 			dataJson.put("code", productBrand.getCode());
 			dataJson.put("description", productBrand.getDescription());
-			dataJson.put("isActive", productBrand.isActive() == true ? "Si" : "No");
+			dataJson.put("isActive", productBrand.isActive() ? "Si" : "No");
 			jsonArray.put(dataJson);
 		}
 

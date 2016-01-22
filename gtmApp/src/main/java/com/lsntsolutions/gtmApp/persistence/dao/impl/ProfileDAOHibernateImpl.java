@@ -42,7 +42,7 @@ public class ProfileDAOHibernateImpl implements ProfileDAO {
         Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Profile.class);
         if(!term.matches("")) {
             if (StringUtility.isInteger(term)) {
-                criteria.add(Restrictions.ilike("id", term, MatchMode.ANYWHERE));
+                criteria.add(Restrictions.eq("id", Integer.parseInt(term)));
             } else {
                 criteria.add( Restrictions.ilike("description", term, MatchMode.ANYWHERE));
             }

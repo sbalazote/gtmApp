@@ -36,8 +36,8 @@ public class ProductMonodrugServiceImpl implements ProductMonodrugService {
 	}
 
 	@Override
-	public List<ProductMonodrug> getForAutocomplete(String term, Boolean active) {
-		return this.productMonodrugDAO.getForAutocomplete(term, active);
+	public List<ProductMonodrug> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortIsActive) {
+		return this.productMonodrugDAO.getForAutocomplete(term, active, sortId, sortCode, sortDescription, sortIsActive);
 	}
 
 	@Override

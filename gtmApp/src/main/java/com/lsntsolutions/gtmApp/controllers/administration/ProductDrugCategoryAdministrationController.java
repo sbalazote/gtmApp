@@ -26,7 +26,7 @@ public class ProductDrugCategoryAdministrationController {
 		if (searchPhrase.matches("")) {
 			return new ModelAndView("productDrugCategories", "productDrugCategories", this.productDrugCategoryService.getAll());
 		} else {
-			return new ModelAndView("productDrugCategories", "productDrugCategories", this.productDrugCategoryService.getForAutocomplete(searchPhrase, null));
+			return new ModelAndView("productDrugCategories", "productDrugCategories", this.productDrugCategoryService.getForAutocomplete(searchPhrase, null, null, null, null, null));
 		}
 	}
 
@@ -78,16 +78,18 @@ public class ProductDrugCategoryAdministrationController {
 		int length = rowCount;
 		long total;
 
+		String sortId = parametersMap.get("sort[id]");
+		String sortCode = parametersMap.get("sort[code]");
+		String sortDescription = parametersMap.get("sort[description]");
+		String sortIsActive = parametersMap.get("sort[isActive]");
+
 		List<ProductDrugCategory> listProductDrugCategories = null;
-		if (searchPhrase.matches("")) {
-			listProductDrugCategories = this.productDrugCategoryService.getPaginated(start, length);
-			total = this.productDrugCategoryService.getTotalNumber();
+		listProductDrugCategories = this.productDrugCategoryService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortDescription, sortIsActive);
+		total = listProductDrugCategories.size();
+		if (total < start + length) {
+			listProductDrugCategories = listProductDrugCategories.subList(start, (int) total);
 		} else {
-			listProductDrugCategories = this.productDrugCategoryService.getForAutocomplete(searchPhrase, null);
-			total = listProductDrugCategories.size();
-			if (total < start + length) {
-				listProductDrugCategories = listProductDrugCategories.subList(start, (int) total);
-			} else {
+			if(length > 0) {
 				listProductDrugCategories = listProductDrugCategories.subList(start, start + length);
 			}
 		}
@@ -98,7 +100,7 @@ public class ProductDrugCategoryAdministrationController {
 			dataJson.put("id", productDrugCategory.getId());
 			dataJson.put("code", productDrugCategory.getCode());
 			dataJson.put("description", productDrugCategory.getDescription());
-			dataJson.put("isActive", productDrugCategory.isActive() == true ? "Si" : "No");
+			dataJson.put("isActive", productDrugCategory.isActive() ? "Si" : "No");
 			jsonArray.put(dataJson);
 		}
 

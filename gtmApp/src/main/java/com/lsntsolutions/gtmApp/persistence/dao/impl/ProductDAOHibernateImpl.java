@@ -4,14 +4,18 @@ import com.lsntsolutions.gtmApp.model.Product;
 import com.lsntsolutions.gtmApp.persistence.dao.ProductDAO;
 import com.lsntsolutions.gtmApp.util.StringUtility;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -41,8 +45,64 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Product> getForAutocomplete(String term, Boolean active) {
+	public List<Product> getForAutocomplete(String searchPhrase, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortPrice, String sortIsCold) {
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Product.class);
 
+		criteria.createAlias("gtins", "g");
+		criteria.createAlias("prices", "p");
+		criteria.setFetchMode("gtins", FetchMode.SELECT);
+		criteria.setFetchMode("prices", FetchMode.SELECT);
+
+		if (StringUtility.isInteger(searchPhrase)) {
+			criteria.add(Restrictions.or(Restrictions.eq("id", Integer.parseInt(searchPhrase)), Restrictions.eq("code",  Integer.parseInt(searchPhrase))));
+		} else {
+			criteria.add(Restrictions.or(Restrictions.ilike("description", searchPhrase, MatchMode.ANYWHERE), Restrictions.ilike("g.number", searchPhrase, MatchMode.ANYWHERE)));
+		}
+
+		if (active != null && Boolean.TRUE.equals(active)) {
+			criteria.add(Restrictions.eq("active", "true"));
+		}
+
+		if (sortId != null) {
+			if (sortId.equals("asc")) {
+				criteria.addOrder(Order.asc("id"));
+			} else {
+				criteria.addOrder(Order.desc("id"));
+			}
+		} else if (sortCode != null) {
+			if (sortCode.equals("asc")) {
+				criteria.addOrder(Order.asc("code"));
+			} else {
+				criteria.addOrder(Order.desc("code"));
+			}
+		} else if (sortDescription != null) {
+			if (sortDescription.equals("asc")) {
+				criteria.addOrder(Order.asc("description"));
+			} else {
+				criteria.addOrder(Order.desc("description"));
+			}
+		} else if (sortGtin != null) {
+			if (sortGtin.equals("asc")) {
+				criteria.addOrder(Order.asc("g.number"));
+			} else {
+				criteria.addOrder(Order.desc("g.number"));
+			}
+		} else if (sortPrice != null) {
+			if (sortPrice.equals("asc")) {
+				criteria.addOrder(Order.asc("p.price"));
+			} else {
+				criteria.addOrder(Order.desc("p.price"));
+			}
+		} else if (sortIsCold != null) {
+			if (sortIsCold.equals("asc")) {
+				criteria.addOrder(Order.asc("cold"));
+			} else {
+				criteria.addOrder(Order.desc("cold"));
+			}
+		} else {
+			criteria.addOrder(Order.asc("id"));
+		}
+/*
 		// Si active es null significa que busco x activos y inactivos.
 		List<Product> gtinSentenceQuery = new ArrayList<Product>();
 		if (active == null) {
@@ -76,7 +136,11 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 			literalSentenceQuery.addAll(gtinSentenceQuery);
 		}
 
-		return literalSentenceQuery;
+		return literalSentenceQuery;*/
+
+		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+
+		return (List<Product>) criteria.list();
 	}
 
 	@Override

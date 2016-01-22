@@ -1,7 +1,6 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
-import java.util.List;
-
+import com.lsntsolutions.gtmApp.model.User;
 import com.lsntsolutions.gtmApp.persistence.dao.UserDAO;
 import com.lsntsolutions.gtmApp.util.StringUtility;
 import org.hibernate.Criteria;
@@ -13,7 +12,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.lsntsolutions.gtmApp.model.User;
+import java.util.List;
 
 @Repository
 public class UserDAOHibernateImpl implements UserDAO {
@@ -55,7 +54,7 @@ public class UserDAOHibernateImpl implements UserDAO {
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(User.class, "user");
 		criteria.createAlias("user.profile", "profile");
 		if (StringUtility.isInteger(searchPhrase)) {
-			criteria.add(Restrictions.or(Restrictions.ilike("id", searchPhrase, MatchMode.ANYWHERE), Restrictions.ilike("code", searchPhrase, MatchMode.ANYWHERE)));
+			criteria.add(Restrictions.eq("id", Integer.parseInt(searchPhrase)));
 		} else {
 			criteria.add(Restrictions.or(Restrictions.ilike("name", searchPhrase, MatchMode.ANYWHERE), Restrictions.ilike("profile.description", searchPhrase, MatchMode.ANYWHERE)));
 		}

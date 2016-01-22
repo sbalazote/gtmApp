@@ -36,8 +36,8 @@ public class ProductDrugCategoryServiceImpl implements ProductDrugCategoryServic
 	}
 
 	@Override
-	public List<ProductDrugCategory> getForAutocomplete(String term, Boolean active) {
-		return this.productDrugCategoryDAO.getForAutocomplete(term, active);
+	public List<ProductDrugCategory> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortIsActive) {
+		return this.productDrugCategoryDAO.getForAutocomplete(term, active, sortId, sortCode, sortDescription, sortIsActive);
 	}
 
 	@Override
