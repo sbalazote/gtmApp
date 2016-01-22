@@ -554,7 +554,9 @@ var ProvisioningRequest = function() {
 		$('#affiliateCodeInput').focus();
 	});
 
-	$("#affiliateInput").on("select2-close", function(e) {
-		$('#addAffiliateModal').modal('show');
+	$('.select2-input').on("keydown", function(e) {
+		if (e.keyCode === 121) {
+			$('#addAffiliateModal').modal('show');
+		}
 	});
 };
