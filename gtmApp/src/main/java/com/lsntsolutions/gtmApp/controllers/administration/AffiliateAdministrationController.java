@@ -113,13 +113,13 @@ public class AffiliateAdministrationController {
 		int length = rowCount;
 		long total;
 
-		String sortId = parametersMap.get("sort[id]");
-		String sortCode = parametersMap.get("sort[code]");
-		String sortName = parametersMap.get("sort[name]");
-		String sortSurname = parametersMap.get("sort[surname]");
-		String sortDocumentType = parametersMap.get("sort[documentType]");
-		String sortDocument = parametersMap.get("sort[document]");
-		String sortActive = parametersMap.get("sort[active]");
+		String sortId = (parametersMap.get("id") == null || parametersMap.get("id") == "") ? null : parametersMap.get("id");
+		String sortCode = (parametersMap.get("code") == null || parametersMap.get("code") == "") ? null : parametersMap.get("code");
+		String sortName = (parametersMap.get("name") == null || parametersMap.get("name") == "") ? null : parametersMap.get("name");
+		String sortSurname = (parametersMap.get("surname") == null || parametersMap.get("surname") == "") ? null : parametersMap.get("surname");
+		String sortDocumentType = (parametersMap.get("documentType") == null || parametersMap.get("documentType") == "") ? null : parametersMap.get("documentType");
+		String sortDocument = (parametersMap.get("document") == null || parametersMap.get("document") == "") ? null : parametersMap.get("document");
+		String sortActive = (parametersMap.get("active") == null || parametersMap.get("active") == "") ? null : parametersMap.get("active");
 
 		Integer client = (clientId != null && clientId != "") ? Integer.valueOf(clientId) : null;
 		List<Affiliate> listAffiliates = this.affiliateService.getForAutocomplete(searchPhrase, null, client, sortId, sortCode, sortName, sortSurname, sortDocumentType, sortDocument, sortActive);

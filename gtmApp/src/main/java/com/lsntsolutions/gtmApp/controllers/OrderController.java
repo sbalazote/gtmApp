@@ -165,8 +165,8 @@ public class OrderController {
 	@RequestMapping(value = "/logisticOperatorAssignment", method = RequestMethod.GET)
 	public String deliveryNoteSheet(ModelMap modelMap) throws Exception {
 		modelMap.put("agreements", this.agreementService.getAllActives());
-		modelMap.put("deliveryLocations", this.deliveryLocationService.getAll());
-		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAll());
+		modelMap.put("deliveryLocations", this.deliveryLocationService.getAllActives());
+		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAllActives(false));
 		modelMap.put("clients", this.clientService.getAllActives());
 		return "logisticOperatorAssignment";
 	}

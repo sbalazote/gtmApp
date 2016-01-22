@@ -91,7 +91,14 @@ $(document).ready(function() {
 				clientId: clientId,
 				current: request.current,
 				rowCount: request.rowCount,
-				searchPhrase: request.searchPhrase
+				searchPhrase: request.searchPhrase,
+				id: request.sort.id || null,
+				name: request.sort.name || null,
+				surname: request.sort.surname || null,
+				document: request.sort.document || null,
+				documentType: request.sort.documentType || null,
+				active: request.sort.active || null,
+				code: request.sort.code || null
 			};
 	    },
 	    url: "./getMatchedAffiliates.do",
