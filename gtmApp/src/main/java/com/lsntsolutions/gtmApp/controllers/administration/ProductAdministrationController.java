@@ -242,7 +242,6 @@ public class ProductAdministrationController {
 		String sortCode = parametersMap.get("sort[code]");
 		String sortDescription = parametersMap.get("sort[description]");
 		String sortGtin = parametersMap.get("sort[gtin]");
-		//String sortPrice = parametersMap.get("sort[price]");
 		String sortIsCold = parametersMap.get("sort[isCold]");
 
 		List<Product> listProducts = this.productService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortDescription, sortGtin, sortIsCold);

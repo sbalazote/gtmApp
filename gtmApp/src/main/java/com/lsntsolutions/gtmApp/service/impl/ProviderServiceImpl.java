@@ -1,14 +1,14 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.Provider;
-import com.lsntsolutions.gtmApp.service.ProviderService;
 import com.lsntsolutions.gtmApp.persistence.dao.ProviderDAO;
+import com.lsntsolutions.gtmApp.service.ProviderService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -36,8 +36,8 @@ public class ProviderServiceImpl implements ProviderService {
 	}
 
 	@Override
-	public List<Provider> getForAutocomplete(String term, Boolean active) {
-		return this.providerDAO.getForAutocomplete(term, active);
+	public List<Provider> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortName, String sortCorporateName, String sortTaxId, String sortIsActive) {
+		return this.providerDAO.getForAutocomplete(term, active, sortId, sortCode, sortName, sortCorporateName, sortTaxId, sortIsActive);
 	}
 
 	@Override

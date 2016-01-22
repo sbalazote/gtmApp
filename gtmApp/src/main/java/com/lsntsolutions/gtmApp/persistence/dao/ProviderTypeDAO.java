@@ -1,8 +1,8 @@
 package com.lsntsolutions.gtmApp.persistence.dao;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.ProviderType;
+
+import java.util.List;
 
 public interface ProviderTypeDAO {
 
@@ -12,7 +12,7 @@ public interface ProviderTypeDAO {
 
 	Boolean exists(Integer code);
 
-	List<ProviderType> getForAutocomplete(String term, Boolean active);
+	List<ProviderType> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortIsActive);
 
 	List<ProviderType> getAll();
 
