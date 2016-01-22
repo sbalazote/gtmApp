@@ -13,7 +13,7 @@ public interface ProductDAO {
 
 	Boolean exists(Integer code);
 
-	List<Product> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortPrice, String sortIsCold);
+	List<Product> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold);
 
 	Product getByGtin(String gtin);
 
