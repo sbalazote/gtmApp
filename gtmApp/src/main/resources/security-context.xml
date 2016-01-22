@@ -76,7 +76,7 @@
 		<logout invalidate-session="true" logout-success-url="/login.do?logout"/>
 		
 		<session-management>
-			<concurrency-control error-if-maximum-exceeded="true" max-sessions="30" expired-url="/error.do" />
+			<concurrency-control error-if-maximum-exceeded="true" max-sessions="1" expired-url="/error.do" />
 		</session-management>
 		
 	</http>
