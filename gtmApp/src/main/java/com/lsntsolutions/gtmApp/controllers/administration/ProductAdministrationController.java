@@ -245,8 +245,7 @@ public class ProductAdministrationController {
 		String sortPrice = parametersMap.get("sort[price]");
 		String sortIsCold = parametersMap.get("sort[isCold]");
 
-		List<Product> listProducts = null;
-		listProducts = this.productService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortDescription, sortGtin, sortPrice, sortIsCold);
+		List<Product> listProducts = this.productService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortDescription, sortGtin, sortPrice, sortIsCold);
 		total = listProducts.size();
 		if (total < start + length) {
 			listProducts = listProducts.subList(start, (int) total);

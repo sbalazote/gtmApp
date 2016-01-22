@@ -85,7 +85,6 @@ $(document).ready(function() {
 	
 	var affiliatesTable = $("#affiliatesTable").bootgrid({
 		columnSelection: false,
-		sorting: false,
 	    ajax: true,
 	    requestHandler: function (request) {
 			return {

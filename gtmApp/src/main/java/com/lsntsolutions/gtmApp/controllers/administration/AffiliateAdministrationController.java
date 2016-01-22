@@ -113,16 +113,24 @@ public class AffiliateAdministrationController {
 		int length = rowCount;
 		long total;
 
-		List<Affiliate> listAffiliates;
+		String sortId = parametersMap.get("sort[id]");
+		String sortCode = parametersMap.get("sort[code]");
+		String sortName = parametersMap.get("sort[name]");
+		String sortSurname = parametersMap.get("sort[surname]");
+		String sortDocumentType = parametersMap.get("sort[documentType]");
+		String sortDocument = parametersMap.get("sort[document]");
+		String sortActive = parametersMap.get("sort[active]");
 
-		listAffiliates = this.affiliateService.getForAutocomplete(searchPhrase, clientId.isEmpty() ? null : Integer.parseInt(clientId), null, null, null);
+		Integer client = (clientId != null && clientId != "") ? Integer.valueOf(clientId) : null;
+		List<Affiliate> listAffiliates = this.affiliateService.getForAutocomplete(searchPhrase, null, client, sortId, sortCode, sortName, sortSurname, sortDocumentType, sortDocument, sortActive);
 		total = listAffiliates.size();
 		if (total < start + length) {
 			listAffiliates = listAffiliates.subList(start, (int) total);
 		} else {
-			listAffiliates = listAffiliates.subList(start, start + length);
+			if(length > 0) {
+				listAffiliates = listAffiliates.subList(start, start + length);
+			}
 		}
-
 
 		for (Affiliate affiliate : listAffiliates) {
 			JSONObject dataJson = new JSONObject();

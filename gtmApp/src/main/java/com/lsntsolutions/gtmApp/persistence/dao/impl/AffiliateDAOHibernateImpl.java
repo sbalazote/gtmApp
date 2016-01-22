@@ -6,6 +6,9 @@ import com.lsntsolutions.gtmApp.util.StringUtility;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -47,24 +50,71 @@ public class AffiliateDAOHibernateImpl implements AffiliateDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Affiliate> getForAutocomplete(String term, Boolean active) {
-		String sentence = "from Affiliate where (name like :name or surname like :surname";
+	public List<Affiliate> getForAutocomplete(String term, Boolean active, Integer clientId, String sortId, String sortCode, String sortName, String sortSurname, String sortDocumentType, String sortDocument, String sortActive) {
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Affiliate.class);
+
 		if (StringUtility.isInteger(term)) {
-			sentence += " or convert(code, CHAR) like :code";
+			criteria.add(Restrictions.or(Restrictions.eq("id", Integer.parseInt(term)), Restrictions.eq("code", Integer.parseInt(term)), Restrictions.eq("document", Integer.parseInt(term))));
+		} else {
+			criteria.add(Restrictions.or(Restrictions.ilike("name", term, MatchMode.ANYWHERE), Restrictions.ilike("surname", term, MatchMode.ANYWHERE)));
 		}
-		sentence += ")";
+
 		if (active != null && Boolean.TRUE.equals(active)) {
-			sentence += " and active = true";
+			criteria.add(Restrictions.eq("active", "true"));
 		}
 
-		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
-		query.setParameter("name", "%" + term + "%");
-		query.setParameter("surname", "%" + term + "%");
-
-		if (StringUtility.isInteger(term)) {
-			query.setParameter("code", "%" + term + "%");
+		if (clientId != null) {
+			criteria.createCriteria("clients" , "client");
+			criteria.add(Restrictions.eq("client.id", clientId));
 		}
-		return query.list();
+
+		if (sortId != null) {
+			if (sortId.equals("asc")) {
+				criteria.addOrder(Order.asc("id"));
+			} else {
+				criteria.addOrder(Order.desc("id"));
+			}
+		} else if (sortCode != null) {
+			if (sortCode.equals("asc")) {
+				criteria.addOrder(Order.asc("code"));
+			} else {
+				criteria.addOrder(Order.desc("code"));
+			}
+		} else if (sortName != null) {
+			if (sortName.equals("asc")) {
+				criteria.addOrder(Order.asc("name"));
+			} else {
+				criteria.addOrder(Order.desc("name"));
+			}
+		} else if (sortSurname != null) {
+			if (sortSurname.equals("asc")) {
+				criteria.addOrder(Order.asc("surname"));
+			} else {
+				criteria.addOrder(Order.desc("surname"));
+			}
+		} else if (sortDocumentType != null) {
+			if (sortDocumentType.equals("asc")) {
+				criteria.addOrder(Order.asc("documentType"));
+			} else {
+				criteria.addOrder(Order.desc("documentType"));
+			}
+		} else if (sortDocument != null) {
+			if (sortDocument.equals("asc")) {
+				criteria.addOrder(Order.asc("document"));
+			} else {
+				criteria.addOrder(Order.desc("document"));
+			}
+		}else if (sortActive != null) {
+			if (sortDocument.equals("asc")) {
+				criteria.addOrder(Order.asc("active"));
+			} else {
+				criteria.addOrder(Order.desc("active"));
+			}
+		}else {
+			criteria.addOrder(Order.asc("id"));
+		}
+
+		return criteria.list();
 	}
 
 	@SuppressWarnings("unchecked")

@@ -14,7 +14,7 @@ public interface AffiliateService {
 
 	Affiliate get(String code);
 
-	List<Affiliate> getForAutocomplete(String term, Boolean active);
+	List<Affiliate> getForAutocomplete(String term, Boolean active, Integer cllientId, String sortId, String sortCode, String sortName, String sortSurname, String sortDocumentType, String sortDocument, String sortActive);
 
 	List<Affiliate> getForAutocomplete(String term, Integer clientId, Boolean active, Integer pageNumber, Integer pageSize);
 
