@@ -1,7 +1,6 @@
 package com.lsntsolutions.gtmApp.controllers.administration;
 
 import com.lsntsolutions.gtmApp.dto.ProviderDTO;
-import com.lsntsolutions.gtmApp.model.DeliveryLocation;
 import com.lsntsolutions.gtmApp.model.LogisticsOperator;
 import com.lsntsolutions.gtmApp.model.Provider;
 import com.lsntsolutions.gtmApp.model.Province;
@@ -46,7 +45,7 @@ public class ProviderAdministrationController {
 		if (searchPhrase.matches("")) {
 			return new ModelAndView("providers", "providers", this.providerService.getAll());
 		} else {
-			return new ModelAndView("providers", "providers", this.providerService.getForAutocomplete(searchPhrase, null));
+			return new ModelAndView("providers", "providers", this.providerService.getForAutocomplete(searchPhrase, null, null, null, null, null, null, null));
 		}
 	}
 
@@ -139,16 +138,19 @@ public class ProviderAdministrationController {
 		int length = rowCount;
 		long total;
 
-		List<Provider> listProviders = null;
-		if (searchPhrase.matches("")) {
-			listProviders = this.providerService.getPaginated(start, length);
-			total = this.providerService.getTotalNumber();
+		String sortId = parametersMap.get("sort[id]");
+		String sortCode = parametersMap.get("sort[code]");
+		String sortName = parametersMap.get("sort[name]");
+		String sortCorporateName = parametersMap.get("sort[corporateName]");
+		String sortTaxId = parametersMap.get("sort[taxId]");
+		String sortIsActive = parametersMap.get("sort[isActive]");
+
+		List<Provider> listProviders = this.providerService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortName, sortCorporateName, sortTaxId, sortIsActive);
+		total = listProviders.size();
+		if (total < start + length) {
+			listProviders = listProviders.subList(start, (int) total);
 		} else {
-			listProviders = this.providerService.getForAutocomplete(searchPhrase, null);
-			total = listProviders.size();
-			if (total < start + length) {
-				listProviders = listProviders.subList(start, (int) total);
-			} else {
+			if(length > 0) {
 				listProviders = listProviders.subList(start, start + length);
 			}
 		}
@@ -171,7 +173,7 @@ public class ProviderAdministrationController {
 			dataJson.put("gln", provider.getGln());
 			dataJson.put("agent", provider.getAgent().getDescription());
 			dataJson.put("type", provider.getType().getDescription());
-			dataJson.put("isActive", provider.isActive() == true ? "Si" : "No");
+			dataJson.put("isActive", provider.isActive() ? "Si" : "No");
 			jsonArray.put(dataJson);
 		}
 

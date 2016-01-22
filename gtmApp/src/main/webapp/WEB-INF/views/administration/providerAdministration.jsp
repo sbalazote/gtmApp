@@ -38,8 +38,8 @@
 							<th data-column-id="id" data-header-css-class="idColumn" data-type="numeric"><spring:message code="common.id"/></th>
 							<th data-column-id="code" data-header-css-class="codeColumn" data-type="numeric"><spring:message code="common.code"/></th>
 							<th data-column-id="name" data-header-css-class="nameColumn"><spring:message code="common.entity.name"/></th>
-							<th data-column-id="taxId" data-type="numeric"><spring:message code="common.taxId"/></th>
 							<th data-column-id="corporateName"><spring:message code="common.corporateName"/></th>
+							<th data-column-id="taxId" data-type="numeric"><spring:message code="common.taxId"/></th>
 							<%-- <th data-column-id="province"><spring:message code="common.province"/></th>
 							<th data-column-id="locality"><spring:message code="common.locality"/></th>
 							<th data-column-id="address"><spring:message code="common.address"/></th>

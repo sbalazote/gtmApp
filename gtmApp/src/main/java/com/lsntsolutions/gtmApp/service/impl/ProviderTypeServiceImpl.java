@@ -36,8 +36,8 @@ public class ProviderTypeServiceImpl implements ProviderTypeService {
 	}
 
 	@Override
-	public List<ProviderType> getForAutocomplete(String term, Boolean active) {
-		return this.providerTypeDAO.getForAutocomplete(term, active);
+	public List<ProviderType> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortIsActive) {
+		return this.providerTypeDAO.getForAutocomplete(term, active, sortId, sortCode, sortDescription, sortIsActive);
 	}
 
 	@Override

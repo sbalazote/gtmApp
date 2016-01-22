@@ -26,7 +26,7 @@ public class ProviderTypeAdministrationController {
 		if (searchPhrase.matches("")) {
 			return new ModelAndView("providerTypes", "providerTypes", this.providerTypeService.getAll());
 		} else {
-			return new ModelAndView("providerTypes", "providerTypes", this.providerTypeService.getForAutocomplete(searchPhrase, null));
+			return new ModelAndView("providerTypes", "providerTypes", this.providerTypeService.getForAutocomplete(searchPhrase, null, null, null, null, null));
 		}
 	}
 
@@ -78,16 +78,18 @@ public class ProviderTypeAdministrationController {
 		int length = rowCount;
 		long total;
 
+		String sortId = parametersMap.get("sort[id]");
+		String sortCode = parametersMap.get("sort[code]");
+		String sortDescription = parametersMap.get("sort[description]");
+		String sortIsActive = parametersMap.get("sort[isActive]");
+
 		List<ProviderType> listProviderTypes = null;
-		if (searchPhrase.matches("")) {
-			listProviderTypes = this.providerTypeService.getPaginated(start, length);
-			total = this.providerTypeService.getTotalNumber();
+		listProviderTypes = this.providerTypeService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortDescription, sortIsActive);
+		total = listProviderTypes.size();
+		if (total < start + length) {
+			listProviderTypes = listProviderTypes.subList(start, (int) total);
 		} else {
-			listProviderTypes = this.providerTypeService.getForAutocomplete(searchPhrase, null);
-			total = listProviderTypes.size();
-			if (total < start + length) {
-				listProviderTypes = listProviderTypes.subList(start, (int) total);
-			} else {
+			if(length > 0) {
 				listProviderTypes = listProviderTypes.subList(start, start + length);
 			}
 		}
@@ -98,7 +100,7 @@ public class ProviderTypeAdministrationController {
 			dataJson.put("id", providerType.getId());
 			dataJson.put("code", providerType.getCode());
 			dataJson.put("description", providerType.getDescription());
-			dataJson.put("isActive", providerType.isActive() == true ? "Si" : "No");
+			dataJson.put("isActive", providerType.isActive() ? "Si" : "No");
 			jsonArray.put(dataJson);
 		}
 
