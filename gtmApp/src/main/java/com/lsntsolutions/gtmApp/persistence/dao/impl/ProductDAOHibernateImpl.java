@@ -45,13 +45,11 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Product> getForAutocomplete(String searchPhrase, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortPrice, String sortIsCold) {
+	public List<Product> getForAutocomplete(String searchPhrase, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold) {
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Product.class);
 
 		criteria.createAlias("gtins", "g");
-		criteria.createAlias("prices", "p");
 		criteria.setFetchMode("gtins", FetchMode.SELECT);
-		criteria.setFetchMode("prices", FetchMode.SELECT);
 
 		if (StringUtility.isInteger(searchPhrase)) {
 			criteria.add(Restrictions.or(Restrictions.eq("id", Integer.parseInt(searchPhrase)), Restrictions.eq("code",  Integer.parseInt(searchPhrase))));
@@ -87,12 +85,6 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 			} else {
 				criteria.addOrder(Order.desc("g.number"));
 			}
-		} else if (sortPrice != null) {
-			if (sortPrice.equals("asc")) {
-				criteria.addOrder(Order.asc("p.price"));
-			} else {
-				criteria.addOrder(Order.desc("p.price"));
-			}
 		} else if (sortIsCold != null) {
 			if (sortIsCold.equals("asc")) {
 				criteria.addOrder(Order.asc("cold"));
@@ -102,41 +94,6 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 		} else {
 			criteria.addOrder(Order.asc("id"));
 		}
-/*
-		// Si active es null significa que busco x activos y inactivos.
-		List<Product> gtinSentenceQuery = new ArrayList<Product>();
-		if (active == null) {
-			String gtinSentence = "select p from Product as p inner join p.gtins as pg where pg.number = :gtin";
-			Query gtinQuery = this.sessionFactory.getCurrentSession().createQuery(gtinSentence);
-			gtinQuery.setParameter("gtin", StringUtility.removeLeadingZero(term));
-			gtinSentenceQuery = gtinQuery.list();
-		}
-
-		String literalSentence = "select p from Product as p where (description like :description or brand.description like :brand or monodrug.description like :monodrug";
-
-		if (StringUtility.isInteger(term)) {
-			literalSentence += " or convert(code, CHAR) like :code";
-		}
-		literalSentence += ")";
-		if (active != null && Boolean.TRUE.equals(active)) {
-			literalSentence += " and active = true";
-		}
-
-		Query literalQuery = this.sessionFactory.getCurrentSession().createQuery(literalSentence);
-		literalQuery.setParameter("description", "%" + term + "%");
-		literalQuery.setParameter("brand", "%" + term + "%");
-		literalQuery.setParameter("monodrug", "%" + term + "%");
-
-		if (StringUtility.isInteger(term)) {
-			literalQuery.setParameter("code", "%" + term + "%");
-		}
-		List<Product> literalSentenceQuery = literalQuery.list();
-
-		if (active == null) {
-			literalSentenceQuery.addAll(gtinSentenceQuery);
-		}
-
-		return literalSentenceQuery;*/
 
 		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 

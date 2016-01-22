@@ -48,7 +48,7 @@ public class ProductAdministrationController {
 		if (searchPhrase.matches("")) {
 			return new ModelAndView("products", "products", this.productService.getAll());
 		} else {
-			return new ModelAndView("products", "products", this.productService.getForAutocomplete(searchPhrase, null, null, null, null, null, null, null));
+			return new ModelAndView("products", "products", this.productService.getForAutocomplete(searchPhrase, null, null, null, null, null, null));
 		}
 	}
 
@@ -242,10 +242,10 @@ public class ProductAdministrationController {
 		String sortCode = parametersMap.get("sort[code]");
 		String sortDescription = parametersMap.get("sort[description]");
 		String sortGtin = parametersMap.get("sort[gtin]");
-		String sortPrice = parametersMap.get("sort[price]");
+		//String sortPrice = parametersMap.get("sort[price]");
 		String sortIsCold = parametersMap.get("sort[isCold]");
 
-		List<Product> listProducts = this.productService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortDescription, sortGtin, sortPrice, sortIsCold);
+		List<Product> listProducts = this.productService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortDescription, sortGtin, sortIsCold);
 		total = listProducts.size();
 		if (total < start + length) {
 			listProducts = listProducts.subList(start, (int) total);
