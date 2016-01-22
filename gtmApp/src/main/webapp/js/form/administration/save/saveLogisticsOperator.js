@@ -47,6 +47,9 @@ SaveLogisticsOperator = function() {
 				active: {
 					required: true
 				},
+				agent: {
+					required: true
+				},
 				isInput: {
 					required: true
 				}
@@ -96,6 +99,7 @@ SaveLogisticsOperator = function() {
 					"phone": $("#phoneInput").val(),
 					"active": $("#activeSelect option:selected").val(),
 					"input": $("#isInputSelect option:selected").val(),
+					"agentId": $("#agentSelect option:selected").val()
 			};
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.

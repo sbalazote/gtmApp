@@ -3,6 +3,7 @@ package com.lsntsolutions.gtmApp.controllers.administration;
 import com.lsntsolutions.gtmApp.dto.LogisticsOperatorDTO;
 import com.lsntsolutions.gtmApp.model.LogisticsOperator;
 import com.lsntsolutions.gtmApp.model.Province;
+import com.lsntsolutions.gtmApp.service.AgentService;
 import com.lsntsolutions.gtmApp.service.LogisticsOperatorService;
 import com.lsntsolutions.gtmApp.service.ProvinceService;
 import org.codehaus.jettison.json.JSONArray;
@@ -26,6 +27,9 @@ public class LogisticsOperatorAdministrationController {
 	@Autowired
 	private ProvinceService provinceService;
 
+	@Autowired
+	private AgentService agentService;
+
 	@RequestMapping(value = "/logisticsOperators", method = RequestMethod.POST)
 	public ModelAndView logisticsOperators(@RequestParam Map<String, String> parametersMap) {
 		String searchPhrase = parametersMap.get("searchPhrase");
@@ -39,6 +43,7 @@ public class LogisticsOperatorAdministrationController {
 	@RequestMapping(value = "/logisticsOperatorAdministration", method = RequestMethod.GET)
 	public String logisticsOperatorAdministration(ModelMap modelMap) throws Exception {
 		modelMap.put("provinces", this.provinceService.getAll());
+		modelMap.put("agents", this.agentService.getAll());
 		return "logisticsOperatorAdministration";
 	}
 
@@ -68,6 +73,7 @@ public class LogisticsOperatorAdministrationController {
 		logisticsOperator.setActive(logisticsOperatorDTO.isActive());
 		logisticsOperator.setGln(logisticsOperatorDTO.getGln());
 		logisticsOperator.setInput(logisticsOperatorDTO.isInput());
+		logisticsOperator.setAgent(this.agentService.get(logisticsOperatorDTO.getAgentId()));
 
 		return logisticsOperator;
 	}
