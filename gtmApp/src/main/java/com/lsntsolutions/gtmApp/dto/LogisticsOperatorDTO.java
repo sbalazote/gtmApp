@@ -19,6 +19,7 @@ public class LogisticsOperatorDTO implements Serializable {
 	private String phone;
 	private boolean active;
 	private boolean input;
+	private Integer agentId;
 
 	public Integer getId() {
 		return this.id;
@@ -122,5 +123,13 @@ public class LogisticsOperatorDTO implements Serializable {
 
 	public void setInput(boolean input) {
 		this.input = input;
+	}
+
+	public Integer getAgentId() {
+		return agentId;
+	}
+
+	public void setAgentId(Integer agentId) {
+		this.agentId = agentId;
 	}
 }

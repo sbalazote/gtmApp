@@ -1,0 +1,1 @@
+ALTER TABLE logistics_operator ADD agent_id INT(11) NULL;

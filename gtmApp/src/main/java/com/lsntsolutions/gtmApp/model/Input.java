@@ -212,7 +212,13 @@ public class Input implements Serializable {
 	public String getEvent() {
 		String eventId = null;
 		if (this.getProvider() != null) {
-			eventId = this.getConcept().getEventOnInput(this.getProvider().getAgent().getId());
+			Integer agentId;
+			if(this.getLogisticsOperator() != null){
+				agentId = this.getLogisticsOperator().getAgent().getId();
+			}else {
+				agentId = this.getProvider().getAgent().getId();
+			}
+			eventId = this.getConcept().getEventOnInput(agentId);
 		}
 		if (this.getDeliveryLocation() != null) {
 			eventId = this.getConcept().getEventOnInput(this.getDeliveryLocation().getAgent().getId());

@@ -58,6 +58,10 @@ public class LogisticsOperator implements Serializable {
 	@Column(name = "input", nullable = false)
 	private boolean input;
 
+	@ManyToOne
+	@JoinColumn(name = "agent_id", nullable = false)
+	private Agent agent;
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -160,5 +164,13 @@ public class LogisticsOperator implements Serializable {
 
 	public void setInput(boolean input) {
 		this.input = input;
+	}
+
+	public Agent getAgent() {
+		return agent;
+	}
+
+	public void setAgent(Agent agent) {
+		this.agent = agent;
 	}
 }

@@ -16,6 +16,7 @@ $(document).ready(function() {
 		$("#glnInput").val('');
 		$("#activeSelect").val($("#activeSelect option:first").val());
 		$("#isInputSelect").val($("#isInputSelect option:first").val());
+		$("#agentSelect").val($("#agentSelect option:first").val());
 	};
 	
 	var deleteLogisticsOperator = function(logisticsOperatorId) {
@@ -64,6 +65,7 @@ $(document).ready(function() {
 				var isInput = (response.input) ? "true" : "false";
 				$("#activeSelect").val(isActive).trigger('chosen:update');
 				$("#isInputSelect").val(isInput).trigger('chosen:update');
+				$("#agentSelect").val(response.agent.id).trigger('chosen:update');
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myDeleteError();
@@ -83,6 +85,7 @@ $(document).ready(function() {
 		$("#phoneInput").attr('disabled', hidden);
 		$("#activeSelect").prop('disabled', hidden).trigger('chosen:update');
 		$("#isInputSelect").prop('disabled', hidden).trigger('chosen:update');
+		$("#agentSelect").prop('disabled', hidden).trigger('chosen:update');
 		$("#glnInput").attr('disabled', hidden);
 	};
 	
