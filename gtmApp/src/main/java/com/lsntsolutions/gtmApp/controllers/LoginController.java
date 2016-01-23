@@ -44,7 +44,7 @@ public class LoginController {
     private PropertyService propertyService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(ModelMap modelMap, @RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout", required = false) String logout, HttpServletRequest request) throws Exception {
+	public String login(ModelMap modelMap, @RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout", required = false) String logout, @RequestParam(value = "invalid", required = false) String invalid, HttpServletRequest request) throws Exception {
         String userAgent = request.getHeader("user-agent");
         UserAgent ua = UserAgent.parseUserAgentString(userAgent);
         String browserName = ua.getBrowser().toString();
@@ -66,6 +66,8 @@ public class LoginController {
 
         if (logout != null) {
             modelMap.put("logout", true);
+        } else if (invalid != null ) {
+            modelMap.put("invalid", true);
         } else {
             boolean validLicense = isValidLicense();
 

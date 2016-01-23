@@ -70,21 +70,29 @@
 		<intercept-url pattern="/**" access="isAuthenticated()" />
 		
 		<form-login login-page="/login.do"
-			default-target-url="/home.do"
-			authentication-failure-url="/login.do?error"/>
+					default-target-url="/home.do"
+					authentication-failure-handler-ref="customAuthenticationFailureHandler"/>
 
 		<logout invalidate-session="true" logout-success-url="/login.do?logout"/>
-		
+
 		<session-management>
-			<concurrency-control error-if-maximum-exceeded="true" max-sessions="1" expired-url="/error.do" />
+			<concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
 		</session-management>
-		
+
 	</http>
 
 	<authentication-manager>
 		<authentication-provider ref="userAuthenticationProvider" />
 	</authentication-manager>
 	
-	<beans:bean id="userAuthenticationProvider" class="com.lsntsolutions.gtmApp.security.UserAuthenticationProvider"></beans:bean>
-	
+	<beans:bean id="userAuthenticationProvider" class="com.lsntsolutions.gtmApp.security.UserAuthenticationProvider"/>
+
+	<beans:bean id="customAuthenticationFailureHandler" class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler">
+		<beans:property name="exceptionMappings">
+			<beans:props>
+				<beans:prop key="org.springframework.security.authentication.BadCredentialsException">/login.do?error</beans:prop>
+				<beans:prop key="org.springframework.security.web.authentication.session.SessionAuthenticationException">/login.do?invalid</beans:prop>
+			</beans:props>
+		</beans:property>
+	</beans:bean>
 </beans:beans>
