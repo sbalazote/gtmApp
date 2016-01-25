@@ -54,13 +54,13 @@ public class AffiliateDAOHibernateImpl implements AffiliateDAO {
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Affiliate.class);
 
 		if (StringUtility.isInteger(term)) {
-			criteria.add(Restrictions.or(Restrictions.eq("id", Integer.parseInt(term)), Restrictions.eq("code", Integer.parseInt(term)), Restrictions.eq("document", Integer.parseInt(term))));
+			criteria.add(Restrictions.or(Restrictions.eq("id", Integer.parseInt(term)), Restrictions.ilike("code", term, MatchMode.ANYWHERE), Restrictions.ilike("document", term, MatchMode.ANYWHERE)));
 		} else {
 			criteria.add(Restrictions.or(Restrictions.ilike("name", term, MatchMode.ANYWHERE), Restrictions.ilike("surname", term, MatchMode.ANYWHERE)));
 		}
 
 		if (active != null && Boolean.TRUE.equals(active)) {
-			criteria.add(Restrictions.eq("active", "true"));
+			criteria.add(Restrictions.eq("active", true));
 		}
 
 		if (clientId != null) {
@@ -175,7 +175,7 @@ public class AffiliateDAOHibernateImpl implements AffiliateDAO {
 	public List<Affiliate> getAllAffiliatesByClient(Integer clientId, Boolean active) {
 		Query query = null;
 
-		String sentence = "select a from Affiliate as a inner join a.clients as c where c.id = :clientId and a.active = true";
+		String sentence = "select distinct a from Affiliate as a inner join a.clients as c where c.id = :clientId and a.active = true";
 
 		query = this.sessionFactory.getCurrentSession().createQuery(sentence);
 
