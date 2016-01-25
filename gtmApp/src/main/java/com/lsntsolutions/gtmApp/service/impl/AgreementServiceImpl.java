@@ -1,15 +1,14 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.Agreement;
+import com.lsntsolutions.gtmApp.persistence.dao.AgreementDAO;
 import com.lsntsolutions.gtmApp.service.AgreementService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lsntsolutions.gtmApp.persistence.dao.AgreementDAO;
+import java.util.List;
 
 @Service
 @Transactional
@@ -37,8 +36,8 @@ public class AgreementServiceImpl implements AgreementService {
 	}
 
 	@Override
-	public List<Agreement> getForAutocomplete(String term, Boolean active) {
-		return this.agreementDAO.getForAutocomplete(term, active);
+	public List<Agreement> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortNumberOfDeliveryNoteDetailsPerPage, String sortIsPickingList, String sortIsActive, String sortIsDeliveryNoteConcept, String sortDestructionConcept) {
+		return this.agreementDAO.getForAutocomplete(term, active, sortId, sortCode, sortDescription, sortNumberOfDeliveryNoteDetailsPerPage, sortIsPickingList, sortIsActive, sortIsDeliveryNoteConcept, sortDestructionConcept);
 	}
 
 	@Override

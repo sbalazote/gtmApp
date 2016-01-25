@@ -34,9 +34,9 @@
 			<th data-column-id="code" data-header-css-class="codeColumn" data-type="numeric"><spring:message code="common.code" /></th>
 			<th data-column-id="description"><spring:message code="common.description" /></th>
 			<th data-column-id="numberOfDeliveryNoteDetailsPerPage"><spring:message code="configuration.numberOfDeliveryNoteDetailsPerPage" /></th>
-			<th data-column-id="orderLabelPrinter"><spring:message code="configuration.orderLabelPrinter" /></th>
+			<%--<th data-column-id="orderLabelPrinter"><spring:message code="configuration.orderLabelPrinter" /></th>--%>
 			<th data-column-id="isPickingList"><spring:message code="common.pickingList" /></th>
-			<th data-column-id="deliveryNotePrinter"><spring:message code="configuration.deliveryNotePrinter" /></th>
+			<%--<th data-column-id="deliveryNotePrinter"><spring:message code="configuration.deliveryNotePrinter" /></th>--%>
 			<th data-column-id="isActive"><spring:message code="common.active" /></th>
 			<th data-column-id="deliveryNoteConcept"><spring:message code="configuration.deliveryNoteConcept" /></th>
 			<th data-column-id="destructionConcept"><spring:message code="configuration.destructionConcept" /></th>

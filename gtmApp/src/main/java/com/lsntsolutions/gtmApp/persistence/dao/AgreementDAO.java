@@ -1,8 +1,8 @@
 package com.lsntsolutions.gtmApp.persistence.dao;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.Agreement;
+
+import java.util.List;
 
 public interface AgreementDAO {
 
@@ -12,7 +12,7 @@ public interface AgreementDAO {
 
 	Boolean exists(Integer code);
 
-	List<Agreement> getForAutocomplete(String term, Boolean active);
+	List<Agreement> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortNumberOfDeliveryNoteDetailsPerPage, String sortIsPickingList, String sortIsActive, String sortIsDeliveryNoteConcept, String sortDestructionConcept);
 
 	List<Agreement> getAll();
 

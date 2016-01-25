@@ -1,7 +1,5 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.Concept;
 import com.lsntsolutions.gtmApp.persistence.dao.ConceptDAO;
 import com.lsntsolutions.gtmApp.service.*;
@@ -9,6 +7,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -48,8 +48,8 @@ public class ConceptServiceImpl implements ConceptService {
 	}
 
 	@Override
-	public List<Concept> getForAutocomplete(String term, Boolean active) {
-		return this.conceptDAO.getForAutocomplete(term, active);
+	public List<Concept> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortDeliveryNotePOS, String sortIsInformAnmat, String sortIsActive) {
+		return this.conceptDAO.getForAutocomplete(term, active, sortId, sortCode, sortDescription, sortDeliveryNotePOS, sortIsInformAnmat, sortIsActive);
 	}
 
 	@Override

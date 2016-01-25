@@ -12,7 +12,7 @@ public interface ConceptService {
 
 	Boolean exists(Integer code);
 
-	List<Concept> getForAutocomplete(String term, Boolean active);
+	List<Concept> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortDeliveryNotePOS, String sortIsInformAnmat, String sortIsActive);
 
 	List<Concept> getAll();
 

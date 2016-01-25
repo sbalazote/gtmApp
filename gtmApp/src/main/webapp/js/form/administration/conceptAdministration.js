@@ -213,7 +213,6 @@ $(document).ready(function() {
 	
 	var conceptsTable = $("#conceptsTable").bootgrid({
 		columnSelection: false,
-		sorting: false,
 	    ajax: true,
 	    requestHandler: function (request) {
 	    	return request; 

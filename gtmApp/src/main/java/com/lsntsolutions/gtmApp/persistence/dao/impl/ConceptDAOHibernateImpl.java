@@ -1,7 +1,5 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.Concept;
 import com.lsntsolutions.gtmApp.persistence.dao.ConceptDAO;
 import com.lsntsolutions.gtmApp.util.StringUtility;
@@ -9,8 +7,13 @@ import org.hibernate.Criteria;
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class ConceptDAOHibernateImpl implements ConceptDAO {
@@ -37,23 +40,62 @@ public class ConceptDAOHibernateImpl implements ConceptDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Concept> getForAutocomplete(String term, Boolean active) {
-		String sentence = "from Concept where (description like :description";
+	public List<Concept> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortDeliveryNotePOS, String sortIsInformAnmat, String sortIsActive) {
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Concept.class);
+
+		criteria.createAlias("deliveryNoteEnumerator", "dne");
+
 		if (StringUtility.isInteger(term)) {
-			sentence += " or convert(code, CHAR) like :code";
+			criteria.add(Restrictions.or(Restrictions.eq("id", Integer.parseInt(term)), Restrictions.eq("code",  Integer.parseInt(term)), Restrictions.eq("dne.deliveryNotePOS",  Integer.parseInt(term))));
+		} else {
+			criteria.add(Restrictions.ilike("description", term, MatchMode.ANYWHERE));
 		}
-		sentence += ")";
+
 		if (active != null && Boolean.TRUE.equals(active)) {
-			sentence += " and active = true";
+			criteria.add(Restrictions.eq("active", true));
 		}
 
-		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
-		query.setParameter("description", "%" + term + "%");
-
-		if (StringUtility.isInteger(term)) {
-			query.setParameter("code", "%" + term + "%");
+		if (sortId != null) {
+			if (sortId.equals("asc")) {
+				criteria.addOrder(Order.asc("id"));
+			} else {
+				criteria.addOrder(Order.desc("id"));
+			}
+		} else if (sortCode != null) {
+			if (sortCode.equals("asc")) {
+				criteria.addOrder(Order.asc("code"));
+			} else {
+				criteria.addOrder(Order.desc("code"));
+			}
+		} else if (sortDescription != null) {
+			if (sortDescription.equals("asc")) {
+				criteria.addOrder(Order.asc("description"));
+			} else {
+				criteria.addOrder(Order.desc("description"));
+			}
+		} else if (sortDeliveryNotePOS != null) {
+			if (sortDeliveryNotePOS.equals("asc")) {
+				criteria.addOrder(Order.asc("dne.deliveryNotePOS"));
+			} else {
+				criteria.addOrder(Order.desc("dne.deliveryNotePOS"));
+			}
+		} else if (sortIsInformAnmat != null) {
+			if (sortIsInformAnmat.equals("asc")) {
+				criteria.addOrder(Order.asc("informAnmat"));
+			} else {
+				criteria.addOrder(Order.desc("informAnmat"));
+			}
+		} else if (sortIsActive != null) {
+			if (sortIsActive.equals("asc")) {
+				criteria.addOrder(Order.asc("active"));
+			} else {
+				criteria.addOrder(Order.desc("active"));
+			}
+		} else {
+			criteria.addOrder(Order.asc("id"));
 		}
-		return query.list();
+
+		return (List<Concept>) criteria.list();
 	}
 
 	@SuppressWarnings("unchecked")

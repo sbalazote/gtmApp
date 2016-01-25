@@ -39,7 +39,7 @@ public class ConceptAdministrationController {
 		if (searchPhrase.matches("")) {
 			return new ModelAndView("concepts", "concepts", this.conceptService.getAll());
 		} else {
-			return new ModelAndView("concepts", "concepts", this.conceptService.getForAutocomplete(searchPhrase, null));
+			return new ModelAndView("concepts", "concepts", this.conceptService.getForAutocomplete(searchPhrase, null, null, null, null, null, null, null));
 		}
 	}
 
@@ -165,16 +165,19 @@ public class ConceptAdministrationController {
 		int length = rowCount;
 		long total;
 
-		List<Concept> listConcepts;
-		if (searchPhrase.matches("")) {
-			listConcepts = this.conceptService.getPaginated(start, length);
-			total = this.conceptService.getTotalNumber();
+		String sortId = parametersMap.get("sort[id]");
+		String sortCode = parametersMap.get("sort[code]");
+		String sortDescription = parametersMap.get("sort[description]");
+		String sortDeliveryNotePOS = parametersMap.get("sort[deliveryNotePOS]");
+		String sortIsInformAnmat = parametersMap.get("sort[isInformAnmat]");
+		String sortIsActive = parametersMap.get("sort[isActive]");
+
+		List<Concept> listConcepts = this.conceptService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortDescription, sortDeliveryNotePOS, sortIsInformAnmat, sortIsActive);
+		total = listConcepts.size();
+		if (total < start + length) {
+			listConcepts = listConcepts.subList(start, (int) total);
 		} else {
-			listConcepts = this.conceptService.getForAutocomplete(searchPhrase, null);
-			total = listConcepts.size();
-			if (total < start + length) {
-				listConcepts = listConcepts.subList(start, (int) total);
-			} else {
+			if(length > 0) {
 				listConcepts = listConcepts.subList(start, start + length);
 			}
 		}
@@ -193,13 +196,13 @@ public class ConceptAdministrationController {
 			}
 
 			dataJson.put("deliveryNotePOS", deliveryNoteEnumerator);
-			dataJson.put("isClient", concept.isClient() == true ? "Si" : "No");
-			dataJson.put("isPrintDeliveryNote", concept.isPrintDeliveryNote() == true ? "Si" : "No");
+			dataJson.put("isClient", concept.isClient() ? "Si" : "No");
+			dataJson.put("isPrintDeliveryNote", concept.isPrintDeliveryNote() ? "Si" : "No");
 			dataJson.put("deliveryNoteCopies", concept.getDeliveryNoteCopies());
-			dataJson.put("isRefund", concept.isRefund() == true ? "Si" : "No");
-			dataJson.put("isInformAnmat", concept.isInformAnmat() == true ? "Si" : "No");
-			dataJson.put("isActive", concept.isActive() == true ? "Si" : "No");
-			dataJson.put("isClient", concept.isClient() == true ? "Si" : "No");
+			dataJson.put("isRefund", concept.isRefund() ? "Si" : "No");
+			dataJson.put("isInformAnmat", concept.isInformAnmat() ? "Si" : "No");
+			dataJson.put("isActive", concept.isActive() ? "Si" : "No");
+			dataJson.put("isClient", concept.isClient() ? "Si" : "No");
 			jsonArray.put(dataJson);
 		}
 

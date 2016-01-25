@@ -40,7 +40,7 @@ public class AgreementAdministrationController {
 		if (searchPhrase.matches("")) {
 			return new ModelAndView("agreements", "agreements", this.agreementService.getAll());
 		} else {
-			return new ModelAndView("agreements", "agreements", this.agreementService.getForAutocomplete(searchPhrase, null));
+			return new ModelAndView("agreements", "agreements", this.agreementService.getForAutocomplete(searchPhrase, null, null, null, null, null, null, null, null, null));
 		}
 	}
 
@@ -104,16 +104,21 @@ public class AgreementAdministrationController {
 		int length = rowCount;
 		long total;
 
-		List<Agreement> listAgreements = null;
-		if (searchPhrase.matches("")) {
-			listAgreements = this.agreementService.getPaginated(start, length);
-			total = this.agreementService.getTotalNumber();
+		String sortId = parametersMap.get("sort[id]");
+		String sortCode = parametersMap.get("sort[code]");
+		String sortDescription = parametersMap.get("sort[description]");
+		String sortNumberOfDeliveryNoteDetailsPerPage = parametersMap.get("sort[numberOfDeliveryNoteDetailsPerPage]");
+		String sortIsPickingList = parametersMap.get("sort[isPickingList]");
+		String sortIsActive = parametersMap.get("sort[isActive]");
+		String sortIsDeliveryNoteConcept = parametersMap.get("sort[deliveryNoteConcept]");
+		String sortDestructionConcept = parametersMap.get("sort[destructionConcept]");
+
+		List<Agreement> listAgreements = this.agreementService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortDescription, sortNumberOfDeliveryNoteDetailsPerPage, sortIsPickingList, sortIsActive, sortIsDeliveryNoteConcept, sortDestructionConcept);
+		total = listAgreements.size();
+		if (total < start + length) {
+			listAgreements = listAgreements.subList(start, (int) total);
 		} else {
-			listAgreements = this.agreementService.getForAutocomplete(searchPhrase, null);
-			total = listAgreements.size();
-			if (total < start + length) {
-				listAgreements = listAgreements.subList(start, (int) total);
-			} else {
+			if(length > 0) {
 				listAgreements = listAgreements.subList(start, start + length);
 			}
 		}
@@ -125,10 +130,10 @@ public class AgreementAdministrationController {
 			dataJson.put("code", agreement.getCode());
 			dataJson.put("description", agreement.getDescription());
 			dataJson.put("numberOfDeliveryNoteDetailsPerPage", agreement.getNumberOfDeliveryNoteDetailsPerPage());
-			dataJson.put("orderLabelPrinter", agreement.getOrderLabelPrinter());
-			dataJson.put("deliveryNotePrinter", agreement.getDeliveryNotePrinter());
-			dataJson.put("isActive", agreement.isActive() == true ? "Si" : "No");
-			dataJson.put("isPickingList", agreement.isPickingList() == true ? "Si" : "No");
+			/*dataJson.put("orderLabelPrinter", agreement.getOrderLabelPrinter());
+			dataJson.put("deliveryNotePrinter", agreement.getDeliveryNotePrinter());*/
+			dataJson.put("isActive", agreement.isActive() ? "Si" : "No");
+			dataJson.put("isPickingList", agreement.isPickingList() ? "Si" : "No");
 			dataJson.put("deliveryNoteConcept", agreement.getDeliveryNoteConcept().getDescription());
 			dataJson.put("destructionConcept", agreement.getDestructionConcept().getDescription());
 			jsonArray.put(dataJson);
