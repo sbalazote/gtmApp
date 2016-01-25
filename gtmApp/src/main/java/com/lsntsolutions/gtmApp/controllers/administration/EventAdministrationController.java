@@ -31,7 +31,7 @@ public class EventAdministrationController {
 		if (searchPhrase.matches("")) {
 			return new ModelAndView("events", "events", this.eventService.getAll());
 		} else {
-			return new ModelAndView("events", "events", this.eventService.getForAutocomplete(searchPhrase, null));
+			return new ModelAndView("events", "events", this.eventService.getForAutocomplete(searchPhrase, null, null, null, null, null, null, null));
 		}
 	}
 
@@ -101,16 +101,20 @@ public class EventAdministrationController {
 		int length = rowCount;
 		long total;
 
-		List<Event> listEvents;
-		if (searchPhrase.matches("")) {
-			listEvents = this.eventService.getPaginated(start, length);
-			total = this.eventService.getTotalNumber();
+		String sortId = parametersMap.get("sort[id]");
+		String sortCode = parametersMap.get("sort[code]");
+		String sortDescription = parametersMap.get("sort[description]");
+		String sortOriginAgent = parametersMap.get("sort[originAgent]");
+		String sortDestinationAgent = parametersMap.get("sort[destinationAgent]");
+		String sortIsActive = parametersMap.get("sort[isActive]");
+
+		List<Event> listEvents = null;
+		listEvents = this.eventService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortDescription, sortOriginAgent, sortDestinationAgent, sortIsActive);
+		total = listEvents.size();
+		if (total < start + length) {
+			listEvents = listEvents.subList(start, (int) total);
 		} else {
-			listEvents = this.eventService.getForAutocomplete(searchPhrase, null);
-			total = listEvents.size();
-			if (total < start + length) {
-				listEvents = listEvents.subList(start, (int) total);
-			} else {
+			if(length > 0) {
 				listEvents = listEvents.subList(start, start + length);
 			}
 		}
@@ -123,7 +127,7 @@ public class EventAdministrationController {
 			dataJson.put("description", event.getDescription());
 			dataJson.put("originAgent", event.getOriginAgent().getDescription());
 			dataJson.put("destinationAgent", event.getDestinationAgent().getDescription());
-			dataJson.put("isActive", event.isActive() == true ? "Si" : "No");
+			dataJson.put("isActive", event.isActive() ? "Si" : "No");
 			jsonArray.put(dataJson);
 		}
 

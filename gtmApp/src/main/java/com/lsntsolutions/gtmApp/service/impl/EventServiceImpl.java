@@ -1,15 +1,14 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
-import java.util.List;
-
+import com.lsntsolutions.gtmApp.model.Event;
+import com.lsntsolutions.gtmApp.persistence.dao.EventDAO;
 import com.lsntsolutions.gtmApp.service.EventService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lsntsolutions.gtmApp.model.Event;
-import com.lsntsolutions.gtmApp.persistence.dao.EventDAO;
+import java.util.List;
 
 @Service
 @Transactional
@@ -37,8 +36,8 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public List<Event> getForAutocomplete(String term, Boolean active) {
-		return this.eventDAO.getForAutocomplete(term, active);
+	public List<Event> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortOriginAgent, String sortDestinationAgent, String sortIsActive) {
+		return this.eventDAO.getForAutocomplete(term, active, sortId, sortCode, sortDescription, sortOriginAgent, sortDestinationAgent, sortIsActive);
 	}
 
 	@Override

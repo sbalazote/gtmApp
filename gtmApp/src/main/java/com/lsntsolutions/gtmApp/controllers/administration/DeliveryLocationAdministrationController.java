@@ -144,7 +144,7 @@ public class DeliveryLocationAdministrationController {
 			dataJson.put("mail", deliveryLocation.getMail());
 			dataJson.put("gln", deliveryLocation.getGln());
 			dataJson.put("agent", deliveryLocation.getAgent().getDescription());
-			dataJson.put("isActive", deliveryLocation.isActive() == true ? "Si" : "No");
+			dataJson.put("isActive", deliveryLocation.isActive() ? "Si" : "No");
 			jsonArray.put(dataJson);
 		}
 
