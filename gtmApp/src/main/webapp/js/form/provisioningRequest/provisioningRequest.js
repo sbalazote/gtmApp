@@ -503,6 +503,9 @@ var ProvisioningRequest = function() {
 				for(var i = 0; i < response.length ; i++){
 					$('#deliveryLocationInput').append('<option value='+ response[i].id + '>' + response[i].code + " - " + response[i].name + " - " + response[i].locality + " - " + response[i].address +'</option>');
 				}
+				if(isUpdate && $("#deliveryLocationId").val() != ""){
+					$('#deliveryLocationInput').val($("#deliveryLocationId").val());
+				}
 				$('#deliveryLocationInput').trigger('chosen:updated');
 			},
 			error : function(jqXHR, textStatus,

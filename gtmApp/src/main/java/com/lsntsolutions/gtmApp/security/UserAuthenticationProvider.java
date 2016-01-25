@@ -29,30 +29,23 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 
 	@Override
 	public Authentication authenticate(Authentication authentication) {
-		if (!authentication.isAuthenticated()) {
-			logger.info("Autenticando usuario {}", authentication.getPrincipal().toString());
-			String username = authentication.getPrincipal().toString();
-			String password = authentication.getCredentials().toString();
-			User user = this.userService.getByName(username);
-			if (user != null && password != null) {
+		logger.info("Autenticando usuario {}", authentication.getPrincipal().toString());
+		String username = authentication.getPrincipal().toString();
+		String password = authentication.getCredentials().toString();
+		User user = this.userService.getByName(username);
+		if (user != null && password != null) {
+			String hashedPassword = EncryptionHelper.generateHash(username + password);
 
-				String hashedPassword = EncryptionHelper.generateHash(username + password);
-
-				if (hashedPassword.equals(user.getPassword())) {
-					if (user.isActive()) {
-						logger.info("Usuario autenticado");
-						return new UsernamePasswordAuthenticationToken(username, password, this.getAuthorities(user.getProfile().getRoles()));
-					} else {
-						logger.info("Usuario inhabilitado.");
-						throw new BadCredentialsException("Usuario inhabilitado. Consulte con el Administrador del Sistema.");
-					}
+			if (hashedPassword.equals(user.getPassword())) {
+				if (user.isActive()) {
+					logger.info("Usuario autenticado");
+					return new UsernamePasswordAuthenticationToken(username, password, this.getAuthorities(user.getProfile().getRoles()));
 				} else {
-					logger.info("Usuario o contrase�a incorrectos.");
-					throw new BadCredentialsException("Usuario o contrasenia incorrectos");
+					logger.info("Usuario inhabilitado.");
+					throw new BadCredentialsException("Usuario inhabilitado. Consulte con el Administrador del Sistema.");
 				}
-
 			} else {
-				logger.info("Usuario o contrasenia incorrectos.");
+				logger.info("Usuario o contrase�a incorrectos.");
 				throw new BadCredentialsException("Usuario o contrasenia incorrectos");
 			}
 		}
