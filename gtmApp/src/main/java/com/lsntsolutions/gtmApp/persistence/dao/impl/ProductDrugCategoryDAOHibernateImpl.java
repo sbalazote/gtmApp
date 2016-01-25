@@ -49,7 +49,7 @@ public class ProductDrugCategoryDAOHibernateImpl implements ProductDrugCategoryD
 		}
 
 		if (active != null && Boolean.TRUE.equals(active)) {
-			criteria.add(Restrictions.eq("active", "true"));
+			criteria.add(Restrictions.eq("active", true));
 		}
 
 		if (sortId != null) {

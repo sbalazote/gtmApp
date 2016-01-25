@@ -24,8 +24,7 @@
                 "onclick": null,
                 "showDuration": "300",
                 "hideDuration": "1000",
-                "timeOut": 0,
-                "extendedTimeOut": 0,
+                "timeOut": 3000,
                 "showEasing": "swing",
                 "hideEasing": "linear",
                 "showMethod": "fadeIn",
@@ -34,33 +33,6 @@
             };
             // Muestro mensaje de error, con un titulo.
             toastr.info('La sesi\u00f3n se ha cerrado correctamente.', 'INFO');
-        </script>
-    </c:if>
-    <c:if test="${not empty invalid}">
-        <div class="row">
-            <div class="form-group col-md-12 col-lg-12 text-center myAlert">
-            </div>
-        </div>
-        <script type="text/javascript">
-            toastr.options = {
-                "closeButton": false,
-                "debug": false,
-                "newestOnTop": false,
-                "progressBar": true,
-                "preventDuplicates": false,
-                "onclick": null,
-                "showDuration": "300",
-                "hideDuration": "1000",
-                "timeOut": 0,
-                "extendedTimeOut": 0,
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut",
-                "target": ".myAlert"
-            };
-            // Muestro mensaje de error, con un titulo.
-            toastr.warning('Se ha detectado una sesi\u00f3n existente en otra terminal. Ci\u00e9rrela e intente ingresar nuevamente desde aqu\u00ed.', 'ADVERTENCIA');
         </script>
     </c:if>
 	<c:if test="${not empty error}">
@@ -78,8 +50,7 @@
                 "onclick": null,
                 "showDuration": "300",
                 "hideDuration": "1000",
-                "timeOut": 0,
-                "extendedTimeOut": 0,
+                "timeOut": 3000,
                 "showEasing": "swing",
                 "hideEasing": "linear",
                 "showMethod": "fadeIn",
