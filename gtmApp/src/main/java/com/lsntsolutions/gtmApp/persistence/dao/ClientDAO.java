@@ -1,9 +1,9 @@
 package com.lsntsolutions.gtmApp.persistence.dao;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.Client;
 import com.lsntsolutions.gtmApp.model.DeliveryLocation;
+
+import java.util.List;
 
 public interface ClientDAO {
 
@@ -13,7 +13,7 @@ public interface ClientDAO {
 
 	Boolean exists(Integer code);
 
-	List<Client> getForAutocomplete(String term, Boolean active);
+	List<Client> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortName, String sortTaxId, String sortProvince, String sortIsActive);
 
 	List<Client> getAll();
 

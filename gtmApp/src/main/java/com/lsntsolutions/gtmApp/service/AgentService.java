@@ -1,8 +1,8 @@
 package com.lsntsolutions.gtmApp.service;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.Agent;
+
+import java.util.List;
 
 public interface AgentService {
 
@@ -12,7 +12,7 @@ public interface AgentService {
 
 	Boolean exists(Integer code);
 
-	List<Agent> getForAutocomplete(String term, Boolean active);
+	List<Agent> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortIsActive);
 
 	List<Agent> getAll();
 

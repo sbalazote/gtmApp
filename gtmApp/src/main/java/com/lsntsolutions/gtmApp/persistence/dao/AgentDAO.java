@@ -1,8 +1,8 @@
 package com.lsntsolutions.gtmApp.persistence.dao;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.Agent;
+
+import java.util.List;
 
 public interface AgentDAO {
 
@@ -12,7 +12,7 @@ public interface AgentDAO {
 
 	Boolean exists(Integer code);
 
-	List<Agent> getForAutocomplete(String term, Boolean active);
+	List<Agent> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortIsActive);
 
 	List<Agent> getAll();
 

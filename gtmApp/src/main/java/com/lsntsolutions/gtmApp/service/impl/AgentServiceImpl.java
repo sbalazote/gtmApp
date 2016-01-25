@@ -1,15 +1,14 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.Agent;
+import com.lsntsolutions.gtmApp.persistence.dao.AgentDAO;
 import com.lsntsolutions.gtmApp.service.AgentService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lsntsolutions.gtmApp.persistence.dao.AgentDAO;
+import java.util.List;
 
 @Service
 @Transactional
@@ -37,8 +36,8 @@ public class AgentServiceImpl implements AgentService {
 	}
 
 	@Override
-	public List<Agent> getForAutocomplete(String term, Boolean active) {
-		return this.agentDAO.getForAutocomplete(term, active);
+	public List<Agent> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortIsActive) {
+		return this.agentDAO.getForAutocomplete(term, active, sortId, sortCode, sortDescription, sortIsActive);
 	}
 
 	@Override

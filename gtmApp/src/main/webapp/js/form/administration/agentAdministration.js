@@ -71,7 +71,6 @@ $(document).ready(function() {
 	
 	var agentsTable = $("#agentsTable").bootgrid({
 		columnSelection: false,
-		sorting: false,
 	    ajax: true,
 	    requestHandler: function (request) {
 	    	return request; 

@@ -42,7 +42,7 @@ public class ClientAdministrationController {
 		if (searchPhrase.matches("")) {
 			return new ModelAndView("clients", "clients", this.clientService.getAll());
 		} else {
-			return new ModelAndView("clients", "clients", this.clientService.getForAutocomplete(searchPhrase, null));
+			return new ModelAndView("clients", "clients", this.clientService.getForAutocomplete(searchPhrase, null, null, null, null, null, null, null));
 		}
 	}
 
@@ -179,16 +179,19 @@ public class ClientAdministrationController {
 		int length = rowCount;
 		long total;
 
-		List<Client> listClients;
-		if (searchPhrase.matches("")) {
-			listClients = this.clientService.getPaginated(start, length);
-			total = this.clientService.getTotalNumber();
+		String sortId = parametersMap.get("sort[id]");
+		String sortCode = parametersMap.get("sort[code]");
+		String sortName = parametersMap.get("sort[name]");
+		String sortTaxId = parametersMap.get("sort[taxId]");
+		String sortProvince = parametersMap.get("sort[province]");
+		String sortIsActive = parametersMap.get("sort[isActive]");
+
+		List<Client> listClients = this.clientService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortName, sortTaxId, sortProvince, sortIsActive);
+		total = listClients.size();
+		if (total < start + length) {
+			listClients = listClients.subList(start, (int) total);
 		} else {
-			listClients = this.clientService.getForAutocomplete(searchPhrase, null);
-			total = listClients.size();
-			if (total < start + length) {
-				listClients = listClients.subList(start, (int) total);
-			} else {
+			if(length > 0) {
 				listClients = listClients.subList(start, start + length);
 			}
 		}

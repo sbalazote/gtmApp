@@ -1,19 +1,19 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.Client;
 import com.lsntsolutions.gtmApp.model.DeliveryLocation;
+import com.lsntsolutions.gtmApp.persistence.dao.ClientDAO;
+import com.lsntsolutions.gtmApp.util.StringUtility;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.lsntsolutions.gtmApp.persistence.dao.ClientDAO;
-import com.lsntsolutions.gtmApp.util.StringUtility;
+import java.util.List;
 
 @Repository
 public class ClientDAOHibernateImpl implements ClientDAO {
@@ -40,25 +40,62 @@ public class ClientDAOHibernateImpl implements ClientDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Client> getForAutocomplete(String term, Boolean active) {
-		String sentence = "from Client where (taxId like :taxId or corporateName like :corporateName or locality like :locality";
+	public List<Client> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortName, String sortTaxId, String sortProvince, String sortIsActive) {
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Client.class);
+
+		criteria.createAlias("province", "p");
+
 		if (StringUtility.isInteger(term)) {
-			sentence += " or convert(code, CHAR) like :code";
+			criteria.add(Restrictions.or(Restrictions.eq("id", Integer.parseInt(term)), Restrictions.eq("code",  Integer.parseInt(term))));
+		} else {
+			criteria.add(Restrictions.or(Restrictions.ilike("name", term, MatchMode.ANYWHERE), Restrictions.ilike("p.name", term, MatchMode.ANYWHERE), Restrictions.ilike("taxId", term, MatchMode.ANYWHERE)));
 		}
-		sentence += ")";
+
 		if (active != null && Boolean.TRUE.equals(active)) {
-			sentence += " and active = true";
+			criteria.add(Restrictions.eq("active", true));
 		}
 
-		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
-		query.setParameter("taxId", "%" + term + "%");
-		query.setParameter("corporateName", "%" + term + "%");
-		query.setParameter("locality", "%" + term + "%");
-
-		if (StringUtility.isInteger(term)) {
-			query.setParameter("code", "%" + term + "%");
+		if (sortId != null) {
+			if (sortId.equals("asc")) {
+				criteria.addOrder(Order.asc("id"));
+			} else {
+				criteria.addOrder(Order.desc("id"));
+			}
+		} else if (sortCode != null) {
+			if (sortCode.equals("asc")) {
+				criteria.addOrder(Order.asc("code"));
+			} else {
+				criteria.addOrder(Order.desc("code"));
+			}
+		} else if (sortName != null) {
+			if (sortName.equals("asc")) {
+				criteria.addOrder(Order.asc("name"));
+			} else {
+				criteria.addOrder(Order.desc("name"));
+			}
+		} else if (sortProvince != null) {
+			if (sortProvince.equals("asc")) {
+				criteria.addOrder(Order.asc("p.name"));
+			} else {
+				criteria.addOrder(Order.desc("p.name"));
+			}
+		} else if (sortTaxId != null) {
+			if (sortTaxId.equals("asc")) {
+				criteria.addOrder(Order.asc("taxId"));
+			} else {
+				criteria.addOrder(Order.desc("taxId"));
+			}
+		} else if (sortIsActive != null) {
+			if (sortIsActive.equals("asc")) {
+				criteria.addOrder(Order.asc("active"));
+			} else {
+				criteria.addOrder(Order.desc("active"));
+			}
+		} else {
+			criteria.addOrder(Order.asc("id"));
 		}
-		return query.list();
+
+		return (List<Client>) criteria.list();
 	}
 
 	@SuppressWarnings("unchecked")

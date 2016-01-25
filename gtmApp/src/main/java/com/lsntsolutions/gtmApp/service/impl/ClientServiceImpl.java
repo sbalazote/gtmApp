@@ -1,16 +1,15 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.Client;
 import com.lsntsolutions.gtmApp.model.DeliveryLocation;
+import com.lsntsolutions.gtmApp.persistence.dao.ClientDAO;
 import com.lsntsolutions.gtmApp.service.ClientService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lsntsolutions.gtmApp.persistence.dao.ClientDAO;
+import java.util.List;
 
 @Service
 @Transactional
@@ -38,8 +37,8 @@ public class ClientServiceImpl implements ClientService {
 	}
 
 	@Override
-	public List<Client> getForAutocomplete(String term, Boolean active) {
-		return this.clientDAO.getForAutocomplete(term, active);
+	public List<Client> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortName, String sortTaxId, String sortProvince, String sortIsActive) {
+		return this.clientDAO.getForAutocomplete(term, active, sortId, sortCode, sortName, sortTaxId, sortProvince, sortIsActive);
 	}
 
 	@Override

@@ -26,7 +26,7 @@ public class AgentAdministrationController {
 		if (searchPhrase.matches("")) {
 			return new ModelAndView("agents", "agents", this.agentService.getAll());
 		} else {
-			return new ModelAndView("agents", "agents", this.agentService.getForAutocomplete(searchPhrase, null));
+			return new ModelAndView("agents", "agents", this.agentService.getForAutocomplete(searchPhrase, null, null, null, null, null));
 		}
 	}
 
@@ -81,16 +81,18 @@ public class AgentAdministrationController {
 		int length = rowCount;
 		long total;
 
-		List<Agent> listAgents;
-		if (searchPhrase.matches("")) {
-			listAgents = this.agentService.getPaginated(start, length);
-			total = this.agentService.getTotalNumber();
+		String sortId = parametersMap.get("sort[id]");
+		String sortCode = parametersMap.get("sort[code]");
+		String sortDescription = parametersMap.get("sort[description]");
+		String sortIsActive = parametersMap.get("sort[isActive]");
+
+		List<Agent> listAgents = null;
+		listAgents = this.agentService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortDescription, sortIsActive);
+		total = listAgents.size();
+		if (total < start + length) {
+			listAgents = listAgents.subList(start, (int) total);
 		} else {
-			listAgents = this.agentService.getForAutocomplete(searchPhrase, null);
-			total = listAgents.size();
-			if (total < start + length) {
-				listAgents = listAgents.subList(start, (int) total);
-			} else {
+			if(length > 0) {
 				listAgents = listAgents.subList(start, start + length);
 			}
 		}
@@ -101,7 +103,7 @@ public class AgentAdministrationController {
 			dataJson.put("id", agent.getId());
 			dataJson.put("code", agent.getCode());
 			dataJson.put("description", agent.getDescription());
-			dataJson.put("isActive", agent.isActive() == true ? "Si" : "No");
+			dataJson.put("isActive", agent.isActive() ? "Si" : "No");
 			jsonArray.put(dataJson);
 		}
 
