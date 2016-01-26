@@ -33,7 +33,7 @@
 				<th data-column-id="expirationDateLength" data-type="numeric"><spring:message code="common.expirationDateLength" /></th>
 				<th data-column-id="batchLength" data-type="numeric"><spring:message code="common.batchLength" /></th>
 				<th data-column-id="sequence"><spring:message code="common.sequence" /></th>
-				<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="common.action" /></th>
+				<th data-column-id="commands" data-formatter="commands" data-sortable="false" data-searchable="false"><spring:message code="common.action" /></th>
 			</tr>
 		</thead>
 		<tbody id="serializedFormatTableBody">

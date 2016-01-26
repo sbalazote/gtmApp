@@ -1,16 +1,17 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
-import java.util.List;
-
+import com.lsntsolutions.gtmApp.model.DeliveryNoteEnumerator;
 import com.lsntsolutions.gtmApp.persistence.dao.DeliveryNoteEnumeratorDAO;
 import com.lsntsolutions.gtmApp.util.StringUtility;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.lsntsolutions.gtmApp.model.DeliveryNoteEnumerator;
+import java.util.List;
 
 @Repository
 public class DeliveryNoteEnumeratorDAOImpl implements DeliveryNoteEnumeratorDAO {
@@ -38,27 +39,50 @@ public class DeliveryNoteEnumeratorDAOImpl implements DeliveryNoteEnumeratorDAO 
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<DeliveryNoteEnumerator> getForAutocomplete(String term, Boolean active, Boolean fake) {
-		String sentence = "from DeliveryNoteEnumerator where (";
+	public List<DeliveryNoteEnumerator> getForAutocomplete(String term, Boolean active, Boolean fake, String sortId, String sortDeliveryNotePOS, String sortLastDeliveryNoteNumber, String sortIsActive) {
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(DeliveryNoteEnumerator.class);
+
 		if (StringUtility.isInteger(term)) {
-			sentence += " convert(deliveryNotePOS, CHAR) like :deliveryNotePOS";
+			criteria.add(Restrictions.or(Restrictions.eq("id", Integer.parseInt(term)), Restrictions.eq("deliveryNotePOS",  Integer.parseInt(term)), Restrictions.eq("lastDeliveryNoteNumber",  Integer.parseInt(term))));
 		}
-		sentence += ")";
+
 		if (active != null && Boolean.TRUE.equals(active)) {
-			sentence += " and active = true";
+			criteria.add(Restrictions.eq("active", true));
 		}
 
 		if (fake != null && Boolean.TRUE.equals(fake)) {
-			sentence += " and fake = true";
+			criteria.add(Restrictions.eq("fake", true));
 		}
 
-		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
-		query.setParameter("description", "%" + term + "%");
-
-		if (StringUtility.isInteger(term)) {
-			query.setParameter("code", "%" + term + "%");
+		if (sortId != null) {
+			if (sortId.equals("asc")) {
+				criteria.addOrder(Order.asc("id"));
+			} else {
+				criteria.addOrder(Order.desc("id"));
+			}
+		} else if (sortDeliveryNotePOS != null) {
+			if (sortDeliveryNotePOS.equals("asc")) {
+				criteria.addOrder(Order.asc("deliveryNotePOS"));
+			} else {
+				criteria.addOrder(Order.desc("deliveryNotePOS"));
+			}
+		} else if (sortLastDeliveryNoteNumber != null) {
+			if (sortLastDeliveryNoteNumber.equals("asc")) {
+				criteria.addOrder(Order.asc("lastDeliveryNoteNumber"));
+			} else {
+				criteria.addOrder(Order.desc("lastDeliveryNoteNumber"));
+			}
+		} else if (sortIsActive != null) {
+			if (sortIsActive.equals("asc")) {
+				criteria.addOrder(Order.asc("active"));
+			} else {
+				criteria.addOrder(Order.desc("active"));
+			}
+		} else {
+			criteria.addOrder(Order.asc("id"));
 		}
-		return query.list();
+
+		return (List<DeliveryNoteEnumerator>) criteria.list();
 	}
 
 	@SuppressWarnings("unchecked")

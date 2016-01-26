@@ -1,14 +1,14 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
-import java.util.List;
-
+import com.lsntsolutions.gtmApp.model.DeliveryNoteEnumerator;
 import com.lsntsolutions.gtmApp.persistence.dao.DeliveryNoteEnumeratorDAO;
 import com.lsntsolutions.gtmApp.service.DeliveryNoteEnumeratorService;
-import com.lsntsolutions.gtmApp.model.DeliveryNoteEnumerator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -36,8 +36,8 @@ public class DeliveryNoteEnumeratorImpl implements DeliveryNoteEnumeratorService
 	}
 
 	@Override
-	public List<DeliveryNoteEnumerator> getForAutocomplete(String term, Boolean active, Boolean fake) {
-		return this.deliveryNoteEnumeratorDAO.getForAutocomplete(term, active, fake);
+	public List<DeliveryNoteEnumerator> getForAutocomplete(String term, Boolean active, Boolean fake, String sortId, String sortDeliveryNotePOS, String sortLastDeliveryNoteNumber, String sortIsActive) {
+		return this.deliveryNoteEnumeratorDAO.getForAutocomplete(term, active, fake, sortId, sortDeliveryNotePOS, sortLastDeliveryNoteNumber, sortIsActive);
 	}
 
 	@Override

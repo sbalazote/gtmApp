@@ -1,8 +1,8 @@
 package com.lsntsolutions.gtmApp.persistence.dao;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.DeliveryNoteEnumerator;
+
+import java.util.List;
 
 public interface DeliveryNoteEnumeratorDAO {
 
@@ -12,7 +12,7 @@ public interface DeliveryNoteEnumeratorDAO {
 
 	Boolean exists(Integer deliveryNotePOS, Boolean fake);
 
-	List<DeliveryNoteEnumerator> getForAutocomplete(String term, Boolean active, Boolean fake);
+	List<DeliveryNoteEnumerator> getForAutocomplete(String term, Boolean active, Boolean fake, String sortId, String sortDeliveryNotePOS, String sortLastDeliveryNoteNumber, String sortIsActive);
 
 	List<DeliveryNoteEnumerator> getAll();
 
