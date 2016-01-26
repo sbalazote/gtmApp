@@ -36,6 +36,8 @@ public class PropertyDTO implements Serializable {
 	private Integer VATLiabilityId;
 	private boolean provisioningRequireAuthorization;
 	private boolean	printPickingList;
+	private Integer pickingListX;
+	private Integer pickingListY;
 
 	private Integer fontSize;
 	private Integer numberX;
@@ -1048,5 +1050,21 @@ public class PropertyDTO implements Serializable {
 
 	public void setLogisticsOperatorPrint(Boolean logisticsOperatorPrint) {
 		this.logisticsOperatorPrint = logisticsOperatorPrint;
+	}
+
+	public Integer getPickingListX() {
+		return pickingListX;
+	}
+
+	public void setPickingListX(Integer pickingListX) {
+		this.pickingListX = pickingListX;
+	}
+
+	public Integer getPickingListY() {
+		return pickingListY;
+	}
+
+	public void setPickingListY(Integer pickingListY) {
+		this.pickingListY = pickingListY;
 	}
 }

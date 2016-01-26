@@ -32,7 +32,7 @@
     <facet type="hibernate" name="Hibernate">
       <configuration>
         <datasource-map>
-          <unit-entry name="sessionFactory" value="97350cc6-cf5e-418f-bc3b-90df33c1e55d" />
+          <unit-entry name="sessionFactory" value="8bc935cf-2b8a-4666-9f96-34cbea970c02" />
         </datasource-map>
         <naming-strategy-map />
         <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/main/resources/persistence-context.xml" />

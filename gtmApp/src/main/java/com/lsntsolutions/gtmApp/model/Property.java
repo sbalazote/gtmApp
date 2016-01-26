@@ -95,6 +95,12 @@ public class Property implements Serializable {
 	@Column(name = "print_picking_list", nullable = false)
 	private boolean printPickingList;
 
+	@Column(name = "picking_list_coordinate_x_start", unique = true, nullable = false)
+	private Integer printPickingCoordinateXStart;
+
+	@Column(name = "picking_list_coordinate_y_start", unique = true, nullable = false)
+	private Integer printPickingCoordinateYStart;
+
 	@ManyToOne
 	@JoinColumn(name = "VAT_liability_id", nullable = false)
 	private VATLiability VATLiability;
@@ -317,5 +323,21 @@ public class Property implements Serializable {
 
 	public void setPrintPickingList(boolean printPickingList) {
 		this.printPickingList = printPickingList;
+	}
+
+	public Integer getPrintPickingCoordinateXStart() {
+		return printPickingCoordinateXStart;
+	}
+
+	public void setPrintPickingCoordinateXStart(Integer printPickingCoordinateXStart) {
+		this.printPickingCoordinateXStart = printPickingCoordinateXStart;
+	}
+
+	public Integer getPrintPickingCoordinateYStart() {
+		return printPickingCoordinateYStart;
+	}
+
+	public void setPrintPickingCoordinateYStart(Integer printPickingCoordinateYStart) {
+		this.printPickingCoordinateYStart = printPickingCoordinateYStart;
 	}
 }

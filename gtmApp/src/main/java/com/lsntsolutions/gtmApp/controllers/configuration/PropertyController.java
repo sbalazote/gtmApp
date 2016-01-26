@@ -231,6 +231,8 @@ public class PropertyController {
 		property.setVATLiability(this.VATLiabilityService.get(propertyDTO.getVATLiabilityId()));
 		property.setProvisioningRequireAuthorization(propertyDTO.isProvisioningRequireAuthorization());
 		property.setPrintPickingList(propertyDTO.isPrintPickingList());
+		property.setPrintPickingCoordinateXStart(propertyDTO.getPickingListX());
+		property.setPrintPickingCoordinateYStart(propertyDTO.getPickingListY());
 
 		return property;
 	}
@@ -287,6 +289,10 @@ public class PropertyController {
 		modelMap.put("informAnmat", property.isInformAnmat());
 		modelMap.put("provisioningRequireAuthorization", property.isProvisioningRequireAuthorization());
 		modelMap.put("printPickingList", property.isPrintPickingList());
+
+		modelMap.put("pickingListX", property.getPrintPickingCoordinateXStart());
+		modelMap.put("pickingListY", property.getPrintPickingCoordinateYStart());
+		modelMap.put("printPickingList",  property.isPrintPickingList() ? 1 : 0);
 
 		VATLiability selectedVATLiability = property.getVATLiability();
 		List<VATLiability> allVATLiabilities = this.VATLiabilityService.getAll();

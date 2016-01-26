@@ -169,11 +169,16 @@
 						</select>
 					</div>
 					<div class="col-md-4 col-lg-4 form-group">
-						<label for="printPickingListSelect"><spring:message code="common.pickingList"/></label>
-						<select class="form-control" id="printPickingListSelect" name="printPickingList">
-							<option value="true" ${printPickingList == 'true' ? 'selected' : ''}><spring:message code="common.yes"/></option>
-							<option value="false" ${printPickingList == 'false' ? 'selected' : ''}><spring:message code="common.no"/></option>
-						</select>
+						<label><spring:message code="configuration.pickingList"/></label>
+						<div class="input-group">
+							<span class="input-group-addon"><spring:message code="configuration.positionX"/></span>
+							<input type="text" class="form-control" id="pickingListXInput" name="pickingListX" value="${pickingListX}">
+							<span class="input-group-addon"><spring:message code="configuration.positionY"/></span>
+							<input type="text" class="form-control" id="pickingListYInput" name="pickingListY" value="${pickingListY}">
+							<span class="input-group-addon"><spring:message code="configuration.isPrinting"/>
+								<input type="checkbox" id="pickingListPrintInput" name="pickingListPrint" ${printPickingList == '1' ? 'checked' : ''}>
+							</span>
+						</div>
 					</div>
 				</div>
             </div>

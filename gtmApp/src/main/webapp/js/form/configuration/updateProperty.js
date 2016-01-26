@@ -100,7 +100,7 @@ UpdateProperty = function () {
                 provisioningRequireAuthorization: {
                     required: true
                 },
-                printPickingList: {
+                pickingListPrint: {
                     required: true
                 },
                 fontSize: {
@@ -113,6 +113,13 @@ UpdateProperty = function () {
                 numberY: {
                     required: true, digits: true
                 },
+                pickingListX: {
+                    required: true, digits: true
+                },
+                pickingListY: {
+                    required: true, digits: true
+                },
+
                 dateX: {required: true, digits: true},
                 dateY: {required: true, digits: true},
                 issuerCorporateNameX: {required: true, digits: true},
@@ -251,7 +258,9 @@ UpdateProperty = function () {
                 "informAnmat": $("#informAnmatSelect").val(),
                 "supplyingConceptSelectId": $("#supplyingConceptSelect option:selected").val(),
                 "provisioningRequireAuthorization": $("#provisioningRequireAuthorizationSelect").val(),
-                "printPickingList": $("#printPickingListSelect").val(),
+                "pickingListX": $("#pickingListXInput").val(),
+                "pickingListY": $("#pickingListYInput").val(),
+                "printPickingList": $("#pickingListPrintInput").is(":checked"),
                 "fontSize": $("#fontSizeInput").val(),
                 "numberX": $("#numberXInput").val(),
                 "numberY": $("#numberYInput").val(),
