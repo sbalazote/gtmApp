@@ -190,9 +190,17 @@ public class Concept implements Serializable {
 	public String getEventOnOutput(Integer agentId) {
 		String eventId = null;
 		try {
-			for (Event event : this.getEvents()) {
-				if (event.getDestinationAgent().getId().equals(agentId)) {
-					eventId = event.getCode().toString();
+			if(isDestruction()){
+				if(getEvents() != null && !getEvents().isEmpty()){
+					return getEvents().get(0).toString();
+				}else{
+					return null;
+				}
+			}else {
+				for (Event event : this.getEvents()) {
+					if (event.getDestinationAgent().getId().equals(agentId)) {
+						eventId = event.getCode().toString();
+					}
 				}
 			}
 		} catch (Exception e) {

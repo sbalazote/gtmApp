@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.type.StandardBasicTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -56,7 +57,10 @@ public class AffiliateDAOHibernateImpl implements AffiliateDAO {
 		if (StringUtility.isInteger(term)) {
 			criteria.add(Restrictions.or(Restrictions.eq("id", Integer.parseInt(term)), Restrictions.ilike("code", term, MatchMode.ANYWHERE), Restrictions.ilike("document", term, MatchMode.ANYWHERE)));
 		} else {
-			criteria.add(Restrictions.or(Restrictions.ilike("name", term, MatchMode.ANYWHERE), Restrictions.ilike("surname", term, MatchMode.ANYWHERE)));
+			if(term != "") {
+				criteria.add(Restrictions.or(Restrictions.sqlRestriction("CONCAT_WS(' ', name, surname) like (?)", "%"+term+"%" , StandardBasicTypes.STRING),
+						Restrictions.sqlRestriction("CONCAT_WS(' ', surname, name) like (?)", "%"+term+"%" , StandardBasicTypes.STRING)));
+			}
 		}
 
 		if (active != null && Boolean.TRUE.equals(active)) {

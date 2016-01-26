@@ -167,7 +167,6 @@ public class DeliveryNoteWSHelper {
 
 	public String getEvent(Output output, Order order, Supplying supplying) {
 		String eventId = null;
-		logger.error("A punto de obtener el evento");
 		if (output != null) {
 			if (output.getDeliveryLocation() != null) {
 				eventId = output.getConcept().getEventOnOutput(output.getDeliveryLocation().getAgent().getId());
@@ -188,7 +187,6 @@ public class DeliveryNoteWSHelper {
 			}
 		}
 		if (supplying != null) {
-			logger.error("Lista de eventos asociados a la dispensa: " + this.propertyService.get().getSupplyingConcept().getEvents());
 			if (this.propertyService.get().getSupplyingConcept().getEvents().size() > 0) {
 				eventId = this.propertyService.get().getSupplyingConcept().getEvents().get(0).getCode().toString();
 			}
