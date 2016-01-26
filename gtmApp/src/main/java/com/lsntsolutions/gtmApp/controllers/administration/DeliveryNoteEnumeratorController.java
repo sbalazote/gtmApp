@@ -1,22 +1,18 @@
 package com.lsntsolutions.gtmApp.controllers.administration;
 
-import java.util.List;
-import java.util.Map;
-
-import com.lsntsolutions.gtmApp.service.DeliveryNoteEnumeratorService;
 import com.lsntsolutions.gtmApp.dto.DeliveryNoteEnumeratorDTO;
 import com.lsntsolutions.gtmApp.model.DeliveryNoteEnumerator;
+import com.lsntsolutions.gtmApp.service.DeliveryNoteEnumeratorService;
 import com.lsntsolutions.gtmApp.util.StringUtility;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class DeliveryNoteEnumeratorController {
@@ -92,16 +88,18 @@ public class DeliveryNoteEnumeratorController {
 		int length = rowCount;
 		long total;
 
-		List<DeliveryNoteEnumerator> deliveryNoteEnumerators;
-		if (searchPhrase.matches("")) {
-			deliveryNoteEnumerators = this.deliveryNoteEnumeratorService.getPaginated(start, length);
-			total = this.deliveryNoteEnumeratorService.getTotalNumber();
+		String sortId = parametersMap.get("sort[id]");
+		String sortDeliveryNotePOS = parametersMap.get("sort[deliveryNotePOS]");
+		String sortLastDeliveryNoteNumber = parametersMap.get("sort[lastDeliveryNoteNumber]");
+		String sortIsActive = parametersMap.get("sort[isActive]");
+
+		List<DeliveryNoteEnumerator> deliveryNoteEnumerators = null;
+		deliveryNoteEnumerators = this.deliveryNoteEnumeratorService.getForAutocomplete(searchPhrase, null, null, sortId, sortDeliveryNotePOS, sortLastDeliveryNoteNumber, sortIsActive);
+		total = deliveryNoteEnumerators.size();
+		if (total < start + length) {
+			deliveryNoteEnumerators = deliveryNoteEnumerators.subList(start, (int) total);
 		} else {
-			deliveryNoteEnumerators = this.deliveryNoteEnumeratorService.getForAutocomplete(searchPhrase, null, null);
-			total = deliveryNoteEnumerators.size();
-			if (total < start + length) {
-				deliveryNoteEnumerators = deliveryNoteEnumerators.subList(start, (int) total);
-			} else {
+			if(length > 0) {
 				deliveryNoteEnumerators = deliveryNoteEnumerators.subList(start, start + length);
 			}
 		}
@@ -114,8 +112,8 @@ public class DeliveryNoteEnumeratorController {
 			dataJson.put("deliveryNotePOS", deliveryNoteEnumerator);
 			String lastDeliveryNoteNumber = StringUtility.addLeadingZeros(enumerator.getLastDeliveryNoteNumber(), 8);
 			dataJson.put("lastDeliveryNoteNumber",lastDeliveryNoteNumber);
-			dataJson.put("isActive", enumerator.isActive() == true ? "Si" : "No");
-			dataJson.put("isFake", enumerator.isFake() == true ? "Si" : "No");
+			dataJson.put("isActive", enumerator.isActive() ? "Si" : "No");
+			dataJson.put("isFake", enumerator.isFake() ? "Si" : "No");
 			jsonArray.put(dataJson);
 		}
 

@@ -1,15 +1,14 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.LogisticsOperator;
 import com.lsntsolutions.gtmApp.persistence.dao.LogisticsOperatorDAO;
+import com.lsntsolutions.gtmApp.service.LogisticsOperatorService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lsntsolutions.gtmApp.service.LogisticsOperatorService;
+import java.util.List;
 
 @Service
 @Transactional
@@ -37,8 +36,8 @@ public class LogisticsOperatorServiceImpl implements LogisticsOperatorService {
 	}
 
 	@Override
-	public List<LogisticsOperator> getForAutocomplete(String term, Boolean active) {
-		return this.logisticsOperatorDAO.getForAutocomplete(term, active);
+	public List<LogisticsOperator> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortName, String sortCorporateName, String sortTaxId, String sortIsActive, String sortIsInput) {
+		return this.logisticsOperatorDAO.getForAutocomplete(term, active, sortId, sortCode, sortName, sortCorporateName, sortTaxId, sortIsActive, sortIsInput);
 	}
 
 	@Override

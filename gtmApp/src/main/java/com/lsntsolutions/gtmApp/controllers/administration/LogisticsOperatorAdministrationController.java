@@ -36,7 +36,7 @@ public class LogisticsOperatorAdministrationController {
 		if (searchPhrase.matches("")) {
 			return new ModelAndView("logisticsOperators", "logisticsOperators", this.logisticsOperatorService.getAll());
 		} else {
-			return new ModelAndView("logisticsOperators", "logisticsOperators", this.logisticsOperatorService.getForAutocomplete(searchPhrase, null));
+			return new ModelAndView("logisticsOperators", "logisticsOperators", this.logisticsOperatorService.getForAutocomplete(searchPhrase, null, null, null, null, null, null, null, null));
 		}
 	}
 
@@ -105,16 +105,20 @@ public class LogisticsOperatorAdministrationController {
 		int length = rowCount;
 		long total;
 
-		List<LogisticsOperator> listLogisticsOperators;
-		if (searchPhrase.matches("")) {
-			listLogisticsOperators = this.logisticsOperatorService.getPaginated(start, length);
-			total = this.logisticsOperatorService.getTotalNumber();
+		String sortId = parametersMap.get("sort[id]");
+		String sortCode = parametersMap.get("sort[code]");
+		String sortName = parametersMap.get("sort[name]");
+		String sortCorporateName = parametersMap.get("sort[corporateName]");
+		String sortTaxId = parametersMap.get("sort[taxId]");
+		String sortIsActive = parametersMap.get("sort[isActive]");
+		String sortIsInput = parametersMap.get("sort[isInput]");
+
+		List<LogisticsOperator> listLogisticsOperators = this.logisticsOperatorService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortName, sortCorporateName, sortTaxId, sortIsActive, sortIsInput);
+		total = listLogisticsOperators.size();
+		if (total < start + length) {
+			listLogisticsOperators = listLogisticsOperators.subList(start, (int) total);
 		} else {
-			listLogisticsOperators = this.logisticsOperatorService.getForAutocomplete(searchPhrase, null);
-			total = listLogisticsOperators.size();
-			if (total < start + length) {
-				listLogisticsOperators = listLogisticsOperators.subList(start, (int) total);
-			} else {
+			if(length > 0) {
 				listLogisticsOperators = listLogisticsOperators.subList(start, start + length);
 			}
 		}
@@ -132,8 +136,8 @@ public class LogisticsOperatorAdministrationController {
 			dataJson.put("address", logisticsOperator.getAddress());
 			dataJson.put("zipCode", logisticsOperator.getZipCode());
 			dataJson.put("phone", logisticsOperator.getPhone());
-			dataJson.put("isActive", logisticsOperator.isActive() == true ? "Si" : "No");
-			dataJson.put("isInput", logisticsOperator.isInput() == true ? "Si" : "No");
+			dataJson.put("isActive", logisticsOperator.isActive() ? "Si" : "No");
+			dataJson.put("isInput", logisticsOperator.isInput() ? "Si" : "No");
 			jsonArray.put(dataJson);
 		}
 

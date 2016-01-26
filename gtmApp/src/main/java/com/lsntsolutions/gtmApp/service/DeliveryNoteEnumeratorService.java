@@ -1,8 +1,8 @@
 package com.lsntsolutions.gtmApp.service;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.DeliveryNoteEnumerator;
+
+import java.util.List;
 
 public interface DeliveryNoteEnumeratorService {
 
@@ -12,7 +12,7 @@ public interface DeliveryNoteEnumeratorService {
 
 	Boolean exists(Integer deliveryNotePOS, Boolean fake);
 
-	List<DeliveryNoteEnumerator> getForAutocomplete(String term, Boolean active, Boolean fake);
+	List<DeliveryNoteEnumerator> getForAutocomplete(String term, Boolean active, Boolean fake, String sortId, String sortDeliveryNotePOS, String sortLastDeliveryNoteNumber, String sortIsActive);
 
 	List<DeliveryNoteEnumerator> getAll();
 

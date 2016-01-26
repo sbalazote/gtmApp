@@ -1,8 +1,8 @@
 package com.lsntsolutions.gtmApp.persistence.dao;
 
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.Event;
+
+import java.util.List;
 
 public interface EventDAO {
 
@@ -12,7 +12,7 @@ public interface EventDAO {
 
 	Boolean exists(Integer code);
 
-	List<Event> getForAutocomplete(String term, Boolean active);
+	List<Event> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortOriginAgent, String sortDestinationAgent, String sortIsActive);
 
 	List<Event> getAll();
 

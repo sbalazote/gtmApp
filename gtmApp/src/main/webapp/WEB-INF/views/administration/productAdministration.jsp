@@ -55,7 +55,7 @@
 							<th data-column-id="description" data-header-css-class="descriptionColumn"><spring:message code="common.description"/></th>
 							<th data-column-id="gtin" data-header-css-class="gtinColumn" data-formatter="gtin"><spring:message code="common.gtin"/></th>
 							<th data-column-id="isCold"><spring:message code="common.cold"/></th>
-							<th data-column-id="commands" data-header-css-class="commandsColumn" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
+							<th data-column-id="commands" data-header-css-class="commandsColumn" data-formatter="commands" data-sortable="false" data-searchable="false"><spring:message code="administration.commands.tableLabel"/></th>
 						</tr>
 					</thead>
 				</table>

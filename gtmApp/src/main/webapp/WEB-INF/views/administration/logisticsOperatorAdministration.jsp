@@ -33,8 +33,8 @@
 			<th data-column-id="id" data-header-css-class="idColumn" data-type="numeric"><spring:message code="common.id" /></th>
 			<th data-column-id="code" data-header-css-class="codeColumn" data-type="numeric"><spring:message code="common.code" /></th>
 			<th data-column-id="name" data-header-css-class="nameColumn"><spring:message code="common.entity.name" /></th>
-			<th data-column-id="taxId" data-type="numeric"><spring:message code="common.taxId" /></th>
 			<th data-column-id="corporateName"><spring:message code="common.corporateName" /></th>
+			<th data-column-id="taxId" data-type="numeric"><spring:message code="common.taxId" /></th>
 			<th data-column-id="isActive"><spring:message code="common.active" /></th>
 			<th data-column-id="isInput"><spring:message code="common.logisticOperator.isInput" /></th>
 			<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>

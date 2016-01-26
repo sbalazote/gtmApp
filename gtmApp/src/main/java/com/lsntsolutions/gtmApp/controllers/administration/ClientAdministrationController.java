@@ -210,7 +210,7 @@ public class ClientAdministrationController {
 			dataJson.put("zipCode", client.getZipCode());
 			dataJson.put("vatLiability", client.getVATLiability().getAcronym());
 			dataJson.put("phone", client.getPhone());
-			dataJson.put("isActive", client.isActive() == true ? "Si" : "No");
+			dataJson.put("isActive", client.isActive() ? "Si" : "No");
 			jsonArray.put(dataJson);
 		}
 
