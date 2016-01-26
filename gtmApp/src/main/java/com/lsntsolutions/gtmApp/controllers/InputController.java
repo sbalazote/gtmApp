@@ -77,6 +77,8 @@ public class InputController {
 			input = this.inputService.save(inputDTO, true, auth.getName());
 			if (input.isInformAnmat()) {
 				result = this.inputService.sendTransaction(input, true);
+			}else{
+				result.setOperationId(String.valueOf(input.getId()));
 			}
 		}
 		return result;

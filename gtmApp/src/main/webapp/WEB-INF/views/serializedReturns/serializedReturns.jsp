@@ -159,3 +159,22 @@
 		</div>
 	</div>
 </div>
+
+<%-- Confirmaci�n del delete de una row --%>
+<div class="modal fade" data-backdrop="static" id="serializedReturnErrorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width: 40%">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title"><spring:message code="serializedReturns.errors.forcedInputModal"/></h4>
+			</div>
+			<div class="modal-body">
+				<div id="alertSerializedReturnModalDiv"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="cancel" class="btn btn-default" data-dismiss="modal"><spring:message code="common.no"/></button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" id="forcedInput"><spring:message code="common.yes"/></button>
+			</div>
+		</div>
+	</div>
+</div>

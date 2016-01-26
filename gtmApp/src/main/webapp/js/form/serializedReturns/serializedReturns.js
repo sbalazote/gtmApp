@@ -6,6 +6,7 @@ SerializedReturns = function() {
 	var serialNumber = null;
 	var inputId = "";
 	var currentDate = new Date();
+	var jsonInput;
 
     $("#deliveryNotePOSInput").numeric();
 
@@ -254,7 +255,8 @@ SerializedReturns = function() {
 												}
 												else {
 													found = true;
-													buildReturn(response.outputId, response.orderId);	
+													buildReturn(response.outputId, response.orderId);
+													$("#productInput").val("");
 												}
 											},
 											error: function(jqXHR, textStatus, errorThrown) {
@@ -305,6 +307,7 @@ SerializedReturns = function() {
 									}
 									// Es un trazado propio.
 									serialNumber = $('#serialNumberInput').val().substring(3, 16) + $('#serialNumberInput').val().substring(18);
+									$("#productInput").val("");
 									populateSerializedReturnsDetailsTable();
 								},
 								error: function(jqXHR, textStatus, errorThrown) {
@@ -345,7 +348,7 @@ SerializedReturns = function() {
 			if (inputDetails.length > 0) {
 				isButtonConfirm = true;
 				
-				var jsonInput = {
+				jsonInput = {
 					//"id": $("#inputId").val(),
 					"conceptId": $("#conceptInput").val(),
 					"providerId": $("#providerInput").val(),
@@ -371,9 +374,9 @@ SerializedReturns = function() {
 					},
 					success: function(response, textStatus, jqXHR) {
 						$.unblockUI();
+						inputId = response.operationId;
 						if(response.resultado == true){
 							if (textStatus === 'success') {
-								inputId = response.id;
 								$('#destructionModal').modal({backdrop: 'static', keyboard: false})
 							}
 						}else{
@@ -392,7 +395,8 @@ SerializedReturns = function() {
 									errors += response.errores[i]._c_error + " - " + response.errores[i]._d_error + "<br />";
 								}
 							}
-							myShowAlert("danger", errors,null,0);
+
+							mySerializedRefundAlert("danger", errors,null,0);
 						}
 					},
 					error: function(response, jqXHR, textStatus, errorThrown) {
@@ -446,5 +450,79 @@ SerializedReturns = function() {
 
 	$("#destructionConceptInput").chosen({
 		width: '100%'
+	});
+
+
+	mySerializedRefundAlert = function(type, message, element, time) {
+		var myDiv = "alertSerializedReturnModalDiv";
+		if (element) {
+			myDiv = element;
+		}
+
+		toastr.options = {
+			"closeButton": false,
+			"debug": false,
+			"newestOnTop": false,
+			"progressBar": true,
+			"preventDuplicates": false,
+			"onclick": null,
+			"showDuration": "300",
+			"hideDuration": "1000",
+			"timeOut": 0,
+			"extendedTimeOut": time,
+			"showEasing": "swing",
+			"hideEasing": "linear",
+			"showMethod": "fadeIn",
+			"hideMethod": "fadeOut",
+			"tapToDismiss" : false,
+			"target": "#"+myDiv
+		};
+		// Muestro mensaje dependiendo el tipo.
+		switch (type) {
+			case 'danger':
+				toastr.error(message);
+				break;
+			case 'success':
+				toastr.success(message);
+				break;
+			case 'info':
+				toastr.info(message);
+				break;
+			case 'warning':
+				toastr.warning(message);
+				break;
+		}
+		$("#serializedReturnErrorModal").modal();
+	};
+
+
+	$("#forcedInput").click(function() {
+		//var popup = window.open();
+		jsonInput["id"] = inputId;
+		if (validateForm()) {
+			isButtonConfirm = true;
+			$.ajax({
+				url: "authorizeInputWithoutInform.do",
+				type: "POST",
+				contentType:"application/json",
+				data: JSON.stringify(jsonInput),
+				async: true,
+				beforeSend : function() {
+					$.blockUI({ message: 'Espere un Momento por favor...' });
+				},
+				success: function(response, textStatus, jqXHR) {
+					$.unblockUI();
+					$('#destructionModal').modal({backdrop: 'static', keyboard: false})
+				},
+				error: function(response, jqXHR, textStatus, errorThrown) {
+					$.unblockUI();
+					myGenericError();
+				}
+			});
+		}
+	});
+
+	$("#cancel").click(function() {
+		myRedirect("success", "Se ha registrado el Ingreso de mercader\u00eda n\u00famero: " + inputId, "serializedReturns.do" );
 	});
 };
