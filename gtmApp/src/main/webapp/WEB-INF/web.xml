@@ -50,10 +50,6 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
-	<listener>
-		<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
-	</listener>
-
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/servlet-context.xml</param-value>
@@ -76,7 +72,6 @@
 
 	<session-config>
 		<session-timeout>720</session-timeout>
-		<tracking-mode>COOKIE</tracking-mode>
 	</session-config>
 
 	<error-page>
