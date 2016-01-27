@@ -29,9 +29,10 @@ import java.util.Map;
 @Service
 public class OrderLabelPrinter implements ServletContextAware {
 
-	private static final String JOB_NAME = "packing_list";
+	private static final String JOB_NAME = "picking_list";
 	private static final int MAX_PRODUCT_LIMIT = 16;
 	public static final int NUMBER_OF_COPIES = 1;
+	public static final float UNIT = 2.8346f;
 
 
 	@Autowired
@@ -88,6 +89,7 @@ public class OrderLabelPrinter implements ServletContextAware {
 		Document document;
 		ByteArrayInputStream pdfDocument;
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+		float coordinateXStart = propertyService.get().getPrintPickingCoordinateXStart();
 		float coordinateYStart = propertyService.get().getPrintPickingCoordinateYStart();
 
 		try {
@@ -123,86 +125,87 @@ public class OrderLabelPrinter implements ServletContextAware {
 				logo = Image.getInstance(realPath);
 			}
 			logo.scaleToFit(25f, 25f);
-			logo.setAbsolutePosition(85f * 2.8346f, (297.0f - 10.0f - coordinateYStart) * 2.8346f);
+			logo.setAbsolutePosition((85f+coordinateXStart) * UNIT, (297.0f - 10.0f - coordinateYStart) * UNIT);
 			overContent.addImage(logo);
 
 			// imprimo agente que envía
-			overContent.setTextMatrix(5.0f * 2.8346f, (297.0f - 5.0f - coordinateYStart) * 2.8346f);
+			overContent.setTextMatrix((5.0f+coordinateXStart) * UNIT, (297.0f - 5.0f - coordinateYStart) * UNIT);
 			Property property = propertyService.get();
 			String corporateName = property.getCorporateName();
 			String address = property.getAddress();
 			String locality = property.getLocality();
 			overContent.showText("De " + corporateName + " - " + address + " - " + locality);
 
-			overContent.setTextMatrix(5.0f * 2.8346f, (297.0f - 7.0f - coordinateYStart) * 2.8346f);
+			overContent.setTextMatrix((5.0f+coordinateXStart) * UNIT, (297.0f - 7.0f - coordinateYStart) * UNIT);
 			overContent.showText("Para: ");
 
 			// imprimo agente que recibe
 			overContent.setFontAndSize(timesBoldBaseFont, 10.0f);
-			overContent.setTextMatrix(5.0f * 2.8346f, (297.0f - 10.0f - coordinateYStart) * 2.8346f);
+			overContent.setTextMatrix((5.0f+coordinateXStart) * UNIT, (297.0f - 10.0f - coordinateYStart) * UNIT);
 			String deliveryLocationName = order.getProvisioningRequest().getDeliveryLocation().getName();
 			overContent.showText(deliveryLocationName);
 
 			// imprimo 2 lineas separadoras
 			overContent.saveState();
 			overContent.setLineWidth(0.05f);
-			overContent.moveTo(5.0f * 2.8346f, (297.0f - 12.0f - coordinateYStart) * 2.8346f);
-			overContent.lineTo(75.0f * 2.8346f, (297.0f - 12.0f - coordinateYStart) * 2.8346f);
+			overContent.moveTo((5.0f+coordinateXStart) * UNIT, (297.0f - 12.0f - coordinateYStart) * UNIT);
+			overContent.lineTo((75.0f+coordinateXStart) * UNIT, (297.0f - 12.0f - coordinateYStart) * UNIT);
 			overContent.stroke();
 			overContent.restoreState();
 
 			overContent.setFontAndSize(timesHelveticaBaseFont, 8.0f);
-			overContent.showTextAligned(PdfContentByte.ALIGN_CENTER, order.getAgreement().getDescription(), 35.0f * 2.8346f, (297.0f - 15.0f - coordinateYStart) * 2.8346f, 0);
+			String agreement = order.getAgreement().getDescription() + " - " + order.getProvisioningRequest().getClient().getName();
+			overContent.showTextAligned(PdfContentByte.ALIGN_CENTER, agreement, (35.0f+coordinateXStart) * UNIT, (297.0f - 15.0f - coordinateYStart) * UNIT, 0);
 
 			overContent.saveState();
 			overContent.setLineWidth(0.05f);
-			overContent.moveTo(5.0f * 2.8346f, (297.0f - 16.0f - coordinateYStart) * 2.8346f);
-			overContent.lineTo(75.0f * 2.8346f, (297.0f - 16.0f - coordinateYStart) * 2.8346f);
+			overContent.moveTo((5.0f+coordinateXStart) * UNIT, (297.0f - 16.0f - coordinateYStart) * UNIT);
+			overContent.lineTo((75.0f+coordinateXStart) * UNIT, (297.0f - 16.0f - coordinateYStart) * UNIT);
 			overContent.stroke();
 			overContent.restoreState();
 
 			// dibujo 2 rectangulos
 			overContent.setFontAndSize(timesHelveticaBaseFont, 8.0f);
-			overContent.setTextMatrix(77.0f * 2.8346f, (297.0f - 14.0f - coordinateYStart) * 2.8346f);
+			overContent.setTextMatrix((77.0f+coordinateXStart) * UNIT, (297.0f - 14.0f - coordinateYStart) * UNIT);
 			overContent.showText("P");
 
-			Rectangle rect = new Rectangle(80.0f * 2.8346f, (297.0f - 12.0f - coordinateYStart) * 2.8346f, 85.0f * 2.8346f, (297.0f - 17.0f - coordinateYStart) * 2.8346f);
+			Rectangle rect = new Rectangle((80.0f+coordinateXStart) * UNIT, (297.0f - 12.0f - coordinateYStart) * UNIT, (85.0f+coordinateXStart) * UNIT, (297.0f - 17.0f - coordinateYStart) * UNIT);
 			rect.setBorder(Rectangle.BOX);
 			rect.setBorderWidth(1.0f);
 			overContent.rectangle(rect);
 
 			overContent.setFontAndSize(timesHelveticaBaseFont, 8.0f);
-			overContent.setTextMatrix(87.0f * 2.8346f, (297.0f - 14.0f - coordinateYStart) * 2.8346f);
+			overContent.setTextMatrix((87.0f+coordinateXStart) * UNIT, (297.0f - 14.0f - coordinateYStart) * UNIT);
 			overContent.showText("C");
 
-			rect = new Rectangle(90.0f * 2.8346f, (297.0f - 12.0f - coordinateYStart) * 2.8346f, 95.0f * 2.8346f, (297.0f - 17.0f - coordinateYStart) * 2.8346f);
+			rect = new Rectangle((90.0f+coordinateXStart) * UNIT, (297.0f - 12.0f - coordinateYStart) * UNIT, (95.0f-coordinateXStart) * UNIT, (297.0f - 17.0f - coordinateYStart) * UNIT);
 			rect.setBorder(Rectangle.BOX);
 			rect.setBorderWidth(1.0f);
 			overContent.rectangle(rect);
 
 			// imprimo datos del afiliado
 			overContent.setFontAndSize(timesHelveticaBaseFont, 8.0f);
-			overContent.setTextMatrix(5.0f * 2.8346f, (297.0f - 20.0f - coordinateYStart) * 2.8346f);
+			overContent.setTextMatrix((5.0f+coordinateXStart) * UNIT, (297.0f - 20.0f - coordinateYStart) * UNIT);
 			Affiliate affiliate = order.getProvisioningRequest().getAffiliate();
 			String affiliateCode = StringUtility.addLeadingZeros(affiliate.getCode(), 14);
 			String affiliateSurname = affiliate.getSurname().toUpperCase();
 			String affiliateName = affiliate.getName().toUpperCase();
 			overContent.showText("Afiliado: \t" + affiliateCode);
-			overContent.setTextMatrix(5.0f * 2.8346f, (297.0f - 23.0f - coordinateYStart) * 2.8346f);
+			overContent.setTextMatrix((5.0f+coordinateXStart) * UNIT, (297.0f - 23.0f - coordinateYStart) * UNIT);
 			overContent.showText(affiliateSurname + " " + affiliateName);
 
 			// imprimo linea separadora
 			overContent.saveState();
 			overContent.setLineWidth(0.05f);
-			overContent.moveTo(5.0f * 2.8346f, (297.0f - 25.0f - coordinateYStart) * 2.8346f);
-			overContent.lineTo(90.0f * 2.8346f, (297.0f - 25.0f - coordinateYStart) * 2.8346f);
+			overContent.moveTo((5.0f+coordinateXStart) * UNIT, (297.0f - 25.0f - coordinateYStart) * UNIT);
+			overContent.lineTo((90.0f+coordinateXStart) * UNIT, (297.0f - 25.0f - coordinateYStart) * UNIT);
 			overContent.stroke();
 			overContent.restoreState();
 
 			// imprimo fecha y numero de pedido
 			String date = dateFormatter.format(order.getProvisioningRequest().getDeliveryDate());
 			String number = order.getProvisioningRequest().getFormatId();
-			overContent.setTextMatrix(5.0f * 2.8346f, (297.0f - 30.0f - coordinateYStart) * 2.8346f);
+			overContent.setTextMatrix((5.0f+coordinateXStart) * UNIT, (297.0f - 30.0f - coordinateYStart) * UNIT);
 			overContent.showText("Fecha: " + date + " / NP: " + number);
 
 			// genero el codigo de barras EAN-128
@@ -210,7 +213,7 @@ public class OrderLabelPrinter implements ServletContextAware {
 			code128.setCode(number);
 			Image code128Image = code128.createImageWithBarcode(overContent, null, null);
 			code128Image.scalePercent(75.0f);
-			code128Image.setAbsolutePosition(75f * 2.8346f, (297.0f - 35.0f - coordinateYStart) * 2.8346f);
+			code128Image.setAbsolutePosition((75f+coordinateXStart) * UNIT, (297.0f - 35.0f - coordinateYStart) * UNIT);
 			overContent.addImage(code128Image);
 
 			// imprimo 16 lineas separadoras de productos
@@ -219,8 +222,8 @@ public class OrderLabelPrinter implements ServletContextAware {
 
 				overContent.saveState();
 				overContent.setLineWidth(0.05f);
-				overContent.moveTo(5.0f * 2.8346f, (297.0f - j - coordinateYStart) * 2.8346f);
-				overContent.lineTo(90.0f * 2.8346f, (297.0f - j - coordinateYStart) * 2.8346f);
+				overContent.moveTo((5.0f+coordinateXStart) * UNIT, (297.0f - j - coordinateYStart) * UNIT);
+				overContent.lineTo((90.0f+coordinateXStart) * UNIT, (297.0f - j - coordinateYStart) * UNIT);
 				overContent.stroke();
 				overContent.restoreState();
 
@@ -233,17 +236,17 @@ public class OrderLabelPrinter implements ServletContextAware {
 			while (it.hasNext()) {
 				Product product = it.next();
 
-				overContent.setTextMatrix(7.0f * 2.8346f, (297.0f - prodyOffset - coordinateYStart) * 2.8346f);
+				overContent.setTextMatrix((7.0f+coordinateXStart) * UNIT, (297.0f - prodyOffset - coordinateYStart) * UNIT);
 				overContent.showText(product.getDescription());
 
-				overContent.setTextMatrix(91.0f * 2.8346f, (297.0f - prodyOffset - coordinateYStart) * 2.8346f);
+				overContent.setTextMatrix((91.0f+coordinateXStart) * UNIT, (297.0f - prodyOffset - coordinateYStart) * UNIT);
 				overContent.showText("( " + products.get(product) + " )");
 
 				prodyOffset +=4;
 			}
 
 			// imprimo pie de pagina del rotulo
-			overContent.setTextMatrix(65.0f * 2.8346f, (297.0f - 98.0f - coordinateYStart) * 2.8346f);
+			overContent.setTextMatrix((65.0f+coordinateXStart) * UNIT, (297.0f - 98.0f - coordinateYStart) * UNIT);
 			overContent.showText("List: " + tag + " de " + tagsCount + " (" + temperatureDescription + ")");
 
 			overContent.endText();
