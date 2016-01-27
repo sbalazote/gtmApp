@@ -1,4 +1,4 @@
-var OrderCancellation = function() {
+var OrderManagement = function() {
 	
 	var orderId = null;
 	var requestsToCancel = [];

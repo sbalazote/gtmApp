@@ -692,6 +692,7 @@ insert into `drugstore`.`role` values (42, 'DELIVERY_NOTE_ENUMERATOR_ADMINISTRAT
 insert into `drugstore`.`role` values (43, 'PROVIDER_SERIALIZED_FORMAT_ADMINISTRATION', 'Administracion de Formatos de Serializacion');
 insert into `drugstore`.`role` values (44, 'PROFILE_ADMINISTRATION', 'Administracion de Perfiles');
 insert into `drugstore`.`role` values (45, 'PROPERTY_ADMINISTRATION', 'Administracion de Propiedades');
+insert into `drugstore`.`role` values (46, 'ORDER_LABEL_PRINT', 'Impresion de Rotulos');
 
 insert into `drugstore`.`profile` values (1, "perfil1");
 insert into `drugstore`.`profile` values (2, "perfil2");

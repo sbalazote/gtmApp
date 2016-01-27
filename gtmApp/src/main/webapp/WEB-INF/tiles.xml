@@ -174,8 +174,8 @@
         <put-attribute name="body" value="/WEB-INF/views/report/searchAudit.jsp" />
     </definition>
     
-    <definition name="orderCancellation" extends="base.definition">
-        <put-attribute name="body" value="/WEB-INF/views/orderAssembly/orderCancellation.jsp" />
+    <definition name="orderManagement" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/orderAssembly/orderManagement.jsp" />
     </definition>
     
     <definition name="output" extends="base.definition">

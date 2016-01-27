@@ -3,11 +3,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<script type="text/javascript" src="js/form/orderAssembly/orderCancellation.js"></script>
+<script type="text/javascript" src="js/form/orderAssembly/orderManagement.js"></script>
 <script type="text/javascript" src="js/form/modals.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		new OrderCancellation();
+		new OrderManagement();
 	});
 </script>
 
@@ -17,7 +17,7 @@
 <form action="" onsubmit="return false;">
 	<div class="row">
 		<div class="col-md-12 col-lg-12 form-group">
-			<h3><spring:message code="orderAssembly.orderCancelation"/></h3>
+			<h3><spring:message code="orderAssembly.orderManagement"/></h3>
 		</div>
 	</div>
 
@@ -29,8 +29,12 @@
 				<th data-column-id="id" data-type="numeric"><spring:message code="provisioningRequest.provisioningRequestNumber"/></th>
 				<th data-column-id="client"><spring:message code="common.client"/></th>
 				<th data-column-id="agreement"><spring:message code="common.agreement"/></th>
-				<th data-column-id="viewOrder" data-formatter="viewOrder" data-sortable="false"><spring:message code="common.action"/></th>
-				<c:if test="${isPrintPickingList}"><th data-column-id="printLabel" data-formatter="printLabel" data-sortable="false"><spring:message code="common.action"/></th></c:if>
+				<sec:authorize access="hasRole('ORDER_ASSEMBLY_CANCELLATION')">
+					<th data-column-id="viewOrder" data-formatter="viewOrder" data-sortable="false"><spring:message code="common.action"/></th>
+				</sec:authorize>
+				<sec:authorize access="hasRole('ORDER_LABEL_PRINT')">
+					<th data-column-id="printLabel" data-formatter="printLabel" data-sortable="false"><spring:message code="common.action"/></th>
+				</sec:authorize>
 			</tr>
 			</thead>
 			<tbody id="orderTableBody">

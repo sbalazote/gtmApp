@@ -123,11 +123,10 @@ public class OrderController {
 		return "orderSaved";
 	}
 
-	@RequestMapping(value = "/orderCancellation", method = RequestMethod.GET)
-	public String orderCancellation(ModelMap modelMap) throws Exception {
+	@RequestMapping(value = "/orderManagement", method = RequestMethod.GET)
+	public String orderManagement(ModelMap modelMap) throws Exception {
 		modelMap.put("orders", this.orderService.getAllByState(State.ASSEMBLED.getId()));
-		modelMap.put("isPrintPickingList", this.propertyService.get().isPrintPickingList());
-		return "orderCancellation";
+		return "orderManagement";
 	}
 
 	@RequestMapping(value = "/getOrder", method = RequestMethod.GET)

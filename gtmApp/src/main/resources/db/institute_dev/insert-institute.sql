@@ -263,6 +263,7 @@ insert into `institute_dev`.`role` values (42, 'DELIVERY_NOTE_ENUMERATOR_ADMINIS
 insert into `institute_dev`.`role` values (43, 'PROVIDER_SERIALIZED_FORMAT_ADMINISTRATION', 'Administracion de Formatos de Serializacion');
 insert into `institute_dev`.`role` values (44, 'PROFILE_ADMINISTRATION', 'Administracion de Perfiles');
 insert into `institute_dev`.`role` values (45, 'PROPERTY_ADMINISTRATION', 'Administracion de Propiedades');
+insert into `institute_dev`.`role` values (46, 'ORDER_LABEL_PRINT', 'Impresion de Rotulos');
 
 insert into `institute_dev`.`profile` values (1, "admin");
 

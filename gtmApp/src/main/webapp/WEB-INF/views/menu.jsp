@@ -80,7 +80,7 @@
 				<li class="activable"><a href="supplying.do"><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> <spring:message code="common.supplying" /></a></li>
 			</sec:authorize>
 
-			<sec:authorize access="hasAnyRole('PROVISIONING_REQUEST', 'PROVISIONING_REQUEST_UPDATE','PROVISIONING_REQUEST_PRINT', 'PROVISIONING_REQUEST_AUTHORIZATION', 'ORDER_ASSEMBLY', 'LOGISTIC_OPERATOR_ASSIGNMENT', 'PROVISIONING_REQUEST_CANCELLATION', 'ORDER_ASSEMBLY_CANCELLATION')">
+			<sec:authorize access="hasAnyRole('PROVISIONING_REQUEST', 'PROVISIONING_REQUEST_UPDATE','PROVISIONING_REQUEST_PRINT', 'PROVISIONING_REQUEST_AUTHORIZATION', 'ORDER_ASSEMBLY', 'LOGISTIC_OPERATOR_ASSIGNMENT', 'PROVISIONING_REQUEST_CANCELLATION', 'ORDER_ASSEMBLY_CANCELLATION', 'ORDER_LABEL_PRINT')">
 				<li class="activable dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> <spring:message code="common.requests" /> <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<sec:authorize access="hasRole('PROVISIONING_REQUEST')">
@@ -108,8 +108,8 @@
 						<sec:authorize access="hasRole('PROVISIONING_REQUEST_CANCELLATION')">
 							<li><a href="provisioningRequestCancellation.do"><spring:message code="common.cancell" /> </a></li>
 						</sec:authorize>
-						<sec:authorize access="hasRole('ORDER_ASSEMBLY_CANCELLATION')">
-							<li><a href="orderCancellation.do"><spring:message code="orderAssembly.orderCancel" /> </a></li>
+						<sec:authorize access="hasAnyRole('ORDER_ASSEMBLY_CANCELLATION', 'ORDER_LABEL_PRINT')">
+							<li><a href="orderManagement.do"><spring:message code="orderAssembly.manageOrder" /> </a></li>
 						</sec:authorize>
 					</ul>
 				</li>

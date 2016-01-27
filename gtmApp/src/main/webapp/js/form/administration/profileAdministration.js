@@ -113,6 +113,6 @@ $(document).ready(function() {
     $(".search").before(exportHTML);
 
     $("#deleteEntityButton").click(function() {
-        deleteProfule(profileId);
+        deleteProfile(profileId);
     });
 });

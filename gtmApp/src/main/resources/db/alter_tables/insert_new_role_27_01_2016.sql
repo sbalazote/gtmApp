@@ -1,0 +1,1 @@
+insert into `role` values (46, 'ORDER_LABEL_PRINT', 'Impresion de Rotulos');
