@@ -56,4 +56,11 @@ OrderAssemblySelection = function() {
 		$('#clientSearch').val('').trigger('chosen:updated');
 		$('#agreementSearch').val('').trigger('chosen:updated');
 	});
+
+	$("#provisioningRequestSearch").focus();
+
+	$("#provisioningRequestSearch").keypress(function (e) {
+		if(e.which ==13)
+			$("#searchButton").click();
+	});
 };
