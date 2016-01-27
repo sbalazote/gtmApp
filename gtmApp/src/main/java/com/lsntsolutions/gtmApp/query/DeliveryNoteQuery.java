@@ -16,6 +16,8 @@ public class DeliveryNoteQuery {
 	private Integer supplyingId;
 	private Integer provisioningRequestId;
 	private Boolean cancelled;
+	private Integer logisticsOperatorId;
+	private Integer productMonodrugId;
 
 	public String getDeliveryNoteNumber() {
 		return deliveryNoteNumber;
@@ -127,5 +129,21 @@ public class DeliveryNoteQuery {
 
 	public void setCancelled(Boolean cancelled) {
 		this.cancelled = cancelled;
+	}
+
+	public Integer getLogisticsOperatorId() {
+		return logisticsOperatorId;
+	}
+
+	public void setLogisticsOperatorId(Integer logisticsOperatorId) {
+		this.logisticsOperatorId = logisticsOperatorId;
+	}
+
+	public Integer getProductMonodrugId() {
+		return productMonodrugId;
+	}
+
+	public void setProductMonodrugId(Integer productMonodrugId) {
+		this.productMonodrugId = productMonodrugId;
 	}
 }

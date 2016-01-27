@@ -331,19 +331,39 @@
 							<label for="orderProductInput"><spring:message code="common.product"/></label>
 							<input id="orderProductInput" name="orderProductInput" type="search" placeholder='<spring:message code="search.product.description"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental" />
 						</div>
-                        <div class="col-md-3 col-lg-2 form-margin">
-                            <button class="btn btn-success btn-block" type="submit" id="searchOrderButton">
-                                <span class="glyphicon glyphicon-search"></span>
-                                <spring:message code="common.search" />
-                            </button>
-                        </div>
-                        <div class="col-md-3 col-lg-2 form-margin">
-                            <button class="btn btn-info btn-block" type="submit" id="cleanOrderButton">
-                                <span class="glyphicon glyphicon-trash"></span>
-                                <spring:message code="common.clean" />
-                            </button>
-                        </div>
+						<div class="col-md-4 col-lg-4 form-group">
+							<label for="logisticsOperatorOrderSearch"><spring:message code="common.logisticsOperator"/></label>
+							<select id="logisticsOperatorOrderSearch" name="logisticsOperatorOrderSearch" class="form-control" data-placeholder="<spring:message code='common.select.option'/>">
+								<option value=""></option>
+								<c:forEach items="${logisticsOperators}" var="logisticsOperator">
+									<option value="${logisticsOperator.id}"><c:out value="${logisticsOperator.code}"></c:out> - <c:out value="${logisticsOperator.name}"></c:out></option>
+								</c:forEach>
+							</select>
+						</div>
                     </div>
+					<div class="row">
+						<div class="col-md-4 col-lg-4">
+							<label for="monodrugOrderSelect"><spring:message code="common.monodrug" /></label>
+							<select class="form-control" id="monodrugOrderSelect" name="monodrugOrder">
+								<option value=""><spring:message code="common.select.option" /></option>
+								<c:forEach items="${monodrugs}" var="monodrug" varStatus="status">
+									<option value="${monodrug.id}"><c:out value="${monodrug.code}"></c:out> - <c:out value="${monodrug.description}"></c:out></option>
+								</c:forEach>
+							</select>
+						</div>
+						<div class="col-md-2 col-lg-2 col-md-offset-4 col-lg-offset-4 form-margin">
+							<button class="btn btn-success btn-block" type="submit" id="searchOrderButton">
+								<span class="glyphicon glyphicon-search"></span>
+								<spring:message code="common.search" />
+							</button>
+						</div>
+						<div class="col-md-2 col-lg-2 form-margin">
+							<button class="btn btn-info btn-block" type="submit" id="cleanOrderButton">
+								<span class="glyphicon glyphicon-trash"></span>
+								<spring:message code="common.clean" />
+							</button>
+						</div>
+					</div>
                     <br>
                     <div id="divOrderTable">
                         <table class="table table-condensed table-hover table-striped" id="deliveryNoteTableOrder">
