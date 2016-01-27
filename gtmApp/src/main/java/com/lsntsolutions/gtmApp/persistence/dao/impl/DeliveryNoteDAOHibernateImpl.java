@@ -430,7 +430,9 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 		String dateToFormated = null;
 
 		try {
-			String sentence = "select dn.*, dnd.* from output_detail as od, delivery_note_detail as dnd, delivery_note as dn,output as o where od.id = dnd.output_detail_id and dn.id = dnd.delivery_note_id and od.output_id = o.id";
+			String sentence = "select dn.*, dnd.* from output_detail as od, delivery_note_detail as dnd, delivery_note as dn,output as o, product as product, product_monodrug as monodrug  " +
+					"where od.id = dnd.output_detail_id and dn.id = dnd.delivery_note_id and od.output_id = o.id "+
+					"and od.product_id = product.id and product.monodrug_id = monodrug.id";
 
 			if (!deliveryNoteQuery.getDeliveryNoteNumber().equals("")) {
 				sentence += " and dn.number = '" + deliveryNoteQuery.getDeliveryNoteNumber() + "'";
@@ -464,6 +466,9 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 			if (deliveryNoteQuery.getCancelled() != null) {
 				sentence += " and dn.cancelled = " + deliveryNoteQuery.getCancelled();
 			}
+			if (deliveryNoteQuery.getProductMonodrugId() != null) {
+				sentence += " and monodrug.id = " + deliveryNoteQuery.getProductMonodrugId();
+			}
             sentence += " order by dn.id desc";
 			Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("dn", DeliveryNote.class)
 					.addJoin("dnd", "dn.deliveryNoteDetails").addEntity("dn", DeliveryNote.class)
@@ -481,7 +486,9 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 		String dateToFormated = null;
 
         try {
-            String sentence = "select dn.*, dnd.* from supplying_detail as sd, delivery_note_detail as dnd, delivery_note as dn,supplying as s where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and sd.supplying_id = s.id";
+            String sentence = "select dn.*, dnd.* from supplying_detail as sd, delivery_note_detail as dnd, delivery_note as dn,supplying as s, product as product, product_monodrug as monodrug  " +
+					"where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and sd.supplying_id = s.id " +
+					"and sd.product_id = product.id and product.monodrug_id = monodrug.id";
 
 			if (!deliveryNoteQuery.getDeliveryNoteNumber().equals("")) {
 				sentence += " and dn.number = '" + deliveryNoteQuery.getDeliveryNoteNumber() + "'";
@@ -511,6 +518,9 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 			}
 			if (deliveryNoteQuery.getCancelled() != null) {
 				sentence += " and dn.cancelled = " + deliveryNoteQuery.getCancelled();
+			}
+			if (deliveryNoteQuery.getProductMonodrugId() != null) {
+				sentence += " and monodrug.id = " + deliveryNoteQuery.getProductMonodrugId();
 			}
             sentence += " order by dn.id desc";
             Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("dn", DeliveryNote.class)

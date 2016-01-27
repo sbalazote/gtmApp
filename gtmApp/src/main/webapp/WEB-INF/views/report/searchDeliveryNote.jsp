@@ -114,16 +114,27 @@
 							<label for="outputProductInput"><spring:message code="common.product"/></label>
 							<input id="outputProductInput" name="outputProductInput" type="search" placeholder='<spring:message code="search.product.description"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental" />
 						</div>
-						<div class="col-md-3 col-lg-2 form-margin">
+						<div class="col-md-4 col-lg-4">
+							<label for="monodrugOutputSelect"><spring:message code="common.monodrug" /></label>
+							<select class="form-control" id="monodrugOutputSelect" name="monodrugOrder">
+								<option value=""><spring:message code="common.select.option" /></option>
+								<c:forEach items="${monodrugs}" var="monodrug" varStatus="status">
+									<option value="${monodrug.id}"><c:out value="${monodrug.code}"></c:out> - <c:out value="${monodrug.description}"></c:out></option>
+								</c:forEach>
+							</select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 col-lg-2 col-lg-offset-8 col-md-offset-8 form-margin">
 							<button class="btn btn-success btn-block" type="submit" id="searchOutputButton">
-							<span class="glyphicon glyphicon-search"></span>
-							<spring:message code="common.search" />
+								<span class="glyphicon glyphicon-search"></span>
+								<spring:message code="common.search" />
 							</button>
 						</div>
 						<div class="col-md-3 col-lg-2 form-margin">
 							<button class="btn btn-info btn-block" type="submit" id="cleanOutputButton">
-							<span class="glyphicon glyphicon-trash"></span>
-							<spring:message code="common.clean" />
+								<span class="glyphicon glyphicon-trash"></span>
+								<spring:message code="common.clean" />
 							</button>
 						</div>
 					</div>
@@ -212,19 +223,28 @@
 								<option value="true"><spring:message code="search.state.cancelled"/></option>
 							</select>
 						</div>
+						<div class="col-md-4 col-lg-4">
+							<label for="monodrugSupplyingSelect"><spring:message code="common.monodrug" /></label>
+							<select class="form-control" id="monodrugSupplyingSelect" name="monodrugOrder">
+								<option value=""><spring:message code="common.select.option" /></option>
+								<c:forEach items="${monodrugs}" var="monodrug" varStatus="status">
+									<option value="${monodrug.id}"><c:out value="${monodrug.code}"></c:out> - <c:out value="${monodrug.description}"></c:out></option>
+								</c:forEach>
+							</select>
+						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-6 col-lg-8 form-group">
+						<div class="col-md-8 col-lg-8 form-group">
 							<label for="supplyingProductInput"><spring:message code="common.product"/></label>
 							<input id="supplyingProductInput" name="supplyingProductInput" type="search" placeholder='<spring:message code="search.product.description"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental" />
 						</div>
-                        <div class="col-md-3 col-lg-2 form-margin">
+                        <div class="col-md-2 col-lg-2 form-margin">
 							<button class="btn btn-success btn-block" type="submit" id="searchSupplyingButton">
 							<span class="glyphicon glyphicon-search"></span>
 							<spring:message code="common.search" />
 							</button>
 						</div>
-						<div class="col-md-3 col-lg-2 form-margin">
+						<div class="col-md-2 col-lg-2 form-margin">
 							<button class="btn btn-info btn-block" type="submit" id="cleanSupplyingButton">
 							<span class="glyphicon glyphicon-trash"></span>
 							<spring:message code="common.clean" />
