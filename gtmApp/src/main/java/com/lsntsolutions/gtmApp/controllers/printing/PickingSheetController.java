@@ -2,6 +2,8 @@ package com.lsntsolutions.gtmApp.controllers.printing;
 
 import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
+import com.lsntsolutions.gtmApp.constant.State;
+import com.lsntsolutions.gtmApp.model.ProvisioningRequestState;
 import com.lsntsolutions.gtmApp.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class PickingSheetController {
@@ -26,8 +30,6 @@ public class PickingSheetController {
 	@Autowired
 	private AuditService auditService;
 	@Autowired
-	private OrderService orderService;
-	@Autowired
 	private PropertyService propertyService;
 
 	@RequestMapping(value = "/pickingSheet", method = RequestMethod.GET)
@@ -36,6 +38,10 @@ public class PickingSheetController {
 		modelMap.put("deliveryLocations", this.provisioningRequestService.getProvisioningsDeliveryLocations(propertyService.get().isProvisioningRequireAuthorization()));
 		modelMap.put("logisticsOperators", this.provisioningRequestService.getProvisioningsLogisticsOperators(propertyService.get().isProvisioningRequireAuthorization()));
 		modelMap.put("clients", this.provisioningRequestService.getProvisioningsClient(propertyService.get().isProvisioningRequireAuthorization()));
+		List<ProvisioningRequestState> states = new ArrayList<>();
+		states.add(provisioningRequestStateService.get(State.AUTHORIZED.getId()));
+		states.add(provisioningRequestStateService.get(State.PRINTED.getId()));
+		modelMap.put("states", states);
 		return "pickingSheet";
 	}
 

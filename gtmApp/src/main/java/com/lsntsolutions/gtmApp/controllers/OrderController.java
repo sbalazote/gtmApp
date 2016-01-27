@@ -153,13 +153,17 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/getAuthorizedProvisioningsForOrders", method = RequestMethod.GET)
-	public @ResponseBody List<ProvisioningRequest> getAuthorizedProvisioningsForOrders(@RequestParam Integer provisioningRequestId, Integer agreementId, Integer logisticsOperatorId, Integer clientId, Integer deliveryLocationId) {
-		List<ProvisioningRequest> provisionings = this.provisioningRequestService.getFilterProvisionings(provisioningRequestId, agreementId, logisticsOperatorId, clientId, deliveryLocationId, State.AUTHORIZED.getId());
-		provisionings.addAll(this.provisioningRequestService.getFilterProvisionings(provisioningRequestId, agreementId, logisticsOperatorId, clientId, deliveryLocationId, State.PRINTED.getId()));
-		if(!this.propertyService.get().isProvisioningRequireAuthorization()){
-			provisionings.addAll(this.provisioningRequestService.getFilterProvisionings(provisioningRequestId, agreementId, logisticsOperatorId, clientId, deliveryLocationId, State.ENTERED.getId()));
+	public @ResponseBody List<ProvisioningRequest> getAuthorizedProvisioningsForOrders(@RequestParam Integer provisioningRequestId, Integer agreementId, Integer logisticsOperatorId, Integer clientId, Integer deliveryLocationId, Integer stateId) {
+		if(stateId != null){
+			return this.provisioningRequestService.getFilterProvisionings(provisioningRequestId, agreementId, logisticsOperatorId, clientId, deliveryLocationId, stateId);
+		}else {
+			List<ProvisioningRequest> provisionings = this.provisioningRequestService.getFilterProvisionings(provisioningRequestId, agreementId, logisticsOperatorId, clientId, deliveryLocationId, State.AUTHORIZED.getId());
+			provisionings.addAll(this.provisioningRequestService.getFilterProvisionings(provisioningRequestId, agreementId, logisticsOperatorId, clientId, deliveryLocationId, State.PRINTED.getId()));
+			if (!this.propertyService.get().isProvisioningRequireAuthorization()) {
+				provisionings.addAll(this.provisioningRequestService.getFilterProvisionings(provisioningRequestId, agreementId, logisticsOperatorId, clientId, deliveryLocationId, State.ENTERED.getId()));
+			}
+			return provisionings;
 		}
-		return provisionings;
 	}
 
 	@RequestMapping(value = "/logisticOperatorAssignment", method = RequestMethod.GET)
