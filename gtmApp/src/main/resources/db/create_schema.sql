@@ -624,6 +624,8 @@ CREATE TABLE `property` (
   `print_picking_list` bit(1) NOT NULL,
   `inform_anmat` bit(1) DEFAULT 1 NOT NULL,
   `VAT_liability_id` int(11) DEFAULT 1 NOT NULL,
+  `picking_list_coordinate_x_start` INT(11) DEFAULT 0,
+  `picking_list_coordinate_y_start` INT(11) DEFAULT 15,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code_UNIQUE` (`code`),
   KEY `fk_drugstore_property_province_idx` (`province_id`),
