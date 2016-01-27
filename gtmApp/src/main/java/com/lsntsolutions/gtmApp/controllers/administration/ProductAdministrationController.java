@@ -48,7 +48,7 @@ public class ProductAdministrationController {
 		if (searchPhrase.matches("")) {
 			return new ModelAndView("products", "products", this.productService.getAll());
 		} else {
-			return new ModelAndView("products", "products", this.productService.getForAutocomplete(searchPhrase, null, null, null, null, null, null, null));
+			return new ModelAndView("products", "products", this.productService.getForAutocomplete(searchPhrase, null, null, null, null, null, null, null, null, null));
 		}
 	}
 
@@ -245,15 +245,16 @@ public class ProductAdministrationController {
 		String sortIsCold = parametersMap.get("sort[isCold]");
 		String sortIsActive = parametersMap.get("sort[isActive]");
 
-		List<Product> listProducts = this.productService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortDescription, sortGtin, sortIsCold, sortIsActive);
-		total = listProducts.size();
-		if (total < start + length) {
+		List<Product> listProducts = this.productService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortDescription, sortGtin, sortIsCold, sortIsActive, start, length);
+		//total = listProducts.size();
+		total = this.productService.getTotalNumberOfRows();
+		/*if (total < start + length) {
 			listProducts = listProducts.subList(start, (int) total);
 		} else {
 			if(length > 0) {
 				listProducts = listProducts.subList(start, start + length);
 			}
-		}
+		}*/
 
 		for (Product product : listProducts) {
 			JSONObject dataJson = new JSONObject();

@@ -7,10 +7,7 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
@@ -23,6 +20,8 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 
 	@Autowired
 	private SessionFactory sessionFactory;
+
+	private Integer totalNumberOfRows;
 
 	@Override
 	@Cacheable(value="saveProductCache", key="#name")
@@ -45,7 +44,7 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Product> getForAutocomplete(String searchPhrase, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold, String sortIsActive) {
+	public List<Product> getForAutocomplete(String searchPhrase, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold, String sortIsActive, Integer start, Integer length) {
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Product.class);
 
 		criteria.createAlias("gtins", "g");
@@ -91,7 +90,7 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 			} else {
 				criteria.addOrder(Order.desc("cold"));
 			}
-		}else if (sortIsActive != null) {
+		} else if (sortIsActive != null) {
 			if (sortIsActive.equals("asc")) {
 				criteria.addOrder(Order.asc("active"));
 			} else {
@@ -101,7 +100,20 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 			criteria.addOrder(Order.asc("id"));
 		}
 
+		criteria.setProjection(Projections.rowCount());
+		Long count = (Long) criteria.uniqueResult();
+		totalNumberOfRows = count.intValue();
+
+		criteria.setProjection(null);
+
 		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+
+		if (start != null) {
+			criteria.setFirstResult(start);
+		}
+		if (length != null) {
+			criteria.setMaxResults(length);
+		}
 
 		return (List<Product>) criteria.list();
 	}
@@ -184,5 +196,9 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 	public Long getTotalNumber() {
 		Long count = (Long) this.sessionFactory.getCurrentSession().createQuery("select count(*) from Product").uniqueResult();
 		return count;
+	}
+
+	public Integer getTotalNumberOfRows() {
+		return totalNumberOfRows;
 	}
 }
