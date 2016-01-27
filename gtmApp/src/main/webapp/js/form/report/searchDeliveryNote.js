@@ -261,6 +261,8 @@ SearchDeliveryNote = function() {
 		affiliateId = null;
 		$("#provisioningIdSearch").val('');
 		$("#deliveryNoteTableOrder").bootgrid("clear");
+		$('#logisticsOperatorOrderSearch').val('').trigger('chosen:updated');
+		$('#monodrugOrderSelect').val('').trigger('chosen:updated');
 	});
 
 	$("#cleanSupplyingButton").click(function() {
