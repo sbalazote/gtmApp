@@ -13,7 +13,7 @@ public interface ProductService {
 
 	Boolean exists(Integer code);
 
-	List<Product> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold);
+	List<Product> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold, String sortIsActive);
 
 	Product getByGtin(String gtin);
 

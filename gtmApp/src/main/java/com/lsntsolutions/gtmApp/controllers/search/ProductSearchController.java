@@ -26,7 +26,7 @@ public class ProductSearchController {
 	@RequestMapping(value = "/getProducts", method = RequestMethod.GET)
 	public @ResponseBody
 	List<Product> getProducts(@RequestParam String term, Boolean active) {
-		return this.productService.getForAutocomplete(term, active, null, null, null, null, null);
+		return this.productService.getForAutocomplete(term, active, null, null, null, null, null, null);
 	}
 
 	@RequestMapping(value = "/getProduct", method = RequestMethod.GET)

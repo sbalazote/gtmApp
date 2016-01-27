@@ -52,6 +52,7 @@
 		<label for="logisticsOperatorSearch"><spring:message code="common.logisticsOperator"/></label>
 		<select id="logisticsOperatorSearch" name="logisticsOperatorSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 			<option value=""></option>
+			<option value="0"><spring:message code="common.uninformed"/></option>
 			<c:forEach items="${logisticsOperators}" var="logisticsOperator">
 				<option value="${logisticsOperator.id}"><c:out value="${logisticsOperator.code}"></c:out> - <c:out value="${logisticsOperator.name}"></c:out></option>
 			</c:forEach>

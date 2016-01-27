@@ -56,8 +56,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<Product> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold) {
-		return this.productDAO.getForAutocomplete(term, active, sortId, sortCode, sortDescription, sortGtin, sortIsCold);
+	public List<Product> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold, String sortIsActive) {
+		return this.productDAO.getForAutocomplete(term, active, sortId, sortCode, sortDescription, sortGtin, sortIsCold, sortIsActive);
 	}
 
 	@Override

@@ -45,7 +45,7 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Product> getForAutocomplete(String searchPhrase, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold) {
+	public List<Product> getForAutocomplete(String searchPhrase, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold, String sortIsActive) {
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Product.class);
 
 		criteria.createAlias("gtins", "g");
@@ -91,7 +91,13 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 			} else {
 				criteria.addOrder(Order.desc("cold"));
 			}
-		} else {
+		}else if (sortIsActive != null) {
+			if (sortIsActive.equals("asc")) {
+				criteria.addOrder(Order.asc("active"));
+			} else {
+				criteria.addOrder(Order.desc("active"));
+			}
+		}else {
 			criteria.addOrder(Order.asc("id"));
 		}
 

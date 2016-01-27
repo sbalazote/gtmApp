@@ -23,6 +23,7 @@ PickingSheet = function() {
 		$('#clientSearch').val('').trigger('chosen:updated');
 		$('#deliveryLocationSearch').val('').trigger('chosen:updated');
 		$('#agreementSearch').val('').trigger('chosen:updated');
+		$('#stateSearch').val('').trigger('chosen:updated');
 		$("#provisioningTable").bootgrid("clear");
 	});
 
@@ -44,7 +45,8 @@ PickingSheet = function() {
 				agreementId: $("#agreementSearch").val() || null,
 				logisticsOperatorId: $('#logisticsOperatorSearch').val() || null,
 				clientId: $("#clientSearch").val() || null,
-				deliveryLocationId: $('#deliveryLocationSearch').val() || null
+				deliveryLocationId: $('#deliveryLocationSearch').val() || null,
+				stateId: $('#stateSearch').val() || null,
 			},
 			success: function(response) {
 				var aaData = [];
