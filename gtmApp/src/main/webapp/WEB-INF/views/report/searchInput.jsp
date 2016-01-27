@@ -115,7 +115,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-6 col-lg-8 form-group">
+			<div class="col-md-8 col-lg-8 form-group">
 				<label for="productInput"><spring:message code="common.product"/></label>
 				<input id="productInput" name="productInput" type="search" placeholder='<spring:message code="search.product.description"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental" />
 			</div>

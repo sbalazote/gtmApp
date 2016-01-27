@@ -65,6 +65,9 @@ SearchProvisioningRequest = function() {
 		$('#affiliateSearch').val("");
 		$('#stateSearch').val('').trigger('chosen:updated');
 		$("#provisioningTable").bootgrid("clear");
+		$("#productInput").removeAttr("productId");
+		$("#productInput").val('');
+		$("#monodrugSelect").val('').trigger('chosen:updated');
 	});
 	
 	var validateForm = function() {
@@ -88,7 +91,9 @@ SearchProvisioningRequest = function() {
 		});
 		return form.valid();
 	};
-	
+
+	new ProductAutocomplete("productInput");
+
 	$("#searchButton").click(function() {
 		myHideAlert();
 			if(validateForm()){
@@ -101,7 +106,9 @@ SearchProvisioningRequest = function() {
 				"agreementId": $("#agreementSearch").val() || null,
 				"deliveryLocation": $("#deliveryLocationSearch").val() || null,
 				"logisticsOperator": $("#logisticsOperatorSearch").val() || null,
-				"stateId": $("#stateSearch").val() || null
+				"stateId": $("#stateSearch").val() || null,
+				"productId": $("#productInput").attr("productId") || null,
+				"productMonodrugId": $("#monodrugSelect").val() || null
 			};
 			
 			$.ajax({

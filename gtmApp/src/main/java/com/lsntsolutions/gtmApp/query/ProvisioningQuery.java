@@ -11,6 +11,8 @@ public class ProvisioningQuery {
 	private Integer deliveryLocation;
 	private Integer logisticsOperator;
 	private Integer stateId;
+	private Integer productId;
+	private Integer productMonodrugId;
 
 	public Integer getProvisioningId() {
 		return this.provisioningId;
@@ -84,8 +86,24 @@ public class ProvisioningQuery {
 		this.stateId = stateId;
 	}
 
+	public Integer getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Integer productId) {
+		this.productId = productId;
+	}
+
+	public Integer getProductMonodrugId() {
+		return productMonodrugId;
+	}
+
+	public void setProductMonodrugId(Integer productMonodrugId) {
+		this.productMonodrugId = productMonodrugId;
+	}
+
 	public static ProvisioningQuery createFromParameters(Integer id, String dateFrom, String dateTo, Integer agreementId, Integer clientId,
-														 Integer affiliateId, Integer deliveryLocation, Integer logisticsOperator, Integer stateId) {
+														 Integer affiliateId, Integer deliveryLocation, Integer logisticsOperator, Integer stateId, Integer productId, Integer productMonodrugId) {
 		ProvisioningQuery provisioningQuery = new ProvisioningQuery();
 		provisioningQuery.provisioningId = id;
 		provisioningQuery.dateFrom = dateFrom;
@@ -96,6 +114,8 @@ public class ProvisioningQuery {
 		provisioningQuery.deliveryLocation = deliveryLocation;
 		provisioningQuery.logisticsOperator = logisticsOperator;
 		provisioningQuery.stateId = stateId;
+		provisioningQuery.productId = productId;
+		provisioningQuery.productMonodrugId = productMonodrugId;
 		return provisioningQuery;
 	}
 }

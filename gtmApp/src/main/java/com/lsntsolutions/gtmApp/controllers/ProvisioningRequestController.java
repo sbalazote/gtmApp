@@ -255,9 +255,17 @@ public class ProvisioningRequestController {
 		if (!(request.getParameterValues("stateId")[0]).equals("null")) {
 			stateId = Integer.valueOf(request.getParameterValues("stateId")[0]);
 		}
+		Integer productId = null;
+		if (!(request.getParameterValues("productId")[0]).equals("null")) {
+			productId = Integer.valueOf(request.getParameterValues("productId")[0]);
+		}
+		Integer productMonodrugId = null;
+		if (!(request.getParameterValues("productMonodrugId")[0]).equals("null")) {
+			productId = Integer.valueOf(request.getParameterValues("productMonodrugId")[0]);
+		}
 		ProvisioningQuery provisioningQuery = ProvisioningQuery.createFromParameters(id, request.getParameterValues("dateFrom")[0],
 				request.getParameterValues("dateTo")[0], agreementId, clientId, affiliateId, deliveryLocation,
-				logisticsOperator, stateId);
+				logisticsOperator, stateId,productId , productMonodrugId);
 
 		return provisioningQuery;
 	}
