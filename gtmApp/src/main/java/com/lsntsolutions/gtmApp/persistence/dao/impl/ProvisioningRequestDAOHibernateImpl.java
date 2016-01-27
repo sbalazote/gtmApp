@@ -54,10 +54,12 @@ public class ProvisioningRequestDAOHibernateImpl implements ProvisioningRequestD
 	@Override
 	public List<ProvisioningRequest> getProvisioningForSearch(ProvisioningQuery provisioningQuery) {
 
-		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(ProvisioningRequest.class);
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(ProvisioningRequest.class, "provisioning");
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-		Date dateFromFormated = null;
-		Date dateToFormated = null;
+		criteria.createAlias("provisioning.provisioningRequestDetails", "detail");
+		criteria.createAlias("detail.product", "product");
+		Date dateFromFormated;
+		Date dateToFormated;
 
 		if (provisioningQuery.getProvisioningId() != null) {
 			criteria.add(Restrictions.eq("id", provisioningQuery.getProvisioningId()));
@@ -102,6 +104,12 @@ public class ProvisioningRequestDAOHibernateImpl implements ProvisioningRequestD
 
 		if (provisioningQuery.getStateId() != null) {
 			criteria.add(Restrictions.eq("state.id", provisioningQuery.getStateId()));
+		}
+		if (provisioningQuery.getProductId() != null) {
+			criteria.add(Restrictions.eq("product.id", provisioningQuery.getProductId()));
+		}
+		if (provisioningQuery.getProductMonodrugId() != null) {
+			criteria.add(Restrictions.eq("product.monodrug.id", provisioningQuery.getProductMonodrugId()));
 		}
 
 		List<ProvisioningRequest> results = criteria.list();

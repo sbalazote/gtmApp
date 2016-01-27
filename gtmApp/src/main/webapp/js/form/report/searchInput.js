@@ -70,6 +70,7 @@ SearchInput = function() {
 		$('#cancelledSelect').val('').trigger('chosen:updated');
 		$("#productInput").removeAttr("productId");
 		$("#productInput").val('');
+		$("#monodrugSelect").val('').trigger('chosen:updated');
 		$("#inputTable").bootgrid("clear");
 	});
 	
@@ -87,7 +88,8 @@ SearchInput = function() {
 				"productId": $("#productInput").attr("productId") || null,
 				"deliveryNoteNumber": $("#deliveryNoteNumberSearch").val().trim(),
 				"purchaseOrderNumber": $("#purchaseOrderNumberSearch").val().trim(),
-				"cancelled": $("#cancelledSelect").val() || null
+				"cancelled": $("#cancelledSelect").val() || null,
+				"productMonodrugId": $("#monodrugSelect").val() || null
 			};
 			
 			$.ajax({
@@ -164,7 +166,8 @@ SearchInput = function() {
 				'&deliveryNoteNumber=' + jsonInputSearch.deliveryNoteNumber +
 				'&purchaseOrderNumber=' + jsonInputSearch.purchaseOrderNumber +
 				'&cancelled=' + jsonInputSearch.cancelled +
-				'&productId=' + jsonInputSearch.productId;
+				'&productId=' + jsonInputSearch.productId +
+				'&productMonodrugId=' + jsonInputSearch.productMonodrugId;
 
 				var exportHTML = exportQueryTableHTML("./rest/inputs", params);
 				var searchHTML = $("#divTable .search");

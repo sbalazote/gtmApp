@@ -42,6 +42,7 @@ public class ReportAdministrationController {
 		modelMap.put("providers", this.providerService.getAll());
 		modelMap.put("agreements", this.agreementService.getAll());
 		modelMap.put("deliveryLocations", this.deliveryLocationService.getAll());
+		modelMap.put("monodrugs", this.productMonodrugService.getAll());
 		return "searchInput";
 	}
 
@@ -61,7 +62,7 @@ public class ReportAdministrationController {
 		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAll());
 		modelMap.put("clients", this.clientService.getAll());
 		modelMap.put("states", this.provisioningRequestStateService.getAll());
-
+		modelMap.put("monodrugs", this.productMonodrugService.getAll());
 		return "searchProvisioningRequest";
 	}
 
@@ -72,6 +73,8 @@ public class ReportAdministrationController {
 		modelMap.put("agreements", this.agreementService.getAll());
 		modelMap.put("deliveryLocations", this.deliveryLocationService.getAll());
         modelMap.put("clients", this.clientService.getAllActives());
+		modelMap.put("monodrugs", this.productMonodrugService.getAll());
+		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAll());
 		return "searchDeliveryNote";
 	}
 

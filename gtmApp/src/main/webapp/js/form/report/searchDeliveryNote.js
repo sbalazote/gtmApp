@@ -261,6 +261,8 @@ SearchDeliveryNote = function() {
 		affiliateId = null;
 		$("#provisioningIdSearch").val('');
 		$("#deliveryNoteTableOrder").bootgrid("clear");
+		$('#logisticsOperatorOrderSearch').val('').trigger('chosen:updated');
+		$('#monodrugOrderSelect').val('').trigger('chosen:updated');
 	});
 
 	$("#cleanSupplyingButton").click(function() {
@@ -384,7 +386,9 @@ SearchDeliveryNote = function() {
 				"outputId": null,
 				"supplyingId": null,
 				"provisioningRequestId": $("#provisioningIdSearch").val() || null,
-				"cancelled": $("#cancelledDeliveryNotesOrdersSelect").val() || null
+				"cancelled": $("#cancelledDeliveryNotesOrdersSelect").val() || null,
+				"productMonodrugId": $("#monodrugOrderSelect").val() || null,
+				"logisticsOperatorId": $("#logisticsOperatorOrderSearch").val() || null
 			};
 
 			$.ajax({
@@ -550,6 +554,14 @@ SearchDeliveryNote = function() {
 	});
 
 	$("#cancelledDeliveryNotesSupplyingsSelect").chosen({
+		width: '100%'
+	});
+
+	$("#monodrugOrderSelect").chosen({
+		width: '100%'
+	});
+
+	$("#logisticsOperatorOrderSearch").chosen({
 		width: '100%'
 	});
 };
