@@ -368,7 +368,7 @@ SerializedReturns = function() {
 					type: "POST",
 					contentType:"application/json",
 					data: JSON.stringify(jsonInput),
-					async: false,
+					async: true,
 					beforeSend : function() {
 						$.blockUI({ message: 'Espere un Momento por favor...' });
 					},
@@ -416,7 +416,42 @@ SerializedReturns = function() {
 	});
 
 	$("#destructionAccept").click(function() {
-		myReload("success", "Se ha registrado la devoluci\u00f3n de serie con n\u00famero: " + inputId);
+
+		var jsonOutput = {
+			"conceptId": $("#destructionConceptInput").val(),
+			"providerId": $("#providerInput").val(),
+			"deliveryLocationId": $("#deliveryLocationInput").val(),
+			"agreementId": $("#agreementInput").val(),
+			"date": $("#currentDateInput").val(),
+			"outputDetails": []
+		};
+
+		for (var i = 0; i < inputDetails.length; i++) {
+			inputDetails[i].expirationDate = inputDetails[i].expirationDate.substring(0, 2) + "/" + inputDetails[i].expirationDate.substring(2, 4) +  "/" + inputDetails[i].expirationDate.substring(4, 6);
+			jsonOutput.outputDetails.push(inputDetails[i]);
+		}
+
+		$.ajax({
+			url: "saveOutput.do",
+			type: "POST",
+			contentType:"application/json",
+			data: JSON.stringify(jsonOutput),
+			async: false,
+			beforeSend : function() {
+				$.blockUI({ message: 'Espere un Momento por favor...' });
+			},
+			success: function(response) {
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myGenericError();
+			},
+			complete: function(jqXHR, textStatus) {
+				$.unblockUI();
+				if (textStatus === 'success') {
+					generateOutputPDFReport(jqXHR.responseJSON);
+				}
+			}
+		});
 	});
 
 	var hasChanged = function() {

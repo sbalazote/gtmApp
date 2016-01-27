@@ -173,8 +173,10 @@ SearchProvisioningRequest = function() {
 				'&comment=' + jsonProvisioningSearch.comment +
 				'&deliveryLocation=' + jsonProvisioningSearch.deliveryLocation +
 				'&logisticsOperator=' + jsonProvisioningSearch.logisticsOperator +
-				'&stateId=' + jsonProvisioningSearch.stateId; 
-				
+				'&stateId=' + jsonProvisioningSearch.stateId +
+				'&productId=' + jsonProvisioningSearch.productId +
+				'&productMonodrugId=' + jsonProvisioningSearch.productMonodrugId;
+
 				var exportHTML = exportQueryTableHTML("./rest/provisionings", params);
 				var searchHTML = $(".search");
 				

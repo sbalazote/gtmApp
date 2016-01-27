@@ -258,7 +258,7 @@ $(document).ready(function() {
 	var fileDownloadCheckTimer;
 	generateInputPDFReport = function(inputId,isUpdate) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
-		$.download('./rest/inputs.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + inputId + '&dateTo=&conceptId=null&providerId=null&deliveryLocationId=null&agreementId=null&deliveryNoteNumber=&purchaseOrderNumber=&cancelled=null&productId=null', 'POST');
+		$.download('./rest/inputs.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + inputId + '&dateTo=&conceptId=null&providerId=null&deliveryLocationId=null&agreementId=null&deliveryNoteNumber=&purchaseOrderNumber=&cancelled=null&productId=null&productMonodrugId=null', 'POST');
 		$.blockUI({message: 'Generando Reporte de Ingreso. Espere un Momento por favor...'});
 		fileDownloadCheckTimer = window.setInterval(function () {
 			var cookieValue = $.cookie('fileDownloadToken');
@@ -331,7 +331,7 @@ $(document).ready(function() {
 	var fileDownloadCheckTimer;
 	generateProvisioningRequestPDFReport = function(provisioningRequestId) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
-		$.download('./rest/provisionings.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + provisioningRequestId + '&dateTo=&clientId=null&affiliateId=null&agreementId=null&comment=&deliveryLocation=null&logisticsOperator=null&stateId=null', 'POST');
+		$.download('./rest/provisionings.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + provisioningRequestId + '&dateTo=&clientId=null&affiliateId=null&agreementId=null&comment=&deliveryLocation=null&logisticsOperator=null&stateId=null&productId=null&productMonodrugId=null', 'POST');
 		$.blockUI({message: 'Generando Reporte de Sol. de Abast. Espere un Momento por favor...'});
 		fileDownloadCheckTimer = window.setInterval(function () {
 			var cookieValue = $.cookie('fileDownloadToken');
