@@ -61,6 +61,7 @@ public class InputDAOHibernateImpl implements InputDAO {
 
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Input.class, "input");
 		criteria.createAlias("input.inputDetails", "inputDetail");
+		criteria.createAlias("inputDetail.product", "product");
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		Date dateFromFormated = null;
 		Date dateToFormated = null;
@@ -110,10 +111,13 @@ public class InputDAOHibernateImpl implements InputDAO {
 			criteria.add(Restrictions.eq("purchaseOrderNumber", inputQuery.getPurchaseOrderNumber()));
 		}
 		if (inputQuery.getProductId() != null) {
-			criteria.add(Restrictions.eq("inputDetail.product.id", inputQuery.getProductId()));
+			criteria.add(Restrictions.eq("product.id", inputQuery.getProductId()));
 		}
 		if (inputQuery.getCancelled() != null) {
 			criteria.add(Restrictions.eq("cancelled", inputQuery.getCancelled()));
+		}
+		if (inputQuery.getProductMonodrugId() != null) {
+			criteria.add(Restrictions.eq("product.monodrug.id", inputQuery.getProductMonodrugId()));
 		}
         criteria.addOrder(Order.desc("id")).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 		List<Input> results = criteria.list();

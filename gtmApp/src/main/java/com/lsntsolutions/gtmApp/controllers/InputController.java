@@ -305,9 +305,13 @@ public class InputController {
 		if (!(request.getParameterValues("productId")[0]).equals("null")) {
 			productId = Integer.valueOf(request.getParameterValues("productId")[0]);
 		}
+		Integer productMonodrugId = null;
+		if (!(request.getParameterValues("productMonodrugId")[0]).equals("null")) {
+			productId = Integer.valueOf(request.getParameterValues("productMonodrugId")[0]);
+		}
 
 		InputQuery inputQuery = InputQuery.createFromParameters(id, request.getParameterValues("dateFrom")[0], request.getParameterValues("dateTo")[0],
-				conceptId, providerId, deliveryLocationId, agreementId, deliveryNoteNumber, purchaseOrderNumber, cancelled, productId);
+				conceptId, providerId, deliveryLocationId, agreementId, deliveryNoteNumber, purchaseOrderNumber, cancelled, productId, productMonodrugId);
 
 		return inputQuery;
 	}

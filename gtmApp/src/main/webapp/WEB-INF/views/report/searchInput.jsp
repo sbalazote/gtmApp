@@ -104,6 +104,15 @@
 					<option value="true"><spring:message code="search.state.cancelled"/></option>
 				</select>
             </div>
+			<div class="col-md-4 col-lg-4">
+				<label for="monodrugSelect"><spring:message code="common.monodrug" /></label>
+				<select class="form-control chosen-select" id="monodrugSelect" name="monodrug">
+					<option value=""><spring:message code="common.select.option" /></option>
+					<c:forEach items="${monodrugs}" var="monodrug" varStatus="status">
+						<option value="${monodrug.id}"><c:out value="${monodrug.code}"></c:out> - <c:out value="${monodrug.description}"></c:out></option>
+					</c:forEach>
+				</select>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6 col-lg-8 form-group">

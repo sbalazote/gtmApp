@@ -13,6 +13,7 @@ public class InputQuery {
 	private String deliveryNoteNumber;
 	private String purchaseOrderNumber;
 	private Boolean cancelled;
+	private Integer productMonodrugId;
 
 	public Integer getId() {
 		return this.id;
@@ -103,7 +104,7 @@ public class InputQuery {
 	}
 
 	public static InputQuery createFromParameters(Integer id, String dateFrom, String dateTo, Integer conceptId, Integer providerId,
-												  Integer deliveryLocationId, Integer agreementId, String deliveryNoteNumber, String purchaseOrderNumber, Boolean cancelled, Integer productId) {
+												  Integer deliveryLocationId, Integer agreementId, String deliveryNoteNumber, String purchaseOrderNumber, Boolean cancelled, Integer productId, Integer productMonodrugId) {
 		InputQuery inputQuery = new InputQuery();
 		inputQuery.id = id;
 		inputQuery.dateFrom = dateFrom;
@@ -116,6 +117,15 @@ public class InputQuery {
 		inputQuery.purchaseOrderNumber = purchaseOrderNumber;
 		inputQuery.cancelled = cancelled;
 		inputQuery.productId = productId;
+		inputQuery.productMonodrugId = productMonodrugId;
 		return inputQuery;
+	}
+
+	public Integer getProductMonodrugId() {
+		return productMonodrugId;
+	}
+
+	public void setProductMonodrugId(Integer productMonodrugId) {
+		this.productMonodrugId = productMonodrugId;
 	}
 }

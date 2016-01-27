@@ -42,6 +42,7 @@ public class ReportAdministrationController {
 		modelMap.put("providers", this.providerService.getAll());
 		modelMap.put("agreements", this.agreementService.getAll());
 		modelMap.put("deliveryLocations", this.deliveryLocationService.getAll());
+		modelMap.put("monodrugs", this.productMonodrugService.getAll());
 		return "searchInput";
 	}
 
