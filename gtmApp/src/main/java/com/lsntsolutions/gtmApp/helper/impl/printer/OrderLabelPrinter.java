@@ -178,7 +178,7 @@ public class OrderLabelPrinter implements ServletContextAware {
 			overContent.setTextMatrix((87.0f+coordinateXStart) * UNIT, (297.0f - 14.0f - coordinateYStart) * UNIT);
 			overContent.showText("C");
 
-			rect = new Rectangle((90.0f+coordinateXStart) * UNIT, (297.0f - 12.0f - coordinateYStart) * UNIT, (95.0f-coordinateXStart) * UNIT, (297.0f - 17.0f - coordinateYStart) * UNIT);
+			rect = new Rectangle((90.0f+coordinateXStart) * UNIT, (297.0f - 12.0f - coordinateYStart) * UNIT, (95.0f+coordinateXStart) * UNIT, (297.0f - 17.0f - coordinateYStart) * UNIT);
 			rect.setBorder(Rectangle.BOX);
 			rect.setBorderWidth(1.0f);
 			overContent.rectangle(rect);
