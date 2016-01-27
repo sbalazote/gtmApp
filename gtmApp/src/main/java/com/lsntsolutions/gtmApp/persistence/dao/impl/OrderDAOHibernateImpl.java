@@ -34,7 +34,7 @@ public class OrderDAOHibernateImpl implements OrderDAO {
 	@Override
 	public Order getOrderByProvisioningRequestId(Integer provisioningRequestId) {
 		try {
-			Query query = this.sessionFactory.getCurrentSession().createQuery("from Order where provisioning_request_id = :provisioningRequestId");
+			Query query = this.sessionFactory.getCurrentSession().createQuery("from Order where provisioningRequest.id = :provisioningRequestId");
 			query.setParameter("provisioningRequestId", provisioningRequestId);
 			return (Order) query.list().get(0);
 		} catch (IndexOutOfBoundsException e) {
@@ -104,7 +104,11 @@ public class OrderDAOHibernateImpl implements OrderDAO {
 			sentence += "provisioningRequest.agreement.id =:agreementId and ";
 		}
 		if (logisticsOperatorId != null) {
-			sentence += "provisioningRequest.logisticsOperator.id =:logisticsOperatorId and ";
+			if(logisticsOperatorId == 0){
+				sentence += "provisioningRequest.logisticsOperator is null and ";
+			}else {
+				sentence += "provisioningRequest.logisticsOperator.id =:logisticsOperatorId and ";
+			}
 		}
 		if (clientId != null) {
 			sentence += "provisioningRequest.client.id =:clientId and ";
@@ -123,7 +127,7 @@ public class OrderDAOHibernateImpl implements OrderDAO {
 		if (agreementId != null) {
 			query.setParameter("agreementId", agreementId);
 		}
-		if (logisticsOperatorId != null) {
+		if (logisticsOperatorId != null && logisticsOperatorId != 0) {
 			query.setParameter("logisticsOperatorId", logisticsOperatorId);
 		}
 		if (clientId != null) {
