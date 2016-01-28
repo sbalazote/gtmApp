@@ -40,9 +40,11 @@ OrderAssembly = function() {
 						$('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
 						currentRow = findProduct(response.id);
 						if (currentRow != null) {
+							$('#productInput').val('');
 							$(".assign-button").eq(currentRow).trigger("click");
 						} else {
 							$('#productInput').tooltip("destroy").data("title", "Producto no coincide con los precargados").addClass("has-error").tooltip();
+							$('#productInput').val('');
 							$('#productInput').focus();
 						}						
 					} else {

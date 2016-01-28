@@ -311,6 +311,7 @@ OrderAssemblySerialized = function() {
 					action: function(dialogItself) {
 						dialogItself.close();
 						$("#serializedAcceptButton").trigger('click');
+						$('#productInput').focus();
 					}
 				}]
 			});

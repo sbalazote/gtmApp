@@ -282,6 +282,7 @@ OrderAssemblyBatchExpirationDate = function() {
 					action: function(dialogItself) {
 						dialogItself.close();
 						$("#batchExpirationDateAcceptButton").trigger('click');
+						$('#productInput').focus();
 					}
 				}]
 			});
