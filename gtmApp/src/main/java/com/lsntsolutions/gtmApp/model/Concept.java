@@ -3,6 +3,7 @@ package com.lsntsolutions.gtmApp.model;
 import com.lsntsolutions.gtmApp.util.StringUtility;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -150,7 +151,7 @@ public class Concept implements Serializable {
 	}
 
 	public List<Event> getEvents() {
-		return this.events;
+		return ( events.isEmpty() ? new ArrayList<Event>() : events );
 	}
 
 	public void setEvents(List<Event> events) {
