@@ -214,7 +214,7 @@ public class Input implements Serializable {
 		if (this.getProvider() != null) {
 			Integer agentId;
 			if(this.getLogisticsOperator() != null){
-				agentId = this.getLogisticsOperator().getAgent().getId();
+				agentId = this.getLogisticsOperator().getAgent().getCode();
 			}else {
 				agentId = this.getProvider().getAgent().getId();
 			}
