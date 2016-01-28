@@ -123,10 +123,21 @@ public class OrderController {
 		return "orderSaved";
 	}
 
-	@RequestMapping(value = "/orderManagement", method = RequestMethod.GET)
-	public String orderManagement(ModelMap modelMap) throws Exception {
+	@RequestMapping(value = "/orderCancelation", method = RequestMethod.GET)
+	public String orderCancelation(ModelMap modelMap) throws Exception {
+		modelMap.put("cancellation", true);
 		modelMap.put("orders", this.orderService.getAllByState(State.ASSEMBLED.getId()));
-		return "orderManagement";
+		return "orderCancelation";
+	}
+
+	@RequestMapping(value = "/reprintOrderLabel", method = RequestMethod.GET)
+	public String reprintOrderLabel(ModelMap modelMap) throws Exception {
+		List<Order> orders = new ArrayList<>();
+		orders.addAll(this.orderService.getAllByState(State.ASSEMBLED.getId()));
+		orders.addAll(this.orderService.getAllByState(State.DELIVERY_NOTE_PRINTED.getId()));
+		modelMap.put("orders", orders);
+		modelMap.put("cancellation", false);
+		return "reprintOrderLabel";
 	}
 
 	@RequestMapping(value = "/getOrder", method = RequestMethod.GET)

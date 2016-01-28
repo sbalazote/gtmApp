@@ -17,7 +17,12 @@
 <form action="" onsubmit="return false;">
 	<div class="row">
 		<div class="col-md-12 col-lg-12 form-group">
-			<h3><spring:message code="orderAssembly.orderManagement"/></h3>
+			<c:if test="${cancellation == true}">
+				<h3><spring:message code="orderAssembly.cancellation.label"/></h3>
+			</c:if>
+			<c:if test="${cancellation == false}">
+				<h3><spring:message code="orderAssembly.reprint.label"/></h3>
+			</c:if>
 		</div>
 	</div>
 
@@ -29,9 +34,7 @@
 				<th data-column-id="id" data-type="numeric"><spring:message code="provisioningRequest.provisioningRequestNumber"/></th>
 				<th data-column-id="client"><spring:message code="common.client"/></th>
 				<th data-column-id="agreement"><spring:message code="common.agreement"/></th>
-				<sec:authorize access="hasRole('ORDER_ASSEMBLY_CANCELLATION')">
-					<th data-column-id="viewOrder" data-formatter="viewOrder" data-sortable="false"><spring:message code="common.action"/></th>
-				</sec:authorize>
+				<th data-column-id="viewOrder" data-formatter="viewOrder" data-sortable="false"><spring:message code="common.action"/></th>
 				<sec:authorize access="hasRole('ORDER_LABEL_PRINT')">
 					<th data-column-id="printLabel" data-formatter="printLabel" data-sortable="false"><spring:message code="common.action"/></th>
 				</sec:authorize>
@@ -50,12 +53,16 @@
 		</table>
 	</div>
 	<br>
-	<div class="row">
-		<div class="col-md-3 col-md-offset-9 col-lg-2 col-lg-offset-10">
-			<button class="btn btn-danger btn-block" type="submit" id="confirmButton">
-				<span class="glyphicon glyphicon-ok"></span>
-				<spring:message code="provisioningRequest.cancellation.button" />
-			</button>
-		</div>
-	</div>
+	<sec:authorize access="hasRole('ORDER_ASSEMBLY_CANCELLATION')">
+		<c:if test="${cancellation == true}">
+			<div class="row">
+				<div class="col-md-3 col-md-offset-9 col-lg-2 col-lg-offset-10">
+					<button class="btn btn-danger btn-block" type="submit" id="confirmButton">
+						<span class="glyphicon glyphicon-ok"></span>
+						<spring:message code="provisioningRequest.cancellation.button" />
+					</button>
+				</div>
+			</div>
+		</c:if>
+	</sec:authorize>
 </form>

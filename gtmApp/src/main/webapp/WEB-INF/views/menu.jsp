@@ -108,8 +108,11 @@
 						<sec:authorize access="hasRole('PROVISIONING_REQUEST_CANCELLATION')">
 							<li><a href="provisioningRequestCancellation.do"><spring:message code="common.cancell" /> </a></li>
 						</sec:authorize>
-						<sec:authorize access="hasAnyRole('ORDER_ASSEMBLY_CANCELLATION', 'ORDER_LABEL_PRINT')">
-							<li><a href="orderManagement.do"><spring:message code="orderAssembly.manageOrder" /> </a></li>
+						<sec:authorize access="hasRole('ORDER_ASSEMBLY_CANCELLATION')">
+							<li><a href="orderCancelation.do"><spring:message code="orderAssembly.cancellation" /> </a></li>
+						</sec:authorize>
+						<sec:authorize access="hasRole('ORDER_LABEL_PRINT')">
+							<li><a href="reprintOrderLabel.do"><spring:message code="orderAssembly.reprintLabel" /> </a></li>
 						</sec:authorize>
 					</ul>
 				</li>
