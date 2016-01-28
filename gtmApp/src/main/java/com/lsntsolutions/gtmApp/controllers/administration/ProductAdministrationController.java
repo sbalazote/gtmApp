@@ -246,15 +246,7 @@ public class ProductAdministrationController {
 		String sortIsActive = parametersMap.get("sort[isActive]");
 
 		List<Product> listProducts = this.productService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortDescription, sortGtin, sortIsCold, sortIsActive, start, length);
-		//total = listProducts.size();
-		total = this.productService.getTotalNumberOfRows();
-		/*if (total < start + length) {
-			listProducts = listProducts.subList(start, (int) total);
-		} else {
-			if(length > 0) {
-				listProducts = listProducts.subList(start, start + length);
-			}
-		}*/
+		total = this.productService.getTotalNumberOfRows(searchPhrase, null, sortId, sortCode, sortDescription, sortGtin, sortIsCold, sortIsActive);
 
 		for (Product product : listProducts) {
 			JSONObject dataJson = new JSONObject();

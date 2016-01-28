@@ -21,8 +21,6 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	private Integer totalNumberOfRows;
-
 	@Override
 	@Cacheable(value="saveProductCache", key="#name")
 	public void save(Product product) {
@@ -42,10 +40,8 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 		return !query.list().isEmpty();
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Product> getForAutocomplete(String searchPhrase, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold, String sortIsActive, Integer start, Integer length) {
-		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Product.class);
+	private Criteria buildCriteria(String searchPhrase, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold, String sortIsActive) {
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Product.class, "product");
 
 		criteria.createAlias("gtins", "g");
 		criteria.setFetchMode("gtins", FetchMode.SELECT);
@@ -100,13 +96,13 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 			criteria.addOrder(Order.asc("id"));
 		}
 
-		criteria.setProjection(Projections.rowCount());
-		Long count = (Long) criteria.uniqueResult();
-		totalNumberOfRows = count.intValue();
+		return criteria;
+	}
 
-		criteria.setProjection(null);
-
-		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Product> getForAutocomplete(String searchPhrase, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold, String sortIsActive, Integer start, Integer length) {
+		Criteria criteria = this.buildCriteria(searchPhrase, active, sortId, sortCode, sortDescription, sortGtin, sortIsCold, sortIsActive);
 
 		if (start != null) {
 			criteria.setFirstResult(start);
@@ -114,6 +110,14 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 		if (length != null) {
 			criteria.setMaxResults(length);
 		}
+
+		criteria.setProjection(Projections.distinct(Projections.property("id")));
+		List ids = criteria.list();
+
+		criteria = this.sessionFactory.getCurrentSession().createCriteria(Product.class);
+		criteria.add(Restrictions.in("id", ids));
+		criteria.setFetchMode("gtins", FetchMode.JOIN);
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
 		return (List<Product>) criteria.list();
 	}
@@ -198,7 +202,10 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 		return count;
 	}
 
-	public Integer getTotalNumberOfRows() {
-		return totalNumberOfRows;
+	public Integer getTotalNumberOfRows(String searchPhrase, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold, String sortIsActive) {
+		Criteria criteria = this.buildCriteria(searchPhrase, active, sortId, sortCode, sortDescription, sortGtin, sortIsCold, sortIsActive);
+		criteria.setProjection(Projections.countDistinct("id"));
+		Long count = (Long) criteria.uniqueResult();
+		return count.intValue();
 	}
 }

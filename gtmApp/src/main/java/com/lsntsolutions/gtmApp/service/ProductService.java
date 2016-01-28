@@ -15,7 +15,7 @@ public interface ProductService {
 
 	List<Product> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold, String sortIsActive, Integer start, Integer length);
 
-	Integer getTotalNumberOfRows();
+	Integer getTotalNumberOfRows(String searchPhrase, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold, String sortIsActive);
 
 	Product getByGtin(String gtin);
 

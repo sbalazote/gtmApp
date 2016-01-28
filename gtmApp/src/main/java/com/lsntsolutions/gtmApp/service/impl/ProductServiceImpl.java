@@ -61,8 +61,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Integer getTotalNumberOfRows() {
-		return this.productDAO.getTotalNumberOfRows();
+	public Integer getTotalNumberOfRows(String searchPhrase, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold, String sortIsActive) {
+		return this.productDAO.getTotalNumberOfRows(searchPhrase, active, sortId, sortCode, sortDescription, sortGtin, sortIsCold, sortIsActive);
 	}
 
 	@Override
@@ -83,61 +83,6 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Integer updateFromAlfabeta(String description, BigDecimal price, Integer code, String gtin, Boolean cold) {
 		return this.productDAO.updateFromAlfabeta(description, price, code, gtin, cold);
-		/*Product product;
-		if (this.productDAO.exists(code)) {
-			product = this.productDAO.getByCode(code);
-			ProductGtin productGtin = new ProductGtin();
-			productGtin.setDate(new Date());
-			productGtin.setNumber(gtin);
-			List<ProductGtin> gtins = product.getGtins();
-			if (!gtins.contains(productGtin) && (this.productGtinService.getByNumber(gtin) == null)) {
-				gtins.add(productGtin);
-			}
-			ProductPrice productPrice = new ProductPrice();
-			productPrice.setDate(new Date());
-			productPrice.setPrice(price);
-			List<ProductPrice> prices = product.getPrices();
-			prices.add(productPrice);
-			this.productDAO.save(product);
-			logger.info("El producto con codigo nro. " + code + " ha sido actualizado.");
-
-		} else {
-			// si no existe el producto se da de alta pero como inactivo siempre y cuando el gtin no exista.
-			if (this.productGtinService.getByNumber(gtin) == null) {
-				product = new Product();
-				List<ProductGtin> productGtins = new ArrayList<ProductGtin>();
-				ProductGtin productGtin = new ProductGtin();
-				productGtin.setDate(new Date());
-				productGtin.setNumber(gtin);
-				productGtins.add(productGtin);
-				product.setGtins(productGtins);
-
-				List<ProductPrice> productPrices = new ArrayList<ProductPrice>();
-				ProductPrice productPrice = new ProductPrice();
-				productPrice.setDate(new Date());
-				productPrice.setPrice(price);
-				productPrices.add(productPrice);
-				product.setPrices(productPrices);
-
-				product.setCode(code);
-				product.setDescription(description);
-				product.setBrand(this.productBrandService.get(1));
-				product.setMonodrug(this.productMonodrugService.get(1));
-				product.setGroup(this.productGroupService.get(1));
-				product.setDrugCategory(this.productDrugCategoryService.get(1));
-				product.setCold(cold);
-				// TODO que va aca??
-				product.setInformAnmat(false);
-				// TODO que va aca??
-				product.setType("BE");
-				product.setActive(false);
-
-				this.productDAO.save(product);
-				logger.info("El producto con codigo nro. " + code + " no existe. Se ha dado de alta.");
-			} else {
-				logger.info("El producto con codigo nro. " + code + " no existe pero su GTIN " + gtin + " ya existe. No se puede dar de alta");
-			}
-		}*/
 	}
 
 	@Override
