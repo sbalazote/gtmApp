@@ -30,4 +30,6 @@ public interface OrderDAO {
 	List<DeliveryLocation> getDeliveryLocationsForOrderToPrint();
 
 	List<LogisticsOperator> getLogisticsOperatorsForOrderToPrint();
+
+	List<Order> getPrintableOrCancelableOrder(Integer provisioningId, boolean isCancellation);
 }

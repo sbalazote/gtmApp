@@ -171,4 +171,18 @@ public class OrderDAOHibernateImpl implements OrderDAO {
 		query.setParameter("stateId", State.ASSEMBLED.getId());
 		return query.list();
 	}
+
+	@Override
+	public List<Order> getPrintableOrCancelableOrder(Integer provisioningId, boolean isCancellation) {
+		String sentence = "from Order where provisioningRequest.id = :provisioningId and cancelled = false and (provisioningRequest.state.id = " + State.ASSEMBLED.getId();
+		if(!isCancellation){
+			sentence += " or  provisioningRequest.state.id = " + State.DELIVERY_NOTE_PRINTED.getId() + ")";
+		}else{
+			sentence += ")";
+		}
+		Query query;
+		query = this.sessionFactory.getCurrentSession().createQuery(sentence);
+		query.setParameter("provisioningId", provisioningId);
+		return query.list();
+	}
 }

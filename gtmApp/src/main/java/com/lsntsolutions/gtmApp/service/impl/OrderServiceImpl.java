@@ -207,4 +207,9 @@ public class OrderServiceImpl implements OrderService {
 	public List<LogisticsOperator> getLogisticsOperatorsForOrderToPrint() {
 		return this.orderDAO.getLogisticsOperatorsForOrderToPrint();
 	}
+
+	@Override
+	public List<Order> getPrintableOrCancelableOrder(Integer provisioningId, boolean isCancellation) {
+		return this.orderDAO.getPrintableOrCancelableOrder(provisioningId, isCancellation);
+	}
 }

@@ -132,12 +132,14 @@ public class OrderController {
 
 	@RequestMapping(value = "/reprintOrderLabel", method = RequestMethod.GET)
 	public String reprintOrderLabel(ModelMap modelMap) throws Exception {
-		List<Order> orders = new ArrayList<>();
-		orders.addAll(this.orderService.getAllByState(State.ASSEMBLED.getId()));
-		orders.addAll(this.orderService.getAllByState(State.DELIVERY_NOTE_PRINTED.getId()));
-		modelMap.put("orders", orders);
 		modelMap.put("cancellation", false);
 		return "reprintOrderLabel";
+	}
+
+	@RequestMapping(value = "/getPrintableOrCancelableOrder", method = RequestMethod.POST)
+	public @ResponseBody List<Order> getPrintableOrCancelableOrder(@RequestParam Integer provisioningId, @RequestParam Boolean isCancellation) throws Exception {
+		List<Order> orders = this.orderService.getPrintableOrCancelableOrder(provisioningId, isCancellation);
+		return orders;
 	}
 
 	@RequestMapping(value = "/getOrder", method = RequestMethod.GET)

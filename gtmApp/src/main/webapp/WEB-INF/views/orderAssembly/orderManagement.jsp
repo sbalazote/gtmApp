@@ -24,6 +24,25 @@
 				<h3><spring:message code="orderAssembly.reprint.label"/></h3>
 			</c:if>
 		</div>
+		<input type="hidden" class="form-control" id="cancellation" value="${cancellation}">
+	</div>
+	<div class="row">
+		<div class="col-md-8 col-lg-8 form-group">
+			<label for="provisioningRequestSearch"><spring:message code="provisioningRequest.provisioningRequestNumber"/></label>
+			<input type="text" class="form-control" name="provisioningRequestSearch" id="provisioningRequestSearch" >
+		</div>
+		<div class="col-md-2 col-lg-2 form-margin">
+			<button class="btn btn-success btn-block" type="submit" id="searchButton">
+				<span class="glyphicon glyphicon-search"></span>
+				<spring:message code="common.search" />
+			</button>
+		</div>
+		<div class="col-md-2 col-lg-2 form-margin">
+			<button class="btn btn-info btn-block" type="submit" id="cleanButton">
+				<span class="glyphicon glyphicon-trash"></span>
+				<spring:message code="common.clean" />
+			</button>
+		</div>
 	</div>
 
 	<div id="divTable">
@@ -41,14 +60,6 @@
 			</tr>
 			</thead>
 			<tbody id="orderTableBody">
-			<c:forEach items="${orders}" var="order" varStatus="status">
-				<tr>
-					<td><c:out value="${order.id}"></c:out></td>
-					<td><c:out value="${order.provisioningRequest.id}"></c:out></td>
-					<td><c:out value="${order.provisioningRequest.client.name}"></c:out></td>
-					<td><c:out value="${order.provisioningRequest.agreement.description}"></c:out></td>
-				</tr>
-			</c:forEach>
 			</tbody>
 		</table>
 	</div>
