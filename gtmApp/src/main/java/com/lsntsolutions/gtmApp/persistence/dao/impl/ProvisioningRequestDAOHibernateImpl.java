@@ -8,8 +8,7 @@ import com.lsntsolutions.gtmApp.query.ProvisioningQuery;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -112,8 +111,7 @@ public class ProvisioningRequestDAOHibernateImpl implements ProvisioningRequestD
 		if (provisioningQuery.getProductMonodrugId() != null) {
 			criteria.add(Restrictions.eq("product.monodrug.id", provisioningQuery.getProductMonodrugId()));
 		}
-		//criteria.setProjection(Projections.distinct(Projections.property("provisioning.id")));
-//criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		criteria.addOrder(org.hibernate.criterion.Order.desc("id")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		List<ProvisioningRequest> results = criteria.list();
 
 		return results;
