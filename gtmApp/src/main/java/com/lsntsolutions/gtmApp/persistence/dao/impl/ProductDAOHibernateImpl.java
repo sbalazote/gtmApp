@@ -13,6 +13,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -114,12 +115,15 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 		criteria.setProjection(Projections.distinct(Projections.property("id")));
 		List ids = criteria.list();
 
-		criteria = this.sessionFactory.getCurrentSession().createCriteria(Product.class);
-		criteria.add(Restrictions.in("id", ids));
-		criteria.setFetchMode("gtins", FetchMode.JOIN);
-		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-
-		return (List<Product>) criteria.list();
+		if (ids.size() > 0) {
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(Product.class);
+			criteria.add(Restrictions.in("id", ids));
+			criteria.setFetchMode("gtins", FetchMode.JOIN);
+			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+			return (List<Product>) criteria.list();
+		} else {
+			return new ArrayList<>();
+		}
 	}
 
 	@Override
