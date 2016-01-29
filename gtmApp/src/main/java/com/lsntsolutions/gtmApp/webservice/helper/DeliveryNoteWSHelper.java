@@ -131,10 +131,10 @@ public class DeliveryNoteWSHelper {
 						&& ("PS".equals(outputDetail.getProduct().getType()) || "SS".equals(outputDetail
 								.getProduct().getType()))) {
 					String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(outputDetail.getExpirationDate()).toString();
-
-					this.webServiceHelper.setDrug(drug, this.propertyService.get().getGln(), output.getDestinationGln(), this.propertyService.get().getTaxId(),
-							output.getDestinationTax(), deliveryNoteFormated, expirationDate, outputDetail.getGtin().getNumber(),
-							eventId, outputDetail.getSerialNumber(), outputDetail.getBatch(),
+					String destinationGln = output.getConcept().isDestruction() ? null : output.getDestinationGln();
+					String destinationTax = output.getConcept().isDestruction() ? null : output.getDestinationTax();
+					this.webServiceHelper.setDrug(drug, this.propertyService.get().getGln(), destinationGln , this.propertyService.get().getTaxId(), destinationTax
+							, deliveryNoteFormated, expirationDate, outputDetail.getGtin().getNumber(),	eventId, outputDetail.getSerialNumber(), outputDetail.getBatch(),
 							output.getDate(), true, null, null);
 					medicines.add(drug);
 				}

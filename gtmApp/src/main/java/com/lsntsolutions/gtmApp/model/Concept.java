@@ -193,7 +193,7 @@ public class Concept implements Serializable {
 		try {
 			if(isDestruction()){
 				if(getEvents() != null && !getEvents().isEmpty()){
-					return getEvents().get(0).toString();
+					return getEvents().get(0).getCode().toString();
 				}else{
 					return null;
 				}
