@@ -1,18 +1,13 @@
 package com.lsntsolutions.gtmApp.helper;
 
 import org.codehaus.jackson.JsonEncoding;
-import org.springframework.web.servlet.view.AbstractView;
-import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.util.Map;
-import java.util.Set;
 
-public class MyCustomMappingJacksonJsonView extends MappingJacksonJsonView {
+public class MyCustomMappingJacksonJsonView extends MappingJackson2JsonView {
 
     private JsonEncoding encoding = JsonEncoding.UTF8;
 
