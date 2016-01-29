@@ -165,7 +165,7 @@ public class DeliveryNoteResultDTO {
 			this.setDate(stringDate.format(order.getProvisioningRequest().getDeliveryDate()));
 			code = order.getProvisioningRequest().getDeliveryLocation().getFormatCode();
 			this.setDeliveryLocation(code + " - " + order.getProvisioningRequest().getDeliveryLocation().getName());
-			this.setClient("NO SE INFORMA");
+			this.setClient(order.getProvisioningRequest().getClient().getCode() + " - " + order.getProvisioningRequest().getClient().getName());
 			String id = order.getFormatId();
 			String provisioningRequestId = order.getProvisioningRequest().getFormatId();
 			String affiliate = order.getProvisioningRequest().getAffiliate().getCode() + " - " + order.getProvisioningRequest().getAffiliate().getSurname() + " " +

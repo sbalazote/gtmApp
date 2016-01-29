@@ -36,11 +36,15 @@ var DeliveryNoteSheet = function() {
 				async: false,
 				success: function(response) {
 					var msgType = "success";
-					var message = "Se han generado los siguientes remitos: <p></p><strong>";
-					$.each(response.deliveryNoteNumbers, function( index, value ) {
-						message += "<p>" + value + "</p>";
-					});
-					message += "</strong>";
+					var message;
+					if(response.deliveryNoteNumbers.length > 0){
+						message = "Se han generado los siguientes remitos: <p></p><strong>";
+						$.each(response.deliveryNoteNumbers, function( index, value ) {
+							message += "<p>" + value + "</p>";
+						});
+					}
+					message = (message != undefined) ? "</strong>" : "";
+
 					if (response.errorMessages.length > 0) {
 						$.each(response.errorMessages, function (index, value) {
 							message += "<strong><p>" + value + "</p></strong>";
