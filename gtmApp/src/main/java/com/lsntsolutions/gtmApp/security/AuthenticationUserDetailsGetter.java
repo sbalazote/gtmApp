@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -23,9 +24,14 @@ public class AuthenticationUserDetailsGetter implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
-        User user = userService.getByName(username);
-        throwExceptionIfNotFound(user, username);
-        return new AuthenticationUserDetails(user);
+        com.lsntsolutions.gtmApp.model.User user = userService.getByName(username);
+            System.out.println("User : "+user);
+            if(user==null){
+                System.out.println("User not found");
+                throw new UsernameNotFoundException("Username not found");
+            }
+            return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(),
+                    true, true, true, true, user.getProfile().getRoles());
     }
 
     private void throwExceptionIfNotFound(User user, String login) {
@@ -33,4 +39,5 @@ public class AuthenticationUserDetailsGetter implements UserDetailsService {
             throw new UsernameNotFoundException("User with login " + login + "  has not been found.");
         }
     }
+
 }
