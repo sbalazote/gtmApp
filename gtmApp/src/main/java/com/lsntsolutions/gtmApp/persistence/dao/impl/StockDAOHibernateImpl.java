@@ -58,27 +58,19 @@ public class StockDAOHibernateImpl implements StockDAO {
 	@Override
 	public Stock getSerializedProductStock(Integer productId, String serialNumber, String gtin, Integer agreementId) {
 		try {
-			String sentence = "from Stock where product.id = :productId and serialNumber = :serialNumber and agreement.id = :agreementId ";
-			// TODO validar si esto esta bien.
+			Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Stock.class, "stock");
+			criteria.add(Restrictions.eq("product.id", productId));
+			criteria.add(Restrictions.eq("serialNumber", serialNumber));
+			criteria.add(Restrictions.eq("agreement.id", agreementId));
+			criteria.createAlias("stock.product", "product");
+			criteria.createAlias("product.gtins", "gtin");
 			Product product = this.productService.get(productId);
 			if (gtin != null && product.getType().equals("PS")) {
 				if (gtin != "") {
-					sentence += "and gtin.number = :gtin";
+					criteria.add(Restrictions.eq("gtin.number", gtin));
 				}
 			}
-
-			Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
-			query.setParameter("productId", productId);
-			query.setParameter("serialNumber", serialNumber);
-			query.setParameter("agreementId", agreementId);
-
-			if (gtin != null && product.getType().equals("PS")) {
-				if (gtin != "") {
-					query.setParameter("gtin", gtin);
-				}
-			}
-
-			return (Stock) query.list().get(0);
+			return (Stock) criteria.list().get(0);
 		} catch (IndexOutOfBoundsException e) {
 			return null;
 		}
