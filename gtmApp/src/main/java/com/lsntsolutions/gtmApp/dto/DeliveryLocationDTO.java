@@ -1,8 +1,9 @@
 package com.lsntsolutions.gtmApp.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 
-import org.codehaus.jackson.annotate.JsonProperty;
 
 public class DeliveryLocationDTO implements Serializable {
 

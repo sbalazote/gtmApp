@@ -347,7 +347,6 @@ public class AuditDAOHibernateImpl implements AuditDAO {
                 + "' and sd.expiration_date = '" + expirateDate
                 + "' and a.operation_id = dnd.delivery_note_id and dnd.supplying_detail_id = sd.id and a.action_id = " + AuditState.COMFIRMED.getId()+") order by a.`date` desc";
 
-        System.out.println(sentence);
         query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
         deliveryNoteAudit = query.list();
         for (Audit audit : deliveryNoteAudit) {

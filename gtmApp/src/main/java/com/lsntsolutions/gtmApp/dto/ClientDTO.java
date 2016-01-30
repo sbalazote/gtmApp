@@ -1,9 +1,10 @@
 package com.lsntsolutions.gtmApp.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.List;
 
-import org.codehaus.jackson.annotate.JsonProperty;
 
 public class ClientDTO implements Serializable {
 

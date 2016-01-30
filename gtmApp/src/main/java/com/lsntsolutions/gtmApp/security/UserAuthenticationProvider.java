@@ -1,12 +1,9 @@
 package com.lsntsolutions.gtmApp.security;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import com.lsntsolutions.gtmApp.model.Role;
 import com.lsntsolutions.gtmApp.helper.EncryptionHelper;
+import com.lsntsolutions.gtmApp.model.Role;
 import com.lsntsolutions.gtmApp.model.User;
+import com.lsntsolutions.gtmApp.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +14,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Repository;
 
-import com.lsntsolutions.gtmApp.service.UserService;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Repository("userAuthenticationProvider")
 public class UserAuthenticationProvider implements AuthenticationProvider {
@@ -29,23 +28,28 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 
 	@Override
 	public Authentication authenticate(Authentication authentication) {
-		logger.info("Autenticando usuario {}", authentication.getPrincipal().toString());
-		String username = authentication.getPrincipal().toString();
-		String password = authentication.getCredentials().toString();
-		User user = this.userService.getByName(username);
-		if (user != null && password != null) {
-			String hashedPassword = EncryptionHelper.generateHash(username + password);
+		if (!authentication.isAuthenticated()) {
+			logger.info("Intentando autenticar usuario {}...", authentication.getPrincipal().toString());
+			String username = authentication.getPrincipal().toString();
+			String password = authentication.getCredentials().toString();
+			User user = this.userService.getByName(username);
+			if (user != null && password != null) {
+				String hashedPassword = EncryptionHelper.generateHash(username + password);
 
-			if (hashedPassword.equals(user.getPassword())) {
-				if (user.isActive()) {
-					logger.info("Usuario autenticado");
-					return new UsernamePasswordAuthenticationToken(username, password, this.getAuthorities(user.getProfile().getRoles()));
+				if (hashedPassword.equals(user.getPassword())) {
+					if (user.isActive()) {
+						logger.info("Usuario autenticado");
+						return new UsernamePasswordAuthenticationToken(username, password, this.getAuthorities(user.getProfile().getRoles()));
+					} else {
+						logger.info("Usuario inhabilitado.");
+						throw new BadCredentialsException("Usuario inhabilitado. Consulte con el Administrador del Sistema.");
+					}
 				} else {
-					logger.info("Usuario inhabilitado.");
-					throw new BadCredentialsException("Usuario inhabilitado. Consulte con el Administrador del Sistema.");
+					logger.info("Usuario o contraseña incorrectos.");
+					throw new BadCredentialsException("Usuario o contrasenia incorrectos");
 				}
 			} else {
-				logger.info("Usuario o contrase�a incorrectos.");
+				logger.info("Usuario o contraseña incorrectos.");
 				throw new BadCredentialsException("Usuario o contrasenia incorrectos");
 			}
 		}

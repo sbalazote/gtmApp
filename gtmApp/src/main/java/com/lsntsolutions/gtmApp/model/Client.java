@@ -1,7 +1,7 @@
 package com.lsntsolutions.gtmApp.model;
 
 import com.lsntsolutions.gtmApp.util.StringUtility;
-import org.codehaus.jackson.annotate.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.io.Serializable;

@@ -1,6 +1,7 @@
 package com.lsntsolutions.gtmApp.helper;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties({ "bytes" })
 public class FileMeta {

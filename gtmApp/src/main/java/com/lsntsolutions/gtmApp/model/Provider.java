@@ -1,12 +1,10 @@
 package com.lsntsolutions.gtmApp.model;
 
 import com.lsntsolutions.gtmApp.util.StringUtility;
-import org.codehaus.jackson.annotate.JsonBackReference;
-
-import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "provider")

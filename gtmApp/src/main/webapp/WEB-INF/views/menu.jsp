@@ -245,7 +245,7 @@
 					<li id="changePassword"></span><a href="#"><spring:message code="administration.changePassword" /></a></li>
 				</ul>
 			</li>
-			<a role="button" class="btn btn-primary btn-lg logout-button" href="j_spring_security_logout"> <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Salir</a>
+			<a role="button" class="btn btn-primary btn-lg logout-button" href="logout"> <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Salir</a>
 		</ul>
 	</div>
 </nav>

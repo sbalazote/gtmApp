@@ -16,18 +16,18 @@
 		<jdk.version>1.7</jdk.version>
 		<junit.version>4.11</junit.version>
 		<javax.servlet.version>2.5</javax.servlet.version>
-		<slf4j.version>1.5.6</slf4j.version>
+		<slf4j.version>1.7.6</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
-		<spring.version>3.2.4.RELEASE</spring.version>
-		<spring.security.version>3.0.5.RELEASE</spring.security.version>
-		<tiles.version>2.2.2</tiles.version>
+		<spring.version>4.2.4.RELEASE</spring.version>
+		<spring.security.version>4.0.3.RELEASE</spring.security.version>
+		<tiles.version>3.0.5</tiles.version>
 		<jstl.version>1.2</jstl.version>
 		<commons.pool.version>1.6</commons.pool.version>
 		<commons.dbcp.version>1.4</commons.dbcp.version>
 		<commons.codec.version>1.9</commons.codec.version>
 		<hibernate.version>4.2.6.Final</hibernate.version>
 		<mysql.connector.version>5.1.26</mysql.connector.version>
-		<jackson.version>1.9.13</jackson.version>
+		<jackson.version>2.6.5</jackson.version>
 		<zxing.version>3.1.0</zxing.version>
 	</properties>
 
@@ -291,16 +291,23 @@
 
 		<!-- Jackson Mapper -->
 		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-core-asl</artifactId>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
 
 		<!-- iText PDF -->
 		<dependency>
