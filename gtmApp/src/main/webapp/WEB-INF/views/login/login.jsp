@@ -35,6 +35,32 @@
             toastr.info('La sesi\u00f3n se ha cerrado correctamente.', 'INFO');
         </script>
     </c:if>
+    <c:if test="${not empty expiredUrl}">
+        <div class="row">
+            <div class="form-group col-md-12 col-lg-12 text-center myAlert">
+            </div>
+        </div>
+        <script type="text/javascript">
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": 3000,
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut",
+                "target": ".myAlert"
+            };
+            // Muestro mensaje de advertencia, con un titulo.
+            toastr.warning('La sesi\u00f3n ha expirado ya que se ha ingresado desde otro dispositivo.', 'INFO');
+        </script>
+    </c:if>
 	<c:if test="${not empty error}">
         <div class="row">
             <div class="form-group col-md-12 col-lg-12 text-center myAlert">

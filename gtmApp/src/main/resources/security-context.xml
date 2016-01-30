@@ -8,6 +8,7 @@
         
 	<http auto-config="true" use-expressions="true">
 		<csrf disabled="true"/>
+		<headers/>
 	    <access-denied-handler error-page="/403.do" />
 		<intercept-url pattern='/**' requires-channel='http' />
 	
@@ -15,9 +16,9 @@
 		<intercept-url pattern="/css/**" access="permitAll" />
 		<intercept-url pattern="/fonts/**" access="permitAll" />
 		<intercept-url pattern="/images/**" access="permitAll" />
-		<intercept-url pattern="/login**" access="permitAll" />
-		<intercept-url pattern="/logout**" access="permitAll" />
-		
+		<intercept-url pattern="/login**" access="permitAll" requires-channel="https"/>
+		<intercept-url pattern="/logout**" access="permitAll" requires-channel="https"/>
+
 		<intercept-url pattern="/input.do" access="hasRole('INPUT')" />
 		<intercept-url pattern="/searchInputToUpdate.do" access="hasRole('INPUT_AUTHORIZATION')" />
 		<intercept-url pattern="/inputCancellation.do" access="hasRole('INPUT_CANCELLATION')" />
@@ -77,7 +78,7 @@
 		<logout invalidate-session="true" delete-cookies="JSESSIONID" logout-success-url="/login.do?logout"/>
 		
 		<session-management>
-			<concurrency-control max-sessions="1" expired-url="/error.do" />
+			<concurrency-control max-sessions="1" expired-url="/login.do?expiredUrl"/>
 		</session-management>
 		
 	</http>

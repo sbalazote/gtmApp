@@ -1,5 +1,6 @@
 package com.lsntsolutions.gtmApp.util;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 
@@ -13,8 +14,7 @@ public class IntegrationTestUtil {
 
 	public static String convertObjectToJsonBytes(Object object) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
-		//mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
-		System.out.println(mapper.writeValueAsString(object));
+		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 		return mapper.writeValueAsString(object);
 	}
 }

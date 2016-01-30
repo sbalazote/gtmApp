@@ -2,6 +2,8 @@ package com.lsntsolutions.gtmApp.helper;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -11,12 +13,13 @@ import static com.lsntsolutions.gtmApp.constant.Constants.ENCRYPTION_SALT;
 
 public class EncryptionHelper {
 
+	private static final Logger logger = LoggerFactory.getLogger(EncryptionHelper.class);
+
+
 	private EncryptionHelper() {
 	}
 
 	public static String generateHash(String str) {
-		System.out.println(str);
-		System.out.println(DigestUtils.sha1Hex(ENCRYPTION_SALT + str));
 		return DigestUtils.sha1Hex(ENCRYPTION_SALT + str);
 	}
 
@@ -41,7 +44,7 @@ public class EncryptionHelper {
 			final String decryptedString = new String(cipher.doFinal(Base64.decodeBase64(strToDecrypt)));
 			return decryptedString;
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getLocalizedMessage());
 
 		}
 		return null;

@@ -96,11 +96,11 @@ public class InputControllerTest {
 
 		dto.setInputDetails(null);
 
-		System.out.println(this.mockMvc
+		this.mockMvc
 				.perform(
 						post("/saveInput.do").session(this.session).secure(true).param("isSerializedReturn", "false").accept(MediaType.APPLICATION_JSON)
 								.header("Content-Type", MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON)
-								.content(IntegrationTestUtil.convertObjectToJsonBytes(dto))).andDo(MockMvcResultHandlers.print()).andExpect(status().isOk()));
+								.content(IntegrationTestUtil.convertObjectToJsonBytes(dto))).andDo(MockMvcResultHandlers.print()).andExpect(status().isOk());
 	}
 
 	@Test
@@ -119,11 +119,11 @@ public class InputControllerTest {
 		}
 		dto.setInputDetails(idList);
 
-		System.out.println(this.mockMvc
+		this.mockMvc
 				.perform(
 						post("/saveInput.do").session(this.session).secure(true).param("isSerializedReturn", "false").accept(MediaType.APPLICATION_JSON)
 								.header("Content-Type", MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON)
-								.content(IntegrationTestUtil.convertObjectToJsonBytes(dto))).andDo(MockMvcResultHandlers.print()).andExpect(status().isOk()));
+								.content(IntegrationTestUtil.convertObjectToJsonBytes(dto))).andDo(MockMvcResultHandlers.print()).andExpect(status().isOk());
 
 	}
 
