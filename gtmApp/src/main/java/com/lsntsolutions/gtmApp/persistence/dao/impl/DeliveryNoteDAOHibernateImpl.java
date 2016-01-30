@@ -570,7 +570,6 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 		try {
 			String sentence = "select s.id from supplying_detail as sd, delivery_note_detail as dnd, delivery_note as dn, supplying as s where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and sd.supplying_id = s.id and dnd.delivery_note_id = "
 					+ deliveryNote.getId();
-			logger.error("busca la dispensa con la query: " + sentence);
 			Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
 			return this.supplyingService.get((Integer) (query.list().get(0)));
 		} catch (IndexOutOfBoundsException e) {
