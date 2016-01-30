@@ -1,6 +1,6 @@
 package com.lsntsolutions.gtmApp.helper;
 
-import org.codehaus.jackson.JsonEncoding;
+import com.fasterxml.jackson.core.JsonEncoding;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import javax.servlet.http.Cookie;

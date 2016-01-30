@@ -8,7 +8,7 @@
 	});
 </script>
 
-<form id="login" action="j_spring_security_check" method="post" >
+<form id="login" action="login" method="post" >
     <c:if test="${not empty logout}">
         <div class="row">
             <div class="form-group col-md-12 col-lg-12 text-center myAlert">
@@ -87,7 +87,7 @@
             <div class="form-group col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4">
                 <div class="input-group">
                     <span class="input-group-addon glyphicon glyphicon-user" aria-hidden="true"></span>
-                    <input type="text" class="form-control" name="j_username" placeholder="<spring:message code="login.user.placeholder"/>" autocomplete="off" autofocus >
+                    <input type="text" class="form-control" name="username" placeholder="<spring:message code="login.user.placeholder"/>" autocomplete="off" autofocus >
                 </div>
             </div>
         </div>
@@ -95,7 +95,7 @@
             <div class="form-group col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4">
                 <div class="input-group">
                     <span class="input-group-addon glyphicon glyphicon-lock" aria-hidden="true"></span>
-                    <input type="password" class="form-control" name="j_password" placeholder="<spring:message code="login.password.placeholder"/>" autocomplete="off" >
+                    <input type="password" class="form-control" name="password" placeholder="<spring:message code="login.password.placeholder"/>" autocomplete="off" >
                 </div>
             </div>
         </div>

@@ -1,10 +1,10 @@
 Login = function() {
 	$("#login").validate({
 		rules: {
-			j_username: {
+			username: {
 				required: true
 			},
-			j_password: {
+			password: {
 				required: true
 			}
 		},
