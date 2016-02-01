@@ -8,7 +8,9 @@ import com.lowagie.text.pdf.*;
 import com.lowagie.text.pdf.draw.LineSeparator;
 import com.lsntsolutions.gtmApp.config.PropertyProvider;
 import com.lsntsolutions.gtmApp.helper.AbstractPdfView;
+import com.lsntsolutions.gtmApp.model.ProductGtin;
 import com.lsntsolutions.gtmApp.model.Stock;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,162 +23,232 @@ import java.util.List;
 
 public class StockPdfView extends AbstractPdfView {
 
-	// Las coordenadas se miden en puntos ('user points'). 1 pulgada se divide en 72 puntos, por lo tanto 1 milimetro equivale a 2.8346 puntos.
-	private float MILLIMITER_TO_POINTS_FACTOR = 2.8346f;
+    private static final Logger logger = Logger.getLogger(StockPdfView.class);
 
-	private String logoPath;
-	private String product;
-	private String batchNumber;
-	private String expirateDateFrom;
-	private String expirateDateTo;
-	private String serialNumber;
-	private String agreement;
-	private String productMonodrug;
+    // Las coordenadas se miden en puntos ('user points'). 1 pulgada se divide en 72 puntos, por lo tanto 1 milimetro equivale a 2.8346 puntos.
+    private float MILLIMITER_TO_POINTS_FACTOR = 2.8346f;
 
-	@Override
-	protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest req, HttpServletResponse resp)
-			throws Exception {
-		// Logo
-		String logoPath;
-		String realPath = getServletContext().getRealPath("/images/uploadedLogo.png");
+    private String logoPath;
+    private String product;
+    private String batchNumber;
+    private String expirateDateFrom;
+    private String expirateDateTo;
+    private String serialNumber;
+    private String agreement;
+    private String productMonodrug;
+    private PdfPTable table;
+    private PdfPCell col1Detail;
+    private PdfPCell col2Detail;
+    private PdfPCell col3Detail;
+    private PdfPCell col4Detail;
+    private PdfPCell col5Detail;
+    private PdfPCell col6Detail;
 
-		File file = new File(realPath);
+    @Override
+    protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest req, HttpServletResponse resp)
+            throws Exception {
+        // Logo
+        String logoPath;
+        String realPath = getServletContext().getRealPath("/images/uploadedLogo.png");
 
-		//Image logo;
-		if(file.exists()) {
-			logoPath = realPath;
-		} else {
-			logoPath = getServletContext().getRealPath("/images/logo.png");
-		}
+        File file = new File(realPath);
 
-		this.logoPath = logoPath;
+        //Image logo;
+        if(file.exists()) {
+            logoPath = realPath;
+        } else {
+            logoPath = getServletContext().getRealPath("/images/logo.png");
+        }
 
-		this.product = (String) model.get("product");
-		this.batchNumber = (String) model.get("batchNumber");
-		this.expirateDateFrom = (String) model.get("expirateDateFrom");
-		this.expirateDateTo = (String) model.get("expirateDateTo");
-		this.serialNumber = (String) model.get("serialNumber");
-		this.agreement = (String) model.get("agreement");
-		this.productMonodrug = (String) model.get("monodrug");
+        this.logoPath = logoPath;
 
-		document.setPageSize(PageSize.A4);
-		HeaderFooter event = new HeaderFooter();
-		writer.setPageEvent(event);
-		document.open();
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-		@SuppressWarnings("unchecked")
-		List<Stock> stockList = (List<Stock>) model.get("stocks");
+        this.product = (String) model.get("product");
+        this.batchNumber = (String) model.get("batchNumber");
+        this.expirateDateFrom = (String) model.get("expirateDateFrom");
+        this.expirateDateTo = (String) model.get("expirateDateTo");
+        this.serialNumber = (String) model.get("serialNumber");
+        this.agreement = (String) model.get("agreement");
+        this.productMonodrug = (String) model.get("monodrug");
 
-		HashMap<Integer,List<Stock>> groupByProduct = groupByProduct(stockList);
+        //document.setPageSize(PageSize.A4);
+        HeaderFooter event = new HeaderFooter();
+        writer.setPageEvent(event);
+        document.open();
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+        @SuppressWarnings("unchecked")
+        List<Stock> stockList = (List<Stock>) model.get("stocks");
 
-		PdfPTable table = new PdfPTable(7); // 7 columnas
-		table.setWidthPercentage(100);
-		table.setSpacingBefore(5f);
-		table.setSpacingAfter(5f);
-		float[] columnWidths = {2f, 3f, 2f, 1.5f, 2f, 3.5f, 1f};
-		table.setWidths(columnWidths);
+        TreeMap<String, List<Stock>> inputDetail = groupByProductAndBatch(stockList);
 
-		for(Integer productId : groupByProduct.keySet()){
-			String gtin = "-";
-			Stock id = groupByProduct.get(productId).get(0);
-			if(id.getGtin() != null){
-				gtin = id.getGtin().getNumber();
-			}
-			PdfPCell stockGtinDetail;
-			PdfPCell stockDescriptionDetail;
-			PdfPCell stockAgreementDetail;
-			PdfPCell stockBatchDetail;
-			PdfPCell stockExpirationDateDetail;
-			PdfPCell stockSerialNumberDetail;
-			PdfPCell stockAmountDetail;
+        TreeMap<String, Integer> productsCount = countByProduct(stockList);
 
-			boolean isGroup = false;
-			if(groupByProduct.get(productId).size() > 1) {
-				isGroup = true;
-				stockGtinDetail = new PdfPCell(new Paragraph(gtin, PdfConstants.fontDetails));
-				stockDescriptionDetail = new PdfPCell(new Paragraph(id.getProduct().getDescription() + " (" + String.valueOf(id.getProduct().getCode()) + ")", PdfConstants.fontDetails));
-				stockAgreementDetail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
-				stockBatchDetail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
-				stockExpirationDateDetail = (new PdfPCell(new Paragraph("", PdfConstants.fontDetails)));
-				stockSerialNumberDetail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
-				Integer total = 0;
-				for(Stock inputDetail : groupByProduct.get(productId)){
-					total += inputDetail.getAmount();
-				}
-				stockAmountDetail = new PdfPCell(new Paragraph(String.valueOf(total), PdfConstants.fontDetails));
+        table = new PdfPTable(6); // 6 columnas
+        table.setWidthPercentage(100);
+        table.setSpacingBefore(5f);
+        table.setSpacingAfter(5f);
+        float[] columnWidths = {2f, 3f, 3f, 3f, 3f, 1f};
+        table.setWidths(columnWidths);
 
-				stockGtinDetail.setBorder(Rectangle.RIGHT);
-				stockDescriptionDetail.setBorder(Rectangle.RIGHT);
-				stockAgreementDetail.setBorder(Rectangle.RIGHT);
-				stockBatchDetail.setBorder(Rectangle.RIGHT);
-				stockExpirationDateDetail.setBorder(Rectangle.RIGHT);
-				stockSerialNumberDetail.setBorder(Rectangle.RIGHT);
-				stockAmountDetail.setBorder(Rectangle.NO_BORDER);
+        // id de producto en la iteracion anterior.
+        String previousProductId = "";
+        // recorro el mapa de detalle de productos a imprimir.
+        for (Map.Entry<String, List<Stock>> entry : inputDetail.entrySet()) {
+            String key = entry.getKey();
+            List<Stock> details = entry.getValue();
+            String[] parts = key.split(",");
+            String currentProductId = parts[0];
+            String productType = details.get(0).getProduct().getType();
 
-				table.addCell(stockGtinDetail);
-				table.addCell(stockDescriptionDetail);
-				table.addCell(stockAgreementDetail);
-				table.addCell(stockBatchDetail);
-				table.addCell(stockExpirationDateDetail);
-				table.addCell(stockSerialNumberDetail);
-				table.addCell(stockAmountDetail);
-			}
+            String description = details.get(0).getProduct().getDescription();
+            Integer code = details.get(0).getProduct().getCode();
+            String agreement = details.get(0).getAgreement().getDescription();
+            ProductGtin productGtin = details.get(0).getGtin();
+            String gtin = (productGtin != null) ? productGtin.getNumber() : "";
+            String batch = details.get(0).getBatch();
+            String expirationDate = dateFormatter.format(details.get(0).getExpirationDate());
+            //String batchAmount = Integer.toString(productType.equals("BE") ? totalAmount : details.size());
 
-			for (Stock inputDetail : groupByProduct.get(productId)) {
-				gtin = "-";
-				if(inputDetail.getGtin() != null){
-					gtin = inputDetail.getGtin().getNumber();
-				}
-				stockGtinDetail = new PdfPCell(new Paragraph(gtin, PdfConstants.fontDetails));
-				String stockDescription = "";
-				if(!isGroup){
-					stockDescription = inputDetail.getProduct().getDescription() + " (" + String.valueOf(inputDetail.getProduct().getCode()) + ")";
-				}
-				stockDescriptionDetail = new PdfPCell(new Paragraph(stockDescription, PdfConstants.fontDetails));
-				stockAgreementDetail = new PdfPCell(new Paragraph(inputDetail.getAgreement().getDescription(), PdfConstants.fontDetails));
-				stockBatchDetail = new PdfPCell(new Paragraph(inputDetail.getBatch(), PdfConstants.fontDetails));
-				stockExpirationDateDetail = (new PdfPCell(new Paragraph(dateFormatter.format(inputDetail.getExpirationDate()), PdfConstants.fontDetails)));
+            // si el id de producto actual es distinto del anterior//sino, significa que es el mismo producto pero otro lote
+            if (!currentProductId.equals(previousProductId)) {
+                col1Detail = new PdfPCell(new Paragraph(gtin, PdfConstants.fontDetails));
+                col2Detail = new PdfPCell(new Paragraph(description + " (" + String.valueOf(code) + ")", PdfConstants.fontDetails));
+                col3Detail = new PdfPCell(new Paragraph(agreement, PdfConstants.fontDetails));
+                col4Detail = new PdfPCell(new Paragraph(batch, PdfConstants.fontDetails));
+                col5Detail = (new PdfPCell(new Paragraph(expirationDate, PdfConstants.fontDetails)));
+                Integer total = productsCount.get(currentProductId);
+                col6Detail = new PdfPCell(new Paragraph(String.valueOf(total), PdfConstants.fontDetails));
 
-				String serialNumber = "-";
-				if(inputDetail.getSerialNumber() != null){
-					serialNumber = inputDetail.getSerialNumber();
-				}
-				stockSerialNumberDetail = new PdfPCell(new Paragraph(serialNumber, PdfConstants.fontDetails));
-				stockAmountDetail = new PdfPCell(new Paragraph(String.valueOf(inputDetail.getAmount()), PdfConstants.fontDetails));
+                col1Detail.setBorder(Rectangle.NO_BORDER);
+                col2Detail.setBorder(Rectangle.NO_BORDER);
+                col3Detail.setBorder(Rectangle.NO_BORDER);
+                col4Detail.setBorder(Rectangle.NO_BORDER);
+                col5Detail.setBorder(Rectangle.NO_BORDER);
+                col6Detail.setBorder(Rectangle.NO_BORDER);
 
-				stockGtinDetail.setBorder(Rectangle.RIGHT);
-				stockDescriptionDetail.setBorder(Rectangle.RIGHT);
-				stockAgreementDetail.setBorder(Rectangle.RIGHT);
-				stockBatchDetail.setBorder(Rectangle.RIGHT);
-				stockExpirationDateDetail.setBorder(Rectangle.RIGHT);
-				stockSerialNumberDetail.setBorder(Rectangle.RIGHT);
-				stockAmountDetail.setBorder(Rectangle.NO_BORDER);
+                table.addCell(col1Detail);
+                table.addCell(col2Detail);
+                table.addCell(col3Detail);
+                table.addCell(col4Detail);
+                table.addCell(col5Detail);
+                table.addCell(col6Detail);
+            }
 
-				table.addCell(stockGtinDetail);
-				table.addCell(stockDescriptionDetail);
-				table.addCell(stockAgreementDetail);
-				table.addCell(stockBatchDetail);
-				table.addCell(stockExpirationDateDetail);
-				table.addCell(stockSerialNumberDetail);
-				table.addCell(stockAmountDetail);
-			}
-		}
-		document.add(table);
-	}
+            if (!productType.equals("BE")) {
+                List<Stock> detailAux = new ArrayList<>();
+                Iterator<Stock> it = details.iterator();
+                int serialIdx = 0;
+                while (it.hasNext()) {
+                    Stock od = it.next();
+                    detailAux.add(od);
 
-	private HashMap<Integer, List<Stock>> groupByProduct(List<Stock> stocks) {
-		HashMap<Integer,List<Stock>> details = new HashMap<>();
+                    serialIdx++;
+
+                    if ((serialIdx == 4) || (!it.hasNext())) {
+                        printSerialDetails(detailAux);
+                        serialIdx = 0;
+                        detailAux = new ArrayList<>();
+                    }
+                }
+            }
+
+            previousProductId = currentProductId;
+        }
+        document.add(table);
+    }
+
+    private void printSerialDetails(List<Stock> orderDetails) {
+
+        switch (orderDetails.size()) {
+            case 1: {
+                col1Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
+                col2Detail = new PdfPCell(new Paragraph(orderDetails.get(0).getSerialNumber(), PdfConstants.fontDetails));
+                col3Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
+                col4Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
+                col5Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
+                col6Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
+                break;
+            }
+            case 2: {
+                col1Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
+                col2Detail = new PdfPCell(new Paragraph(orderDetails.get(0).getSerialNumber(), PdfConstants.fontDetails));
+                col3Detail = new PdfPCell(new Paragraph(orderDetails.get(1).getSerialNumber(), PdfConstants.fontDetails));
+                col4Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
+                col5Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
+                col6Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
+                break;
+            }
+            case 3: {
+                col1Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
+                col2Detail = new PdfPCell(new Paragraph(orderDetails.get(0).getSerialNumber(), PdfConstants.fontDetails));
+                col3Detail = new PdfPCell(new Paragraph(orderDetails.get(1).getSerialNumber(), PdfConstants.fontDetails));
+                col4Detail = new PdfPCell(new Paragraph(orderDetails.get(2).getSerialNumber(), PdfConstants.fontDetails));
+                col5Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
+                col6Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
+                break;
+            }
+            case 4: {
+                col1Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
+                col2Detail = new PdfPCell(new Paragraph(orderDetails.get(0).getSerialNumber(), PdfConstants.fontDetails));
+                col3Detail = new PdfPCell(new Paragraph(orderDetails.get(1).getSerialNumber(), PdfConstants.fontDetails));
+                col4Detail = new PdfPCell(new Paragraph(orderDetails.get(2).getSerialNumber(), PdfConstants.fontDetails));
+                col5Detail = new PdfPCell(new Paragraph(orderDetails.get(3).getSerialNumber(), PdfConstants.fontDetails));
+                col6Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+
+        col1Detail.setBorder(Rectangle.NO_BORDER);
+        col2Detail.setBorder(Rectangle.NO_BORDER);
+        col3Detail.setBorder(Rectangle.NO_BORDER);
+        col4Detail.setBorder(Rectangle.NO_BORDER);
+        col5Detail.setBorder(Rectangle.NO_BORDER);
+        col6Detail.setBorder(Rectangle.NO_BORDER);
+
+        table.addCell(col1Detail);
+        table.addCell(col2Detail);
+        table.addCell(col3Detail);
+        table.addCell(col4Detail);
+        table.addCell(col5Detail);
+        table.addCell(col6Detail);
+    }
+
+    private TreeMap<String, List<Stock>> groupByProductAndBatch(List<Stock> stocks) {
+		TreeMap<String, List<Stock>> detailsMap = new TreeMap<>();
 
 		for(Stock stock : stocks){
-			List<Stock> list = details.get(stock.getProduct().getId());
+			String id = Integer.toString(stock.getProduct().getId());
+			String batch = stock.getBatch();
+			String key = id + "," + batch;
+
+			List<Stock> list = (List<Stock>) detailsMap.get(key);
 			if(list == null) {
 				list = new ArrayList<>();
 			}
 			list.add(stock);
-			details.put(stock.getProduct().getId(),list);
+			detailsMap.put(key, list);
 		}
 
-		return details;
+		return detailsMap;
+	}
+
+	private TreeMap<String, Integer> countByProduct(List<Stock> details) {
+		TreeMap<String, Integer> detailsMap = new TreeMap<>();
+
+		for(Stock detail : details){
+			String id = Integer.toString(detail.getProduct().getId());
+
+			Integer amount = detailsMap.get(id);
+			if(amount == null) {
+				amount = 0;
+			}
+			amount += detail.getAmount();
+			detailsMap.put(id, amount);
+		}
+
+		return detailsMap;
 	}
 
 	/** Inner class to add a header and a footer. */
@@ -211,58 +283,57 @@ public class StockPdfView extends AbstractPdfView {
 
 				Image logoImage = Image.getInstance(logoPath);
 				logoImage.scaleToFit(80f, 80f);
-				logoImage.setAbsolutePosition(10f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 15.0f) * MILLIMITER_TO_POINTS_FACTOR);
+				logoImage.setAbsolutePosition(10f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 15.0f) * MILLIMITER_TO_POINTS_FACTOR);
 				document.add(logoImage);
 
 				String name = PropertyProvider.getInstance().getProp("name");
 
 				PdfContentByte canvas = writer.getDirectContent();
 
-				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(name.toUpperCase(), fontHeaderName), 45.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 13.0f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
-				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("STOCK", fontHeader), 45.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 18.0f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(name.toUpperCase(), fontHeaderName), 45.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 13.0f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("STOCK", fontHeader), 45.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 18.0f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
 
 				String timestamp = new SimpleDateFormat("'Impreso:' dd/MM/yyyy HH:mm:ss'hs.'").format(new Date());
-				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(timestamp, fontHeader), 135.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 18.0f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(timestamp, fontHeader), 230.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 18.0f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
 
 				// imprimo Separador del logo y resto
 				LineSeparator headerSeparator = new LineSeparator();
-				headerSeparator.drawLine(canvas, 15.0f * MILLIMITER_TO_POINTS_FACTOR, 195.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 25f) * MILLIMITER_TO_POINTS_FACTOR);
+				headerSeparator.drawLine(canvas, 15.0f * MILLIMITER_TO_POINTS_FACTOR, 282.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 25f) * MILLIMITER_TO_POINTS_FACTOR);
 
 				// imprimo Producto.
-				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Producto: " + product, fontHeaderProvisioningRequest), 15.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 30f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Producto: " + product, fontHeaderProvisioningRequest), 15.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 30f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
 
 				// imprimo Lote y Vencimiento (desde y hasta).
-				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Lote: ", fontHeader), 15.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 35f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
-				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(batchNumber, fontHeaderProvisioningRequest), 25.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 35f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
-				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Venc. Desde: ", fontHeader), 70.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 35f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
-				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(expirateDateFrom, fontHeaderProvisioningRequest), 95.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 35f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
-				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Venc. Hasta: ", fontHeader), 140.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 35f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
-				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(expirateDateTo, fontHeaderProvisioningRequest), 165.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 35f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Lote: ", fontHeader), 15.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 35f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(batchNumber, fontHeaderProvisioningRequest), 25.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 35f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Venc. Desde: ", fontHeader), 120.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 35f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(expirateDateFrom, fontHeaderProvisioningRequest), 145.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 35f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Venc. Hasta: ", fontHeader), 240.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 35f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(expirateDateTo, fontHeaderProvisioningRequest), 265.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 35f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
 
 				// imprimo Nro. de Serie.
-				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Nro. de Serie: ", fontHeader), 15.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 40f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
-				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(serialNumber, fontHeaderBold), 40.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 40f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Nro. de Serie: ", fontHeader), 15.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 40f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(serialNumber, fontHeaderBold), 40.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 40f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
 
 				// imprimo Convenio.
-				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Convenio: ", fontHeader), 105.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 40f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
-				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(agreement, fontHeaderBold), 125.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 40f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Convenio: ", fontHeader), 120.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 40f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(agreement, fontHeaderBold), 145.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 40f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
 
 				// imprimo Monodroga.
-				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Monodroga: ", fontHeader), 15.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 45f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
-				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(productMonodrug, fontHeaderBold), 40.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 45f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Monodroga: ", fontHeader), 240.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 40f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(productMonodrug, fontHeaderBold), 265.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 40f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
 
 				//headerSeparator = new LineSeparator();
-				headerSeparator.drawLine(canvas, 15.0f * MILLIMITER_TO_POINTS_FACTOR, 195.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 47f) * MILLIMITER_TO_POINTS_FACTOR);
+				headerSeparator.drawLine(canvas, 15.0f * MILLIMITER_TO_POINTS_FACTOR, 282.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 42f) * MILLIMITER_TO_POINTS_FACTOR);
 
 				for (int i = 0; i < 5; i++) {
 					document.add(Chunk.NEWLINE);
 				}
 
-				PdfPTable table = new PdfPTable(7); // 7 columnas
+				PdfPTable table = new PdfPTable(6); // 6 columnas
 				table.setWidthPercentage(100);
 				table.setSpacingBefore(5f);
-				//table.setSpacingAfter(5f);
-				float[] columnWidths = {2f, 3f, 2f, 1.5f, 2f, 3.5f, 1f};
+				float[] columnWidths = {2f, 3f, 3f, 3f, 3f, 1f};
 				table.setWidths(columnWidths);
 
 				//Encabezado
@@ -271,15 +342,13 @@ public class StockPdfView extends AbstractPdfView {
 				PdfPCell stockAgreementHeader = new PdfPCell(new Paragraph("Convenio", fontHeader));
 				PdfPCell stockBatchHeader = new PdfPCell(new Paragraph("Lote", fontHeader));
 				PdfPCell stockExpirationDateHeader = new PdfPCell(new Paragraph("Vto.", fontHeader));
-				PdfPCell stockSerialNumberHeader = new PdfPCell(new Paragraph("Serie", fontHeader));
 				PdfPCell stockAmountHeader = new PdfPCell(new Paragraph("Cant.", fontHeader));
 
-				stockGtinHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP | Rectangle.RIGHT);
-				stockDescriptionHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP | Rectangle.RIGHT);
-				stockAgreementHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP | Rectangle.RIGHT);
-				stockBatchHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP | Rectangle.RIGHT);
-				stockExpirationDateHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP | Rectangle.RIGHT);
-				stockSerialNumberHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP | Rectangle.RIGHT);
+				stockGtinHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+				stockDescriptionHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+				stockAgreementHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+				stockBatchHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+				stockExpirationDateHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 				stockAmountHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 
 				table.addCell(stockGtinHeader);
@@ -287,21 +356,18 @@ public class StockPdfView extends AbstractPdfView {
 				table.addCell(stockAgreementHeader);
 				table.addCell(stockBatchHeader);
 				table.addCell(stockExpirationDateHeader);
-				table.addCell(stockSerialNumberHeader);
 				table.addCell(stockAmountHeader);
 				document.add(table);
 
-			} catch (DocumentException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (DocumentException | IOException e) {
+                logger.error(e.getMessage());
 			}
-		}
+        }
 
 		@Override
 		public void onEndPage(PdfWriter writer, Document document) {
 			PdfContentByte canvas = writer.getDirectContent();
-			ColumnText.showTextAligned(canvas, Element.ALIGN_CENTER, new Phrase(String.format("Pág. %s", this.pagenumber)), 105.0f * MILLIMITER_TO_POINTS_FACTOR, 7.0f * MILLIMITER_TO_POINTS_FACTOR, 0f);
+			ColumnText.showTextAligned(canvas, Element.ALIGN_CENTER, new Phrase(String.format("Pág. %s", this.pagenumber)), 148.5f * MILLIMITER_TO_POINTS_FACTOR, 7.0f * MILLIMITER_TO_POINTS_FACTOR, 0f);
 		}
 	}
 }

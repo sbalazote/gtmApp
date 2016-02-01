@@ -72,7 +72,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
     private boolean printOutputs;
     private boolean printOrders;
 
-    public TreeMap<String, List<? extends Detail>> groupByProductAndBatch(List<?extends Detail> details) {
+    private TreeMap<String, List<? extends Detail>> groupByProductAndBatch(List<?extends Detail> details) {
         TreeMap<String, List<? extends Detail>> detailsMap = new TreeMap<>();
 
         for(Detail detail : details){
@@ -91,7 +91,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         return detailsMap;
     }
 
-    public TreeMap<String, Integer> countByProduct(List<?extends Detail> details) {
+    private TreeMap<String, Integer> countByProduct(List<?extends Detail> details) {
         TreeMap<String, Integer> detailsMap = new TreeMap<>();
 
         for(Detail detail : details){
@@ -99,7 +99,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
 
             Integer amount = detailsMap.get(id);
             if(amount == null) {
-                amount = new Integer(0);
+                amount = 0;
             }
             amount += detail.getAmount();
             detailsMap.put(id, amount);
@@ -132,7 +132,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         overContent.restoreState();
     }
 
-    public void printSerialDetails(List<? extends Detail> orderDetails) {
+    private void printSerialDetails(List<? extends Detail> orderDetails) {
 
         // offset con respecto a la linea anterior.
         offsetY += SERIAL_DETAIL_LINE_OFFSET_Y;
@@ -188,7 +188,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         overContent.restoreState();
     }
 
-    public void printProductDetailHeader(String description, String monodrug, String brand, int totalAmount) {
+    private void printProductDetailHeader(String description, String monodrug, String brand, int totalAmount) {
 
         // offset con respecto a la linea anterior.
         offsetY += (printHeader ? 0 : PRODUCT_DETAIL_HEADER_LINE_OFFSET_Y);
@@ -224,7 +224,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         printHeader = false;
     }
 
-    public void printProductGtinBatchExpirationDateHeader(String gtin, String batch, String expirationDate, String batchAmount) {
+    private void printProductGtinBatchExpirationDateHeader(String gtin, String batch, String expirationDate, String batchAmount) {
 
         // offset con respecto a la linea anterior.
         offsetY += PRODUCT_BATCH_EXPIRATIONDATE_HEADER_LINE_OFFSET_Y;
@@ -504,7 +504,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         return sortedOrders;
     }
 
-    public Concept getConcept(Egress egress) {
+    private Concept getConcept(Egress egress) {
         Integer conceptId = null;
         if(this.printOutputs){
             conceptId = ((Output)egress).getConcept().getId();
@@ -584,7 +584,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
         deliveryNoteDetails = new ArrayList<>();
     }
 
-    public void setDeliveryNoteDetail(Detail detail, DeliveryNoteDetail deliveryNoteDetail) {
+    private void setDeliveryNoteDetail(Detail detail, DeliveryNoteDetail deliveryNoteDetail) {
         if(printSupplyings){
             deliveryNoteDetail.setSupplyingDetail((SupplyingDetail) detail);
         }
