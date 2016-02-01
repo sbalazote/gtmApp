@@ -59,34 +59,6 @@ SearchStock = function() {
 		return aaData;
 	}
 	
-	$('#stockTable tbody').on("click", ".view-batchExpirationDateDetails-row", function(e) {
-		$("#batchExpirationDatesTable").bootgrid("clear");
-		var parent = $(this).parent().parent();
-		var productId = parent.attr("data-row-id");
-		var agreementId = parent.find(".span-agreementId").html();
-		var productCode = parent.find("td:first-child").html();
-		var productDescription = parent.find("td:nth(1)").html();
-		$("#batchExpirationDateProductDescription").text(productCode + " - " + productDescription);
-		
-		var aaData = getStockFromProductAndAgreement(productId, agreementId);
-		$("#batchExpirationDatesTable").bootgrid("append", aaData);
-		$('#batchExpirationDatesModal').modal('show');
-	});
-
-	$('#stockTable tbody').on("click", ".view-serializedDetails-row", function(e) {
-		$("#serialsTable").bootgrid("clear");
-		var parent = $(this).parent().parent();
-		var productId = parent.attr("data-row-id");
-		var agreementId = parent.find(".span-agreementId").html();
-		var productCode = parent.find("td:first-child").html();
-		var productDescription = parent.find("td:nth(1)").html();
-		$("#serializedProductDescription").text(productCode + " - " + productDescription);
-		
-		var aaData = getStockFromProductAndAgreement(productId, agreementId);
-		$("#serialsTable").bootgrid("append", aaData);
-		$('#serialsModal').modal('show');
-	});
-	
 	// Product autocomplete
 	$("#productInput").autocomplete({
 		source: function(request, response) {
@@ -259,7 +231,34 @@ SearchStock = function() {
 					return "<span class='span-agreementId' style='display:none'>" + row.agreementId + "</span>" + row.agreement;
 				}
 			}
-		}).bootgrid("reload");
+		}).bootgrid("reload").on("loaded.rs.jquery.bootgrid", function() {
+			/* Executes after data is loaded and rendered */
+			stockTable.find(".view-batchExpirationDateDetails-row").on("click", function(e) {
+                $("#batchExpirationDatesTable").bootgrid("clear");
+                var parent = $(this).parent().parent();
+                var productId = parent.attr("data-row-id");
+                var agreementId = parent.find(".span-agreementId").html();
+                var productCode = parent.find("td:first-child").html();
+                var productDescription = parent.find("td:nth(1)").html();
+                $("#batchExpirationDateProductDescription").text(productCode + " - " + productDescription);
+
+                var aaData = getStockFromProductAndAgreement(productId, agreementId);
+                $("#batchExpirationDatesTable").bootgrid("append", aaData);
+                $('#batchExpirationDatesModal').modal('show');
+			}).end().find(".view-serializedDetails-row").on("click", function(e) {
+                $("#serialsTable").bootgrid("clear");
+                var parent = $(this).parent().parent();
+                var productId = parent.attr("data-row-id");
+                var agreementId = parent.find(".span-agreementId").html();
+                var productCode = parent.find("td:first-child").html();
+                var productDescription = parent.find("td:nth(1)").html();
+                $("#serializedProductDescription").text(productCode + " - " + productDescription);
+
+                var aaData = getStockFromProductAndAgreement(productId, agreementId);
+                $("#serialsTable").bootgrid("append", aaData);
+                $('#serialsModal').modal('show');
+			});
+		});
 
 		var params = '&expirateDateFrom=' + (jsonStockSearch.expirateDateFrom || null) +
 			'&expirateDateTo=' + (jsonStockSearch.expirateDateTo || null) +
