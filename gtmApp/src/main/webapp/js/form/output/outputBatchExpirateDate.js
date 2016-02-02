@@ -119,7 +119,12 @@ OutputBatchExpirationDate = function() {
 				$('#batchExpirationDateAmountInput').tooltip("destroy").data("title", "El lote seleccionado no posee esa cantidad").addClass("has-error").tooltip();
 				return false;
 			}
-			
+
+			if (alreadyExistsStockId(stockId)) {
+				$('#batchExpirationDateAmountInput').tooltip("destroy").data("title", "El lote/vto. ya ha sido seleccionado").addClass("has-error").tooltip();
+				return false;
+			}
+
 			var batchExpirationDate = $("#batchExpirationDateSelect option:selected").html();
 			var batch = batchExpirationDate.split(" - ")[0].trim();
 			var expirationDate = batchExpirationDate.split(" - ")[1].trim();
@@ -273,6 +278,7 @@ OutputBatchExpirationDate = function() {
 					action: function(dialogItself) {
 						dialogItself.close();
 						$("#batchExpirationDateAcceptButton").trigger('click');
+						$('#productInput').focus();
 					}
 				}]
 			});
@@ -308,7 +314,11 @@ OutputBatchExpirationDate = function() {
 		batchExpirationDates[stockId] += releasedAmount;
 		$("#batchExpirationDateSelect").trigger("chosen:updated");
 	};
-	
+
+	var alreadyExistsStockId = function(stockId) {
+		return ($(".stockId:contains("+stockId+")").length == 1);
+	};
+
 	return {
 		getPreloadedData: getPreloadedData,
 		setPreloadedData: setPreloadedData,

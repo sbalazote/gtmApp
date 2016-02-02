@@ -206,7 +206,12 @@ OutputSerialized = function() {
 				if (response) {
 					var batch = response.batch;
 					var expirationDate = response.expirationDate;
-					
+
+					var gtin = null;
+					if(response.gtin != null){
+						gtin = response.gtin.number;
+					}
+
 					addAmount(1);
 					addToTable(gtin, serialNumber, batch, myParseDate(expirationDate));
 					tempSerialNumbers.push(serialNumber);
@@ -306,6 +311,7 @@ OutputSerialized = function() {
 					action: function(dialogItself) {
 						dialogItself.close();
 						$("#serializedAcceptButton").trigger('click');
+						$('#productInput').focus();
 					}
 				}]
 			});

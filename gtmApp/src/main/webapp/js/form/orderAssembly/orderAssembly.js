@@ -1,8 +1,8 @@
 
 OrderAssembly = function() {
 
-	var batchExpirationDate = new OrderAssemblyBatchExpirationDate();
-	var serialized = new OrderAssemblySerialized();
+	var batchExpirationDate = new OutputBatchExpirationDate();
+	var serialized = new OutputSerialized();
 	
 	// Los orderDetails agrupados por fila
 	var orderDetailGroup = [];

@@ -3,8 +3,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script type="text/javascript" src="js/form/orderAssembly/orderAssembly.js"></script>
-<script type="text/javascript" src="js/form/orderAssembly/orderAssemblyBatchExpirationDate.js"></script>
-<script type="text/javascript" src="js/form/orderAssembly/orderAssemblySerialized.js"></script>
+<script type="text/javascript" src="js/form/output/outputBatchExpirateDate.js"></script>
+<script type="text/javascript" src="js/form/output/outputSerialized.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		new OrderAssembly();
@@ -18,7 +18,7 @@
 <div class="row">
 	<div class="col-md-8 col-lg-8 form-group">
 		<h3 class="form-provisioningRequest-heading"><spring:message code="common.orderAssembly" /></h3>
-		<input type="hidden" class="form-control" id="agreementId" value="${agreement.id}">
+		<input type="hidden" class="form-control" id="agreementInput" value="${agreement.id}">
 	</div>
 	<div class="col-md-3 form-group">
 		<h3 id="provisioningRequestIdFormated" class="form-provisioningRequest-heading text-right"><spring:message code="provisioningRequest.provisioningRequestNumber" />: <span style="color:blue">${provisioningRequestIdFormated != null ? provisioningRequestIdFormated : ''}</span></h3>
@@ -27,8 +27,8 @@
 
 <div class="row">
 	<div class="col-md-4 col-lg-4 form-group">
-		<label for="agreementInput"><spring:message code="common.agreement" /></label>
-		<input id="agreementInput" name="agreement"  value="${agreement.code} - ${agreement.description}" class="form-control" disabled>
+		<label for="agreementDescription"><spring:message code="common.agreement" /></label>
+		<input id="agreementDescription" name="agreement"  value="${agreement.code} - ${agreement.description}" class="form-control" disabled>
 	</div>
 	<div class="col-md-4 col-lg-4 form-group">
 		<label for="clientInput"><spring:message code="common.client" /></label>
