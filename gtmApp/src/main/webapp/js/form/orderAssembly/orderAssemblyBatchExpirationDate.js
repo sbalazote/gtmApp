@@ -50,7 +50,7 @@ OrderAssemblyBatchExpirationDate = function() {
 				batchExpirationDate: {
 					required: true
 				},
-				amount: {
+				batchExpirationDateAmount: {
 					required: true,
 					digits: true,
 					min: 1,
