@@ -50,7 +50,7 @@ OutputBatchExpirationDate = function() {
 				batchExpirationDate: {
 					required: true
 				},
-				amount: {
+				batchExpirationDateAmount: {
 					required: true,
 					digits: true,
 					min: 1,
@@ -58,10 +58,6 @@ OutputBatchExpirationDate = function() {
 				}
 			},
 			showErrors: myShowErrors
-		});
-		
-		$('input[name=batchExpirationDateAmount]').rules("add", {
-			max: maxAmount
 		});
 		
 		return form.valid();
