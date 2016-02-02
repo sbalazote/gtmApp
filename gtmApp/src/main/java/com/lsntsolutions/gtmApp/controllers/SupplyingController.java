@@ -7,6 +7,7 @@ import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.dto.SupplyingDTO;
 import com.lsntsolutions.gtmApp.helper.DeliveryNoteSheetPrinter;
 import com.lsntsolutions.gtmApp.helper.impl.printer.FakeDeliveryNoteSheetPrinter;
+import com.lsntsolutions.gtmApp.model.Concept;
 import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import com.lsntsolutions.gtmApp.model.Supplying;
 import com.lsntsolutions.gtmApp.query.SupplyingQuery;
@@ -45,6 +46,11 @@ public class SupplyingController {
 
 	@RequestMapping(value = "/supplying", method = RequestMethod.GET)
 	public String supplying(ModelMap modelMap) throws Exception {
+		Concept supplyingConcept = propertyService.get().getSupplyingConcept();
+		if (supplyingConcept == null) {
+			modelMap.put("msg", "El Concepto de Dispensa no existe. Contacte al Administrador para que lo configure.");
+			return "error";
+		}
 		modelMap.put("currentDate", (new SimpleDateFormat("dd/MM/yyyy").format(new Date())).toString());
 		modelMap.put("clients", this.clientService.getAllActives());
 		modelMap.put("agreements", this.agreementService.getAllActives());
