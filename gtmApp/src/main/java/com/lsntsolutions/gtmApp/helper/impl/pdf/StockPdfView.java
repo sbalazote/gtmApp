@@ -44,9 +44,14 @@ public class StockPdfView extends AbstractPdfView {
     private PdfPCell col5Detail;
     private PdfPCell col6Detail;
 
+    private Font fontDetails;
+
     @Override
     protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest req, HttpServletResponse resp)
             throws Exception {
+        fontDetails = new Font(Font.TIMES_ROMAN, 10f, Font.BOLD, Color.BLACK);
+
+
         // Logo
         String logoPath;
         String realPath = getServletContext().getRealPath("/images/uploadedLogo.png");
@@ -89,8 +94,6 @@ public class StockPdfView extends AbstractPdfView {
         float[] columnWidths = {2f, 3f, 3f, 3f, 3f, 1f};
         table.setWidths(columnWidths);
 
-        // id de producto en la iteracion anterior.
-        String previousProductId = "";
         // recorro el mapa de detalle de productos a imprimir.
         for (Map.Entry<String, List<Stock>> entry : inputDetail.entrySet()) {
             String key = entry.getKey();
@@ -99,39 +102,37 @@ public class StockPdfView extends AbstractPdfView {
             String currentProductId = parts[0];
             String productType = details.get(0).getProduct().getType();
 
+            ProductGtin productGtin = details.get(0).getGtin();
+            String gtin = (productGtin != null) ? productGtin.getNumber() : "";
             String description = details.get(0).getProduct().getDescription();
             Integer code = details.get(0).getProduct().getCode();
             String agreement = details.get(0).getAgreement().getDescription();
-            ProductGtin productGtin = details.get(0).getGtin();
-            String gtin = (productGtin != null) ? productGtin.getNumber() : "";
             String batch = details.get(0).getBatch();
             String expirationDate = dateFormatter.format(details.get(0).getExpirationDate());
-            //String batchAmount = Integer.toString(productType.equals("BE") ? totalAmount : details.size());
+            int totalAmount = details.get(0).getAmount();
+            String batchAmount = Integer.toString(productType.equals("BE") ? totalAmount : details.size());
 
-            // si el id de producto actual es distinto del anterior//sino, significa que es el mismo producto pero otro lote
-            if (!currentProductId.equals(previousProductId)) {
-                col1Detail = new PdfPCell(new Paragraph(gtin, PdfConstants.fontDetails));
-                col2Detail = new PdfPCell(new Paragraph(description + " (" + String.valueOf(code) + ")", PdfConstants.fontDetails));
-                col3Detail = new PdfPCell(new Paragraph(agreement, PdfConstants.fontDetails));
-                col4Detail = new PdfPCell(new Paragraph(batch, PdfConstants.fontDetails));
-                col5Detail = (new PdfPCell(new Paragraph(expirationDate, PdfConstants.fontDetails)));
-                Integer total = productsCount.get(currentProductId);
-                col6Detail = new PdfPCell(new Paragraph(String.valueOf(total), PdfConstants.fontDetails));
+            col1Detail = new PdfPCell(new Paragraph(gtin, PdfConstants.fontHeader));
+            col2Detail = new PdfPCell(new Paragraph(description + " (" + String.valueOf(code) + ")", PdfConstants.fontHeader));
+            col3Detail = new PdfPCell(new Paragraph(agreement, PdfConstants.fontHeader));
+            col4Detail = new PdfPCell(new Paragraph(batch, PdfConstants.fontHeader));
+            col5Detail = (new PdfPCell(new Paragraph(expirationDate, PdfConstants.fontHeader)));
+            Integer total = productsCount.get(currentProductId);
+            col6Detail = new PdfPCell(new Paragraph(batchAmount + " / " + String.valueOf(total), PdfConstants.fontHeader));
 
-                col1Detail.setBorder(Rectangle.NO_BORDER);
-                col2Detail.setBorder(Rectangle.NO_BORDER);
-                col3Detail.setBorder(Rectangle.NO_BORDER);
-                col4Detail.setBorder(Rectangle.NO_BORDER);
-                col5Detail.setBorder(Rectangle.NO_BORDER);
-                col6Detail.setBorder(Rectangle.NO_BORDER);
+            col1Detail.setBorder(Rectangle.NO_BORDER);
+            col2Detail.setBorder(Rectangle.NO_BORDER);
+            col3Detail.setBorder(Rectangle.NO_BORDER);
+            col4Detail.setBorder(Rectangle.NO_BORDER);
+            col5Detail.setBorder(Rectangle.NO_BORDER);
+            col6Detail.setBorder(Rectangle.NO_BORDER);
 
-                table.addCell(col1Detail);
-                table.addCell(col2Detail);
-                table.addCell(col3Detail);
-                table.addCell(col4Detail);
-                table.addCell(col5Detail);
-                table.addCell(col6Detail);
-            }
+            table.addCell(col1Detail);
+            table.addCell(col2Detail);
+            table.addCell(col3Detail);
+            table.addCell(col4Detail);
+            table.addCell(col5Detail);
+            table.addCell(col6Detail);
 
             if (!productType.equals("BE")) {
                 List<Stock> detailAux = new ArrayList<>();
@@ -150,8 +151,6 @@ public class StockPdfView extends AbstractPdfView {
                     }
                 }
             }
-
-            previousProductId = currentProductId;
         }
         document.add(table);
     }
@@ -160,39 +159,39 @@ public class StockPdfView extends AbstractPdfView {
 
         switch (orderDetails.size()) {
             case 1: {
-                col1Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
-                col2Detail = new PdfPCell(new Paragraph(orderDetails.get(0).getSerialNumber(), PdfConstants.fontDetails));
-                col3Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
-                col4Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
-                col5Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
-                col6Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
+                col1Detail = new PdfPCell(new Paragraph("", fontDetails));
+                col2Detail = new PdfPCell(new Paragraph(orderDetails.get(0).getSerialNumber(), fontDetails));
+                col3Detail = new PdfPCell(new Paragraph("", fontDetails));
+                col4Detail = new PdfPCell(new Paragraph("", fontDetails));
+                col5Detail = new PdfPCell(new Paragraph("", fontDetails));
+                col6Detail = new PdfPCell(new Paragraph("", fontDetails));
                 break;
             }
             case 2: {
-                col1Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
-                col2Detail = new PdfPCell(new Paragraph(orderDetails.get(0).getSerialNumber(), PdfConstants.fontDetails));
-                col3Detail = new PdfPCell(new Paragraph(orderDetails.get(1).getSerialNumber(), PdfConstants.fontDetails));
-                col4Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
-                col5Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
-                col6Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
+                col1Detail = new PdfPCell(new Paragraph("", fontDetails));
+                col2Detail = new PdfPCell(new Paragraph(orderDetails.get(0).getSerialNumber(), fontDetails));
+                col3Detail = new PdfPCell(new Paragraph(orderDetails.get(1).getSerialNumber(), fontDetails));
+                col4Detail = new PdfPCell(new Paragraph("", fontDetails));
+                col5Detail = new PdfPCell(new Paragraph("", fontDetails));
+                col6Detail = new PdfPCell(new Paragraph("", fontDetails));
                 break;
             }
             case 3: {
-                col1Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
-                col2Detail = new PdfPCell(new Paragraph(orderDetails.get(0).getSerialNumber(), PdfConstants.fontDetails));
-                col3Detail = new PdfPCell(new Paragraph(orderDetails.get(1).getSerialNumber(), PdfConstants.fontDetails));
-                col4Detail = new PdfPCell(new Paragraph(orderDetails.get(2).getSerialNumber(), PdfConstants.fontDetails));
-                col5Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
-                col6Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
+                col1Detail = new PdfPCell(new Paragraph("", fontDetails));
+                col2Detail = new PdfPCell(new Paragraph(orderDetails.get(0).getSerialNumber(), fontDetails));
+                col3Detail = new PdfPCell(new Paragraph(orderDetails.get(1).getSerialNumber(), fontDetails));
+                col4Detail = new PdfPCell(new Paragraph(orderDetails.get(2).getSerialNumber(), fontDetails));
+                col5Detail = new PdfPCell(new Paragraph("", fontDetails));
+                col6Detail = new PdfPCell(new Paragraph("", fontDetails));
                 break;
             }
             case 4: {
-                col1Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
-                col2Detail = new PdfPCell(new Paragraph(orderDetails.get(0).getSerialNumber(), PdfConstants.fontDetails));
-                col3Detail = new PdfPCell(new Paragraph(orderDetails.get(1).getSerialNumber(), PdfConstants.fontDetails));
-                col4Detail = new PdfPCell(new Paragraph(orderDetails.get(2).getSerialNumber(), PdfConstants.fontDetails));
-                col5Detail = new PdfPCell(new Paragraph(orderDetails.get(3).getSerialNumber(), PdfConstants.fontDetails));
-                col6Detail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
+                col1Detail = new PdfPCell(new Paragraph("", fontDetails));
+                col2Detail = new PdfPCell(new Paragraph(orderDetails.get(0).getSerialNumber(), fontDetails));
+                col3Detail = new PdfPCell(new Paragraph(orderDetails.get(1).getSerialNumber(), fontDetails));
+                col4Detail = new PdfPCell(new Paragraph(orderDetails.get(2).getSerialNumber(), fontDetails));
+                col5Detail = new PdfPCell(new Paragraph(orderDetails.get(3).getSerialNumber(), fontDetails));
+                col6Detail = new PdfPCell(new Paragraph("", fontDetails));
                 break;
             }
             default: {
