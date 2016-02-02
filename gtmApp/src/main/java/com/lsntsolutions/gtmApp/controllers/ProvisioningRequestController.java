@@ -117,6 +117,7 @@ public class ProvisioningRequestController {
 	public String searchProvisioningToUpdate(ModelMap modelMap) throws Exception {
 		List<ProvisioningRequest> provisioningRequestsToUpdate = this.provisioningRequestService.getAllByState(State.ENTERED.getId());
 		provisioningRequestsToUpdate.addAll(this.provisioningRequestService.getAllByState(State.AUTHORIZED.getId()));
+		provisioningRequestsToUpdate.addAll(this.provisioningRequestService.getAllByState(State.PRINTED.getId()));
 		modelMap.put("provisionings", provisioningRequestsToUpdate);
 
 		return "searchProvisioningToUpdate";
