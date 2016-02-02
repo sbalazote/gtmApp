@@ -42,6 +42,11 @@ var ProvisioningRequest = function() {
 
 	$("#deliveryLocationInput").chosen({ search_contains : true });
 
+	// TODO mejorar esto- ahora no hace el paginado.
+	$("#productTable").bootgrid({
+		rowCount: -1
+	});
+
 	var validateForm = function() {
 		var form = $("#provisioningRequestForm");
 		$("#provisioningRequestForm").validate({

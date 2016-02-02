@@ -95,15 +95,6 @@
 		</div>
 	</div>
 
-	<div class="row">
-		<div class="col-md-12 col-lg-12 form-group">
-			<label for="commentTextarea"><spring:message code="provisioningRequest.comment.label" /></label>
-			<textarea class="form-control my-textarea" name="comment" id="commentTextarea" rows="3">${comment}</textarea>
-		</div>
-	</div>
-
-	<br>
-
 	<div>
 		<table id="productTable" class="table table-condensed table-hover table-striped">
 			<thead>
@@ -117,6 +108,15 @@
 			</tbody>
 		</table>
 	</div>
+
+	<div class="row">
+		<div class="col-md-12 col-lg-12 form-group">
+			<label for="commentTextarea"><spring:message code="provisioningRequest.comment.label" /></label>
+			<textarea class="form-control my-textarea" name="comment" id="commentTextarea" rows="2">${comment}</textarea>
+		</div>
+	</div>
+
+	<br>
 
 	<div class="row">
 		<div class="col-md-3 col-lg-2 col-md-offset-6 col-lg-offset-8">
