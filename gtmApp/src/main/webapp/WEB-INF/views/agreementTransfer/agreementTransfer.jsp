@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script type="text/javascript" src="js/form/agreementTransfer/agreementTransfer.js"></script>
-<script type="text/javascript" src="js/form/agreementTransfer/outputSerialized.js"></script>
+<script type="text/javascript" src="js/form/output/outputSerialized.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		new AgreementTransfer();
@@ -20,8 +20,8 @@
 
 	<div class="row">
 		<div class="col-md-6 col-lg-6 form-group">
-			<label for="originAgreementInput"><spring:message code="common.originAgreement" /></label>
-			<select id="originAgreementInput" name="originAgreement" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
+			<label for="agreementInput"><spring:message code="common.originAgreement" /></label>
+			<select id="agreementInput" name="agreementInput" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 				<option value=""></option>
 				<c:forEach items="${agreements}" var="agreement">
 					<option value="${agreement.id}" ${agreementId == agreement.id ? 'selected' : ''}><c:out value="${agreement.code}"></c:out> - <c:out value="${agreement.description}"></c:out></option>
