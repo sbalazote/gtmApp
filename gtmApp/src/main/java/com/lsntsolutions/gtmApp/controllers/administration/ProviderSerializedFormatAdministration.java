@@ -36,6 +36,11 @@ public class ProviderSerializedFormatAdministration {
 		this.providerSerializedFormatService.save(this.buildModel(providerSerializedProductDTO));
 	}
 
+	@RequestMapping(value = "/existsProviderSerializedFormat", method = RequestMethod.POST)
+	public @ResponseBody boolean existsProviderSerializedFormat(@RequestBody ProviderSerializedProductDTO providerSerializedProductDTO) throws Exception {
+		return this.providerSerializedFormatService.exists(this.buildModel(providerSerializedProductDTO));
+	}
+
 	private ProviderSerializedFormat buildModel(ProviderSerializedProductDTO providerSerializedProductDTO) {
 		ProviderSerializedFormat providerSerializedFormat = new ProviderSerializedFormat();
 		if (providerSerializedProductDTO.getId() != null) {

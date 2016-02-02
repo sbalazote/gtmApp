@@ -4,8 +4,10 @@ import java.util.List;
 
 import com.lsntsolutions.gtmApp.model.ProviderSerializedFormat;
 import com.lsntsolutions.gtmApp.persistence.dao.ProviderSerializedFormatDAO;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -41,5 +43,31 @@ public class ProviderSerializedFormatDAOHibernateImpl implements ProviderSeriali
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public boolean exists(ProviderSerializedFormat providerSerializedFormat) {
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(ProviderSerializedFormat.class);
+
+		if (providerSerializedFormat.getGtinLength() != null) {
+			criteria.add(Restrictions.eq("gtinLength", providerSerializedFormat.getGtinLength()));
+		}
+		if (providerSerializedFormat.getSerialNumberLength() != null) {
+			criteria.add(Restrictions.eq("serialNumberLength", providerSerializedFormat.getSerialNumberLength()));
+		}
+
+		if (providerSerializedFormat.getExpirationDateLength() != null) {
+			criteria.add(Restrictions.eq("expirationDateLength", providerSerializedFormat.getExpirationDateLength()));
+		}
+
+		if (providerSerializedFormat.getBatchLength() != null) {
+			criteria.add(Restrictions.eq("batchLength", providerSerializedFormat.getBatchLength()));
+		}
+
+		if (providerSerializedFormat.getSequence() != null) {
+			criteria.add(Restrictions.eq("sequence", providerSerializedFormat.getSequence()));
+		}
+
+		return !criteria.list().isEmpty();
 	}
 }

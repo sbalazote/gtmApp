@@ -35,4 +35,9 @@ public class ProviderSerializedFormatImpl implements ProviderSerializedFormatSer
 	public boolean delete(Integer id) {
 		return this.providerSerializedFormatDAO.delete(id);
 	}
+
+	@Override
+	public boolean exists(ProviderSerializedFormat providerSerializedFormat) {
+		return this.providerSerializedFormatDAO.exists(providerSerializedFormat);
+	}
 }

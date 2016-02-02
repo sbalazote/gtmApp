@@ -37,6 +37,7 @@ SaveProviderSerializedFormat = function() {
 			fillTable();
 			$('#fieldType option[value="'+ field.type +'"]').remove();
 			$('#fieldType').trigger('chosen:updated');
+			$('#lengthInput').val('');
 			if (listOfFields.length == 4) {
 				$("#add").attr('disabled', true);
 			} else {
@@ -74,6 +75,24 @@ SaveProviderSerializedFormat = function() {
 			$("#add").attr('disabled', false);
 		}
 	});
+
+	var existsProviderSerializedFormat = function(jsonProviderSerializedFormat) {
+		var exists = false;
+		$.ajax({
+			url: "existsProviderSerializedFormat.do",
+			type: "POST",
+			contentType:"application/json",
+			data: JSON.stringify(jsonProviderSerializedFormat),
+			async: false,
+			success: function(response) {
+				exists = response;
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myGenericError();
+			}
+		});
+		return exists;
+	};
 	
 	$("#confirm").click(function() {
 		if (listOfFields.length > 0) {
@@ -108,24 +127,27 @@ SaveProviderSerializedFormat = function() {
 					}
 				}
 				jsonProviderSerializedFormat.sequence = secuence;
-	
-				$.ajax({
-					url: "saveProviderSerializedFormat.do",
-					type: "POST",
-					contentType:"application/json",
-					data: JSON.stringify(jsonProviderSerializedFormat),
-					async: true,
-					success: function(response) {
-						if ($("#idInput").length > 0) {
-							myUpdateSuccessful();
-						} else {
-							myCreateSuccessful();
+				if(existsProviderSerializedFormat(jsonProviderSerializedFormat)){
+					myShowAlert('danger', 'La parametrizacion ya existe.');
+				}else{
+					$.ajax({
+						url: "saveProviderSerializedFormat.do",
+						type: "POST",
+						contentType:"application/json",
+						data: JSON.stringify(jsonProviderSerializedFormat),
+						async: true,
+						success: function(response) {
+							if ($("#idInput").length > 0) {
+								myUpdateSuccessful();
+							} else {
+								myCreateSuccessful();
+							}
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+							myGenericError();
 						}
-					},
-					error: function(jqXHR, textStatus, errorThrown) {
-						myGenericError();
-					}
-				});
+					});
+				}
 			}else{
 				myShowAlert('danger', 'El campo GTIN debe ser informado.');
 			}

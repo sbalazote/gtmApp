@@ -13,4 +13,6 @@ public interface ProviderSerializedFormatDAO {
 	List<ProviderSerializedFormat> getAll();
 
 	boolean delete(Integer id);
+
+	boolean exists(ProviderSerializedFormat providerSerializedFormat);
 }
