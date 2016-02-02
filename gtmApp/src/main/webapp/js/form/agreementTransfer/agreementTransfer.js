@@ -53,7 +53,7 @@ AgreementTransfer = function() {
 		var form = $("#agreementTransferForm");
 		form.validate({
 			rules: {
-				originAgreement: {
+				agreementInput: {
 					required: true
 				},
 				destinationAgreement: {
@@ -90,8 +90,8 @@ AgreementTransfer = function() {
 	    cleanProductInput();
 	});
 	
-	$('#originAgreementInput').on('change', function(evt, params) {
-		if($("#originAgreementInput").val() == ""){
+	$('#agreementInput').on('change', function(evt, params) {
+		if($("#agreementInput").val() == ""){
 			$("#productOutput").attr("disabled", true);
 		}else{
 			$("#productOutput").attr("disabled", false);
@@ -118,11 +118,11 @@ AgreementTransfer = function() {
 				async: false,
 				data: {
 					productId: productId,
-					agreementId: $("#originAgreementInput").val()
+					agreementId: $("#agreementInput").val()
 				},
 				success: function(response) {
 					if (response != "" && response >= productAmount) {
-						$('#originAgreementInput').prop('disabled', true).trigger("chosen:updated");
+						$('#agreementInput').prop('disabled', true).trigger("chosen:updated");
 						openModal(null);
 						$("#amountModal").modal('hide');
 					}else{
@@ -146,7 +146,7 @@ AgreementTransfer = function() {
 				async: false,
 				data: {
 					term: request.term,
-					agreementId: $("#originAgreementInput").val()
+					agreementId: $("#agreementInput").val()
 				},
 				success: function(data) {
 					var array = $.map(data, function(item) {
@@ -191,7 +191,7 @@ AgreementTransfer = function() {
 				type: "GET",
 				data: {
 					serial: $(this).val(),
-					agreementId: $("#originAgreementInput").val()
+					agreementId: $("#agreementInput").val()
 				},
 				success: function(response) {
 					if (response != "") {
@@ -416,11 +416,11 @@ AgreementTransfer = function() {
 	
 	$("#confirmButton").click(function() {
 		if (validateForm()) {
-			if($("#originAgreementInput").val() != $("#destinationAgreementInput").val()){
+			if($("#agreementInput").val() != $("#destinationAgreementInput").val()){
 				if (agreementTransferDetailGroup.length > 0) {
 					$(this).attr("disabled", true);
 					var jsonAgreementTransfer = {
-							"originAgreementId": $("#originAgreementInput").val(),
+							"originAgreementId": $("#agreementInput").val(),
 							"destinationAgreementId": $("#destinationAgreementInput").val(),
 							"agreementTransferDetails": []
 					};
