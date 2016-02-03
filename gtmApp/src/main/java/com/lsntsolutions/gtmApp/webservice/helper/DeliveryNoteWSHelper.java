@@ -1,19 +1,18 @@
 package com.lsntsolutions.gtmApp.webservice.helper;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.inssjp.mywebservice.business.MedicamentosDTO;
+import com.inssjp.mywebservice.business.WebServiceResult;
 import com.lsntsolutions.gtmApp.helper.EncryptionHelper;
 import com.lsntsolutions.gtmApp.model.*;
+import com.lsntsolutions.gtmApp.service.PropertyService;
+import com.lsntsolutions.gtmApp.util.OperationResult;
 import com.lsntsolutions.gtmApp.webservice.WebServiceHelper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.lsntsolutions.gtmApp.service.PropertyService;
-import com.lsntsolutions.gtmApp.util.OperationResult;
-import com.inssjp.mywebservice.business.MedicamentosDTO;
-import com.inssjp.mywebservice.business.WebServiceResult;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DeliveryNoteWSHelper {
 	private static final Logger logger = Logger.getLogger(WebServiceHelper.class);
@@ -34,25 +33,25 @@ public class DeliveryNoteWSHelper {
 		WebServiceResult webServiceResult = null;
 		List<String> errors = new ArrayList<>();
 		boolean isInformAnmat = false;
+		String entityId = "";
 		if (output != null) {
 			isInformAnmat = output.getConcept().isInformAnmat();
+			entityId = "el Egreso Nro.: " + output.getFormatId();
 		}
 		if (order != null) {
 			isInformAnmat = order.getProvisioningRequest().getAgreement().getDeliveryNoteConcept().isInformAnmat();
+			entityId = "el Armado Nro.: " + order.getFormatId();
 		}
 		if (supplying != null) {
 			isInformAnmat = this.propertyService.get().getSupplyingConcept().isInformAnmat();
-		}else{
-			logger.error("No encontro la dispensa.");
+			entityId = "la Dispensa Nro.: " + supplying.getFormatId();
 		}
 		String eventId = this.getEvent(output, order, supplying);
 
-		logger.error("Se procede a informar");
-
 		if (isInformAnmat) {
-			logger.error("Informa a ANMAT a informar");
+			logger.info("Se procede a informar a ANMAT " + entityId);
 			if (eventId != null) {
-				logger.error("El evento  a ANMAT a informar");
+				logger.info("Se informa a ANMAT con Id de Evento Nro.: " + eventId);
 				webServiceResult = this.sendDrugs(deliveryNote, order, output, medicines, errors, eventId, supplying);
 			} else {
 				String clientOrProvider = "";
@@ -77,7 +76,7 @@ public class DeliveryNoteWSHelper {
 				String error = "No ha podido obtenerse el evento a informar dado el concepto y el cliente/provedor seleccionados (Concepto: '" + code + " - "
 						+ conceptDescription + "' Cliente/Proveedor '" + clientOrProvider + "' Tipo de Agente: '" + clientOrProviderAgent
 						+ "'). El ingreso no fue informado.";
-				logger.info(error);
+				logger.warn(error);
 				errors.add(error);
 			}
 		} else {
