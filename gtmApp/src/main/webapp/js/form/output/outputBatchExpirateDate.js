@@ -59,7 +59,11 @@ OutputBatchExpirationDate = function() {
 			},
 			showErrors: myShowErrors
 		});
-		
+
+		$('input[name=batchExpirationDateAmount]').rules("add", {
+			max: maxAmount
+		});
+
 		return form.valid();
 	};
 	
