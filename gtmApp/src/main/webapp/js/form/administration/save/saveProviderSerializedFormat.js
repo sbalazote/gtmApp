@@ -8,7 +8,8 @@ SaveProviderSerializedFormat = function() {
 		form.validate({
 			rules: {
 				length: {
-					digits: true
+					digits: true,
+					required: true
 				}
 			},
 			showErrors: myShowErrors,
@@ -16,12 +17,6 @@ SaveProviderSerializedFormat = function() {
 		});
 		return form.valid();
 	};
-	
-//	var resetForm = function() {
-//		$("#fieldType").val($("#fieldType option:first").val());
-//		$("#lengthInput").val('');
-//		$("#fieldsTable tbody").html('');
-//	};
 	
 	$("#add").click(function() {
 		if (validateForm()) {
@@ -51,7 +46,7 @@ SaveProviderSerializedFormat = function() {
 		$('#fieldsTable tbody > tr').remove();
 		for(var i = 0; i < listOfFields.length; i++) {
 			var position = i+1;
-			$("#fieldsTable > tbody").append("<tr><td>" + position + "</td><td>"+ listOfFields[i].typeText  +"<span class='span-field' style='display:none'>" + listOfFields[i].type + "</span></td><td>"+ listOfFields[i].length + "</td><td><td><a href='javascript:void(0);' class='delete-row'>Eliminar</a></td></td></tr>");
+			$("#fieldsTable > tbody").append("<tr><td>" + position + "</td><td>"+ listOfFields[i].typeText  +"<span class='span-field' style='display:none'>" + listOfFields[i].type + "</span></td><td>"+ listOfFields[i].length + "</td><td><a href='javascript:void(0);' class='delete-row'>Eliminar</a></td></tr>");
 		}
 	};
 	
