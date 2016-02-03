@@ -1,18 +1,17 @@
 package com.lsntsolutions.gtmApp.webservice;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import com.lsntsolutions.gtmApp.constant.Constants;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.lsntsolutions.gtmApp.config.PropertyProvider;
-import com.lsntsolutions.gtmApp.util.StringUtility;
 import com.inssjp.mywebservice.business.MedicamentosDTO;
 import com.inssjp.mywebservice.business.WebServiceError;
 import com.inssjp.mywebservice.business.WebServiceResult;
+import com.lsntsolutions.gtmApp.config.PropertyProvider;
+import com.lsntsolutions.gtmApp.constant.Constants;
+import com.lsntsolutions.gtmApp.util.StringUtility;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 public class WebServiceHelper {
 
@@ -36,7 +35,7 @@ public class WebServiceHelper {
 
 		} catch (Exception e) {
 			errors.add("No se pudo enviar la transacci�n");
-			logger.info(e);
+			logger.error(e);
 		}
 		if (processResult(result)) {
 			logger.info("La consulta con ANMAT fue satisfactoria. C�digo de Transacci�n: " + result.getCodigoTransaccion());
