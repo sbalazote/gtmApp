@@ -148,49 +148,47 @@ public class ProvisioningRequestDAOHibernateImpl implements ProvisioningRequestD
 
 	@Override
 	public List<Agreement> getProvisioningsAgreement(boolean provisioningRequireAuthorization) {
-		String sentence = "select distinct p.agreement from ProvisioningRequest as p where p.state.id = :stateId";
+		String sentence = "select distinct p.agreement from ProvisioningRequest as p " +
+				"where p.state.id = " +State.AUTHORIZED.getId() + " or p.state.id = " + State.PRINTED.getId();
 		if(!provisioningRequireAuthorization){
 			sentence = " or p.state.id = " + State.ENTERED.getId();
 		}
-		Query query;
-		query = this.sessionFactory.getCurrentSession().createQuery(sentence);
-		query.setParameter("stateId", State.AUTHORIZED.getId());
+		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
 		return query.list();
 	}
 
 	@Override
 	public List<DeliveryLocation> getProvisioningsDeliveryLocations(boolean provisioningRequireAuthorization) {
-		String sentence = "select distinct p.deliveryLocation from ProvisioningRequest as p where p.state.id = :stateId";
+		String sentence = "select distinct p.deliveryLocation from ProvisioningRequest as p " +
+				"where p.state.id = " +State.AUTHORIZED.getId() + " or p.state.id = " + State.PRINTED.getId();
 		if(!provisioningRequireAuthorization){
 			sentence = " or p.state.id = " + State.ENTERED.getId();
 		}
-		Query query;
-		query = this.sessionFactory.getCurrentSession().createQuery(sentence);
-		query.setParameter("stateId", State.AUTHORIZED.getId());
+		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
 		return query.list();
 	}
 
 	@Override
 	public List<LogisticsOperator> getProvisioningsLogisticsOperators(boolean provisioningRequireAuthorization) {
-		String sentence = "select distinct p.logisticsOperator from ProvisioningRequest as p where p.logisticsOperator IS NOT NULL and p.state.id = :stateId";
+		String sentence = "select distinct p.logisticsOperator from ProvisioningRequest as p " +
+				"where p.logisticsOperator IS NOT NULL and (p.state.id = " +State.AUTHORIZED.getId() + " or p.state.id = " + State.PRINTED.getId();
 		if(!provisioningRequireAuthorization){
-			sentence = " or p.state.id = " + State.ENTERED.getId();
+			sentence += " or p.state.id = " + State.ENTERED.getId() + ")";
+		}else{
+			sentence += ")";
 		}
-		Query query;
-		query = this.sessionFactory.getCurrentSession().createQuery(sentence);
-		query.setParameter("stateId", State.AUTHORIZED.getId());
+		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
 		return query.list();
 	}
 
 	@Override
 	public List<Client> getProvisioningsClient(boolean provisioningRequireAuthorization) {
-		String sentence = "select distinct p.client from ProvisioningRequest as p where p.state.id = :stateId";
+		String sentence = "select distinct p.client from ProvisioningRequest as p " +
+				"where p.state.id = " +State.AUTHORIZED.getId() + " or p.state.id = " + State.PRINTED.getId();
 		if(!provisioningRequireAuthorization){
 			sentence = " or p.state.id = " + State.ENTERED.getId();
 		}
-		Query query;
-		query = this.sessionFactory.getCurrentSession().createQuery(sentence);
-		query.setParameter("stateId", State.AUTHORIZED.getId());
+		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
 		return query.list();
 	}
 }

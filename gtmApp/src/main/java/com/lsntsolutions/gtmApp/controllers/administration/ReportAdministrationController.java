@@ -59,7 +59,7 @@ public class ReportAdministrationController {
 	public String searchProvisioningRequest(ModelMap modelMap) throws Exception {
 		modelMap.put("agreements", this.agreementService.getAll());
 		modelMap.put("deliveryLocations", this.deliveryLocationService.getAll());
-		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAll());
+		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAllActives(false));
 		modelMap.put("clients", this.clientService.getAll());
 		modelMap.put("states", this.provisioningRequestStateService.getAll());
 		modelMap.put("monodrugs", this.productMonodrugService.getAll());
@@ -74,7 +74,7 @@ public class ReportAdministrationController {
 		modelMap.put("deliveryLocations", this.deliveryLocationService.getAll());
         modelMap.put("clients", this.clientService.getAllActives());
 		modelMap.put("monodrugs", this.productMonodrugService.getAll());
-		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAll());
+		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAllActives(false));
 		return "searchDeliveryNote";
 	}
 
