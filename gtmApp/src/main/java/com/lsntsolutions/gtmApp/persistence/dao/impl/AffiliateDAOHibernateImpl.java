@@ -2,7 +2,7 @@ package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
 import com.lsntsolutions.gtmApp.model.Affiliate;
 import com.lsntsolutions.gtmApp.persistence.dao.AffiliateDAO;
-import com.lsntsolutions.gtmApp.util.StringUtility;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -12,6 +12,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.type.StandardBasicTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import com.lsntsolutions.gtmApp.util.StringUtility;
 
 import java.util.List;
 
@@ -55,11 +56,12 @@ public class AffiliateDAOHibernateImpl implements AffiliateDAO {
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Affiliate.class);
 
 		if (StringUtility.isInteger(term)) {
-			criteria.add(Restrictions.or(Restrictions.eq("id", Integer.parseInt(term)), Restrictions.ilike("code", term, MatchMode.ANYWHERE), Restrictions.ilike("document", term, MatchMode.ANYWHERE)));
+			criteria.add(Restrictions.eq("id", term));
 		} else {
 			if(term != "") {
 				criteria.add(Restrictions.or(Restrictions.sqlRestriction("CONCAT_WS(' ', name, surname) like (?)", "%"+term+"%" , StandardBasicTypes.STRING),
-						Restrictions.sqlRestriction("CONCAT_WS(' ', surname, name) like (?)", "%"+term+"%" , StandardBasicTypes.STRING)));
+						Restrictions.sqlRestriction("CONCAT_WS(' ', surname, name) like (?)", "%"+term+"%" , StandardBasicTypes.STRING),
+						Restrictions.ilike("code", term, MatchMode.ANYWHERE), Restrictions.ilike("document", term, MatchMode.ANYWHERE)));
 			}
 		}
 
