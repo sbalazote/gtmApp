@@ -105,6 +105,7 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 
 			// imprimo Observaciones
 			ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Observaciones: ", fontHeader), 15.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 50f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+			ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(provisioningRequest.getComment(), fontHeaderBold), 45.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 50f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR, 0f);
 
 		} catch (DocumentException e) {
             e.printStackTrace();
