@@ -113,4 +113,8 @@ ProvisioningRequestAuthorization = function() {
 			myShowAlert('info', 'Seleccione al menos un Pedido para AUTORIZAR');
 		}
 	});
+
+	setTimeout(function(){
+		window.location.reload();
+	}, 300000);
 };

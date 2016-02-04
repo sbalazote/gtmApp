@@ -137,7 +137,7 @@ public class ProvisioningRequest implements Serializable {
 		this.provisioningRequestDetails = provisioningRequestDetails;
 	}
 
-	public Boolean canCancel(){
+	public Boolean canModify(){
 		return (this.state.getId().equals(State.ENTERED.getId()) || this.state.getId().equals(State.AUTHORIZED.getId()) || this.state.getId().equals(State.PRINTED.getId()));
 	}
 

@@ -253,8 +253,10 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 
 		for (int currentProvisioning = 1; currentProvisioning <= provisioningIds.length; currentProvisioning+=2) {
 			ProvisioningRequest provisioningRequest = provisioningRequestService.get(Integer.parseInt(provisioningIds[currentProvisioning-1]));
-			provisioningRequest.setState(state);
-			provisioningRequestService.save(provisioningRequest);
+			if(provisioningRequest.canModify()) {
+				provisioningRequest.setState(state);
+				provisioningRequestService.save(provisioningRequest);
+			}
 
 			addHeader(provisioningRequest, true);
 			addDetails(provisioningRequest, true);
@@ -265,8 +267,10 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 
             if (currentProvisioning + 1 <=  provisioningIds.length) {
                 provisioningRequest = provisioningRequestService.get(Integer.parseInt(provisioningIds[currentProvisioning]));
-                provisioningRequest.setState(state);
-                provisioningRequestService.save(provisioningRequest);
+				if(provisioningRequest.canModify()) {
+					provisioningRequest.setState(state);
+					provisioningRequestService.save(provisioningRequest);
+				}
 
                 addHeader(provisioningRequest, false);
                 addDetails(provisioningRequest, false);

@@ -126,4 +126,8 @@ var DeliveryNoteSheet = function() {
 			}
 		});	
 	}
+
+	setTimeout(function(){
+		window.location.reload();
+	}, 300000);
 };

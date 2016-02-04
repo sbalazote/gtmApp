@@ -234,7 +234,7 @@ public class ProvisioningRequestServiceImpl implements ProvisioningRequestServic
 	public boolean cancelProvisioningRequest(Integer provisioningRequestId) {
 		ProvisioningRequestState state = this.provisioningRequestStateService.get(State.CANCELED.getId());
 		ProvisioningRequest provisioningRequest = this.get(provisioningRequestId);
-		if(provisioningRequest.canCancel()) {
+		if(provisioningRequest.canModify()) {
 			provisioningRequest.setState(state);
 			this.save(provisioningRequest);
 			return true;

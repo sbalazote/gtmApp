@@ -122,11 +122,6 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> getDeliveryNoteSearch(DeliveryNoteQuery deliveryNoteQuery) {
-		return this.orderDAO.getDeliveryNoteSearch(deliveryNoteQuery);
-	}
-
-	@Override
 	public List<Order> getAllByState(Integer stateId) {
 		return this.orderDAO.getAllByState(stateId);
 	}
@@ -147,27 +142,15 @@ public class OrderServiceImpl implements OrderService {
 		Order order;
 		for(Integer orderId : orderIds){
 			order = this.get(orderId);
-			if(order != null) {
+			if(order != null && order.getProvisioningRequest().getState().getId() == State.ASSEMBLED.getId()) {
 				cancel(order);
 			}
 		}
 	}
 
 	@Override
-	public boolean existSerial(Integer productId, String serial) {
-		return this.orderDAO.existSerial(productId, serial);
-	}
-
-	@Override
 	public List<Order> getAllFilter(Integer provisioningRequestId, Integer agreementId, Integer logisticsOperatorId, Integer clientId, Integer deliveryLocationId, Integer stateId) {
 		return this.orderDAO.getAllFilter(provisioningRequestId, agreementId, logisticsOperatorId, clientId, deliveryLocationId, stateId);
-	}
-
-	@Override
-	public void changeToPrintState(Order order) {
-		ProvisioningRequest provisioningRequest = order.getProvisioningRequest();
-		provisioningRequest.setState(provisioningRequestStateService.get(State.ASSEMBLED.getId()));
-		this.provisioningRequestService.save(provisioningRequest);
 	}
 
 	@Override

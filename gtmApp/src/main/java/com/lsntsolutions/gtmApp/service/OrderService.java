@@ -19,19 +19,13 @@ public interface OrderService {
 
 	boolean getCountDeliveryNoteSearch(DeliveryNoteQuery deliveryNoteQuery);
 
-	List<Order> getDeliveryNoteSearch(DeliveryNoteQuery deliveryNoteQuery);
-
 	List<Order> getAllByState(Integer stateId);
 
 	void cancel(Order order);
 
 	void cancelOrders(List<Integer> orderIds);
 
-	boolean existSerial(Integer productId, String serial);
-
 	List<Order> getAllFilter(Integer provisioningRequestId, Integer agreementId, Integer logisticsOperatorId, Integer clientId, Integer deliveryLocationId, Integer stateId);
-
-	void changeToPrintState(Order order);
 
 	List<Integer> filterAlreadyPrinted(List<Integer> ordersToPrint, PrinterResultDTO printerResultDTO);
 
