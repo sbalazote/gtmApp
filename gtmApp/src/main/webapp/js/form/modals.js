@@ -223,6 +223,13 @@ $(document).ready(function() {
 
 		$('#affiliateDeliveryNoteModal').val(response.affiliate);
 
+		if(response.concept != null){
+			$("#conceptDeliveryNote").show();
+			$("#conceptDeliveryNoteModal").val(response.concept);
+		}else {
+			$("#conceptDeliveryNote").hide();
+		}
+
 		var value;
 		var entity;
 		if(response.supplyingId != null){

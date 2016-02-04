@@ -68,6 +68,12 @@
 							<input id="clientDeliveryNoteModal" name="clientDeliveryNoteModal" class="form-control" disabled>
 						</div>
 					</div>
+						<div id="conceptDeliveryNote" class="row">
+							<div class="col-md-6 col-lg-6 form-group">
+								<label for="conceptDeliveryNoteModal"><spring:message code="common.concept"/></label>
+								<input id="conceptDeliveryNoteModal" name="conceptDeliveryNoteModal" class="form-control" disabled>
+							</div>
+						</div>
 					<br>
 					
 					<div>

@@ -16,11 +16,11 @@ public class DeliveryNoteResultDTO {
 	private String transactionCodeANMAT;
 	private boolean cancelled;
 	private String affiliate;
-
 	private String supplyingId;
 	private String outputId;
 	private String orderId;
 	private String provisioningRequestId;
+	private String concept;
 
 	private List<DeliveryNoteDetailResultDTO> deliveryNoteDetails;
 
@@ -137,6 +137,14 @@ public class DeliveryNoteResultDTO {
 		this.informAnmat = informAnmat;
 	}
 
+	public String getConcept() {
+		return concept;
+	}
+
+	public void setConcept(String concept) {
+		this.concept = concept;
+	}
+
 	public void setFromDeliveryNote(DeliveryNote deliveryNote, Order order, Output output, Supplying supplying) {
 		SimpleDateFormat stringDate = new SimpleDateFormat("dd/MM/yyyy");
 		this.number = deliveryNote.getNumber();
@@ -158,6 +166,7 @@ public class DeliveryNoteResultDTO {
 			String affiliate = "NO SE INFORMA";
 			this.setAffiliate(affiliate);
 			this.setOutputId(id);
+			this.setConcept(output.getConcept().getCode() + " - " + output.getConcept().getDescription());
 		}
 		if (order != null) {
 			String code = order.getProvisioningRequest().getAgreement().getFormatCode();
@@ -173,6 +182,7 @@ public class DeliveryNoteResultDTO {
 			this.setAffiliate(affiliate);
 			this.setOrderId(id);
 			this.setProvisioningRequestId(provisioningRequestId);
+			this.setConcept(null);
 		}
         if(supplying != null){
 			String code = supplying.getAgreement().getFormatCode();
@@ -186,6 +196,7 @@ public class DeliveryNoteResultDTO {
 					supplying.getAffiliate().getName();
 			this.setAffiliate(affiliate);
 			this.setSupplyingId(id);
+			this.setConcept(null);
         }
 
 		if (deliveryNote.getTransactionCodeANMAT() != null) {
