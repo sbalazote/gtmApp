@@ -1,5 +1,6 @@
 package com.lsntsolutions.gtmApp.service;
 
+import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.dto.ProvisioningRequestDTO;
 import com.lsntsolutions.gtmApp.model.*;
 import com.lsntsolutions.gtmApp.query.ProvisioningQuery;
@@ -23,7 +24,7 @@ public interface ProvisioningRequestService {
 
 	boolean getCountOfProvisioningSearch(ProvisioningQuery provisioningQuery);
 
-	void authorizeProvisioningRequests(List<Integer> provisioningIds);
+	List<PrinterResultDTO> authorizeProvisioningRequests(List<Integer> provisioningIds, String username);
 
 	boolean cancelProvisioningRequest(Integer provisioningRequestId);
 

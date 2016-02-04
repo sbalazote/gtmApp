@@ -5,6 +5,7 @@ import com.lsntsolutions.gtmApp.constant.DocumentType;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.dto.AssignOperatorDTO;
+import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.dto.ProvisioningRequestDTO;
 import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import com.lsntsolutions.gtmApp.model.Order;
@@ -167,14 +168,9 @@ public class ProvisioningRequestController {
 
 	@RequestMapping(value = "/authorizeProvisioningRequests", method = RequestMethod.POST)
 	public @ResponseBody
-	void authorizeProvisioningRequests(@RequestBody List<Integer> provisioningIds) throws Exception {
-		this.provisioningRequestService.authorizeProvisioningRequests(provisioningIds);
+	List<PrinterResultDTO> authorizeProvisioningRequests(@RequestBody List<Integer> provisioningIds) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null) {
-			for (Integer provisioningId : provisioningIds) {
-				this.auditService.addAudit(auth.getName(), RoleOperation.PROVISIONING_REQUEST_AUTHORIZATION.getId(), AuditState.AUTHORITED, provisioningId);
-			}
-		}
+		return this.provisioningRequestService.authorizeProvisioningRequests(provisioningIds, auth.getName());
 	}
 
 	@RequestMapping(value = "/provisioningRequestCancellation", method = RequestMethod.GET)

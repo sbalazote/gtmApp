@@ -1,6 +1,9 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
+import com.lsntsolutions.gtmApp.constant.AuditState;
+import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.constant.State;
+import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.dto.ProvisioningRequestDTO;
 import com.lsntsolutions.gtmApp.dto.ProvisioningRequestDetailDTO;
 import com.lsntsolutions.gtmApp.model.*;
@@ -43,6 +46,8 @@ public class ProvisioningRequestServiceImpl implements ProvisioningRequestServic
 	private ProductService productService;
 	@Autowired
 	private StockService stockService;
+	@Autowired
+	private AuditService auditService;
 
 	@Override
 	public void save(ProvisioningRequest provisioningRequest) {
@@ -200,15 +205,29 @@ public class ProvisioningRequestServiceImpl implements ProvisioningRequestServic
 	}
 
 	@Override
-	public void authorizeProvisioningRequests(List<Integer> provisioningIds) {
+	public List<PrinterResultDTO> authorizeProvisioningRequests(List<Integer> provisioningIds, String username) {
 		ProvisioningRequestState state = this.provisioningRequestStateService.get(State.AUTHORIZED.getId());
+		List<PrinterResultDTO> printerResultDTOs = new ArrayList<PrinterResultDTO>();
 		for (Integer id : provisioningIds) {
 			ProvisioningRequest provisioningRequest = this.get(id);
-			provisioningRequest.setState(state);
-			this.save(provisioningRequest);
-
-			logger.info("Se ha autorizado el Pedido numero: " + id);
+			PrinterResultDTO printerResultDTO = new PrinterResultDTO(provisioningRequest.getFormatId());
+			if (provisioningRequest.getState().getId() < State.ASSEMBLED.getId()) {
+				provisioningRequest.setState(state);
+				this.save(provisioningRequest);
+				this.auditService.addAudit(username, RoleOperation.PROVISIONING_REQUEST_AUTHORIZATION.getId(), AuditState.AUTHORITED, id);
+				List<String> success = new ArrayList<>();
+				success.add("Se ha autorizado el Pedido Nro.: " + provisioningRequest.getFormatId());
+				logger.info("Se ha autorizado el Pedido Nro.: " + provisioningRequest.getFormatId());
+				printerResultDTO.setSuccessMessages(success);
+			} else {
+				List<String> errors = new ArrayList<>();
+				errors.add("No se puede autorizar la Solicitud Nro: " + provisioningRequest.getFormatId() + " ya que se encuentra en estado: " + provisioningRequest.getState().getDescription());
+				logger.error("No se puede autorizar el Pedido Nro.: " + provisioningRequest.getFormatId() + " ya que se encuentra en estado: " + provisioningRequest.getState().getDescription());
+				printerResultDTO.setErrorMessages(errors);
+			}
+            printerResultDTOs.add(printerResultDTO);
 		}
+		return printerResultDTOs;
 	}
 
 	@Override

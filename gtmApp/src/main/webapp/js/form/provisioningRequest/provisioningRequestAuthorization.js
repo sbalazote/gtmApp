@@ -80,13 +80,34 @@ ProvisioningRequestAuthorization = function() {
 				type: "POST",
 				contentType: "application/json",
 				data: JSON.stringify(requestsToApprove),
-				async: false,
-				success: function(response) {
-					myReload("success", "Se han autorizado los siguientes pedidos: " + requestsToApprove);
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					myGenericError();
-				}
+				async: true,
+				beforeSend : function() {
+                	$.blockUI({ message: 'Espere un Momento por favor...' });
+                },
+                success: function(response) {
+                var msgType = "success";
+                var message = "";
+                $.each(response, function (index, result) {
+                	if (result.errorMessages.length > 0) {
+                		$.each(result.errorMessages, function (index, value) {
+                		    message += "<strong><p>" + value + "</p></strong>";
+                        });
+                        msgType = "warning";
+                	 }
+                	if (result.successMessages.length > 0) {
+                	    $.each(result.successMessages, function (index, value) {
+                			message += "<strong><p>" + value + "</p></strong>";
+                		});
+                	}
+                });
+				myReload(msgType, message);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                	myGenericError();
+                },
+                complete: function(jqXHR, textStatus) {
+                	$.unblockUI();
+                }
 			});
 		}else{
 			myShowAlert('info', 'Seleccione al menos un Pedido para AUTORIZAR');
