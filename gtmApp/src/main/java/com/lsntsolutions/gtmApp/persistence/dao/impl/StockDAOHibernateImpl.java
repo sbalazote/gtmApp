@@ -2,6 +2,7 @@ package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
 import com.lsntsolutions.gtmApp.constant.Constants;
 import com.lsntsolutions.gtmApp.dto.StockDTO;
+import com.lsntsolutions.gtmApp.helper.StockDTOTotalAmountComparator;
 import com.lsntsolutions.gtmApp.model.Product;
 import com.lsntsolutions.gtmApp.model.Stock;
 import com.lsntsolutions.gtmApp.persistence.dao.StockDAO;
@@ -22,6 +23,7 @@ import org.springframework.util.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -323,7 +325,7 @@ public class StockDAOHibernateImpl implements StockDAO {
 		projectionList.add(Projections.property("agreement.description"), "agreementDescription");
 		projectionList.add(Projections.property("gtin.number"), "gtinNumber");
 		projectionList.add(Projections.property("serialNumber"), "serialNumber");
-		projectionList.add(Projections.sqlProjection("sum(amount) as amount", new String[]{"amount"}, new Type[]{StandardBasicTypes.INTEGER}));
+		projectionList.add(Projections.sqlProjection("sum(amount) as totalAmount", new String[]{"totalAmount"}, new Type[]{StandardBasicTypes.INTEGER}));
 
 
 		criteria.setProjection(projectionList);
@@ -352,12 +354,6 @@ public class StockDAOHibernateImpl implements StockDAO {
 			} else {
 				criteria.addOrder(Order.desc("gtin.number"));
 			}
-		} else if (sortAmount != null) {
-			if (sortAmount.equals("asc")) {
-				criteria.addOrder(Order.asc("amount"));
-			} else {
-				criteria.addOrder(Order.desc("amount"));
-			}
 		} else {
 			criteria.addOrder(Order.asc("product.id"));
 		}
@@ -365,6 +361,16 @@ public class StockDAOHibernateImpl implements StockDAO {
 		criteria.setResultTransformer(Transformers.aliasToBean(StockDTO.class));
 
 		List<StockDTO> results = (List<StockDTO>) criteria.list();
+
+        if (sortAmount != null) {
+            StockDTOTotalAmountComparator stockDTOTotalAmountComparator = new StockDTOTotalAmountComparator();
+            if (sortAmount.equals("asc")) {
+                Collections.sort(results, stockDTOTotalAmountComparator);
+            } else {
+                Collections.sort(results, Collections.reverseOrder(stockDTOTotalAmountComparator));
+            }
+        }
+
 
 		return results;
 	}

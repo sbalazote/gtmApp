@@ -16,7 +16,7 @@ public class StockDTO implements Serializable {
     private String agreementDescription;
     private String gtinNumber;
     private String serialNumber;
-    private Integer amount;
+    private Integer totalAmount;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -78,11 +78,11 @@ public class StockDTO implements Serializable {
         this.serialNumber = serialNumber;
     }
 
-    public Integer getAmount() {
-        return amount;
+    public Integer getTotalAmount() {
+        return totalAmount;
     }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    public void setTotalAmount(Integer totalAmount) {
+        this.totalAmount = totalAmount;
     }
 }
