@@ -182,7 +182,7 @@ $(document).ready(function() {
 			};
 			aaData.push(tableRow);
 		}
-		$("#inputModalProductTable").bootgrid("clear").bootgrid("append", aaData);
+		$("#inputModalProductTable").bootgrid({caseSensitive: false}).bootgrid("clear").bootgrid("append", aaData);
 		modal = '#inputModal';
 		$('#inputModal').modal('show');
 	};
@@ -341,7 +341,7 @@ $(document).ready(function() {
 			};
 			aaData.push(tableRow);
 		}
-		$("#deliveryNoteModalProductTable").bootgrid("clear").bootgrid("append", aaData);
+		$("#deliveryNoteModalProductTable").bootgrid({caseSensitive: false}).bootgrid("clear").bootgrid("append", aaData);
 		modal = '#deliveryNoteModal';
 
 		$('#deliveryNoteModal').modal('show');
@@ -486,7 +486,7 @@ $(document).ready(function() {
 			};
 			aaData.push(tableRow);
 		}
-		$("#outputModalProductTable").bootgrid("clear").bootgrid("append", aaData);
+		$("#outputModalProductTable").bootgrid({caseSensitive: false}).bootgrid("clear").bootgrid("append", aaData);
 		modal = '#outputModal';
 		$('#outputModal').modal('show');
 	};
@@ -618,7 +618,7 @@ $(document).ready(function() {
 			};
 			aaData.push(tableRow);
 		}
-		$("#orderModalProductTable").bootgrid("clear").bootgrid("append", aaData);
+		$("#orderModalProductTable").bootgrid({caseSensitive: false}).bootgrid("clear").bootgrid("append", aaData);
 		modal = '#orderModal';
 		$('#orderModal').modal('show');
 	};
@@ -718,7 +718,7 @@ $(document).ready(function() {
 			};
 			aaData.push(tableRow);
 		}
-		$("#provisioningRequestModalProductTable").bootgrid("clear").bootgrid("append", aaData);
+		$("#provisioningRequestModalProductTable").bootgrid({caseSensitive: false}).bootgrid("clear").bootgrid("append", aaData);
 		modal = '#provisioningRequestModal';
 		$('#provisioningRequestModal').modal('show');
 
@@ -858,7 +858,7 @@ $(document).ready(function() {
 			};
 			aaData.push(tableRow);
 		}
-		$("#supplyingModalProductTable").bootgrid("clear").bootgrid("append", aaData);
+		$("#supplyingModalProductTable").bootgrid({caseSensitive: false}).bootgrid("clear").bootgrid("append", aaData);
 		modal = '#supplyingModal';
 		$('#supplyingModal').modal('show');
 
