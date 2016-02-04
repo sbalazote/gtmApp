@@ -198,10 +198,10 @@ public class InputController {
 
 	@RequestMapping(value = "/inputCancellation", method = RequestMethod.GET)
 	public String inputCancellation(ModelMap modelMap) throws Exception {
-		modelMap.put("concepts", this.conceptService.getAll());
-		modelMap.put("providers", this.providerService.getAll());
-		modelMap.put("agreements", this.agreementService.getAll());
-		modelMap.put("deliveryLocations", this.deliveryLocationService.getAll());
+		modelMap.put("concepts", this.conceptService.getConceptForInput());
+		modelMap.put("providers", this.providerService.getAllActives());
+		modelMap.put("agreements", this.agreementService.getAllActives());
+		modelMap.put("deliveryLocations", this.deliveryLocationService.getAllActives());
 		return "inputCancellation";
 	}
 

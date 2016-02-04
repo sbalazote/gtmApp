@@ -139,7 +139,7 @@ public class ClientDAOHibernateImpl implements ClientDAO {
 
 	@Override
 	public List<DeliveryLocation> getDeliveriesLocations(Integer clientId) {
-		String sentence = "select distinct dl from Client as c inner join c.deliveryLocations dl where c.id = :clientId order by dl.name";
+		String sentence = "select distinct dl from Client as c inner join c.deliveryLocations dl where c.id = :clientId and dl.active = true order by dl.name";
 
 		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
 		query.setParameter("clientId", clientId);

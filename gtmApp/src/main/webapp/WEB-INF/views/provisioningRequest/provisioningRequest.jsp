@@ -61,9 +61,6 @@
 			<input type="hidden" class="form-control" id="affiliateSurname" value="${affiliate != null ? affiliate.surname : ''}">
 			<label for="affiliateInput"><spring:message code="common.affiliate" /></label>
 			<input type='hidden' id="affiliateInput" name="affiliate" class="form-control">
-			<%-- <c:forEach items="${affiliates}" var="affiliate">
-                <option value="${affiliate.id}" ${affiliateId == affiliate.id ? 'selected' : ''}><c:out value="${affiliate.code}"></c:out> - <c:out value="${affiliate.surname} ${affiliate.name}"></c:out></option>
-            </c:forEach> --%>
 		</div>
 		<div class="col-md-4 col-lg-4 form-group">
 			<label for="logisticsOperatorInput"><spring:message code="common.logisticsOperator" /></label>
@@ -81,9 +78,6 @@
 			<input type="hidden" class="form-control" id="deliveryLocationId" value="${deliveryLocationId != null ? deliveryLocationId : ''}">
 			<select id="deliveryLocationInput" name="deliveryLocation" class="form-control" data-placeholder="<spring:message code='common.select.option'/>">
 				<option value=""></option>
-				<%--<c:forEach items="${deliveryLocations}" var="deliveryLocation">
-					<option value="${deliveryLocation.id}" ${deliveryLocationId == deliveryLocation.id ? 'selected' : ''}><c:out value="${deliveryLocation.code}"></c:out> - <c:out value="${deliveryLocation.name}"></c:out></option>
-				</c:forEach>--%>
 			</select>
 		</div>
 	</div>
