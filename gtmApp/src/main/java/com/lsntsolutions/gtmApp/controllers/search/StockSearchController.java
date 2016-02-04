@@ -102,7 +102,7 @@ public class StockSearchController {
 			dataJson.put("agreement", stockDTO.getAgreementDescription());
 			dataJson.put("gtin", stockDTO.getGtinNumber());
 			dataJson.put("serialNumber", stockDTO.getSerialNumber());
-			dataJson.put("amount", stockDTO.getAmount());
+			dataJson.put("amount", stockDTO.getTotalAmount());
 			jsonArray.put(dataJson);
 		}
 
