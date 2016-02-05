@@ -32,13 +32,13 @@
         </div>
 		<div class="row">
 			<div class="col-md-2 col-lg-2 col-md-offset-8 col-lg-offset-8">
-				<button class="btn btn-success btn-block" type="submit" id="searchSerialButton">
+				<button class="btn btn-success btn-block" id="searchSerialButton">
 					<span class="glyphicon glyphicon-search"></span>
 					<spring:message code="common.search" />
 				</button>
 			</div>
 			<div class="col-md-2 col-lg-2">
-				<button class="btn btn-info btn-block" type="submit" id="cleanSerialButton">
+				<button class="btn btn-info btn-block" id="cleanSerialButton">
 					<span class="glyphicon glyphicon-trash"></span>
 					<spring:message code="common.clean" />
 				</button>
@@ -56,13 +56,13 @@
 				<input type="text" class="form-control" name="serialNumberSearch" id="serialNumberSearch" >
 			</div>
 			<div class="col-md-2 col-lg-2 form-margin">
-				<button class="btn btn-success btn-block" type="submit" id="searchButton">
+				<button class="btn btn-success btn-block" id="searchButton">
 				<span class="glyphicon glyphicon-search"></span>
 				<spring:message code="common.search" />
 				</button>
 			</div>
 			<div class="col-md-2 col-lg-2 form-margin">
-				<button class="btn btn-info btn-block" type="submit" id="cleanButton">
+				<button class="btn btn-info btn-block" id="cleanButton">
 				<span class="glyphicon glyphicon-trash"></span>
 				<spring:message code="common.clean" />
 				</button>

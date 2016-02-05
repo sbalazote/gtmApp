@@ -281,6 +281,19 @@ SearchSerializedProduct = function() {
 		}
 	});
 
+    $('#serialNumberSearch').keydown(function(e) {
+        if(e.keyCode == 13){ // Presiono Enter
+            if(validateForm()){
+                searchProduct(productId,$("#serialNumberSearch").val());
+            }
+        }
+    });
+
+    $(window).keydown(function(e) {
+        if (e.keyCode == 13)    // if it is enter
+            e.preventDefault(); // stop default behavior
+    });
+
     var searchSerialParsed = function(serial){
         $.ajax({
             url: "parseSerial.do",
