@@ -64,8 +64,8 @@ public class ProviderAdministrationController {
 	}
 
 	@RequestMapping(value = "/getProvidersLogisticsOperators", method = RequestMethod.GET)
-	public @ResponseBody List<LogisticsOperator> getProvidersLogisticsOperators(@RequestParam Integer providerId) throws Exception {
-		return this.providerService.get(providerId).getLogisticsOperators();
+	public @ResponseBody List<LogisticsOperator> getProvidersLogisticsOperators(@RequestParam Integer providerId, boolean input) throws Exception {
+		return this.providerService.get(providerId).getLogisticsOperators(input);
 	}
 
 	private Provider buildModel(ProviderDTO providerDTO) {
@@ -108,7 +108,7 @@ public class ProviderAdministrationController {
 		modelMap.put("types", this.providerTypeService.getAll());
 		modelMap.put("agents", this.agentService.getAll());
 		modelMap.put("VATLiabilities", this.VATLiabilityService.getAll());
-		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAllActives(true));
+		modelMap.put("logisticsOperators", this.logisticsOperatorService.getAllActives());
 	}
 
 	@RequestMapping(value = "/readProvider", method = RequestMethod.GET)

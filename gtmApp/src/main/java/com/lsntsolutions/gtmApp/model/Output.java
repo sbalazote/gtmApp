@@ -36,6 +36,10 @@ public class Output implements Serializable, Egress {
 	private Provider provider;
 
 	@ManyToOne
+	@JoinColumn(name = "logistics_operator_id")
+	private LogisticsOperator logisticsOperator;
+
+	@ManyToOne
 	@JoinColumn(name = "delivery_location_id")
 	private DeliveryLocation deliveryLocation;
 
@@ -131,23 +135,6 @@ public class Output implements Serializable, Egress {
 		this.outputDetails = outputDetails;
 	}
 
-	public boolean hasToInform(){
-		boolean hasToInform = false;
-		if (this.getConcept().isInformAnmat() && !this.getConcept().isPrintDeliveryNote()) {
-			if(outputDetails != null) {
-				for (OutputDetail outputDetail : this.getOutputDetails()) {
-					if (outputDetail.getProduct().isInformAnmat()
-							&& ("PS".equals(outputDetail.getProduct().getType()) || "SS".equals(outputDetail.getProduct().getType()))) {
-						hasToInform = true;
-					}
-				}
-			}
-		} else {
-			hasToInform = false;
-		}
-		return hasToInform;
-	}
-
 	@Override
 	public boolean hasToInformANMAT(){
 		boolean hasToInform = false;
@@ -165,7 +152,11 @@ public class Output implements Serializable, Egress {
 	public String getDestinationTax() {
 		String originTax = null;
 		if (this.getProvider() != null) {
-			originTax = this.getProvider().getTaxId();
+			if(this.getLogisticsOperator() != null){
+				originTax = this.getLogisticsOperator().getTaxId();
+			}else {
+				originTax = this.getProvider().getTaxId();
+			}
 		}
 		if (this.getDeliveryLocation() != null) {
 			originTax = this.getDeliveryLocation().getTaxId();
@@ -176,7 +167,11 @@ public class Output implements Serializable, Egress {
 	public String getClientOrProviderDescription() {
 		String description = null;
 		if (this.getProvider() != null) {
-			description = this.getProvider().getName();
+			if(this.getLogisticsOperator() != null){
+				description = this.getLogisticsOperator().getName();
+			}else {
+				description = this.getProvider().getName();
+			}
 		}
 		if (this.getDeliveryLocation() != null) {
 			description = this.getDeliveryLocation().getName();
@@ -187,7 +182,11 @@ public class Output implements Serializable, Egress {
 	public String getClientOrProviderCode() {
 		String description = null;
 		if (this.getProvider() != null) {
-			description = String.valueOf(this.getProvider().getCode());
+			if(this.getLogisticsOperator() != null){
+				description = String.valueOf(this.getLogisticsOperator().getCode());
+			}else {
+				description = String.valueOf(this.getProvider().getCode());
+			}
 		}
 		if (this.getDeliveryLocation() != null) {
 			description = String.valueOf(this.getDeliveryLocation().getCode());
@@ -198,7 +197,11 @@ public class Output implements Serializable, Egress {
 	public String getClientOrProviderAgentDescription() {
 		String description = null;
 		if (this.getProvider() != null) {
-			description = this.getProvider().getAgent().getDescription();
+			if(this.getLogisticsOperator() != null){
+				description = this.getLogisticsOperator().getAgent().getDescription();
+			}else {
+				description = this.getProvider().getAgent().getDescription();
+			}
 		}
 		if (this.getDeliveryLocation() != null) {
 			description = this.getDeliveryLocation().getAgent().getDescription();
@@ -209,7 +212,11 @@ public class Output implements Serializable, Egress {
 	public String getDestinationGln() {
 		String originGln = null;
 		if (this.getProvider() != null) {
-			originGln = this.getProvider().getGln();
+			if(this.getLogisticsOperator() != null) {
+				originGln = this.getLogisticsOperator().getGln();
+			}else {
+				originGln = this.getProvider().getGln();
+			}
 		}
 		if (this.getDeliveryLocation() != null) {
 			originGln = this.getDeliveryLocation().getGln();
@@ -217,15 +224,11 @@ public class Output implements Serializable, Egress {
 		return originGln;
 	}
 
-	public String getEvent() {
-		String eventId = null;
-		if (this.getProvider() != null) {
-			eventId = this.getConcept().getEventOnInput(this.getProvider().getAgent().getId());
-		}
-		if (this.getDeliveryLocation() != null) {
-			eventId = this.getConcept().getEventOnInput(this.getDeliveryLocation().getAgent().getId());
-		}
-		return eventId;
+	public LogisticsOperator getLogisticsOperator() {
+		return logisticsOperator;
 	}
 
+	public void setLogisticsOperator(LogisticsOperator logisticsOperator) {
+		this.logisticsOperator = logisticsOperator;
+	}
 }

@@ -11,6 +11,7 @@ import com.lsntsolutions.gtmApp.model.Stock;
 import com.lsntsolutions.gtmApp.persistence.dao.OutputDAO;
 import com.lsntsolutions.gtmApp.query.OutputQuery;
 import com.lsntsolutions.gtmApp.model.Output;
+import com.lsntsolutions.gtmApp.service.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,14 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lsntsolutions.gtmApp.dto.OutputDetailDTO;
 import com.lsntsolutions.gtmApp.model.OutputDetail;
 import com.lsntsolutions.gtmApp.model.ProductGtin;
-import com.lsntsolutions.gtmApp.service.AgreementService;
-import com.lsntsolutions.gtmApp.service.ConceptService;
-import com.lsntsolutions.gtmApp.service.DeliveryLocationService;
-import com.lsntsolutions.gtmApp.service.OutputService;
-import com.lsntsolutions.gtmApp.service.ProductGtinService;
-import com.lsntsolutions.gtmApp.service.ProductService;
-import com.lsntsolutions.gtmApp.service.ProviderService;
-import com.lsntsolutions.gtmApp.service.StockService;
 
 @Service
 @Transactional
@@ -49,6 +42,8 @@ public class OutputServiceImpl implements OutputService {
 	private DeliveryLocationService deliveryLocationService;
 	@Autowired
 	private ProductGtinService productGtinService;
+	@Autowired
+	private LogisticsOperatorService logisticsOperatorService;
 
 	@Override
 	public Output save(OutputDTO outputDTO) {
@@ -75,6 +70,9 @@ public class OutputServiceImpl implements OutputService {
 			}
 			if (outputDTO.getDeliveryLocationId() != null) {
 				output.setDeliveryLocation(this.deliveryLocationService.get(outputDTO.getDeliveryLocationId()));
+			}
+			if (outputDTO.getLogisticsOperatorId() != null) {
+				output.setLogisticsOperator(this.logisticsOperatorService.get(outputDTO.getLogisticsOperatorId()));
 			}
 			output.setDate(dateFormatter.parse(outputDTO.getDate()));
 

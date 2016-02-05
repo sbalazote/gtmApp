@@ -171,7 +171,11 @@ public class DeliveryNoteWSHelper {
 				eventId = output.getConcept().getEventOnOutput(output.getDeliveryLocation().getAgent().getId());
 			}
 			if (output.getProvider() != null) {
-				eventId = output.getConcept().getEventOnOutput(output.getProvider().getAgent().getId());
+				if(output.getLogisticsOperator()!= null){
+					eventId = output.getConcept().getEventOnOutput(output.getLogisticsOperator().getAgent().getId());
+				}else {
+					eventId = output.getConcept().getEventOnOutput(output.getProvider().getAgent().getId());
+				}
 			}
 		}
 		if (order != null) {

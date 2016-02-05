@@ -710,7 +710,8 @@ Input = function() {
 			type: "GET",
 			contentType:"application/json",
 			data: {
-				providerId: $('#providerInput').val()
+				providerId: $('#providerInput').val(),
+				input: true
 			},
 			async: true,
 			success: function(response) {

@@ -261,10 +261,13 @@ Output = function() {
 						$("#providerDiv").hide();
 						$("#deliveryLocationDiv").show();
 						$('#providerInput').val('').trigger('chosen:updated');
+						$('#logisticsOperatorInput').val('').trigger('chosen:updated');
+						$('#logisticsOperatorInput').prop('disabled', true).trigger("chosen:updated");
 					}else{
 						$("#providerDiv").show();
 						$("#deliveryLocationDiv").hide();
 						$('#deliveryLocationInput').val('').trigger('chosen:updated');
+						$('#logisticsOperatorInput').prop('disabled', false).trigger("chosen:updated");
 					}
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
@@ -448,6 +451,7 @@ Output = function() {
 						"deliveryLocationId": $("#deliveryLocationInput").val(),
 						"agreementId": $("#agreementInput").val(),
 						"date": $("#currentDateInput").val(),
+						"logisticsOperatorId": $("#logisticsOperatorInput").val() || null,
 						"outputDetails": []
 				};
 		
@@ -513,5 +517,30 @@ Output = function() {
 		} else {
 			return event.keyCode != 13;
 		}
+	});
+
+	$('#providerInput').on('change', function(evt, params) {
+		$('#agreementInput').chosen().trigger('chosen:activate');
+		$.ajax({
+			url: "getProvidersLogisticsOperators.do",
+			type: "GET",
+			contentType:"application/json",
+			data: {
+				providerId: $('#providerInput').val(),
+				input: false
+			},
+			async: true,
+			success: function(response) {
+				$('#logisticsOperatorInput').empty();
+				$('#logisticsOperatorInput').append("<option value=''></option>");
+				for(var i=0;i < response.length;i++){
+					$('#logisticsOperatorInput').append("<option value=" + response[i].id + ">" + response[i].code + " " + response[i].name + "</option>");
+				}
+				$('#logisticsOperatorInput').trigger("chosen:updated");
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myGenericError();
+			}
+		});
 	});
 };

@@ -4,6 +4,7 @@ import com.lsntsolutions.gtmApp.util.StringUtility;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -203,6 +204,16 @@ public class Provider implements Serializable {
 	}
 
 	public List<LogisticsOperator> getLogisticsOperators() {
+		return logisticsOperators;
+	}
+
+	public List<LogisticsOperator> getLogisticsOperators(boolean input) {
+		List<LogisticsOperator> logisticsOperators = new ArrayList<>();
+		for(LogisticsOperator logisticsOperator : this.logisticsOperators){
+			if(logisticsOperator.isInput() == input){
+				logisticsOperators.add(logisticsOperator);
+			}
+		}
 		return logisticsOperators;
 	}
 

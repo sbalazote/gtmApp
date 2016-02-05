@@ -12,6 +12,7 @@ public class OutputDTO implements Serializable {
 	private Integer deliveryLocationId;
 	private Integer agreementId;
 	private String date;
+	private Integer logisticsOperatorId;
 	private List<OutputDetailDTO> outputDetails;
 
 	public Integer getId() {
@@ -70,4 +71,11 @@ public class OutputDTO implements Serializable {
 		this.deliveryLocationId = deliveryLocationId;
 	}
 
+	public Integer getLogisticsOperatorId() {
+		return logisticsOperatorId;
+	}
+
+	public void setLogisticsOperatorId(Integer logisticsOperatorId) {
+		this.logisticsOperatorId = logisticsOperatorId;
+	}
 }
