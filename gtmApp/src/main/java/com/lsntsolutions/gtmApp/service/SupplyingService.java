@@ -14,8 +14,6 @@ public interface SupplyingService {
 
 	List<Supplying> getAll();
 
-	List<Supplying> getCancelleables();
-
 	void save(Supplying supplying);
 
 	void addSupplyingToStock(Supplying supplying);

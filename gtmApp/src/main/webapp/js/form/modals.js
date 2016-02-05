@@ -94,7 +94,7 @@ $(document).ready(function() {
 		if (response.selfSerializedTransactionCodeANMAT != null) {
 			$("#selfSerializedTransactionCode").text(response.selfSerializedTransactionCodeANMAT);
 		} else {
-			if(response.informAnmat == true) {
+			if(response.hasToInformSelfSerialized == true) {
 				$("#selfSerializedTransactionCode").text("Pendiente");
 			}else{
 				$("#selfSerializedTransactionCode").text("No informa");

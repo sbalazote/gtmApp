@@ -7,7 +7,6 @@ import java.util.List;
 import com.lsntsolutions.gtmApp.dto.SupplyingDTO;
 import com.lsntsolutions.gtmApp.model.Agreement;
 import com.lsntsolutions.gtmApp.model.Product;
-import com.lsntsolutions.gtmApp.model.Stock;
 import com.lsntsolutions.gtmApp.model.Supplying;
 import com.lsntsolutions.gtmApp.query.SupplyingQuery;
 import com.lsntsolutions.gtmApp.dto.SupplyingDetailDTO;
@@ -140,11 +139,6 @@ public class SupplyingServiceImpl implements SupplyingService {
 		} catch (Exception e) {
 			logger.info("No se ha podido guardar los cambios para el egreso " + supplying.getId());
 		}
-	}
-
-	@Override
-	public List<Supplying> getCancelleables() {
-		return this.supplyingDAO.getCancelleables();
 	}
 
 	@Override

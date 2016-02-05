@@ -18,8 +18,6 @@ public interface OutputService {
 
 	boolean getCountOutputSearch(OutputQuery outputQuery);
 
-	List<Output> getCancelleables();
-
 	void addOutputToStock(Output output);
 
 	void save(Output output);

@@ -7,7 +7,6 @@ import java.util.List;
 import com.lsntsolutions.gtmApp.dto.OutputDTO;
 import com.lsntsolutions.gtmApp.model.Agreement;
 import com.lsntsolutions.gtmApp.model.Product;
-import com.lsntsolutions.gtmApp.model.Stock;
 import com.lsntsolutions.gtmApp.persistence.dao.OutputDAO;
 import com.lsntsolutions.gtmApp.query.OutputQuery;
 import com.lsntsolutions.gtmApp.model.Output;
@@ -147,11 +146,6 @@ public class OutputServiceImpl implements OutputService {
 		} catch (Exception e) {
 			logger.info("No se ha podido guardar los cambios para el egreso " + output.getId());
 		}
-	}
-
-	@Override
-	public List<Output> getCancelleables() {
-		return this.outputDAO.getCancelleables();
 	}
 
 

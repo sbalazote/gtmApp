@@ -190,7 +190,7 @@ public class Input implements Serializable {
 		this.logisticsOperator = logisticsOperator;
 	}
 
-	public boolean hasToInform() throws Exception {
+	public boolean hasToInform(){
 		boolean hasToInform = false;
 		if (this.getConcept().isInformAnmat() && (hasToInform(Constants.PROVIDER_SERIALIZED) || hasToInform(Constants.SELF_SERIALIZED))) {
 			hasToInform = true;
@@ -198,15 +198,21 @@ public class Input implements Serializable {
 		return hasToInform;
 	}
 
-	public boolean hasToInform(String productType) throws Exception {
+	public boolean hasToInform(String productType){
 		boolean hasToInform = false;
-		for (InputDetail inputDetail : this.getInputDetails()) {
-			if (inputDetail.getProduct().isInformAnmat()
-					&& (productType.equals(inputDetail.getProduct().getType()))) {
-				hasToInform = true;
+		if(this.getInputDetails() != null) {
+			for (InputDetail inputDetail : this.getInputDetails()) {
+				if (inputDetail.getProduct().isInformAnmat()
+						&& (productType.equals(inputDetail.getProduct().getType()))) {
+					hasToInform = true;
+				}
 			}
 		}
 		return hasToInform;
+	}
+
+	public boolean getHasToInformSelfSerialized(){
+		return hasToInform(Constants.SELF_SERIALIZED);
 	}
 
 	public String getEvent() {
