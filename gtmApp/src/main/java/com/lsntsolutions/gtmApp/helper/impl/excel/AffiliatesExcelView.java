@@ -49,11 +49,11 @@ public class AffiliatesExcelView extends AbstractExcelView {
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
-		cell.setCellValue("NOMBRE");
+		cell.setCellValue("APELLIDO");
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
-		cell.setCellValue("APELLIDO");
+		cell.setCellValue("NOMBRE");
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
@@ -73,8 +73,8 @@ public class AffiliatesExcelView extends AbstractExcelView {
 			c = 0;
 			row.createCell(c++).setCellValue(affilate.getId());
 			row.createCell(c++).setCellValue(affilate.getCode());
-			row.createCell(c++).setCellValue(affilate.getName());
 			row.createCell(c++).setCellValue(affilate.getSurname());
+			row.createCell(c++).setCellValue(affilate.getName());
 			row.createCell(c++).setCellValue(affilate.getDocumentType());
 			row.createCell(c++).setCellValue(affilate.getDocument());
 			row.createCell(c++).setCellValue(affilate.isActive() ? "SI" : "NO");

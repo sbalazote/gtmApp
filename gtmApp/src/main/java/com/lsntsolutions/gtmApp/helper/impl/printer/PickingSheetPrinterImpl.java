@@ -90,7 +90,7 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 
 			// imprimo Afiliado
 			ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Afiliado: ", fontHeader), 105.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 35f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR, 0f);
-			String affiliateDetails = StringUtility.addLeadingZeros(affiliate.getCode(), 5) + " - " + affiliate.getName() + " " + affiliate.getSurname();
+			String affiliateDetails = StringUtility.addLeadingZeros(affiliate.getCode(), 5) + " - " + affiliate.getSurname() + " " + affiliate.getName();
 			ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(affiliateDetails, fontHeaderBold), 120.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - 35f - (firstHalf ? 0.0f : 145f)) * MILLIMITER_TO_POINTS_FACTOR, 0f);
 
 			// imprimo Entregar en:

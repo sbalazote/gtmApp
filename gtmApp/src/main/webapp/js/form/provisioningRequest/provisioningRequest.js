@@ -131,8 +131,8 @@ var ProvisioningRequest = function() {
 	    initSelection : function (element, callback) {
             var data = {
 				id: $("#affiliateId").val(),
-				text:  $("#affiliateCode").val() + "-" + $("#affiliateName").val() + " " + $("#affiliateSurname").val()
-            };
+				text:  $("#affiliateCode").val() + "-" +  $("#affiliateSurname").val() + " " + $("#affiliateName").val()
+			};
             callback(data);
 	    },
 	    ajax: {
@@ -156,7 +156,7 @@ var ProvisioningRequest = function() {
 	        	$.each(data, function(index, value) {
 	        		parsedResults.push({
 	                    id: value.id,
-	                    text:  value.code + "-" + value.name + " " + value.surname
+	                    text:  value.code + " - " + value.surname + " " + value.name
 	                });
 	        	});
 

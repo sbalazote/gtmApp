@@ -147,8 +147,8 @@ SearchDeliveryNote = function() {
 				$.each(data, function(index, value) {
 					parsedResults.push({
 						id : value.id,
-						text : value.code + "-" + value.name + " "
-						+ value.surname
+						text : value.code + " - " + value.surname + " "
+						+ value.name
 					});
 				});
 
