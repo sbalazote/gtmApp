@@ -48,4 +48,6 @@ public interface DeliveryNoteDAO {
     List<String> getOutputsDeliveriesNoteNumbers(Integer outputId);
 
 	List<String> getOrdersDeliveriesNoteNumbers(Integer orderId);
+
+	Boolean existsDeliveryNoteNumber(Integer deliveryNotePOS, Integer lastDeliveryNoteNumberInput, boolean fake);
 }

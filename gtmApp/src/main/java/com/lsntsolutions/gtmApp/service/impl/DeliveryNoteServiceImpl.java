@@ -33,8 +33,6 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	private OutputService outputService;
 	@Autowired
 	private SupplyingService supplyingService;
-	@Autowired
-	private OrderService orderService;
 
 	@Override
 	public DeliveryNote get(Integer id) {
@@ -225,5 +223,10 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	@Override
 	public List<String> getOrdersDeliveriesNoteNumbers(Integer orderId){
 		return this.deliveryNoteDAO.getOrdersDeliveriesNoteNumbers(orderId);
+	}
+
+	@Override
+	public Boolean existsDeliveryNoteNumber(Integer deliveryNotePOS, Integer lastDeliveryNoteNumberInput, boolean fake) {
+		return this.deliveryNoteDAO.existsDeliveryNoteNumber(deliveryNotePOS, lastDeliveryNoteNumberInput,fake);
 	}
 }

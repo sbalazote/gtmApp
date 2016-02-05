@@ -57,4 +57,6 @@ public interface DeliveryNoteService {
 	List<String> getOutputsDeliveriesNoteNumbers(Integer supplyingId);
 
 	List<String> getOrdersDeliveriesNoteNumbers(Integer orderId);
+
+	Boolean existsDeliveryNoteNumber(Integer deliveryNotePOS, Integer lastDeliveryNoteNumberInput, boolean fake);
 }

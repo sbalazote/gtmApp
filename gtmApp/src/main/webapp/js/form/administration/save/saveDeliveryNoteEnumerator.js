@@ -59,7 +59,8 @@ SaveDeliveryNoteEnumerator = function() {
             async: false,
             data: {
                 deliveryNotePOS: $("#deliveryNotePOSInput").val(),
-                lastDeliveryNoteNumberInput: $("#lastDeliveryNoteNumberInput").val()
+                lastDeliveryNoteNumberInput: $("#lastDeliveryNoteNumberInput").val(),
+                fake: $("#fakeSelect option:selected").val()
             },
             success: function(response) {
                 exists = response;
@@ -85,7 +86,7 @@ SaveDeliveryNoteEnumerator = function() {
             if (existsDeliveryNoteEnumerator() && (e.currentTarget.id === 'addButton')) {
                 myExistentCodeError();
             } else {
-                if(checkNewDeliveryNoteNumber()){
+                if(!checkNewDeliveryNoteNumber()){
                     $.ajax({
                         url: "saveDeliveryNoteEnumerator.do",
                         type: "POST",

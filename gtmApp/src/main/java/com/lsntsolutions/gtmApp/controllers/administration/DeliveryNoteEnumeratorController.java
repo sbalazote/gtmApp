@@ -3,6 +3,7 @@ package com.lsntsolutions.gtmApp.controllers.administration;
 import com.lsntsolutions.gtmApp.dto.DeliveryNoteEnumeratorDTO;
 import com.lsntsolutions.gtmApp.model.DeliveryNoteEnumerator;
 import com.lsntsolutions.gtmApp.service.DeliveryNoteEnumeratorService;
+import com.lsntsolutions.gtmApp.service.DeliveryNoteService;
 import com.lsntsolutions.gtmApp.util.StringUtility;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -19,6 +20,8 @@ public class DeliveryNoteEnumeratorController {
 
 	@Autowired
 	private DeliveryNoteEnumeratorService deliveryNoteEnumeratorService;
+	@Autowired
+	private DeliveryNoteService deliveryNoteService;
 
 	@RequestMapping(value = "/deliveryNoteEnumeratorAdministration", method = RequestMethod.GET)
 	public String deliveryNoteEnumeratorAdministration() throws Exception {
@@ -71,8 +74,8 @@ public class DeliveryNoteEnumeratorController {
 
 	@RequestMapping(value = "/checkNewDeliveryNoteNumber", method = RequestMethod.GET)
 	public @ResponseBody
-	Boolean checkNewDeliveryNoteNumber(@RequestParam Integer deliveryNotePOS, Integer lastDeliveryNoteNumberInput) throws Exception {
-		return this.deliveryNoteEnumeratorService.checkNewDeliveryNoteNumber(deliveryNotePOS, lastDeliveryNoteNumberInput);
+	Boolean checkNewDeliveryNoteNumber(@RequestParam Integer deliveryNotePOS, Integer lastDeliveryNoteNumberInput, boolean fake) throws Exception {
+		return this.deliveryNoteService.existsDeliveryNoteNumber(deliveryNotePOS, lastDeliveryNoteNumberInput, fake);
 	}
 
 	@RequestMapping(value = "/getMatchedDeliveryNoteEnumerators", method = RequestMethod.POST)

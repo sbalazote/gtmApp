@@ -11,9 +11,11 @@ import com.lsntsolutions.gtmApp.service.OutputService;
 import com.lsntsolutions.gtmApp.service.SupplyingService;
 import com.lsntsolutions.gtmApp.util.StringUtility;
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -629,5 +631,16 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 		} catch (IndexOutOfBoundsException e) {
 			return null;
 		}
+	}
+
+	@Override
+	public Boolean existsDeliveryNoteNumber(Integer deliveryNotePOS, Integer lastDeliveryNoteNumberInput, boolean fake) {
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(DeliveryNote.class);
+		String deliveryNotePOSString = StringUtility.addLeadingZeros(deliveryNotePOS,4);
+		String deliveryNumber = StringUtility.addLeadingZeros(lastDeliveryNoteNumberInput + 1,8);
+		String number = deliveryNotePOSString + "-" + deliveryNumber ;
+		criteria.add(Restrictions.eq("number", number));
+		criteria.add(Restrictions.eq("fake", fake));
+		return !criteria.list().isEmpty();
 	}
 }
