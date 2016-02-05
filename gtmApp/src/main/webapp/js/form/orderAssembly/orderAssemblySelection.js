@@ -5,6 +5,8 @@ OrderAssemblySelection = function() {
 	$("#orderTableBody").on("click", ".a-select", function(){
 		var provisioningId = $(this).siblings(".span-provisioningId").html();
 		$("#provisioningRequestId").val(provisioningId);
+		$("#agreementSearchFilterIdInput").val($("#agreementSearch").val());
+		$("#clientSearchFilterIdInput").val($("#clientSearch").val());
 		$("#myForm").submit();
 	});
 

@@ -15,14 +15,14 @@
 <div class="row">
 	<div class="col-md-4 col-lg-4 form-group">
 		<label for="provisioningRequestSearch"><spring:message code="provisioningRequest.provisioningRequestNumber"/></label>
-		<input type="text" class="form-control" name="provisioningRequestSearch" id="provisioningRequestSearch" >
+		<input type="text" class="form-control" name="provisioningRequestSearch" id="provisioningRequestSearch" autofocus>
 	</div>
 	<div class="col-md-4 col-lg-4 form-group">
 		<label for="agreementSearch"><spring:message code="common.agreement"/></label>
 		<select id="agreementSearch" name="agreementSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 			<option value=""></option>
 			<c:forEach items="${agreements}" var="agreement">
-				<option value="${agreement.id}"><c:out value="${agreement.code}"></c:out> - <c:out value="${agreement.description}"></c:out></option>
+				<option value="${agreement.id}"  ${agreementSearchFilterId == agreement.id ? 'selected' : ''}><c:out value="${agreement.code}"></c:out> - <c:out value="${agreement.description}"></c:out></option>
 			</c:forEach>
 		</select>
 	</div>
@@ -31,7 +31,7 @@
 		<select id="clientSearch" name="clientSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 			<option value=""></option>
 			<c:forEach items="${clients}" var="client">
-				<option value="${client.id}"><c:out value="${client.code}"></c:out> - <c:out value="${client.name}"></c:out></option>
+				<option value="${client.id}"  ${clientSearchFilterId == client.id ? 'selected' : ''}><c:out value="${client.code}"></c:out> - <c:out value="${client.name}"></c:out></option>
 			</c:forEach>
 		</select>
 	</div>
@@ -69,4 +69,6 @@
 
 <form id="myForm" action="orderAssembly.do" method="get">
 	<input type="hidden" name="id" id="provisioningRequestId">
+	<input type="hidden" name="agreementSearchFilterId" id="agreementSearchFilterIdInput">
+	<input type="hidden" name="clientSearchFilterId" id="clientSearchFilterIdInput">
 </form>

@@ -212,7 +212,27 @@ OrderAssembly = function() {
 							message += "<strong><p>" + value + "</p></strong>";
 						});
 					}
-					myRedirect(msgType, message, "orderAssemblySelection.do");
+					//myRedirect(msgType, message, "orderAssemblySelection.do");
+					var type = 'type-' + msgType;
+                                        		var title = 'Operaci\u00f3n Exitosa';
+                                        		if(msgType == "danger"){
+                                        			title = 'Operaci\u00f3n Fallida';
+                                        		}
+                                        		if(msgType == "warning"){
+                                        			title = 'Operaci\u00f3n con Errores';
+                                        		}
+                    					BootstrapDialog.show({
+                                        	type: type,
+                                            title: title,
+                                            message: message,
+                                            buttons: [{
+                                            label: 'Cerrar',
+                                            action: function(dialogItself){
+                                            dialogItself.close();
+                                            $("#orderAssemblyForm2").submit();
+                                            }
+                                            }]
+                                           });
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					myGenericError();

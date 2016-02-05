@@ -53,6 +53,9 @@ public class OrderController {
 		Integer provisioningRequestId = Integer.valueOf(parameters.get("id"));
 		ProvisioningRequest provisioningRequest = this.provisioningRequestService.get(provisioningRequestId);
 
+		String agreementSearchFilterId = parameters.get("agreementSearchFilterId");
+		String clientSearchFilterId = parameters.get("clientSearchFilterId");
+
 		Assert.notNull(provisioningRequest, "Sol. de Abastecimiento con identificador = " + provisioningRequestId + " no encontrada!");
 
 		modelMap.put("provisioningRequestId", provisioningRequest.getId());
@@ -65,13 +68,23 @@ public class OrderController {
 		modelMap.put("client", provisioningRequest.getClient());
 		modelMap.put("provisioningRequestDetails", provisioningRequest.getProvisioningRequestDetails());
 
+		if (!agreementSearchFilterId.isEmpty()) {
+			modelMap.put("agreementSearchFilterId", Integer.valueOf(agreementSearchFilterId));
+		}
+		if (!clientSearchFilterId.isEmpty()) {
+			modelMap.put("clientSearchFilterId", Integer.valueOf(clientSearchFilterId));
+		}
+
 		return "orderAssembly";
 	}
 
 	@RequestMapping(value = "/orderAssemblySelection", method = RequestMethod.GET)
-	public String orderAssemblySelection(ModelMap modelMap) throws Exception {
+	public String orderAssemblySelection(ModelMap modelMap, @RequestParam(required = false) Integer agreementSearchFilterId, @RequestParam(required = false) Integer clientSearchFilterId) throws Exception {
 		modelMap.put("agreements", this.agreementService.getAllActives());
 		modelMap.put("clients", this.clientService.getAllActives());
+
+		modelMap.put("agreementSearchFilterId", agreementSearchFilterId);
+		modelMap.put("clientSearchFilterId", clientSearchFilterId);
 		return "orderAssemblySelection";
 	}
 

@@ -12,6 +12,10 @@
 </script>
 
 <input type="hidden" class="form-control" id="provisioningRequestId" name="provisioningRequestId" value="${provisioningRequestId}">
+<form id="orderAssemblyForm2" action="orderAssemblySelection.do">
+	<input type="hidden" class="form-control" id="agreementSearchFilterId" name="agreementSearchFilterId" value="${agreementSearchFilterId}">
+	<input type="hidden" class="form-control" id="clientSearchFilterId" name="clientSearchFilterId" value="${clientSearchFilterId}">
+</form>
 
 <form id="orderAssemblyForm" action="" onsubmit="return false;">
 
