@@ -9,12 +9,12 @@ import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.dto.OutputOrderResultDTO;
 import com.lsntsolutions.gtmApp.model.Audit;
+import com.lsntsolutions.gtmApp.model.Input;
 import com.lsntsolutions.gtmApp.model.Role;
 import com.lsntsolutions.gtmApp.persistence.dao.AuditDAO;
+import com.lsntsolutions.gtmApp.persistence.dao.InputDAO;
 import com.lsntsolutions.gtmApp.query.AuditQuery;
-import com.lsntsolutions.gtmApp.service.AuditActionService;
-import com.lsntsolutions.gtmApp.service.AuditService;
-import com.lsntsolutions.gtmApp.service.RoleService;
+import com.lsntsolutions.gtmApp.service.*;
 import com.lsntsolutions.gtmApp.dto.AuditDTO;
 import com.lsntsolutions.gtmApp.dto.AuditResultDTO;
 import com.lsntsolutions.gtmApp.model.AuditAction;
@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lsntsolutions.gtmApp.dto.AuditDTO;
-import com.lsntsolutions.gtmApp.service.UserService;
 
 @Service
 @Transactional
@@ -43,6 +42,9 @@ public class AuditServiceImpl implements AuditService {
 
 	@Autowired
 	private AuditActionService auditActionService;
+
+	@Autowired
+	private InputDAO inputService;
 
 	@Override
 	public void save(Audit audit) {
@@ -122,7 +124,8 @@ public class AuditServiceImpl implements AuditService {
 				SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 				Date outputDate = dateFormatter.parse(outputs.get(0).getDate());
 				Date inputDate = dateFormatter.parse(inputs.get(0).getDate());
-				if (outputDate.after(inputDate)) {
+				Input input = inputService.get(inputs.get(0).getOperationId());
+				if (outputDate.after(inputDate) || input.isCancelled()) {
 					outputOrderResultDTO.setOutputId(outputs.get(0).getOperationId());
 					outputOrderResultDTO.setOrderId(null);
 				}
@@ -138,7 +141,8 @@ public class AuditServiceImpl implements AuditService {
 				SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 				Date orderDate = dateFormatter.parse(orders.get(0).getDate());
 				Date inputDate = dateFormatter.parse(inputs.get(0).getDate());
-				if (orderDate.after(inputDate)) {
+				Input input = inputService.get(inputs.get(0).getOperationId());
+				if (orderDate.after(inputDate) || input.isCancelled()) {
 					outputOrderResultDTO.setOutputId(null);
 					outputOrderResultDTO.setOrderId(orders.get(0).getOperationId());
 				}
@@ -162,11 +166,12 @@ public class AuditServiceImpl implements AuditService {
 				Date outputDate = dateFormatter.parse(outputs.get(0).getDate());
 				Date orderDate = dateFormatter.parse(orders.get(0).getDate());
 				Date inputDate = dateFormatter.parse(inputs.get(0).getDate());
-				if (outputDate.after(inputDate) && outputDate.after(orderDate)) {
+				Input input = inputService.get(inputs.get(0).getOperationId());
+				if ((outputDate.after(inputDate) && outputDate.after(orderDate)) || input.isCancelled()) {
 					outputOrderResultDTO.setOutputId(outputs.get(0).getOperationId());
 					outputOrderResultDTO.setOrderId(null);
 				}
-				if (orderDate.after(inputDate) && orderDate.after(outputDate)) {
+				if ((orderDate.after(inputDate) && orderDate.after(outputDate)) || input.isCancelled()) {
 					outputOrderResultDTO.setOutputId(null);
 					outputOrderResultDTO.setOrderId(orders.get(0).getOperationId());
 				}
