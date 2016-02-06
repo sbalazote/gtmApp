@@ -12,12 +12,17 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Component
 @Repository("userAuthenticationProvider")
 public class UserAuthenticationProvider implements AuthenticationProvider {
 
@@ -39,6 +44,9 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 				if (hashedPassword.equals(user.getPassword())) {
 					if (user.isActive()) {
 						logger.info("Usuario autenticado");
+                        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+                        HttpSession session = attr.getRequest().getSession(true); // true == allow create
+                        session.setAttribute("userName", username);
 						return new UsernamePasswordAuthenticationToken(username, password, this.getAuthorities(user.getProfile().getRoles()));
 					} else {
 						logger.info("Usuario inhabilitado.");
