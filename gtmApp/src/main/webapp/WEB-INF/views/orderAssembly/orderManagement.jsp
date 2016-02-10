@@ -53,7 +53,9 @@
 				<th data-column-id="id" data-type="numeric"><spring:message code="provisioningRequest.provisioningRequestNumber"/></th>
 				<th data-column-id="client"><spring:message code="common.client"/></th>
 				<th data-column-id="agreement"><spring:message code="common.agreement"/></th>
+				<sec:authorize access="hasRole('ORDER_LABEL_PRINT')">
 				<th data-column-id="viewOrder" data-formatter="viewOrder" data-sortable="false"><spring:message code="common.action"/></th>
+				</sec:authorize>
 				<sec:authorize access="hasRole('ORDER_LABEL_PRINT')">
 					<th data-column-id="printLabel" data-formatter="printLabel" data-sortable="false"><spring:message code="common.action"/></th>
 				</sec:authorize>
