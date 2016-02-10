@@ -265,7 +265,12 @@ public class Input implements Serializable {
 	public String getClientOrProviderDescription() {
 		String description = null;
 		if (this.getProvider() != null) {
-			description = this.getProvider().getName();
+			if(this.getLogisticsOperator() != null){
+				description = this.getLogisticsOperator().getName();
+			}else {
+				description = this.getProvider().getName();
+			}
+
 		}
 		if (this.getDeliveryLocation() != null) {
 			description = this.getDeliveryLocation().getName();
@@ -276,7 +281,11 @@ public class Input implements Serializable {
 	public String getClientOrProviderCode() {
 		String description = null;
 		if (this.getProvider() != null) {
-			description = String.valueOf(this.getProvider().getCode());
+			if(this.getLogisticsOperator() != null){
+				description = String.valueOf(this.getLogisticsOperator().getCode());
+			}else {
+				description = String.valueOf(this.getProvider().getCode());
+			}
 		}
 		if (this.getDeliveryLocation() != null) {
 			description =  String.valueOf(this.getDeliveryLocation().getCode());
@@ -287,7 +296,11 @@ public class Input implements Serializable {
 	public String getClientOrProviderAgentDescription() {
 		String description = null;
 		if (this.getProvider() != null) {
-			description = this.getProvider().getAgent().getDescription();
+			if(this.getLogisticsOperator() != null){
+				description = String.valueOf(this.getLogisticsOperator().getAgent().getDescription());
+			}else {
+				description = String.valueOf(this.getProvider().getAgent().getDescription());
+			}
 		}
 		if (this.getDeliveryLocation() != null) {
 			description = this.getDeliveryLocation().getAgent().getDescription();
@@ -298,7 +311,12 @@ public class Input implements Serializable {
 	public Integer getClientOrProviderAgent() {
 		Integer agentId = null;
 		if (this.getProvider() != null) {
-			agentId = this.getProvider().getAgent().getId();
+			if(this.getLogisticsOperator() != null){
+				agentId = this.getLogisticsOperator().getAgent().getId();
+			}else {
+				agentId = this.getProvider().getAgent().getId();
+			}
+
 		}
 		if (this.getDeliveryLocation() != null) {
 			agentId = this.getDeliveryLocation().getAgent().getId();
