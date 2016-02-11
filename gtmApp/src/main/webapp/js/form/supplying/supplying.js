@@ -169,11 +169,10 @@ var Supplying = function() {
 	$("#affiliateInput").select2("enable", false);
 
 	$('.select2-input').on('keydown', function(e) {
-		if (e.keyCode === 121) {
+		if(e.keyCode === 121) {
 			cleanAddAffiliateModal();
 			e.preventDefault();
 			$("#affiliateInput").select2("close");
-			$('#addAffiliateModal').modal('show');
 		}
 	});
 
@@ -791,7 +790,7 @@ var Supplying = function() {
 		$('#affiliateCodeInput').focus();
 	});
 
-	$("#affiliateInput").on("select2-close", function(e) {
+	$('.select2-input').on("keydown", function(e) {
 		if (e.keyCode === 121) {
 			$('#addAffiliateModal').modal('show');
 		}
