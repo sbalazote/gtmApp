@@ -527,7 +527,7 @@ Output = function() {
 			contentType:"application/json",
 			data: {
 				providerId: $('#providerInput').val(),
-				input: false
+				input: true
 			},
 			async: true,
 			success: function(response) {
