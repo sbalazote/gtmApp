@@ -262,12 +262,13 @@ Output = function() {
 						$("#deliveryLocationDiv").show();
 						$('#providerInput').val('').trigger('chosen:updated');
 						$('#logisticsOperatorInput').val('').trigger('chosen:updated');
-						$('#logisticsOperatorInput').prop('disabled', true).trigger("chosen:updated");
+						$('#logisticsOperatorInput').empty();
+						getLogisticsOperators();
 					}else{
 						$("#providerDiv").show();
 						$("#deliveryLocationDiv").hide();
 						$('#deliveryLocationInput').val('').trigger('chosen:updated');
-						$('#logisticsOperatorInput').prop('disabled', false).trigger("chosen:updated");
+						$('#logisticsOperatorInput').empty();
 					}
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
@@ -276,6 +277,26 @@ Output = function() {
 			});
 		}
 	});
+
+	var getLogisticsOperators = function() {
+		$.ajax({
+			url: "getLogisticsOperatorsOutput.do",
+			type: "GET",
+			async: true,
+			success: function(response) {
+				$('#logisticsOperatorInput').empty();
+				$('#logisticsOperatorInput').append("<option value=''></option>");
+				for(var i=0;i < response.length;i++){
+					$('#logisticsOperatorInput').append("<option value=" + response[i].id + ">" + response[i].code + " " + response[i].name + "</option>");
+				}
+				$('#logisticsOperatorInput').trigger("chosen:updated");
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myGenericError();
+			}
+		});
+
+	};
 	
 	var openModal = function(preloadedData) {
 		if (productType == "BE") {

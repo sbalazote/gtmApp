@@ -47,6 +47,12 @@ public class LogisticsOperatorAdministrationController {
 		return "logisticsOperatorAdministration";
 	}
 
+	@RequestMapping(value = "/getLogisticsOperatorsOutput", method = RequestMethod.GET)
+	public @ResponseBody
+	List<LogisticsOperator> getLogisticsOperatorsOutput() throws Exception {
+		return this.logisticsOperatorService.getAllActives(false);
+	}
+
 	@RequestMapping(value = "/saveLogisticsOperator", method = RequestMethod.POST)
 	public @ResponseBody
 	LogisticsOperator saveLogisticsOperator(@RequestBody LogisticsOperatorDTO logisticsOperatorDTO) throws Exception {
