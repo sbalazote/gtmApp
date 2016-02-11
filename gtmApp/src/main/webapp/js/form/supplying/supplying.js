@@ -791,6 +791,8 @@ var Supplying = function() {
 	});
 
 	$("#affiliateInput").on("select2-close", function(e) {
-		$('#addAffiliateModal').modal('show');
+		if (e.keyCode === 121) {
+			$('#addAffiliateModal').modal('show');
+		}
 	});
 };
