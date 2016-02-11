@@ -173,6 +173,7 @@ var Supplying = function() {
 			cleanAddAffiliateModal();
 			e.preventDefault();
 			$("#affiliateInput").select2("close");
+			$('#addAffiliateModal').modal('show');
 		}
 	});
 
