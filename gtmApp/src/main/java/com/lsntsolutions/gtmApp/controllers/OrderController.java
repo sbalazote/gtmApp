@@ -79,12 +79,13 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/orderAssemblySelection", method = RequestMethod.GET)
-	public String orderAssemblySelection(ModelMap modelMap, @RequestParam(required = false) Integer agreementSearchFilterId, @RequestParam(required = false) Integer clientSearchFilterId) throws Exception {
+	public String orderAssemblySelection(ModelMap modelMap, @RequestParam(required = false) Integer agreementSearchFilterId, @RequestParam(required = false) Integer clientSearchFilterId, @RequestParam(required = false) Boolean orderAssemblySelectionReturn) throws Exception {
 		modelMap.put("agreements", this.agreementService.getAllActives());
 		modelMap.put("clients", this.clientService.getAllActives());
 
 		modelMap.put("agreementSearchFilterId", agreementSearchFilterId);
 		modelMap.put("clientSearchFilterId", clientSearchFilterId);
+		modelMap.put("orderAssemblySelectionReturn", orderAssemblySelectionReturn);
 		return "orderAssemblySelection";
 	}
 

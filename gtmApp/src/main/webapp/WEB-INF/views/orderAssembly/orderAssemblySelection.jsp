@@ -7,6 +7,8 @@
 	});
 </script>
 
+<input type="hidden" class="form-control" id="orderAssemblySelectionReturn" name="orderAssemblySelectionReturn" value="${orderAssemblySelectionReturn}">
+
 <div class="row">
 	<div class="col-md-9 col-lg-9 form-group">
 		<h3><spring:message code="common.orderAssembly"/></h3>

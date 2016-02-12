@@ -212,7 +212,6 @@ OrderAssembly = function() {
 							message += "<strong><p>" + value + "</p></strong>";
 						});
 					}
-					//myRedirect(msgType, message, "orderAssemblySelection.do");
 					var type = 'type-' + msgType;
 					var title = 'Operaci\u00f3n Exitosa';
 					if (msgType == "danger") {
@@ -229,7 +228,7 @@ OrderAssembly = function() {
                             label: 'Cerrar',
                             action: function(dialogItself) {
                             dialogItself.close();
-                            $("#orderAssemblyForm2").submit();
+                            $("#orderAssemblySelectionParametersForm").submit();
                             }
                         }]
                     });
@@ -275,11 +274,6 @@ OrderAssembly = function() {
 	    	isButtonConfirm = false;
 	    }
 	});
-
-	// TODO eliminar si con el keydown funciona correctamente.
-	/*$("#orderAssemblyForm input, #orderAssemblyForm select").keypress(function(event) {
-		return event.keyCode != 13;
-	});*/
 
 	$("#orderAssemblyForm input, #orderAssemblyForm select").keydown(function(event) {
 		if(event.keyCode == 115) { // Presiono F4

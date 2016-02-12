@@ -65,4 +65,8 @@ OrderAssemblySelection = function() {
 		if(e.which ==13)
 			$("#searchButton").click();
 	});
+
+	if ($("#orderAssemblySelectionReturn").val()) {
+	    $("#searchButton").click();
+	}
 };
