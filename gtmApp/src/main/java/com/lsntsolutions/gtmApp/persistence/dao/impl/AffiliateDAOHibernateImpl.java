@@ -2,7 +2,7 @@ package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
 import com.lsntsolutions.gtmApp.model.Affiliate;
 import com.lsntsolutions.gtmApp.persistence.dao.AffiliateDAO;
-import org.apache.commons.lang.StringUtils;
+import com.lsntsolutions.gtmApp.util.StringUtility;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -12,7 +12,6 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.type.StandardBasicTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import com.lsntsolutions.gtmApp.util.StringUtility;
 
 import java.util.List;
 
@@ -53,14 +52,14 @@ public class AffiliateDAOHibernateImpl implements AffiliateDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Affiliate> getForAutocomplete(String term, Boolean active, Integer clientId, String sortId, String sortCode, String sortName, String sortSurname, String sortDocumentType, String sortDocument, String sortActive) {
-		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Affiliate.class);
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Affiliate.class, "affiliate");
 
 		if (StringUtility.isInteger(term)) {
 			criteria.add(Restrictions.or(Restrictions.eq("id", Integer.valueOf(term)), Restrictions.eq("code", term)));
 		} else {
 			if(term != "") {
-				criteria.add(Restrictions.or(Restrictions.sqlRestriction("CONCAT_WS(' ', name, surname) like (?)", "%"+term+"%" , StandardBasicTypes.STRING),
-						Restrictions.sqlRestriction("CONCAT_WS(' ', surname, name) like (?)", "%"+term+"%" , StandardBasicTypes.STRING),
+				criteria.add(Restrictions.or(Restrictions.sqlRestriction("CONCAT_WS(' ', {alias}.name, {alias}.surname) like (?)", "%"+term+"%" , StandardBasicTypes.STRING),
+						Restrictions.sqlRestriction("CONCAT_WS(' ', {alias}.surname, {alias}.name) like (?)", "%"+term+"%" , StandardBasicTypes.STRING),
 						Restrictions.ilike("code", term, MatchMode.ANYWHERE), Restrictions.ilike("document", term, MatchMode.ANYWHERE)));
 			}
 		}
