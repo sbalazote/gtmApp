@@ -56,7 +56,7 @@ public class AffiliateDAOHibernateImpl implements AffiliateDAO {
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Affiliate.class);
 
 		if (StringUtility.isInteger(term)) {
-			criteria.add(Restrictions.eq("id", term));
+			criteria.add(Restrictions.or(Restrictions.eq("id", Integer.valueOf(term)), Restrictions.eq("code", term)));
 		} else {
 			if(term != "") {
 				criteria.add(Restrictions.or(Restrictions.sqlRestriction("CONCAT_WS(' ', name, surname) like (?)", "%"+term+"%" , StandardBasicTypes.STRING),
