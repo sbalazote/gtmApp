@@ -7,7 +7,10 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.*;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
@@ -50,7 +53,7 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 		if (StringUtility.isInteger(searchPhrase)) {
 			criteria.add(Restrictions.or(Restrictions.eq("id", Integer.parseInt(searchPhrase)), Restrictions.eq("code",  Integer.parseInt(searchPhrase))));
 		} else {
-			criteria.add(Restrictions.or(Restrictions.ilike("description", searchPhrase, MatchMode.ANYWHERE), Restrictions.ilike("g.number", searchPhrase, MatchMode.ANYWHERE)));
+			criteria.add(Restrictions.or(Restrictions.ilike("description", searchPhrase, MatchMode.ANYWHERE), Restrictions.ilike("g.number", searchPhrase, MatchMode.ANYWHERE), Restrictions.ilike("g.number", StringUtility.removeLeadingZero(searchPhrase), MatchMode.ANYWHERE)));
 		}
 
 		if (active != null && Boolean.TRUE.equals(active)) {
