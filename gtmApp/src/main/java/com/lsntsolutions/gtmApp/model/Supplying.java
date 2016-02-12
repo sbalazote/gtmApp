@@ -123,7 +123,7 @@ public class Supplying implements Serializable, Egress {
 		boolean hasToInform = false;
 		if(supplyingDetails != null) {
 			for (SupplyingDetail supplyingDetail : this.getSupplyingDetails()) {
-				if (supplyingDetail.getProduct().isInformAnmat()
+				if (supplyingDetail.getProduct().isInformAnmat() && supplyingDetail.getInStock()
 						&& ("PS".equals(supplyingDetail.getProduct().getType()) || "SS".equals(supplyingDetail.getProduct().getType()))) {
 					hasToInform = true;
 				}
