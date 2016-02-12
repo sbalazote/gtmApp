@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
-<form id="orderAssemblyForm" action="/gtmApp/batchExpirationDateOrderAssembly.do" method="get">
+<form id="orderAssemblyForm" action="batchExpirationDateOrderAssembly.do" method="get">
     <input type="hidden" class="form-control" id="provisioningRequestId" name="provisioningRequestId" value="${provisioningRequestId}">
     <input type="hidden" class="form-control" id="provisioningRequestDetailId" name="provisioningRequestDetailId" value="${provisioningRequestDetailId}">
 
