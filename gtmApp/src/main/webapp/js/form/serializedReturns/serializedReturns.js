@@ -77,6 +77,7 @@ SerializedReturns = function() {
 		var productSerialNumber = null;
 		var productBatch = null;
 		var productExpirationDate = null;
+		var gtin = null;
 		$.each(outputOrderDetails, function( index, value ) {
 			$.each(value, function( index, detail ) {
 				if (detail.serialNumber == serialNumber) {
@@ -88,11 +89,13 @@ SerializedReturns = function() {
 					productSerialNumber = detail.serialNumber;
 					productBatch = detail.batch;
 					productExpirationDate = myParseDate(detail.expirationDate);
-					populateInputDetails(inputDetails, productId, productType, productSerialNumber, productBatch, productExpirationDate, 1);
+					gtin = detail.gtin.number;
+					populateInputDetails(inputDetails, productId, productType, productSerialNumber, productBatch, productExpirationDate, 1, gtin);
 
 					var aaData = [];
 					var row = {
 						description: productDescription,
+						gtin: gtin,
 						serialNumber: productSerialNumber,
 						batch: productBatch,
 						expirationDate: productExpirationDate
@@ -111,14 +114,15 @@ SerializedReturns = function() {
 		}
 	};
 	
-	var populateInputDetails = function(inputDetails, productId, productType, productSerialNumber, productBatch, productExpirationDate, productAmount) {
+	var populateInputDetails = function(inputDetails, productId, productType, productSerialNumber, productBatch, productExpirationDate, productAmount, gtin) {
 		var inputDetail = {
 			"productId": productId,
 			"productType": productType,
 			"serialNumber": productSerialNumber,
 			"batch": productBatch,
 			"expirationDate": productExpirationDate.substring(0, 2) + productExpirationDate.substring(3, 5) + productExpirationDate.substring(8, 10),
-			"amount": productAmount
+			"amount": productAmount,
+			"gtin": gtin
 		};
 		inputDetails.push(inputDetail);
 	};
@@ -216,6 +220,7 @@ SerializedReturns = function() {
 											}
 											else {
 												found = true;
+												$("#productInput").val("");
 												buildReturn(response.outputId, response.orderId);	
 											}
 										},
@@ -255,8 +260,8 @@ SerializedReturns = function() {
 												}
 												else {
 													found = true;
+													$("#serialNumberInput").val("");
 													buildReturn(response.outputId, response.orderId);
-													$("#productInput").val("");
 												}
 											},
 											error: function(jqXHR, textStatus, errorThrown) {
@@ -307,7 +312,7 @@ SerializedReturns = function() {
 									}
 									// Es un trazado propio.
 									serialNumber = $('#serialNumberInput').val().substring(3, 16) + $('#serialNumberInput').val().substring(18);
-									$("#productInput").val("");
+									$("#serialNumberInput").val("");
 									populateSerializedReturnsDetailsTable();
 								},
 								error: function(jqXHR, textStatus, errorThrown) {

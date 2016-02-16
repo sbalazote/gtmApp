@@ -96,6 +96,7 @@
 		<thead>
 	        <tr>
 				<th data-column-id="description" data-css-class="td-description" data-sortable="false"><spring:message code="common.product"/></th>
+				<th data-column-id="gtin" data-css-class="gtin" data-sortable="false"><spring:message code="common.gtin"/></th>
 				<th data-column-id="serialNumber" data-css-class="serialNumber" data-sortable="false"><spring:message code="common.serialNumber" /></th>
 				<th data-column-id="batch" data-css-class="batch" data-sortable="false"><spring:message code="common.batch" /></th>
 				<th data-column-id="expirationDate" data-css-class="expirationDate" data-sortable="false"><spring:message code="common.expirationDate" /></th>
