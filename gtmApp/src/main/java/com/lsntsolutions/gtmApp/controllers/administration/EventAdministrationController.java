@@ -84,7 +84,7 @@ public class EventAdministrationController {
 
 	@RequestMapping(value = "/getInputOutputEvents", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Event> exists(@RequestParam boolean input) throws Exception {
+	List<Event> getInputOutputEvents(@RequestParam boolean input) throws Exception {
 		return this.eventService.getInputOutput(input);
 	}
 

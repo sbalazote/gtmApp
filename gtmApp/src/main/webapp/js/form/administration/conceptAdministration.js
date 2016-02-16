@@ -114,6 +114,7 @@ $(document).ready(function() {
 			},
 			async: false,
 			success: function(response) {
+				$('#my-select').multiSelect('refresh');
 				for(var i = response.length-1; i >= 0 ; i--){
 					var event = response[i];
 					$('#my-select').multiSelect('addOption', { value: event.id , text: event.code + "-" +  event.description +": ORIGEN: " + event.originAgent.description + " - DESTINO: " + event.destinationAgent.description, index: 0, nested: 'optgroup_label' });
