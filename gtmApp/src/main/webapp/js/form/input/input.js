@@ -58,6 +58,12 @@ Input = function() {
     
     $("#amountInput").numeric();
 
+	$("#deliveryLocationInput").chosen({
+		search_contains : true,
+		width: '100%'});
+	$("#logisticsOperatorInput").chosen({ search_contains : true });
+	$("#providerInput").chosen({ search_contains : true });
+
     if(isUpdate){
 		$('#productInput').prop('disabled', true);
 		$('#agreementInput').prop('disabled', true).trigger("chosen:updated");
@@ -144,7 +150,7 @@ Input = function() {
 	});
 	
 	$('select').chosen().filter('[autofocus]').trigger('chosen:activate');
-	
+
 	// Product autocomplete
 	$("#productInput").autocomplete({
 		source: function(request, response) {
