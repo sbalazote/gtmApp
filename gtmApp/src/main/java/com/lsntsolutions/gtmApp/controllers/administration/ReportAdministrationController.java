@@ -1,16 +1,16 @@
 package com.lsntsolutions.gtmApp.controllers.administration;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.constant.AuditState;
-import com.lsntsolutions.gtmApp.service.*;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
+import com.lsntsolutions.gtmApp.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class ReportAdministrationController {
@@ -85,7 +85,6 @@ public class ReportAdministrationController {
 		modelMap.put("auditActions", auditActionList);
 		modelMap.put("roles", roleList);
 		modelMap.put("users", this.userService.getAll());
-		this.auditService.getAudit(21892, "24028970");
 		return "searchAudit";
 	}
 

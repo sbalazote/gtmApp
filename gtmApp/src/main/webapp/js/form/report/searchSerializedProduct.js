@@ -249,7 +249,7 @@ SearchSerializedProduct = function() {
                         caseSensitive: false
                     });
                     $("#movementsTable").bootgrid("clear");
-                    $("#movementsTable").bootgrid("append", aaData);
+                    $("#movementsTable").bootgrid("append", _.sortBy(aaData, 'date').reverse());
                     $("#movementsTable").bootgrid("search", $(".search-field").val());
 
                     var params = '&productId=' + productId +

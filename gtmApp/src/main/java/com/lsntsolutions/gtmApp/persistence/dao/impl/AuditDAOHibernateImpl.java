@@ -103,8 +103,8 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 	@SuppressWarnings("unchecked")
 	public AuditResultDTO getAudit(Integer productId, String serialNumber) {
 		AuditResultDTO auditResultDTO = new AuditResultDTO();
-		String sentence = "select distinct a.* from audit as a, input_detail as id where (a.role_id = " + RoleOperation.INPUT.getId()
-				+ " and id.serial_number = '" + serialNumber + "' and a.operation_id = id.input_id and a.action_id = " + AuditState.COMFIRMED.getId();
+		String sentence = "select distinct a.* from audit as a, input_detail as id " +
+				"where ((a.role_id = " + RoleOperation.INPUT.getId() + " or a.role_id = " + RoleOperation.SERIALIZED_RETURNS.getId() + ") and id.serial_number = '" + serialNumber + "' and a.operation_id = id.input_id and a.action_id = " + AuditState.COMFIRMED.getId();
 
 		if (productId != null) {
 			sentence += " and id.product_id = " + productId;

@@ -65,7 +65,12 @@ public class InputServiceImpl implements InputService {
 		if (mustGenerateTags) {
 			this.printSelfSerializedTags(input);
 		}
-		this.auditService.addAudit(username, RoleOperation.INPUT.getId(), AuditState.COMFIRMED, input.getId());
+		if (isSerializedReturn) {
+			this.auditService.addAudit(username, RoleOperation.SERIALIZED_RETURNS.getId(), AuditState.COMFIRMED, input.getId());
+		} else {
+			this.auditService.addAudit(username, RoleOperation.INPUT.getId(), AuditState.COMFIRMED, input.getId());
+		}
+
 
 		logger.info("Se ha generado exitosamente la Recepcion de Mercaderia numero: " + input.getId());
 
