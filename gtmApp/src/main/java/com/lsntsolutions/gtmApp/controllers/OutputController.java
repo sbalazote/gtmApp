@@ -72,7 +72,11 @@ public class OutputController {
 		PrinterResultDTO printerResultDTO = new PrinterResultDTO(output.getFormatId());
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
-			this.auditService.addAudit(auth.getName(), RoleOperation.OUTPUT.getId(), AuditState.COMFIRMED, output.getId());
+			if (output.getConcept().isDestruction()) {
+				this.auditService.addAudit(auth.getName(), RoleOperation.PRODUCT_DESTRUCTION.getId(), AuditState.COMFIRMED, output.getId());
+			} else {
+				this.auditService.addAudit(auth.getName(), RoleOperation.OUTPUT.getId(), AuditState.COMFIRMED, output.getId());
+			}
 		}
 		if (output.getConcept().isPrintDeliveryNote()) {
 			List<Integer> outputs = new ArrayList<Integer>();

@@ -24,7 +24,6 @@
 		<intercept-url pattern="/orderAssemblySelection.do" access="hasRole('ORDER_ASSEMBLY')" />
 		<intercept-url pattern="/deliveryNoteSheet.do" access="hasRole('DELIVERY_NOTE_PRINT')" />
 		<intercept-url pattern="/pendingTransactions.do" access="hasRole('PENDING_TRANSACTIONS')" />
-		<intercept-url pattern="/*Administration.do" access="hasRole('ENTITY_ADMINISTRATION')" />
 		<intercept-url pattern="/userAdministration.do" access="hasRole('USER_ADMINISTRATION')" />
 		<intercept-url pattern="/orderManagement.do" access="hasAnyRole('ORDER_ASSEMBLY_CANCELLATION', 'ORDER_LABEL_PRINT')" />
 		<intercept-url pattern="/deliveryNoteCancellation.do" access="hasRole('DELIVERY_NOTE_CANCELLATION')" />

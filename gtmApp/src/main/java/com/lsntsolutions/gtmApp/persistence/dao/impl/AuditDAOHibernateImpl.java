@@ -124,7 +124,8 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		}
 		auditResultDTO.setInputs(inputsAuditDTO);
 
-		sentence = "select distinct a.* from audit as a, output_detail as od where (a.role_id = " + RoleOperation.OUTPUT.getId() + " and od.serial_number = '"
+		sentence = "select distinct a.* from audit as a, output_detail as od " +
+				"where ((a.role_id = " + RoleOperation.OUTPUT.getId() + " or a.role_id = " + RoleOperation.PRODUCT_DESTRUCTION.getId() + ") and od.serial_number = '"
 				+ serialNumber + "' and a.operation_id = od.output_id and a.action_id = " + AuditState.COMFIRMED.getId();
 		if (productId != null) {
 			sentence += " and od.product_id = " + productId;
