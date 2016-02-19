@@ -34,7 +34,7 @@ public class OrderLabelController {
         this.orderLabelPrinter.print(order, printerResultDTO);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
-            this.auditService.addAudit(auth.getName(), RoleOperation.ORDER_ASSEMBLY.getId(), AuditState.COMFIRMED, order.getId());
+            this.auditService.addAudit(auth.getName(), RoleOperation.ORDER_LABEL_PRINT.getId(), AuditState.COMFIRMED, order.getId());
         }
         return printerResultDTO;
     }
