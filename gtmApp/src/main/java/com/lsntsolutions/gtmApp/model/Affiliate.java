@@ -1,7 +1,10 @@
 package com.lsntsolutions.gtmApp.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "affiliate")
@@ -31,6 +34,11 @@ public class Affiliate implements Serializable {
 
 	@Column(name = "active", nullable = false)
 	private boolean active;
+
+	@ManyToMany
+    @JoinTable(name = "client_affiliate", joinColumns = @JoinColumn(name = "affiliate_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "client_id", nullable = false))
+	@JsonManagedReference
+	private List<Client> clients;
 
 	public Integer getId() {
 		return this.id;
@@ -86,5 +94,13 @@ public class Affiliate implements Serializable {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public List<Client> getClients() {
+		return clients;
+	}
+
+	public void setClients(List<Client> clients) {
+		this.clients = clients;
 	}
 }
