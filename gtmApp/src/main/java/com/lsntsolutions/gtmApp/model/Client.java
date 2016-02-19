@@ -1,7 +1,7 @@
 package com.lsntsolutions.gtmApp.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lsntsolutions.gtmApp.util.StringUtility;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -57,12 +57,13 @@ public class Client implements Serializable {
 	private Integer medicalInsuranceCode;
 
 	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "client_affiliate", joinColumns = @JoinColumn(name = "client_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "affiliate_id", nullable = false))
+	@JsonManagedReference
+	private List<Affiliate> affiliates;
+
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "client_delivery_location", joinColumns = @JoinColumn(name = "client_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "delivery_location_id", nullable = false))
 	private List<DeliveryLocation> deliveryLocations;
-
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "clients")
-	@JsonBackReference
-	private List<Affiliate> affiliates;
 
 	public Integer getId() {
 		return this.id;

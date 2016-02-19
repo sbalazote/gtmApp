@@ -15,7 +15,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +55,7 @@ public class AffiliateAdministrationController {
 	Affiliate addAffiliateToClient(@RequestParam String code, @RequestParam Integer clientId) throws Exception {
 		Affiliate affiliate = this.affiliateService.get(code);
 		Client client = this.clientService.get(clientId);
-		affiliate.getClients().add(client);
+		client.getAffiliates().add(affiliate);
 		this.affiliateService.save(affiliate);
 		return affiliate;
 	}
@@ -76,11 +75,12 @@ public class AffiliateAdministrationController {
 		affiliate.setActive(affiliateDTO.isActive());
 
 		List<Integer> clientsId = affiliateDTO.getClients();
-		List<Client> clients = new ArrayList<>();
 		for (Integer clientId : clientsId) {
-			clients.add(this.clientService.get(clientId));
+            Client client = this.clientService.get(clientId);
+			List<Affiliate> affiliateList = client.getAffiliates();
+            affiliateList.add(affiliate);
+            client.setAffiliates(affiliateList);
 		}
-		affiliate.setClients(clients);
 
 		return affiliate;
 	}
