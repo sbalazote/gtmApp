@@ -341,7 +341,7 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-md-12 col-lg-12 form-group">
-						<label for="formatSerializedInput"><spring:message code="common.concept"/></label>
+						<label for="formatSerializedInput"><spring:message code="common.formatSerial"/></label>
 						<select id="formatSerializedInput" name="formatSerialized" class="form-control" data-placeholder="<spring:message code='common.select.option'/>" autofocus>
 						</select>
 					</div>
