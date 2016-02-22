@@ -414,6 +414,7 @@ var Supplying = function() {
 			outOfStockProviderSerialized.setPreloadedProductId(productId);
 			outOfStockProviderSerialized.setPreloadedAmount(productAmount);
 			outOfStockProviderSerialized.setPreloadedData(preloadedData);
+			outOfStockProviderSerialized.setFormatSerializedId(null);
 			outOfStockProviderSerialized.preloadModalData();
 			$('#outOfStockProviderSerializedModal').modal('show');
 			
