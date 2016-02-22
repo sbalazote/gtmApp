@@ -186,7 +186,8 @@ SerializedReturns = function() {
 					type: "GET",
 					async: false,
 					data: {
-						serial: $('#serialNumberInput').val()
+						serial: $('#serialNumberInput').val(),
+						formatSerializedId: null
 					},
 					success: function(response) {
 						// No es un trazado de origen; busco a ver si se trata de un trazado propio.
@@ -290,7 +291,8 @@ SerializedReturns = function() {
 					type: "GET",
 					async: false,
 					data: {
-						serial: $('#serialNumberInput').val()
+						serial: $('#serialNumberInput').val(),
+						formatSerializedId: null
 					},
 					success: function(response) {
 						// No es un trazado de origen; busco a ver si se trata de un trazado propio.

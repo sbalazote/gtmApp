@@ -321,7 +321,7 @@ public class FileController {
 					if(type.indexOf("S") == 0){
 						if(serial.length() > 0) {
 							if (type.indexOf("S1") == 0) {
-								parse = this.serialParser.parse(serial);
+								parse = this.serialParser.parse(serial,null);
 							}
 							if (type.indexOf("S2") == 0) {
 								parse = this.serialParser.parseSelfSerial(serial);

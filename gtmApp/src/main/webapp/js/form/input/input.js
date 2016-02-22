@@ -292,7 +292,9 @@ Input = function() {
 			providerSerialized.setPreloadedProductId(productId);
 			providerSerialized.setPreloadedAmount(productAmount);
 			providerSerialized.setPreloadedData(preloadedData);
+			providerSerialized.setFormatSerializedId(null);
 			providerSerialized.preloadModalData();
+
 			$('#providerSerializedModal').modal('show');
 			
 		} else {

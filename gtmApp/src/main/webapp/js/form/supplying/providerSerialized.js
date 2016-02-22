@@ -136,7 +136,8 @@ ProviderSerialized = function() {
 			type: "GET",
 			async: false,
 			data: {
-				serial: readSerialNumber.val()
+				serial: readSerialNumber.val(),
+				formatSerializedId: null
 			},
 			success: function(response) {
 				if (response == "") {

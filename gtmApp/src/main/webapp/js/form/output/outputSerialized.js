@@ -9,7 +9,8 @@ OutputSerialized = function() {
 	var preloadedProduct = null;
 	var preloadedProductId = null;
 	var preloadedProductType = null;
-	
+	var formatSerializedId = null;
+
 	var getTempSerialNumbers = function(value) {
 		return tempSerialNumbers;
 	};
@@ -44,6 +45,10 @@ OutputSerialized = function() {
 	
 	var setPreloadedProductType = function(value) {
 		preloadedProductType = value;
+	};
+
+	var setFormatSerializedId = function(value) {
+		formatSerializedId = value;
 	};
 	
 	// TODO mejorar esto- ahora no hace el paginado.
@@ -93,67 +98,55 @@ OutputSerialized = function() {
 		aaData.push(row);
 		$("#serializedTable").bootgrid("append", aaData);
 	};
-	
+
+	$("#formatSerializedAccept").click(function() {
+		var readSerialNumber = $("#readSerialNumberInput");
+		formatSerializedId = $("#formatSerializedInput").val();
+		parseSerial(readSerialNumber);
+		checkLast();
+	});
+
+	var getMatches = function(readSerialNumber){
+		formatSerializedId = null;
+		$.ajax({
+			url: "getMatchParsers.do",
+			type: "GET",
+			async: false,
+			data: {
+				serial: readSerialNumber.val()
+			},
+			success: function (response) {
+				if(response.length > 1){
+					$('#formatSerializedInput').empty();
+					$('#formatSerializedInput').append("<option value=''></option>");
+					for(var i=0;i < response.length;i++){
+						$('#formatSerializedInput').append("<option value=" + response[i].id + ">" + response[i].serialNumber + "</option>");
+					}
+					$('#formatSerializedInput').trigger("chosen:updated");
+					$('#formatSerializedModal').modal('show');
+				}else if(response.length == 1){
+					formatSerializedId = response[0].id;
+				}else{
+					readSerialNumber.val("");
+					readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Inv\u00e1lido").addClass("has-error").tooltip();
+				}
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				myGenericError("providerSerializedModalAlertDiv");
+			}
+		});
+	}
+
 	var generateRow = function() {
 		var readSerialNumber = $("#readSerialNumberInput");
 		
 		if (preloadedProductType == "PS") {
-		
-			$.ajax({
-				url: "parseSerial.do",
-				type: "GET",
-				async: false,
-				data: {
-					serial: readSerialNumber.val()
-				},
-				success: function(response) {
-					if (response == "") {
-						readSerialNumber.val("");
-						readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Inv\u00e1lido").addClass("has-error").tooltip();
-						return;
-					}
-					
-		           var gtinFound = false;
-                    var gtin;
-                    if(response.gtin != null) {
-                       $.ajax({
-                              url: "getGtins.do",
-                              type: "GET",
-                              async: false,
-                               data: {
-                                   productId: preloadedProductId
-                                   },
-                               success: function(responseGtin) {
-                                       var gtins = responseGtin;
-                                       for (var i = 0; i < gtins.length; i++) {
-                                           if(gtins[i].number == response.gtin){
-                                               gtinFound = true;
-                                           }
-                                       }
-                               },
-                               error: function(jqXHR, textStatus, errorThrown) {
-                                   myGenericError("providerSerializedModalAlertDiv");
-                               }
-                         });
-                        var gtin = response.gtin;
-                    }else{
-                        gtin = productSelectedGtin;
-                        gtinFound = true;
-                    }
-					
-					//	Si el Gtin leido no coincide con el seleccionado en la pantalla de input.
-					if (gtinFound == false) {
-						readSerialNumber.val("");
-						readSerialNumber.tooltip("destroy").data("title", "GTIN le\u00eddo no coincide con el seleccionado").addClass("has-error").tooltip();
-						return;
-					}
-					//TODO seguir desde aca
-					findStock(response.serialNumber, gtin);
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					myGenericError("serializedModalAlertDiv");
-				}
-			});
+			if(formatSerializedId == null) {
+				getMatches(readSerialNumber);
+			}
+			if(formatSerializedId != null){
+				parseSerial(readSerialNumber);
+			}
 			
 		} else { 
 			// if self serialized
@@ -181,6 +174,69 @@ OutputSerialized = function() {
 			
 		}
 	};
+
+	var parseSerial = function (readSerialNumber) {
+		$.ajax({
+			url: "parseSerial.do",
+			type: "GET",
+			async: false,
+			data: {
+				serial: readSerialNumber.val(),
+				formatSerializedId: formatSerializedId
+			},
+			success: function(response) {
+				if (response == "") {
+					if(formatSerializedId == null){
+						readSerialNumber.val("");
+						readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Inv\u00e1lido").addClass("has-error").tooltip();
+						return;
+					}else{
+						getMatches(readSerialNumber);
+					}
+				}
+
+				var gtinFound = false;
+				var gtin;
+				if(response.gtin != null) {
+					$.ajax({
+						url: "getGtins.do",
+						type: "GET",
+						async: false,
+						data: {
+							productId: preloadedProductId
+						},
+						success: function(responseGtin) {
+							var gtins = responseGtin;
+							for (var i = 0; i < gtins.length; i++) {
+								if(gtins[i].number == response.gtin){
+									gtinFound = true;
+								}
+							}
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+							myGenericError("providerSerializedModalAlertDiv");
+						}
+					});
+					var gtin = response.gtin;
+				}else{
+					gtin = productSelectedGtin;
+					gtinFound = true;
+				}
+
+				//	Si el Gtin leido no coincide con el seleccionado en la pantalla de input.
+				if (gtinFound == false) {
+					readSerialNumber.val("");
+					readSerialNumber.tooltip("destroy").data("title", "GTIN le\u00eddo no coincide con el seleccionado").addClass("has-error").tooltip();
+					return;
+				}
+				//TODO seguir desde aca
+				findStock(response.serialNumber, gtin);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myGenericError("serializedModalAlertDiv");
+			}
+		});
+	}
 	
 	var findStock = function(serialNumber, gtin) {
 		var readSerialNumber = $("#readSerialNumberInput");
@@ -328,6 +384,7 @@ OutputSerialized = function() {
 		setPreloadedProduct: setPreloadedProduct,
 		setPreloadedProductId: setPreloadedProductId,
 		setPreloadedProductType: setPreloadedProductType,
+		setFormatSerializedId: setFormatSerializedId,
 		preloadModalData: preloadModalData
 	};
 };

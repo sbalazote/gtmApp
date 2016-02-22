@@ -268,6 +268,7 @@ AgreementTransfer = function() {
 			serialized.setPreloadedAmount(productAmount);
 			serialized.setPreloadedData(preloadedData);
 			serialized.setProductSelectedGtin(productGtin);
+			serialized.setFormatSerializedId(null);
 			serialized.setTempSerialNumbers(tempSerialNumberGroup[productId]);
 			
 			serialized.preloadModalData();

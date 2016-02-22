@@ -3,6 +3,7 @@ package com.lsntsolutions.gtmApp.helper.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lsntsolutions.gtmApp.dto.ProviderSerializedFormatMatchedDTO;
 import com.lsntsolutions.gtmApp.model.ProviderSerializedFormat;
 import com.lsntsolutions.gtmApp.model.ProviderSerializedFormatTokens;
 import com.lsntsolutions.gtmApp.service.ProviderSerializedFormatTokensService;
@@ -25,10 +26,41 @@ public class SerialParserImpl implements SerialParser {
 	private ProviderSerializedFormatTokensService providerSerializedFormatTokensService;
 
 	@Override
-	public ProviderSerializedProductDTO parse(String serial) {
+	public ProviderSerializedProductDTO parse(String serial, Integer formatSerializedId) {
+		List<ProviderSerializedFormatTokens> formatTokens = this.providerSerializedFormatTokensService.getAll();
+		if(formatSerializedId == null) {
+			List<ProviderSerializedFormat> formats = this.providerSerializedFormatService.getAll();
+			for (ProviderSerializedFormat format : formats) {
+				if (getFormatParser(serial, formatTokens, format))
+					return this.newProductItemDTO(serial, format, formatTokens);
+			}
+		}else{
+			ProviderSerializedFormat format = this.providerSerializedFormatService.get(formatSerializedId);
+			if (getFormatParser(serial, formatTokens, format))
+				return this.newProductItemDTO(serial, format, formatTokens);
+		}
+		return null;
+	}
+
+	private boolean getFormatParser(String serial, List<ProviderSerializedFormatTokens> formatTokens, ProviderSerializedFormat format) {
+		String[] sequence = format.getSplittedSequence();
+		String regexp = "";
+		for (String fieldType : sequence) {
+            String permittedCharacters = (fieldType.equals("B")) ? ".{" : "[a-zA-Z0-9]{";
+            regexp += this.getSeparators(fieldType, formatTokens) + permittedCharacters + format.getLength(fieldType) + "}";
+        }
+		if (serial.matches(regexp)) {
+			return true;
+        }
+		return false;
+	}
+
+	@Override
+	public List<ProviderSerializedFormatMatchedDTO> getMatchParsers(String serial) {
 		List<ProviderSerializedFormatTokens> formatTokens = this.providerSerializedFormatTokensService.getAll();
 
 		List<ProviderSerializedFormat> formats = this.providerSerializedFormatService.getAll();
+		List<ProviderSerializedFormatMatchedDTO> result = new ArrayList<>();
 		for (ProviderSerializedFormat format : formats) {
 			String[] sequence = format.getSplittedSequence();
 			String regexp = "";
@@ -37,10 +69,14 @@ public class SerialParserImpl implements SerialParser {
 				regexp += this.getSeparators(fieldType, formatTokens) + permittedCharacters + format.getLength(fieldType) + "}";
 			}
 			if (serial.matches(regexp)) {
-				return this.newProductItemDTO(serial, format, formatTokens);
+				ProviderSerializedProductDTO providerSerializedProductDTO = this.newProductItemDTO(serial, format, formatTokens);
+				ProviderSerializedFormatMatchedDTO providerSerializedFormatMatchedDTO = new ProviderSerializedFormatMatchedDTO();
+				providerSerializedFormatMatchedDTO.setId(format.getId());
+				providerSerializedFormatMatchedDTO.setSerialNumber(providerSerializedProductDTO.getSerialNumber());
+				result.add(providerSerializedFormatMatchedDTO);
 			}
 		}
-		return null;
+		return result;
 	}
 
 	@Override

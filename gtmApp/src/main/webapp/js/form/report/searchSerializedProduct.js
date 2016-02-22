@@ -299,7 +299,8 @@ SearchSerializedProduct = function() {
             url: "parseSerial.do",
             type: "GET",
             data: {
-                serial: $('#serialParserSearch').val()
+                serial: $('#serialParserSearch').val(),
+                formatSerializedId: null
             },
             success: function(response) {
                 var serialFound = response.serialNumber;

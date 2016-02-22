@@ -317,7 +317,7 @@ Output = function() {
 			serialized.setPreloadedAmount(productAmount);
 			serialized.setPreloadedData(preloadedData);
 			serialized.setProductSelectedGtin(productGtin);
-			
+			serialized.setFormatSerializedId(null);
 			serialized.preloadModalData();
 			$('#serializedModal').modal('show');
 		}

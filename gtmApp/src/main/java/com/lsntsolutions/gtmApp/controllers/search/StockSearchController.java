@@ -123,7 +123,7 @@ public class StockSearchController {
 	@RequestMapping(value = "/getProductFromStockBySerialOrGtin", method = RequestMethod.GET)
 	public @ResponseBody Product getProductFromStockBySerialOrGtin(@RequestParam String serial, Integer agreementId) {
 		if (serial != null && serial.length() > Constants.GTIN_LENGTH) {
-			ProviderSerializedProductDTO productDTO = this.serialParser.parse(serial);
+			ProviderSerializedProductDTO productDTO = this.serialParser.parse(serial,null);
 			if (productDTO != null && productDTO.getGtin() != null) {
 				return this.stockService.getByGtin(productDTO.getGtin(), agreementId);
 			}

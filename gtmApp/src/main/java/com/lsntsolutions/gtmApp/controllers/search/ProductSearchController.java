@@ -1,10 +1,12 @@
 package com.lsntsolutions.gtmApp.controllers.search;
 
 import com.lsntsolutions.gtmApp.constant.Constants;
+import com.lsntsolutions.gtmApp.dto.ProviderSerializedFormatMatchedDTO;
 import com.lsntsolutions.gtmApp.dto.ProviderSerializedProductDTO;
 import com.lsntsolutions.gtmApp.helper.SerialParser;
 import com.lsntsolutions.gtmApp.model.Product;
 import com.lsntsolutions.gtmApp.model.ProductGtin;
+import com.lsntsolutions.gtmApp.model.ProviderSerializedFormat;
 import com.lsntsolutions.gtmApp.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,7 +41,7 @@ public class ProductSearchController {
 	public @ResponseBody
 	Product getProductBySerialOrGtin(@RequestParam String serial) {
 		if (serial != null && serial.length() > Constants.GTIN_LENGTH) {
-			ProviderSerializedProductDTO productDTO = this.serialParser.parse(serial);
+			ProviderSerializedProductDTO productDTO = this.serialParser.parse(serial,null);
 			if (productDTO != null && productDTO.getGtin() != null) {
 				return this.productService.getByGtin(productDTO.getGtin());
 			}
@@ -51,12 +53,18 @@ public class ProductSearchController {
 
 	@RequestMapping(value = "/parseSerial", method = RequestMethod.GET)
 	public @ResponseBody
-	ProviderSerializedProductDTO parseSerial(@RequestParam String serial) {
+	ProviderSerializedProductDTO parseSerial(@RequestParam String serial, Integer formatSerializedId) {
 		if(this.serialParser.isParseSelfSerial(serial)){
             return this.serialParser.parseSelfSerial(serial);
         }else {
-            return this.serialParser.parse(serial);
+            return this.serialParser.parse(serial, formatSerializedId);
         }
+	}
+
+	@RequestMapping(value = "/getMatchParsers", method = RequestMethod.GET)
+	public @ResponseBody
+	List<ProviderSerializedFormatMatchedDTO> getMatchParsers(@RequestParam String serial) {
+		return this.serialParser.getMatchParsers(serial);
 	}
 
 	@RequestMapping(value = "/isParseSelfSerial", method = RequestMethod.GET)

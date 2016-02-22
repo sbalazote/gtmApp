@@ -25,6 +25,7 @@ ProviderSerialized = function() {
 	var preloadedAmount = null;
 	var preloadedProduct = null;
 	var preloadedProductId = null;
+	var formatSerializedId = null;
 	
 	var setTempSerialNumbers = function(value) {
 		tempSerialNumbers = value || [];
@@ -53,6 +54,10 @@ ProviderSerialized = function() {
 	var setPreloadedProductId = function(value) {
 		preloadedProductId = value;
 	};
+
+	var setFormatSerializedId = function(value) {
+		formatSerializedId = value;
+	};
 	
 	var formValidator = null;
 	
@@ -60,6 +65,10 @@ ProviderSerialized = function() {
 	$("#providerSerializedTable").bootgrid({
 		rowCount: -1
 	});
+
+	$("#formatSerializedInput").chosen({
+		search_contains : true,
+		width: '100%'});
 	
 	var validateForm = function() {
 		var form = $("#providerSerializedModalForm");
@@ -124,98 +133,151 @@ ProviderSerialized = function() {
 		aaData.push(row);
 		$("#providerSerializedTable").bootgrid("append", aaData);
 	};
-	
+
+	$("#formatSerializedAccept").click(function() {
+		var readSerialNumber = $("#readSerialNumberInput");
+		formatSerializedId = $("#formatSerializedInput").val();
+		parseSerial(readSerialNumber);
+		checkLast();
+	});
+
 	var generateRow = function() {
 		var readSerialNumber = $("#readSerialNumberInput");
+		if(formatSerializedId == null) {
+			getMatches(readSerialNumber);
+		}
+
+		if(formatSerializedId != null){
+			parseSerial(readSerialNumber);
+		}
+	};
+
+	var getMatches = function(readSerialNumber){
+		formatSerializedId = null;
 		$.ajax({
-			url: "parseSerial.do",
+			url: "getMatchParsers.do",
 			type: "GET",
 			async: false,
 			data: {
 				serial: readSerialNumber.val()
 			},
-			success: function(response) {
-				if (response == "") {
+			success: function (response) {
+				if(response.length > 1){
+					$('#formatSerializedInput').empty();
+					$('#formatSerializedInput').append("<option value=''></option>");
+					for(var i=0;i < response.length;i++){
+						$('#formatSerializedInput').append("<option value=" + response[i].id + ">" + response[i].serialNumber + "</option>");
+					}
+					$('#formatSerializedInput').trigger("chosen:updated");
+					$('#formatSerializedModal').modal('show');
+				}else if(response.length == 1){
+					formatSerializedId = response[0].id;
+				}else{
 					readSerialNumber.val("");
 					readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Inv\u00e1lido").addClass("has-error").tooltip();
-					return;
+				}
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				myGenericError("providerSerializedModalAlertDiv");
+			}
+		});
+	}
+
+	var parseSerial = function(readSerialNumber){
+		$.ajax({
+			url: "parseSerial.do",
+			type: "GET",
+			async: false,
+			data: {
+				serial: readSerialNumber.val(),
+				formatSerializedId: formatSerializedId
+			},
+			success: function(response) {
+				if (response == "") {
+					if(formatSerializedId == null){
+						readSerialNumber.val("");
+						readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Inv\u00e1lido").addClass("has-error").tooltip();
+						return;
+					}else{
+						getMatches(readSerialNumber);
+					}
 				}
 				var gtinFound = false;
-                var gtin;
-                if(response.gtin != null){
-                    $.ajax({
-                        url: "getGtins.do",
-                        type: "GET",
-                        async: false,
-                        data: {
-                            productId: preloadedProductId
-                        },
-                        success: function(responseGtin) {
-                            var gtins = responseGtin;
-                            for (var i = 0; i < gtins.length; i++) {
-                                if(gtins[i].number == response.gtin){
-                                    gtinFound = true;
-                                }
-                            }
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            myGenericError("providerSerializedModalAlertDiv");
-                        }
-                    });
-                    gtin = response.gtin;
-                }else{
-                    gtin = productSelectedGtin;
-                    gtinFound = true;
-                }
+				var gtin;
+				if(response.gtin != null){
+					$.ajax({
+						url: "getGtins.do",
+						type: "GET",
+						async: false,
+						data: {
+							productId: preloadedProductId
+						},
+						success: function(responseGtin) {
+							var gtins = responseGtin;
+							for (var i = 0; i < gtins.length; i++) {
+								if(gtins[i].number == response.gtin){
+									gtinFound = true;
+								}
+							}
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+							myGenericError("providerSerializedModalAlertDiv");
+						}
+					});
+					gtin = response.gtin;
+				}else{
+					gtin = productSelectedGtin;
+					gtinFound = true;
+				}
 
-				
+
 				//	Si el Gtin leido no coincide con el seleccionado en la pantalla de input.
 				if (gtinFound == false) {
 					readSerialNumber.val("");
 					readSerialNumber.tooltip("destroy").data("title", "GTIN le\u00eddo no coincide con el seleccionado").addClass("has-error").tooltip();
 					return;
 				}
-				
+
 				var serialNumber = response.serialNumber;
-				
+
 				// Si el serial existe en la tabla temporal del input
 				if ($.inArray(serialNumber, tempSerialNumbers) != -1) {
 					readSerialNumber.val("");
 					readSerialNumber.tooltip("destroy").data("title", "Serie ya ingresado").addClass("has-error").tooltip();
 					return;
 				}
-				
+
 				var batch = "";
 				if (response.batch != null) {
 					batch = response.batch;
-					 $("#providerSerializedBatchInput").val("");
-					 $("#providerSerializedBatchInput").attr("disabled", true);
+					$("#providerSerializedBatchInput").val("");
+					$("#providerSerializedBatchInput").attr("disabled", true);
 				} else {
-					 $("#providerSerializedBatchInput").attr("disabled", false);
+					$("#providerSerializedBatchInput").attr("disabled", false);
 				}
-				
+
 				var expirationDate = "";
 				if (response.expirationDate != null) {
 					expirationDate = response.expirationDate;
-					
+
 					//	Corto el expirationDate que viene en el serie dado que esta en formato (aammdd).
 					var aa = expirationDate.slice(0,2);
 					var mm = expirationDate.slice(2,4);
 					var dd = expirationDate.slice(4,6);
-					
+
 					//	Verifico si la fecha es valida o no.
 					var validExpirationDate = validateExpirationDate(parseInt(dd), parseInt(mm), parseInt("20"+aa));
-					
+
 					// Si no es valida la fecha de vencimiento que viene en el serie, dado que es anterior al dia de la fecha o mal formado.
 					if (!validExpirationDate) {
 						readSerialNumber.val("");
 						readSerialNumber.tooltip("destroy").data("title", "Fecha de vencimiento inv\u00e1lida o anterior a la fecha del d\u00eda.").addClass("has-error").tooltip();
 						return;
 					}
-					
+
 					//	Seteo expirationDate de la forma tradicional (ddmmaa).
 					expirationDate = dd.concat(mm, aa);
-					
+
 					$("#providerSerializedExpirationDateInput").val("");
 					$("#providerSerializedExpirationDateInput").attr("disabled", true);
 				} else {
@@ -244,20 +306,20 @@ ProviderSerialized = function() {
 						if (validateForm()) {
 							//	El serie no indica lte/vto. Lo leo de los inputs
 							if ((batch == "") && (expirationDate == "")) {
-								batch = $("#providerSerializedBatchInput").val(); 
+								batch = $("#providerSerializedBatchInput").val();
 								expirationDate = $("#providerSerializedExpirationDateInput").val();
 							}
 
 							addAmount(1);
 							addToTable(gtin, serialNumber, batch, expirationDate);
 							tempSerialNumbers.push(serialNumber);
-							
+
 							readSerialNumber.val("");
 							formValidator.resetForm();
 
 							/*readSerialNumber.data("title", "").removeClass("has-error").tooltip("destroy");
-							$("#providerSerializedBatchInput").data("title", "").removeClass("has-error").tooltip("destroy");
-							$("#providerSerializedExpirationDateInput").data("title", "").removeClass("has-error").tooltip("destroy");*/
+							 $("#providerSerializedBatchInput").data("title", "").removeClass("has-error").tooltip("destroy");
+							 $("#providerSerializedExpirationDateInput").data("title", "").removeClass("has-error").tooltip("destroy");*/
 
 
 							readSerialNumber.focus();
@@ -278,7 +340,8 @@ ProviderSerialized = function() {
 				myGenericError("providerSerializedModalAlertDiv");
 			}
 		});
-	};
+		return false;
+	}
 	
 	$('#providerSerializedTable tbody').on("click", ".command-delete", function() {
 		subtractAmount(1);
@@ -398,6 +461,7 @@ ProviderSerialized = function() {
 		setPreloadedAmount: setPreloadedAmount,
 		setPreloadedProduct: setPreloadedProduct,
 		setPreloadedProductId: setPreloadedProductId,
+		setFormatSerializedId: setFormatSerializedId,
 		preloadModalData: preloadModalData
 	};
 };

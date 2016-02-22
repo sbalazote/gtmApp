@@ -330,6 +330,31 @@
 	</div>
 </form>
 
+
+<div class="modal fade" data-backdrop="static" id="formatSerializedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width: 40%">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title"><spring:message code="input.formatSerialized.title"/></h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12 col-lg-12 form-group">
+						<label for="formatSerializedInput"><spring:message code="common.concept"/></label>
+						<select id="formatSerializedInput" name="formatSerialized" class="form-control" data-placeholder="<spring:message code='common.select.option'/>" autofocus>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="cancel" class="btn btn-default" data-dismiss="modal"><spring:message code="common.no"/></button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" id="formatSerializedAccept"><spring:message code="common.yes"/></button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <%-- Modal Ingreso Serializado Propio y Generacion de Etiquetas --%>
 <form id="selfSerializedModalForm" action="" onsubmit="return false;">
 	<div class="modal fade" data-backdrop="static" data-keyboard="false" id="selfSerializedModal">
