@@ -158,8 +158,10 @@ public class InputController {
 		modelMap.put("agreements", this.agreementService.getAllActives());
 		modelMap.put("deliveryLocations", this.deliveryLocationService.getAllActives());
 		modelMap.put("date", input.getDate());
-		modelMap.put("deliveryNotePOSInput", input.getDeliveryNoteNumber().substring(0, 4));
-		modelMap.put("deliveryNoteNumberInput", input.getDeliveryNoteNumber().substring(4, 12));
+		if(input.getDeliveryNoteNumber() != null && input.getDeliveryNoteNumber() != "" && input.getDeliveryNoteNumber().length() == 12) {
+			modelMap.put("deliveryNotePOSInput", input.getDeliveryNoteNumber().substring(0, 4));
+			modelMap.put("deliveryNoteNumberInput", input.getDeliveryNoteNumber().substring(4, 12));
+		}
 
 		modelMap.put("purchaseOrderNumber", input.getPurchaseOrderNumber());
 

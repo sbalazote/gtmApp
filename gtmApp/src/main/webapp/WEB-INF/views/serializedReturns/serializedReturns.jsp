@@ -161,7 +161,6 @@
 	</div>
 </div>
 
-<%-- Confirmaci�n del delete de una row --%>
 <div class="modal fade" data-backdrop="static" id="serializedReturnErrorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width: 40%">
 		<div class="modal-content">
