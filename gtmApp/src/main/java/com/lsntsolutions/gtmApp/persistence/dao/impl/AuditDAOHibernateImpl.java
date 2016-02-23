@@ -252,18 +252,21 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 	public AuditResultDTO getAudit(Integer productId, String batch, String expirateDate) {
 		AuditResultDTO auditResultDTO = new AuditResultDTO();
 		String[] parts = expirateDate.split("/");
-		expirateDate = parts[2] + "/" + parts[1] + "/" + parts[0];
+
+		expirateDate = (expirateDate != "") ? parts[2] + "/" + parts[1] + "/" + parts[0] : "";
 
 		String sentence = "select distinct a.* from audit as a, input_detail as id where (a.role_id = " + RoleOperation.INPUT.getId() + " and id.product_id = "
-				+ productId + " and id.batch = '" + batch + "' and id.expiration_date = '" + expirateDate
-				+ "' and a.operation_id = id.input_id and a.action_id = " + AuditState.COMFIRMED.getId()+" )  order by a.`date` desc";
+				+ productId + " and id.batch = '" + batch + "'";
+		if(expirateDate != "") {
+			sentence += " and id.expiration_date = '" + expirateDate + "'";
+		}
+		sentence += " and a.operation_id = id.input_id and a.action_id = " + AuditState.COMFIRMED.getId()+" )  order by a.`date` desc";
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
 		Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
 		List<Audit> inputsAudit = query.list();
-		List<AuditDTO> inputsAuditDTO = new ArrayList<AuditDTO>();
+		List<AuditDTO> inputsAuditDTO = new ArrayList<>();
 		for (Audit audit : inputsAudit) {
-
 			AuditDTO auditDTO = new AuditDTO(audit.getId(), audit.getRole().getDescription(), audit.getOperationId(), audit.getAuditAction().getDescription(),
 					dateFormatter.format(audit.getDate()), audit.getUser().getName());
 			inputsAuditDTO.add(auditDTO);
@@ -271,12 +274,15 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		auditResultDTO.setInputs(inputsAuditDTO);
 
 		sentence = "select distinct a.* from audit as a, output_detail as od where (a.role_id = " + RoleOperation.OUTPUT.getId() + " and od.product_id = "
-				+ productId + " and od.batch = '" + batch + "' and od.expiration_date = '" + expirateDate
-				+ "' and a.operation_id = od.output_id and a.action_id = " + AuditState.COMFIRMED.getId()+") order by a.`date` desc";
+				+ productId + " and od.batch = '" + batch + "'";
+		if(expirateDate != "") {
+			sentence += " and od.expiration_date = '" + expirateDate + "'";
+		}
+		sentence += " and a.operation_id = od.output_id and a.action_id = " + AuditState.COMFIRMED.getId()+") order by a.`date` desc";
 
 		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
 		List<Audit> outputsAudit = query.list();
-		List<AuditDTO> outputsAuditDTO = new ArrayList<AuditDTO>();
+		List<AuditDTO> outputsAuditDTO = new ArrayList<>();
 		for (Audit audit : outputsAudit) {
 			dateFormatter.format(audit.getDate());
 			AuditDTO auditDTO = new AuditDTO(audit.getId(), audit.getRole().getDescription(), audit.getOperationId(), audit.getAuditAction().getDescription(),
@@ -286,12 +292,15 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		auditResultDTO.setOutputs(outputsAuditDTO);
 
 		sentence = "select distinct a.* from audit as a, supplying_detail as sd where (a.role_id = " + RoleOperation.SUPPLYING.getId() + " and sd.product_id = "
-				+ productId + " and sd.batch = '" + batch + "' and sd.expiration_date = '" + expirateDate
-				+ "' and a.operation_id = sd.supplying_id and a.action_id = " + AuditState.COMFIRMED.getId()+") order by a.`date` desc";
+				+ productId + " and sd.batch = '" + batch + "'";
+		if(expirateDate != "") {
+			sentence += " and sd.expiration_date = '" + expirateDate + "'";
+		}
+		sentence+= " and a.operation_id = sd.supplying_id and a.action_id = " + AuditState.COMFIRMED.getId()+") order by a.`date` desc";
 
 		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
 		List<Audit> supplyingsAudit = query.list();
-		List<AuditDTO> supplyingsAuditDTO = new ArrayList<AuditDTO>();
+		List<AuditDTO> supplyingsAuditDTO = new ArrayList<>();
 		for (Audit audit : supplyingsAudit) {
 			dateFormatter.format(audit.getDate());
 			AuditDTO auditDTO = new AuditDTO(audit.getId(), audit.getRole().getDescription(), audit.getOperationId(), audit.getAuditAction().getDescription(),
@@ -301,12 +310,15 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		auditResultDTO.setSupplyings(supplyingsAuditDTO);
 
 		sentence = "select distinct a.* from audit as a, order_detail as od where (a.role_id = " + RoleOperation.ORDER_ASSEMBLY.getId()
-				+ " and od.product_id = " + productId + " and od.batch = '" + batch + "' and od.expiration_date = '" + expirateDate
-				+ "' and a.operation_id = od.order_id and a.action_id = " + AuditState.COMFIRMED.getId()+") order by a.`date` desc";
+				+ " and od.product_id = " + productId + " and od.batch = '" + batch + "'";
+		if(expirateDate != "") {
+			sentence += " and od.expiration_date = '" + expirateDate + "'";
+		}
+		sentence+= " and a.operation_id = od.order_id and a.action_id = " + AuditState.COMFIRMED.getId()+") order by a.`date` desc";
 
 		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
 		List<Audit> ordersAudit = query.list();
-		List<AuditDTO> ordersAuditDTO = new ArrayList<AuditDTO>();
+		List<AuditDTO> ordersAuditDTO = new ArrayList<>();
 		for (Audit audit : ordersAudit) {
 			dateFormatter.format(audit.getDate());
 			AuditDTO auditDTO = new AuditDTO(audit.getId(), audit.getRole().getDescription(), audit.getOperationId(), audit.getAuditAction().getDescription(),
@@ -315,13 +327,15 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		}
 		auditResultDTO.setOrders(ordersAuditDTO);
 		sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, order_detail as od where (a.role_id = "
-				+ RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.product_id = " + productId + " and od.batch = '" + batch
-				+ "' and od.expiration_date = '" + expirateDate
-				+ "' and a.operation_id = dnd.delivery_note_id and dnd.order_detail_id = od.id and dnd.output_detail_id is null and a.action_id = " + AuditState.COMFIRMED.getId()+") order by a.`date` desc";
+				+ RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.product_id = " + productId + " and od.batch = '" + batch +"'";
+		if(expirateDate != "") {
+			sentence+=" and od.expiration_date = '" + expirateDate +"'";
+		}
+		sentence+= " and a.operation_id = dnd.delivery_note_id and dnd.order_detail_id = od.id and dnd.output_detail_id is null and a.action_id = " + AuditState.COMFIRMED.getId()+") order by a.`date` desc";
 
 		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
 		List<Audit> deliveryNoteAudit = query.list();
-		List<AuditDTO> deliveryNoteAuditDTO = new ArrayList<AuditDTO>();
+		List<AuditDTO> deliveryNoteAuditDTO = new ArrayList<>();
 		for (Audit audit : deliveryNoteAudit) {
 			dateFormatter.format(audit.getDate());
 			AuditDTO auditDTO = new AuditDTO(audit.getId(), audit.getRole().getDescription(), audit.getOperationId(), audit.getAuditAction().getDescription(),
@@ -330,9 +344,11 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		}
 
 		sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, output_detail as od where (a.role_id = "
-				+ RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.product_id = " + productId + " and od.batch = '" + batch
-				+ "' and od.expiration_date = '" + expirateDate
-				+ "' and a.operation_id = dnd.delivery_note_id and dnd.output_detail_id = od.id and dnd.order_detail_id is null and a.action_id = " + AuditState.COMFIRMED.getId()+") order by a.`date` desc";
+				+ RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.product_id = " + productId + " and od.batch = '" + batch + "'";
+		if(expirateDate != "") {
+			sentence+= " and od.expiration_date = '" + expirateDate + "'";
+		}
+		sentence+= " and a.operation_id = dnd.delivery_note_id and dnd.output_detail_id = od.id and dnd.order_detail_id is null and a.action_id = " + AuditState.COMFIRMED.getId()+") order by a.`date` desc";
 
 		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
 		deliveryNoteAudit = query.list();
@@ -344,9 +360,11 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		}
 
         sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, supplying_detail as sd where (a.role_id = "
-                + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and sd.product_id = " + productId + " and sd.batch = '" + batch
-                + "' and sd.expiration_date = '" + expirateDate
-                + "' and a.operation_id = dnd.delivery_note_id and dnd.supplying_detail_id = sd.id and a.action_id = " + AuditState.COMFIRMED.getId()+") order by a.`date` desc";
+                + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and sd.product_id = " + productId + " and sd.batch = '" + batch + "'";
+		if(expirateDate != "") {
+			sentence+= " and sd.expiration_date = '" + expirateDate + "'";
+		}
+		sentence+= " and a.operation_id = dnd.delivery_note_id and dnd.supplying_detail_id = sd.id and a.action_id = " + AuditState.COMFIRMED.getId()+") order by a.`date` desc";
 
         query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
         deliveryNoteAudit = query.list();
