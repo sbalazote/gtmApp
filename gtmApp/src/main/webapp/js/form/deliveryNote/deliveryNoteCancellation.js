@@ -144,9 +144,9 @@ DeliveryNoteCancellation = function() {
 	};
 
 	$("#confirmButton").click(function() {
-		if (deliveryNotesToCancel.length == 1) {
+		if (_.uniq(deliveryNotesToCancel).length == 1) {
 			cancelDeliveryNotes(deliveryNotesToCancel);
-		} else if (deliveryNotesToCancel.length > 1) {
+		} else if (_.uniq(deliveryNotesToCancel).length > 1) {
 			BootstrapDialog.show({
 				type: BootstrapDialog.TYPE_WARNING,
 				size: BootstrapDialog.SIZE_LARGE,
@@ -178,7 +178,7 @@ DeliveryNoteCancellation = function() {
 			url: "cancelDeliveryNotes.do",
 			type: "POST",
 			contentType: "application/json",
-			data: JSON.stringify(deliveryNotesToCancel),
+			data: JSON.stringify(_.uniq(deliveryNotesToCancel)),
 			async: false,
 			success: function(response) {
 				myReload("success", "Se han anulado los siguientes remitos: " + deliveryNotesToCancel);
