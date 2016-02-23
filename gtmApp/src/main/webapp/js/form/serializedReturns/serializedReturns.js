@@ -151,13 +151,13 @@ SerializedReturns = function() {
 			        }
 				},
 				deliveryNotePOS: {
-					required: true,
+					required: false,
 					digits: true,
 					minlength: 4,
 					maxlength: 4
 				},
 				deliveryNoteNumber: {
-					required: true,
+					required: false,
 					digits: true,
 					minlength: 8,
 					maxlength: 8
