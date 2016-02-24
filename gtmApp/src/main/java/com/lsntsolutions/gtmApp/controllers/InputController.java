@@ -5,8 +5,8 @@ import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.InputDTO;
 import com.lsntsolutions.gtmApp.model.Input;
 import com.lsntsolutions.gtmApp.query.InputQuery;
-import com.lsntsolutions.gtmApp.util.OperationResult;
 import com.lsntsolutions.gtmApp.service.*;
+import com.lsntsolutions.gtmApp.util.OperationResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -242,7 +242,7 @@ public class InputController {
 		input.setSelfSerializedTransactionCodeANMAT(selfSerializedTransactionCode);
 		this.inputService.save(input);
 		if (auth != null) {
-			this.auditService.addAudit(auth.getName(), RoleOperation.INPUT_AUTHORIZATION.getId(), AuditState.AUTHORITED, inputId);
+			this.auditService.addAudit(auth.getName(), RoleOperation.FORCED_INPUT.getId(), AuditState.COMFIRMED, inputId);
 		}
 	}
 

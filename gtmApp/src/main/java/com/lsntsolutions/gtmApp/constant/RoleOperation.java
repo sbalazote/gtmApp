@@ -44,7 +44,9 @@ public enum RoleOperation {
 	PROVIDER_SERIALIZED_FORMAT_ADMINISTRATION("Administracion de Formatos de Serializacion",41),
 	PROFILE_ADMINISTRATION("Administracion de Perfiles",42),
 	PROPERTY_ADMINISTRATION("Administracion de Propiedades", 43),
-	ORDER_LABEL_PRINT("Impresión de Rótulos", 44);
+	ORDER_LABEL_PRINT("Impresión de Rótulos", 44),
+	FAKE_DELIVERY_NOTE_PRINT("Impresión de Remito Propio", 45),
+	FORCED_INPUT("Ingreso Forzado", 46);
 
 	private Integer id;
 	private String description;

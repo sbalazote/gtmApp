@@ -84,7 +84,7 @@ public class OutputController {
 			this.deliveryNoteSheetPrinter.print(auth.getName(), outputs, printerResultDTO,false,true,false);
 		} else {
 			Integer deliveryNote = this.fakeDeliveryNoteSheetPrinter.print(output);
-			this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote);
+			this.auditService.addAudit(auth.getName(), RoleOperation.FAKE_DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote);
 		}
 		return printerResultDTO;
 	}

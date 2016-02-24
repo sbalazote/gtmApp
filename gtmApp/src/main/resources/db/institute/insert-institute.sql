@@ -263,6 +263,8 @@ insert into `institute`.`role` values (41, 'PROVIDER_SERIALIZED_FORMAT_ADMINISTR
 insert into `institute`.`role` values (42, 'PROFILE_ADMINISTRATION', 'Administracion de Perfiles');
 insert into `institute`.`role` values (43, 'PROPERTY_ADMINISTRATION', 'Administracion de Propiedades');
 insert into `institute`.`role` values (44, 'ORDER_LABEL_PRINT', 'Impresion de Rotulos');
+insert into `institute`.`role` values (45, 'FAKE_DELIVERY_NOTE_PRINT', 'Impresión de Remito Propio');
+insert into `institute`.`role` values (46, 'FORCED_INPUT', 'Ingreso Forzado');
 
 insert into `institute`.`profile` values (1, "admin");
 
