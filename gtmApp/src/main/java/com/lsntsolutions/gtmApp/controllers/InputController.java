@@ -1,6 +1,5 @@
 package com.lsntsolutions.gtmApp.controllers;
 
-import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.InputDTO;
 import com.lsntsolutions.gtmApp.model.Input;
@@ -105,12 +104,11 @@ public class InputController {
         OperationResult result = null;
         if (auth != null) {
             result = this.inputService.sendTransaction(input, false);
-			this.auditService.addAudit(auth.getName(), RoleOperation.INPUT.getId(), AuditState.AUTHORITED, input.getId());
+			this.auditService.addAudit(auth.getName(), RoleOperation.FORCED_INPUT_UPDATE.getId(), input.getId());
         }
 
         return result;
     }
-
 
     @RequestMapping(value = "/existsSerial", method = RequestMethod.GET)
 	public @ResponseBody
@@ -193,7 +191,7 @@ public class InputController {
 		input.setCancelled(true);
 		this.inputService.save(input);
 		if (auth != null) {
-			this.auditService.addAudit(auth.getName(), RoleOperation.INPUT_CANCELLATION.getId(), AuditState.CANCELLED, input.getId());
+			this.auditService.addAudit(auth.getName(), RoleOperation.INPUT_CANCELLATION.getId(), input.getId());
 		}
 		return true;
 	}
@@ -213,7 +211,7 @@ public class InputController {
 		boolean result = this.inputService.cancelInput(inputId);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null && result) {
-			this.auditService.addAudit(auth.getName(), RoleOperation.INPUT_CANCELLATION.getId(), AuditState.COMFIRMED, inputId);
+			this.auditService.addAudit(auth.getName(), RoleOperation.INPUT_CANCELLATION.getId(), inputId);
 		}
 		return  result;
 	}
@@ -242,7 +240,7 @@ public class InputController {
 		input.setSelfSerializedTransactionCodeANMAT(selfSerializedTransactionCode);
 		this.inputService.save(input);
 		if (auth != null) {
-			this.auditService.addAudit(auth.getName(), RoleOperation.FORCED_INPUT.getId(), AuditState.COMFIRMED, inputId);
+			this.auditService.addAudit(auth.getName(), RoleOperation.FORCED_INPUT.getId(), inputId);
 		}
 	}
 

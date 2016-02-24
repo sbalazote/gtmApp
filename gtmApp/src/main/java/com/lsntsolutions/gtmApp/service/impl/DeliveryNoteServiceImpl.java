@@ -1,13 +1,14 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
-import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
-import com.lsntsolutions.gtmApp.model.*;
+import com.lsntsolutions.gtmApp.model.DeliveryNote;
+import com.lsntsolutions.gtmApp.model.Order;
+import com.lsntsolutions.gtmApp.model.Output;
+import com.lsntsolutions.gtmApp.model.Supplying;
 import com.lsntsolutions.gtmApp.persistence.dao.DeliveryNoteDAO;
 import com.lsntsolutions.gtmApp.query.DeliveryNoteQuery;
 import com.lsntsolutions.gtmApp.service.*;
 import com.lsntsolutions.gtmApp.util.OperationResult;
-import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -195,7 +196,7 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 				}
 			}
 
-			this.auditService.addAudit(username, RoleOperation.DELIVERY_NOTE_CANCELLATION.getId(), AuditState.CANCELLED, deliveryNote.getId());
+			this.auditService.addAudit(username, RoleOperation.DELIVERY_NOTE_CANCELLATION.getId(), deliveryNote.getId());
 		}
 	}
 

@@ -1,13 +1,12 @@
 package com.lsntsolutions.gtmApp.persistence.dao;
 
-import java.util.Date;
-import java.util.List;
-
-import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.AuditResultDTO;
 import com.lsntsolutions.gtmApp.model.Audit;
 import com.lsntsolutions.gtmApp.query.AuditQuery;
+
+import java.util.Date;
+import java.util.List;
 
 public interface AuditDAO {
 
@@ -25,5 +24,5 @@ public interface AuditDAO {
 
 	AuditResultDTO getAudit(Integer productId, String batch, String expirateDate);
 
-	Date getDate(RoleOperation roleOperation, Integer operationId, AuditState auditState);
+	Date getDate(RoleOperation roleOperation, Integer operationId);
 }

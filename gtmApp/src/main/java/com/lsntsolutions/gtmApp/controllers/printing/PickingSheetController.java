@@ -1,6 +1,5 @@
 package com.lsntsolutions.gtmApp.controllers.printing;
 
-import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.model.ProvisioningRequestState;
@@ -56,7 +55,7 @@ public class PickingSheetController {
 			modelAndView.addObject("provisioningRequestStateService",this.provisioningRequestStateService);
 			modelAndView.addObject("stockService",this.stockService);
 			for (String provisioningId : provisioningIds) {
-				this.auditService.addAudit(auth.getName(), RoleOperation.PROVISIONING_REQUEST_PRINT.getId(), AuditState.COMFIRMED, Integer.parseInt(provisioningId));
+				this.auditService.addAudit(auth.getName(), RoleOperation.PROVISIONING_REQUEST_PRINT.getId(), Integer.parseInt(provisioningId));
 			}
 		}
 		return modelAndView;

@@ -4,7 +4,6 @@ import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.pdf.*;
-import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.DeliveryNoteConfigParam;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.constant.State;
@@ -414,7 +413,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
                     }
 
                     logger.info("Se ha guardado el remito numero: " + currentDeliveryNoteNumber + " para " + egress.getName() + " con Id: " + egress.getId());
-                    this.auditService.addAudit(userName, RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, dn.getId());
+                    this.auditService.addAudit(userName, RoleOperation.PENDING_TRANSACTIONS.getId(), dn.getId());
 
                     currentDeliveryNoteNumber++;
                     printsNumbers.add(dn.getNumber());

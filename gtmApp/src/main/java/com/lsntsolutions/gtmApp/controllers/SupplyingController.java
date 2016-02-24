@@ -1,6 +1,5 @@
 package com.lsntsolutions.gtmApp.controllers;
 
-import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.DocumentType;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
@@ -68,7 +67,7 @@ public class SupplyingController {
 			printerResultDTO = new PrinterResultDTO(supplying.getFormatId());
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			if (auth != null) {
-				this.auditService.addAudit(auth.getName(), RoleOperation.SUPPLYING.getId(), AuditState.COMFIRMED, supplying.getId());
+				this.auditService.addAudit(auth.getName(), RoleOperation.SUPPLYING.getId(), supplying.getId());
 			}
 			if (this.propertyService.get().getSupplyingConcept().isPrintDeliveryNote()) {
 				List<Integer> supplyings = new ArrayList<>();
@@ -76,7 +75,7 @@ public class SupplyingController {
 				this.deliveryNoteSheetPrinter.print(auth.getName(), supplyings, printerResultDTO,true,false,false);
 			} else {
 				Integer deliveryNote = this.fakeDeliveryNoteSheetPrinter.print(supplying);
-				this.auditService.addAudit(auth.getName(), RoleOperation.FAKE_DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote);
+				this.auditService.addAudit(auth.getName(), RoleOperation.FAKE_DELIVERY_NOTE_PRINT.getId(), deliveryNote);
 			}
 		}
 		return printerResultDTO;

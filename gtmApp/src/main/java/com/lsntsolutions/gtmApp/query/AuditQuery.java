@@ -4,7 +4,6 @@ public class AuditQuery {
 
 	private Integer roleId;
 	private Integer operationId;
-	private Integer actionId;
 	private String dateFrom;
 	private String dateTo;
 	private Integer userId;
@@ -23,14 +22,6 @@ public class AuditQuery {
 
 	public void setOperationId(Integer operationId) {
 		this.operationId = operationId;
-	}
-
-	public Integer getActionId() {
-		return this.actionId;
-	}
-
-	public void setActionId(Integer actionId) {
-		this.actionId = actionId;
 	}
 
 	public String getDateFrom() {
@@ -57,14 +48,13 @@ public class AuditQuery {
 		this.userId = userId;
 	}
 
-	public static AuditQuery createFromParameters(String dateFrom, String dateTo, Integer roleId, Integer operationId, Integer userId, Integer actionId) {
+	public static AuditQuery createFromParameters(String dateFrom, String dateTo, Integer roleId, Integer operationId, Integer userId) {
 		AuditQuery inputQuery = new AuditQuery();
 		inputQuery.dateFrom = dateFrom;
 		inputQuery.dateTo = dateTo;
 		inputQuery.roleId = roleId;
 		inputQuery.operationId = operationId;
 		inputQuery.userId = userId;
-		inputQuery.actionId = actionId;
 		return inputQuery;
 	}
 

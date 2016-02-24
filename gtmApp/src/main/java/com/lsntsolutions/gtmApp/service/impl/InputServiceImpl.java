@@ -1,7 +1,6 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
 import com.inssjp.mywebservice.business.WebServiceResult;
-import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.Constants;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.InputDTO;
@@ -66,9 +65,9 @@ public class InputServiceImpl implements InputService {
 			this.printSelfSerializedTags(input);
 		}
 		if (isSerializedReturn) {
-			this.auditService.addAudit(username, RoleOperation.SERIALIZED_RETURNS.getId(), AuditState.COMFIRMED, input.getId());
+			this.auditService.addAudit(username, RoleOperation.SERIALIZED_RETURNS.getId(), input.getId());
 		} else {
-			this.auditService.addAudit(username, RoleOperation.INPUT.getId(), AuditState.COMFIRMED, input.getId());
+			this.auditService.addAudit(username, RoleOperation.INPUT.getId(), input.getId());
 		}
 
 
@@ -518,7 +517,7 @@ public class InputServiceImpl implements InputService {
 			input.setForcedInput(true);
 		}
 		this.saveAndUpdateStock(input);
-		this.auditService.addAudit(name, RoleOperation.INPUT_AUTHORIZATION.getId(), AuditState.COMFIRMED, input.getId());
+		this.auditService.addAudit(name, RoleOperation.INPUT_AUTHORIZATION.getId(), input.getId());
 		return input;
 	}
 
@@ -571,7 +570,7 @@ public class InputServiceImpl implements InputService {
 		}
 		this.save(input);
 
-		this.auditService.addAudit(userName, RoleOperation.INPUT.getId(), AuditState.COMFIRMED, input.getId());
+		this.auditService.addAudit(userName, RoleOperation.INPUT.getId(), input.getId());
 		return input;
 	}
 }

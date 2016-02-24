@@ -5,18 +5,16 @@ public class AuditDTO {
 	private Integer id;
 	private String role;
 	private Integer operationId;
-	private String auditAction;
 	private String date;
 	private String username;
 
 	public AuditDTO() {}
 
-	public AuditDTO(Integer id, String role, Integer operationId, String auditAction, String date, String username) {
+	public AuditDTO(Integer id, String role, Integer operationId, String date, String username) {
 		super();
 		this.id = id;
 		this.role = role;
 		this.operationId = operationId;
-		this.auditAction = auditAction;
 		this.date = date;
 		this.username = username;
 	}
@@ -45,14 +43,6 @@ public class AuditDTO {
 		this.operationId = operationId;
 	}
 
-	public String getAuditAction() {
-		return this.auditAction;
-	}
-
-	public void setAuditAction(String auditAction) {
-		this.auditAction = auditAction;
-	}
-
 	public String getDate() {
 		return this.date;
 	}
@@ -68,5 +58,4 @@ public class AuditDTO {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
 }

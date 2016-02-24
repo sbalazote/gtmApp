@@ -1,12 +1,8 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
-import com.lsntsolutions.gtmApp.constant.AuditState;
+import com.lsntsolutions.gtmApp.dto.AuditDTO;
+import com.lsntsolutions.gtmApp.dto.AuditResultDTO;
 import com.lsntsolutions.gtmApp.dto.OutputOrderResultDTO;
 import com.lsntsolutions.gtmApp.model.Audit;
 import com.lsntsolutions.gtmApp.model.Input;
@@ -14,16 +10,19 @@ import com.lsntsolutions.gtmApp.model.Role;
 import com.lsntsolutions.gtmApp.persistence.dao.AuditDAO;
 import com.lsntsolutions.gtmApp.persistence.dao.InputDAO;
 import com.lsntsolutions.gtmApp.query.AuditQuery;
-import com.lsntsolutions.gtmApp.service.*;
-import com.lsntsolutions.gtmApp.dto.AuditDTO;
-import com.lsntsolutions.gtmApp.dto.AuditResultDTO;
-import com.lsntsolutions.gtmApp.model.AuditAction;
+import com.lsntsolutions.gtmApp.service.AuditService;
+import com.lsntsolutions.gtmApp.service.RoleService;
+import com.lsntsolutions.gtmApp.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lsntsolutions.gtmApp.dto.AuditDTO;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 
 @Service
 @Transactional
@@ -39,9 +38,6 @@ public class AuditServiceImpl implements AuditService {
 
 	@Autowired
 	private UserService userService;
-
-	@Autowired
-	private AuditActionService auditActionService;
 
 	@Autowired
 	private InputDAO inputService;
@@ -62,10 +58,8 @@ public class AuditServiceImpl implements AuditService {
 	}
 
 	@Override
-	public void addAudit(String username, Integer roleId, AuditState action, Integer operationId) {
+	public void addAudit(String username, Integer roleId, Integer operationId) {
 		Audit audit = new Audit();
-		AuditAction auditAction = this.auditActionService.get(action.getId());
-		audit.setAuditAction(auditAction);
 		Date date = new Date();
 		if(roleId == RoleOperation.DELIVERY_NOTE_PRINT.getId()){
 			date = new Date( System.currentTimeMillis() + 1000L);
@@ -77,7 +71,7 @@ public class AuditServiceImpl implements AuditService {
 		audit.setUser(this.userService.getByName(username));
 
 		this.save(audit);
-		logger.info("Se ha registrado la accion: " + auditAction.getDescription() + ", relacionado con la Operacion " + role.getDescription()
+		logger.info("Se ha registrado la Operacion: " + role.getDescription().toUpperCase() + ", con Identificador Nro.: " + audit.getOperationId()
 				+ " realizada por: " + username);
 	}
 
@@ -181,7 +175,7 @@ public class AuditServiceImpl implements AuditService {
 	}
 
 	@Override
-	public Date getDate(RoleOperation roleOperation, Integer operationId, AuditState auditState) {
-		return this.auditDAO.getDate(roleOperation,operationId,auditState);
+	public Date getDate(RoleOperation roleOperation, Integer operationId) {
+		return this.auditDAO.getDate(roleOperation,operationId);
 	}
 }

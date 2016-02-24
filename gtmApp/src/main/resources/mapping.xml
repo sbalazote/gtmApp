@@ -40,10 +40,6 @@
             <bind-xml name="Operacion" node="attribute" />
         </field>
 
-        <field name="auditAction" type="string">
-            <bind-xml name="Accion" node="attribute" />
-        </field>
-
         <field name="date" type="string">
             <bind-xml name="Fecha" node="attribute" />
         </field>

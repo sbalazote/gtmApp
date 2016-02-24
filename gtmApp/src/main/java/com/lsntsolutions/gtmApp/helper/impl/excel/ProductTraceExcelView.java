@@ -7,7 +7,6 @@ import org.apache.poi.ss.usermodel.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.List;
 import java.util.Map;
 
@@ -44,10 +43,6 @@ public class ProductTraceExcelView extends AbstractExcelView {
 
         cell = row.createCell(c++);
         cell.setCellStyle(style);
-        cell.setCellValue("ACCION");
-
-        cell = row.createCell(c++);
-        cell.setCellStyle(style);
         cell.setCellValue("FECHA");
 
         cell = row.createCell(c++);
@@ -61,7 +56,6 @@ public class ProductTraceExcelView extends AbstractExcelView {
             row.createCell(c++).setCellValue(auditDTO.getId());
             row.createCell(c++).setCellValue(auditDTO.getRole());
             row.createCell(c++).setCellValue(auditDTO.getOperationId());
-            row.createCell(c++).setCellValue(auditDTO.getAuditAction());
             row.createCell(c++).setCellValue(auditDTO.getDate());
             row.createCell(c++).setCellValue(auditDTO.getUsername());
 

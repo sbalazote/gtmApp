@@ -1,6 +1,5 @@
 package com.lsntsolutions.gtmApp.controllers;
 
-import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.OutputDTO;
 import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
@@ -73,9 +72,9 @@ public class OutputController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
 			if (output.getConcept().isDestruction()) {
-				this.auditService.addAudit(auth.getName(), RoleOperation.PRODUCT_DESTRUCTION.getId(), AuditState.COMFIRMED, output.getId());
+				this.auditService.addAudit(auth.getName(), RoleOperation.PRODUCT_DESTRUCTION.getId(), output.getId());
 			} else {
-				this.auditService.addAudit(auth.getName(), RoleOperation.OUTPUT.getId(), AuditState.COMFIRMED, output.getId());
+				this.auditService.addAudit(auth.getName(), RoleOperation.OUTPUT.getId(), output.getId());
 			}
 		}
 		if (output.getConcept().isPrintDeliveryNote()) {
@@ -84,7 +83,7 @@ public class OutputController {
 			this.deliveryNoteSheetPrinter.print(auth.getName(), outputs, printerResultDTO,false,true,false);
 		} else {
 			Integer deliveryNote = this.fakeDeliveryNoteSheetPrinter.print(output);
-			this.auditService.addAudit(auth.getName(), RoleOperation.FAKE_DELIVERY_NOTE_PRINT.getId(), AuditState.COMFIRMED, deliveryNote);
+			this.auditService.addAudit(auth.getName(), RoleOperation.FAKE_DELIVERY_NOTE_PRINT.getId(), deliveryNote);
 		}
 		return printerResultDTO;
 	}
@@ -123,7 +122,7 @@ public class OutputController {
 			for (Integer outputId : outputIds) {
 				Output output = this.outputService.get(outputId);
 				OperationResult operationResult = null;// this.outputService.saveAndInform(output);
-				this.auditService.addAudit(auth.getName(), RoleOperation.OUTPUT.getId(), AuditState.COMFIRMED, output.getId());
+				this.auditService.addAudit(auth.getName(), RoleOperation.OUTPUT.getId(), output.getId());
 				operationResults.add(operationResult);
 			}
 		}

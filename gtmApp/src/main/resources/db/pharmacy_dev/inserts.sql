@@ -352,6 +352,7 @@ insert into `pharmacy_dev`.`role` values (43, 'PROPERTY_ADMINISTRATION', 'Admini
 insert into `pharmacy_dev`.`role` values (44, 'ORDER_LABEL_PRINT', 'Impresion de Rotulos');
 insert into `pharmacy_dev`.`role` values (45, 'FAKE_DELIVERY_NOTE_PRINT', 'Impresión de Remito Propio');
 insert into `pharmacy_dev`.`role` values (46, 'FORCED_INPUT', 'Ingreso Forzado');
+insert into `pharmacy_dev`.`role` values (47, 'FORCED_INPUT_UPDATE', 'Modificación de Ingreso Forzado');
 
 insert into `pharmacy_dev`.`profile` values (1, "admin");
 

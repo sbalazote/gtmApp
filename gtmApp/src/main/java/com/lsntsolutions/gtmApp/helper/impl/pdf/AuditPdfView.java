@@ -1,26 +1,22 @@
 package com.lsntsolutions.gtmApp.helper.impl.pdf;
 
+import com.lowagie.text.*;
+import com.lowagie.text.pdf.*;
+import com.lowagie.text.pdf.draw.LineSeparator;
 import com.lsntsolutions.gtmApp.config.PropertyProvider;
 import com.lsntsolutions.gtmApp.helper.AbstractPdfView;
 import com.lsntsolutions.gtmApp.model.Audit;
 import com.lsntsolutions.gtmApp.util.StringUtility;
-import com.lowagie.text.*;
-import com.lowagie.text.Font;
-import com.lowagie.text.Image;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.*;
-import com.lowagie.text.pdf.draw.LineSeparator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
 public class AuditPdfView extends AbstractPdfView {
-	PdfPTable table = new PdfPTable(5); // 5 columnas
+	PdfPTable table = new PdfPTable(4); // 4 columnas
 	/**
 	 * Inner class to add a table as header.
 	 */
@@ -70,19 +66,16 @@ public class AuditPdfView extends AbstractPdfView {
 				PdfPCell auditDateTimeHeader = new PdfPCell(new Paragraph("FECHA."));
 				PdfPCell auditRoleHeader = new PdfPCell(new Paragraph("Rol"));
 				PdfPCell auditOperationNumberHeader = new PdfPCell(new Paragraph("Nro. de Operación"));
-				PdfPCell auditActionHeader = new PdfPCell(new Paragraph("Acción"));
 				PdfPCell auditUserHeader = new PdfPCell(new Paragraph("Usuario"));
 
 				auditDateTimeHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 				auditRoleHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 				auditOperationNumberHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
-				auditActionHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 				auditUserHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 
 				table.addCell(auditDateTimeHeader);
 				table.addCell(auditRoleHeader);
 				table.addCell(auditOperationNumberHeader);
-				table.addCell(auditActionHeader);
 				table.addCell(auditUserHeader);
 				document.add(table);
 				table.flushContent();
@@ -106,7 +99,7 @@ public class AuditPdfView extends AbstractPdfView {
 		HeaderFooterPageEvent event = new HeaderFooterPageEvent();
 		writer.setPageEvent(event);
 		table.setWidthPercentage(95);
-		float[] columnWidths = {4f, 4f, 4f, 2f, 2f};
+		float[] columnWidths = {4f, 4f, 4f, 2f};
 		table.setWidths(columnWidths);
 		document.open();
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -118,23 +111,19 @@ public class AuditPdfView extends AbstractPdfView {
 			PdfPCell auditDateTimeDetail = new PdfPCell(new Paragraph(dateFormatter.format(audit.getDate()), PdfConstants.fontDetails));
 			PdfPCell auditRoleDetail = new PdfPCell(new Paragraph(audit.getRole().getDescription(), PdfConstants.fontDetails));
 			PdfPCell auditOperationNumberDetail = new PdfPCell(new Paragraph(StringUtility.addLeadingZeros(audit.getOperationId().toString(), 8), PdfConstants.fontDetails));
-			PdfPCell auditActionDetail = (new PdfPCell(new Paragraph(audit.getAuditAction().getDescription(), PdfConstants.fontDetails)));
 			PdfPCell auditUserDetail = (new PdfPCell(new Paragraph(audit.getUser().getName(), PdfConstants.fontDetails)));
 
 			auditDateTimeDetail.setBorder(Rectangle.NO_BORDER);
 			auditRoleDetail.setBorder(Rectangle.NO_BORDER);
 			auditOperationNumberDetail.setBorder(Rectangle.NO_BORDER);
-			auditActionDetail.setBorder(Rectangle.NO_BORDER);
 			auditUserDetail.setBorder(Rectangle.NO_BORDER);
 
 			table.addCell(auditDateTimeDetail);
 			table.addCell(auditRoleDetail);
 			table.addCell(auditOperationNumberDetail);
-			table.addCell(auditActionDetail);
 			table.addCell(auditUserDetail);
 			document.add(table);
 			table.flushContent();
 		}
 	}
-
 }

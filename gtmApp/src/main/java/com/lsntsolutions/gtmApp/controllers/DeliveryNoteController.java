@@ -1,6 +1,7 @@
 package com.lsntsolutions.gtmApp.controllers;
 
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
+import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.dto.DeliveryNoteResultDTO;
 import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.helper.DeliveryNoteSheetPrinter;
@@ -9,8 +10,6 @@ import com.lsntsolutions.gtmApp.model.Order;
 import com.lsntsolutions.gtmApp.model.ProvisioningRequest;
 import com.lsntsolutions.gtmApp.service.*;
 import com.lsntsolutions.gtmApp.util.OperationResult;
-import com.lsntsolutions.gtmApp.constant.AuditState;
-import com.lsntsolutions.gtmApp.constant.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -130,7 +129,7 @@ public class DeliveryNoteController {
 			for (String deliveryNoteNumber : deliveryNoteNumbers) {
 				DeliveryNote deliveryNote = this.deliveryNoteService.getDeliveryNoteFromNumber(deliveryNoteNumber);
 				OperationResult operationResult = this.deliveryNoteService.saveAndInform(deliveryNote);
-				this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), AuditState.AUTHORITED, deliveryNote.getId());
+				this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), deliveryNote.getId());
 				operationResults.add(operationResult);
 			}
 		}

@@ -1,6 +1,5 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
-import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
@@ -214,7 +213,7 @@ public class ProvisioningRequestServiceImpl implements ProvisioningRequestServic
 			if (provisioningRequest.getState().getId() < State.ASSEMBLED.getId()) {
 				provisioningRequest.setState(state);
 				this.save(provisioningRequest);
-				this.auditService.addAudit(username, RoleOperation.PROVISIONING_REQUEST_AUTHORIZATION.getId(), AuditState.AUTHORITED, id);
+				this.auditService.addAudit(username, RoleOperation.PROVISIONING_REQUEST_AUTHORIZATION.getId(), id);
 				List<String> success = new ArrayList<>();
 				success.add("Se ha autorizado el Pedido Nro.: " + provisioningRequest.getFormatId());
 				logger.info("Se ha autorizado el Pedido Nro.: " + provisioningRequest.getFormatId());

@@ -1,6 +1,5 @@
 package com.lsntsolutions.gtmApp.controllers;
 
-import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.dto.OrderDTO;
@@ -102,7 +101,7 @@ public class OrderController {
 			}
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			if (auth != null) {
-				this.auditService.addAudit(auth.getName(), RoleOperation.ORDER_ASSEMBLY.getId(), AuditState.COMFIRMED, order.getId());
+				this.auditService.addAudit(auth.getName(), RoleOperation.ORDER_ASSEMBLY.getId(), order.getId());
 			}
 			return printerResultDTO;
 		}else{
@@ -168,7 +167,7 @@ public class OrderController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
 			for (Integer orderId : orderIds) {
-				this.auditService.addAudit(auth.getName(), RoleOperation.ORDER_ASSEMBLY_CANCELLATION.getId(), AuditState.CANCELLED, orderId);
+				this.auditService.addAudit(auth.getName(), RoleOperation.ORDER_ASSEMBLY_CANCELLATION.getId(), orderId);
 			}
 		}
 	}

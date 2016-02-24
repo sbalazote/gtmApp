@@ -693,6 +693,7 @@ insert into `drugstore`.`role` values (43, 'PROPERTY_ADMINISTRATION', 'Administr
 insert into `drugstore`.`role` values (44, 'ORDER_LABEL_PRINT', 'Impresion de Rotulos');
 insert into `drugstore`.`role` values (45, 'FAKE_DELIVERY_NOTE_PRINT', 'Impresión de Remito Propio');
 insert into `drugstore`.`role` values (46, 'FORCED_INPUT', 'Ingreso Forzado');
+insert into `drugstore`.`role` values (47, 'FORCED_INPUT_UPDATE', 'Modificación de Ingreso Forzado');
 
 insert into `drugstore`.`profile` values (1, "perfil1");
 insert into `drugstore`.`profile` values (2, "perfil2");

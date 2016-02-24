@@ -1,6 +1,5 @@
 package com.lsntsolutions.gtmApp.controllers;
 
-import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.DocumentType;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.constant.State;
@@ -68,9 +67,9 @@ public class ProvisioningRequestController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null && operationResult.getResultado()) {
 			if (provisioningRequestDTO.getId() == null) {
-				this.auditService.addAudit(auth.getName(), RoleOperation.PROVISIONING_REQUEST.getId(), AuditState.COMFIRMED, Integer.valueOf(operationResult.getOperationId()));
+				this.auditService.addAudit(auth.getName(), RoleOperation.PROVISIONING_REQUEST.getId(), Integer.valueOf(operationResult.getOperationId()));
 			} else {
-				this.auditService.addAudit(auth.getName(), RoleOperation.PROVISIONING_REQUEST.getId(), AuditState.MODIFIED, Integer.valueOf(operationResult.getOperationId()));
+				this.auditService.addAudit(auth.getName(), RoleOperation.PROVISIONING_REQUEST_UPDATE.getId(), Integer.valueOf(operationResult.getOperationId()));
 			}
 		}
 		return operationResult;
@@ -197,7 +196,7 @@ public class ProvisioningRequestController {
 		boolean result = this.provisioningRequestService.cancelProvisioningRequest(provisioningId);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
-			this.auditService.addAudit(auth.getName(), RoleOperation.PROVISIONING_REQUEST_CANCELLATION.getId(), AuditState.CANCELLED, provisioningId);
+			this.auditService.addAudit(auth.getName(), RoleOperation.PROVISIONING_REQUEST_CANCELLATION.getId(), provisioningId);
 		}
 		return result;
 	}
@@ -211,7 +210,7 @@ public class ProvisioningRequestController {
 		modelMap.put("provisionings", provisioningRequests);
 		HashMap<Integer, Date> provisioningConfirmDates = new HashMap<>();
 		for(ProvisioningRequest provisioningRequest : provisioningRequests){
-			provisioningConfirmDates.put(provisioningRequest.getId(),this.auditService.getDate(RoleOperation.PROVISIONING_REQUEST, provisioningRequest.getId(),AuditState.COMFIRMED));
+			provisioningConfirmDates.put(provisioningRequest.getId(),this.auditService.getDate(RoleOperation.PROVISIONING_REQUEST, provisioningRequest.getId()));
 		}
 		modelMap.put("confirmDates", provisioningConfirmDates);
 		modelAndView.addAllObjects(modelMap);
@@ -273,7 +272,7 @@ public class ProvisioningRequestController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
 			for (Integer orderId : assignOperatorDTO.getProvisioningsIdsToReassign()) {
-				this.auditService.addAudit(auth.getName(), RoleOperation.ORDER_ASSEMBLY.getId(), AuditState.MODIFIED, orderId);
+				this.auditService.addAudit(auth.getName(), RoleOperation.LOGISTIC_OPERATOR_ASSIGNMENT.getId(), orderId);
 			}
 		}
 		return assignOperatorDTO.getProvisioningsIdsToReassign();

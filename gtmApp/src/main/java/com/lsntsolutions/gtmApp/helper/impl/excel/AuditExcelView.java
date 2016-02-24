@@ -1,20 +1,14 @@
 package com.lsntsolutions.gtmApp.helper.impl.excel;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Map;
+import com.lsntsolutions.gtmApp.helper.AbstractExcelView;
+import com.lsntsolutions.gtmApp.model.Audit;
+import org.apache.poi.ss.usermodel.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.lsntsolutions.gtmApp.helper.AbstractExcelView;
-import com.lsntsolutions.gtmApp.model.Audit;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Map;
 
 public class AuditExcelView extends AbstractExcelView {
 
@@ -54,10 +48,6 @@ public class AuditExcelView extends AbstractExcelView {
 
 		cell = row.createCell(c++);
 		cell.setCellStyle(style);
-		cell.setCellValue("ACCION");
-
-		cell = row.createCell(c++);
-		cell.setCellStyle(style);
 		cell.setCellValue("USUARIO");
 
 		// Create data cell
@@ -67,7 +57,6 @@ public class AuditExcelView extends AbstractExcelView {
 			row.createCell(c++).setCellValue(dateFormatter.format(audit.getDate()));
 			row.createCell(c++).setCellValue(audit.getRole().getDescription());
 			row.createCell(c++).setCellValue(audit.getOperationId());
-			row.createCell(c++).setCellValue(audit.getAuditAction().getDescription());
 			row.createCell(c++).setCellValue(audit.getUser().getName());
 
 		}

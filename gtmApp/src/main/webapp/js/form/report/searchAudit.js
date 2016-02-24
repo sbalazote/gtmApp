@@ -59,7 +59,6 @@ SearchAudit = function() {
 				"dateTo": $("#dateToSearch").val(),
 				"userId": $("#userSearch").val() || null,
 				"operationId": $("#operationNumberSearch").val() || null,
-				"actionId": $("#auditActionSearch").val() || null,
 				"roleId": $("#roleSearch").val() || null,
 			};
 			
@@ -104,7 +103,6 @@ SearchAudit = function() {
 					audit.date = myParseDateTime(response[i].date);
 					audit.role = response[i].role.description;
 					audit.operationNumber = response[i].operationId;
-					audit.action = response[i].auditAction.description;
 					audit.user = response[i].user.name;
 					aaData.push(audit);
 				}
@@ -119,7 +117,6 @@ SearchAudit = function() {
 				'&dateTo=' + jsonAuditSearch.dateTo +
 				'&operationId=' + jsonAuditSearch.operationId +
 				'&userId=' + jsonAuditSearch.userId +
-				'&actionId=' + jsonAuditSearch.actionId +
 				'&roleId=' + jsonAuditSearch.roleId;
 				
 				var exportHTML = exportQueryTableHTML("./rest/audits", params);

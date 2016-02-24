@@ -1,29 +1,28 @@
 package com.lsntsolutions.gtmApp.helper.impl.pdf;
 
-import com.lsntsolutions.gtmApp.config.PropertyProvider;
-import com.lsntsolutions.gtmApp.dto.AuditDTO;
-import com.lsntsolutions.gtmApp.dto.AuditResultDTO;
-import com.lsntsolutions.gtmApp.helper.AbstractPdfView;
-
 import com.lowagie.text.*;
 import com.lowagie.text.Font;
 import com.lowagie.text.Image;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.*;
 import com.lowagie.text.pdf.draw.LineSeparator;
+import com.lsntsolutions.gtmApp.config.PropertyProvider;
+import com.lsntsolutions.gtmApp.dto.AuditDTO;
+import com.lsntsolutions.gtmApp.dto.AuditResultDTO;
+import com.lsntsolutions.gtmApp.helper.AbstractPdfView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.List;
 
 public class ProductTracePdfView extends AbstractPdfView {
 
-    PdfPTable table = new PdfPTable(6); // 6 columnas
+    PdfPTable table = new PdfPTable(5); // 5 columnas
     /**
      * Inner class to add a table as header.
      */
@@ -73,21 +72,18 @@ public class ProductTracePdfView extends AbstractPdfView {
                 PdfPCell auditIdHeader = new PdfPCell(new Paragraph("Id."));
                 PdfPCell auditRoleHeader = new PdfPCell(new Paragraph("Rol"));
                 PdfPCell auditOperationIdHeader = new PdfPCell(new Paragraph("Id de Operacion"));
-                PdfPCell auditActionHeader = new PdfPCell(new Paragraph("Accion"));
                 PdfPCell auditDateHeader = new PdfPCell(new Paragraph("Fecha"));
                 PdfPCell auditUserHeader = new PdfPCell(new Paragraph("Usuario"));
 
                 auditIdHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
                 auditRoleHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
                 auditOperationIdHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
-                auditActionHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
                 auditDateHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
                 auditUserHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 
                 table.addCell(auditIdHeader);
                 table.addCell(auditRoleHeader);
                 table.addCell(auditOperationIdHeader);
-                table.addCell(auditActionHeader);
                 table.addCell(auditDateHeader);
                 table.addCell(auditUserHeader);
                 document.add(table);
@@ -112,7 +108,7 @@ public class ProductTracePdfView extends AbstractPdfView {
         HeaderFooterPageEvent event = new HeaderFooterPageEvent();
         writer.setPageEvent(event);
         table.setWidthPercentage(95);
-        float[] columnWidths = {1f, 4f, 4f, 4f, 6f, 4f};
+        float[] columnWidths = {1f, 4f, 4f, 6f, 4f};
         table.setWidths(columnWidths);
         document.open();
         @SuppressWarnings("unchecked")
@@ -154,21 +150,18 @@ public class ProductTracePdfView extends AbstractPdfView {
             PdfPCell auditIdDetail = new PdfPCell(new Paragraph(auditDTO.getId().toString(), fontDetails));
             PdfPCell auditRoleDetail = new PdfPCell(new Paragraph(auditDTO.getRole(), fontDetails));
             PdfPCell auditOperationIdDetail = (new PdfPCell(new Paragraph(auditDTO.getOperationId().toString(), fontDetails)));
-            PdfPCell auditActionDetail = new PdfPCell(new Paragraph(auditDTO.getAuditAction(), fontDetails));
             PdfPCell auditDateDetail = (new PdfPCell(new Paragraph(auditDTO.getDate(), fontDetails)));
             PdfPCell auditUserDetail = (new PdfPCell(new Paragraph(auditDTO.getUsername(), fontDetails)));
 
             auditIdDetail.setBorder(Rectangle.NO_BORDER);
             auditRoleDetail.setBorder(Rectangle.NO_BORDER);
             auditOperationIdDetail.setBorder(Rectangle.NO_BORDER);
-            auditActionDetail.setBorder(Rectangle.NO_BORDER);
             auditDateDetail.setBorder(Rectangle.NO_BORDER);
             auditUserDetail.setBorder(Rectangle.NO_BORDER);
 
             table.addCell(auditIdDetail);
             table.addCell(auditRoleDetail);
             table.addCell(auditOperationIdDetail);
-            table.addCell(auditActionDetail);
             table.addCell(auditDateDetail);
             table.addCell(auditUserDetail);
             document.add(table);

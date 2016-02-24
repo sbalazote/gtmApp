@@ -46,7 +46,8 @@ public enum RoleOperation {
 	PROPERTY_ADMINISTRATION("Administracion de Propiedades", 43),
 	ORDER_LABEL_PRINT("Impresión de Rótulos", 44),
 	FAKE_DELIVERY_NOTE_PRINT("Impresión de Remito Propio", 45),
-	FORCED_INPUT("Ingreso Forzado", 46);
+	FORCED_INPUT("Ingreso Forzado", 46),
+    FORCED_INPUT_UPDATE("Modificación de Ingreso Forzado", 47);
 
 	private Integer id;
 	private String description;

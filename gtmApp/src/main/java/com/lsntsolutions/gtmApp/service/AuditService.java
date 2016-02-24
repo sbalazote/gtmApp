@@ -1,15 +1,14 @@
 package com.lsntsolutions.gtmApp.service;
 
-import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
-
-import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.AuditResultDTO;
 import com.lsntsolutions.gtmApp.dto.OutputOrderResultDTO;
 import com.lsntsolutions.gtmApp.model.Audit;
 import com.lsntsolutions.gtmApp.query.AuditQuery;
+
+import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
 
 public interface AuditService {
 
@@ -19,7 +18,7 @@ public interface AuditService {
 
 	List<Audit> getAll();
 
-	void addAudit(String username, Integer roleId, AuditState action, Integer operationId);
+	void addAudit(String username, Integer roleId, Integer operationId);
 
 	List<Audit> getAuditForSearch(AuditQuery auditQuery);
 
@@ -31,5 +30,5 @@ public interface AuditService {
 
 	OutputOrderResultDTO getOutputOrOrder(Integer productId, String serialNumber) throws ParseException;
 
-	Date getDate(RoleOperation roleOperation, Integer operationId, AuditState auditState);
+	Date getDate(RoleOperation roleOperation, Integer operationId);
 }

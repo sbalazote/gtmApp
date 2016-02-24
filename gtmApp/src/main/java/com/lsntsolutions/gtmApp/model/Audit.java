@@ -1,15 +1,8 @@
 package com.lsntsolutions.gtmApp.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "audit")
@@ -28,10 +21,6 @@ public class Audit implements Serializable {
 
 	@Column(name = "operation_id", unique = true, nullable = false)
 	private Integer operationId;
-
-	@ManyToOne
-	@JoinColumn(name = "action_id", nullable = false)
-	private AuditAction auditAction;
 
 	@Column(name = "date", nullable = false)
 	private Date date;
@@ -62,14 +51,6 @@ public class Audit implements Serializable {
 
 	public void setOperationId(Integer operationId) {
 		this.operationId = operationId;
-	}
-
-	public AuditAction getAuditAction() {
-		return this.auditAction;
-	}
-
-	public void setAuditAction(AuditAction auditAction) {
-		this.auditAction = auditAction;
 	}
 
 	public User getUser() {

@@ -1,6 +1,5 @@
 package com.lsntsolutions.gtmApp.controllers.administration;
 
-import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,9 +79,7 @@ public class ReportAdministrationController {
 
 	@RequestMapping(value = "/searchAudit", method = RequestMethod.GET)
 	public String searchAudit(ModelMap modelMap) throws Exception {
-		List<AuditState> auditActionList = Arrays.asList(AuditState.values());
 		List<RoleOperation> roleList = Arrays.asList(RoleOperation.values());
-		modelMap.put("auditActions", auditActionList);
 		modelMap.put("roles", roleList);
 		modelMap.put("users", this.userService.getAll());
 		return "searchAudit";

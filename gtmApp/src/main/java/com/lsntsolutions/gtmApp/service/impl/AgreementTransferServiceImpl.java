@@ -1,30 +1,19 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
-import com.lsntsolutions.gtmApp.model.Product;
+import com.lsntsolutions.gtmApp.dto.AgreementTransferDTO;
+import com.lsntsolutions.gtmApp.dto.AgreementTransferDetailDTO;
+import com.lsntsolutions.gtmApp.model.*;
 import com.lsntsolutions.gtmApp.persistence.dao.AgreementTransferDAO;
+import com.lsntsolutions.gtmApp.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lsntsolutions.gtmApp.constant.AuditState;
-import com.lsntsolutions.gtmApp.dto.AgreementTransferDTO;
-import com.lsntsolutions.gtmApp.dto.AgreementTransferDetailDTO;
-import com.lsntsolutions.gtmApp.model.Agreement;
-import com.lsntsolutions.gtmApp.model.AgreementTransfer;
-import com.lsntsolutions.gtmApp.model.AgreementTransferDetail;
-import com.lsntsolutions.gtmApp.model.ProductGtin;
-import com.lsntsolutions.gtmApp.service.AgreementService;
-import com.lsntsolutions.gtmApp.service.AgreementTransferService;
-import com.lsntsolutions.gtmApp.service.AuditService;
-import com.lsntsolutions.gtmApp.service.ProductGtinService;
-import com.lsntsolutions.gtmApp.service.ProductService;
-import com.lsntsolutions.gtmApp.service.StockService;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -62,7 +51,7 @@ public class AgreementTransferServiceImpl implements AgreementTransferService {
 	public void updateAgreementStock(AgreementTransferDTO agreementTransferDTO, String name) throws ParseException {
 		AgreementTransfer agreementTransfer = this.buildInput(agreementTransferDTO);
 		this.agreementTransferDAO.save(agreementTransfer);
-		this.auditService.addAudit(name, RoleOperation.AGREEMENT_TRANSFER.getId(), AuditState.COMFIRMED, agreementTransfer.getId());
+		this.auditService.addAudit(name, RoleOperation.AGREEMENT_TRANSFER.getId(), agreementTransfer.getId());
 	}
 
 	private AgreementTransfer buildInput(AgreementTransferDTO agreementTransferDTO) throws ParseException {

@@ -63,16 +63,6 @@
 					</c:forEach>
 				</select>
 			</div>
-			<div class="col-md-4 col-lg-4 form-group">
-				<label for="auditActionSearch"><spring:message code="common.action"/></label>
-				<select id="auditActionSearch" name="auditActionSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
-					<option value=""></option>
-					<c:forEach items="${auditActions}" var="auditAction">
-						<option value="${auditAction.id}"><c:out value="${auditAction.description}"></c:out></option>
-					</c:forEach>
-				</select>
-			</div>
-
 			<div class="col-md-2 col-lg-2 form-margin">
 				<button class="btn btn-success btn-block" type="submit" id="searchButton">
 				<span class="glyphicon glyphicon-search"></span>
@@ -97,7 +87,6 @@
 		            <th data-column-id="date"><spring:message code="common.date"/></th>
 		            <th data-column-id="role"><spring:message code="common.role"/></th>
 		            <th data-column-id="operationNumber" data-type="numeric"><spring:message code="common.operationNumber"/></th>
-		            <th data-column-id="action"><spring:message code="common.action"/></th>
 		            <th data-column-id="user"><spring:message code="common.user"/></th>
 		        </tr>
 	   	 	</thead>
