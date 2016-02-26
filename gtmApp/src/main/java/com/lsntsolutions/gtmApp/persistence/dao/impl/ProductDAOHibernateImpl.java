@@ -60,46 +60,6 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 			criteria.add(Restrictions.eq("active", true));
 		}
 
-		if (sortId != null) {
-			if (sortId.equals("asc")) {
-				criteria.addOrder(Order.asc("id"));
-			} else {
-				criteria.addOrder(Order.desc("id"));
-			}
-		} else if (sortCode != null) {
-			if (sortCode.equals("asc")) {
-				criteria.addOrder(Order.asc("code"));
-			} else {
-				criteria.addOrder(Order.desc("code"));
-			}
-		} else if (sortDescription != null) {
-			if (sortDescription.equals("asc")) {
-				criteria.addOrder(Order.asc("description"));
-			} else {
-				criteria.addOrder(Order.desc("description"));
-			}
-		} else if (sortGtin != null) {
-			if (sortGtin.equals("asc")) {
-				criteria.addOrder(Order.asc("g.number"));
-			} else {
-				criteria.addOrder(Order.desc("g.number"));
-			}
-		} else if (sortIsCold != null) {
-			if (sortIsCold.equals("asc")) {
-				criteria.addOrder(Order.asc("cold"));
-			} else {
-				criteria.addOrder(Order.desc("cold"));
-			}
-		} else if (sortIsActive != null) {
-			if (sortIsActive.equals("asc")) {
-				criteria.addOrder(Order.asc("active"));
-			} else {
-				criteria.addOrder(Order.desc("active"));
-			}
-		}else {
-			criteria.addOrder(Order.asc("id"));
-		}
-
 		return criteria;
 	}
 
@@ -108,21 +68,63 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 	public List<Product> getForAutocomplete(String searchPhrase, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold, String sortIsActive, Integer start, Integer length) {
 		Criteria criteria = this.buildCriteria(searchPhrase, active, sortId, sortCode, sortDescription, sortGtin, sortIsCold, sortIsActive);
 
-		if (start != null) {
-			criteria.setFirstResult(start);
-		}
-		if (length != null) {
-			criteria.setMaxResults(length);
-		}
-
 		criteria.setProjection(Projections.distinct(Projections.property("id")));
 		List ids = criteria.list();
 
 		if (ids.size() > 0) {
 			criteria = this.sessionFactory.getCurrentSession().createCriteria(Product.class);
 			criteria.add(Restrictions.in("id", ids));
+            criteria.createAlias("gtins", "g");
 			criteria.setFetchMode("gtins", FetchMode.JOIN);
 			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+
+			if (sortId != null) {
+				if (sortId.equals("asc")) {
+					criteria.addOrder(Order.asc("id"));
+				} else {
+					criteria.addOrder(Order.desc("id"));
+				}
+			} else if (sortCode != null) {
+				if (sortCode.equals("asc")) {
+					criteria.addOrder(Order.asc("code"));
+				} else {
+					criteria.addOrder(Order.desc("code"));
+				}
+			} else if (sortDescription != null) {
+				if (sortDescription.equals("asc")) {
+					criteria.addOrder(Order.asc("description"));
+				} else {
+					criteria.addOrder(Order.desc("description"));
+				}
+			} else if (sortGtin != null) {
+				if (sortGtin.equals("asc")) {
+					criteria.addOrder(Order.asc("g.number"));
+				} else {
+					criteria.addOrder(Order.desc("g.number"));
+				}
+			} else if (sortIsCold != null) {
+				if (sortIsCold.equals("asc")) {
+					criteria.addOrder(Order.asc("cold"));
+				} else {
+					criteria.addOrder(Order.desc("cold"));
+				}
+			} else if (sortIsActive != null) {
+				if (sortIsActive.equals("asc")) {
+					criteria.addOrder(Order.asc("active"));
+				} else {
+					criteria.addOrder(Order.desc("active"));
+				}
+			}else {
+				criteria.addOrder(Order.asc("id"));
+			}
+
+            if (start != null) {
+                criteria.setFirstResult(start);
+            }
+            if (length != null) {
+                criteria.setMaxResults(length);
+            }
+
 			return (List<Product>) criteria.list();
 		} else {
 			return new ArrayList<>();

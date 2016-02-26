@@ -54,7 +54,7 @@ SearchBatchExpirateDateProduct = function() {
 				},
 				batchSearch: {
 					required: true
-				},
+				}
 			},
 			showErrors: myShowErrors,
 			onsubmit: false
