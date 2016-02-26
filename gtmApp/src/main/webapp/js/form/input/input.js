@@ -133,7 +133,6 @@ Input = function() {
 				},
 				purchaseOrderNumber: {
 					nowhitespace: true,
-					alphanumeric: true,
 					maxlength: 30
 				}
 			},
