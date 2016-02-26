@@ -14,6 +14,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.comparator.BooleanComparator;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 		return !query.list().isEmpty();
 	}
 
-	private Criteria buildCriteria(String searchPhrase, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold, String sortIsActive) {
+	private Criteria buildCriteria(String searchPhrase, Boolean active, Integer brandId, Integer monodrugId, Integer productGroupId, Integer drugCategoryId, Boolean productFilterColdOption) {
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Product.class, "product");
 
 		criteria.createAlias("gtins", "g");
@@ -56,8 +57,28 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 			criteria.add(Restrictions.or(Restrictions.ilike("description", searchPhrase, MatchMode.ANYWHERE), Restrictions.ilike("g.number", searchPhrase, MatchMode.ANYWHERE), Restrictions.ilike("g.number", StringUtility.removeLeadingZero(searchPhrase), MatchMode.ANYWHERE)));
 		}
 
-		if (active != null && Boolean.TRUE.equals(active)) {
-			criteria.add(Restrictions.eq("active", true));
+		if (brandId != null) {
+			criteria.add(Restrictions.eq("brand.id", brandId));
+		}
+
+		if (monodrugId != null) {
+			criteria.add(Restrictions.eq("monodrug.id", monodrugId));
+		}
+
+		if (productGroupId != null) {
+			criteria.add(Restrictions.eq("group.id", productGroupId));
+		}
+
+		if (drugCategoryId != null) {
+			criteria.add(Restrictions.eq("drugCategory.id", drugCategoryId));
+		}
+
+		if (productFilterColdOption != null) {
+			criteria.add(Restrictions.eq("cold", Boolean.valueOf(productFilterColdOption)));
+		}
+
+		if (active != null) {
+			criteria.add(Restrictions.eq("active", Boolean.valueOf(active)));
 		}
 
 		return criteria;
@@ -65,8 +86,8 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Product> getForAutocomplete(String searchPhrase, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold, String sortIsActive, Integer start, Integer length) {
-		Criteria criteria = this.buildCriteria(searchPhrase, active, sortId, sortCode, sortDescription, sortGtin, sortIsCold, sortIsActive);
+	public List<Product> getForAutocomplete(String searchPhrase, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold, String sortIsActive, Integer start, Integer length, Integer brandId, Integer monodrugId, Integer productGroupId, Integer drugCategoryId, Boolean productFilterColdOption) {
+		Criteria criteria = this.buildCriteria(searchPhrase, active, brandId, monodrugId, productGroupId, drugCategoryId, productFilterColdOption);
 
 		criteria.setProjection(Projections.distinct(Projections.property("id")));
 		List ids = criteria.list();
@@ -212,7 +233,7 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 	}
 
 	public Integer getTotalNumberOfRows(String searchPhrase, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold, String sortIsActive) {
-		Criteria criteria = this.buildCriteria(searchPhrase, active, sortId, sortCode, sortDescription, sortGtin, sortIsCold, sortIsActive);
+		Criteria criteria = this.buildCriteria(searchPhrase, active, null, null, null, null, null);
 		criteria.setProjection(Projections.countDistinct("id"));
 		Long count = (Long) criteria.uniqueResult();
 		return count.intValue();

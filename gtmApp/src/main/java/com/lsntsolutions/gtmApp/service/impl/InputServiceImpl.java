@@ -95,11 +95,6 @@ public class InputServiceImpl implements InputService {
 	}
 
 	@Override
-	public Boolean existsSerial(String serialNumber, Integer productId, String gtin) {
-		return this.inputDAO.existsSerial(serialNumber, productId, gtin);
-	}
-
-	@Override
 	public List<Input> getInputForSearch(InputQuery inputQuery) {
 		return this.inputDAO.getInputForSearch(inputQuery);
 	}

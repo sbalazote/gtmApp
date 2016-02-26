@@ -6,9 +6,13 @@ ProductAdministration = function() {
 	var productGtins;
 	var productPrices;
 
-	var searchHTML;
 	var searchPhrase;
-	var exportHTML;
+	var brandId = "";
+	var monodrugId = "";
+	var productGroupId = "";
+	var drugCategoryId = "";
+	var productFilterActiveOption = "";
+	var productFilterColdOption = "";
 	
 	$("body").tooltip({ selector: '[data-toggle="tooltip"]' });
 	
@@ -432,7 +436,23 @@ ProductAdministration = function() {
 		columnSelection: false,
 	    ajax: true,
 	    requestHandler: function (request) {
-	    	return request; 
+			return {
+				brandId: brandId,
+				monodrugId: monodrugId,
+				productGroupId: productGroupId,
+				drugCategoryId: drugCategoryId,
+				productFilterActiveOption: productFilterActiveOption,
+				productFilterColdOption: productFilterColdOption,
+				current: request.current,
+				rowCount: request.rowCount,
+				searchPhrase: request.searchPhrase,
+				id: request.sort.id || null,
+				code: request.sort.code || null,
+				description: request.sort.description || null,
+				gtin: request.sort.gtin || null,
+				isCold: request.sort.isCold || null,
+				isActive: request.sort.isActive || null,
+			}
 	    },
 	    url: "./getMatchedProducts.do",
 	    formatters: {
@@ -489,18 +509,93 @@ ProductAdministration = function() {
 		});
 	});
 
-	$('div#product .search').before(exportQueryTableHTML("./rest/products", '&searchPhrase=' + $('div#product .search-field').val()));
-	
+	var searchHTML = $('div#product .search');
+	var searchPhrase = '&searchPhrase=' + "";
+	var exportHTML = exportQueryTableHTML("./rest/products", searchPhrase);
+	searchHTML.before(exportHTML);
+
 	$('div#product .search-field').keyup(function(e) {
 		searchHTML = $('div#product .search');
 		searchPhrase = '&searchPhrase=' + $('div#product .search-field').val();
-		exportHTML = exportQueryTableHTML("./rest/products", searchPhrase);
+		reloadProductTable();
+	});
+
+	var brand = '&brandId=' + brandId;
+	var monodrug = '&monodrugId=' + monodrugId;
+	var productGroup = '&productGroupId=' + productGroupId;
+	var drugCategory = '&drugCategoryId=' + drugCategoryId;
+	var productFilterActive = '&productFilterActiveOption=' + productFilterActiveOption;
+	var productFilterCold = '&productFilterColdOption=' + productFilterColdOption;
+
+	$('#productFilterBrandSelect').on('change', function(evt, params) {
+		brandId = $("#productFilterBrandSelect").val();
+		reloadProductTable();
+		productsTable.bootgrid("reload");
+	});
+
+	$('#productFiltermonodrugSelect').on('change', function(evt, params) {
+		monodrugId = $("#productFiltermonodrugSelect").val();
+		reloadProductTable();
+		productsTable.bootgrid("reload");
+	});
+
+	$('#productFilterProductGroupSelect').on('change', function(evt, params) {
+		productGroupId = $("#productFilterProductGroupSelect").val();
+		reloadProductTable();
+		productsTable.bootgrid("reload");
+	});
+
+	$('#productFilterDrugCategorySelect').on('change', function(evt, params) {
+		drugCategoryId = $("#productFilterDrugCategorySelect").val();
+		reloadProductTable();
+		productsTable.bootgrid("reload");
+	});
+
+	$('#productFilterActiveSelect').on('change', function(evt, params) {
+		productFilterActiveOption = $("#productFilterActiveSelect").val();
+		reloadProductTable();
+		productsTable.bootgrid("reload");
+	});
+
+	$('#productFilterColdSelect').on('change', function(evt, params) {
+		productFilterColdOption = $("#productFilterColdSelect").val();
+		reloadProductTable();
+		productsTable.bootgrid("reload");
+	});
+
+	var reloadProductTable = function(){
+		brand = '&brandId=' + brandId;
+		monodrug = '&monodrugId=' + monodrugId;
+		productGroup = '&productGroupId=' + productGroupId;
+		drugCategory = '&drugCategoryId=' + drugCategoryId;
+		productFilterActive = '&productFilterActiveOption=' + productFilterActiveOption;
+		productFilterCold = '&productFilterColdOption=' + productFilterColdOption;
+		searchPhrase = '&searchPhrase=' + $('div#product .search-field').val();
+		exportHTML = exportQueryTableHTML("./rest/products", searchPhrase + brandId + monodrug + productGroup + drugCategory + productFilterActive + productFilterCold);
 		if (searchHTML.prev().length == 0) {
 			searchHTML.before(exportHTML);
 		} else {
 			searchHTML.prev().html(exportHTML);
 		}
+	}
+
+	$("#cleanButton").click(function() {
+		brandId = "";
+		monodrugId = "";
+		productGroupId = "";
+		drugCategoryId = "";
+		productFilterActiveOption = "";
+		productFilterColdOption = "";
+		$('#productFilterBrandSelect').val('').trigger('chosen:updated');
+		$('#productFiltermonodrugSelect').val('').trigger('chosen:updated');
+		$('#productFilterProductGroupSelect').val('').trigger('chosen:updated');
+		$('#productFilterDrugCategorySelect').val('').trigger('chosen:updated');
+		$('#productFilterActiveSelect').val('').trigger('chosen:updated');
+		$('#productFilterColdSelect').val('').trigger('chosen:updated');
+		reloadProductTable();
+		productsTable.bootgrid("reload");
 	});
+
 	//Fin Modulo Productos
 	
 	//Modulo Marcas

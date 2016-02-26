@@ -63,7 +63,9 @@ public class StockDAOHibernateImpl implements StockDAO {
 			Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Stock.class, "stock");
 			criteria.add(Restrictions.eq("product.id", productId));
 			criteria.add(Restrictions.eq("serialNumber", serialNumber));
-			criteria.add(Restrictions.eq("agreement.id", agreementId));
+			if(agreementId != null) {
+				criteria.add(Restrictions.eq("agreement.id", agreementId));
+			}
 			criteria.createAlias("stock.product", "product");
 			criteria.createAlias("product.gtins", "gtin");
 			Product product = this.productService.get(productId);
