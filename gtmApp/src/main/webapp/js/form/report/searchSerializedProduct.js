@@ -51,7 +51,6 @@ SearchSerializedProduct = function() {
 		form.validate({
 			rules: {
 				serialNumberSearch: {
-					digits: true,
                     required: true
 				},
 				productInput: {
@@ -232,7 +231,6 @@ SearchSerializedProduct = function() {
                             var audit = {
                                 id: 0,
                                 action: "",
-                                operation: "",
                                 user: "",
                                 date: "",
                                 view: ""
@@ -249,7 +247,16 @@ SearchSerializedProduct = function() {
                         caseSensitive: false
                     });
                     $("#movementsTable").bootgrid("clear");
-                    $("#movementsTable").bootgrid("append", _.sortBy(aaData, 'date').reverse());
+                    var sortedDate = _.sortBy(aaData, function(row) {
+                        var fullDate = row.date;
+                        var dayTime = fullDate.split(" ");
+                        var day = dayTime[0];
+                        var time = dayTime[1];
+                        var splittedDay = day.split("/");
+                        var splittedTime = time.split(":");
+                        return new Date(splittedDay[2], splittedDay[1]-1, splittedDay[0], splittedTime[0], splittedTime[1], splittedTime[2]);
+                    }).reverse();
+                    $("#movementsTable").bootgrid("append", sortedDate);
                     $("#movementsTable").bootgrid("search", $(".search-field").val());
 
                     var params = '&productId=' + productId +

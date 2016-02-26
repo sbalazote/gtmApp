@@ -87,14 +87,14 @@ SearchBatchExpirateDateProduct = function() {
 					expirateDate: $("#dateSearch").val()
 				},
 				success: function(response) {
-                    $('#divMovements').hide();
+                    $('#divMovements').show();
 
                     if(response.inputs.length > 0 || response.outputs.length > 0 || response.orders.length > 0 || response.deliveryNotes.length > 0 || response.supplyings.length > 0){
                         var aaData = [];
                         if(response.inputs != null){
-                            if(response.inputs.length > 0){
+                            /*if(response.inputs.length > 0){
                                 $('#divMovements').show();
-                            }
+                            }*/
                             for (var i = 0, l = response.inputs.length; i < l; ++i) {
                                 var audit = {
                                     id: 0,
@@ -104,7 +104,7 @@ SearchBatchExpirateDateProduct = function() {
                                     view: ""
                                 };
                                 audit.id = response.inputs[i].operationId;
-                                audit.action = "Ingreso";
+                                audit.action = response.inputs[i].role;
                                 audit.user = response.inputs[i].username;
                                 audit.date = response.inputs[i].date;
                                 audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-input\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
@@ -113,9 +113,6 @@ SearchBatchExpirateDateProduct = function() {
                         }
 
                         if(response.outputs != null){
-                            if(response.outputs.length > 0){
-                                $('#divMovements').show();
-                            }
                             for (var i = 0, l = response.outputs.length; i < l; ++i) {
                                 var audit = {
                                     id: 0,
@@ -125,7 +122,7 @@ SearchBatchExpirateDateProduct = function() {
                                     view: ""
                                 };
                                 audit.id = response.outputs[i].operationId;
-                                audit.action = "Egreso";
+                                audit.action = response.outputs[i].role;
                                 audit.user = response.outputs[i].username;
                                 audit.date = response.outputs[i].date;
                                 audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-output\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
@@ -134,9 +131,6 @@ SearchBatchExpirateDateProduct = function() {
                         }
 
                         if(response.orders != null){
-                            if(response.orders.length > 0){
-                                $('#divMovements').show();
-                            }
                             for (var i = 0, l = response.orders.length; i < l; ++i) {
                                 var audit = {
                                     id: 0,
@@ -146,7 +140,7 @@ SearchBatchExpirateDateProduct = function() {
                                     view: ""
                                 };
                                 audit.id = response.orders[i].operationId;
-                                audit.action = "Armado";
+                                audit.action = response.orders[i].role;
                                 audit.user = response.orders[i].username;
                                 audit.date = response.orders[i].date;
                                 audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-order\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
@@ -155,9 +149,6 @@ SearchBatchExpirateDateProduct = function() {
                         }
 
                         if(response.deliveryNotes != null){
-                            if(response.deliveryNotes.length > 0){
-                                $('#divMovements').show();
-                            }
                             for (var i = 0, l = response.deliveryNotes.length; i < l; ++i) {
                                 var audit = {
                                     id: 0,
@@ -167,7 +158,7 @@ SearchBatchExpirateDateProduct = function() {
                                     view: ""
                                 };
                                 audit.id = response.deliveryNotes[i].operationId;
-                                audit.action = "Remito";
+                                audit.action = response.deliveryNotes[i].role;
                                 audit.user = response.deliveryNotes[i].username;
                                 audit.date = response.deliveryNotes[i].date;
                                 audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-deliveryNote\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
@@ -176,9 +167,6 @@ SearchBatchExpirateDateProduct = function() {
                         }
 
                         if(response.supplyings != null){
-                            if(response.supplyings.length > 0){
-                                $('#divMovements').show();
-                            }
                             for (var i = 0, l = response.supplyings.length; i < l; ++i) {
                                 var audit = {
                                     id: 0,
@@ -188,7 +176,7 @@ SearchBatchExpirateDateProduct = function() {
                                     view: ""
                                 };
                                 audit.id = response.supplyings[i].operationId;
-                                audit.action = "Dispensa";
+                                audit.action = response.supplyings[i].role;
                                 audit.user = response.supplyings[i].username;
                                 audit.date = response.supplyings[i].date;
                                 audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-supplying\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
@@ -199,7 +187,16 @@ SearchBatchExpirateDateProduct = function() {
                             caseSensitive: false
                         });
                         $("#movementsTable").bootgrid("clear");
-                        $("#movementsTable").bootgrid("append", _.sortBy(aaData, 'date').reverse());
+                        var sortedDate = _.sortBy(aaData, function(row) {
+                            var fullDate = row.date;
+                            var dayTime = fullDate.split(" ");
+                            var day = dayTime[0];
+                            var time = dayTime[1];
+                            var splittedDay = day.split("/");
+                            var splittedTime = time.split(":");
+                            return new Date(splittedDay[2], splittedDay[1]-1, splittedDay[0], splittedTime[0], splittedTime[1], splittedTime[2]);
+                        }).reverse();
+                        $("#movementsTable").bootgrid("append", sortedDate);
                         $("#movementsTable").bootgrid("search", $(".search-field").val());
 
                         var params = '&productId=' + productId +
