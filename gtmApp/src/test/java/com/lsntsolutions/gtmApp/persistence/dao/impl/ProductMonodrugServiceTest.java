@@ -14,9 +14,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:application-context-test.xml" })
+@ContextConfiguration("classpath:application-context-test.xml")
 public class ProductMonodrugServiceTest {
 
 	@Autowired

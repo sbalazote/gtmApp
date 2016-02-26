@@ -47,7 +47,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration("classpath:application-context-test.xml")
 @WebAppConfiguration
 @EnableWebMvc
-@TransactionConfiguration(defaultRollback = true)
 public class InputControllerTest {
 
 	private MockMvc mockMvc;
@@ -57,15 +56,6 @@ public class InputControllerTest {
 
 	@Resource
 	private FilterChainProxy springSecurityFilterChain;
-
-	@Autowired
-	private InputService inputServiceMock;
-
-	@Autowired
-	private ConceptService conceptServiceMock;
-
-	@Autowired
-	private InputController inputControllerMock;
 
 	@Autowired
 	private WebApplicationContext webApplicationContext;
@@ -86,8 +76,7 @@ public class InputControllerTest {
 	public final void tearDown() {
 		SecurityContextHolder.clearContext();
 	}
-
-	@Ignore
+/*
 	@Test(expected = NullInputDetailsException.class)
 	public void addEmptyInput() throws Exception {
 
@@ -101,7 +90,7 @@ public class InputControllerTest {
 						post("/saveInput.do").session(this.session).secure(true).param("isSerializedReturn", "false").accept(MediaType.APPLICATION_JSON)
 								.header("Content-Type", MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON)
 								.content(IntegrationTestUtil.convertObjectToJsonBytes(dto))).andDo(MockMvcResultHandlers.print()).andExpect(status().isOk());
-	}
+	}*/
 
 	@Test
 	@Transactional
@@ -127,7 +116,6 @@ public class InputControllerTest {
 
 	}
 
-    @Ignore
 	@Test
 	@Transactional
 	@Repeat(500)

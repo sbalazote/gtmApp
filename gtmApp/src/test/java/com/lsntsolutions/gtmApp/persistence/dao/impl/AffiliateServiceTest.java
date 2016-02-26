@@ -17,9 +17,8 @@ import com.lsntsolutions.gtmApp.model.VATLiability;
 import com.lsntsolutions.gtmApp.service.ClientService;
 import com.lsntsolutions.gtmApp.service.ProvinceService;
 
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:application-context-test.xml" })
+@ContextConfiguration("classpath:application-context-test.xml")
 public class AffiliateServiceTest {
 	@Autowired
 	private AffiliateService affiliateService;
@@ -44,7 +43,7 @@ public class AffiliateServiceTest {
 		client.setTaxId("6556");
 
 		VATLiability vatLiability = new VATLiability();
-		vatLiability.setAcronym("sarasa");
+		vatLiability.setAcronym("sara");
 		vatLiability.setDescription("desc");
 		this.vatLiabilityService.save(vatLiability);
 
@@ -54,6 +53,7 @@ public class AffiliateServiceTest {
 		this.provinceService.save(province);
 		client.setProvince(province);
 		client.setZipCode("1212");
+		client.setMedicalInsuranceCode(11);
 		this.clientService.save(client);
 
 		Affiliate affiliate = new Affiliate();

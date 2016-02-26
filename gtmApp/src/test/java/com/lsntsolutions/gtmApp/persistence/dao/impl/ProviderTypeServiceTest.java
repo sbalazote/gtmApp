@@ -13,9 +13,8 @@ import org.springframework.util.Assert;
 
 import com.lsntsolutions.gtmApp.model.ProviderType;
 
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:application-context-test.xml" })
+@ContextConfiguration("classpath:application-context-test.xml")
 public class ProviderTypeServiceTest {
 
 	@Autowired

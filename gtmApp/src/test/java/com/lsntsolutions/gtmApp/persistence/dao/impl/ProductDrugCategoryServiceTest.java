@@ -15,9 +15,8 @@ import org.springframework.util.Assert;
 import com.lsntsolutions.gtmApp.model.ProductDrugCategory;
 import com.lsntsolutions.gtmApp.service.ProductDrugCategoryService;
 
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:application-context-test.xml" })
+@ContextConfiguration("classpath:application-context-test.xml")
 public class ProductDrugCategoryServiceTest {
 
 	@Autowired
