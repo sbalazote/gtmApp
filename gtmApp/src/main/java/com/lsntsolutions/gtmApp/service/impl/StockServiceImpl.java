@@ -123,11 +123,6 @@ public class StockServiceImpl implements StockService {
 		return this.stockDAO.getSerializedProductStock(productId, serialNumber, gtin, agreementId);
 	}
 
-	@Override
-	public Stock getSerializedProductStock(String serialNumber, Integer agreementId) {
-		return this.stockDAO.getSerializedProductStock(serialNumber, agreementId);
-	}
-
 	private void removeFromSerializedStock(Stock stock) {
 		String gtin = null;
 		if (stock.getGtin() != null) {

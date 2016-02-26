@@ -46,7 +46,71 @@
 				</div>
 				
 				<br>
-				
+
+				<div class="row">
+					<div class="col-md-4 col-lg-4 form-group">
+						<label for="productFilterBrandSelect"><spring:message code="common.brand" /></label>
+						<select class="form-control chosen-select" id="productFilterBrandSelect" name="productFilterBrand">
+							<option value=""><spring:message code="common.select.option" /></option>
+							<c:forEach items="${brands}" var="brand" varStatus="status">
+								<option value="${brand.id}"><c:out value="${brand.code}"></c:out> - <c:out value="${brand.description}"></c:out></option>
+							</c:forEach>
+						</select>
+					</div>
+					<div class="col-md-4 col-lg-4 form-group">
+						<label for="productFiltermonodrugSelect"><spring:message code="common.monodrug" /></label>
+						<select class="form-control chosen-select" id="productFiltermonodrugSelect" name="productFiltermonodrug">
+							<option value=""><spring:message code="common.select.option" /></option>
+							<c:forEach items="${monodrugs}" var="monodrug" varStatus="status">
+								<option value="${monodrug.id}"><c:out value="${monodrug.code}"></c:out> - <c:out value="${monodrug.description}"></c:out></option>
+							</c:forEach>
+						</select>
+					</div>
+					<div class="col-md-4 col-lg-4 form-group">
+						<label for="productFilterProductGroupSelect"><spring:message code="common.productGroup" /></label>
+						<select class="form-control chosen-select" id="productFilterProductGroupSelect" name="productFilterProductGroup">
+							<option value=""><spring:message code="common.select.option" /></option>
+							<c:forEach items="${productGroups}" var="productGroup" varStatus="status">
+								<option value="${productGroup.id}"><c:out value="${productGroup.code}"></c:out> - <c:out value="${productGroup.description}"></c:out></option>
+							</c:forEach>
+						</select>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 col-lg-4 form-group">
+						<label for="productFilterDrugCategorySelect"><spring:message code="common.drugCategory" /></label>
+						<select class="form-control chosen-select" id="productFilterDrugCategorySelect" name="productFilterDrugCategory">
+							<option value=""><spring:message code="common.select.option" /></option>
+							<c:forEach items="${drugCategories}" var="drugCategory" varStatus="status">
+								<option value="${drugCategory.id}"><c:out value="${drugCategory.code}"></c:out> - <c:out value="${drugCategory.description}"></c:out></option>
+							</c:forEach>
+						</select>
+					</div>
+					<div class="col-md-2 col-lg-2 form-group">
+						<label for="productFilterActiveSelect"><spring:message code="common.active" /></label>
+						<select class="form-control chosen-select" id="productFilterActiveSelect" name="productFilterActive" data-placeholder="<spring:message code='common.select.option'/>">
+							<option value=""></option>
+							<option value="true"><spring:message code="common.yes" /></option>
+							<option value="false"><spring:message code="common.no" /></option>
+						</select>
+					</div>
+					<div class="col-md-2 col-lg-2 form-group">
+						<label for="productFilterColdSelect"><spring:message code="common.cold" /></label>
+						<select class="form-control chosen-select" id="productFilterColdSelect" name="productFilterCold" data-placeholder="<spring:message code='common.select.option'/>">
+							<option value=""></option>
+							<option value="false"><spring:message code="common.no" /></option>
+							<option value="true"><spring:message code="common.yes" /></option>
+						</select>
+					</div>
+					<div class="col-md-4 col-lg-4 form-margin">
+						<button class="btn btn-info btn-block" type="submit" id="cleanButton">
+							<span class="glyphicon glyphicon-trash"></span>
+							<spring:message code="common.clean" />
+						</button>
+					</div>
+				</div>
+
 				<table id="productsTable" class="table table-condensed table-hover table-striped">
 					<thead>
 						<tr>

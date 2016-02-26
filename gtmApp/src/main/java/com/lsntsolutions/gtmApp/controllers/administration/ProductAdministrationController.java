@@ -48,7 +48,7 @@ public class ProductAdministrationController {
 		if (searchPhrase.matches("")) {
 			return new ModelAndView("products", "products", this.productService.getAll());
 		} else {
-			return new ModelAndView("products", "products", this.productService.getForAutocomplete(searchPhrase, null, null, null, null, null, null, null, null, null));
+			return new ModelAndView("products", "products", this.productService.getForAutocomplete(searchPhrase, null, null, null, null, null, null, null, null, null,null ,null ,null , null, null));
 		}
 	}
 
@@ -233,19 +233,26 @@ public class ProductAdministrationController {
 		Integer current = Integer.parseInt(parametersMap.get("current"));
 		Integer rowCount = Integer.parseInt(parametersMap.get("rowCount"));
 
+		Integer brandId = parametersMap.get("brandId") != null && parametersMap.get("brandId") != "" ? Integer.parseInt(parametersMap.get("brandId")) : null;
+		Integer monodrugId = parametersMap.get("monodrugId") != null && parametersMap.get("monodrugId") != "" ? Integer.parseInt(parametersMap.get("monodrugId")) : null;
+		Integer productGroupId = parametersMap.get("productGroupId") != null && parametersMap.get("productGroupId") != "" ? Integer.parseInt(parametersMap.get("productGroupId")) : null;
+		Integer drugCategoryId = parametersMap.get("drugCategoryId") != null && parametersMap.get("drugCategoryId") != "" ? Integer.parseInt(parametersMap.get("drugCategoryId")) : null;
+		Boolean productFilterActiveOption =  parametersMap.get("productFilterActiveOption") != null && parametersMap.get("productFilterActiveOption") != "" ? Boolean.valueOf(parametersMap.get("productFilterActiveOption")) : null;
+		Boolean productFilterColdOption =  parametersMap.get("productFilterColdOption") != null && parametersMap.get("productFilterColdOption") != "" ? Boolean.valueOf(parametersMap.get("productFilterColdOption")) : null;
+
 		JSONArray jsonArray = new JSONArray();
 		int start = (current - 1) * rowCount;
 		int length = rowCount;
 		long total;
 
-		String sortId = parametersMap.get("sort[id]");
-		String sortCode = parametersMap.get("sort[code]");
-		String sortDescription = parametersMap.get("sort[description]");
-		String sortGtin = parametersMap.get("sort[gtin]");
-		String sortIsCold = parametersMap.get("sort[isCold]");
-		String sortIsActive = parametersMap.get("sort[isActive]");
+		String sortId = parametersMap.get("id");
+		String sortCode = parametersMap.get("code");
+		String sortDescription = parametersMap.get("description");
+		String sortGtin = parametersMap.get("gtin");
+		String sortIsCold = parametersMap.get("isCold");
+		String sortIsActive = parametersMap.get("isActive");
 
-		List<Product> listProducts = this.productService.getForAutocomplete(searchPhrase, null, sortId, sortCode, sortDescription, sortGtin, sortIsCold, sortIsActive, start, length);
+		List<Product> listProducts = this.productService.getForAutocomplete(searchPhrase, productFilterActiveOption, sortId, sortCode, sortDescription, sortGtin, sortIsCold, sortIsActive, start, length,brandId , monodrugId,productGroupId ,drugCategoryId ,productFilterColdOption );
 		total = this.productService.getTotalNumberOfRows(searchPhrase, null, sortId, sortCode, sortDescription, sortGtin, sortIsCold, sortIsActive);
 
 		for (Product product : listProducts) {

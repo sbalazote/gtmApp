@@ -3,6 +3,7 @@ package com.lsntsolutions.gtmApp.controllers;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.InputDTO;
 import com.lsntsolutions.gtmApp.model.Input;
+import com.lsntsolutions.gtmApp.model.Stock;
 import com.lsntsolutions.gtmApp.query.InputQuery;
 import com.lsntsolutions.gtmApp.service.*;
 import com.lsntsolutions.gtmApp.util.OperationResult;
@@ -38,6 +39,8 @@ public class InputController {
 	private AuditService auditService;
 	@Autowired
 	private PropertyService propertyService;
+	@Autowired
+	private StockService stockService;
 
 	@RequestMapping(value = "/input", method = RequestMethod.GET)
 	public String input(ModelMap modelMap) throws Exception {
@@ -116,8 +119,7 @@ public class InputController {
 		Integer productId = Integer.valueOf(parameters.get("productId"));
 		String serialNumber = String.valueOf(parameters.get("serialNumber"));
 		String gtin = String.valueOf(parameters.get("gtin"));
-		boolean toReturn = this.inputService.existsSerial(serialNumber, productId, gtin);
-		return toReturn;
+		return this.stockService.existsSerial(productId, gtin, null, serialNumber);
 	}
 
 	@RequestMapping(value = "/getInput", method = RequestMethod.GET)

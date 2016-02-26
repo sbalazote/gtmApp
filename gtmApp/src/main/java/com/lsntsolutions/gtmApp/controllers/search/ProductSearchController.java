@@ -6,7 +6,6 @@ import com.lsntsolutions.gtmApp.dto.ProviderSerializedProductDTO;
 import com.lsntsolutions.gtmApp.helper.SerialParser;
 import com.lsntsolutions.gtmApp.model.Product;
 import com.lsntsolutions.gtmApp.model.ProductGtin;
-import com.lsntsolutions.gtmApp.model.ProviderSerializedFormat;
 import com.lsntsolutions.gtmApp.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +27,7 @@ public class ProductSearchController {
 	@RequestMapping(value = "/getProducts", method = RequestMethod.GET)
 	public @ResponseBody
 	List<Product> getProducts(@RequestParam String term, Boolean active) {
-		return this.productService.getForAutocomplete(term, active, null, null, null, null, null, null, null, null);
+		return this.productService.getForAutocomplete(term, active, null, null, null, null, null, null, null, null, null, null, null, null, null);
 	}
 
 	@RequestMapping(value = "/getProduct", method = RequestMethod.GET)

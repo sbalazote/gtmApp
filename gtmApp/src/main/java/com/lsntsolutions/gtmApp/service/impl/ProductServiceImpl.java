@@ -19,25 +19,7 @@ public class ProductServiceImpl implements ProductService {
 	private static final Logger logger = Logger.getLogger(ProductServiceImpl.class);
 
 	@Autowired
-	private SessionFactory sessionFactory;
-
-	@Autowired
 	private ProductDAO productDAO;
-
-	@Autowired
-	private ProductGtinService productGtinService;
-
-	@Autowired
-	private ProductBrandService productBrandService;
-
-	@Autowired
-	private ProductMonodrugService productMonodrugService;
-
-	@Autowired
-	private ProductGroupService productGroupService;
-
-	@Autowired
-	private ProductDrugCategoryService productDrugCategoryService;
 
 	@Override
 	public void save(Product product) {
@@ -56,8 +38,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<Product> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold, String sortIsActive, Integer start, Integer length) {
-		return this.productDAO.getForAutocomplete(term, active, sortId, sortCode, sortDescription, sortGtin, sortIsCold, sortIsActive, start, length);
+	public List<Product> getForAutocomplete(String term, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold, String sortIsActive, Integer start, Integer length, Integer brandId, Integer monodrugId, Integer productGroupId, Integer drugCategoryId, Boolean productFilterColdOption) {
+		return this.productDAO.getForAutocomplete(term, active, sortId, sortCode, sortDescription, sortGtin, sortIsCold, sortIsActive, start, length, brandId, monodrugId, productGroupId, drugCategoryId, productFilterColdOption);
 	}
 
 	@Override
