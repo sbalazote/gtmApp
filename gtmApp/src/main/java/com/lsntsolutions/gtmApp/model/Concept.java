@@ -2,20 +2,10 @@ package com.lsntsolutions.gtmApp.model;
 
 import com.lsntsolutions.gtmApp.util.StringUtility;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "concept")
@@ -151,7 +141,7 @@ public class Concept implements Serializable {
 	}
 
 	public List<Event> getEvents() {
-		return ( events.isEmpty() ? new ArrayList<Event>() : events );
+		return ((events == null) ? new ArrayList<Event>() : events);
 	}
 
 	public void setEvents(List<Event> events) {

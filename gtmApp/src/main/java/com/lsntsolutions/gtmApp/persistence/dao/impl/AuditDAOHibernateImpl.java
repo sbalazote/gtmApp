@@ -1,5 +1,6 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
+import com.lsntsolutions.gtmApp.constant.AuditState;
 import com.lsntsolutions.gtmApp.constant.Constants;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.AuditDTO;
@@ -240,16 +241,22 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 	public AuditResultDTO getAudit(Integer productId, String batch, String expirateDate) {
 		AuditResultDTO auditResultDTO = new AuditResultDTO();
 		String[] parts = expirateDate.split("/");
-		expirateDate = parts[2] + "/" + parts[1] + "/" + parts[0];
+
+		expirateDate = (expirateDate != "") ? parts[2] + "/" + parts[1] + "/" + parts[0] : "";
 
 		String sentence = "select distinct a.* from audit as a, input_detail as id where (a.role_id = " + RoleOperation.INPUT.getId() + " and id.product_id = "
+				+ productId + " and id.batch = '" + batch + "'";
+		if(expirateDate != "") {
+			sentence += " and id.expiration_date = '" + expirateDate + "'";
+		}
+		sentence += " and a.operation_id = id.input_id and a.action_id = " + AuditState.COMFIRMED.getId()+" )  order by a.`date` desc";
 				+ productId + " and id.batch = '" + batch + "' and id.expiration_date = '" + expirateDate
 				+ "' and a.operation_id = id.input_id)  order by a.`date` desc";
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
 		Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
 		List<Audit> inputsAudit = query.list();
-		List<AuditDTO> inputsAuditDTO = new ArrayList<AuditDTO>();
+		List<AuditDTO> inputsAuditDTO = new ArrayList<>();
 		for (Audit audit : inputsAudit) {
 
 			AuditDTO auditDTO = new AuditDTO(audit.getId(), audit.getRole().getDescription(), audit.getOperationId(), dateFormatter.format(audit.getDate()), audit.getUser().getName());

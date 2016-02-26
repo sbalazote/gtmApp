@@ -430,6 +430,10 @@ public class PropertyController {
 		return this.PropertyService.get();
 	}
 
+	@RequestMapping(value = "/isSupplyingConceptValid", method = RequestMethod.GET)
+	public Boolean isSupplyingConceptValid() {
+		return this.PropertyService.get().getSupplyingConcept() != null;
+	}
 
 	@RequestMapping(value = "/importStock", method = RequestMethod.GET)
 	public String importStock(ModelMap modelMap, @RequestParam Map<String, String> parameters) throws Exception {

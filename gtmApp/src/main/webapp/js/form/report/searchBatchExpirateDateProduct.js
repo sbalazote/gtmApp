@@ -55,10 +55,6 @@ SearchBatchExpirateDateProduct = function() {
 				batchSearch: {
 					required: true
 				},
-				dateSearch: {
-					required: true,
-					dateITA: true
-				}
 			},
 			showErrors: myShowErrors,
 			onsubmit: false
@@ -203,7 +199,7 @@ SearchBatchExpirateDateProduct = function() {
                             caseSensitive: false
                         });
                         $("#movementsTable").bootgrid("clear");
-                        $("#movementsTable").bootgrid("append", aaData);
+                        $("#movementsTable").bootgrid("append", _.sortBy(aaData, 'date').reverse());
                         $("#movementsTable").bootgrid("search", $(".search-field").val());
 
                         var params = '&productId=' + productId +
