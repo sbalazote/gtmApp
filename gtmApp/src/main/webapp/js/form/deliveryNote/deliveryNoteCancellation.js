@@ -74,12 +74,13 @@ DeliveryNoteCancellation = function() {
 			data: {deliveryNoteNumber: deliveryNoteNumber},
 			success: function(response) {
 				var aaData = [];
-				$.each(response, function( index, value ) {
+				$.each(response, function(index, value) {
 					var row = {
 						"id": index,
 						"orderAssemblyOrOutputNumber": index.substring(1),
 						"class": (index.charAt(0) == "A") ? "ARMADO" : (index.charAt(0) == "E") ? "EGRESO" : "DISPENSA",
-						"deliveryNoteNumbers": "[" + value.join(", ") + "]",
+						"date": myParseDateTime(value[0].date),
+						"deliveryNoteNumbers": "[" + _.pluck(value, 'number').join(',') + "]",
 						"option": (index.charAt(0) == "A") ? "<button type=\"button\" class=\"btn btn-sm btn-default view-order-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>" : (index.charAt(0) == "E") ? "<button type=\"button\" class=\"btn btn-sm btn-default view-output-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>" : "<button type=\"button\" class=\"btn btn-sm btn-default view-supplying-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>"
 					};
 					aaData.push(row);

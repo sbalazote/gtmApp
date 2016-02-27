@@ -16,15 +16,15 @@ public interface DeliveryNoteService {
 
 	List<DeliveryNote> getAll();
 
-	Map<String, List<String>> getAssociatedOrders(boolean informAnmat, String deliveryNoteNumber);
+	Map<String, List<DeliveryNote>> getAssociatedOrders(boolean informAnmat, String deliveryNoteNumber);
 
 	Map<Integer, List<DeliveryNote>> getAssociatedOrders();
 
-	Map<String, List<String>> getAssociatedOutputs(boolean informAnmat, String deliveryNoteNumber);
+	Map<String, List<DeliveryNote>> getAssociatedOutputs(boolean informAnmat, String deliveryNoteNumber);
 
 	Map<Integer, List<DeliveryNote>> getAssociatedOutputs();
 
-	Map<String, List<String>> getAssociatedSupplyings(boolean informAnmat, String deliveryNoteNumber);
+	Map<String, List<DeliveryNote>> getAssociatedSupplyings(boolean informAnmat, String deliveryNoteNumber);
 
 	Map<Integer, List<DeliveryNote>> getAssociatedSupplyings();
 

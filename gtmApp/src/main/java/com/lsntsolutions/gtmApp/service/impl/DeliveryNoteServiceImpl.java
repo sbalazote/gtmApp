@@ -46,7 +46,7 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	}
 
 	@Override
-	public Map<String, List<String>> getAssociatedOrders(boolean informAnmat, String deliveryNoteNumber) {
+	public Map<String, List<DeliveryNote>> getAssociatedOrders(boolean informAnmat, String deliveryNoteNumber) {
 		return this.deliveryNoteDAO.getAssociatedOrders(informAnmat, deliveryNoteNumber);
 	}
 
@@ -56,7 +56,7 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	}
 
 	@Override
-	public Map<String, List<String>> getAssociatedOutputs(boolean informAnmat, String deliveryNoteNumber) {
+	public Map<String, List<DeliveryNote>> getAssociatedOutputs(boolean informAnmat, String deliveryNoteNumber) {
 		return this.deliveryNoteDAO.getAssociatedOutputs(informAnmat, deliveryNoteNumber);
 	}
 
@@ -201,7 +201,7 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	}
 
 	@Override
-	public Map<String, List<String>> getAssociatedSupplyings(boolean informAnmat, String deliveryNoteNumber) {
+	public Map<String, List<DeliveryNote>> getAssociatedSupplyings(boolean informAnmat, String deliveryNoteNumber) {
 		return this.deliveryNoteDAO.getAssociatedSupplyings(informAnmat, deliveryNoteNumber);
 	}
 

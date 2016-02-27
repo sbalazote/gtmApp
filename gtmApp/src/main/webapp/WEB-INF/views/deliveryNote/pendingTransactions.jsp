@@ -29,18 +29,27 @@
 		           	<th data-column-id="id" data-identifier="true"><spring:message code="common.id"/></th>
            			<th data-column-id="orderAssemblyOrOutputNumber"><spring:message code="deliveryNote.orderAssemblyOrOutputNumber"/></th>
            			<th data-column-id="class"><spring:message code="deliveryNote.class"/></th>
+					<th data-column-id="date"><spring:message code="common.date"/></th>
            			<th data-column-id="deliveryNoteNumbers"><spring:message code="deliveryNote.deliveryNoteNumbers"/></th>
-         				<th data-column-id="option" data-formatter="option" data-sortable="false"><spring:message code="common.option"/></th>
+					<th data-column-id="option" data-formatter="option" data-sortable="false"><spring:message code="common.option"/></th>
 		        </tr>
 	   	 	</thead>
 	   	 	<tbody id="deliveryNoteTableBody">
 				<c:forEach items="${orderDeliveryNotes}" var="orderDeliveryNotes">
 					<tr>
 						<c:set var="key" value="${orderDeliveryNotes.key}"/>
-						<td><c:out value="${orderDeliveryNotes.key}"></c:out></td>
-						<td><c:out value="${fn:substring(key, 1, -1)}"></c:out></td>
+						<td><c:out value="${orderDeliveryNotes.key}"/></td>
+						<td><c:out value="${fn:substring(key, 1, -1)}"/></td>
 						<td><spring:message code="deliveryNote.class.orderAssembly"/></td>
-						<td><c:out value="${orderDeliveryNotes.value}"></c:out></td>
+						<td><fmt:formatDate value="${orderDeliveryNotes.value[0].date}" pattern="dd/MM/yyyy HH:mm:ss a"/></td>
+						<td>
+							<c:forEach items="${orderDeliveryNotes.value}" var="deliveryNote" varStatus="status">
+								<c:if test="${status.first}">[</c:if>
+								<c:out value="${deliveryNote.number}"/>
+								<c:if test="${!status.last}">, </c:if>
+								<c:if test="${status.last}">]</c:if>
+							</c:forEach>
+						</td>
 						<td><spring:message code="common.view"/></td>
 					</tr>
 				</c:forEach>
@@ -48,20 +57,36 @@
 				<c:forEach items="${outputDeliveryNotes}" var="outputDeliveryNotes">
 					<tr>
 						<c:set var="key" value="${outputDeliveryNotes.key}"/>
-						<td><c:out value="${outputDeliveryNotes.key}"></c:out></td>
-						<td><c:out value="${fn:substring(key, 1, -1)}"></c:out></td>
+						<td><c:out value="${outputDeliveryNotes.key}"/></td>
+						<td><c:out value="${fn:substring(key, 1, -1)}"/></td>
 						<td><spring:message code="deliveryNote.class.output"/></td>
-						<td><c:out value="${outputDeliveryNotes.value}"></c:out></td>
+                        <td><fmt:formatDate value="${outputDeliveryNotes.value[0].date}" pattern="dd/MM/yyyy HH:mm:ss a"/></td>
+						<td>
+							<c:forEach items="${outputDeliveryNotes.value}" var="deliveryNote" varStatus="status">
+								<c:if test="${status.first}">[</c:if>
+								<c:out value="${deliveryNote.number}"/>
+								<c:if test="${!status.last}">, </c:if>
+								<c:if test="${status.last}">]</c:if>
+							</c:forEach>
+						</td>
 						<td><spring:message code="common.view"/></td>
 					</tr>
 				</c:forEach>
 				<c:forEach items="${supplyingDeliveryNotes}" var="supplyingDeliveryNotes">
 					<tr>
 						<c:set var="key" value="${supplyingDeliveryNotes.key}"/>
-						<td><c:out value="${supplyingDeliveryNotes.key}"></c:out></td>
-						<td><c:out value="${fn:substring(key, 1, -1)}"></c:out></td>
+						<td><c:out value="${supplyingDeliveryNotes.key}"/></td>
+						<td><c:out value="${fn:substring(key, 1, -1)}"/></td>
 						<td><spring:message code="deliveryNote.class.supplying"/></td>
-						<td><c:out value="${supplyingDeliveryNotes.value}"></c:out></td>
+                        <td><fmt:formatDate value="${supplyingDeliveryNotes.value[0].date}" pattern="dd/MM/yyyy HH:mm:ss a"/></td>
+						<td>
+							<c:forEach items="${supplyingDeliveryNotes.value}" var="deliveryNote" varStatus="status">
+								<c:if test="${status.first}">[</c:if>
+								<c:out value="${deliveryNote.number}"/>
+								<c:if test="${!status.last}">, </c:if>
+								<c:if test="${status.last}">]</c:if>
+							</c:forEach>
+						</td>
 						<td><spring:message code="common.view"/></td>
 					</tr>
 				</c:forEach>

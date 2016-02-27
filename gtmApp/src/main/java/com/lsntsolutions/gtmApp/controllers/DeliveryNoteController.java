@@ -81,11 +81,11 @@ public class DeliveryNoteController {
 
 	@RequestMapping(value = "/getCancelableDeliveryNotes", method = RequestMethod.POST)
 	public @ResponseBody
-	Map<String, List<String>> getCancelableDeliveryNotes(@RequestParam String deliveryNoteNumber) throws Exception {
-		Map<String, List<String>> canceleablesMap = new HashMap<>();
-		Map<String, List<String>> orderDeliveryNotes = this.deliveryNoteService.getAssociatedOrders(false, deliveryNoteNumber);
-		Map<String, List<String>> outputDeliveryNotes = this.deliveryNoteService.getAssociatedOutputs(false, deliveryNoteNumber);
-		Map<String, List<String>> supplyingDeliveryNotes = this.deliveryNoteService.getAssociatedSupplyings(false, deliveryNoteNumber);
+	Map<String, List<DeliveryNote>> getCancelableDeliveryNotes(@RequestParam String deliveryNoteNumber) throws Exception {
+		Map<String, List<DeliveryNote>> canceleablesMap = new HashMap<>();
+		Map<String, List<DeliveryNote>> orderDeliveryNotes = this.deliveryNoteService.getAssociatedOrders(false, deliveryNoteNumber);
+		Map<String, List<DeliveryNote>> outputDeliveryNotes = this.deliveryNoteService.getAssociatedOutputs(false, deliveryNoteNumber);
+		Map<String, List<DeliveryNote>> supplyingDeliveryNotes = this.deliveryNoteService.getAssociatedSupplyings(false, deliveryNoteNumber);
 
 		canceleablesMap.putAll(orderDeliveryNotes);
 		canceleablesMap.putAll(outputDeliveryNotes);
@@ -108,13 +108,13 @@ public class DeliveryNoteController {
 
 	@RequestMapping(value = "/pendingTransactions", method = RequestMethod.GET)
 	public String pendingTransactions(ModelMap modelMap) throws Exception {
-		Map<String, List<String>> orderDeliveryNotes = this.deliveryNoteService.getAssociatedOrders(true, "");
+		Map<String, List<DeliveryNote>> orderDeliveryNotes = this.deliveryNoteService.getAssociatedOrders(true, "");
 		modelMap.put("orderDeliveryNotes", orderDeliveryNotes);
 
-		Map<String, List<String>> outputDeliveryNotes = this.deliveryNoteService.getAssociatedOutputs(true, "");
+		Map<String, List<DeliveryNote>> outputDeliveryNotes = this.deliveryNoteService.getAssociatedOutputs(true, "");
 		modelMap.put("outputDeliveryNotes", outputDeliveryNotes);
 
-		Map<String, List<String>> supplyingDeliveryNotes = this.deliveryNoteService.getAssociatedSupplyings(true, "");
+		Map<String, List<DeliveryNote>> supplyingDeliveryNotes = this.deliveryNoteService.getAssociatedSupplyings(true, "");
 		modelMap.put("supplyingDeliveryNotes", supplyingDeliveryNotes);
 
 		return "pendingTransactions";

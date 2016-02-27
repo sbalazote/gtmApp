@@ -49,12 +49,12 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, List<String>> getAssociatedOrders(boolean informAnmat, String deliveryNoteNumb) {
-		Map<String, List<String>> associatedOrders = new HashMap<String, List<String>>();
+	public Map<String, List<DeliveryNote>> getAssociatedOrders(boolean informAnmat, String deliveryNoteNumb) {
+		Map<String, List<DeliveryNote>> associatedOrders = new HashMap<>();
 		Query query;
 
 		String sentence = "create temporary table if not exists associated_orders_temp1 as " +
-				"(select distinct od.order_id, dn.number " +
+				"(select distinct od.order_id, dn.* " +
 				"from order_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.order_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
 
 		if (informAnmat) {
@@ -67,7 +67,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 		query.executeUpdate();
 
 		sentence = "create temporary table if not exists associated_orders_temp2 as " +
-				"(select distinct od.order_id, dn.number " +
+				"(select distinct od.order_id, dn.* " +
 				"from order_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.order_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
 
 		if (informAnmat) {
@@ -93,16 +93,24 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 			Object[] orderDeliveryNotePair = it.next();
 			Integer orderId = (Integer) orderDeliveryNotePair[0];
 			String orderKey = "A".concat(orderId.toString());
-			String deliveryNoteNumber = (String) orderDeliveryNotePair[1];
-			List<String> deliveryNoteNumbers = null;
+			DeliveryNote deliveryNote = new DeliveryNote();
+            deliveryNote.setId((Integer) orderDeliveryNotePair[1]);
+            deliveryNote.setNumber((String) orderDeliveryNotePair[2]);
+            deliveryNote.setDate((Date) orderDeliveryNotePair[3]);
+            deliveryNote.setTransactionCodeANMAT((String) orderDeliveryNotePair[4]);
+            deliveryNote.setCancelled((Boolean) orderDeliveryNotePair[5]);
+            deliveryNote.setInformAnmat((Boolean) orderDeliveryNotePair[6]);
+            deliveryNote.setInformed((Boolean) orderDeliveryNotePair[7]);
+            deliveryNote.setFake((Boolean) orderDeliveryNotePair[8]);
+            List<DeliveryNote> deliveryNotes = null;
 			if (!associatedOrders.containsKey(orderKey)) {
-				deliveryNoteNumbers = new ArrayList<String>();
-				deliveryNoteNumbers.add(deliveryNoteNumber);
-				associatedOrders.put(orderKey, deliveryNoteNumbers);
+				deliveryNotes = new ArrayList<>();
+				deliveryNotes.add(deliveryNote);
+				associatedOrders.put(orderKey, deliveryNotes);
 			} else {
-				deliveryNoteNumbers = associatedOrders.get(orderKey);
-				deliveryNoteNumbers.add(deliveryNoteNumber);
-				associatedOrders.put(orderKey, deliveryNoteNumbers);
+				deliveryNotes = associatedOrders.get(orderKey);
+				deliveryNotes.add(deliveryNote);
+				associatedOrders.put(orderKey, deliveryNotes);
 			}
 		}
 
@@ -119,7 +127,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 
 	@Override
 	public Map<Integer, List<DeliveryNote>> getAssociatedOrders() {
-		Map<Integer, List<DeliveryNote>> associatedOrders = new HashMap<Integer, List<DeliveryNote>>();
+		Map<Integer, List<DeliveryNote>> associatedOrders = new HashMap<>();
 		Query query;
 		String sentence = "select distinct od.order_id, dn.* from order_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.order_detail_id and dn.id = dnd.delivery_note_id";
 
@@ -139,7 +147,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 			deliveryNote.setFake((Boolean) orderDeliveryNotePair[8]);
 			List<DeliveryNote> deliveryNoteNumbers = null;
 			if (!associatedOrders.containsKey(orderId)) {
-				deliveryNoteNumbers = new ArrayList<DeliveryNote>();
+				deliveryNoteNumbers = new ArrayList<>();
 				deliveryNoteNumbers.add(deliveryNote);
 				associatedOrders.put(orderId, deliveryNoteNumbers);
 			} else {
@@ -153,12 +161,12 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, List<String>> getAssociatedOutputs(boolean informAnmat, String deliveryNoteNumb) {
-		Map<String, List<String>> associatedOutputs = new HashMap<String, List<String>>();
+	public Map<String, List<DeliveryNote>> getAssociatedOutputs(boolean informAnmat, String deliveryNoteNumb) {
+		Map<String, List<DeliveryNote>> associatedOutputs = new HashMap<>();
 		Query query;
 
 		String sentence = "create temporary table if not exists associated_outputs_temp1 as " +
-				"(select distinct od.output_id, dn.number " +
+				"(select distinct od.output_id, dn.* " +
 				"from output_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.output_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
 
 		if (informAnmat) {
@@ -171,7 +179,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 		query.executeUpdate();
 
 		sentence = "create temporary table if not exists associated_outputs_temp2 as " +
-				"(select distinct od.output_id, dn.number " +
+				"(select distinct od.output_id, dn.* " +
 				"from output_detail as od, delivery_note_detail as dnd, delivery_note dn where od.id = dnd.output_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
 
 		if (informAnmat) {
@@ -197,15 +205,23 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 			Object[] outputDeliveryNotePair = it.next();
 			Integer outputId = (Integer) outputDeliveryNotePair[0];
 			String outputKey = "E".concat(outputId.toString());
-			String deliveryNoteNumber = (String) outputDeliveryNotePair[1];
-			List<String> deliveryNotes = null;
+            DeliveryNote deliveryNote = new DeliveryNote();
+            deliveryNote.setId((Integer) outputDeliveryNotePair[1]);
+            deliveryNote.setNumber((String) outputDeliveryNotePair[2]);
+            deliveryNote.setDate((Date) outputDeliveryNotePair[3]);
+            deliveryNote.setTransactionCodeANMAT((String) outputDeliveryNotePair[4]);
+            deliveryNote.setCancelled((Boolean) outputDeliveryNotePair[5]);
+            deliveryNote.setInformAnmat((Boolean) outputDeliveryNotePair[6]);
+            deliveryNote.setInformed((Boolean) outputDeliveryNotePair[7]);
+            deliveryNote.setFake((Boolean) outputDeliveryNotePair[8]);
+            List<DeliveryNote> deliveryNotes = null;
 			if (!associatedOutputs.containsKey(outputKey)) {
-				deliveryNotes = new ArrayList<String>();
-				deliveryNotes.add(deliveryNoteNumber);
+				deliveryNotes = new ArrayList<>();
+				deliveryNotes.add(deliveryNote);
 				associatedOutputs.put(outputKey, deliveryNotes);
 			} else {
 				deliveryNotes = associatedOutputs.get(outputKey);
-				deliveryNotes.add(deliveryNoteNumber);
+				deliveryNotes.add(deliveryNote);
 				associatedOutputs.put(outputKey, deliveryNotes);
 			}
 		}
@@ -245,7 +261,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 			deliveryNote.setFake((Boolean) outputDeliveryNotePair[8]);
 			List<DeliveryNote> deliveryNotes = null;
 			if (!associatedOutputs.containsKey(outputId)) {
-				deliveryNotes = new ArrayList<DeliveryNote>();
+				deliveryNotes = new ArrayList<>();
 				deliveryNotes.add(deliveryNote);
 				associatedOutputs.put(outputId, deliveryNotes);
 			} else {
@@ -258,12 +274,12 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 	}
 
 	@Override
-	public Map<String, List<String>> getAssociatedSupplyings(boolean informAnmat, String deliveryNoteNumb) {
-		Map<String, List<String>> associatedSupplyings = new HashMap<String, List<String>>();
+	public Map<String, List<DeliveryNote>> getAssociatedSupplyings(boolean informAnmat, String deliveryNoteNumb) {
+		Map<String, List<DeliveryNote>> associatedSupplyings = new HashMap<>();
 		Query query;
 
 		String sentence = "create temporary table if not exists associated_supplyings_temp1 as " +
-				"(select distinct sd.supplying_id, dn.number " +
+				"(select distinct sd.supplying_id, dn.* " +
 				"from supplying_detail as sd, delivery_note_detail as dnd, delivery_note dn where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
 
 		if (informAnmat) {
@@ -276,7 +292,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 		query.executeUpdate();
 
 		sentence = "create temporary table if not exists associated_supplyings_temp2 as " +
-				"(select distinct sd.supplying_id, dn.number " +
+				"(select distinct sd.supplying_id, dn.* " +
 				"from supplying_detail as sd, delivery_note_detail as dnd, delivery_note dn where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and dn.cancelled = 0";
 
 		if (informAnmat) {
@@ -302,15 +318,23 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 			Object[] supplyingDeliveryNotePair = it.next();
 			Integer supplyingId = (Integer) supplyingDeliveryNotePair[0];
 			String supplyingKey = "D".concat(supplyingId.toString());
-			String deliveryNoteNumber = (String) supplyingDeliveryNotePair[1];
-			List<String> deliveryNotes = null;
+            DeliveryNote deliveryNote = new DeliveryNote();
+            deliveryNote.setId((Integer) supplyingDeliveryNotePair[1]);
+            deliveryNote.setNumber((String) supplyingDeliveryNotePair[2]);
+            deliveryNote.setDate((Date) supplyingDeliveryNotePair[3]);
+            deliveryNote.setTransactionCodeANMAT((String) supplyingDeliveryNotePair[4]);
+            deliveryNote.setCancelled((Boolean) supplyingDeliveryNotePair[5]);
+            deliveryNote.setInformAnmat((Boolean) supplyingDeliveryNotePair[6]);
+            deliveryNote.setInformed((Boolean) supplyingDeliveryNotePair[7]);
+            deliveryNote.setFake((Boolean) supplyingDeliveryNotePair[8]);
+            List<DeliveryNote> deliveryNotes = null;
 			if (!associatedSupplyings.containsKey(supplyingKey)) {
-				deliveryNotes = new ArrayList<String>();
-				deliveryNotes.add(deliveryNoteNumber);
+				deliveryNotes = new ArrayList<>();
+				deliveryNotes.add(deliveryNote);
 				associatedSupplyings.put(supplyingKey, deliveryNotes);
 			} else {
 				deliveryNotes = associatedSupplyings.get(supplyingKey);
-				deliveryNotes.add(deliveryNoteNumber);
+				deliveryNotes.add(deliveryNote);
 				associatedSupplyings.put(supplyingKey, deliveryNotes);
 			}
 		}
