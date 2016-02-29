@@ -4,6 +4,7 @@
 
 <script type="text/javascript" src="js/form/modals.js"></script>
 <script type="text/javascript" src="js/form/input/searchInputToUpdate.js"></script>
+<jsp:include page="../modals/modals.jsp" />
 <jsp:include page="../modals/inputModal.jsp" />
 
 <script type="text/javascript">
