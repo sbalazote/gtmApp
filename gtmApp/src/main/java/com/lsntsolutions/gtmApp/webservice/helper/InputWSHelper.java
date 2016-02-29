@@ -28,11 +28,10 @@ public class InputWSHelper {
     @Autowired
     private WebService webService;
 
-    private static String ERROR_AGENT_HAS_NOT_INFORM = "No se ha podido informar el ingreso dado que los siguientes productos no fueron informados por el Agente de origen";
     private static String ERROR_CANNOT_CONNECT_TO_ANMAT_PENDING_TRANSACTION = "No se han podido obtener las transacciones pendientes";
     private static String ERROR_CANNOT_CONNECT_TO_ANMAT = "No se ha podido conectar con el Servidor de ANMAT";
 
-    public OperationResult sendDrugInformationToAnmat(Input input) throws Exception {
+    public OperationResult sendDrugInformationToAnmat(Input input, boolean isProduction) throws Exception {
         OperationResult operationResult = new OperationResult();
         operationResult.setResultado(false);
         WebServiceConfirmResult webServiceResult = null;
@@ -43,7 +42,7 @@ public class InputWSHelper {
             List<ConfirmacionTransaccionDTO> toConfirm = new ArrayList<>();
             this.getPendingTransactions(input.getInputDetails(), errors, toConfirm, input);
             // Si la lista esta vacia es porque de los productos que informan ninguno esta pendiente de informar por el agente de origen
-            if(Boolean.valueOf(PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION))) {
+            if(isProduction) {
                 if (errors.isEmpty()) {
                     webServiceResult = this.confirmDrugs(toConfirm, errors);
                 }

@@ -1,5 +1,6 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
+import com.lsntsolutions.gtmApp.config.PropertyProvider;
 import com.lsntsolutions.gtmApp.helper.EncryptionHelper;
 import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import com.lsntsolutions.gtmApp.model.Supplying;
@@ -35,7 +36,7 @@ public class TraceabilityServiceImpl implements TraceabilityService {
 
 	@Override
 	public OperationResult processInputPendingTransactions(Input input) throws Exception {
-		OperationResult result = this.inputWSHelper.sendDrugInformationToAnmat(input);
+		OperationResult result = this.inputWSHelper.sendDrugInformationToAnmat(input, Boolean.valueOf(PropertyProvider.getInstance().getProp(PropertyProvider.IS_PRODUCTION)));
 		return result;
 	}
 
