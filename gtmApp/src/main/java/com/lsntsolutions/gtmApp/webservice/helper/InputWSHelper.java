@@ -1,6 +1,5 @@
 package com.lsntsolutions.gtmApp.webservice.helper;
 
-import com.lsntsolutions.gtmApp.config.PropertyProvider;
 import com.lsntsolutions.gtmApp.model.Input;
 import com.lsntsolutions.gtmApp.model.InputDetail;
 import com.lsntsolutions.gtmApp.util.DateUtils;
@@ -31,7 +30,8 @@ public class InputWSHelper {
     private static String ERROR_CANNOT_CONNECT_TO_ANMAT_PENDING_TRANSACTION = "No se han podido obtener las transacciones pendientes";
     private static String ERROR_CANNOT_CONNECT_TO_ANMAT = "No se ha podido conectar con el Servidor de ANMAT";
 
-    public OperationResult sendDrugInformationToAnmat(Input input, boolean isProduction) throws Exception {
+    // Metodo usado para informar productos serializados de origen.
+    public OperationResult sendDrugInformationToAnmat(Input input) throws Exception {
         OperationResult operationResult = new OperationResult();
         operationResult.setResultado(false);
         WebServiceConfirmResult webServiceResult = null;
@@ -42,18 +42,9 @@ public class InputWSHelper {
             List<ConfirmacionTransaccionDTO> toConfirm = new ArrayList<>();
             this.getPendingTransactions(input.getInputDetails(), errors, toConfirm, input);
             // Si la lista esta vacia es porque de los productos que informan ninguno esta pendiente de informar por el agente de origen
-            if(isProduction) {
-                if (errors.isEmpty()) {
-                    webServiceResult = this.confirmDrugs(toConfirm, errors);
-                }
-            }else{
-                WebServiceConfirmResult webServiceConfirmResult = new WebServiceConfirmResult();
-                webServiceConfirmResult.setResultado(true);
-                webServiceConfirmResult.setCodigoTransaccion("11111");
-                webServiceConfirmResult.setId_transac_asociada("22222");
-                webServiceResult = webServiceConfirmResult;
+            if (errors.isEmpty()) {
+                webServiceResult = this.confirmDrugs(toConfirm, errors);
             }
-
         } else {
             String error = "No ha podido obtenerse el evento a informar dado el concepto y el cliente/provedor seleccionados (Concepto: '"
                     + input.getConcept().toString() + "' Cliente/Proveedor '" + input.getClientOrProviderDescription() + "' Tipo de Agente: '"
@@ -88,6 +79,10 @@ public class InputWSHelper {
         return webServiceResult;
     }
 
+    /*
+    * Se arma una lista de ingresos para ser validados con ANMAT
+    * que la lista inputDetails este vacia quiere decir que fue todos los productos fueron informado por el eslabon anterior
+    */
     public void getPendingTransactions(List<InputDetail> details, List<String> errors, List<ConfirmacionTransaccionDTO> toConfirm, Input input) {
         try {
             Map<String, List<InputDetail>> inputDetailsMap = createDetailsMap(details);
@@ -122,6 +117,10 @@ public class InputWSHelper {
         return toReturn;
     }
 
+    /*
+    * Para cada producto se verifica que haya sido informado por ANMAT, para esto se consulta paginado que es obligatorio.
+    * Si algun producto no es encontrado queda en la lista de inputDetails, si es encontrado se agrega el id de transaccion con que fue informado a la lista toConfirm
+    */
     private List<InputDetail> checkPendingInputProducts(List<String> errors, List<InputDetail> inputDetails, String gtin, List<ConfirmacionTransaccionDTO> toConfirm, Input input) throws Exception {
         TransaccionesNoConfirmadasWSResult pendingTransactions;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -133,34 +132,31 @@ public class InputWSHelper {
             pendingTransactions = this.webService.getTransaccionesNoConfirmadas(this.PropertyService.get().getANMATName(), this.PropertyService.get().getDecryptPassword(), nullValue, null, null, null, gtin, nullValue, null, null, simpleDateFormat.format(date), simpleDateFormat.format(new Date()), null, null, null, null, nullValue, null, null, pageNumber, new Long(100));
             if (pendingTransactions != null) {
                 total = pendingTransactions.getCantPaginas();
-                if (pendingTransactions.getErrores() == null) {
-                    if (pendingTransactions.getList() != null) {
-                        for (TransaccionPlainWS transaccionPlainWS : pendingTransactions.getList()) {
-                            Iterator<InputDetail> iterator = inputDetails.iterator();
-                            while (iterator.hasNext()) {
-                                InputDetail inputDetail = iterator.next();
-                                if (transaccionPlainWS.get_numero_serial().equals(inputDetail.getSerialNumber()) && transaccionPlainWS.get_gtin().equals(gtin)) {
-                                    if(transaccionPlainWS.get_gln_origen().equals(input.getOriginGln())){
-                                        ConfirmacionTransaccionDTO confirmacionTransaccionDTO = new ConfirmacionTransaccionDTO();
-                                        confirmacionTransaccionDTO.setF_operacion(simpleDateFormat.format(input.getDate()));
-                                        confirmacionTransaccionDTO.setP_ids_transac(Long.valueOf(transaccionPlainWS.get_id_transaccion()));
-                                        toConfirm.add(confirmacionTransaccionDTO);
-                                    }else{
-                                        String error = "Gtin:" +  inputDetail.getGtin().getNumber() + " Serie: " + inputDetail.getSerialNumber() + " GLN: " + transaccionPlainWS.get_gln_origen() + " (" + transaccionPlainWS.get_razon_social_origen() + ")" +  ", Asignado: " + input.getOriginGln();
-                                        errors.add(error);
-                                    }
-                                    iterator.remove();
-                                    break;
+                if (pendingTransactions.getErrores() == null && pendingTransactions.getList() != null) {
+                    for (TransaccionPlainWS transaccionPlainWS : pendingTransactions.getList()) {
+                        Iterator<InputDetail> iterator = inputDetails.iterator();
+                        while (iterator.hasNext()) {
+                            InputDetail inputDetail = iterator.next();
+                            if (transaccionPlainWS.get_numero_serial().equals(inputDetail.getSerialNumber()) && transaccionPlainWS.get_gtin().equals(gtin)) {
+                                if(transaccionPlainWS.get_gln_origen().equals(input.getOriginGln())){
+                                    ConfirmacionTransaccionDTO confirmacionTransaccionDTO = new ConfirmacionTransaccionDTO();
+                                    confirmacionTransaccionDTO.setF_operacion(simpleDateFormat.format(input.getDate()));
+                                    confirmacionTransaccionDTO.setP_ids_transac(Long.valueOf(transaccionPlainWS.get_id_transaccion()));
+                                    toConfirm.add(confirmacionTransaccionDTO);
+                                }else{
+                                    String error = "Gtin:" +  inputDetail.getGtin().getNumber() + " Serie: " + inputDetail.getSerialNumber() + " GLN: " + transaccionPlainWS.get_gln_origen() + " (" + transaccionPlainWS.get_razon_social_origen() + ")" +  ", Asignado: " + input.getOriginGln();
+                                    errors.add(error);
                                 }
+                                iterator.remove();
+                                break;
                             }
                         }
-                    }else{
-                        errors.add("La lista de pendientes devuelta por ANMAT no es valida");
-                        break;
                     }
                 } else {
-                    for (WebServiceError error : pendingTransactions.getErrores()) {
-                        errors.add("Errores informados por ANMAT: " + error.get_c_error() + " - " + error.get_d_error());
+                    if(pendingTransactions.getErrores() != null) {
+                        for (WebServiceError error : pendingTransactions.getErrores()) {
+                            errors.add("Errores informados por ANMAT: " + error.get_c_error() + " - " + error.get_d_error());
+                        }
                     }
                     break;
                 }
@@ -170,6 +166,8 @@ public class InputWSHelper {
         return inputDetails;
     }
 
+
+    // Metodo usado para informar productos serializados propio.
     public OperationResult sendDrugs(Input input) {
         List<MedicamentosDTO> medicines = new ArrayList<>();
         List<String> errors = new ArrayList<>();

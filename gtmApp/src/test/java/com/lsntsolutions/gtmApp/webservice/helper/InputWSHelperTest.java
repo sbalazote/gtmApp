@@ -82,7 +82,7 @@ public class InputWSHelperTest {
     public void should_be_an_error_tryng_to_get_transactions() throws Exception {
         getInput(PROVIDER_SERIALIZED);
         transaccionesNoConfirmadasWSResult = null;
-        OperationResult operationResult = inputWSHelper.sendDrugInformationToAnmat(input, true);
+        OperationResult operationResult = inputWSHelper.sendDrugInformationToAnmat(input);
         Assert.assertTrue(operationResult.getMyOwnErrors().size() == 1);
         Assert.assertFalse(operationResult.getResultado());
     }
@@ -90,7 +90,7 @@ public class InputWSHelperTest {
     @Test
     public void should_get_transactions_serial_not_inform() throws Exception {
         getInput(PROVIDER_SERIALIZED);
-        OperationResult operationResult = inputWSHelper.sendDrugInformationToAnmat(input, true);
+        OperationResult operationResult = inputWSHelper.sendDrugInformationToAnmat(input);
         Assert.assertTrue(operationResult.getMyOwnErrors().size() == 1);
         Assert.assertEquals("GTIN: 12345 Serie: 44444444 SERIE NO INFORMADO", operationResult.getMyOwnErrors().get(0));
         Assert.assertFalse(operationResult.getResultado());
@@ -100,7 +100,7 @@ public class InputWSHelperTest {
     public void should_not_confirm_drug_because_cannot_connect_with_webservice() throws Exception {
         getInput(PROVIDER_SERIALIZED);
         getPendingTransactions();
-        OperationResult operationResult = inputWSHelper.sendDrugInformationToAnmat(input, true);
+        OperationResult operationResult = inputWSHelper.sendDrugInformationToAnmat(input);
         Assert.assertTrue(operationResult.getMyOwnErrors().size() == 1);
         Assert.assertEquals("No se ha podido conectar con el Servidor de ANMAT", operationResult.getMyOwnErrors().get(0));
         Assert.assertFalse(operationResult.getResultado());
@@ -113,7 +113,7 @@ public class InputWSHelperTest {
         WebServiceConfirmResult webServiceConfirmResult = new WebServiceConfirmResult();
         webServiceConfirmResult.setResultado(true);
         when(webService.confirmarTransaccion(any(ConfirmacionTransaccionDTO[].class), anyString(), anyString())).thenReturn(webServiceConfirmResult);
-        OperationResult operationResult = inputWSHelper.sendDrugInformationToAnmat(input, true);
+        OperationResult operationResult = inputWSHelper.sendDrugInformationToAnmat(input);
         Assert.assertTrue(operationResult.getResultado());
     }
 
