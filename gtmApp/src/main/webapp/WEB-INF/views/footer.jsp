@@ -1,6 +1,9 @@
+<%@ page import="com.lsntsolutions.gtmApp.config.PropertyProvider" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ page import= "com.lsntsolutions.gtmApp.config.PropertyProvider"%>
 <div class="container">
 	<div class="text-center center-block">
+		<p class="text-footer">Version: <%= PropertyProvider.getInstance().getProp(PropertyProvider.VERSION) %></p>
 		<a target="_blank" href="https://www.facebook.com/pages/LSTSolutions/1048639105165861"><i id="socialFacebook" class="fa fa-facebook-square fa-3x social-fb"></i></a>
 		<a target="_blank" href="https://twitter.com/lsntsolutions"><i id="socialTwitter" class="fa fa-twitter-square fa-3x social-tw"></i></a>
 		<a target="_blank" href="https://plus.google.com/+LS&TSolutions-page"><i id="socialGooglePlus" class="fa fa-google-plus-square fa-3x social-gp"></i></a>

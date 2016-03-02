@@ -5,7 +5,7 @@
 	<groupId>com.lsntsolutions.gtmApp</groupId>
 	<artifactId>gtmApp</artifactId>
 	<packaging>war</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0.GA-${maven.build.timestamp}</version>
 	<name>Aplicacion para Gestion de Trazabilidad de Medicamentos</name>
 	<organization>
     	<name>LS&amp;T Solutions</name>
@@ -29,6 +29,7 @@
 		<mysql.connector.version>5.1.26</mysql.connector.version>
 		<jackson.version>2.6.5</jackson.version>
 		<zxing.version>3.1.0</zxing.version>
+		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
 	</properties>
 
 	<dependencies>
@@ -428,7 +429,7 @@
 
 
 	<build>
-		<finalName>${rp.build.warname}-${project.artifactId}-${project.version}</finalName>
+		<finalName>${project.artifactId}-${project.version}</finalName>
         <filters>
             <filter>src/main/filters/filter-${env}.properties</filter>
         </filters>
