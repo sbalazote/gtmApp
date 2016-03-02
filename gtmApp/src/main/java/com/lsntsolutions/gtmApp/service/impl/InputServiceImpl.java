@@ -509,7 +509,7 @@ public class InputServiceImpl implements InputService {
 		Input input = this.update(inputDTO);
 		if (input.isInformAnmat()) {
 			input.setInformed(true);
-			input.setForcedInput(true);
+			input.setForcedInput(false);
 		}
 		this.saveAndUpdateStock(input);
 		this.auditService.addAudit(name, RoleOperation.INPUT_AUTHORIZATION.getId(), input.getId());
