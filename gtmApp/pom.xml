@@ -426,6 +426,7 @@
 
 	</dependencies>
 
+
 	<build>
 		<finalName>${rp.build.warname}-${project.artifactId}-${project.version}</finalName>
         <filters>
@@ -447,6 +448,15 @@
 				</includes>
 			</resource>
         </resources>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-scm-plugin</artifactId>
+					<version>1.9.4</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -470,6 +480,11 @@
                   <keystorePass>password</keystorePass> -->
                 </configuration>
             </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-scm-plugin</artifactId>
+				<version>1.9.4</version>
+			</plugin>
 		</plugins>
 	</build>
 
