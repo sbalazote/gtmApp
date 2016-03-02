@@ -45,7 +45,7 @@ public class ProductSearchController {
 				return this.productService.getByGtin(productDTO.getGtin());
 			}
 		} else {
-			return this.productService.getByGtin(serial);
+			return this.productService.getByGtin(serial, null);
 		}
 		return null;
 	}
