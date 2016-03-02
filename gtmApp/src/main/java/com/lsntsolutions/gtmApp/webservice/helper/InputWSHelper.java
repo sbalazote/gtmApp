@@ -81,7 +81,7 @@ public class InputWSHelper {
 
     /*
     * Se arma una lista de ingresos para ser validados con ANMAT
-    * que la lista inputDetails este vacia quiere decir que fue todos los productos fueron informado por el eslabon anterior
+    * que la lista inputDetails este vacia quiere decir que todos los productos fueron informado por el eslabon anterior
     */
     public void getPendingTransactions(List<InputDetail> details, List<String> errors, List<ConfirmacionTransaccionDTO> toConfirm, Input input) {
         try {
