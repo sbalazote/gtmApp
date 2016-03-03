@@ -32,6 +32,8 @@ public interface StockService {
 
 	Stock getSerializedStock(Integer productId, String serialNumber, String gtin, Integer agreementId);
 
+	Stock getStockByParseSerial(Integer productId, String serialNumber, Integer agreementId);
+
 	boolean getCountStockSearch(StockQuery stockQuery);
 
 	List<Stock> getStockForSearch(StockQuery stockQuery);

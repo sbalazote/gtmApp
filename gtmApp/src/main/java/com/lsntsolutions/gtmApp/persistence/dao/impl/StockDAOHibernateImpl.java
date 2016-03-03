@@ -1,9 +1,13 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
 import com.lsntsolutions.gtmApp.constant.Constants;
+import com.lsntsolutions.gtmApp.dto.ProviderSerializedFormatMatchedDTO;
+import com.lsntsolutions.gtmApp.dto.ProviderSerializedProductDTO;
 import com.lsntsolutions.gtmApp.dto.StockDTO;
+import com.lsntsolutions.gtmApp.helper.SerialParser;
 import com.lsntsolutions.gtmApp.helper.StockDTOTotalAmountComparator;
 import com.lsntsolutions.gtmApp.model.Product;
+import com.lsntsolutions.gtmApp.model.ProviderSerializedFormat;
 import com.lsntsolutions.gtmApp.model.Stock;
 import com.lsntsolutions.gtmApp.persistence.dao.StockDAO;
 import com.lsntsolutions.gtmApp.query.StockQuery;
@@ -35,6 +39,9 @@ public class StockDAOHibernateImpl implements StockDAO {
 
 	@Autowired
 	private ProductService productService;
+
+	@Autowired
+	private SerialParser serialParser;
 
 	@Override
 	public void save(Stock stock) {
@@ -375,5 +382,48 @@ public class StockDAOHibernateImpl implements StockDAO {
 
 
 		return results;
+	}
+
+	@Override
+	public Stock getStockByParseSerial(Integer productId, String serialNumber, Integer agreementId) {
+		List<ProviderSerializedFormatMatchedDTO> providerSerializedFormatMatchedDTOs = serialParser.getMatchParsers(serialNumber);
+		for(ProviderSerializedFormatMatchedDTO providerSerializedFormat : providerSerializedFormatMatchedDTOs){
+			ProviderSerializedProductDTO providerSerializedProductDTO = serialParser.parse(providerSerializedFormat.getSerialNumber(), providerSerializedFormat.getId());
+			Stock stock = this.getSerializedProductStockByAll(providerSerializedProductDTO.getSerialNumber(), agreementId, productId, providerSerializedProductDTO.getBatch(), providerSerializedProductDTO.getExpirationDate(), providerSerializedProductDTO.getGtin());
+			if(stock != null){
+				return stock;
+			}
+		}
+		return null;
+
+	}
+
+	public Stock getSerializedProductStockByAll(String serialNumber, Integer agreementId, Integer productId, String batch, String expirateDate, String gtin) {
+		try {
+			Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Stock.class);
+			SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyyyy");
+			Date expirationDate;
+
+			criteria.add(Restrictions.eq("product.id", productId));
+			criteria.add(Restrictions.eq("agreement.id", agreementId));
+			criteria.add(Restrictions.eq("gtin.number", gtin));
+			criteria.add(Restrictions.eq("serialNumber", serialNumber));
+
+			if (!StringUtils.isEmpty(expirateDate)) {
+				try {
+					expirationDate = dateFormatter.parse(expirateDate);
+					criteria.add(Restrictions.eq("expirationDate", expirationDate));
+				} catch (ParseException e) {
+					throw new RuntimeException("El formato de la fecha ingresada no es valido.", e);
+				}
+			}
+			if (!StringUtils.isEmpty(batch)) {
+				criteria.add(Restrictions.eq("batch", batch));
+			}
+
+			return (Stock) criteria.list().get(0);
+		} catch (IndexOutOfBoundsException e) {
+			return null;
+		}
 	}
 }

@@ -129,6 +129,14 @@ public class OrderController {
 		return this.stockService.getSerializedStock(productId, serialNumber, gtin, agreementId);
 	}
 
+	@RequestMapping(value = "/getStockByParseSerial", method = RequestMethod.GET)
+	public @ResponseBody Stock getStockByParseSerial(@RequestParam Map<String, String> parameters) {
+		Integer productId = Integer.valueOf(parameters.get("productId"));
+		String serialNumber = String.valueOf(parameters.get("serialNumber"));
+		Integer agreementId = Integer.valueOf(parameters.get("agreementId"));
+		return this.stockService.getStockByParseSerial(productId, serialNumber, agreementId);
+	}
+
 	@RequestMapping(value = "/orderSaved", method = RequestMethod.POST)
 	public String orderSaved(ModelMap modelMap, @RequestParam Map<String, String> parameters) throws Exception {
 		Integer provisioningRequestId = Integer.valueOf(parameters.get("provisioningRequestId"));
