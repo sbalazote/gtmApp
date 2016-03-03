@@ -3,7 +3,7 @@ package com.lsntsolutions.gtmApp.helper.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lsntsolutions.gtmApp.dto.ProviderSerializedFormatMatchedDTO;
+import com.lsntsolutions.gtmApp.dto.ProviderSerializedSerialFormatDTO;
 import com.lsntsolutions.gtmApp.model.ProviderSerializedFormat;
 import com.lsntsolutions.gtmApp.model.ProviderSerializedFormatTokens;
 import com.lsntsolutions.gtmApp.service.ProviderSerializedFormatTokensService;
@@ -56,11 +56,11 @@ public class SerialParserImpl implements SerialParser {
 	}
 
 	@Override
-	public List<ProviderSerializedFormatMatchedDTO> getMatchParsers(String serial) {
+	public List<ProviderSerializedSerialFormatDTO> getMatchParsers(String serial) {
 		List<ProviderSerializedFormatTokens> formatTokens = this.providerSerializedFormatTokensService.getAll();
 
 		List<ProviderSerializedFormat> formats = this.providerSerializedFormatService.getAll();
-		List<ProviderSerializedFormatMatchedDTO> result = new ArrayList<>();
+		List<ProviderSerializedSerialFormatDTO> result = new ArrayList<>();
 		for (ProviderSerializedFormat format : formats) {
 			String[] sequence = format.getSplittedSequence();
 			String regexp = "";
@@ -70,8 +70,8 @@ public class SerialParserImpl implements SerialParser {
 			}
 			if (serial.matches(regexp)) {
 				ProviderSerializedProductDTO providerSerializedProductDTO = this.newProductItemDTO(serial, format, formatTokens);
-				ProviderSerializedFormatMatchedDTO providerSerializedFormatMatchedDTO = new ProviderSerializedFormatMatchedDTO();
-				providerSerializedFormatMatchedDTO.setId(format.getId());
+				ProviderSerializedSerialFormatDTO providerSerializedFormatMatchedDTO = new ProviderSerializedSerialFormatDTO();
+				providerSerializedFormatMatchedDTO.setProviderSerializedFormatId(format.getId());
 				providerSerializedFormatMatchedDTO.setSerialNumber(providerSerializedProductDTO.getSerialNumber());
 				result.add(providerSerializedFormatMatchedDTO);
 			}

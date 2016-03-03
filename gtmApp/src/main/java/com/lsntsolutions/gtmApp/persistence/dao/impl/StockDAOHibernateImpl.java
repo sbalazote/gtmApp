@@ -3,6 +3,7 @@ package com.lsntsolutions.gtmApp.persistence.dao.impl;
 import com.lsntsolutions.gtmApp.constant.Constants;
 import com.lsntsolutions.gtmApp.dto.ProviderSerializedFormatMatchedDTO;
 import com.lsntsolutions.gtmApp.dto.ProviderSerializedProductDTO;
+import com.lsntsolutions.gtmApp.dto.ProviderSerializedSerialFormatDTO;
 import com.lsntsolutions.gtmApp.dto.StockDTO;
 import com.lsntsolutions.gtmApp.helper.SerialParser;
 import com.lsntsolutions.gtmApp.helper.StockDTOTotalAmountComparator;
@@ -386,9 +387,9 @@ public class StockDAOHibernateImpl implements StockDAO {
 
 	@Override
 	public Stock getStockByParseSerial(Integer productId, String serialNumber, Integer agreementId) {
-		List<ProviderSerializedFormatMatchedDTO> providerSerializedFormatMatchedDTOs = serialParser.getMatchParsers(serialNumber);
-		for(ProviderSerializedFormatMatchedDTO providerSerializedFormat : providerSerializedFormatMatchedDTOs){
-			ProviderSerializedProductDTO providerSerializedProductDTO = serialParser.parse(providerSerializedFormat.getSerialNumber(), providerSerializedFormat.getId());
+		List<ProviderSerializedSerialFormatDTO> providerSerializedFormatMatchedDTOs = serialParser.getMatchParsers(serialNumber);
+		for(ProviderSerializedSerialFormatDTO providerSerializedSerialFormatDTO : providerSerializedFormatMatchedDTOs){
+			ProviderSerializedProductDTO providerSerializedProductDTO = serialParser.parse(serialNumber, providerSerializedSerialFormatDTO.getProviderSerializedFormatId());
 			Stock stock = this.getSerializedProductStockByAll(providerSerializedProductDTO.getSerialNumber(), agreementId, productId, providerSerializedProductDTO.getBatch(), providerSerializedProductDTO.getExpirationDate(), providerSerializedProductDTO.getGtin());
 			if(stock != null){
 				return stock;
@@ -400,8 +401,9 @@ public class StockDAOHibernateImpl implements StockDAO {
 
 	public Stock getSerializedProductStockByAll(String serialNumber, Integer agreementId, Integer productId, String batch, String expirateDate, String gtin) {
 		try {
-			Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Stock.class);
-			SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyyyy");
+			Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Stock.class, "stock");
+			criteria.createAlias("stock.gtin", "gtin");
+			SimpleDateFormat dateFormatter = new SimpleDateFormat("yyMMdd");
 			Date expirationDate;
 
 			criteria.add(Restrictions.eq("product.id", productId));

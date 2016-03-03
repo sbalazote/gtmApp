@@ -152,7 +152,7 @@ OutputSerialized = function() {
 			success: function(response) {
 				if (response) {
 					// Si el serial existe en la tabla temporal del input
-					if ($.inArray(serialNumber, tempSerialNumbers) != -1) {
+					if ($.inArray(response.serialNumber, tempSerialNumbers) != -1) {
 						readSerialNumber.val("");
 						readSerialNumber.tooltip("destroy").data("title", "Serie ya ingresado").addClass("has-error").tooltip();
 						return;
@@ -167,8 +167,8 @@ OutputSerialized = function() {
 					}
 
 					addAmount(1);
-					addToTable(gtin, serialNumber, batch, myParseDate(expirationDate));
-					tempSerialNumbers.push(serialNumber);
+					addToTable(gtin, response.serialNumber, batch, myParseDate(expirationDate));
+					tempSerialNumbers.push(response.serialNumber);
 
 					readSerialNumber.val("");
 					readSerialNumber.data("title", "").removeClass("has-error").tooltip("destroy");

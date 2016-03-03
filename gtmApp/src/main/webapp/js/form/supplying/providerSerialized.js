@@ -159,12 +159,12 @@ ProviderSerialized = function() {
 					$('#formatSerializedInput').empty();
 					$('#formatSerializedInput').append("<option value=''></option>");
 					for(var i=0;i < response.length;i++){
-						$('#formatSerializedInput').append("<option value=" + response[i].id + ">" + response[i].serialNumber + "</option>");
+						$('#formatSerializedInput').append("<option value=" + response[i].providerSerializedFormatId + ">" + response[i].serialNumber + "</option>");
 					}
 					$('#formatSerializedInput').trigger("chosen:updated");
 					$('#formatSerializedModal').modal('show');
 				}else if(response.length == 1){
-					formatSerializedId = response[0].id;
+					formatSerializedId = response[0].providerSerializedFormatId;
 				}else{
 					readSerialNumber.val("");
 					readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Inv\u00e1lido").addClass("has-error").tooltip();
