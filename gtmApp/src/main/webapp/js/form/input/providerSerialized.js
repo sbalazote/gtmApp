@@ -26,6 +26,7 @@ ProviderSerialized = function() {
 	var preloadedProduct = null;
 	var preloadedProductId = null;
 	var formatSerializedId = null;
+	var isProviderSelfSerialized = false;
 	
 	var setTempSerialNumbers = function(value) {
 		tempSerialNumbers = value || [];
@@ -140,16 +141,39 @@ ProviderSerialized = function() {
 		parseSerial(readSerialNumber);
 		checkLast();
 	});
+	var isProviderSelfSerialized = false;
 
 	var generateRow = function() {
 		var readSerialNumber = $("#readSerialNumberInput");
-		if(formatSerializedId == null) {
-			getMatches(readSerialNumber);
-		}
-
-		if(formatSerializedId != null){
+		isSelfSerialized(readSerialNumber.val());
+		if(isProviderSelfSerialized){
 			parseSerial(readSerialNumber);
+		}else{
+			if(formatSerializedId == null) {
+				getMatches(readSerialNumber);
+			}
+
+			if(formatSerializedId != null){
+				parseSerial(readSerialNumber);
+			}
 		}
+	};
+
+	var isSelfSerialized = function(serialNumber){
+		$.ajax({
+			url: "isParseSelfSerial.do",
+			type: "GET",
+			async: false,
+			data: {
+				serial: serialNumber
+			},
+			success: function(response) {
+				isProviderSelfSerialized = response;
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				isProviderSelfSerialized = false;
+			}
+		});
 	};
 
 	var getMatches = function(readSerialNumber){
