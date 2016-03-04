@@ -99,11 +99,18 @@ OutputSerialized = function() {
 		$("#serializedTable").bootgrid("append", aaData);
 	};
 
+	var isProviderSelfSerialized = false;
+
 	var generateRow = function() {
 		var readSerialNumber = $("#readSerialNumberInput");
-		
+
+		isSelfSerialized(readSerialNumber.val());
 		if (preloadedProductType == "PS") {
-			findStockBySerial(readSerialNumber.val());
+			if(isProviderSelfSerialized){
+				parseSerial(readSerialNumber);
+			}else {
+				findStockBySerial(readSerialNumber.val());
+			}
 		} else {
 			// if self serialized
 			
@@ -130,6 +137,82 @@ OutputSerialized = function() {
 			
 		}
 	};
+
+	var isSelfSerialized = function(serialNumber){
+		$.ajax({
+			url: "isParseSelfSerial.do",
+			type: "GET",
+			async: false,
+			data: {
+				serial: serialNumber
+			},
+			success: function(response) {
+				isProviderSelfSerialized = response;
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				isProviderSelfSerialized = false;
+			}
+		});
+	};
+
+	var parseSerial = function (readSerialNumber) {
+		$.ajax({
+			url: "parseSerial.do",
+			type: "GET",
+			async: false,
+			data: {
+				serial: readSerialNumber.val(),
+				formatSerializedId: formatSerializedId
+			},
+			success: function(response) {
+				if (response == "") {
+					readSerialNumber.val("");
+					readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Inv\u00e1lido").addClass("has-error").tooltip();
+					return;
+				}
+
+				var gtinFound = false;
+				var gtin;
+				if(response.gtin != null) {
+					$.ajax({
+						url: "getGtins.do",
+						type: "GET",
+						async: false,
+						data: {
+							productId: preloadedProductId
+						},
+						success: function(responseGtin) {
+							var gtins = responseGtin;
+							for (var i = 0; i < gtins.length; i++) {
+								if(gtins[i].number == response.gtin){
+									gtinFound = true;
+								}
+							}
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+							myGenericError("providerSerializedModalAlertDiv");
+						}
+					});
+					gtin = response.gtin;
+				}else{
+					gtin = productSelectedGtin;
+					gtinFound = true;
+				}
+
+				//	Si el Gtin leido no coincide con el seleccionado en la pantalla de input.
+				if (gtinFound == false) {
+					readSerialNumber.val("");
+					readSerialNumber.tooltip("destroy").data("title", "GTIN le\u00eddo no coincide con el seleccionado").addClass("has-error").tooltip();
+					return;
+				}
+				//TODO seguir desde aca
+				findStock(response.serialNumber, gtin);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myGenericError("serializedModalAlertDiv");
+			}
+		});
+	}
 
 	var findStockBySerial = function(serialNumber, gtin) {
 		var readSerialNumber = $("#readSerialNumberInput");
