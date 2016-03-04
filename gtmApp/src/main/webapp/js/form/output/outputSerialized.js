@@ -99,13 +99,6 @@ OutputSerialized = function() {
 		$("#serializedTable").bootgrid("append", aaData);
 	};
 
-	$("#formatSerializedAccept").click(function() {
-		var readSerialNumber = $("#readSerialNumberInput");
-		formatSerializedId = $("#formatSerializedInput").val();
-		parseSerial(readSerialNumber);
-		checkLast();
-	});
-
 	var generateRow = function() {
 		var readSerialNumber = $("#readSerialNumberInput");
 		
