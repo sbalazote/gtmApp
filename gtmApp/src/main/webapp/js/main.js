@@ -169,6 +169,19 @@ $(document).ready(function() {
         return this.optional(element) || /^\d{1,7}\,\d{2}$/i.test(value);
     }, jQuery.format("El Precio debe ser del formato xxxxxxx,xx."));
 
+
+	$.validator.addMethod("maxCurrentDate", function(value, element) {
+		var curDate = new Date();
+		var partsFrom = value.split("/");
+		var currentDateOtherFormat = partsFrom[1] + "/" + partsFrom[0] + "/"+ partsFrom[2];
+		var inputDate = new Date(currentDateOtherFormat);
+		inputDate.setHours(0,0,0,0);
+		curDate.setHours(0,0,0,0);
+		if (inputDate <= curDate)
+			return true;
+		return false;
+	}, "La fecha debe ser menor o igual a hoy.");
+
 	// To activate chosen-select
 	$(".chosen-select").chosen({
 		allow_single_deselect: true,

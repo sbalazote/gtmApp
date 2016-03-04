@@ -80,7 +80,8 @@ var Supplying = function() {
 				},
 				currentDate : {
 					required : true,
-					formatDate: true
+					formatDate: true,
+					maxCurrentDate: true
 				}
 			},
 			showErrors : myShowErrors,

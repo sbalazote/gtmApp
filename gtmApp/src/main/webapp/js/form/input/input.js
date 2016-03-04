@@ -101,7 +101,8 @@ Input = function() {
 			rules: {
 				currentDate: {
 					required: true,
-					formatDate: true
+					formatDate: true,
+					maxCurrentDate: true
 				},
 				concept: {
 					required: true
