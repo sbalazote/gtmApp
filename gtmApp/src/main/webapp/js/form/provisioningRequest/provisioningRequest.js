@@ -66,6 +66,9 @@ var ProvisioningRequest = function() {
 				deliveryDate: {
 					required: true,
 					formatDate: true
+				},
+				comment: {
+					maxlength: 100
 				}
 			},
 			showErrors: myShowErrors,

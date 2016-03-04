@@ -106,7 +106,7 @@
 	<div class="row">
 		<div class="col-md-12 col-lg-12 form-group">
 			<label for="commentTextarea"><spring:message code="provisioningRequest.comment.label" /></label>
-			<textarea class="form-control my-textarea" name="comment" id="commentTextarea" rows="2">${comment}</textarea>
+			<textarea class="form-control my-textarea" name="comment" id="commentTextarea" rows="2" maxlength="100">${comment}</textarea>
 		</div>
 	</div>
 
