@@ -76,7 +76,7 @@
 		<div class="col-md-12 col-lg-12 form-group">
 			<label for="deliveryLocationInput"><spring:message code="common.deliveryLocation" /></label>
 			<input type="hidden" class="form-control" id="deliveryLocationId" value="${deliveryLocationId != null ? deliveryLocationId : ''}">
-			<select id="deliveryLocationInput" name="deliveryLocation" class="form-control" data-placeholder="<spring:message code='common.select.option'/>">
+			<select id="deliveryLocationInput" name="deliveryLocation" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 				<option value=""></option>
 			</select>
 		</div>

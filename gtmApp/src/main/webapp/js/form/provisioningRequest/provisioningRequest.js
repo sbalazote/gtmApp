@@ -40,8 +40,6 @@ var ProvisioningRequest = function() {
 		width: '100%' /* desired width */
 	});
 
-	$("#deliveryLocationInput").chosen({ search_contains : true });
-
 	// TODO mejorar esto- ahora no hace el paginado.
 	$("#productTable").bootgrid({
 		rowCount: -1

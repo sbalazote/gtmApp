@@ -58,11 +58,7 @@ Input = function() {
     
     $("#amountInput").numeric();
 
-	$("#deliveryLocationInput").chosen({
-		search_contains : true,
-		width: '100%'});
-	$("#logisticsOperatorInput").chosen({ search_contains : true });
-	$("#providerInput").chosen({ search_contains : true });
+	$("#deliveryLocationInput").chosen({ width: '100%' });
 
     if(isUpdate){
 		$('#productInput').prop('disabled', true);
@@ -710,8 +706,14 @@ Input = function() {
 			});
 		}
 	});
-	
+
+	//Se esconde el div de op.logistico asociado al proveedor.
+	$("#logisticsOperatorInput").attr('disabled', true).trigger("chosen:updated");
+
 	$('#providerInput').on('change', function(evt, params) {
+		if (typeof params === "undefined") {
+			$("#logisticsOperatorInput").attr('disabled', true).trigger("chosen:updated");
+		} else {
 		$('#agreementInput').chosen().trigger('chosen:activate');
 		$.ajax({
 			url: "getProvidersLogisticsOperators.do",
@@ -724,16 +726,22 @@ Input = function() {
 			async: true,
 			success: function(response) {
 				$('#logisticsOperatorInput').empty();
-				$('#logisticsOperatorInput').append("<option value=''></option>");
-				for(var i=0;i < response.length;i++){
-					$('#logisticsOperatorInput').append("<option value=" + response[i].id + ">" + response[i].code + " " + response[i].name + "</option>");
+				if (response.length > 0) {
+					$("#logisticsOperatorInput").attr('disabled', false).trigger("chosen:updated");
+					$('#logisticsOperatorInput').append("<option value=''></option>");
+					for (var i = 0; i < response.length; i++) {
+						$('#logisticsOperatorInput').append("<option value=" + response[i].id + ">" + response[i].code + " " + response[i].name + "</option>");
+					}
+					$('#logisticsOperatorInput').trigger("chosen:updated");
+				} else {
+					$("#logisticsOperatorInput").attr('disabled', true).trigger("chosen:updated");
 				}
-				$('#logisticsOperatorInput').trigger("chosen:updated");
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myGenericError();
 			}
 		});
+		}
 	});
 	
 	$('#deliveryLocationInput').on('change', function(evt, params) {
