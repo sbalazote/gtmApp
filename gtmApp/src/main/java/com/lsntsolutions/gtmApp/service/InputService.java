@@ -18,6 +18,8 @@ public interface InputService {
 
 	List<Input> getInputForSearch(InputQuery inputQuery);
 
+	Boolean existsSerial(String serialNumber, Integer productId, String gtin);
+
 	boolean getCountInputSearch(InputQuery inputQuery);
 
 	List<Input> getInputToAuthorize();

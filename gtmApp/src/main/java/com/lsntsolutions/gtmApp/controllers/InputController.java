@@ -39,8 +39,6 @@ public class InputController {
 	private AuditService auditService;
 	@Autowired
 	private PropertyService propertyService;
-	@Autowired
-	private StockService stockService;
 
 	@RequestMapping(value = "/input", method = RequestMethod.GET)
 	public String input(ModelMap modelMap) throws Exception {
@@ -119,7 +117,7 @@ public class InputController {
 		Integer productId = Integer.valueOf(parameters.get("productId"));
 		String serialNumber = String.valueOf(parameters.get("serialNumber"));
 		String gtin = String.valueOf(parameters.get("gtin"));
-		return this.stockService.existsSerial(productId, gtin, null, serialNumber);
+		return this.inputService.existsSerial(serialNumber, productId, gtin);
 	}
 
 	@RequestMapping(value = "/getInput", method = RequestMethod.GET)
