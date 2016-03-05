@@ -98,6 +98,7 @@ public class InputWSHelper {
         } catch (Exception e) {
             logger.info(ERROR_CANNOT_CONNECT_TO_ANMAT_PENDING_TRANSACTION);
             errors.add(ERROR_CANNOT_CONNECT_TO_ANMAT_PENDING_TRANSACTION);
+            errors.add(e.getMessage());
         }
     }
 
