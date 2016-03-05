@@ -403,7 +403,7 @@ public class StockDAOHibernateImpl implements StockDAO {
 		try {
 			Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Stock.class, "stock");
 			criteria.createAlias("stock.gtin", "gtin");
-			SimpleDateFormat dateFormatter = new SimpleDateFormat("yyMMdd");
+
 			Date expirationDate;
 
 			criteria.add(Restrictions.eq("product.id", productId));
@@ -413,6 +413,8 @@ public class StockDAOHibernateImpl implements StockDAO {
 
 			if (!StringUtils.isEmpty(expirateDate)) {
 				try {
+					SimpleDateFormat dateFormatter;
+					dateFormatter = (expirateDate.length() == 6) ? new SimpleDateFormat("yyMMdd") : new SimpleDateFormat("yyyyMMdd");
 					expirationDate = dateFormatter.parse(expirateDate);
 					criteria.add(Restrictions.eq("expirationDate", expirationDate));
 				} catch (ParseException e) {
