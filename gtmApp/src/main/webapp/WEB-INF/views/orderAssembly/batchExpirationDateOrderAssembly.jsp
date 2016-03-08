@@ -8,28 +8,28 @@
     <input type="hidden" class="form-control" id="provisioningRequestDetailId" name="provisioningRequestDetailId" value="${provisioningRequestDetailId}">
 
     <div class="row">
-        <div class="col-md-3 form-group">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
             <h3 id="provisioningRequestIdFormated" class="form-provisioningRequest-heading"><spring:message code="provisioningRequest.provisioningRequestNumber" />: <span style="color:blue">${provisioningRequestIdFormated != null ? provisioningRequestIdFormated : ''}</span></h3>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-3 form-group">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
             <span class="form-provisioningRequest-heading">${productDescription}</span>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-2 col-lg-2 form-group">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
             <label for="amount"><spring:message code="common.amount"/>: ${amount}</label>
             <input type="hidden" class="form-control" id="amount" name="amount" value="${amount}">
         </div>
-        <div class="col-md-2 col-lg-2 form-group">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
             <label for="assignAmount"><spring:message code="common.assignAmount"/>: ${amountAssign}</label>
             <input type="hidden" class="form-control" id="assignAmount" name="assignAmount" value="${amountAssign}">
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4 col-lg-4 form-group">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
             <label for="stockInput"><spring:message code="common.stock"/></label>
             <select id="stockInput" name="stockInput" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>" autofocus>
                 <option value=""></option>
@@ -40,7 +40,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4 col-lg-4 form-group">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
             <label for="stockAmountInput"><spring:message code="common.amount"/></label>
             <input type="text" class="form-control" name="stockAmountInput" id="stockAmountInput">
         </div>

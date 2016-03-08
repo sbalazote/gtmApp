@@ -75,14 +75,14 @@ public class LoginController {
         } else {
             boolean validLicense = isValidLicense();
 
-            if (browserName.indexOf(IE_BROWSER) >= 0) {
-                modelMap.put("error", "Internet Explorer no es compatible con la aplicacion, utilice Chrome o Firefox");
-                modelMap.put("loginDisabled", true);
-            } else {
+//            if (browserName.indexOf(IE_BROWSER) >= 0) {
+//                modelMap.put("error", "Internet Explorer no es compatible con la aplicacion, utilice Chrome o Firefox");
+//                modelMap.put("loginDisabled", true);
+//            } else {
                 if (error != null) {
                     modelMap.put("error", "Usuario / Contraseña incorrecta, vuelva a intentar");
                 }
-            }
+//            }
             if (!validLicense) {
                 modelMap.put("error", "La Licencia ha caducado. Comuníquese con el Administrador.");
                 modelMap.put("loginDisabled", true);

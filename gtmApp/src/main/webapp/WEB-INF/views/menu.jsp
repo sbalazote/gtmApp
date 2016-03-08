@@ -98,10 +98,6 @@
 						<sec:authorize access="hasRole('ORDER_ASSEMBLY')">
 							<li><a href="orderAssemblySelection.do"><spring:message code="common.assembly" /></a></li>
 						</sec:authorize>
-						<%--
-						<sec:authorize access="hasRole('ORDER_ASSEMBLY')">
-							<li><a href="batchExpirationDateOrderAssemblySearch.do"><spring:message code="common.assemblyBatchExpirationDate" /></a></li>
-						</sec:authorize>--%>
 						<sec:authorize access="hasRole('LOGISTIC_OPERATOR_ASSIGNMENT')">
 							<li><a href="logisticOperatorAssignment.do"><spring:message code="common.logisticOperatorAssingment" /></a></li>
 						</sec:authorize>
@@ -116,6 +112,10 @@
 						</sec:authorize>
 					</ul>
 				</li>
+			</sec:authorize>
+
+			<sec:authorize access="hasRole('BATCH_EXPIRATION_DATE_ORDER_ASSEMBLY')">
+				<li><a href="batchExpirationDateOrderAssemblySearch.do"><spring:message code="common.assemblyBatchExpirationDate" /></a></li>
 			</sec:authorize>
 
 			<sec:authorize access="hasAnyRole('DELIVERY_NOTE_PRINT', 'DELIVERY_NOTE_CANCELLATION', 'PENDING_TRANSACTIONS')">

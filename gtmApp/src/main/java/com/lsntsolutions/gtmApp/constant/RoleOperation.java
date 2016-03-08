@@ -47,7 +47,8 @@ public enum RoleOperation {
 	ORDER_LABEL_PRINT("Impresión de Rótulos", 44),
 	FAKE_DELIVERY_NOTE_PRINT("Impresión de Remito Propio", 45),
 	FORCED_INPUT("Ingreso Forzado", 46),
-    FORCED_INPUT_UPDATE("Modificación de Ingreso Forzado", 47);
+    FORCED_INPUT_UPDATE("Modificación de Ingreso Forzado", 47),
+	BATCH_EXPIRATION_DATE_ORDER_ASSEMBLY("Armado en Colectora",48);
 
 	private Integer id;
 	private String description;
