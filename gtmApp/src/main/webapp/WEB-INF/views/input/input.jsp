@@ -113,7 +113,7 @@
 	        <tr>
 	            <th data-identifier="true" data-column-id="description" data-css-class="td-description" data-sortable="false"><spring:message code="common.product"/></th>
 	            <th data-column-id="amount" data-type="numeric" data-css-class="td-amount" data-sortable="false"><spring:message code="common.amount"/></th>
-				<th data-column-id="command" data-formatter="command" data-sortable="false"><spring:message code="common.option"/></th>
+				<th data-column-id="command" data-formatter="command" data-sortable="false" data-searchable="false"><spring:message code="common.option"/></th>
 			</tr>
    	 	</thead>
    	 	<tbody id="productTableBody">
@@ -219,8 +219,8 @@
 									<th data-identifier="true" data-column-id="id" data-type="numeric" data-visible="false" data-sortable="false"></th>
 									<th data-column-id="batch" data-css-class="batch" data-sortable="false"><spring:message code="common.batch" /></th>
 									<th data-column-id="expirationDate" data-css-class="expirationDate" data-sortable="false"><spring:message code="common.expirationDate" /></th>
-									<th data-column-id="amount" data-css-class="amount" data-sortable="false"><spring:message code="common.amount" /></th>
-									<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
+									<th data-column-id="amount" data-type="numeric" data-css-class="amount" data-sortable="false"><spring:message code="common.amount" /></th>
+									<th data-column-id="commands" data-formatter="commands" data-sortable="false" data-searchable="false"><spring:message code="administration.commands.tableLabel"/></th>
 								</tr>
 							</thead>
 							<tbody id="batchExpirationDateTableBody">
@@ -291,7 +291,7 @@
 									<th data-identifier="true" data-column-id="serialNumber" data-css-class="serialNumber" data-sortable="false"><spring:message code="common.serialNumber"/></th>
 									<th data-column-id="batch" data-css-class="batch" data-sortable="false"><spring:message code="common.batch"/></th>
 									<th data-column-id="expirationDate" data-css-class="expirationDate" data-sortable="false"><spring:message code="common.expirationDate"/></th>
-									<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
+									<th data-column-id="commands" data-formatter="commands" data-sortable="false" data-searchable="false"><spring:message code="administration.commands.tableLabel"/></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -386,8 +386,8 @@
 									<th data-identifier="true" data-column-id="id" data-type="numeric" data-visible="false" data-sortable="false"></th>
 									<th data-column-id="batch" data-css-class="batch" data-sortable="false"><spring:message code="common.batch" /></th>
 									<th data-column-id="expirationDate" data-css-class="expirationDate" data-sortable="false"><spring:message code="common.expirationDate" /></th>
-									<th data-column-id="amount" data-css-class="amount" data-sortable="false"><spring:message code="common.amount" /></th>
-									<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
+									<th data-column-id="amount" data-type="numeric" data-css-class="amount" data-sortable="false"><spring:message code="common.amount" /></th>
+									<th data-column-id="commands" data-formatter="commands" data-sortable="false" data-searchable="false"><spring:message code="administration.commands.tableLabel"/></th>
 								</tr>
 							</thead>
 							<tbody>
