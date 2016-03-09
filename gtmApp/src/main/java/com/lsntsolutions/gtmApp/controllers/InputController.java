@@ -3,7 +3,7 @@ package com.lsntsolutions.gtmApp.controllers;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.InputDTO;
 import com.lsntsolutions.gtmApp.model.Input;
-import com.lsntsolutions.gtmApp.model.Stock;
+import com.lsntsolutions.gtmApp.model.InputDetail;
 import com.lsntsolutions.gtmApp.query.InputQuery;
 import com.lsntsolutions.gtmApp.service.*;
 import com.lsntsolutions.gtmApp.util.OperationResult;
@@ -18,9 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class InputController {
@@ -183,6 +181,18 @@ public class InputController {
 		return "input";
 	}
 
+	@RequestMapping(value = "/getInputDetails", method = RequestMethod.GET)
+	public @ResponseBody
+    HashMap<Integer, List<InputDetail>> getInputDetailsToUpdate(@RequestParam Integer inputId) {
+        Input input = this.inputService.get(inputId);
+        if (inputId != null) {
+            final HashMap<Integer, List<InputDetail>> integerListHashMap = groupByProduct(input);
+            return integerListHashMap;
+        } else {
+            return null;
+        }
+    }
+
 	@RequestMapping(value = "/cancelInputWithoutStock", method = RequestMethod.GET)
 	public @ResponseBody
 	boolean cancelInputWithoutStock(@RequestParam Integer inputId) throws Exception {
@@ -315,4 +325,19 @@ public class InputController {
 
 		return inputQuery;
 	}
+
+    private HashMap<Integer, List<InputDetail>> groupByProduct(Input input) {
+        HashMap<Integer,List<InputDetail>> details = new HashMap<>();
+
+        for(InputDetail inputDetail : input.getInputDetails()){
+            List<InputDetail> list = details.get(inputDetail.getProduct().getId());
+            if(list == null) {
+                list = new ArrayList<>();
+            }
+            list.add(inputDetail);
+            details.put(inputDetail.getProduct().getId(),list);
+        }
+
+        return details;
+    }
 }

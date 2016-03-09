@@ -113,32 +113,10 @@
 	        <tr>
 	            <th data-identifier="true" data-column-id="description" data-css-class="td-description" data-sortable="false"><spring:message code="common.product"/></th>
 	            <th data-column-id="amount" data-type="numeric" data-css-class="td-amount" data-sortable="false"><spring:message code="common.amount"/></th>
-	            <c:choose>
-	            	<c:when test="${inputId != null}">
-	            		<th data-column-id="serialNumber" data-css-class="serialNumber" data-sortable="false"><spring:message code="common.serialNumber"/></th>
-	            		<th data-column-id="batch" data-css-class="batch" data-sortable="false"><spring:message code="common.batch"/></th>
-	            		<th data-column-id="expirationDate" data-css-class="expirationDate" data-sortable="false"><spring:message code="common.expirationDate"/></th>
-	            	</c:when>
-	            	<c:otherwise>
-						<th data-column-id="command" data-sortable="false"><spring:message code="common.option"/></th>
-	            	</c:otherwise>
-	            </c:choose>
-	        </tr>
+				<th data-column-id="command" data-formatter="command" data-sortable="false"><spring:message code="common.option"/></th>
+			</tr>
    	 	</thead>
    	 	<tbody id="productTableBody">
-   	 		<c:forEach items="${products}" var="inputDetail" varStatus="status">
-				<tr>
-					<td class='td-description' data-sortable="false"><c:out value="${inputDetail.product.code}"></c:out> - <c:out value="${inputDetail.product.description}"></c:out></td>
-					<td class='td-amount' data-sortable="false"><c:out value="${inputDetail.amount}"></c:out>
-						<span class='span-productId' style='display:none'><c:out value="${inputDetail.product.id}"></c:out></span>
-						<span class='span-productType' style='display:none'><c:out value="${inputDetail.product.type}"></c:out></span>
-						<span class='span-productGtin' style='display:none'><c:out value="${inputDetail.gtin.number}"></c:out></span>
-					</td>
-					<td data-sortable="false"><c:out value="${inputDetail.serialNumber != null ? inputDetail.serialNumber : ''}"></c:out></td>
-					<td data-sortable="false"><c:out value="${inputDetail.batch != null ? inputDetail.batch : ''}"></c:out></td>
-                    <td data-sortable="false"><fmt:formatDate value="${inputDetail.expirationDate}" pattern="dd/MM/yyyy" /></td>
-				</tr>
-			</c:forEach>
 		</tbody>
 	</table>
 </div>
@@ -207,15 +185,15 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-4 col-lg-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group" id="batchExpirationDateRequestedAmountDiv">
 							<label><spring:message code="common.amount"/>:&nbsp;&nbsp;</label>
 							<span style="color:black"><label id="batchExpirationDateRequestedAmountLabel"></label></span>
 						</div>
-						<div class="col-md-4 col-lg-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group" id="batchExpirationDateEnteredAmountDiv">
 							<label><spring:message code="common.entered"/>:&nbsp;&nbsp;</label>
 							<span style="color:blue"><label id="batchExpirationDateEnteredAmountLabel"></label></span>
 						</div>
-						<div class="col-md-4 col-lg-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group" id="batchExpirationDateRemainingAmountDiv">
 							<label><spring:message code="common.remaining"/>:&nbsp;&nbsp;</label>
 							<span style="color:red"><label id="batchExpirationDateRemainingAmountLabel"></label></span>
 						</div>
@@ -278,15 +256,15 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-4 col-lg-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group" id="providerSerializedRequestedAmountDiv">
 							<label><spring:message	code="common.amount"/>:&nbsp;&nbsp;</label>
 							<span style="color:black"><label id="providerSerializedRequestedAmountLabel"></label></span>
 						</div>
-						<div class="col-md-4 col-lg-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group" id="providerSerializedEnteredAmountDiv">
 							<label><spring:message code="common.entered"/>:&nbsp;&nbsp;</label>
 							<span style="color:blue"><label id="providerSerializedEnteredAmountLabel"></label></span>
 						</div>
-						<div class="col-md-4 col-lg-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group" id="providerSerializedRemainingAmountDiv">
 							<label><spring:message code="common.remaining"/>:&nbsp;&nbsp;</label>
 							<span style="color:red"><label id="providerSerializedRemainingAmountLabel"></label></span>
 						</div>
@@ -374,15 +352,15 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-4 col-lg-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group" id="selfSerializedRequestedAmountDiv">
 							<label><spring:message code="common.amount"/>:&nbsp;&nbsp;</label>
 							<span style="color:black"><label id="selfSerializedRequestedAmountLabel"></label></span>
 						</div>
-						<div class="col-md-4 col-lg-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group" id="selfSerializedEnteredAmountDiv">
 							<label><spring:message code="common.entered"/>:&nbsp;&nbsp;</label>
 							<span style="color:blue"><label id="selfSerializedEnteredAmountLabel"></label></span>
 						</div>
-						<div class="col-md-4 col-lg-4 form-group">
+						<div class="col-md-4 col-lg-4 form-group" id="selfSerializedRemainingAmountDiv">
 							<label><spring:message code="common.remaining"/>:&nbsp;&nbsp;</label>
 							<span style="color:red"><label id="selfSerializedRemainingAmountLabel"></label></span>
 						</div>

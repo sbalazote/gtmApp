@@ -8,6 +8,7 @@ BatchExpirationDate = function() {
 	var preloadedData = null;
 	var preloadedAmount = null;
 	var preloadedProduct = null;
+    var isUpdate = false;
 
 	var getPreloadedData = function() {
 		return preloadedData;
@@ -24,6 +25,10 @@ BatchExpirationDate = function() {
 	var setPreloadedProduct = function(value) {
 		preloadedProduct = value;
 	};
+
+    var setIsUpdate = function(value) {
+        isUpdate = value;
+    };
 	
 	var formValidator = null;
 	
@@ -54,10 +59,14 @@ BatchExpirationDate = function() {
 			},
 			showErrors: myShowErrors
 		});
-		
-		$('input[name=batchExpirationDateAmount]').rules("add", {
-			max: maxAmount
-		});
+
+        if (!isUpdate) {
+            $('input[name=batchExpirationDateAmount]').rules("add", {
+                max: maxAmount
+            });
+        } else {
+            $('input[name=batchExpirationDateAmount]').rules('remove', 'max');
+        }
 		
 		return form.valid();
 	};
@@ -71,16 +80,20 @@ BatchExpirationDate = function() {
 	};
 	
 	var updateAmounts = function(amount) {
-		var entered = parseInt($('#batchExpirationDateEnteredAmountLabel').text());
-		var remaining = parseInt($('#batchExpirationDateRemainingAmountLabel').text());
-		
-		$('#batchExpirationDateEnteredAmountLabel').text(entered += amount);
-		$('#batchExpirationDateRemainingAmountLabel').text(remaining -= amount);
-		
-		if (remaining == 0) {
-			disableInputs();
+        var entered = parseInt($('#batchExpirationDateEnteredAmountLabel').text());
+		if (!isUpdate) {
+			var remaining = parseInt($('#batchExpirationDateRemainingAmountLabel').text());
+
+			$('#batchExpirationDateEnteredAmountLabel').text(entered += amount);
+			$('#batchExpirationDateRemainingAmountLabel').text(remaining -= amount);
+
+			if (remaining == 0) {
+				disableInputs();
+			} else {
+				enableInputs();
+			}
 		} else {
-			enableInputs();
+            $('#batchExpirationDateEnteredAmountLabel').text(entered += amount);
 		}
 	};
 	
@@ -145,7 +158,7 @@ BatchExpirationDate = function() {
 		$("#batchExpirationDateTable").bootgrid("clear");
 		$('#batchExpirationDateProductLabel').text(preloadedProduct);
 		$('#batchExpirationDateRequestedAmountLabel').text(preloadedAmount);
-		
+
 		if (preloadedData != null) {
 			for (var i = 0; i < preloadedData.length; i++) {
 				addToTable(preloadedData[i].batch, preloadedData[i].expirationDate, preloadedData[i].amount);
@@ -158,6 +171,12 @@ BatchExpirationDate = function() {
 			$('#batchExpirationDateRemainingAmountLabel').text(preloadedAmount);
 			enableInputs();
 		}
+
+        if (isUpdate) {
+            $('#batchExpirationDateRequestedAmountDiv').hide();
+            $('#batchExpirationDateRemainingAmountDiv').hide();
+            enableInputs();
+        }
 	};
 	
 	$('#batchExpirationDateModal').on('shown.bs.modal', function () {
@@ -187,24 +206,32 @@ BatchExpirationDate = function() {
 	$('#batchExpirationDateAmountInput').on('keypress', function(e) {
 		//	Si la tecla presionada es 'ENTER'
 		if (e.keyCode === 13) {
-        	var remainingAmount = $('#batchExpirationDateRemainingAmountLabel').text();
-			if (remainingAmount == 0) {
-				$("#batchExpirationDateAcceptButton").trigger('click');
-			} else {
-				$("#batchExpirationDateAddButton").trigger('click');
-			}
+            if (!isUpdate) {
+                var remainingAmount = $('#batchExpirationDateRemainingAmountLabel').text();
+                if (remainingAmount == 0) {
+                    $("#batchExpirationDateAcceptButton").trigger('click');
+                } else {
+                    $("#batchExpirationDateAddButton").trigger('click');
+                }
+            } else {
+                $("#batchExpirationDateAddButton").trigger('click');
+            }
 			return false;
         }
     });
 	
 	$("#batchExpirationDateAddButton").click(function() {
-		var remainingAmount = $('#batchExpirationDateRemainingAmountLabel').text();
-		if (remainingAmount > 0) {
-			generateRow();
-			checkLast();
-		} else {
-			myShowAlert('danger', 'Ya se ha ingresado la totalidad de productos requeridos. Por favor presione el bot\u00f3n "Confirmar".', "batchExpirationDateModalAlertDiv");
-		}
+        if (!isUpdate) {
+            var remainingAmount = $('#batchExpirationDateRemainingAmountLabel').text();
+            if (remainingAmount > 0) {
+                generateRow();
+                checkLast();
+            } else {
+                myShowAlert('danger', 'Ya se ha ingresado la totalidad de productos requeridos. Por favor presione el bot\u00f3n "Confirmar".', "batchExpirationDateModalAlertDiv");
+            }
+        } else {
+            generateRow();
+        }
 		return false;
 	});
 	
@@ -238,7 +265,7 @@ BatchExpirationDate = function() {
 		setPreloadedData: setPreloadedData,
 		setPreloadedAmount: setPreloadedAmount,
 		setPreloadedProduct: setPreloadedProduct,
+        setIsUpdate: setIsUpdate,
 		preloadModalData: preloadModalData
 	};
-	
 };

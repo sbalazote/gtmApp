@@ -24,6 +24,7 @@ ProviderSerialized = function() {
 	var preloadedData = null;
 	var preloadedAmount = null;
 	var preloadedProduct = null;
+	var isUpdate = false;
 	var preloadedProductId = null;
 	var formatSerializedId = null;
 	var isProviderSelfSerialized = false;
@@ -50,6 +51,10 @@ ProviderSerialized = function() {
 	
 	var setPreloadedProduct = function(value) {
 		preloadedProduct = value;
+	};
+
+	var setIsUpdate = function(value) {
+		isUpdate = value;
 	};
 	
 	var setPreloadedProductId = function(value) {
@@ -102,16 +107,20 @@ ProviderSerialized = function() {
 	
 	var updateAmounts = function(amount) {
 		var entered = parseInt($('#providerSerializedEnteredAmountLabel').text());
-		var remaining = parseInt($('#providerSerializedRemainingAmountLabel').text());
-		
-		$('#providerSerializedEnteredAmountLabel').text(entered += amount);
-		$('#providerSerializedRemainingAmountLabel').text(remaining -= amount);
-		
-		if (remaining == 0) {
-			disableInputs();
+		if (!isUpdate) {
+			var remaining = parseInt($('#providerSerializedRemainingAmountLabel').text());
+
+			$('#providerSerializedEnteredAmountLabel').text(entered += amount);
+			$('#providerSerializedRemainingAmountLabel').text(remaining -= amount);
+
+			if (remaining == 0) {
+				disableInputs();
+			} else {
+				enableInputs();
+			}
 		} else {
-			enableInputs();
-		}
+		$('#providerSerializedEnteredAmountLabel').text(entered += amount);
+	}
 	};
 	
 	var disableInputs = function() {
@@ -395,6 +404,12 @@ ProviderSerialized = function() {
 			$('#providerSerializedRemainingAmountLabel').text(preloadedAmount);
 			enableInputs();
 		}
+
+		if (isUpdate) {
+			$('#providerSerializedRequestedAmountDiv').hide();
+			$('#providerSerializedRemainingAmountDiv').hide();
+			enableInputs();
+		}
 	};
 	
 	$('#providerSerializedModal').on('shown.bs.modal', function () {
@@ -443,13 +458,18 @@ ProviderSerialized = function() {
 	});
 	
 	$("#providerSerializedAddButton").click(function() {
-		var remainingAmount = $('#providerSerializedRemainingAmountLabel').text();
-		if (remainingAmount > 0) {
-			generateRow();
-			checkLast();
+		if (!isUpdate) {
+			var remainingAmount = $('#providerSerializedRemainingAmountLabel').text();
+			if (remainingAmount > 0) {
+				generateRow();
+				checkLast();
+			} else {
+				myShowAlert('danger', 'Ya se ha ingresado la totalidad de productos requeridos. Por favor presione el bot\u00f3n "Confirmar".', "providerSerializedModalAlertDiv");
+			}
 		} else {
-			myShowAlert('danger', 'Ya se ha ingresado la totalidad de productos requeridos. Por favor presione el bot\u00f3n "Confirmar".', "providerSerializedModalAlertDiv");
+			generateRow();
 		}
+		return false;
 	});
 	
 	var checkLast = function() {
@@ -484,6 +504,7 @@ ProviderSerialized = function() {
 		setPreloadedData: setPreloadedData,
 		setPreloadedAmount: setPreloadedAmount,
 		setPreloadedProduct: setPreloadedProduct,
+		setIsUpdate: setIsUpdate,
 		setPreloadedProductId: setPreloadedProductId,
 		setFormatSerializedId: setFormatSerializedId,
 		preloadModalData: preloadModalData

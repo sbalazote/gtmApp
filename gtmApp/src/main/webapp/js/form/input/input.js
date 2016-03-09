@@ -278,6 +278,7 @@ Input = function() {
 			batchExpirationDate.setPreloadedProduct(productDescription);
 			batchExpirationDate.setPreloadedAmount(productAmount);
 			batchExpirationDate.setPreloadedData(preloadedData);
+            batchExpirationDate.setIsUpdate(isUpdate);
 			batchExpirationDate.preloadModalData();
 			$('#batchExpirationDateModal').modal('show');
 			
@@ -288,6 +289,7 @@ Input = function() {
 			providerSerialized.setPreloadedProductId(productId);
 			providerSerialized.setPreloadedAmount(productAmount);
 			providerSerialized.setPreloadedData(preloadedData);
+            providerSerialized.setIsUpdate(isUpdate);
 			providerSerialized.setFormatSerializedId(null);
 			providerSerialized.preloadModalData();
 
@@ -297,6 +299,7 @@ Input = function() {
 			selfSerialized.setPreloadedProduct(productDescription);
 			selfSerialized.setPreloadedAmount(productAmount);
 			selfSerialized.setPreloadedData(preloadedData);
+            selfSerialized.setIsUpdate(isUpdate);
 			selfSerialized.preloadModalData();
 			$('#selfSerializedModal').modal('show');
 		}
@@ -338,9 +341,75 @@ Input = function() {
 		inputDetails.push(inputDetail);
 	};
 
+	if (isUpdate) {
+		$.ajax({
+			url: "getInputDetails.do",
+			type: "GET",
+            async: false,
+            data: {
+                inputId: $("#inputId").val()
+            },
+            success: function(response) {
+                for (var i = 0, l = _.size(response); i < l; ++i) {
+                    var details = _.values(response)[i];
+                    //verifico de que tipo es el producto actual.
+
+                    productDescription = details[0].product.code + ' - ' + details[0].product.description;
+
+                    productId = details[0].product.id;
+                    productType = details[0].product.type;
+                    productGtin = details[0].gtin.number;
+
+                    if (productType === 'BE' || productType === 'SS') {
+                        var inputDetails = [];
+                        var tempAmount = 0;
+                        for (var j = 0, s = details.length; j < s; ++j) {
+                            tempAmount += details[j].amount;
+                            inputDetails.push({
+                                "productId": details[j].product.id,
+                                "productType": details[j].product.type,
+                                "serialNumber": null,
+                                "batch": details[j].batch,
+                                "expirationDate": myParseDateShort(details[j].expirationDate),
+                                "amount": details[j].amount,
+                                "gtin": details[j].gtin.number
+                            });
+                        }
+
+                        productAmount = tempAmount;
+                    } else if (productType === 'PS') {
+                        productAmount = details.length;
+                        var inputDetails = [];
+                        var tempSerialNumber = [];
+                        for (var j = 0, s = details.length; j < s; ++j) {
+                            inputDetails.push({
+                                "productId": details[j].product.id,
+                                "productType": details[j].product.type,
+                                "serialNumber": details[j].serialNumber,
+                                "batch": details[j].batch,
+                                "expirationDate": myParseDateShort(details[j].expirationDate),
+                                "amount": 1,
+                                "gtin": details[j].gtin.number
+                            });
+                            tempSerialNumber[j] = details[j].serialNumber;
+                        }
+                        tempSerialNumberGroup[productId] = tempSerialNumber;
+                    }
+
+                    inputDetailGroup.push(inputDetails);
+                    populateInputDetailsTable();
+                    productIds.push(productId);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                myGenericError();
+            }
+        });
+	}
+
 	$('#productTableBody').on("click", ".edit-row", function(e) {
 		var parent = $(this).parent().parent();
-
+        currentRowElement = this;
 		currentRow = $(".edit-row").index(this);
 		productDescription = parent.find(".td-description").html();
 		productAmount = parent.find(".td-amount").html();
@@ -392,10 +461,17 @@ Input = function() {
 			var expirationDates = $("#batchExpirationDateTable td.expirationDate");
 			
 			var inputDetails = [];
+            var tempAmount = 0;
 			
 			for (var i = 0; i < amounts.length; i++) {
+                tempAmount += parseInt(amounts[i].innerHTML);
 				populateInputDetails(inputDetails, null, batchs[i].innerHTML, expirationDates[i].innerHTML, amounts[i].innerHTML, productGtin);
 			}
+
+            if (isUpdate) {
+                var parent = $(currentRowElement).parent().parent();
+                parent.find(".td-amount").text(tempAmount);
+            }
 			
 			if (batchExpirationDate.getPreloadedData() == null) {
 				inputDetailGroup.push(inputDetails);
@@ -431,6 +507,11 @@ Input = function() {
 				tempSerialNumber[i] = serialNumbers[i].innerHTML;
 			}
 
+            if (isUpdate) {
+                var parent = $(currentRowElement).parent().parent();
+                parent.find(".td-amount").text(tempSerialNumber.length);
+            }
+
 			tempSerialNumberGroup[productId] = tempSerialNumber;
 
 			if (providerSerialized.getPreloadedData() == null) {
@@ -459,11 +540,18 @@ Input = function() {
 			var expirationDates = $("#selfSerializedTable td.expirationDate");
 			
 			var inputDetails = [];
+            var tempAmount = 0;
 			
 			for (var i = 0; i < amounts.length; i++) {
+                tempAmount += parseInt(amounts[i].innerHTML);
 				populateInputDetails(inputDetails, null, batchs[i].innerHTML, expirationDates[i].innerHTML, amounts[i].innerHTML, productGtin);
 			}
-			
+
+            if (isUpdate) {
+                var parent = $(currentRowElement).parent().parent();
+                parent.find(".td-amount").text(tempAmount);
+            }
+
 			if (selfSerialized.getPreloadedData() == null) {
 				inputDetailGroup.push(inputDetails);
 				populateInputDetailsTable();

@@ -9,6 +9,7 @@ SelfSerialized = function() {
 	var preloadedData = null;
 	var preloadedAmount = null;
 	var preloadedProduct = null;
+    var isUpdate = false;
 
 	var getPreloadedData = function() {
 		return preloadedData;
@@ -26,6 +27,10 @@ SelfSerialized = function() {
 		preloadedProduct = value;
 	};
 	
+    var setIsUpdate = function(value) {
+        isUpdate = value;
+    };
+
 	var formValidator = null;
 	
 	// TODO mejorar esto- ahora no hace el paginado.
@@ -56,10 +61,14 @@ SelfSerialized = function() {
 			showErrors: myShowErrors
 		});
 		
-		$('input[name=selfSerializedAmount]').rules("add", {
+        if (!isUpdate) {
+            $('input[name=selfSerializedAmount]').rules("add", {
 			max: maxAmount
 		});
-		
+        } else {
+            $('input[name=selfSerializedAmount]').rules('remove', 'max');
+        }
+
 		return form.valid();
 	};
 	
@@ -73,15 +82,19 @@ SelfSerialized = function() {
 	
 	var updateAmounts = function(amount) {
 		var entered = parseInt($('#selfSerializedEnteredAmountLabel').text());
-		var remaining = parseInt($('#selfSerializedRemainingAmountLabel').text());
-		
-		$('#selfSerializedEnteredAmountLabel').text(entered += amount);
-		$('#selfSerializedRemainingAmountLabel').text(remaining -= amount);
-		
-		if (remaining == 0) {
-			disableInputs();
+		if (!isUpdate) {
+			var remaining = parseInt($('#selfSerializedRemainingAmountLabel').text());
+
+			$('#selfSerializedEnteredAmountLabel').text(entered += amount);
+			$('#selfSerializedRemainingAmountLabel').text(remaining -= amount);
+
+			if (remaining == 0) {
+				disableInputs();
+			} else {
+				enableInputs();
+			}
 		} else {
-			enableInputs();
+			$('#selfSerializedEnteredAmountLabel').text(entered += amount);
 		}
 	};
 	
@@ -160,6 +173,12 @@ SelfSerialized = function() {
 			$('#selfSerializedRemainingAmountLabel').text(preloadedAmount);
 			enableInputs();
 		}
+
+		if (isUpdate) {
+			$('#selfSerializedRequestedAmountDiv').hide();
+			$('#selfSerializedRemainingAmountDiv').hide();
+			enableInputs();
+		}
 	};
 	
 	$('#selfSerializedModal').on('shown.bs.modal', function () {
@@ -189,9 +208,13 @@ SelfSerialized = function() {
 	$('#selfSerializedAmountInput').on('keypress', function(e) {
 		//	Si la tecla presionada es 'ENTER'
 		if (e.keyCode === 13) {
-        	var remainingAmount = $('#selfSerializedRemainingAmountLabel').text();
-			if (remainingAmount == 0) {
-				$("#selfSerializedAcceptButton").trigger('click');
+			if (!isUpdate) {
+				var remainingAmount = $('#selfSerializedRemainingAmountLabel').text();
+				if (remainingAmount == 0) {
+					$("#selfSerializedAcceptButton").trigger('click');
+				} else {
+					$("#selfSerializedGenerateButton").trigger('click');
+				}
 			} else {
 				$("#selfSerializedGenerateButton").trigger('click');
 			}
@@ -200,13 +223,18 @@ SelfSerialized = function() {
     });
 	
 	$("#selfSerializedGenerateButton").click(function() {
-		var remainingAmount = $('#selfSerializedRemainingAmountLabel').text();
-		if (remainingAmount > 0) {
-			generateRow();
-			checkLast();
+		if (!isUpdate) {
+			var remainingAmount = $('#selfSerializedRemainingAmountLabel').text();
+			if (remainingAmount > 0) {
+				generateRow();
+				checkLast();
+			} else {
+				myShowAlert('danger', 'Ya se ha ingresado la totalidad de productos requeridos. Por favor presione el bot\u00f3n "Confirmar".', "selfSerializedModalAlertDiv");
+			}
 		} else {
-			myShowAlert('danger', 'Ya se ha ingresado la totalidad de productos requeridos. Por favor presione el bot\u00f3n "Confirmar".', "selfSerializedModalAlertDiv");
+			generateRow();
 		}
+		return false;
 	});
 	
 	var checkLast = function() {
@@ -239,7 +267,7 @@ SelfSerialized = function() {
 		setPreloadedData: setPreloadedData,
 		setPreloadedAmount: setPreloadedAmount,
 		setPreloadedProduct: setPreloadedProduct,
+        setIsUpdate: setIsUpdate,
 		preloadModalData: preloadModalData
 	};
-	
 };

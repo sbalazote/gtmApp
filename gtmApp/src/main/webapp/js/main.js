@@ -78,6 +78,14 @@ $(document).ready(function() {
 		var year = myDate.getFullYear();
 		return day + "/" + month + "/" + year;
 	};
+
+	myParseDateShort = function(date) {
+		var myDate = new Date(date);
+		var day = ("0" + myDate.getDate()).slice(-2);
+		var month = ("0" + (myDate.getMonth() + 1)).slice(-2);
+		var year = myDate.getYear();
+		return day + month + year;
+	};
 	
 	myParseDateTime = function(date) {
 		var myDate = new Date(date);

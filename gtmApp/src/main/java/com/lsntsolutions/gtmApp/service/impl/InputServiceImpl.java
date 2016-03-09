@@ -400,7 +400,8 @@ public class InputServiceImpl implements InputService {
 
 	@Override
 	public OperationResult updateInput(InputDTO inputDTO, String username) throws Exception {
-		Input input = this.update(inputDTO);
+		Input input = this.buildInput(inputDTO);
+		input.setId(inputDTO.getId());
 		return informANMAT(input, true);
 	}
 
