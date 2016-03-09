@@ -45,7 +45,7 @@
             <button class="btn btn-warning" id="forcedInput"><span class="glyphicon glyphicon glyphicon-saved"></span> <spring:message code="input.closeInputDefinitely.button"/></button>
         </div>
         <div class="col-md-3 col-lg-2">
-            <button type="submit" class="btn btn-success btn-block" id="confirmButton"><span class="glyphicon glyphicon-ok"></span> <spring:message code="common.authorize"/></button>
+            <button type="submit" class="btn btn-success btn-block" id="confirmButton"><span class="glyphicon glyphicon-ok"></span> <spring:message code="common.inform"/></button>
         </div>
     </div>
 </div>
