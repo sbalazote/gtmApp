@@ -66,9 +66,13 @@ SearchAudit = function() {
 				url: "getCountAuditSearch.do",
 				type: "POST",
 				contentType:"application/json",
-				async: false,
+				async: true,
 				data: JSON.stringify(jsonAuditSearch),
+				beforeSend : function() {
+					$.blockUI({ message: 'Calculando Cantidad de Resultados. Espere un Momento por favor...' });
+				},
 				success: function(response) {
+					$.unblockUI();
 					if(response == true){
 						makeQuery(jsonAuditSearch);
 					}else{
@@ -76,6 +80,7 @@ SearchAudit = function() {
 					}
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
+					$.unblockUI();
 					myGenericError();
 				}
 			});
@@ -88,9 +93,13 @@ SearchAudit = function() {
 			url: "getAuditForSearch.do",
 			type: "POST",
 			contentType:"application/json",
-			async: false,
+			async: true,
 			data: JSON.stringify(jsonAuditSearch),
+			beforeSend : function() {
+				$.blockUI({ message: 'Obteniendo Resultados. Espere un Momento por favor...' });
+			},
 			success: function(response) {
+				$.unblockUI();
 				var aaData = [];
 				for (var i = 0, l = response.length; i < l; ++i) {
 					var audit = {
@@ -129,6 +138,7 @@ SearchAudit = function() {
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
+				$.unblockUI();
 				myGenericError();
 			}
 		});

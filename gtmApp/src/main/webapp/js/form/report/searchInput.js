@@ -96,9 +96,13 @@ SearchInput = function() {
 				url: "getCountInputSearch.do",
 				type: "POST",
 				contentType:"application/json",
-				async: false,
+				async: true,
 				data: JSON.stringify(jsonInputSearch),
+				beforeSend : function() {
+					$.blockUI({ message: 'Calculando Cantidad de Resultados. Espere un Momento por favor...' });
+				},
 				success: function(response) {
+					$.unblockUI();
 					if(response == true){
 						makeQuery(jsonInputSearch);
 					}else{
@@ -106,22 +110,25 @@ SearchInput = function() {
 					}
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
+					$.unblockUI();
 					myGenericError();
 				}
 			});
-			
 		}
 	});
 	
 	var makeQuery = function(jsonInputSearch) {
-		
 		$.ajax({
 			url: "getInputForSearch.do",
 			type: "POST",
 			contentType:"application/json",
-			async: false,
+			async: true,
 			data: JSON.stringify(jsonInputSearch),
+			beforeSend : function() {
+				$.blockUI({ message: 'Obteniendo Resultados. Espere un Momento por favor...' });
+			},
 			success: function(response) {
+				$.unblockUI();
 				var aaData = [];
 				for (var i = 0, l = response.length; i < l; ++i) {
 					var input = {
@@ -179,9 +186,9 @@ SearchInput = function() {
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
+				$.unblockUI();
 				myGenericError();
 			}
 		});
 	};
-	
 };

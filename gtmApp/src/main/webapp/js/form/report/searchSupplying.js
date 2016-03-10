@@ -83,8 +83,11 @@ SearchSupplying = function() {
                 url: "getCountSupplyingSearch.do",
                 type: "POST",
                 contentType:"application/json",
-                async: false,
+                async: true,
                 data: JSON.stringify(jsonSupplyingSearch),
+                beforeSend : function() {
+                    $.blockUI({ message: 'Calculando Cantidad de Resultados. Espere un Momento por favor...' });
+                },
                 success: function(response) {
                     if(response == true){
                         makeQuery(jsonSupplyingSearch);
@@ -93,10 +96,10 @@ SearchSupplying = function() {
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
+                    $.unblockUI();
                     myGenericError();
                 }
             });
-
         }
     });
 
@@ -105,9 +108,13 @@ SearchSupplying = function() {
             url: "getSupplyingForSearch.do",
             type: "POST",
             contentType:"application/json",
-            async: false,
+            async: true,
             data: JSON.stringify(jsonSupplyingSearch),
+            beforeSend : function() {
+                $.blockUI({ message: 'Obteniendo Resultados. Espere un Momento por favor...' });
+            },
             success: function(response) {
+                $.unblockUI();
                 var aaData = [];
                 for (var i = 0, l = response.length; i < l; ++i) {
                     var supplying = {
@@ -156,6 +163,7 @@ SearchSupplying = function() {
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
+                $.unblockUI();
                 myGenericError();
             }
         });

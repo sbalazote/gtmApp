@@ -115,9 +115,10 @@ SearchProvisioningRequest = function() {
 				url: "getCountOfProvisioningSearch.do",
 				type: "POST",
 				contentType:"application/json",
-				async: false,
+				async: true,
 				data: JSON.stringify(jsonProvisioningSearch),
 				success: function(response) {
+					$.unblockUI();
 					if(response == true){
 						makeQuery(jsonProvisioningSearch);
 					}else{
@@ -125,6 +126,7 @@ SearchProvisioningRequest = function() {
 					}
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
+					$.unblockUI();
 					myGenericError();
 				}
 			});
@@ -136,9 +138,13 @@ SearchProvisioningRequest = function() {
 			url: "getProvisioningForSearch.do",
 			type: "POST",
 			contentType:"application/json",
-			async: false,
+			async: true,
 			data: JSON.stringify(jsonProvisioningSearch),
+			beforeSend : function() {
+				$.blockUI({ message: 'Obteniendo Resultados. Espere un Momento por favor...' });
+			},
 			success: function(response) {
+				$.unblockUI();
 				var aaData = [];
 				for (var i = 0, l = response.length; i < l; ++i) {
 					var provisioning = {
@@ -187,6 +193,7 @@ SearchProvisioningRequest = function() {
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
+				$.unblockUI();
 				myGenericError();
 			}
 		});

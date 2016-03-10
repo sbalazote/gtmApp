@@ -322,9 +322,13 @@ SearchDeliveryNote = function() {
 				url: "getDeliveryNoteFromOutputForSearch.do",
 				type: "POST",
 				contentType:"application/json",
-				async: false,
+				async: true,
 				data: JSON.stringify(jsonDeliveryNoteSearch),
+				beforeSend : function() {
+					$.blockUI({ message: 'Obteniendo Resultados. Espere un Momento por favor...' });
+				},
 				success: function(response) {
+					$.unblockUI();
 					var aaData = [];
 					for (var i = 0, l = response.length; i < l; ++i) {
 						var output = {
@@ -353,6 +357,7 @@ SearchDeliveryNote = function() {
 						$("#deliveryNoteTableOutput").bootgrid("search", $(".search-field").val());
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
+					$.unblockUI();
 					myGenericError();
 				}
 			});
@@ -396,9 +401,13 @@ SearchDeliveryNote = function() {
 				url: "getDeliveryNoteFromOrderForSearch.do",
 				type: "POST",
 				contentType:"application/json",
-				async: false,
+				async: true,
 				data: JSON.stringify(jsonDeliveryNoteSearch),
+				beforeSend : function() {
+					$.blockUI({ message: 'Obteniendo Resultados. Espere un Momento por favor...' });
+				},
 				success: function(response) {
+					$.unblockUI();
 					var aaData = [];
 					for (var i = 0, l = response.length; i < l; ++i) {
 						var deliveryNoteFromOrder = {
@@ -428,6 +437,7 @@ SearchDeliveryNote = function() {
 					$("#deliveryNoteTableOrder").bootgrid("search", $(".search-field").val());
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
+					$.unblockUI();
 					myGenericError();
 				}
 			});
@@ -470,9 +480,13 @@ SearchDeliveryNote = function() {
 				url: "getDeliveryNoteFromSupplyingForSearch.do",
 				type: "POST",
 				contentType:"application/json",
-				async: false,
+				async: true,
 				data: JSON.stringify(jsonDeliveryNoteSearch),
+				beforeSend : function() {
+					$.blockUI({ message: 'Obteniendo Resultados. Espere un Momento por favor...' });
+				},
 				success: function(response) {
+					$.unblockUI();
 					var aaData = [];
 					for (var i = 0, l = response.length; i < l; ++i) {
 						var output = {
@@ -502,6 +516,7 @@ SearchDeliveryNote = function() {
 					$("#deliveryNoteTableSupplying").bootgrid("search", $(".search-field").val());
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
+					$.unblockUI();
 					myGenericError();
 				}
 			});
