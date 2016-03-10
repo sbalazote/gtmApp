@@ -83,7 +83,7 @@ $(document).ready(function() {
 		var myDate = new Date(date);
 		var day = ("0" + myDate.getDate()).slice(-2);
 		var month = ("0" + (myDate.getMonth() + 1)).slice(-2);
-		var year = myDate.getYear();
+		var year = ("0"+myDate.getFullYear()).slice(-2)
 		return day + month + year;
 	};
 	
