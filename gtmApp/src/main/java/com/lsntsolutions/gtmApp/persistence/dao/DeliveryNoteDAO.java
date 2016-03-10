@@ -50,4 +50,10 @@ public interface DeliveryNoteDAO {
 	List<String> getOrdersDeliveriesNoteNumbers(Integer orderId);
 
 	Boolean existsDeliveryNoteNumber(Integer deliveryNotePOS, Integer lastDeliveryNoteNumberInput, boolean fake);
+
+	List<DeliveryNote> getDeliveryNoteBySupplyingId(Integer supplyingId);
+
+	List<DeliveryNote> getDeliveryNoteByOrderId(Integer orderId);
+
+	List<DeliveryNote> getDeliveryNoteByOutpuId(Integer outputId);
 }

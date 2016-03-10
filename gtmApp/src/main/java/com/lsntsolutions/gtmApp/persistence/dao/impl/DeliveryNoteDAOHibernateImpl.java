@@ -667,4 +667,34 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 		criteria.add(Restrictions.eq("fake", fake));
 		return !criteria.list().isEmpty();
 	}
+
+	@Override
+	public List<DeliveryNote> getDeliveryNoteBySupplyingId(Integer supplyingId) {
+		String sentence = "select dn.*, dnd.* from supplying_detail as sd, delivery_note_detail as dnd, delivery_note as dn,supplying as s " +
+				"where sd.id = dnd.supplying_detail_id and dn.id = dnd.delivery_note_id and sd.supplying_id = s.id and s.id=" + supplyingId;
+		Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("dn", DeliveryNote.class)
+				.addJoin("dnd", "dn.deliveryNoteDetails").addEntity("dn", DeliveryNote.class)
+				.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		return query.list();
+	}
+
+	@Override
+	public List<DeliveryNote> getDeliveryNoteByOrderId(Integer orderId) {
+		String sentence = "select dn.*, dnd.* from order_detail as od, delivery_note_detail as dnd, delivery_note as dn,`order` as o " +
+				"where od.id = dnd.order_detail_id and dn.id = dnd.delivery_note_id and od.order_id = o.id and o.id=" + orderId;
+		Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("dn", DeliveryNote.class)
+				.addJoin("dnd", "dn.deliveryNoteDetails").addEntity("dn", DeliveryNote.class)
+				.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		return query.list();
+	}
+
+	@Override
+	public List<DeliveryNote> getDeliveryNoteByOutpuId(Integer outputId) {
+		String sentence = "select dn.*, dnd.* from output_detail as od, delivery_note_detail as dnd, delivery_note as dn,output as o " +
+				"where od.id = dnd.output_detail_id and dn.id = dnd.delivery_note_id and od.output_id = o.id and o.id="  + outputId;
+		Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("dn", DeliveryNote.class)
+				.addJoin("dnd", "dn.deliveryNoteDetails").addEntity("dn", DeliveryNote.class)
+				.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		return query.list();
+	}
 }

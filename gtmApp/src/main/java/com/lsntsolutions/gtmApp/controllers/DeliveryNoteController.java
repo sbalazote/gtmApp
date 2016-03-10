@@ -82,16 +82,7 @@ public class DeliveryNoteController {
 	@RequestMapping(value = "/getCancelableDeliveryNotes", method = RequestMethod.POST)
 	public @ResponseBody
 	Map<String, List<DeliveryNote>> getCancelableDeliveryNotes(@RequestParam String deliveryNoteNumber) throws Exception {
-		Map<String, List<DeliveryNote>> canceleablesMap = new HashMap<>();
-		Map<String, List<DeliveryNote>> orderDeliveryNotes = this.deliveryNoteService.getAssociatedOrders(false, deliveryNoteNumber);
-		Map<String, List<DeliveryNote>> outputDeliveryNotes = this.deliveryNoteService.getAssociatedOutputs(false, deliveryNoteNumber);
-		Map<String, List<DeliveryNote>> supplyingDeliveryNotes = this.deliveryNoteService.getAssociatedSupplyings(false, deliveryNoteNumber);
-
-		canceleablesMap.putAll(orderDeliveryNotes);
-		canceleablesMap.putAll(outputDeliveryNotes);
-		canceleablesMap.putAll(supplyingDeliveryNotes);
-
-		return canceleablesMap;
+		return this.deliveryNoteService.getDeliveryNotes(deliveryNoteNumber);
 	}
 
 	@RequestMapping(value = "/reassemblyOrders", method = RequestMethod.POST)
