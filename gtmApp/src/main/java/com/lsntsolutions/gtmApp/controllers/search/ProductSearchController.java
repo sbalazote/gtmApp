@@ -44,10 +44,10 @@ public class ProductSearchController {
 		if (serial != null && serial.length() > Constants.GTIN_LENGTH) {
 			ProviderSerializedProductDTO productDTO = this.serialParser.parse(serial,null);
 			if (productDTO != null && productDTO.getGtin() != null) {
-				return this.productService.getByGtin(productDTO.getGtin());
+				return this.productService.getByGtin(productDTO.getGtin(), true);
 			}
 		} else {
-			return this.productService.getByGtin(serial, null);
+			return this.productService.getByGtin(serial, true);
 		}
 		return null;
 	}

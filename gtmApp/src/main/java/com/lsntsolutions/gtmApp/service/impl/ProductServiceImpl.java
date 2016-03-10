@@ -48,11 +48,6 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product getByGtin(String gtin) {
-		return this.productDAO.getByGtin(gtin);
-	}
-
-	@Override
 	public Product getByGtin(String gtin, Boolean active) {
 		return this.productDAO.getByGtin(gtin,active);
 	}

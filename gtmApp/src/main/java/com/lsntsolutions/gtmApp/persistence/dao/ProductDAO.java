@@ -17,9 +17,6 @@ public interface ProductDAO {
 
 	Integer getTotalNumberOfRows(String searchPhrase, Boolean active, String sortId, String sortCode, String sortDescription, String sortGtin, String sortIsCold, String sortIsActive);
 
-	Product getByGtin(String gtin);
-
-	//TODO reemplazar el metodo getByGtin(String) por getByGtin(String, Boolean)
 	Product getByGtin(String gtin, Boolean active);
 
 	boolean delete(Integer productId);
