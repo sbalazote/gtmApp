@@ -1,6 +1,7 @@
 package com.lsntsolutions.gtmApp.controllers.search;
 
 import com.lsntsolutions.gtmApp.dto.AuditResultDTO;
+import com.lsntsolutions.gtmApp.dto.SearchProductResultDTO;
 import com.lsntsolutions.gtmApp.model.Audit;
 import com.lsntsolutions.gtmApp.query.AuditQuery;
 import com.lsntsolutions.gtmApp.service.AuditService;
@@ -34,7 +35,7 @@ public class AuditSearchController {
 
 	@RequestMapping(value = "/getSerializedProductAudit", method = RequestMethod.GET)
 	public @ResponseBody
-	AuditResultDTO getSerializedProductAudit(@RequestParam Integer productId, String serialNumber) throws Exception {
+    SearchProductResultDTO getSerializedProductAudit(@RequestParam Integer productId, String serialNumber) throws Exception {
 		return this.auditService.getAudit(productId, serialNumber);
 	}
 
@@ -80,7 +81,7 @@ public class AuditSearchController {
 	@RequestMapping(value = "/serializedProducts", method = RequestMethod.POST)
 	public ModelAndView serializedProducts(@RequestParam Integer productId, String serialNumber) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		AuditResultDTO auditResultDTO = this.auditService.getAudit(productId, serialNumber);
+		SearchProductResultDTO auditResultDTO = this.auditService.getAudit(productId, serialNumber);
 		map.put("auditResultDTO", auditResultDTO);
 		return new ModelAndView("productTrace", map);
 	}

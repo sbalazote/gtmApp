@@ -4,9 +4,13 @@ import com.lsntsolutions.gtmApp.constant.Constants;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.dto.AuditDTO;
 import com.lsntsolutions.gtmApp.dto.AuditResultDTO;
+import com.lsntsolutions.gtmApp.dto.SearchProductDTO;
+import com.lsntsolutions.gtmApp.dto.SearchProductResultDTO;
 import com.lsntsolutions.gtmApp.model.Audit;
 import com.lsntsolutions.gtmApp.persistence.dao.AuditDAO;
 import com.lsntsolutions.gtmApp.query.AuditQuery;
+import com.lsntsolutions.gtmApp.service.RoleService;
+import com.lsntsolutions.gtmApp.service.UserService;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -27,6 +31,12 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 
 	@Autowired
 	private SessionFactory sessionFactory;
+
+	@Autowired
+	private RoleService roleService;
+
+	@Autowired
+	private UserService userService;
 
 	@Override
 	public void save(Audit audit) {
@@ -96,10 +106,10 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public AuditResultDTO getAudit(Integer productId, String serialNumber) {
-		AuditResultDTO auditResultDTO = new AuditResultDTO();
-		String sentence = "select distinct a.* from audit as a, input_detail as id " +
-				"where ((a.role_id = " + RoleOperation.INPUT.getId() + " or a.role_id = " + RoleOperation.SERIALIZED_RETURNS.getId() + ") and id.serial_number = '" + serialNumber + "' and a.operation_id = id.input_id";
+	public SearchProductResultDTO getAudit(Integer productId, String serialNumber) {
+		SearchProductResultDTO searchProductResultDTO = new SearchProductResultDTO();
+		String sentence = "select distinct a.*, i.cancelled from audit as a, input_detail as id, input as i " +
+				"where ((a.role_id = " + RoleOperation.INPUT.getId() + " or a.role_id = " + RoleOperation.SERIALIZED_RETURNS.getId() + ") and id.serial_number = '" + serialNumber + "' and a.operation_id = id.input_id and i.id = id.input_id";
 
 		if (productId != null) {
 			sentence += " and id.product_id = " + productId;
@@ -108,131 +118,127 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		sentence += ") order by a.`date` desc";
 
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
-		List<Audit> inputsAudit = query.list();
-		List<AuditDTO> inputsAuditDTO = new ArrayList<AuditDTO>();
-		for (Audit audit : inputsAudit) {
-
-			AuditDTO auditDTO = new AuditDTO(audit.getId(), audit.getRole().getDescription(), audit.getOperationId(), dateFormatter.format(audit.getDate()), audit.getUser().getName());
-			inputsAuditDTO.add(auditDTO);
+		Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+		List<Object[]> inputsAudit = query.list();
+		List<SearchProductDTO> inputsSearchProductDTO = new ArrayList<>();
+		for (Object[] audit : inputsAudit) {
+			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5]);
+			inputsSearchProductDTO.add(searchProductDTO);
 		}
-		auditResultDTO.setInputs(inputsAuditDTO);
+		searchProductResultDTO.setInputs(inputsSearchProductDTO);
 
-		sentence = "select distinct a.* from audit as a, output_detail as od " +
+		sentence = "select distinct a.*, o.cancelled from audit as a, output_detail as od, output as o " +
 				"where ((a.role_id = " + RoleOperation.OUTPUT.getId() + " or a.role_id = " + RoleOperation.PRODUCT_DESTRUCTION.getId() + ") and od.serial_number = '"
-				+ serialNumber + "' and a.operation_id = od.output_id";
+				+ serialNumber + "' and a.operation_id = od.output_id and o.id = od.output_id";
 		if (productId != null) {
 			sentence += " and od.product_id = " + productId;
 		}
 		sentence += ") order by a.`date` desc";
 
-		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
-		List<Audit> outputsAudit = query.list();
-		List<AuditDTO> outputsAuditDTO = new ArrayList<AuditDTO>();
-		for (Audit audit : outputsAudit) {
-			dateFormatter.format(audit.getDate());
-			AuditDTO auditDTO = new AuditDTO(audit.getId(), audit.getRole().getDescription(), audit.getOperationId(), dateFormatter.format(audit.getDate()), audit.getUser().getName());
-			outputsAuditDTO.add(auditDTO);
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+		List<Object[]> outputsAudit = query.list();
+		List<SearchProductDTO> outputsSearchProductDTO = new ArrayList<>();
+		for (Object[] audit : outputsAudit) {
+			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5]);
+			outputsSearchProductDTO.add(searchProductDTO);
 		}
-		auditResultDTO.setOutputs(outputsAuditDTO);
+		searchProductResultDTO.setOutputs(outputsSearchProductDTO);
 
-		sentence = "select distinct a.* from audit as a, supplying_detail as sd where (a.role_id = " + RoleOperation.SUPPLYING.getId() + " and sd.serial_number = '"
-				+ serialNumber + "' and a.operation_id = sd.supplying_id";
+		sentence = "select distinct a.*, s.cancelled from audit as a, supplying_detail as sd, supplying as s " +
+				"where (a.role_id = " + RoleOperation.SUPPLYING.getId() + " and sd.serial_number = '"
+				+ serialNumber + "' and a.operation_id = sd.supplying_id and s.id = sd.supplying_id";
 		if (productId != null) {
 			sentence += " and sd.product_id = " + productId;
 		}
 		sentence += ") order by a.`date` desc";
 
-		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
-		List<Audit> supplyingsAudit = query.list();
-		List<AuditDTO> supplyingsAuditDTO = new ArrayList<AuditDTO>();
-		for (Audit audit : supplyingsAudit) {
-			dateFormatter.format(audit.getDate());
-			AuditDTO auditDTO = new AuditDTO(audit.getId(), audit.getRole().getDescription(), audit.getOperationId(), dateFormatter.format(audit.getDate()), audit.getUser().getName());
-			supplyingsAuditDTO.add(auditDTO);
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+		List<Object[]> supplyingsAudit = query.list();
+		List<SearchProductDTO> supplyingsSearchProductDTO = new ArrayList<>();
+		for (Object[] audit : supplyingsAudit) {
+			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5]);
+			supplyingsSearchProductDTO.add(searchProductDTO);
 		}
-		auditResultDTO.setSupplyings(supplyingsAuditDTO);
+		searchProductResultDTO.setSupplyings(supplyingsSearchProductDTO);
 
 		if (productId == null) {
-			sentence = "select distinct a.* from audit as a, order_detail as od where (a.role_id = " + RoleOperation.ORDER_ASSEMBLY.getId()
-					+ " and od.serial_number = '" + serialNumber + "' and a.operation_id = od.order_id) order by a.`date` desc";
+			sentence = "select distinct a.*, o.cancelled from audit as a, order_detail as od, `order` as o " +
+					"where (a.role_id = " + RoleOperation.ORDER_ASSEMBLY.getId()
+					+ " and od.serial_number = '" + serialNumber + "' and a.operation_id = od.order_id and o.id = od.order_id) order by a.`date` desc";
 		}
 
 		if (productId != null) {
-			sentence = "select distinct a.* from audit as a, order_detail as od where (a.role_id = " + RoleOperation.ORDER_ASSEMBLY.getId()
-					+ " and od.product_id = " + productId + " and od.serial_number = '" + serialNumber + "' and a.operation_id = od.order_id) order by a.`date` desc";
+			sentence = "select distinct a.*, o.cancelled from audit as a, order_detail as od, `order` as o " +
+					"where (a.role_id = " + RoleOperation.ORDER_ASSEMBLY.getId()
+					+ " and od.product_id = " + productId + " and od.serial_number = '" + serialNumber + "' and a.operation_id = od.order_id and o.id = od.order_id) order by a.`date` desc";
 		}
 
-		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
-		List<Audit> ordersAudit = query.list();
-		List<AuditDTO> ordersAuditDTO = new ArrayList<AuditDTO>();
-		for (Audit audit : ordersAudit) {
-			dateFormatter.format(audit.getDate());
-			AuditDTO auditDTO = new AuditDTO(audit.getId(), audit.getRole().getDescription(), audit.getOperationId(), dateFormatter.format(audit.getDate()), audit.getUser().getName());
-			ordersAuditDTO.add(auditDTO);
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+		List<Object[]> ordersAudit = query.list();
+		List<SearchProductDTO> ordersSearchProductDTO = new ArrayList<>();
+		for (Object[] audit : ordersAudit) {
+			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5]);
+			ordersSearchProductDTO.add(searchProductDTO);
 		}
-		auditResultDTO.setOrders(ordersAuditDTO);
+		searchProductResultDTO.setOrders(ordersSearchProductDTO);
 		if (productId == null) {
-			sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, order_detail as od where (a.role_id = "
-					+ RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.serial_number = '" + serialNumber
-					+ "' and a.operation_id = dnd.delivery_note_id and dnd.order_detail_id = od.id and dnd.output_detail_id is null and dnd.supplying_detail_id is null) order by a.`date` desc";
+			sentence = "select distinct a.*, dn.cancelled from audit as a, delivery_note_detail as dnd, order_detail as od, delivery_note as dn " +
+					"where (a.role_id = " + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.serial_number = '" + serialNumber
+					+ "' and a.operation_id = dnd.delivery_note_id and dn.id = dnd.delivery_note_id and dnd.order_detail_id = od.id and dnd.output_detail_id is null and dnd.supplying_detail_id is null) order by a.`date` desc";
 		}
 		if (productId != null) {
-			sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, order_detail as od where (a.role_id = "
-					+ RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.product_id = " + productId + " and od.serial_number = '" + serialNumber
-					+ "' and a.operation_id = dnd.delivery_note_id and dnd.order_detail_id = od.id and dnd.output_detail_id is null and dnd.supplying_detail_id is null) order by a.`date` desc";
+			sentence = "select distinct a.*, dn.cancelled from audit as a, delivery_note_detail as dnd, order_detail as od, delivery_note as dn " +
+					"where (a.role_id = " + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.product_id = " + productId + " and od.serial_number = '" + serialNumber
+					+ "' and a.operation_id = dnd.delivery_note_id and dn.id = dnd.delivery_note_id and dnd.order_detail_id = od.id and dnd.output_detail_id is null and dnd.supplying_detail_id is null) order by a.`date` desc";
 		}
 
-		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
-		List<Audit> deliveryNoteAudit = query.list();
-		List<AuditDTO> deliveryNoteAuditDTO = new ArrayList<AuditDTO>();
-		for (Audit audit : deliveryNoteAudit) {
-			dateFormatter.format(audit.getDate());
-			AuditDTO auditDTO = new AuditDTO(audit.getId(), audit.getRole().getDescription(), audit.getOperationId(), dateFormatter.format(audit.getDate()), audit.getUser().getName());
-			deliveryNoteAuditDTO.add(auditDTO);
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
+		List<Object[]> deliveryNoteAudit = query.list();
+		List<SearchProductDTO> deliveryNoteSearchProductDTO = new ArrayList<>();
+		for (Object[] audit : deliveryNoteAudit) {
+			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5]);
+			deliveryNoteSearchProductDTO.add(searchProductDTO);
 		}
 
 		if (productId == null) {
-			sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, output_detail as od where (a.role_id = "
-					+ RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.serial_number = '" + serialNumber
-					+ "' and a.operation_id = dnd.delivery_note_id and dnd.output_detail_id = od.id and dnd.order_detail_id is null) order by a.`date` desc";
+			sentence = "select distinct a.*, dn.cancelled from audit as a, delivery_note_detail as dnd, output_detail as od, delivery_note as dn " +
+					"where (a.role_id = " + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.serial_number = '" + serialNumber
+					+ "' and a.operation_id = dnd.delivery_note_id and dn.id = dnd.delivery_note_id and dnd.output_detail_id = od.id and dnd.order_detail_id is null) order by a.`date` desc";
 		}
 		if (productId != null) {
-			sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, output_detail as od where (a.role_id = "
-					+ RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.product_id = " + productId + " and od.serial_number = '" + serialNumber
-					+ "' and a.operation_id = dnd.delivery_note_id and dnd.output_detail_id = od.id and dnd.order_detail_id is null and dnd.supplying_detail_id is null) order by a.`date` desc";
+			sentence = "select distinct a.*, dn.cancelled from audit as a, delivery_note_detail as dnd, output_detail as od, delivery_note as dn " +
+					"where (a.role_id = " + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.product_id = " + productId + " and od.serial_number = '" + serialNumber
+					+ "' and a.operation_id = dnd.delivery_note_id and dn.id = dnd.delivery_note_id and dnd.output_detail_id = od.id and dnd.order_detail_id is null and dnd.supplying_detail_id is null) order by a.`date` desc";
 		}
 
-		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
+		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
 		deliveryNoteAudit = query.list();
-		for (Audit audit : deliveryNoteAudit) {
-			dateFormatter.format(audit.getDate());
-			AuditDTO auditDTO = new AuditDTO(audit.getId(), audit.getRole().getDescription(), audit.getOperationId(), dateFormatter.format(audit.getDate()), audit.getUser().getName());
-			deliveryNoteAuditDTO.add(auditDTO);
+		for (Object[] audit : deliveryNoteAudit) {
+			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5]);
+			deliveryNoteSearchProductDTO.add(searchProductDTO);
 		}
 
         if (productId == null) {
-            sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, supplying_detail as sd where (a.role_id = "
-                    + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and sd.serial_number = '" + serialNumber
-                    + "' and a.operation_id = dnd.delivery_note_id and dnd.supplying_detail_id = sd.id and dnd.order_detail_id is null and dnd.output_detail_id is null) order by a.`date` desc";
+            sentence = "select distinct a.*, dn.cancelled from audit as a, delivery_note_detail as dnd, supplying_detail as sd, delivery_note as dn " +
+					"where (a.role_id = " + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and sd.serial_number = '" + serialNumber
+                    + "' and a.operation_id = dnd.delivery_note_id and dn.id = dnd.delivery_note_id and dnd.supplying_detail_id = sd.id and dnd.order_detail_id is null and dnd.output_detail_id is null) order by a.`date` desc";
         }
         if (productId != null) {
-            sentence = "select distinct a.* from audit as a, delivery_note_detail as dnd, supplying_detail as sd where (a.role_id = "
-                    + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and sd.product_id = " + productId + " and sd.serial_number = '" + serialNumber
-                    + "' and a.operation_id = dnd.delivery_note_id and dnd.supplying_detail_id = sd.id and dnd.order_detail_id is null and dnd.output_detail_id is null) order by a.`date` desc";
+            sentence = "select distinct a.*, dn.cancelled from audit as a, delivery_note_detail as dnd, supplying_detail as sd, delivery_note as dn " +
+					"where (a.role_id = " + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and sd.product_id = " + productId + " and sd.serial_number = '" + serialNumber
+                    + "' and a.operation_id = dnd.delivery_note_id and dn.id = dnd.delivery_note_id and dnd.supplying_detail_id = sd.id and dnd.order_detail_id is null and dnd.output_detail_id is null) order by a.`date` desc";
         }
 
-        query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
+        query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
         deliveryNoteAudit = query.list();
-        for (Audit audit : deliveryNoteAudit) {
-            dateFormatter.format(audit.getDate());
-            AuditDTO auditDTO = new AuditDTO(audit.getId(), audit.getRole().getDescription(), audit.getOperationId(), dateFormatter.format(audit.getDate()), audit.getUser().getName());
-            deliveryNoteAuditDTO.add(auditDTO);
+        for (Object[] audit : deliveryNoteAudit) {
+			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5]);
+			deliveryNoteSearchProductDTO.add(searchProductDTO);
         }
 
-		auditResultDTO.setDeliveryNotes(deliveryNoteAuditDTO);
+		searchProductResultDTO.setDeliveryNotes(deliveryNoteSearchProductDTO);
 
-		return auditResultDTO;
+		return searchProductResultDTO;
 	}
 
 	@Override

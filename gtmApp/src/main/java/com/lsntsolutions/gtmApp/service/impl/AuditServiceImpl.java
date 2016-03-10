@@ -1,9 +1,10 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
-import com.lsntsolutions.gtmApp.dto.AuditDTO;
 import com.lsntsolutions.gtmApp.dto.AuditResultDTO;
 import com.lsntsolutions.gtmApp.dto.OutputOrderResultDTO;
+import com.lsntsolutions.gtmApp.dto.SearchProductDTO;
+import com.lsntsolutions.gtmApp.dto.SearchProductResultDTO;
 import com.lsntsolutions.gtmApp.model.Audit;
 import com.lsntsolutions.gtmApp.model.Input;
 import com.lsntsolutions.gtmApp.model.Role;
@@ -86,7 +87,7 @@ public class AuditServiceImpl implements AuditService {
 	}
 
 	@Override
-	public AuditResultDTO getAudit(Integer productId, String serialNumber) {
+	public SearchProductResultDTO getAudit(Integer productId, String serialNumber) {
 		return this.auditDAO.getAudit(productId, serialNumber);
 	}
 
@@ -98,10 +99,10 @@ public class AuditServiceImpl implements AuditService {
 	@Override
 	public OutputOrderResultDTO getOutputOrOrder(Integer productId, String serialNumber) throws ParseException {
 		OutputOrderResultDTO outputOrderResultDTO = new OutputOrderResultDTO();
-		AuditResultDTO auditResultDTO = this.getAudit(productId, serialNumber);
-		List<AuditDTO> orders = auditResultDTO.getOrders();
-		List<AuditDTO> inputs = auditResultDTO.getInputs();
-		List<AuditDTO> outputs = auditResultDTO.getOutputs();
+		SearchProductResultDTO auditResultDTO = this.getAudit(productId, serialNumber);
+		List<SearchProductDTO> orders = auditResultDTO.getOrders();
+		List<SearchProductDTO> inputs = auditResultDTO.getInputs();
+		List<SearchProductDTO> outputs = auditResultDTO.getOutputs();
 
 		// Si egresos y armados no existen, no hay devolucion.
 		if (outputs.isEmpty() && orders.isEmpty()) {
