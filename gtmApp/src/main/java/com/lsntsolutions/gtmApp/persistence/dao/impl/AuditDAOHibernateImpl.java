@@ -108,7 +108,9 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 	@SuppressWarnings("unchecked")
 	public SearchProductResultDTO getAudit(Integer productId, String serialNumber) {
 		SearchProductResultDTO searchProductResultDTO = new SearchProductResultDTO();
-		String sentence = "select distinct a.*, i.cancelled from audit as a, input_detail as id, input as i " +
+		boolean isSerialBatchExpirationAssigned = false;
+
+		String sentence = "select distinct a.*, i.cancelled, id.batch, id.expiration_date from audit as a, input_detail as id, input as i " +
 				"where ((a.role_id = " + RoleOperation.INPUT.getId() + " or a.role_id = " + RoleOperation.SERIALIZED_RETURNS.getId() + ") and id.serial_number = '" + serialNumber + "' and a.operation_id = id.input_id and i.id = id.input_id";
 
 		if (productId != null) {
@@ -118,8 +120,16 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		sentence += ") order by a.`date` desc";
 
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		SimpleDateFormat expirationDateFormatter = new SimpleDateFormat("yyMMdd");
 		Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
 		List<Object[]> inputsAudit = query.list();
+
+		if (!inputsAudit.isEmpty()) {
+			Object[] inputAuditAux = inputsAudit.get(0);
+			searchProductResultDTO.setBatch((String) inputAuditAux[6]);
+			searchProductResultDTO.setExpirationDate(expirationDateFormatter.format(inputAuditAux[7]));
+			isSerialBatchExpirationAssigned = true;
+		}
 		List<SearchProductDTO> inputsSearchProductDTO = new ArrayList<>();
 		for (Object[] audit : inputsAudit) {
 			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5]);
@@ -127,7 +137,7 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		}
 		searchProductResultDTO.setInputs(inputsSearchProductDTO);
 
-		sentence = "select distinct a.*, o.cancelled from audit as a, output_detail as od, output as o " +
+		sentence = "select distinct a.*, o.cancelled, od.batch, od.expiration_date from audit as a, output_detail as od, output as o " +
 				"where ((a.role_id = " + RoleOperation.OUTPUT.getId() + " or a.role_id = " + RoleOperation.PRODUCT_DESTRUCTION.getId() + ") and od.serial_number = '"
 				+ serialNumber + "' and a.operation_id = od.output_id and o.id = od.output_id";
 		if (productId != null) {
@@ -137,6 +147,13 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 
 		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
 		List<Object[]> outputsAudit = query.list();
+
+		if (!outputsAudit.isEmpty() && !isSerialBatchExpirationAssigned) {
+			Object[] outputAuditAux = outputsAudit.get(0);
+			searchProductResultDTO.setBatch((String) outputAuditAux[6]);
+			searchProductResultDTO.setExpirationDate(expirationDateFormatter.format(outputAuditAux[7]));
+			isSerialBatchExpirationAssigned = true;
+		}
 		List<SearchProductDTO> outputsSearchProductDTO = new ArrayList<>();
 		for (Object[] audit : outputsAudit) {
 			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5]);
@@ -144,7 +161,7 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		}
 		searchProductResultDTO.setOutputs(outputsSearchProductDTO);
 
-		sentence = "select distinct a.*, s.cancelled from audit as a, supplying_detail as sd, supplying as s " +
+		sentence = "select distinct a.*, s.cancelled, sd.batch, sd.expiration_date from audit as a, supplying_detail as sd, supplying as s " +
 				"where (a.role_id = " + RoleOperation.SUPPLYING.getId() + " and sd.serial_number = '"
 				+ serialNumber + "' and a.operation_id = sd.supplying_id and s.id = sd.supplying_id";
 		if (productId != null) {
@@ -154,6 +171,13 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 
 		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
 		List<Object[]> supplyingsAudit = query.list();
+
+		if (!supplyingsAudit.isEmpty() && !isSerialBatchExpirationAssigned) {
+			Object[] supplyingsAuditAux = supplyingsAudit.get(0);
+			searchProductResultDTO.setBatch((String) supplyingsAuditAux[6]);
+			searchProductResultDTO.setExpirationDate(expirationDateFormatter.format(supplyingsAuditAux[7]));
+			isSerialBatchExpirationAssigned = true;
+		}
 		List<SearchProductDTO> supplyingsSearchProductDTO = new ArrayList<>();
 		for (Object[] audit : supplyingsAudit) {
 			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5]);
@@ -162,19 +186,26 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		searchProductResultDTO.setSupplyings(supplyingsSearchProductDTO);
 
 		if (productId == null) {
-			sentence = "select distinct a.*, o.cancelled from audit as a, order_detail as od, `order` as o " +
+			sentence = "select distinct a.*, o.cancelled, od.batch, od.expiration_date from audit as a, order_detail as od, `order` as o " +
 					"where (a.role_id = " + RoleOperation.ORDER_ASSEMBLY.getId()
 					+ " and od.serial_number = '" + serialNumber + "' and a.operation_id = od.order_id and o.id = od.order_id) order by a.`date` desc";
 		}
 
 		if (productId != null) {
-			sentence = "select distinct a.*, o.cancelled from audit as a, order_detail as od, `order` as o " +
+			sentence = "select distinct a.*, o.cancelled, od.batch, od.expiration_date from audit as a, order_detail as od, `order` as o " +
 					"where (a.role_id = " + RoleOperation.ORDER_ASSEMBLY.getId()
 					+ " and od.product_id = " + productId + " and od.serial_number = '" + serialNumber + "' and a.operation_id = od.order_id and o.id = od.order_id) order by a.`date` desc";
 		}
 
 		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
 		List<Object[]> ordersAudit = query.list();
+
+		if (!ordersAudit.isEmpty() && !isSerialBatchExpirationAssigned) {
+			Object[] ordersAuditAux = ordersAudit.get(0);
+			searchProductResultDTO.setBatch((String) ordersAuditAux[6]);
+			searchProductResultDTO.setExpirationDate(expirationDateFormatter.format(ordersAuditAux[7]));
+			isSerialBatchExpirationAssigned = true;
+		}
 		List<SearchProductDTO> ordersSearchProductDTO = new ArrayList<>();
 		for (Object[] audit : ordersAudit) {
 			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5]);
@@ -182,18 +213,25 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		}
 		searchProductResultDTO.setOrders(ordersSearchProductDTO);
 		if (productId == null) {
-			sentence = "select distinct a.*, dn.cancelled from audit as a, delivery_note_detail as dnd, order_detail as od, delivery_note as dn " +
+			sentence = "select distinct a.*, dn.cancelled, od.batch, od.expiration_date from audit as a, delivery_note_detail as dnd, order_detail as od, delivery_note as dn " +
 					"where (a.role_id = " + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.serial_number = '" + serialNumber
 					+ "' and a.operation_id = dnd.delivery_note_id and dn.id = dnd.delivery_note_id and dnd.order_detail_id = od.id and dnd.output_detail_id is null and dnd.supplying_detail_id is null) order by a.`date` desc";
 		}
 		if (productId != null) {
-			sentence = "select distinct a.*, dn.cancelled from audit as a, delivery_note_detail as dnd, order_detail as od, delivery_note as dn " +
+			sentence = "select distinct a.*, dn.cancelled, od.batch, od.expiration_date from audit as a, delivery_note_detail as dnd, order_detail as od, delivery_note as dn " +
 					"where (a.role_id = " + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.product_id = " + productId + " and od.serial_number = '" + serialNumber
 					+ "' and a.operation_id = dnd.delivery_note_id and dn.id = dnd.delivery_note_id and dnd.order_detail_id = od.id and dnd.output_detail_id is null and dnd.supplying_detail_id is null) order by a.`date` desc";
 		}
 
 		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
 		List<Object[]> deliveryNoteAudit = query.list();
+
+		if (!deliveryNoteAudit.isEmpty() && !isSerialBatchExpirationAssigned) {
+			Object[] deliveryNoteAuditAux = deliveryNoteAudit.get(0);
+			searchProductResultDTO.setBatch((String) deliveryNoteAuditAux[6]);
+			searchProductResultDTO.setExpirationDate(expirationDateFormatter.format(deliveryNoteAuditAux[7]));
+			isSerialBatchExpirationAssigned = true;
+		}
 		List<SearchProductDTO> deliveryNoteSearchProductDTO = new ArrayList<>();
 		for (Object[] audit : deliveryNoteAudit) {
 			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5]);
@@ -201,36 +239,49 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		}
 
 		if (productId == null) {
-			sentence = "select distinct a.*, dn.cancelled from audit as a, delivery_note_detail as dnd, output_detail as od, delivery_note as dn " +
+			sentence = "select distinct a.*, dn.cancelled, od.batch, od.expiration_date from audit as a, delivery_note_detail as dnd, output_detail as od, delivery_note as dn " +
 					"where (a.role_id = " + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.serial_number = '" + serialNumber
 					+ "' and a.operation_id = dnd.delivery_note_id and dn.id = dnd.delivery_note_id and dnd.output_detail_id = od.id and dnd.order_detail_id is null) order by a.`date` desc";
 		}
 		if (productId != null) {
-			sentence = "select distinct a.*, dn.cancelled from audit as a, delivery_note_detail as dnd, output_detail as od, delivery_note as dn " +
+			sentence = "select distinct a.*, dn.cancelled, od.batch, od.expiration_date from audit as a, delivery_note_detail as dnd, output_detail as od, delivery_note as dn " +
 					"where (a.role_id = " + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and od.product_id = " + productId + " and od.serial_number = '" + serialNumber
 					+ "' and a.operation_id = dnd.delivery_note_id and dn.id = dnd.delivery_note_id and dnd.output_detail_id = od.id and dnd.order_detail_id is null and dnd.supplying_detail_id is null) order by a.`date` desc";
 		}
 
 		query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
 		deliveryNoteAudit = query.list();
+
+		if (!deliveryNoteAudit.isEmpty() && !isSerialBatchExpirationAssigned) {
+			Object[] deliveryNoteAuditAux = deliveryNoteAudit.get(0);
+			searchProductResultDTO.setBatch((String) deliveryNoteAuditAux[6]);
+			searchProductResultDTO.setExpirationDate(expirationDateFormatter.format(deliveryNoteAuditAux[7]));
+			isSerialBatchExpirationAssigned = true;
+		}
 		for (Object[] audit : deliveryNoteAudit) {
 			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5]);
 			deliveryNoteSearchProductDTO.add(searchProductDTO);
 		}
 
         if (productId == null) {
-            sentence = "select distinct a.*, dn.cancelled from audit as a, delivery_note_detail as dnd, supplying_detail as sd, delivery_note as dn " +
+            sentence = "select distinct a.*, dn.cancelled, sd.batch, sd.expiration_date from audit as a, delivery_note_detail as dnd, supplying_detail as sd, delivery_note as dn " +
 					"where (a.role_id = " + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and sd.serial_number = '" + serialNumber
                     + "' and a.operation_id = dnd.delivery_note_id and dn.id = dnd.delivery_note_id and dnd.supplying_detail_id = sd.id and dnd.order_detail_id is null and dnd.output_detail_id is null) order by a.`date` desc";
         }
         if (productId != null) {
-            sentence = "select distinct a.*, dn.cancelled from audit as a, delivery_note_detail as dnd, supplying_detail as sd, delivery_note as dn " +
+            sentence = "select distinct a.*, dn.cancelled, sd.batch, sd.expiration_date from audit as a, delivery_note_detail as dnd, supplying_detail as sd, delivery_note as dn " +
 					"where (a.role_id = " + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and sd.product_id = " + productId + " and sd.serial_number = '" + serialNumber
                     + "' and a.operation_id = dnd.delivery_note_id and dn.id = dnd.delivery_note_id and dnd.supplying_detail_id = sd.id and dnd.order_detail_id is null and dnd.output_detail_id is null) order by a.`date` desc";
         }
 
         query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
         deliveryNoteAudit = query.list();
+
+		if (!deliveryNoteAudit.isEmpty() && !isSerialBatchExpirationAssigned) {
+			Object[] deliveryNoteAuditAux = deliveryNoteAudit.get(0);
+			searchProductResultDTO.setBatch((String) deliveryNoteAuditAux[6]);
+			searchProductResultDTO.setExpirationDate(expirationDateFormatter.format(deliveryNoteAuditAux[7]));
+		}
         for (Object[] audit : deliveryNoteAudit) {
 			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5]);
 			deliveryNoteSearchProductDTO.add(searchProductDTO);

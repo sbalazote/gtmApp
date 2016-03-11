@@ -1,6 +1,12 @@
 
 SearchSerializedProduct = function() {
 	var productId;
+    var productCode;
+    var productDescription;
+    var serialFound;
+    var gtinFound;
+
+
 	var orderId;
 	var outputId;
 	var deliveryNoteId;
@@ -162,6 +168,7 @@ SearchSerializedProduct = function() {
                 $('#divMovements').show();
 
                 if(response.inputs.length > 0 || response.outputs.length > 0 || response.orders.length > 0 || response.deliveryNotes.length > 0 || response.supplyings.length > 0){
+                    addToLabels(productCode + ' - ' + productDescription, gtinFound, response.batch, response.expirationDate);
                     var aaData = [];
                     if(response.inputs != null){
                         /*if(response.inputs.length > 0){
@@ -332,10 +339,10 @@ SearchSerializedProduct = function() {
                 formatSerializedId: null
             },
             success: function(response) {
-                var serialFound = response.serialNumber;
-                var gtinFound = response.gtin;
-                var batchFound = response.batch;
-                var expirationDateFound = response.expirationDate;
+                serialFound = response.serialNumber;
+                gtinFound = response.gtin;
+                /*var batchFound = response.batch;
+                var expirationDateFound = response.expirationDate;*/
                 if (response != "") {
                     $.ajax({
                         url: "getProductBySerialOrGtin.do",
@@ -346,8 +353,9 @@ SearchSerializedProduct = function() {
                         success: function(response) {
                             if (response != "") {
                                 productId = response.id;
+                                productCode = response.id;
+                                productDescription = response.description;
                                 $('#serialParserSearch').val(response.description + " Serie: " + serialFound);
-                                addToLabels(response.code + ' - ' + response.description, gtinFound, batchFound, expirationDateFound);
                                 searchProduct(productId, serialFound);
                             } else {
                                 addToLabels("None", "None", "None", "None");
@@ -363,7 +371,7 @@ SearchSerializedProduct = function() {
                     });
                 } else {
                     addToLabels("None", "None", "None", "None");
-                    $('#serialParserSearch').tooltip("destroy").data("title", "Producto Inexistente o Inactivo").addClass("has-error").tooltip();
+                    $('#serialParserSearch').tooltip("destroy").data("title", "Formato de Serie Inv\u00e1lido").addClass("has-error").tooltip();
                     $('#serialParserSearch').val('');
                     $('#serialParserSearch').focus();
                 }

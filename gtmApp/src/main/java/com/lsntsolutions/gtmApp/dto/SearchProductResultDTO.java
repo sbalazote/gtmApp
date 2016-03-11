@@ -7,11 +7,39 @@ package com.lsntsolutions.gtmApp.dto;
 import java.util.List;
 
 public class SearchProductResultDTO {
+    private String serialNumber;
+    private String batch;
+    private String expirationDate;
+
     private List<SearchProductDTO> inputs;
     private List<SearchProductDTO> outputs;
     private List<SearchProductDTO> orders;
     private List<SearchProductDTO> deliveryNotes;
     private List<SearchProductDTO> supplyings;
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public String getBatch() {
+        return batch;
+    }
+
+    public void setBatch(String batch) {
+        this.batch = batch;
+    }
+
+    public String getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(String expirationDate) {
+        this.expirationDate = expirationDate;
+    }
 
     public List<SearchProductDTO> getInputs() {
         return this.inputs;
