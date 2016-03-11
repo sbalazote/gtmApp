@@ -6,10 +6,21 @@ SearchSerializedProduct = function() {
 	var deliveryNoteId;
 	var supplyingId;
 
-    var productId;
-	
+    var addToLabels = function(product, gtin, batch, expirationDate) {
+        $("#serializedLastProduct").text(product);
+        $("#serializedLastGtin").text(gtin);
+        $("#serializedLastBatch").text(batch);
+        $("#serializedLastExpirationDate").text(expirationDate);
+    };
+
+    var clearLabels = function() {
+        $("#serializedLastProduct").text('');
+        $("#serializedLastGtin").text('');
+        $("#serializedLastBatch").text('');
+        $("#serializedLastExpirationDate").text('');
+    };
+
 	// Product autocomplete
-	
 	$("#productInput").autocomplete({
 		source: function(request, response) {
 			$.ajax({
@@ -92,6 +103,7 @@ SearchSerializedProduct = function() {
         $("#movementsTable").bootgrid("clear");
         $('#divMovements').hide();
         $('#serialParserSearch').data("title", "").removeClass("has-error").tooltip("destroy");
+        clearLabels();
     });
 
 	//Consulta de Ingresos
@@ -321,6 +333,9 @@ SearchSerializedProduct = function() {
             },
             success: function(response) {
                 var serialFound = response.serialNumber;
+                var gtinFound = response.gtin;
+                var batchFound = response.batch;
+                var expirationDateFound = response.expirationDate;
                 if (response != "") {
                     $.ajax({
                         url: "getProductBySerialOrGtin.do",
@@ -332,9 +347,10 @@ SearchSerializedProduct = function() {
                             if (response != "") {
                                 productId = response.id;
                                 $('#serialParserSearch').val(response.description + " Serie: " + serialFound);
-                                searchProduct(productId,serialFound);
-                            } else
-                            {
+                                addToLabels(response.code + ' - ' + response.description, gtinFound, batchFound, expirationDateFound);
+                                searchProduct(productId, serialFound);
+                            } else {
+                                addToLabels("None", "None", "None", "None");
                                 $('#serialParserSearch').tooltip("destroy").data("title", "Producto Inexistente o Inactivo").addClass("has-error").tooltip();
                                 $('#serialParserSearch').val('');
                                 $('#serialParserSearch').focus();
@@ -345,8 +361,8 @@ SearchSerializedProduct = function() {
                             myGenericError();
                         }
                     });
-                } else
-                {
+                } else {
+                    addToLabels("None", "None", "None", "None");
                     $('#serialParserSearch').tooltip("destroy").data("title", "Producto Inexistente o Inactivo").addClass("has-error").tooltip();
                     $('#serialParserSearch').val('');
                     $('#serialParserSearch').focus();
@@ -373,12 +389,12 @@ SearchSerializedProduct = function() {
             success: function(response) {
                 $("#productInput").val(response.code + " - " + response.description + " - " + response.brand.description + " - " + response.monodrug.description);
                 $("#serialNumberSearch").val(serialByUrl);
+                addToLabels(response.code + ' - ' + response.description, response.lastGtin, "None", "None");
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 myGenericError();
             }
         });
-        searchProduct(productIdByUrl,serialByUrl);
+        searchProduct(productIdByUrl, serialByUrl);
     }
-
 };
