@@ -71,19 +71,19 @@
 		<br>
 		<div class="row">
 			<div class="col-md-3 col-lg-3 form-group">
-				<label><spring:message code="common.lastProduct"/>:&nbsp;&nbsp;</label>
+				<label><spring:message code="common.product"/>:&nbsp;&nbsp;</label>
 				<span style="font-style:italic;color:darkviolet"><label id="serializedLastProduct"></label></span>
 			</div>
 			<div class="col-md-3 col-lg-3 form-group">
-				<label><spring:message	code="common.lastGtin"/>:&nbsp;&nbsp;</label>
+				<label><spring:message	code="common.gtin"/>:&nbsp;&nbsp;</label>
 				<span style="font-style:italic;color:darkorange"><label id="serializedLastGtin"></label></span>
 			</div>
 			<div class="col-md-3 col-lg-3 form-group">
-				<label><spring:message code="common.lastBatch"/>:&nbsp;&nbsp;</label>
+				<label><spring:message code="common.batch"/>:&nbsp;&nbsp;</label>
 				<span style="font-style:italic;color:forestgreen"><label id="serializedLastBatch"></label></span>
 			</div>
 			<div class="col-md-3 col-lg-3 form-group">
-				<label><spring:message code="common.lastExpirationDate"/>:&nbsp;&nbsp;</label>
+				<label><spring:message code="common.expirationDate"/>:&nbsp;&nbsp;</label>
 				<span style="font-style:italic;color:brown"><label id="serializedLastExpirationDate"></label></span>
 			</div>
 		</div>

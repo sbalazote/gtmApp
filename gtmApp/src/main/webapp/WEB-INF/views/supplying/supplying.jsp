@@ -296,19 +296,19 @@
 					</div>
 					<div class="row">
 						<div class="col-md-3 col-lg-3 form-group">
-							<label><spring:message	code="common.lastGtin"/>:&nbsp;&nbsp;</label>
+							<label><spring:message	code="common.gtin"/>:&nbsp;&nbsp;</label>
 							<span style="font-style:italic;color:darkorange"><label id="providerSerializedLastGtin"></label></span>
 						</div>
 						<div class="col-md-3 col-lg-3 form-group">
-							<label><spring:message code="common.lastSerialNumber"/>:&nbsp;&nbsp;</label>
+							<label><spring:message code="common.serialNumber"/>:&nbsp;&nbsp;</label>
 							<span style="font-style:italic;color:darkviolet"><label id="providerSerializedLastSerialNumber"></label></span>
 						</div>
 						<div class="col-md-3 col-lg-3 form-group">
-							<label><spring:message code="common.lastBatch"/>:&nbsp;&nbsp;</label>
+							<label><spring:message code="common.batch"/>:&nbsp;&nbsp;</label>
 							<span style="font-style:italic;color:forestgreen"><label id="providerSerializedLastBatch"></label></span>
 						</div>
 						<div class="col-md-3 col-lg-3 form-group">
-							<label><spring:message code="common.lastExpirationDate"/>:&nbsp;&nbsp;</label>
+							<label><spring:message code="common.expirationDate"/>:&nbsp;&nbsp;</label>
 							<span style="font-style:italic;color:brown"><label id="providerSerializedLastExpirationDate"></label></span>
 						</div>
 					</div>
@@ -454,19 +454,19 @@
 					</div>
 					<div class="row">
 						<div class="col-md-3 col-lg-3 form-group">
-							<label><spring:message	code="common.lastGtin"/>:&nbsp;&nbsp;</label>
+							<label><spring:message	code="common.gtin"/>:&nbsp;&nbsp;</label>
 							<span style="font-style:italic;color:darkorange"><label id="outOfStockProviderSerializedLastGtin"></label></span>
 						</div>
 						<div class="col-md-3 col-lg-3 form-group">
-							<label><spring:message code="common.lastSerialNumber"/>:&nbsp;&nbsp;</label>
+							<label><spring:message code="common.serialNumber"/>:&nbsp;&nbsp;</label>
 							<span style="font-style:italic;color:darkviolet"><label id="outOfStockProviderSerializedLastSerialNumber"></label></span>
 						</div>
 						<div class="col-md-3 col-lg-3 form-group">
-							<label><spring:message code="common.lastBatch"/>:&nbsp;&nbsp;</label>
+							<label><spring:message code="common.batch"/>:&nbsp;&nbsp;</label>
 							<span style="font-style:italic;color:forestgreen"><label id="outOfStockProviderSerializedLastBatch"></label></span>
 						</div>
 						<div class="col-md-3 col-lg-3 form-group">
-							<label><spring:message code="common.lastExpirationDate"/>:&nbsp;&nbsp;</label>
+							<label><spring:message code="common.expirationDate"/>:&nbsp;&nbsp;</label>
 							<span style="font-style:italic;color:brown"><label id="outOfStockProviderSerializedLastExpirationDate"></label></span>
 						</div>
 					</div>
