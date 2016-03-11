@@ -24,7 +24,7 @@
 		<div class="row">
 			<div class="col-md-4 col-lg-4 form-group">
 				<label for="idSearch"><spring:message code="output.number"/></label>
-				<input id="idSearch" name="idSearch" class="form-control" >
+				<input id="idSearch" name="idSearch" class="form-control" autocomplete="off">
 			</div>
 			<div class="col-md-4 col-lg-4 orm-group">
 				<label for="dateFromSearch"><spring:message code="common.dateFrom"/></label>

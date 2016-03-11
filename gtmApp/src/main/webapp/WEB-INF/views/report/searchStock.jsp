@@ -29,7 +29,7 @@
 		<div class="row">
 			<div class="col-md-4 col-lg-4 form-group">
 				<label for="batchNumberSearch"><spring:message code="common.batch"/></label>
-				<input type="text" class="form-control" name="batchNumberSearch" id="batchNumberSearch" >
+				<input type="text" class="form-control" name="batchNumberSearch" id="batchNumberSearch" autocomplete="off">
 			</div>
 			<div class="col-md-4 col-lg-4 form-group">
 				<label for="dateFromSearch"><spring:message code="common.expirateDateFrom"/></label>
@@ -54,7 +54,7 @@
 		<div class="row">
 			<div class="col-md-4 col-lg-4 form-group">
 				<label for="serialNumberSearch"><spring:message code="common.serialNumber"/></label>
-				<input type="text" class="form-control" name="serialNumberSearch" id="serialNumberSearch" >
+				<input type="text" class="form-control" name="serialNumberSearch" id="serialNumberSearch" autocomplete="off">
 			</div>
 
 			<div class="col-md-4 col-lg-4 form-group">

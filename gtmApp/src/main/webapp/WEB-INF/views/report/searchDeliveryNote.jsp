@@ -33,9 +33,9 @@
 						<div class="col-md-4 col-lg-4 form-group">
 							<label for="outputDeliveryNoteNumberSearch"><spring:message code="common.deliveryNote"/></label>
 							<div class="input-group">
-								<input type="text" class="form-control" name="outputPOSDeliveryNoteNumberSearch" id="outputPOSDeliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.POS"/>'>
+								<input type="text" class="form-control" name="outputPOSDeliveryNoteNumberSearch" id="outputPOSDeliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.POS"/>' autocomplete="off">
 								<span class="input-group-addon">-</span>
-								<input type="text" class="form-control" name="outputDeliveryNoteNumberSearch" id="outputDeliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.number"/>' >
+								<input type="text" class="form-control" name="outputDeliveryNoteNumberSearch" id="outputDeliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.number"/>' autocomplete="off">
 							</div>
 						</div>
 						<div class="col-md-4 col-lg-4 form-group">
@@ -60,7 +60,7 @@
 					<div class="row">
 						<div class="col-md-4 col-lg-4 form-group">
 							<label for="outputIdSearch"><spring:message code="common.outputNumber"/></label>
-							<input type="text" class="form-control" name="outputIdSearch" id="outputIdSearch" >
+							<input type="text" class="form-control" name="outputIdSearch" id="outputIdSearch" autocomplete="off">
 						</div>
 						<div class="col-md-4 col-lg-4 form-group">
 							<label for="outputProviderSearch"><spring:message code="common.provider"/></label>
@@ -162,9 +162,9 @@
 						<div class="col-md-4 col-lg-4 form-group">
 							<label for="supplyingDeliveryNoteNumberSearch"><spring:message code="common.deliveryNote"/></label>
 							<div class="input-group">
-								<input type="text" class="form-control" name="supplyingPOSDeliveryNoteNumberSearch" id="supplyingPOSDeliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.POS"/>'>
+								<input type="text" class="form-control" name="supplyingPOSDeliveryNoteNumberSearch" id="supplyingPOSDeliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.POS"/>' autocomplete="off">
 								<span class="input-group-addon">-</span>
-								<input type="text" class="form-control" name="supplyingDeliveryNoteNumberSearch" id="supplyingDeliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.number"/>' >
+								<input type="text" class="form-control" name="supplyingDeliveryNoteNumberSearch" id="supplyingDeliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.number"/>' autocomplete="off">
 							</div>
 						</div>
 						<div class="col-md-4 col-lg-4 form-group">
@@ -189,7 +189,7 @@
 					<div class="row">
 						<div class="col-md-4 col-lg-4 form-group">
 							<label for="supplyingIdSearch"><spring:message code="common.supplyingNumber"/></label>
-							<input type="text" class="form-control" name="supplyingIdSearch" id="supplyingIdSearch" >
+							<input type="text" class="form-control" name="supplyingIdSearch" id="supplyingIdSearch" autocomplete="off">
 						</div>
                         <div class="col-md-4 col-lg-4 form-group">
                             <label for="supplyingClientSearch"><spring:message code="common.client" /></label>
@@ -275,9 +275,9 @@
 						<div class="col-md-4 col-lg-4 form-group">
 							<label for="orderDeliveryNoteNumberSearch"><spring:message code="common.deliveryNote"/></label>
 							<div class="input-group">
-								<input type="text" class="form-control" name="orderPOSDeliveryNoteNumberSearch" id="orderPOSDeliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.POS"/>'>
+								<input type="text" class="form-control" name="orderPOSDeliveryNoteNumberSearch" id="orderPOSDeliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.POS"/>' autocomplete="off">
 								<span class="input-group-addon">-</span>
-								<input type="text" class="form-control" name="orderDeliveryNoteNumberSearch" id="orderDeliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.number"/>' >
+								<input type="text" class="form-control" name="orderDeliveryNoteNumberSearch" id="orderDeliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.number"/>' autocomplete="off">
 							</div>
 						</div>
 						<div class="col-md-4 col-lg-4 form-group">
@@ -302,7 +302,7 @@
 					<div class="row">
 						<div class="col-md-4 col-lg-4 form-group">
 							<label for="provisioningIdSearch"><spring:message code="provisioningRequest.provisioningRequestNumber"/></label>
-							<input type="text" class="form-control" name="provisioningIdSearch" id="provisioningIdSearch" >
+							<input type="text" class="form-control" name="provisioningIdSearch" id="provisioningIdSearch" autocomplete="off">
 						</div>
 						<div class="col-md-4 col-lg-4 form-group">
 							<label for="orderClientSearch"><spring:message code="common.client" /></label>

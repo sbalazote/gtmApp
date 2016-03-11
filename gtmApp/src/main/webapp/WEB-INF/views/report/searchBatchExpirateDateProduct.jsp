@@ -33,7 +33,7 @@
 		<div class="row">
 			<div class="col-md-4 col-lg-4 form-group">
 				<label for="batchSearch"><spring:message code="common.batch"/></label>
-				<input type="text" class="form-control" name="batchSearch" id="batchSearch" >
+				<input type="text" class="form-control" name="batchSearch" id="batchSearch" autocomplete="off">
 			</div>
 			<div class="col-md-4 col-lg-4 form-group">
 				<label for="dateSearch"><spring:message code="common.expirationDate"/></label>
@@ -66,6 +66,7 @@
             <tr>
                 <th data-column-id="id" data-type="numeric"><spring:message code="common.id"/></th>
                 <th data-column-id="action"><spring:message code="common.operation"/></th>
+				<th data-column-id="cancelled"><spring:message code="common.cancelled"/></th>
                 <th data-column-id="user"><spring:message code="common.user"/></th>
                 <th data-column-id="date"><spring:message code="common.date"/></th>
                 <th data-column-id="view"><spring:message code="common.action"/></th>

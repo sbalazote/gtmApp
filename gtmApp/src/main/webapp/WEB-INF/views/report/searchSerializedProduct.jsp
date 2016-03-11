@@ -27,7 +27,7 @@
         <div class="row">
             <div class="col-md-12 col-lg-12 form-group">
                 <label for="serialParserSearch"><spring:message code="search.product.reader"/></label>
-                <input type="text" class="form-control" name="serialParserSearch" id="serialParserSearch" placeholder='<spring:message code="search.product.placeholder"/>'>
+                <input type="text" class="form-control" name="serialParserSearch" id="serialParserSearch" placeholder='<spring:message code="search.product.placeholder"/>' autocomplete="off">
             </div>
         </div>
 		<div class="row">
@@ -53,7 +53,7 @@
 		<div class="row">
 			<div class="col-md-8 col-lg-8 form-group">
 				<label for="serialNumberSearch"><spring:message code="common.serialNumber"/></label>
-				<input type="text" class="form-control" name="serialNumberSearch" id="serialNumberSearch" >
+				<input type="text" class="form-control" name="serialNumberSearch" id="serialNumberSearch" autocomplete="off">
 			</div>
 			<div class="col-md-2 col-lg-2 form-margin">
 				<button class="btn btn-success btn-block" id="searchButton">

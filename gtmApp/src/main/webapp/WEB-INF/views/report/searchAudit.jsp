@@ -31,7 +31,7 @@
 		<div class="row">
 			<div class="col-md-4 col-lg-4 form-group">
 				<label for="operationNumberSearch"><spring:message code="common.operationNumber"/></label>
-				<input type="text" class="form-control" name="operationNumberSearch" id="operationNumberSearch" >
+				<input type="text" class="form-control" name="operationNumberSearch" id="operationNumberSearch" autocomplete="off">
 			</div>
 			<div class="col-md-4 col-lg-4 form-group">
 				<label for="dateFromSearch"><spring:message code="common.dateFrom"/></label>

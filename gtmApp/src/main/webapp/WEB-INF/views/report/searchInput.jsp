@@ -24,7 +24,7 @@
 		<div class="row">
 			<div class="col-md-4 col-lg-4 form-group">
 				<label for="idSearch"><spring:message code="input.input.number"/></label>
-				<input id="idSearch" name="idSearch" class="form-control" >
+				<input id="idSearch" name="idSearch" class="form-control" autocomplete="off">
 			</div>
 			<div class="col-md-4 col-lg-4 form-group">
 				<label for="dateFromSearch"><spring:message code="common.dateFrom"/></label>
@@ -88,11 +88,11 @@
 			</div>
 			<div class="col-md-4 col-lg-4 form-group">
 				<label for="deliveryNoteNumberSearch"><spring:message code="common.deliveryNote"/></label>
-				<input type="text" class="form-control" name="deliveryNoteNumberSearch" id="deliveryNoteNumberSearch" placeholder='<spring:message code="search.input.deliveryNoteFormat"/>'>
+				<input type="text" class="form-control" name="deliveryNoteNumberSearch" id="deliveryNoteNumberSearch" placeholder='<spring:message code="search.input.deliveryNoteFormat"/>' autocomplete="off">
 			</div>
 			<div class="col-md-4 col-lg-4 form-group">
 				<label for="purchaseOrderNumberSearch"><spring:message code="common.purchaseOrder"/></label>
-				<input type="text" class="form-control" name="purchaseOrderNumberSearch" id="purchaseOrderNumberSearch" >
+				<input type="text" class="form-control" name="purchaseOrderNumberSearch" id="purchaseOrderNumberSearch" autocomplete="off">
 			</div>
 		</div>
 		<div class="row">
