@@ -252,6 +252,24 @@
 							<button id="serializedAddButton" type="button" class="btn btn-warning"><span class="glyphicon glyphicon-plus"></span><spring:message code="common.add"/></button>
 						</div>
 					</div>
+					<div class="row">
+						<div class="col-md-3 col-lg-3 form-group">
+							<label><spring:message	code="common.lastGtin"/>:&nbsp;&nbsp;</label>
+							<span style="font-style:italic;color:darkorange"><label id="providerSerializedLastGtin"></label></span>
+						</div>
+						<div class="col-md-3 col-lg-3 form-group">
+							<label><spring:message code="common.lastSerialNumber"/>:&nbsp;&nbsp;</label>
+							<span style="font-style:italic;color:darkviolet"><label id="providerSerializedLastSerialNumber"></label></span>
+						</div>
+						<div class="col-md-3 col-lg-3 form-group">
+							<label><spring:message code="common.lastBatch"/>:&nbsp;&nbsp;</label>
+							<span style="font-style:italic;color:forestgreen"><label id="providerSerializedLastBatch"></label></span>
+						</div>
+						<div class="col-md-3 col-lg-3 form-group">
+							<label><spring:message code="common.lastExpirationDate"/>:&nbsp;&nbsp;</label>
+							<span style="font-style:italic;color:brown"><label id="providerSerializedLastExpirationDate"></label></span>
+						</div>
+					</div>
 					<br>
 						<table id="serializedTable" class="table table-condensed table-hover table-striped">
 							<thead>

@@ -99,6 +99,20 @@ OutputSerialized = function() {
 		$("#serializedTable").bootgrid("append", aaData);
 	};
 
+	var addToLabels = function(gtin, serialNumber, batch, expirationDate) {
+		$("#providerSerializedLastGtin").text(gtin);
+		$("#providerSerializedLastSerialNumber").text(serialNumber);
+		$("#providerSerializedLastBatch").text(batch);
+		$("#providerSerializedLastExpirationDate").text(expirationDate);
+	};
+
+	var clearLabels = function() {
+		$("#providerSerializedLastGtin").text('');
+		$("#providerSerializedLastSerialNumber").text('');
+		$("#providerSerializedLastBatch").text('');
+		$("#providerSerializedLastExpirationDate").text('');
+	};
+
 	var isProviderSelfSerialized = false;
 
 	var generateRow = function() {
@@ -125,6 +139,7 @@ OutputSerialized = function() {
 					if (!response) {
 						readSerialNumber.val("");
 						readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Inv\u00e1lido").addClass("has-error").tooltip();
+						addToLabels("None", "None", "None", "None");
 						return;
 					}
 
@@ -168,6 +183,7 @@ OutputSerialized = function() {
 				if (response == "") {
 					readSerialNumber.val("");
 					readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Inv\u00e1lido").addClass("has-error").tooltip();
+					addToLabels("None", "None", "None", "None");
 					return;
 				}
 
@@ -203,6 +219,7 @@ OutputSerialized = function() {
 				if (gtinFound == false) {
 					readSerialNumber.val("");
 					readSerialNumber.tooltip("destroy").data("title", "GTIN le\u00eddo no coincide con el seleccionado").addClass("has-error").tooltip();
+					addToLabels(gtin, response.serialNumber, response.batch, response.expirationDate);
 					return;
 				}
 				//TODO seguir desde aca
@@ -231,6 +248,7 @@ OutputSerialized = function() {
 					if ($.inArray(response.serialNumber, tempSerialNumbers) != -1) {
 						readSerialNumber.val("");
 						readSerialNumber.tooltip("destroy").data("title", "Serie ya ingresado").addClass("has-error").tooltip();
+						addToLabels(response.gtin.number, response.serialNumber, response.batch, myParseDateShort(response.expirationDate));
 						return;
 					}
 
@@ -243,6 +261,7 @@ OutputSerialized = function() {
 					}
 
 					addAmount(1);
+					addToLabels(gtin, response.serialNumber, batch, myParseDateShort(expirationDate));
 					addToTable(gtin, response.serialNumber, batch, myParseDate(expirationDate));
 					tempSerialNumbers.push(response.serialNumber);
 
@@ -253,6 +272,7 @@ OutputSerialized = function() {
 				} else {
 					readSerialNumber.val("");
 					readSerialNumber.tooltip("destroy").data("title", "El producto le\u00eddo no se encuentra en stock").addClass("has-error").tooltip();
+					addToLabels("None", "None", "None", "None");
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
@@ -268,6 +288,7 @@ OutputSerialized = function() {
 		if ($.inArray(serialNumber, tempSerialNumbers) != -1) {
 			readSerialNumber.val("");
 			readSerialNumber.tooltip("destroy").data("title", "Serie ya ingresado").addClass("has-error").tooltip();
+			addToLabels(gtin, serialNumber, response.batch, response.expirationDate);
 			return;
 		}
 		
@@ -292,6 +313,7 @@ OutputSerialized = function() {
 					}
 
 					addAmount(1);
+					addToLabels(gtin, serialNumber, batch, expirationDate);
 					addToTable(gtin, serialNumber, batch, myParseDate(expirationDate));
 					tempSerialNumbers.push(serialNumber);
 					
@@ -325,6 +347,8 @@ OutputSerialized = function() {
 		$("#serializedTable").bootgrid("clear");
 		$('#serializedProductLabel').text(preloadedProduct);
 		$('#serializedRequestedAmountLabel').text(preloadedAmount);
+
+		clearLabels();
 		
 		if (preloadedData != null) {
 			for (var i = 0; i < preloadedData.length; i++) {
