@@ -7,8 +7,8 @@ import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.*;
 import com.lowagie.text.pdf.draw.LineSeparator;
 import com.lsntsolutions.gtmApp.config.PropertyProvider;
-import com.lsntsolutions.gtmApp.dto.AuditDTO;
-import com.lsntsolutions.gtmApp.dto.AuditResultDTO;
+import com.lsntsolutions.gtmApp.dto.SearchProductDTO;
+import com.lsntsolutions.gtmApp.dto.SearchProductResultDTO;
 import com.lsntsolutions.gtmApp.helper.AbstractPdfView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -112,15 +112,15 @@ public class ProductTracePdfView extends AbstractPdfView {
         table.setWidths(columnWidths);
         document.open();
         @SuppressWarnings("unchecked")
-        AuditResultDTO auditResultDTO = (AuditResultDTO) model.get("auditResultDTO");
+        SearchProductResultDTO searchProductResultDTO = (SearchProductResultDTO) model.get("searchProductResultDTO");
 
-        List<AuditDTO> inputs = auditResultDTO.getInputs();
-        List<AuditDTO> outputs = auditResultDTO.getOutputs();
-        List<AuditDTO> orders = auditResultDTO.getOrders();
-        List<AuditDTO> deliveryNotes = auditResultDTO.getDeliveryNotes();
-        List<AuditDTO> supplyings = auditResultDTO.getSupplyings();
+        List<SearchProductDTO> inputs = searchProductResultDTO.getInputs();
+        List<SearchProductDTO> outputs = searchProductResultDTO.getOutputs();
+        List<SearchProductDTO> orders = searchProductResultDTO.getOrders();
+        List<SearchProductDTO> deliveryNotes = searchProductResultDTO.getDeliveryNotes();
+        List<SearchProductDTO> supplyings = searchProductResultDTO.getSupplyings();
 
-        List<AuditDTO> allAudits = new ArrayList<AuditDTO>();
+        List<SearchProductDTO> allAudits = new ArrayList<>();
         if (!inputs.isEmpty()) {
             allAudits.addAll(inputs);
         }
@@ -145,13 +145,13 @@ public class ProductTracePdfView extends AbstractPdfView {
         Font fontHeader = new Font(Font.TIMES_ROMAN, 11f, Font.NORMAL, Color.BLACK);
         Font fontDetails = new Font(Font.TIMES_ROMAN, 8f, Font.NORMAL, Color.BLACK);
 
-        for (AuditDTO auditDTO : allAudits) {
+        for (SearchProductDTO searchProductDTO : allAudits) {
 
-            PdfPCell auditIdDetail = new PdfPCell(new Paragraph(auditDTO.getId().toString(), fontDetails));
-            PdfPCell auditRoleDetail = new PdfPCell(new Paragraph(auditDTO.getRole(), fontDetails));
-            PdfPCell auditOperationIdDetail = (new PdfPCell(new Paragraph(auditDTO.getOperationId().toString(), fontDetails)));
-            PdfPCell auditDateDetail = (new PdfPCell(new Paragraph(auditDTO.getDate(), fontDetails)));
-            PdfPCell auditUserDetail = (new PdfPCell(new Paragraph(auditDTO.getUsername(), fontDetails)));
+            PdfPCell auditIdDetail = new PdfPCell(new Paragraph(searchProductDTO.getId().toString(), fontDetails));
+            PdfPCell auditRoleDetail = new PdfPCell(new Paragraph(searchProductDTO.getRole(), fontDetails));
+            PdfPCell auditOperationIdDetail = (new PdfPCell(new Paragraph(searchProductDTO.getOperationId().toString(), fontDetails)));
+            PdfPCell auditDateDetail = (new PdfPCell(new Paragraph(searchProductDTO.getDate(), fontDetails)));
+            PdfPCell auditUserDetail = (new PdfPCell(new Paragraph(searchProductDTO.getUsername(), fontDetails)));
 
             auditIdDetail.setBorder(Rectangle.NO_BORDER);
             auditRoleDetail.setBorder(Rectangle.NO_BORDER);

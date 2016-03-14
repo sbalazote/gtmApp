@@ -1,6 +1,5 @@
 package com.lsntsolutions.gtmApp.controllers.search;
 
-import com.lsntsolutions.gtmApp.dto.AuditResultDTO;
 import com.lsntsolutions.gtmApp.dto.SearchProductResultDTO;
 import com.lsntsolutions.gtmApp.model.Audit;
 import com.lsntsolutions.gtmApp.query.AuditQuery;
@@ -36,13 +35,13 @@ public class AuditSearchController {
 	@RequestMapping(value = "/getSerializedProductAudit", method = RequestMethod.GET)
 	public @ResponseBody
     SearchProductResultDTO getSerializedProductAudit(@RequestParam Integer productId, String serialNumber) throws Exception {
-		return this.auditService.getAudit(productId, serialNumber);
+		return this.auditService.getAudit(productId, serialNumber, null, null);
 	}
 
-	@RequestMapping(value = "/getBatchExpirateDateProduct", method = RequestMethod.GET)
+	@RequestMapping(value = "/getBatchExpirationDateProduct", method = RequestMethod.GET)
 	public @ResponseBody
-	AuditResultDTO getBatchExpirateDateProduct(@RequestParam Integer productId, String batch, String expirateDate) throws Exception {
-		return this.auditService.getAudit(productId, batch, expirateDate);
+	SearchProductResultDTO getBatchExpirationDateProduct(@RequestParam Integer productId, String batch, String expirationDate) throws Exception {
+		return this.auditService.getAudit(productId, null, batch, expirationDate.isEmpty() ? null : expirationDate);
 	}
 
 	@RequestMapping(value = "/audits", method = RequestMethod.POST)
@@ -71,18 +70,18 @@ public class AuditSearchController {
 	}
 
 	@RequestMapping(value = "/batchExpirationDateProducts", method = RequestMethod.POST)
-	public ModelAndView batchExpirationDateProducts(@RequestParam Integer productId, String batch, String expirateDate) throws Exception {
+	public ModelAndView batchExpirationDateProducts(@RequestParam Integer productId, String batch, String expirationDate) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		AuditResultDTO auditResultDTO = this.auditService.getAudit(productId, batch, expirateDate);
-		map.put("auditResultDTO", auditResultDTO);
+		SearchProductResultDTO searchProductResultDTO = this.auditService.getAudit(productId, null, batch, expirationDate.isEmpty() ? null : expirationDate);
+		map.put("searchProductResultDTO", searchProductResultDTO);
 		return new ModelAndView("productTrace", map);
 	}
 
 	@RequestMapping(value = "/serializedProducts", method = RequestMethod.POST)
 	public ModelAndView serializedProducts(@RequestParam Integer productId, String serialNumber) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		SearchProductResultDTO auditResultDTO = this.auditService.getAudit(productId, serialNumber);
-		map.put("auditResultDTO", auditResultDTO);
+		SearchProductResultDTO searchProductResultDTO = this.auditService.getAudit(productId, serialNumber, null, null);
+		map.put("searchProductResultDTO", searchProductResultDTO);
 		return new ModelAndView("productTrace", map);
 	}
 }

@@ -1,4 +1,3 @@
-
 SearchSerializedProduct = function() {
 	var productId;
     var productCode;
@@ -45,8 +44,11 @@ SearchSerializedProduct = function() {
 							id:	item.id,
 							label: item.code + " - " + item.description + " - " + item.brand.description + " - " + item.monodrug.description+ " - " + cold,
 							value: item.code + " - " + item.description,
-							gtin: item.gtin,
-							type: item.type
+							gtin: item.lastGtin,
+							type: item.type,
+                            productCode: item.code,
+                            productDescription: item.description,
+                            gtinFound: item.gtinFound
 						};
 					});
 					response(array);
@@ -58,6 +60,9 @@ SearchSerializedProduct = function() {
 		},
 		select: function(event, ui) {
 				productId = ui.item.id;
+                productCode = ui.item.productCode;
+                productDescription = ui.item.productDescription;
+                gtinFound = ui.item.gtin;
 	    },
 		minLength: 3,
 		autoFocus: true
@@ -113,7 +118,6 @@ SearchSerializedProduct = function() {
     });
 
 	//Consulta de Ingresos
-	
 	$('#movementsTableBody').on("click", ".view-row-input", function() {
 		var parent = $(this).parent().parent();
 		inputId = parent.find("td:first-child").html();
@@ -122,7 +126,6 @@ SearchSerializedProduct = function() {
 	});
 	
 	//Consulta de Egresos
-	
 	$('#movementsTableBody').on("click", ".view-row-output", function() {
 		var parent = $(this).parent().parent();
 		outputId = parent.find("td:first-child").html();
@@ -131,7 +134,6 @@ SearchSerializedProduct = function() {
 	});
 	
 	//Consulta de Armado
-	
 	$('#movementsTableBody').on("click", ".view-row-order", function() {
 		var parent = $(this).parent().parent();
 		orderId = parent.find("td:first-child").html();

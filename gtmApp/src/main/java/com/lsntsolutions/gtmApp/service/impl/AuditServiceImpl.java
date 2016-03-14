@@ -1,7 +1,6 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
-import com.lsntsolutions.gtmApp.dto.AuditResultDTO;
 import com.lsntsolutions.gtmApp.dto.OutputOrderResultDTO;
 import com.lsntsolutions.gtmApp.dto.SearchProductDTO;
 import com.lsntsolutions.gtmApp.dto.SearchProductResultDTO;
@@ -87,19 +86,14 @@ public class AuditServiceImpl implements AuditService {
 	}
 
 	@Override
-	public SearchProductResultDTO getAudit(Integer productId, String serialNumber) {
-		return this.auditDAO.getAudit(productId, serialNumber);
-	}
-
-	@Override
-	public AuditResultDTO getAudit(Integer productId, String batch, String expirateDate) {
-		return this.auditDAO.getAudit(productId, batch, expirateDate);
+	public SearchProductResultDTO getAudit(Integer productId, String serialNumber, String batch, String expirationDate) {
+		return this.auditDAO.getAudit(productId, serialNumber, batch, expirationDate);
 	}
 
 	@Override
 	public OutputOrderResultDTO getOutputOrOrder(Integer productId, String serialNumber) throws ParseException {
 		OutputOrderResultDTO outputOrderResultDTO = new OutputOrderResultDTO();
-		SearchProductResultDTO auditResultDTO = this.getAudit(productId, serialNumber);
+		SearchProductResultDTO auditResultDTO = this.getAudit(productId, serialNumber, null, null);
 		List<SearchProductDTO> orders = auditResultDTO.getOrders();
 		List<SearchProductDTO> inputs = auditResultDTO.getInputs();
 		List<SearchProductDTO> outputs = auditResultDTO.getOutputs();

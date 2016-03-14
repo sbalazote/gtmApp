@@ -1,7 +1,7 @@
 package com.lsntsolutions.gtmApp.helper.impl.excel;
 
-import com.lsntsolutions.gtmApp.dto.AuditDTO;
-import com.lsntsolutions.gtmApp.dto.AuditResultDTO;
+import com.lsntsolutions.gtmApp.dto.SearchProductDTO;
+import com.lsntsolutions.gtmApp.dto.SearchProductResultDTO;
 import com.lsntsolutions.gtmApp.helper.AbstractExcelView;
 import org.apache.poi.ss.usermodel.*;
 
@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class ProductTraceExcelView extends AbstractExcelView {
 
-    private void auditSheet(Workbook workbook, String sheetName, List<AuditDTO> auditDTOList) {
+    private void auditSheet(Workbook workbook, String sheetName, List<SearchProductDTO> searchProductDTOList) {
         Sheet sheet = workbook.createSheet(sheetName);
 
         Row row = null;
@@ -50,14 +50,14 @@ public class ProductTraceExcelView extends AbstractExcelView {
         cell.setCellValue("USUARIO");
 
         // Create data cell
-        for (AuditDTO auditDTO : auditDTOList) {
+        for (SearchProductDTO searchProductDTO : searchProductDTOList) {
             row = sheet.createRow(r++);
             c = 0;
-            row.createCell(c++).setCellValue(auditDTO.getId());
-            row.createCell(c++).setCellValue(auditDTO.getRole());
-            row.createCell(c++).setCellValue(auditDTO.getOperationId());
-            row.createCell(c++).setCellValue(auditDTO.getDate());
-            row.createCell(c++).setCellValue(auditDTO.getUsername());
+            row.createCell(c++).setCellValue(searchProductDTO.getId());
+            row.createCell(c++).setCellValue(searchProductDTO.getRole());
+            row.createCell(c++).setCellValue(searchProductDTO.getOperationId());
+            row.createCell(c++).setCellValue(searchProductDTO.getDate());
+            row.createCell(c++).setCellValue(searchProductDTO.getUsername());
 
         }
         for (int i = 0; i < 4; i++) {
@@ -68,13 +68,13 @@ public class ProductTraceExcelView extends AbstractExcelView {
     @Override
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
         @SuppressWarnings("unchecked")
-        AuditResultDTO auditResultDTO = (AuditResultDTO) model.get("auditResultDTO");
+        SearchProductResultDTO searchProductResultDTO = (SearchProductResultDTO) model.get("searchProductResultDTO");
 
-        List<AuditDTO> inputs = auditResultDTO.getInputs();
-        List<AuditDTO> outputs = auditResultDTO.getOutputs();
-        List<AuditDTO> orders = auditResultDTO.getOrders();
-        List<AuditDTO> deliveryNotes = auditResultDTO.getDeliveryNotes();
-        List<AuditDTO> supplyings = auditResultDTO.getSupplyings();
+        List<SearchProductDTO> inputs = searchProductResultDTO.getInputs();
+        List<SearchProductDTO> outputs = searchProductResultDTO.getOutputs();
+        List<SearchProductDTO> orders = searchProductResultDTO.getOrders();
+        List<SearchProductDTO> deliveryNotes = searchProductResultDTO.getDeliveryNotes();
+        List<SearchProductDTO> supplyings = searchProductResultDTO.getSupplyings();
 
         if (!inputs.isEmpty()) {
             auditSheet(workbook, "INGRESOS", inputs);

@@ -1,4 +1,3 @@
-
 SearchBatchExpirateDateProduct = function() {
 	var productId;
 	var orderId;
@@ -27,7 +26,7 @@ SearchBatchExpirateDateProduct = function() {
 							id:	item.id,
 							label: item.code + " - " + item.description + " - " + item.brand.description + " - " + item.monodrug.description + " - " + cold,
 							value: item.code + " - " + item.description,
-							gtin: item.gtin,
+							gtin: item.lastGtin,
 							type: item.type
 						};
 					});
@@ -77,14 +76,14 @@ SearchBatchExpirateDateProduct = function() {
         myHideAlert();
 		if(validateForm()){
 			$.ajax({
-				url: "getBatchExpirateDateProduct.do",
+				url: "getBatchExpirationDateProduct.do",
 				type: "GET",
 				contentType:"application/json",
 				async: false,
 				data: {
 					productId: productId,
 					batch: $("#batchSearch").val(),
-					expirateDate: $("#dateSearch").val()
+					expirationDate: $("#dateSearch").val()
 				},
 				success: function(response) {
                     $('#divMovements').show();
@@ -99,12 +98,14 @@ SearchBatchExpirateDateProduct = function() {
                                 var audit = {
                                     id: 0,
                                     action: "",
+                                    cancelled: "",
                                     user: "",
                                     date: "",
                                     view: ""
                                 };
                                 audit.id = response.inputs[i].operationId;
                                 audit.action = response.inputs[i].role;
+                                audit.cancelled = response.inputs[i].cancelled ? "Si" : "No";
                                 audit.user = response.inputs[i].username;
                                 audit.date = response.inputs[i].date;
                                 audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-input\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
@@ -117,12 +118,14 @@ SearchBatchExpirateDateProduct = function() {
                                 var audit = {
                                     id: 0,
                                     action: "",
+                                    cancelled: "",
                                     user: "",
                                     date: "",
                                     view: ""
                                 };
                                 audit.id = response.outputs[i].operationId;
                                 audit.action = response.outputs[i].role;
+                                audit.cancelled = response.outputs[i].cancelled ? "Si" : "No";
                                 audit.user = response.outputs[i].username;
                                 audit.date = response.outputs[i].date;
                                 audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-output\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
@@ -135,12 +138,14 @@ SearchBatchExpirateDateProduct = function() {
                                 var audit = {
                                     id: 0,
                                     action: "",
+                                    cancelled: "",
                                     user: "",
                                     date: "",
                                     view: ""
                                 };
                                 audit.id = response.orders[i].operationId;
                                 audit.action = response.orders[i].role;
+                                audit.cancelled = response.orders[i].cancelled ? "Si" : "No";
                                 audit.user = response.orders[i].username;
                                 audit.date = response.orders[i].date;
                                 audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-order\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
@@ -153,12 +158,14 @@ SearchBatchExpirateDateProduct = function() {
                                 var audit = {
                                     id: 0,
                                     action: "",
+                                    cancelled: "",
                                     user: "",
                                     date: "",
                                     view: ""
                                 };
                                 audit.id = response.deliveryNotes[i].operationId;
                                 audit.action = response.deliveryNotes[i].role;
+                                audit.cancelled = response.deliveryNotes[i].cancelled ? "Si" : "No";
                                 audit.user = response.deliveryNotes[i].username;
                                 audit.date = response.deliveryNotes[i].date;
                                 audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-deliveryNote\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
@@ -171,12 +178,14 @@ SearchBatchExpirateDateProduct = function() {
                                 var audit = {
                                     id: 0,
                                     action: "",
+                                    cancelled: "",
                                     user: "",
                                     date: "",
                                     view: ""
                                 };
                                 audit.id = response.supplyings[i].operationId;
                                 audit.action = response.supplyings[i].role;
+                                audit.cancelled = response.supplyings[i].cancelled ? "Si" : "No";
                                 audit.user = response.supplyings[i].username;
                                 audit.date = response.supplyings[i].date;
                                 audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-supplying\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
@@ -201,7 +210,7 @@ SearchBatchExpirateDateProduct = function() {
 
                         var params = '&productId=' + productId +
                             '&batch=' + $("#batchSearch").val() +
-                            '&expirateDate=' + $("#dateSearch").val();
+                            '&expirationDate=' + $("#dateSearch").val();
 
                         var exportHTML = exportQueryTableHTML("./rest/batchExpirationDateProducts", params);
                         var searchHTML = $("#divMovements .search");
@@ -225,7 +234,6 @@ SearchBatchExpirateDateProduct = function() {
 	});
 
     //Consulta de Ingresos
-
     $('#movementsTableBody').on("click", ".view-row-input", function() {
         var parent = $(this).parent().parent();
         inputId = parent.find("td:first-child").html();
@@ -234,7 +242,6 @@ SearchBatchExpirateDateProduct = function() {
     });
 
     //Consulta de Egresos
-
     $('#movementsTableBody').on("click", ".view-row-output", function() {
         var parent = $(this).parent().parent();
         outputId = parent.find("td:first-child").html();
@@ -243,7 +250,6 @@ SearchBatchExpirateDateProduct = function() {
     });
 
     //Consulta de Armado
-
     $('#movementsTableBody').on("click", ".view-row-order", function() {
         var parent = $(this).parent().parent();
         orderId = parent.find("td:first-child").html();
