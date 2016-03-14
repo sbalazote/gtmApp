@@ -359,7 +359,7 @@ ProviderSerialized = function() {
 	};
 	
 	$('#outOfStockProviderSerializedModal').on('shown.bs.modal', function () {
-	    $('#readSerialNumberInput').focus();
+	    $('#outOfStockReadSerialNumberInput').focus();
 	});
 	
 	$('#outOfStockProviderSerializedModal').on('hidden.bs.modal', function () {
