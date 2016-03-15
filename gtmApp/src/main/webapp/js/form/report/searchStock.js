@@ -102,14 +102,18 @@ SearchStock = function() {
 		autoFocus: true
 	});
 
+	$('#productInput').tooltip();
+
 	$('#productInput').keydown(function(e) {
 		if(e.keyCode == 13){ // Presiono Enter
 			if (!autocomplete) {
+				var serialNumber = $(this).val();
 				$.ajax({
 					url: "getProductFromStockBySerialOrGtin.do",
 					type: "GET",
+					async: false,
 					data: {
-						serial: $(this).val(),
+						serial: serialNumber,
 						agreementId: $("#agreementSearch").val() || null
 					},
 					success: function(response) {
@@ -119,13 +123,30 @@ SearchStock = function() {
 							productDescription = response.code + ' - ' + response.description;
 							productType = response.type;
 
-							$('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
-
 							$("#productInput").val(productDescription);
+
+							$('#productInput').tooltip("hide").attr("data-original-title", "").removeClass("has-error");
 
 							$("#searchButton").trigger("click");
 						} else {
-							$('#productInput').tooltip("destroy").data("title", "Producto Inexistente").addClass("has-error").tooltip();
+							var productRead = "";
+							$.ajax({
+								url: "getProductBySerialOrGtin.do",
+								type: "GET",
+								async: false,
+								data: {
+									serial: serialNumber,
+									agreementId: $("#agreementSearch").val() || null
+								},
+								success: function(response) {
+									if (response != "") {
+										productRead = response.code + " - " + response.description;
+									} else {
+										productRead = "Producto inactivo o inexistente."
+									}
+								}
+							});
+							$('#productInput').attr('data-original-title', "No hay en Stock " + productRead).addClass("has-error").tooltip("show");
 							$('#productInput').val('');
 							$('#productInput').focus();
 						}
@@ -136,7 +157,7 @@ SearchStock = function() {
 					}
 				});
 			} else {
-				$('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
+				$('#productInput').tooltip("hide").attr("data-original-title", "").removeClass("has-error");
 			}
 			autocomplete = false;
 		}
