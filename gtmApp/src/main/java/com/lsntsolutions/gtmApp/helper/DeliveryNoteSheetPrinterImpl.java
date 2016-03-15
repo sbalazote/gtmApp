@@ -409,10 +409,10 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter{
                         this.deliveryNoteService.save(dn);
                         this.deliveryNoteService.sendTrasactionAsync(dn);
                     } catch (Exception e) {
-                        logger.error("No se ha podido guardar el remito: " + currentDeliveryNoteNumber + " para " + egress.getName() + " con Id: " + egress.getId());
+                        logger.error("No se ha podido guardar el remito: " + deliveryNoteComplete + " para " + egress.getName() + " con Id: " + egress.getId());
                     }
 
-                    logger.info("Se ha guardado el remito numero: " + currentDeliveryNoteNumber + " para " + egress.getName() + " con Id: " + egress.getId());
+                    logger.info("Se ha guardado el remito numero: " + deliveryNoteComplete + " para " + egress.getName() + " con Id: " + egress.getId());
                     this.auditService.addAudit(userName, RoleOperation.PENDING_TRANSACTIONS.getId(), dn.getId());
 
                     currentDeliveryNoteNumber++;

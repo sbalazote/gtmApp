@@ -1,18 +1,17 @@
 package com.lsntsolutions.gtmApp.helper.impl.printer;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.lsntsolutions.gtmApp.model.*;
 import com.lsntsolutions.gtmApp.service.ConceptService;
 import com.lsntsolutions.gtmApp.service.DeliveryNoteService;
 import com.lsntsolutions.gtmApp.service.PropertyService;
+import com.lsntsolutions.gtmApp.util.StringUtility;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lsntsolutions.gtmApp.util.StringUtility;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class FakeDeliveryNoteSheetPrinter {
@@ -64,9 +63,9 @@ public class FakeDeliveryNoteSheetPrinter {
 			deliveryNote.setFake(true);
 			this.deliveryNoteService.save(deliveryNote);
 			this.deliveryNoteService.sendTrasactionAsync(deliveryNote);
-			logger.info("Se ha impreso el remito numero: " + deliveryNoteNumber);
+			logger.info("Se ha impreso el remito numero: " + deliveryNoteComplete);
 		} catch (Exception e1) {
-			logger.info("No se ha podido imprimir el remito numero: " + deliveryNoteNumber);
+			logger.info("No se ha podido imprimir el remito numero: " + deliveryNoteComplete);
 		}
 
 		return deliveryNote.getId();

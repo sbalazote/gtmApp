@@ -386,8 +386,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 
 	@Override
 	public void save(DeliveryNote deliveryNote) {
-		//this.sessionFactory.getCurrentSession().saveOrUpdate(deliveryNote);
-		this.sessionFactory.getCurrentSession().merge(deliveryNote);
+		this.sessionFactory.getCurrentSession().saveOrUpdate(deliveryNote);
 	}
 
 	@SuppressWarnings("unchecked")
