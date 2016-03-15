@@ -1,14 +1,12 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
 import com.lsntsolutions.gtmApp.constant.Constants;
-import com.lsntsolutions.gtmApp.dto.ProviderSerializedFormatMatchedDTO;
 import com.lsntsolutions.gtmApp.dto.ProviderSerializedProductDTO;
 import com.lsntsolutions.gtmApp.dto.ProviderSerializedSerialFormatDTO;
 import com.lsntsolutions.gtmApp.dto.StockDTO;
 import com.lsntsolutions.gtmApp.helper.SerialParser;
 import com.lsntsolutions.gtmApp.helper.StockDTOTotalAmountComparator;
 import com.lsntsolutions.gtmApp.model.Product;
-import com.lsntsolutions.gtmApp.model.ProviderSerializedFormat;
 import com.lsntsolutions.gtmApp.model.Stock;
 import com.lsntsolutions.gtmApp.persistence.dao.StockDAO;
 import com.lsntsolutions.gtmApp.query.StockQuery;
@@ -161,7 +159,6 @@ public class StockDAOHibernateImpl implements StockDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Stock> getStockForSearch(StockQuery stockQuery) {
-
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Stock.class, "stock");
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		Date dateFromFormated;
@@ -282,6 +279,7 @@ public class StockDAOHibernateImpl implements StockDAO {
 	public List<StockDTO> getForAutocomplete(String searchPhrase, String sortCode, String sortProduct, String sortAgreement, String sortGtin, String sortAmount, String agreementId, String batchNumber, String expirateDateFrom, String expirateDateTo, String monodrugId, String productId, String serialNumber) {
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Stock.class, "stock");
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sqlDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date dateFromFormated;
 		Date dateToFormated;
 		criteria.createAlias("stock.product", "product");
@@ -293,7 +291,7 @@ public class StockDAOHibernateImpl implements StockDAO {
 		if (!StringUtils.isEmpty(expirateDateFrom)) {
 			try {
 				dateFromFormated = dateFormatter.parse(expirateDateFrom);
-				criteria.add(Restrictions.ge("expirationDate", dateFromFormated));
+				criteria.add(Restrictions.sqlRestriction("expiration_date >= '" + sqlDateFormatter.format(dateFromFormated) + "'"));
 			} catch (ParseException e) {
 				throw new RuntimeException("El formato de la fecha ingresada no es valido.", e);
 			}
@@ -301,7 +299,7 @@ public class StockDAOHibernateImpl implements StockDAO {
 		if (!StringUtils.isEmpty(expirateDateTo)) {
 			try {
 				dateToFormated = dateFormatter.parse(expirateDateTo);
-				criteria.add(Restrictions.le("expirationDate", dateToFormated));
+				criteria.add(Restrictions.sqlRestriction("expiration_date <= '" + sqlDateFormatter.format(dateToFormated) + "'"));
 			} catch (ParseException e) {
 				throw new RuntimeException("El formato de la fecha ingresada no es valido.", e);
 			}

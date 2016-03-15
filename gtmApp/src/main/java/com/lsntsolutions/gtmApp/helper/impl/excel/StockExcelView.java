@@ -1,20 +1,14 @@
 package com.lsntsolutions.gtmApp.helper.impl.excel;
 
-import java.util.List;
-import java.util.Map;
+import com.lsntsolutions.gtmApp.helper.AbstractExcelView;
+import com.lsntsolutions.gtmApp.model.Stock;
+import org.apache.poi.ss.usermodel.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.lsntsolutions.gtmApp.helper.AbstractExcelView;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-
-import com.lsntsolutions.gtmApp.model.Stock;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Map;
 
 public class StockExcelView extends AbstractExcelView {
 
@@ -25,6 +19,8 @@ public class StockExcelView extends AbstractExcelView {
 
 		@SuppressWarnings("unchecked")
 		List<Stock> stockList = (List<Stock>) model.get("stocks");
+
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 
 		Row row = null;
 		Cell cell = null;
@@ -82,7 +78,7 @@ public class StockExcelView extends AbstractExcelView {
 			row.createCell(c++).setCellValue(stock.getAgreement().getDescription());
 			row.createCell(c++).setCellValue(stock.getSerialNumber());
 			row.createCell(c++).setCellValue(stock.getBatch());
-			row.createCell(c++).setCellValue(stock.getExpirationDate());
+			row.createCell(c++).setCellValue(dateFormatter.format(stock.getExpirationDate()));
 			row.createCell(c++).setCellValue(stock.getAmount());
 
 		}

@@ -50,8 +50,14 @@ public class StockSearchController {
 	}
 
 	@RequestMapping(value = "/getStockFromProductAndAgreement", method = RequestMethod.POST)
-	public @ResponseBody List<Stock> getStockFromProductAndAgreement(@RequestParam Integer productId, @RequestParam Integer agreementId) throws Exception {
-		StockQuery stockQuery = StockQuery.createFromParameters(null, null, productId, agreementId, null, null, null, null);
+	public @ResponseBody List<Stock> getStockFromProductAndAgreement(@RequestParam String expirateDateFrom,
+																	 @RequestParam String expirateDateTo,
+																	 @RequestParam Integer productId,
+																	 @RequestParam Integer agreementId,
+																	 @RequestParam String serialNumber,
+																	 @RequestParam String batchNumber,
+																	 @RequestParam Integer monodrugId) throws Exception {
+		StockQuery stockQuery = StockQuery.createFromParameters(expirateDateFrom, expirateDateTo, productId, agreementId, serialNumber, batchNumber, monodrugId, null);
 		return this.stockService.getStockForSearch(stockQuery);
 	}
 

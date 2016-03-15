@@ -31,8 +31,13 @@ SearchStock = function() {
 			type: "POST",
 			async: false,
 			data: {
-				productId: productId,
-				agreementId: agreementId
+				"expirateDateFrom": $("#dateFromSearch").val() || null,
+				"expirateDateTo": $("#dateToSearch").val() || null,
+				"productId": productId,
+				"agreementId": agreementId,
+				"serialNumber": $("#serialNumberSearch").val() || null,
+				"batchNumber": $("#batchNumberSearch").val() || null,
+				"monodrugId": $("#monodrugSearch").val() || null
 			},
 			success: function (stock) {
 				for (var i = 0, l = stock.length; i < l; ++i) {
@@ -165,26 +170,35 @@ SearchStock = function() {
 	
 	var validateForm = function() {
 		var form = $("#searchStockForm");
+		var dateFromSearch = $("#dateFromSearch");
+		var dateToSearch = $("#dateToSearch");
+
 		form.validate({
 			rules: {
-				serialNumberSearch: {
-					digits: true
-				},
-				batchNumberSearch: {
-					digits: true
-				},
 				dateFromSearch: {
-					dateITA: true,
-					maxDate: $("#dateToSearch")
+					dateITA: true
 				},
 				dateToSearch: {
-					dateITA: true,
-					minDate: $("#dateFromSearch")
+					dateITA: true
 				}
 			},
 			showErrors: myShowErrors,
 			onsubmit: false
 		});
+
+		$('input[name=dateFromSearch]').rules("remove", "maxDate");
+		$('input[name=dateToSearch]').rules("remove", "minDate");
+
+		if (dateFromSearch.val() != "" && dateToSearch.val() != "") {
+			$('input[name=dateFromSearch]').rules("add", {
+				maxDate: dateToSearch
+			});
+
+			$('input[name=dateToSearch]').rules("add", {
+				minDate: dateFromSearch
+			});
+		}
+
 		return form.valid();
 	};
 	
@@ -195,6 +209,8 @@ SearchStock = function() {
 		if($("#dateToSearch").val()!= ""){
 			$.datepicker._clearDate('#dateToSearch');
 		}
+		$('input[name=dateFromSearch]').rules("remove", "maxDate");
+		$('input[name=dateToSearch]').rules("remove", "minDate");
 		$('#agreementSearch').val('').trigger('chosen:updated');
 		$('#monodrugSearch').val('').trigger('chosen:updated');
 		$('#productInput').val('');
@@ -239,16 +255,14 @@ SearchStock = function() {
 			ajax: true,
 			url: 'getStockForSearch.do',
 			formatters: {
-				"command": function(column, row)
-				{
+				"command": function(column, row) {
 					if (row.serialNumber == null) {
 						return "<button type=\"button\" class=\"btn btn-sm btn-default view-batchExpirationDateDetails-row\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
 					} else {
 						return "<button type=\"button\" class=\"btn btn-sm btn-default view-serializedDetails-row\"><span class=\"glyphicon glyphicon-eye-open\"></span></button>";
 					}
 				},
-				"agreement": function(column, row)
-				{
+				"agreement": function(column, row) {
 					return "<span class='span-agreementId' style='display:none'>" + row.agreementId + "</span>" + row.agreement;
 				}
 			}
