@@ -7,11 +7,11 @@ SaveProductDrugCategory = function() {
 				productDrugCategoryCode: {
 					required: true,
 					digits: true,
-					maxlength: 9,
+					maxlength: 9
 				},
 				productDrugCategoryDescription: {
 					required: true,
-					maxlength: 45,
+					maxlength: 45
 				},
 				productDrugCategoryActive: {
 					required: true
@@ -52,12 +52,12 @@ SaveProductDrugCategory = function() {
 					"id": $("#productDrugCategoryIdInput").val(),
 					"code": $("#productDrugCategoryCodeInput").val(),
 					"description": $("#productDrugCategoryDescriptionInput").val(),
-					"active": $("#productDrugCategoryActiveSelect option:selected").val(),
+					"active": $("#productDrugCategoryActiveSelect option:selected").val()
 			};
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.
-			if (existsProductDrugCategory() && (e.currentTarget.id === 'addButton')) {
-				myExistentCodeError();
+			if (existsProductDrugCategory() && (e.currentTarget.id === 'addProductDrugCategoryButton')) {
+				myShowAlert('danger', 'C\u00f3digo existente. Por favor, ingrese uno diferente.', 'productDrugCategoryModalAlertDiv');
 			} else {
 				$.ajax({
 					url: "saveProductDrugCategory.do",

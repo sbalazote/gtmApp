@@ -7,11 +7,11 @@ SaveProductMonodrug = function() {
 				productMonodrugCode: {
 					required: true,
 					digits: true,
-					maxlength: 9,
+					maxlength: 9
 				},
 				productMonodrugDescription: {
 					required: true,
-					maxlength: 45,
+					maxlength: 45
 				},
 				productMonodrugActive: {
 					required: true
@@ -52,12 +52,12 @@ SaveProductMonodrug = function() {
 					"id": $("#productMonodrugIdInput").val(),
 					"code": $("#productMonodrugCodeInput").val(),
 					"description": $("#productMonodrugDescriptionInput").val(),
-					"active": $("#productMonodrugActiveSelect option:selected").val(),
+					"active": $("#productMonodrugActiveSelect option:selected").val()
 			};
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.
-			if (existsProductMonodrug() && (e.currentTarget.id === 'addButton')) {
-				myExistentCodeError();
+			if (existsProductMonodrug() && (e.currentTarget.id === 'addProductMonodrugButton')) {
+				myShowAlert('danger', 'C\u00f3digo existente. Por favor, ingrese uno diferente.', 'productMonodrugModalAlertDiv');
 			} else {
 				$.ajax({
 					url: "saveProductMonodrug.do",

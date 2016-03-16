@@ -37,16 +37,6 @@
 			</tr>
 		</thead>
 		<tbody id="serializedFormatTableBody">
-			<%--<c:forEach items="${serializedFormats}" var="serializedFormat" varStatus="status">
-				<tr>
-					<td><c:out value="${serializedFormat.id}"></c:out> <span class='span-serializedFormatId' style='display: none'>${serializedFormat.id}</span></td>
-					<td><c:out value="${serializedFormat.gtinLength != null ? serializedFormat.gtinLength : ''}"></c:out></td>
-					<td><c:out value="${serializedFormat.serialNumberLength != null ? serializedFormat.serialNumberLength : ''}"></c:out></td>
-					<td><c:out value="${serializedFormat.expirationDateLength != null ? serializedFormat.expirationDateLength : ''}"></c:out></td>
-					<td><c:out value="${serializedFormat.batchLength != null ? serializedFormat.batchLength : ''}"></c:out></td>
-					<td><c:out value="${serializedFormat.sequence != null ? serializedFormat.sequence : ''}"></c:out></td>
-				</tr>
-			</c:forEach> --%>
 		</tbody>
 	</table>
 </div>

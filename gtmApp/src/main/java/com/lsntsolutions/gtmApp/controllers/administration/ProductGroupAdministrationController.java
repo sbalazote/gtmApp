@@ -60,7 +60,7 @@ public class ProductGroupAdministrationController {
 		return this.productGroupService.delete(productGroupId);
 	}
 
-	@RequestMapping(value = "/existsProductGroup", method = RequestMethod.POST)
+	@RequestMapping(value = "/existsProductGroup", method = RequestMethod.GET)
 	public @ResponseBody Boolean existsProductGroup(@RequestParam Integer code) throws Exception {
 		return this.productGroupService.exists(code);
 	}

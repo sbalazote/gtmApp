@@ -7,11 +7,11 @@ SaveProductGroup = function() {
 				productGroupCode: {
 					required: true,
 					digits: true,
-					maxlength: 9,
+					maxlength: 9
 				},
 				productGroupDescription: {
 					required: true,
-					maxlength: 45,
+					maxlength: 45
 				},
 				productGroupActive: {
 					required: true
@@ -52,12 +52,12 @@ SaveProductGroup = function() {
 					"id": $("#productGroupIdInput").val(),
 					"code": $("#productGroupCodeInput").val(),
 					"description": $("#productGroupDescriptionInput").val(),
-					"active": $("#productGroupActiveSelect option:selected").val(),
+					"active": $("#productGroupActiveSelect option:selected").val()
 			};
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.
-			if (existsProductGroup() && (e.currentTarget.id === 'addButton')) {
-				myExistentCodeError();
+			if (existsProductGroup() && (e.currentTarget.id === 'addProductGroupButton')) {
+				myShowAlert('danger', 'C\u00f3digo existente. Por favor, ingrese uno diferente.', 'productGroupModalAlertDiv');
 			} else {
 				$.ajax({
 					url: "saveProductGroup.do",

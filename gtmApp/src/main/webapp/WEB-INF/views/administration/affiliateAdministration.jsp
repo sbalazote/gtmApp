@@ -76,15 +76,15 @@
 <div class="modal fade" data-backdrop="static" id="affiliateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:80%">
 		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h2 class="modal-title" id="addAffiliateLabel" style="display: none;"><spring:message code="common.affiliate"/></h2>
+				<h2 class="modal-title" id="readAffiliateLabel" style="display: none;"><spring:message code="administration.readAffiliate"/></h2>
+				<h2 class="modal-title" id="updateAffiliateLabel" style="display: none;"><spring:message code="administration.updateAffiliate"/></h2>
+				<input type="hidden" class="form-control" id="idInput">
+			</div>
+			<div id="affiliateModalAlertDiv"></div>
 			<div class="modal-body">
-				<div class="row">
-					<div class="col-md-9 col-lg-9 form-group">
-						<h2 id="addAffiliateLabel" style="display: none;"><spring:message code="common.affiliate"/></h2>
-						<h2 id="readAffiliateLabel" style="display: none;"><spring:message code="administration.readAffiliate"/></h2>
-						<h2 id="updateAffiliateLabel" style="display: none;"><spring:message code="administration.updateAffiliate"/></h2>
-						<input type="hidden" class="form-control" id="idInput">
-					</div>
-				</div>
 				<form id="affiliateAdministrationForm" action="" onsubmit="return false;">
 				<div class="row">
 					<div class="col-md-4 col-lg-4 form-group">
@@ -125,10 +125,10 @@
 
 				<div class="row">
 					<div class="col-md-4 col-md-offset-1 col-lg-4 col-md-offset-1 form-group">
-						<label for="affiliateClients"><spring:message code="common.affiliateClients"/></label>
+						<label><spring:message code="common.affiliateClients"/></label>
 					</div>
 					<div class="col-md-4 col-md-offset-2 col-lg-4 col-lg-offset-2 form-group">
-						<label for="affiliateClientsSelected"><spring:message code="common.affiliateClientsSelected"/></label>
+						<label><spring:message code="common.affiliateClientsSelected"/></label>
 					</div>
 					<div class="col-md-12 col-lg-12 form-group">
 						<div class="ms-container">

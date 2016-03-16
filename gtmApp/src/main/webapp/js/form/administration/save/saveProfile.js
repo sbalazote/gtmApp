@@ -6,7 +6,7 @@ SaveProfile = function() {
             rules: {
                 description: {
                     required: true,
-                    maxlength: 45,
+                    maxlength: 45
                 }
             },
             showErrors: myShowErrors,
@@ -45,12 +45,12 @@ SaveProfile = function() {
             var jsonProfile = {
                 "id": $("#idInput").val(),
                 "description": $("#descriptionInput").val(),
-                "roles": $("#my-select").val() || [],
+                "roles": $("#my-select").val() || []
             };
 
             //	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.
             if (existsProfile() && (e.currentTarget.id === 'addButton')) {
-                myExistentCodeError();
+                myShowAlert('danger', 'Perfil existente. Por favor, ingrese uno diferente.', 'profileModalAlertDiv');
             } else {
                 $.ajax({
                     url: "saveProfile.do",

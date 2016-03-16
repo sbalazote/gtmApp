@@ -7,11 +7,11 @@ SaveProductBrand = function() {
 				productBrandCode: {
 					required: true,
 					digits: true,
-					maxlength: 9,
+					maxlength: 9
 				},
 				productBrandDescription: {
 					required: true,
-					maxlength: 45,
+					maxlength: 45
 				},
 				productBrandActive: {
 					required: true
@@ -52,12 +52,12 @@ SaveProductBrand = function() {
 					"id": $("#productBrandIdInput").val(),
 					"code": $("#productBrandCodeInput").val(),
 					"description": $("#productBrandDescriptionInput").val(),
-					"active": $("#productBrandActiveSelect option:selected").val(),
+					"active": $("#productBrandActiveSelect option:selected").val()
 			};
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.
-			if (existsProductBrand() && (e.currentTarget.id === 'addButton')) {
-				myExistentCodeError();
+			if (existsProductBrand() && (e.currentTarget.id === 'addProductBrandButton')) {
+				myShowAlert('danger', 'C\u00f3digo existente. Por favor, ingrese uno diferente.', 'productBrandModalAlertDiv');
 			} else {
 				$.ajax({
 					url: "saveProductBrand.do",

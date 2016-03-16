@@ -66,15 +66,15 @@
 <div class="modal fade" data-backdrop="static" id="clientModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:80%">
 		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h2 class="modal-title" id="addClientLabel" style="display: none;"><spring:message code="common.client"/></h2>
+				<h2 class="modal-title" id="readClientLabel" style="display: none;"><spring:message code="administration.readClient"/></h2>
+				<h2 class="modal-title" id="updateClientLabel" style="display: none;"><spring:message code="administration.updateClient"/></h2>
+				<input type="hidden" class="form-control" id="idInput">
+			</div>
+			<div id="clientModalAlertDiv"></div>
 			<div class="modal-body">
-				<div class="row">
-					<div class="col-md-9 col-lg-9 form-group">
-						<h2 id="addClientLabel" style="display: none;"><spring:message code="common.client"/></h2>
-						<h2 id="readClientLabel" style="display: none;"><spring:message code="administration.readClient"/></h2>
-						<h2 id="updateClientLabel" style="display: none;"><spring:message code="administration.updateClient"/></h2>
-						<input type="hidden" class="form-control" id="idInput">
-					</div>
-				</div>
 				<form id="clientAdministrationForm" action="" onsubmit="return false;">
 				<div class="row">
 					<div class="col-md-4 col-lg-4 form-group">
@@ -151,10 +151,10 @@
 
 				<div class="row">
 					<div class="col-md-4 col-md-offset-1 col-lg-4 col-md-offset-1 form-group">
-						<label for="deliveryLocations"><spring:message code="common.clientDeliveryLocation"/></label>
+						<label><spring:message code="common.clientDeliveryLocation"/></label>
 					</div>
 					<div class="col-md-4 col-md-offset-2 col-lg-4 col-lg-offset-2 form-group">
-						<label for="deliveryLocations"><spring:message code="common.clientDeliveryLocationSelected"/></label>
+						<label><spring:message code="common.clientDeliveryLocationSelected"/></label>
 					</div>
 					<div class="col-md-12 col-lg-12 form-group">
 						<div class="ms-container">

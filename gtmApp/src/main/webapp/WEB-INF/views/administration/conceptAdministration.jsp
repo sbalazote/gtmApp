@@ -2,6 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script type="text/javascript" src="js/form/administration/conceptAdministration.js" ></script>
+<script type="text/javascript" src="js/form/administration/save/saveConcept.js" ></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		new ConceptAdministration();
+	});
+</script>
 
 <div class="row">
 	<div class="col-md-9 col-lg-9 form-group">
@@ -59,16 +65,16 @@
 <div class="modal fade" data-backdrop="static" id="conceptModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:80%">
 		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h2 class="modal-title" id="addConceptLabel" style="display: none;"><spring:message code="common.concept"/></h2>
+				<h2 class="modal-title" id="readConceptLabel" style="display: none;"><spring:message code="administration.readConcept"/></h2>
+				<h2 class="modal-title" id="updateConceptLabel" style="display: none;"><spring:message code="administration.updateConcept"/></h2>
+				<h5 id="conceptAlreadyInUseLabel" style="display: none;color: blue; font-weight: bold"><spring:message code="administration.concept.alreadyInUse"/></h5>
+				<input type="hidden" class="form-control" id="idInput">
+			</div>
+			<div id="conceptModalAlertDiv"></div>
 			<div class="modal-body">
-				<div class="row">
-					<div class="col-md-9 col-lg-9 form-group">
-						<h2 id="addConceptLabel" style="display: none;"><spring:message code="common.concept"/></h2>
-						<h2 id="readConceptLabel" style="display: none;"><spring:message code="administration.readConcept"/></h2>
-						<h2 id="updateConceptLabel" style="display: none;"><spring:message code="administration.updateConcept"/></h2>
-						<h5 id="conceptAlreadyInUseLabel" style="display: none;color: blue; font-weight: bold"><spring:message code="administration.concept.alreadyInUse"/></h5>
-						<input type="hidden" class="form-control" id="idInput">
-					</div>
-				</div>
 				<form id="conceptAdministrationForm" action="" onsubmit="return false;">
 					<div class="row">
 						<div class="col-md-4 col-lg-4 form-group">
@@ -149,10 +155,10 @@
 
 					<div class="row">
 						<div class="col-md-3 col-md-offset-1 col-lg-3 col-lg-offset-1 form-group">
-							<label for="conceptEvent"><spring:message code="common.conceptEvent" /></label>
+							<label><spring:message code="common.conceptEvent" /></label>
 						</div>
 						<div class="col-md-3 col-md-offset-4 col-lg-3 col-lg-offset-4 form-group">
-							<label for="conceptEvent"><spring:message code="common.conceptEventSelected" /></label>
+							<label><spring:message code="common.conceptEventSelected" /></label>
 						</div>
 						<div class="col-md-12 col-lg-12 form-group">
 							<div class="ms-container">

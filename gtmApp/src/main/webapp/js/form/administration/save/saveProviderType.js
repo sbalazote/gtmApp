@@ -7,11 +7,11 @@ SaveProviderType = function() {
 				providerTypeCode: {
 					required: true,
 					digits: true,
-					maxlength: 9,
+					maxlength: 9
 				},
 				description: {
 					required: true,
-					maxlength: 45,
+					maxlength: 45
 				},
 				providerTypeActive: {
 					required: true
@@ -52,12 +52,12 @@ SaveProviderType = function() {
 					"id": $("#providerTypeIdInput").val(),
 					"code": $("#providerTypeCodeInput").val(),
 					"description": $("#descriptionInput").val(),
-					"active": $("#providerTypeActiveSelect option:selected").val(),
+					"active": $("#providerTypeActiveSelect option:selected").val()
 			};
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.
-			if (existsProviderType() && (e.currentTarget.id === 'addButton')) {
-				myExistentCodeError();
+			if (existsProviderType() && (e.currentTarget.id === 'addProviderTypeButton')) {
+				myShowAlert('danger', 'C\u00f3digo existente. Por favor, ingrese uno diferente.', 'providerTypeModalAlertDiv');
 			} else {
 				$.ajax({
 					url: "saveProviderType.do",

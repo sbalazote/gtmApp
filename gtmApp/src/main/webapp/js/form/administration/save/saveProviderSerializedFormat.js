@@ -98,7 +98,7 @@ SaveProviderSerializedFormat = function() {
 						"serialNumber": null,
 						"expirationDate": null,
 						"batch": null,
-						"sequence": null,
+						"sequence": null
 				};
 				var secuence = "";
 				for(var i = 0; i < listOfFields.length; i++) {
@@ -123,7 +123,7 @@ SaveProviderSerializedFormat = function() {
 				}
 				jsonProviderSerializedFormat.sequence = secuence;
 				if(existsProviderSerializedFormat(jsonProviderSerializedFormat)){
-					myShowAlert('danger', 'La parametrizacion ya existe.');
+					myShowAlert('danger', 'Parametrizaci\u00f3n existente. Por favor, ingrese una diferente.');
 				}else{
 					$.ajax({
 						url: "saveProviderSerializedFormat.do",

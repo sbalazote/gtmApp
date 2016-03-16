@@ -7,12 +7,12 @@ SaveDeliveryNoteEnumerator = function() {
                 deliveryNotePOS: {
                     required: true,
                     digits: true,
-                    maxlength: 9,
+                    maxlength: 9
                 },
                 lastDeliveryNoteNumber: {
                     required: true,
                     digits: true,
-                    maxlength: 9,
+                    maxlength: 9
                 },
                 active: {
                     required: true
@@ -84,7 +84,7 @@ SaveDeliveryNoteEnumerator = function() {
 
             //	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.
             if (existsDeliveryNoteEnumerator() && (e.currentTarget.id === 'addButton')) {
-                myExistentCodeError();
+                myShowAlert('danger', 'Punto de Venta (PV) existente. Por favor, ingrese uno diferente.', 'deliveryNoteEnumeratorModalAlertDiv');
             } else {
                 if(!checkNewDeliveryNoteNumber()){
                     $.ajax({

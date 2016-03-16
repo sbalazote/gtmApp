@@ -60,15 +60,15 @@
 <div class="modal fade" data-backdrop="static" id="userModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:70%">
 		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h2 class="modal-title" id="addUserLabel" style="display: none;"><spring:message code="common.user"/></h2>
+				<h2 class="modal-title" id="readUserLabel" style="display: none;"><spring:message code="administration.readUser"/></h2>
+				<h2 class="modal-title" id="updateUserLabel" style="display: none;"><spring:message code="administration.updateUser"/></h2>
+				<input type="hidden" class="form-control" id="idInput">
+			</div>
+			<div id="userModalAlertDiv"></div>
 			<div class="modal-body">
-				<div class="row">
-					<div class="col-md-9 col-lg-9 form-group">
-						<h2 id="addUserLabel" style="display: none;"><spring:message code="common.user"/></h2>
-						<h2 id="readUserLabel" style="display: none;"><spring:message code="administration.readUser"/></h2>
-						<h2 id="updateUserLabel" style="display: none;"><spring:message code="administration.updateUser"/></h2>
-						<input type="hidden" class="form-control" id="idInput">
-					</div>
-				</div>
 				<form id="userAdministrationForm" action="" onsubmit="return false;">
 					<div class="row">
 						<div class="col-md-6 col-lg-6 form-group">

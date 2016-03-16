@@ -1,9 +1,12 @@
-$(document).ready(function() {
+
+ConceptAdministration = function() {
 	
 	var conceptId;
 	var events = [];
     var conceptInUse;
-	var isEdit;
+
+	var saveConcept = new SaveConcept();
+
 	var resetForm = function() {
 		$("#idInput").val('');
 		$("#codeInput").val('');
@@ -19,6 +22,7 @@ $(document).ready(function() {
 		$("#destructionSelect").val($("#destructionSelect option:first").val());
 		$('#my-select').multiSelect('deselect_all');
         events = [];
+		saveConcept.setEvents(events);
 	};
 	
 	var deleteConcept = function(conceptId) {
@@ -72,12 +76,14 @@ $(document).ready(function() {
 				$("#destructionSelect").val(isDestruction).trigger('chosen:update');
 
 				getEvents();
-				getDeliveryNoteEnumeratos();
+				getDeliveryNoteEnumerators();
 				if(response.deliveryNoteEnumerator != null){
 					$("#deliveryNoteEnumeratorSelect").val(response.deliveryNoteEnumerator.id).trigger('chosen:update');
 				}
 				$.each(response.events, function (idx, value) {
 					$('#my-select').multiSelect('select', value.id.toString());
+					events.push(value.id.toString());
+					saveConcept.setEvents(events);
 				});
 
 			},
@@ -126,7 +132,7 @@ $(document).ready(function() {
 		});
 	};
 	
-	var getDeliveryNoteEnumeratos = function() {
+	var getDeliveryNoteEnumerators = function() {
 		var fake;
 		if($("#printDeliveryNoteSelect").val() == "true"){
 			fake = false;
@@ -156,18 +162,20 @@ $(document).ready(function() {
 		});
 	};
 
-    $('#my-select').multiSelect({
+    /*$('#my-select').multiSelect({
         afterSelect: function(value, text){
             if(value != null) {
                 events.push(value[0]);
+				saveConcept.setEvents(events);
             }
         },
         afterDeselect: function(value, text){
             if(value != null){
                 events.splice(events.indexOf(value[0]),1);
+				saveConcept.setEvents(events);
             }
         }
-    });
+    });*/
 
     $('#inputSelect').on('change', function(evt, params) {
         $('#my-select').multiSelect('deselect_all');
@@ -179,7 +187,7 @@ $(document).ready(function() {
     });
     
     $('#printDeliveryNoteSelect').on('change', function(evt, params) {
-    	getDeliveryNoteEnumeratos();
+    	getDeliveryNoteEnumerators();
     });
     
 	var toggleElements = function(hidden) {
@@ -208,7 +216,7 @@ $(document).ready(function() {
 		$('#readConceptLabel').hide();
 		$('#updateConceptLabel').hide();
 		getEvents();
-    	getDeliveryNoteEnumeratos();
+    	getDeliveryNoteEnumerators();
 		$('#conceptModal').modal('show');
 	});
 	
@@ -230,7 +238,6 @@ $(document).ready(function() {
 	}).on("loaded.rs.jquery.bootgrid", function() {
 		/* Executes after data is loaded and rendered */
 		conceptsTable.find(".command-edit").on("click", function(e) {
-			isEdit = true;
 			resetForm();
 			toggleElements(false);
 			readConcept($(this).data("row-id"));
@@ -252,7 +259,6 @@ $(document).ready(function() {
 			conceptId = $(this).data("row-id");
 			$('#deleteConfirmationModal').modal('show');
 		}).end().find(".command-view").on("click", function(e) {
-			isEdit = false;
 			resetForm();
 			toggleElements(true);
 			readConcept($(this).data("row-id"));
@@ -293,133 +299,4 @@ $(document).ready(function() {
         $("#informAnmatSelect").prop('disabled', hidden).trigger('chosen:update');
 		$("#destructionSelect").prop('disabled', hidden).trigger('chosen:update');
     };
-
-    var validateForm = function() {
-        var form = $("#conceptAdministrationForm");
-        form.validate({
-            rules: {
-                code: {
-                    required: true,
-                    digits: true,
-                    maxlength: 9,
-                },
-                description: {
-                    required: true,
-                    maxlength: 45,
-                },
-                deliveryNoteEnumerator: {
-                    required: true,
-                },
-                input: {
-                    required: true
-                },
-                printDeliveryNote: {
-                    required: true
-                },
-                refund: {
-                    required: true
-                },
-                informAnmat: {
-                    required: true
-                },
-                deliveryNotesCopies: {
-                    required: true,
-                    digits: true,
-                    maxlength: 9
-                },
-                active: {
-                    required: true
-                },
-                events: {
-                    required: true
-                },
-                client:{
-                    required: true
-                }
-            },
-            showErrors: myShowErrors,
-            onsubmit: false
-        });
-        return form.valid();
-    };
-
-    var existsConcept = function() {
-        var exists = false;
-        $.ajax({
-            url: "existsConcept.do",
-            type: "GET",
-            async: false,
-            data: {
-                code: $("#codeInput").val()
-            },
-            success: function(response) {
-                exists = response;
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                myGenericError();
-            }
-        });
-        return exists;
-    };
-
-    $('#conceptModal').on('shown.bs.modal', function () {
-		if (isEdit) {
-			// si es un egreso se bloquea el '¿Es devol. cliente?'
-			var refundSelectDisabled = $("#inputSelect").val() === "false";
-			$("#refundSelect").prop('disabled', refundSelectDisabled).trigger('chosen:update');
-		}
-		$('.chosen-select', this).chosen('destroy').chosen();
-    });
-
-    $('#my-select').multiSelect();
-
-    $("#addButton, #updateButton").click(function(e) {
-        if (validateForm()) {
-            var jsonConcept = {
-                "id": $("#idInput").val(),
-                "code": $("#codeInput").val(),
-                "description": $("#descriptionInput").val(),
-                "deliveryNoteEnumeratorId": $("#deliveryNoteEnumeratorSelect").val(),
-                "input": $("#inputSelect").val(),
-                "printDeliveryNote": $("#printDeliveryNoteSelect").val(),
-                "refund": $("#refundSelect").val(),
-                "informAnmat": $("#informAnmatSelect").val(),
-                "deliveryNotesCopies": $("#deliveryNotesCopiesInput").val(),
-                "active": $("#activeSelect option:selected").val(),
-                "client": $("#clientSelect option:selected").val(),
-				"destruction": $("#destructionSelect option:selected").val(),
-                "events":  events || []
-            };
-
-            //	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.
-            if (existsConcept() && (e.currentTarget.id === 'addButton')) {
-                myExistentCodeError();
-            } else {
-                $.ajax({
-                    url: "saveConcept.do",
-                    type: "POST",
-                    contentType:"application/json",
-                    data: JSON.stringify(jsonConcept),
-                    async: true,
-                    success: function(response) {
-                        if (response.id === parseInt($("#idInput").val())) {
-                            myUpdateSuccessful();
-                        } else {
-                            myCreateSuccessful();
-                        }
-                        $('#conceptModal').modal('hide');
-                        $("#conceptsTable").bootgrid("reload");
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        myGenericError();
-                    }
-                });
-            }
-        }
-    });
-
-    $(".alert .close").on('click', function(e) {
-        $(this).parent().hide();
-    });
-    
-});
+};

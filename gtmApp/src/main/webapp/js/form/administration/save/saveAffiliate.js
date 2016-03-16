@@ -75,7 +75,7 @@ SaveAffiliate = function() {
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.
 			if (existsAffiliate() && (e.currentTarget.id === 'addButton')) {
-				myExistentCodeError();
+				myShowAlert('danger', 'C\u00f3digo existente. Por favor, ingrese uno diferente.', 'affiliateModalAlertDiv');
 			} else {
 				$.ajax({
 					url: "saveAffiliate.do",

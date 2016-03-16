@@ -69,15 +69,15 @@
 <div class="modal fade" data-backdrop="static" id="deliveryLocationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:80%">
 		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h2 class="modal-title" id="addDeliveryLocationLabel" style="display: none;"><spring:message code="common.deliveryLocation"/></h2>
+				<h2 class="modal-title" id="readDeliveryLocationLabel" style="display: none;"><spring:message code="administration.readDeliveryLocation"/></h2>
+				<h2 class="modal-title" id="updateDeliveryLocationLabel" style="display: none;"><spring:message code="administration.updateDeliveryLocation"/></h2>
+				<input type="hidden" class="form-control" id="idInput">
+			</div>
+			<div id="deliveryLocationModalAlertDiv"></div>
 			<div class="modal-body">
-				<div class="row">
-					<div class="col-md-9 col-lg-9 form-group">
-						<h2 id="addDeliveryLocationLabel" style="display: none;"><spring:message code="common.deliveryLocation"/></h2>
-						<h2 id="readDeliveryLocationLabel" style="display: none;"><spring:message code="administration.readDeliveryLocation"/></h2>
-						<h2 id="updateDeliveryLocationLabel" style="display: none;"><spring:message code="administration.updateDeliveryLocation"/></h2>
-						<input type="hidden" class="form-control" id="idInput">
-					</div>
-				</div>
 				<form id="deliveryLocationAdministrationForm" action="" onsubmit="return false;">
 					<div class="row">
 						<div class="col-md-4 col-lg-4 form-group">

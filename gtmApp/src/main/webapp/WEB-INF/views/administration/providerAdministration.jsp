@@ -30,32 +30,32 @@
 						<button class="btn btn-primary btn-block" id="addProvider"><span class="glyphicon glyphicon-plus"></span> <spring:message code="common.add.entity"/></button>
 					</div>
 				</div>
-				
+
 				<br>
 				<table id="providersTable" class="table table-condensed table-hover table-striped">
 					<thead>
-						<tr>
-							<th data-column-id="id" data-header-css-class="idColumn" data-type="numeric"><spring:message code="common.id"/></th>
-							<th data-column-id="code" data-header-css-class="codeColumn" data-type="numeric"><spring:message code="common.code"/></th>
-							<th data-column-id="name" data-header-css-class="nameColumn"><spring:message code="common.entity.name"/></th>
-							<th data-column-id="corporateName"><spring:message code="common.corporateName"/></th>
-							<th data-column-id="taxId" data-type="numeric"><spring:message code="common.taxId"/></th>
-							<%-- <th data-column-id="province"><spring:message code="common.province"/></th>
-							<th data-column-id="locality"><spring:message code="common.locality"/></th>
-							<th data-column-id="address"><spring:message code="common.address"/></th>
-							<th data-column-id="zipCode"><spring:message code="common.zipCode"/></th>
-							<th data-column-id="VATLiability"><spring:message code="common.VATLiability"/></th>
-							<th data-column-id="phone"><spring:message code="common.phone"/></th>
-							<th data-column-id="email"><spring:message code="common.email"/></th>
-							<th data-column-id="gln"><spring:message code="common.gln"/></th>
-							<th data-column-id="agent"><spring:message code="common.agent"/></th>
-							<th data-column-id="type"><spring:message code="common.type"/></th> --%>
-							<th data-column-id="isActive"><spring:message code="common.active"/></th>
-							<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
-						</tr>
+					<tr>
+						<th data-column-id="id" data-header-css-class="idColumn" data-type="numeric"><spring:message code="common.id"/></th>
+						<th data-column-id="code" data-header-css-class="codeColumn" data-type="numeric"><spring:message code="common.code"/></th>
+						<th data-column-id="name" data-header-css-class="nameColumn"><spring:message code="common.entity.name"/></th>
+						<th data-column-id="corporateName"><spring:message code="common.corporateName"/></th>
+						<th data-column-id="taxId" data-type="numeric"><spring:message code="common.taxId"/></th>
+						<%-- <th data-column-id="province"><spring:message code="common.province"/></th>
+                        <th data-column-id="locality"><spring:message code="common.locality"/></th>
+                        <th data-column-id="address"><spring:message code="common.address"/></th>
+                        <th data-column-id="zipCode"><spring:message code="common.zipCode"/></th>
+                        <th data-column-id="VATLiability"><spring:message code="common.VATLiability"/></th>
+                        <th data-column-id="phone"><spring:message code="common.phone"/></th>
+                        <th data-column-id="email"><spring:message code="common.email"/></th>
+                        <th data-column-id="gln"><spring:message code="common.gln"/></th>
+                        <th data-column-id="agent"><spring:message code="common.agent"/></th>
+                        <th data-column-id="type"><spring:message code="common.type"/></th> --%>
+						<th data-column-id="isActive"><spring:message code="common.active"/></th>
+						<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
+					</tr>
 					</thead>
 				</table>
-				
+
 			</div>
 			<div class="tab-pane fade" id="providerType">
 				<div class="row">
@@ -63,17 +63,17 @@
 						<button class="btn btn-primary btn-block" id="addProviderType"><span class="glyphicon glyphicon-plus"></span> <spring:message code="common.add.entity"/></button>
 					</div>
 				</div>
-				
+
 				<br>
 				<table id="providerTypesTable" class="table table-condensed table-hover table-striped">
 					<thead>
-						<tr>
-							<th data-column-id="id" data-type="numeric"><spring:message code="common.id"/></th>
-							<th data-column-id="code" data-type="numeric"><spring:message code="common.code"/></th>
-							<th data-column-id="description"><spring:message code="common.description"/></th>
-							<th data-column-id="isActive"><spring:message code="common.active"/></th>
-							<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
-						</tr>
+					<tr>
+						<th data-column-id="id" data-type="numeric"><spring:message code="common.id"/></th>
+						<th data-column-id="code" data-type="numeric"><spring:message code="common.code"/></th>
+						<th data-column-id="description"><spring:message code="common.description"/></th>
+						<th data-column-id="isActive"><spring:message code="common.active"/></th>
+						<th data-column-id="commands" data-formatter="commands" data-sortable="false"><spring:message code="administration.commands.tableLabel"/></th>
+					</tr>
 					</thead>
 				</table>
 			</div>
@@ -100,15 +100,15 @@
 <div class="modal fade" data-backdrop="static" id="providerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:70%">
 		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h2 class="modal-title" id="addProviderLabel" style="display: none;"><spring:message code="common.provider"/></h2>
+				<h2 class="modal-title" id="readProviderLabel" style="display: none;"><spring:message code="administration.readProvider"/></h2>
+				<h2 class="modal-title" id="updateProviderLabel" style="display: none;"><spring:message code="administration.updateProvider"/></h2>
+				<input type="hidden" class="form-control" id="providerIdInput">
+			</div>
+			<div id="providerModalAlertDiv"></div>
 			<div class="modal-body">
-				<div class="row">
-					<div class="col-md-9 col-lg-9 form-group">
-						<h2 id="addProviderLabel" style="display: none;"><spring:message code="common.provider"/></h2>
-						<h2 id="readProviderLabel" style="display: none;"><spring:message code="administration.readProvider"/></h2>
-						<h2 id="updateProviderLabel" style="display: none;"><spring:message code="administration.updateProvider"/></h2>
-						<input type="hidden" class="form-control" id="providerIdInput">
-					</div>
-				</div>
 				<form id="providerAdministrationForm" action="" onsubmit="return false;">
 					<div class="row">
 						<div class="col-md-4 col-lg-4 form-group">
@@ -239,15 +239,15 @@
 <div class="modal fade" data-backdrop="static" id="providerTypeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:80%">
 		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h2 class="modal-title" id="addProviderTypeLabel" style="display: none;"><spring:message code="common.providerType"/></h2>
+				<h2 class="modal-title" id="readProviderTypeLabel" style="display: none;"><spring:message code="administration.readProviderType"/></h2>
+				<h2 class="modal-title" id="updateProviderTypeLabel" style="display: none;"><spring:message code="administration.updateProviderType"/></h2>
+				<input type="hidden" class="form-control" id="providerTypeIdInput">
+			</div>
+			<div id="providerTypeModalAlertDiv"></div>
 			<div class="modal-body">
-				<div class="row">
-					<div class="col-md-9 form-group">
-						<h2 id="addProviderTypeLabel" style="display: none;"><spring:message code="common.providerType"/></h2>
-						<h2 id="readProviderTypeLabel" style="display: none;"><spring:message code="administration.readProviderType"/></h2>
-						<h2 id="updateProviderTypeLabel" style="display: none;"><spring:message code="administration.updateProviderType"/></h2>
-						<input type="hidden" class="form-control" id="providerTypeIdInput">
-					</div>
-				</div>
 				<form id="providerTypeAdministrationForm" action="" onsubmit="return false;">
 					<div class="row">
 						<div class="col-md-4 col-lg-4 form-group">

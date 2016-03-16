@@ -57,15 +57,15 @@
 <div class="modal fade" data-backdrop="static" id="deliveryNoteEnumeratorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" style="width:1000px">
     <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="addDeliveryNoteEnumeratorLabel" style="display: none;"><spring:message code="common.deliveryNote.POS"/></h2>
+        <h2 class="modal-title" id="readDeliveryNoteEnumeratorLabel" style="display: none;"><spring:message code="administration.readDeliveryNoteEnumerator"/></h2>
+        <h2 class="modal-title" id="updateDeliveryNoteEnumeratorLabel" style="display: none;"><spring:message code="administration.updateDeliveryNoteEnumerator"/></h2>
+        <input type="hidden" class="form-control" id="idInput">
+      </div>
+      <div id="deliveryNoteEnumeratorModalAlertDiv"></div>
       <div class="modal-body">
-        <div class="row">
-          <div class="col-md-9 col-lg-9 form-group">
-            <h2 id="addDeliveryNoteEnumeratorLabel" style="display: none;"><spring:message code="common.deliveryNote.POS"/></h2>
-            <h2 id="readDeliveryNoteEnumeratorLabel" style="display: none;"><spring:message code="administration.readDeliveryNoteEnumerator"/></h2>
-            <h2 id="updateDeliveryNoteEnumeratorLabel" style="display: none;"><spring:message code="administration.updateDeliveryNoteEnumerator"/></h2>
-            <input type="hidden" class="form-control" id="idInput">
-          </div>
-        </div>
         <form id="deliveryNoteEnumeratorAdministrationForm" action="" onsubmit="return false;">
           <div class="row">
             <div class="col-md-6 col-lg-6 form-group">

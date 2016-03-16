@@ -7,11 +7,11 @@ SaveDeliveryLocation = function() {
 				code: {
 					required: true,
 					digits: true,
-					maxlength: 9,
+					maxlength: 9
 				},
 				name: {
 					required: true,
-					maxlength: 45,
+					maxlength: 45
 				},
 				taxId: {
 					required: true,
@@ -20,29 +20,29 @@ SaveDeliveryLocation = function() {
 				},
 				corporateName: {
 					required: true,
-					maxlength: 60,
+					maxlength: 60
 				},
 				province: {
 					required: true
 				},
 				locality: {
 					required: true,
-					maxlength: 45,
+					maxlength: 45
 				},
 				address: {
 					required: true,
-					maxlength: 45,
+					maxlength: 45
 				},
 				zipCode: {
 					required: true,
-					maxlength: 10,
+					maxlength: 10
 				},
 				VATLiability: {
 					required: true
 				},
 				email: {
 					email: true,
-					maxlength: 45,
+					maxlength: 45
 				},
 				gln: {
 					required: true,
@@ -55,8 +55,8 @@ SaveDeliveryLocation = function() {
 					required: true
 				},
 				phone: {
-					maxlength: 45,
-				},
+					maxlength: 45
+				}
 			},
 			showErrors: myShowErrors,
 			onsubmit: false
@@ -104,12 +104,12 @@ SaveDeliveryLocation = function() {
 					"mail": $("#emailInput").val(),
 					"gln": $("#glnInput").val(),
 					"active": $("#activeSelect option:selected").val(),
-					"agentId": $("#agentSelect option:selected").val(),
+					"agentId": $("#agentSelect option:selected").val()
 			};
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.
 			if (existsDeliveryLocation() && (e.currentTarget.id === 'addButton')) {
-				myExistentCodeError();
+				myShowAlert('danger', 'C\u00f3digo existente. Por favor, ingrese uno diferente.', 'deliveryLocationModalAlertDiv');
 			} else {
 				$.ajax({
 					url: "saveDeliveryLocation.do",

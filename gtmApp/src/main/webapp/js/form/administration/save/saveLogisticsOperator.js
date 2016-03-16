@@ -7,11 +7,11 @@ SaveLogisticsOperator = function() {
 				code: {
 					required: true,
 					digits: true,
-					maxlength: 9,
+					maxlength: 9
 				},
 				name: {
 					required: true,
-					maxlength: 45,
+					maxlength: 45
 				},
 				taxId: {
 					required: true,
@@ -20,7 +20,7 @@ SaveLogisticsOperator = function() {
 				},
 				corporateName: {
 					required: true,
-					maxlength: 45,
+					maxlength: 45
 				},
 				gln: {
 					required: true,
@@ -31,18 +31,18 @@ SaveLogisticsOperator = function() {
 				},
 				locality: {
 					required: true,
-					maxlength: 45,
+					maxlength: 45
 				},
 				address: {
 					required: true,
-					maxlength: 45,
+					maxlength: 45
 				},
 				zipCode: {
 					required: true,
-					maxlength: 10,
+					maxlength: 10
 				},
 				phone: {
-					maxlength: 45,
+					maxlength: 45
 				},
 				active: {
 					required: true
@@ -104,7 +104,7 @@ SaveLogisticsOperator = function() {
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.
 			if (existsLogisticsOperator() && (e.currentTarget.id === 'addButton')) {
-				myExistentCodeError();
+				myShowAlert('danger', 'C\u00f3digo existente. Por favor, ingrese uno diferente.', 'logisticsOperatorModalAlertDiv');
 			} else {
 				$.ajax({
 					url: "saveLogisticsOperator.do",

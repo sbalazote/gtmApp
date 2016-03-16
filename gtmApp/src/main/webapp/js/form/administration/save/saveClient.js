@@ -7,11 +7,11 @@ SaveClient = function() {
 				code: {
 					required: true,
 					digits: true,
-					maxlength: 9,
+					maxlength: 9
 				},
 				name: {
 					required: true,
-					maxlength: 45,
+					maxlength: 45
 				},
 				taxId: {
 					required: true,
@@ -20,7 +20,7 @@ SaveClient = function() {
 				},
 				corporateName: {
 					required: true,
-					maxlength: 45,
+					maxlength: 45
 				},
 				province: {
 					required: true
@@ -30,15 +30,15 @@ SaveClient = function() {
 				},
 				locality: {
 					required: true,
-					maxlength: 45,
+					maxlength: 45
 				},
 				address: {
 					required: true,
-					maxlength: 45,
+					maxlength: 45
 				},
 				zipCode: {
 					required: true,
-					maxlength: 10,
+					maxlength: 10
 				},
 				deliveryLocations: {
 					required: true
@@ -47,8 +47,8 @@ SaveClient = function() {
 					required: true
 				},
 				phone: {
-					maxlength: 45,
-				},
+					maxlength: 45
+				}
 			},
 			showErrors: myShowErrors,
 			onsubmit: false
@@ -102,7 +102,7 @@ SaveClient = function() {
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.
 			if (existsClient() && (e.currentTarget.id === 'addButton')) {
-				myExistentCodeError();
+				myShowAlert('danger', 'C\u00f3digo existente. Por favor, ingrese uno diferente.', 'clientModalAlertDiv');
 			} else {
 				$.ajax({
 					url: "saveClient.do",

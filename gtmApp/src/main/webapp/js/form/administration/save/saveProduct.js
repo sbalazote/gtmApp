@@ -27,7 +27,7 @@ SaveProduct = function() {
 				productCode: {
 					required: true,
 					digits: true,
-					maxlength: 9,
+					maxlength: 9
 				},
 				gtin: {
 					digits: true,
@@ -35,10 +35,10 @@ SaveProduct = function() {
 				},
 				productDescription: {
 					required: true,
-					maxlength: 100,
+					maxlength: 100
 				},
 				brand: {
-					required: true,
+					required: true
 				},
 				monodrug: {
 					required: true
@@ -119,8 +119,8 @@ SaveProduct = function() {
 			};
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.
-			if (existsProduct() && (e.currentTarget.id === 'addButton')) {
-				myExistentCodeError();
+			if (existsProduct() && (e.currentTarget.id === 'addProductButton')) {
+				myShowAlert('danger', 'C\u00f3digo existente. Por favor, ingrese uno diferente.', 'productModalAlertDiv');
 			} else {
 				$.ajax({
 					url: "saveProduct.do",

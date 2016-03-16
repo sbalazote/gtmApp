@@ -7,11 +7,11 @@ SaveEvent = function() {
 				code: {
 					required: true,
 					digits: true,
-					maxlength: 9,
+					maxlength: 9
 				},
 				description: {
 					required: true,
-					maxlength: 100,
+					maxlength: 100
 				},
 				originAgentId: {
 					required: true
@@ -60,12 +60,12 @@ SaveEvent = function() {
 					"description": $("#descriptionInput").val(),
 					"originAgentId": $("#originAgentIdSelect").val(),
 					"destinationAgentId": $("#destinationAgentIdSelect").val(),
-					"active": $("#activeSelect option:selected").val(),
+					"active": $("#activeSelect option:selected").val()
 			};
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.
 			if (existsEvent() && (e.currentTarget.id === 'addButton')) {
-				myExistentCodeError();
+				myShowAlert('danger', 'C\u00f3digo existente. Por favor, ingrese uno diferente.', 'eventModalAlertDiv');
 			} else {
 				$.ajax({
 					url: "saveEvent.do",

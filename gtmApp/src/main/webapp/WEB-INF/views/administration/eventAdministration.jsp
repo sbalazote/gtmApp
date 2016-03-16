@@ -60,15 +60,15 @@
 <div class="modal fade" data-backdrop="static" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:80%">
 		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h2 class="modal-title" id="addEventLabel" style="display: none;"><spring:message code="common.event"/></h2>
+				<h2 class="modal-title" id="readEventLabel" style="display: none;"><spring:message code="administration.readEvent"/></h2>
+				<h2 class="modal-title" id="updateEventLabel" style="display: none;"><spring:message code="administration.updateEvent"/></h2>
+				<input type="hidden" class="form-control" id="idInput">
+			</div>
+			<div id="eventModalAlertDiv"></div>
 			<div class="modal-body">
-				<div class="row">
-					<div class="col-md-9 col-lg-9 form-group">
-						<h2 id="addEventLabel" style="display: none;"><spring:message code="common.event"/></h2>
-						<h2 id="readEventLabel" style="display: none;"><spring:message code="administration.readEvent"/></h2>
-						<h2 id="updateEventLabel" style="display: none;"><spring:message code="administration.updateEvent"/></h2>
-						<input type="hidden" class="form-control" id="idInput">
-					</div>
-				</div>
 				<form id="eventAdministrationForm" action="" onsubmit="return false;">
 					<div class="row">
 						<div class="col-md-4 col-lg-4 form-group">

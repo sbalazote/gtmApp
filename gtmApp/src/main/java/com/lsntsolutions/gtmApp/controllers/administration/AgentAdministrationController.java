@@ -64,7 +64,7 @@ public class AgentAdministrationController {
 		return this.agentService.delete(agentId);
 	}
 
-	@RequestMapping(value = "/exists", method = RequestMethod.GET)
+	@RequestMapping(value = "/existsAgent", method = RequestMethod.GET)
 	public @ResponseBody Boolean existsAgent(@RequestParam Integer code) throws Exception {
 		return this.agentService.exists(code);
 	}

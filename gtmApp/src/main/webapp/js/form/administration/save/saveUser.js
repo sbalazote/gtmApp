@@ -6,16 +6,16 @@ SaveUser = function() {
 			rules: {
 				name: {
 					required: true,
-					maxlength: 45,
+					maxlength: 45
 				},
 				password: {
 					minlength: 5,
-					maxlength: 15,
+					maxlength: 15
 				},
 				passwordCheck: { 
 	                equalTo: "#passwordInput",
 	                minlength: 5,
-					maxlength: 15,
+					maxlength: 15
 		        },
 				active: {
 					required: true
@@ -65,7 +65,7 @@ SaveUser = function() {
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.
 			if (existsUser() && (e.currentTarget.id === 'addButton')) {
-				myExistentCodeError();
+				myShowAlert('danger', 'Usuario existente. Por favor, ingrese uno diferente.', 'userModalAlertDiv');
 			} else {
 				$.ajax({
 					url: "saveUser.do",

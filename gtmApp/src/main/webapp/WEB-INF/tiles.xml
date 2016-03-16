@@ -150,10 +150,6 @@
         <put-attribute name="body" value="/WEB-INF/views/administration/profileAdministration.jsp" />
     </definition>
 
-    <definition name="roleAdministration" extends="base.definition">
-        <put-attribute name="body" value="/WEB-INF/views/administration/roleAdministration.jsp" />
-    </definition>
-    
     <definition name="providerSerializedFormatAdministration" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/administration/providerSerializedFormatAdministration.jsp" />
     </definition>

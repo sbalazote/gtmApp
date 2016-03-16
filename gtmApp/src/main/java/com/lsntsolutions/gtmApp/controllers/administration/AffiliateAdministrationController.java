@@ -96,7 +96,7 @@ public class AffiliateAdministrationController {
 	}
 
 	@RequestMapping(value = "/existsAffiliate", method = RequestMethod.GET)
-	public @ResponseBody Boolean exists(@RequestParam String code) throws Exception {
+	public @ResponseBody Boolean existsAffiliate(@RequestParam String code) throws Exception {
 		return this.affiliateService.exists(code);
 	}
 

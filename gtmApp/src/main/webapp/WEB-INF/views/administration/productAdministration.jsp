@@ -233,15 +233,15 @@
 <div class="modal fade" data-backdrop="static" id="productModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:80%">
 		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h2 class="modal-title" id="addProductLabel" style="display: none;"><spring:message code="common.product"/></h2>
+				<h2 class="modal-title" id="readProductLabel" style="display: none;"><spring:message code="administration.readProduct"/></h2>
+				<h2 class="modal-title" id="updateProductLabel" style="display: none;"><spring:message code="administration.updateProduct"/></h2>
+				<input type="hidden" class="form-control" id="productIdInput">
+			</div>
+			<div id="productModalAlertDiv"></div>
 			<div class="modal-body">
-				<div class="row">
-					<div class="col-md-9 col-lg-9 form-group">
-						<h2 id="addProductLabel" style="display: none;"><spring:message code="common.product"/></h2>
-						<h2 id="readProductLabel" style="display: none;"><spring:message code="administration.readProduct"/></h2>
-						<h2 id="updateProductLabel" style="display: none;"><spring:message code="administration.updateProduct"/></h2>
-						<input type="hidden" class="form-control" id="productIdInput">
-					</div>
-				</div>
 				<form id="productAdministrationForm" action="" onsubmit="return false;">
 					<div class="row">
 						<div class="col-md-6 col-lg-6 form-group">
@@ -455,15 +455,15 @@
 <div class="modal fade" data-backdrop="static" id="productBrandModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:80%">
 		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h2 class="modal-title" id="addProductBrandLabel" style="display: none;"><spring:message code="common.brand"/></h2>
+				<h2 class="modal-title" id="readProductBrandLabel" style="display: none;"><spring:message code="administration.readProductBrand"/></h2>
+				<h2 class="modal-title" id="updateProductBrandLabel" style="display: none;"><spring:message code="administration.updateProductBrand"/></h2>
+				<input type="hidden" class="form-control" id="productBrandIdInput">
+			</div>
+			<div id="productBrandModalAlertDiv"></div>
 			<div class="modal-body">
-				<div class="row">
-					<div class="col-md-9 col-lg-9 form-group">
-						<h2 id="addProductBrandLabel" style="display: none;"><spring:message code="common.brand"/></h2>
-						<h2 id="readProductBrandLabel" style="display: none;"><spring:message code="administration.readProductBrand"/></h2>
-						<h2 id="updateProductBrandLabel" style="display: none;"><spring:message code="administration.updateProductBrand"/></h2>
-						<input type="hidden" class="form-control" id="productBrandIdInput">
-					</div>
-				</div>
 				<form id="productBrandAdministrationForm" action="" onsubmit="return false;">
 					<div class="row">
 						<div class="col-md-4 col-lg-4 form-group">
@@ -497,15 +497,15 @@
 <div class="modal fade" data-backdrop="static" id="productMonodrugModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:80%">
 		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h2 class="modal-title" id="addProductMonodrugLabel" style="display: none;"><spring:message code="common.monodrug"/></h2>
+				<h2 class="modal-title" id="readProductMonodrugLabel" style="display: none;"><spring:message code="administration.readProductMonodrug"/></h2>
+				<h2 class="modal-title" id="updateProductMonodrugLabel" style="display: none;"><spring:message code="administration.updateProductMonodrug"/></h2>
+				<input type="hidden" class="form-control" id="productMonodrugIdInput">
+			</div>
+			<div id="productMonodrugModalAlertDiv"></div>
 			<div class="modal-body">
-				<div class="row">
-					<div class="col-md-9 col-lg-9 form-group">
-						<h2 id="addProductMonodrugLabel" style="display: none;"><spring:message code="common.monodrug"/></h2>
-						<h2 id="readProductMonodrugLabel" style="display: none;"><spring:message code="administration.readProductMonodrug"/></h2>
-						<h2 id="updateProductMonodrugLabel" style="display: none;"><spring:message code="administration.updateProductMonodrug"/></h2>
-						<input type="hidden" class="form-control" id="productMonodrugIdInput">
-					</div>
-				</div>
 				<form id="productMonodrugAdministrationForm" action="" onsubmit="return false;">
 					<div class="row">
 						<div class="col-md-4 col-lg-4 form-group">
@@ -539,15 +539,15 @@
 <div class="modal fade" data-backdrop="static" id="productDrugCategoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:80%">
 		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h2 class="modal-title" id="addProductDrugCategoryLabel" style="display: none;"><spring:message code="common.drugCategory"/></h2>
+				<h2 class="modal-title" id="readProductDrugCategoryLabel" style="display: none;"><spring:message code="administration.readProductDrugCategory"/></h2>
+				<h2 class="modal-title" id="updateProductDrugCategoryLabel" style="display: none;"><spring:message code="administration.updateProductDrugCategory"/></h2>
+				<input type="hidden" class="form-control" id="productDrugCategoryIdInput">
+			</div>
+			<div id="productDrugCategoryModalAlertDiv"></div>
 			<div class="modal-body">
-				<div class="row">
-					<div class="col-md-9 col-lg-4 form-group">
-						<h2 id="addProductDrugCategoryLabel" style="display: none;"><spring:message code="common.drugCategory"/></h2>
-						<h2 id="readProductDrugCategoryLabel" style="display: none;"><spring:message code="administration.readProductDrugCategory"/></h2>
-						<h2 id="updateProductDrugCategoryLabel" style="display: none;"><spring:message code="administration.updateProductDrugCategory"/></h2>
-						<input type="hidden" class="form-control" id="productDrugCategoryIdInput">
-					</div>
-				</div>
 				<form id="productDrugCategoryAdministrationForm" action="" onsubmit="return false;">
 					<div class="row">
 						<div class="col-md-4 col-lg-4 form-group">
@@ -581,15 +581,15 @@
 <div class="modal fade" data-backdrop="static" id="productGroupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:80%">
 		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h2 class="modal-title" id="addProductGroupLabel" style="display: none;"><spring:message code="common.productGroup"/></h2>
+				<h2 class="modal-title" id="readProductGroupLabel" style="display: none;"><spring:message code="administration.readProductGroup"/></h2>
+				<h2 class="modal-title" id="updateProductGroupLabel" style="display: none;"><spring:message code="administration.updateProductGroup"/></h2>
+				<input type="hidden" class="form-control" id="productGroupIdInput">
+			</div>
+			<div id="productGroupModalAlertDiv"></div>
 			<div class="modal-body">
-				<div class="row">
-					<div class="col-md-9 col-lg-9 form-group">
-						<h2 id="addProductGroupLabel" style="display: none;"><spring:message code="common.productGroup"/></h2>
-						<h2 id="readProductGroupLabel" style="display: none;"><spring:message code="administration.readProductGroup"/></h2>
-						<h2 id="updateProductGroupLabel" style="display: none;"><spring:message code="administration.updateProductGroup"/></h2>
-						<input type="hidden" class="form-control" id="productGroupIdInput">
-					</div>
-				</div>
 				<form id="productGroupAdministrationForm" action="" onsubmit="return false;">
 					<div class="row">
 						<div class="col-md-4 col-lg-4 form-group">

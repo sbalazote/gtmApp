@@ -78,7 +78,7 @@ public class EventAdministrationController {
 
 	@RequestMapping(value = "/existsEvent", method = RequestMethod.GET)
 	public @ResponseBody
-	Boolean exists(@RequestParam Integer code) throws Exception {
+	Boolean existsEvent(@RequestParam Integer code) throws Exception {
 		return this.eventService.exists(code);
 	}
 

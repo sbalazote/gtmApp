@@ -56,39 +56,38 @@
 <div class="modal fade" data-backdrop="static" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" style="width:70%">
     <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="addProfileLabel" style="display: none;"><spring:message code="common.profile"/></h2>
+        <h2 class="modal-title" id="readProfileLabel" style="display: none;"><spring:message code="administration.readProfile"/></h2>
+        <h2 class="modal-title" id="updateProfileLabel" style="display: none;"><spring:message code="administration.updateProfile"/></h2>
+        <input type="hidden" class="form-control" id="idInput">
+      </div>
+      <div id="profileModalAlertDiv"></div>
       <div class="modal-body">
+        <form id="profileAdministrationForm" action="" onsubmit="return false;">
           <div class="row">
-            <div class="col-md-9 col-lg-9 form-group">
-              <h2 id="addProfileLabel" style="display: none;"><spring:message code="common.profile"/></h2>
-              <h2 id="readProfileLabel" style="display: none;"><spring:message code="administration.readProfile"/></h2>
-              <h2 id="updateProfileLabel" style="display: none;"><spring:message code="administration.updateProfile"/></h2>
-              <input type="hidden" class="form-control" id="idInput">
+            <div class="col-md-12 col-lg-12 form-group">
+              <label for="descriptionInput"><spring:message code="common.description" /></label>
+              <input type="text" class="form-control" id="descriptionInput" name="description">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-lg-4 form-group">
+              <label><spring:message code="common.roles" /></label>
+            </div>
+            <div class="col-md-12 col-lg-12 form-group">
+              <div class="ms-container">
+                <select multiple="multiple" id="my-select" name="my-select[]">
+                  <c:forEach items="${roles}" var="role" varStatus="status">
+                    <option value="${role.id}"><c:out value="${role.id} - ${role.description}"></c:out></option>
+                  </c:forEach>
+                </select>
+              </div>
             </div>
           </div>
 
-          <form id="profileAdministrationForm" action="" onsubmit="return false;">
-            <div class="row">
-              <div class="col-md-12 col-lg-12 form-group">
-                <label for="descriptionInput"><spring:message code="common.description" /></label>
-                <input type="text" class="form-control" id="descriptionInput" name="description">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-4 col-lg-4 form-group">
-                <label for="role"><spring:message code="common.roles" /></label>
-              </div>
-              <div class="col-md-12 col-lg-12 form-group">
-                <div class="ms-container">
-                  <select multiple="multiple" id="my-select" name="my-select[]">
-                    <c:forEach items="${roles}" var="role" varStatus="status">
-                      <option value="${role.id}"><c:out value="${role.id} - ${role.description}"></c:out></option>
-                    </c:forEach>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-          </form>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.back"/></button>
