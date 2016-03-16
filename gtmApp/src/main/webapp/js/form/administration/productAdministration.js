@@ -485,6 +485,7 @@ ProductAdministration = function() {
 		productsTable.find(".command-edit").on("click", function(e) {
 			resetProductForm();
 			toggleProductElements(false);
+			$("#productCodeInput").attr('disabled', true);
 			readProduct($(this).data("row-id"));
 			$('#addProductButton').hide();
 			$('#updateProductButton').show();
@@ -689,6 +690,7 @@ ProductAdministration = function() {
 		productBrandsTable.find(".command-edit").on("click", function(e) {
 			resetProductBrandForm();
 			toggleProductBrandElements(false);
+			$("#productBrandCodeInput").attr('disabled', true);
 			readProductBrand($(this).data("row-id"));
 			$('#addProductBrandButton').hide();
 			$('#updateProductBrandButton').show();
@@ -819,6 +821,7 @@ ProductAdministration = function() {
 		productMonodrugsTable.find(".command-edit").on("click", function(e) {
 			resetProductMonodrugForm();
 			toggleProductMonodrugElements(false);
+			$("#productMonodrugCodeInput").attr('disabled', true);
 			readProductMonodrug($(this).data("row-id"));
 			$('#addProductMonodrugButton').hide();
 			$('#updateProductMonodrugButton').show();
@@ -949,6 +952,7 @@ ProductAdministration = function() {
 		productDrugCategoriesTable.find(".command-edit").on("click", function(e) {
 			resetProductDrugCategoryForm();
 			toggleProductDrugCategoryElements(false);
+			$("#productDrugCategoryCodeInput").attr('disabled', true);
 			readProductDrugCategory($(this).data("row-id"));
 			$('#addProductDrugCategoryButton').hide();
 			$('#updateProductDrugCategoryButton').show();
@@ -1079,6 +1083,7 @@ ProductAdministration = function() {
 		productGroupsTable.find(".command-edit").on("click", function(e) {
 			resetProductGroupForm();
 			toggleProductGroupElements(false);
+			$("#productGroupCodeInput").attr('disabled', false);
 			readProductGroup($(this).data("row-id"));
 			$('#addProductGroupButton').hide();
 			$('#updateProductGroupButton').show();

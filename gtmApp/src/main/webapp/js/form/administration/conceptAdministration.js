@@ -80,12 +80,11 @@ ConceptAdministration = function() {
 				if(response.deliveryNoteEnumerator != null){
 					$("#deliveryNoteEnumeratorSelect").val(response.deliveryNoteEnumerator.id).trigger('chosen:update');
 				}
-				$.each(response.events, function (idx, value) {
-					$('#my-select').multiSelect('select', value.id.toString());
-					events.push(value.id.toString());
-					saveConcept.setEvents(events);
+				$.each(_.uniq(_.pluck(response.events, "id")), function (idx, value) {
+					$('#my-select').multiSelect('select', value.toString());
+					events.push(value.toString());
 				});
-
+				saveConcept.setEvents(events);
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myDeleteError();
@@ -123,7 +122,7 @@ ConceptAdministration = function() {
 				$('#my-select').multiSelect('refresh');
 				for(var i = response.length-1; i >= 0 ; i--){
 					var event = response[i];
-					$('#my-select').multiSelect('addOption', { value: event.id , text: event.code + "-" +  event.description +": ORIGEN: " + event.originAgent.description + " - DESTINO: " + event.destinationAgent.description, index: 0, nested: 'optgroup_label' });
+					$('#my-select').multiSelect('addOption', { value: event.id , text: event.code + "-" +  event.description +": ORIGEN: " + event.originAgent.description + " - DESTINO: " + event.destinationAgent.description });
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
@@ -240,6 +239,7 @@ ConceptAdministration = function() {
 		conceptsTable.find(".command-edit").on("click", function(e) {
 			resetForm();
 			toggleElements(false);
+			$("#codeInput").attr('disabled', true);
 			readConcept($(this).data("row-id"));
             conceptInUse = false;
             isConceptInUse($(this).data("row-id"));

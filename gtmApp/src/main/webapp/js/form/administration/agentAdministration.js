@@ -89,6 +89,7 @@ $(document).ready(function() {
 		agentsTable.find(".command-edit").on("click", function(e) {
 			resetForm();
 			toggleElements(false);
+			$("#codeInput").attr('disabled', true);
 			readAgent($(this).data("row-id"));
 			$('#addButton').hide();
 			$('#updateButton').show();

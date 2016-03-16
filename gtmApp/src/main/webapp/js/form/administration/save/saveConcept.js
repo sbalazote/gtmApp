@@ -83,7 +83,7 @@ SaveConcept = function() {
 
     //$('#my-select').multiSelect();
 
-    $('#my-select').multiSelect({
+    /*$('#my-select').multiSelect({
         afterSelect: function(value, text){
             if(value != null) {
                 events.push(value[0]);
@@ -96,7 +96,7 @@ SaveConcept = function() {
             }
             events = _.uniq(events);
         }
-    });
+    });*/
 
     $("#addButton, #updateButton").click(function (e) {
         if (validateForm()) {
@@ -113,7 +113,7 @@ SaveConcept = function() {
                 "active": $("#activeSelect option:selected").val(),
                 "client": $("#clientSelect option:selected").val(),
                 "destruction": $("#destructionSelect option:selected").val(),
-                "events": events ? _.uniq(events) : []
+                "events": $("#my-select").val() || []
             };
 
             //	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.

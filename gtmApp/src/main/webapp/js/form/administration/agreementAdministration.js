@@ -108,6 +108,7 @@ $(document).ready(function() {
 		agreementsTable.find(".command-edit").on("click", function(e) {
 			resetForm();
 			toggleElements(false);
+			$("#codeInput").attr('disabled', true);
 			readAgreement($(this).data("row-id"));
 			$('#addButton').hide();
 			$('#updateButton').show();

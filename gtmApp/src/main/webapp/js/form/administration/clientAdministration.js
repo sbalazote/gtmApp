@@ -122,6 +122,7 @@ $(document).ready(function() {
 		clientsTable.find(".command-edit").on("click", function(e) {
 			resetForm();
 			toggleElements(false);
+			$("#codeInput").attr('disabled', true);
 			readClient($(this).data("row-id"));
 			$('#addButton').hide();
 			$('#updateButton').show();

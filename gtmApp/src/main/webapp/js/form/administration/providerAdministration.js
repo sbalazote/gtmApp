@@ -136,6 +136,7 @@ $(document).ready(function() {
 		providersTable.find(".command-edit").on("click", function(e) {
 			resetProviderForm();
 			toggleProviderElements(false);
+			$("#providerCodeInput").attr('disabled', true);
 			readProvider($(this).data("row-id"));
 			$('#addProviderButton').hide();
 			$('#updateProviderButton').show();
@@ -265,6 +266,7 @@ $(document).ready(function() {
 		providerTypesTable.find(".command-edit").on("click", function(e) {
 			resetProviderTypeForm();
 			toggleProviderTypeElements(false);
+			$("#providerTypeCodeInput").attr('disabled', true);
 			readProviderType($(this).data("row-id"));
 			$('#addProviderTypeButton').hide();
 			$('#updateProviderTypeButton').show();

@@ -122,6 +122,7 @@ $(document).ready(function() {
 		deliveryLocationsTable.find(".command-edit").on("click", function(e) {
 			resetForm();
 			toggleElements(false);
+			$("#codeInput").attr('disabled', true);
 			readDeliveryLocation($(this).data("row-id"));
 			$('#addButton').hide();
 			$('#updateButton').show();
