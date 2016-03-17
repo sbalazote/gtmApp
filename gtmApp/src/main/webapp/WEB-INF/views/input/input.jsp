@@ -289,7 +289,7 @@
                             <span style="font-style:italic;color:darkorange"><label id="providerSerializedLastGtin"></label></span>
                         </div>
                         <div class="col-md-3 col-lg-3 form-group">
-                            <label><spring:message code="common.serialNumber"/>:&nbsp;&nbsp;</label>
+                            <label><spring:message code="common.serialNumberAbb"/>:&nbsp;&nbsp;</label>
                             <span style="font-style:italic;color:darkviolet"><label id="providerSerializedLastSerialNumber"></label></span>
                         </div>
                         <div class="col-md-3 col-lg-3 form-group">
@@ -297,7 +297,7 @@
                             <span style="font-style:italic;color:forestgreen"><label id="providerSerializedLastBatch"></label></span>
                         </div>
                         <div class="col-md-3 col-lg-3 form-group">
-                            <label><spring:message code="common.expirationDate"/>:&nbsp;&nbsp;</label>
+                            <label><spring:message code="common.expirationDateAbb"/>:&nbsp;&nbsp;</label>
                             <span style="font-style:italic;color:brown"><label id="providerSerializedLastExpirationDate"></label></span>
                         </div>
                     </div>

@@ -177,7 +177,7 @@
 <%-- Modal Ingreso Serializados --%>
 <form id="serializedModalForm" action="" onsubmit="return false;">
 	<div class="modal fade" data-backdrop="static" data-keyboard="false" id="serializedModal">
-		<div class="modal-dialog" style="width: 60%">
+		<div class="modal-dialog" style="width: 80%">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

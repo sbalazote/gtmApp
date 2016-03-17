@@ -189,7 +189,7 @@
 <%-- Modal Ingreso Lote y Vencimiento --%>
 <form id="batchExpirationDateModalForm" action="" onsubmit="return false;">
 	<div class="modal fade" data-backdrop="static" data-keyboard="false" id="batchExpirationDateModal">
-		<div class="modal-dialog" style="width: 70%">
+		<div class="modal-dialog" style="width: 80%">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -257,7 +257,7 @@
 <%-- Modal Ingreso Serializados --%>
 <form id="serializedModalForm" action="" onsubmit="return false;">
 	<div class="modal fade" data-backdrop="static" data-keyboard="false" id="serializedModal">
-		<div class="modal-dialog" style="width: 60%">
+		<div class="modal-dialog" style="width: 80%">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -300,7 +300,7 @@
 							<span style="font-style:italic;color:darkorange"><label id="providerSerializedLastGtin"></label></span>
 						</div>
 						<div class="col-md-3 col-lg-3 form-group">
-							<label><spring:message code="common.serialNumber"/>:&nbsp;&nbsp;</label>
+							<label><spring:message code="common.serialNumberAbb"/>:&nbsp;&nbsp;</label>
 							<span style="font-style:italic;color:darkviolet"><label id="providerSerializedLastSerialNumber"></label></span>
 						</div>
 						<div class="col-md-3 col-lg-3 form-group">
@@ -308,7 +308,7 @@
 							<span style="font-style:italic;color:forestgreen"><label id="providerSerializedLastBatch"></label></span>
 						</div>
 						<div class="col-md-3 col-lg-3 form-group">
-							<label><spring:message code="common.expirationDate"/>:&nbsp;&nbsp;</label>
+							<label><spring:message code="common.expirationDateAbb"/>:&nbsp;&nbsp;</label>
 							<span style="font-style:italic;color:brown"><label id="providerSerializedLastExpirationDate"></label></span>
 						</div>
 					</div>
@@ -340,7 +340,7 @@
 <%-- Modal Ingreso Lote y Vencimiento --%>
 <form id="outOfStockBatchExpirationDateModalForm" action="" onsubmit="return false;">
 	<div class="modal fade" data-backdrop="static" data-keyboard="false" id="outOfStockBatchExpirationDateModal">
-		<div class="modal-dialog" style="width: 60%">
+		<div class="modal-dialog" style="width: 80%">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -410,7 +410,7 @@
 <%-- Modal Ingreso Serializado de Origen --%>
 <form id="outOfStockProviderSerializedModalForm" action="" onsubmit="return false;">
 	<div class="modal fade" data-backdrop="static" data-keyboard="false" id="outOfStockProviderSerializedModal">
-		<div class="modal-dialog" style="width: 70%">
+		<div class="modal-dialog" style="width: 80%">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -458,7 +458,7 @@
 							<span style="font-style:italic;color:darkorange"><label id="outOfStockProviderSerializedLastGtin"></label></span>
 						</div>
 						<div class="col-md-3 col-lg-3 form-group">
-							<label><spring:message code="common.serialNumber"/>:&nbsp;&nbsp;</label>
+							<label><spring:message code="common.serialNumberAbb"/>:&nbsp;&nbsp;</label>
 							<span style="font-style:italic;color:darkviolet"><label id="outOfStockProviderSerializedLastSerialNumber"></label></span>
 						</div>
 						<div class="col-md-3 col-lg-3 form-group">
@@ -466,7 +466,7 @@
 							<span style="font-style:italic;color:forestgreen"><label id="outOfStockProviderSerializedLastBatch"></label></span>
 						</div>
 						<div class="col-md-3 col-lg-3 form-group">
-							<label><spring:message code="common.expirationDate"/>:&nbsp;&nbsp;</label>
+							<label><spring:message code="common.expirationDateAbb"/>:&nbsp;&nbsp;</label>
 							<span style="font-style:italic;color:brown"><label id="outOfStockProviderSerializedLastExpirationDate"></label></span>
 						</div>
 					</div>
@@ -499,7 +499,7 @@
 <%-- Modal Ingreso Serializado Propio y Generacion de Etiquetas --%>
 <form id="outOfStockSelfSerializedModalForm" action="" onsubmit="return false;">
 	<div class="modal fade" data-backdrop="static" data-keyboard="false" id="outOfStockSelfSerializedModal">
-		<div class="modal-dialog" style="width: 60%">
+		<div class="modal-dialog" style="width: 80%">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
