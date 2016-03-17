@@ -1,6 +1,7 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
 import com.lsntsolutions.gtmApp.dto.StockDTO;
+import com.lsntsolutions.gtmApp.exceptions.ExistingStockException;
 import com.lsntsolutions.gtmApp.model.Agreement;
 import com.lsntsolutions.gtmApp.model.Detail;
 import com.lsntsolutions.gtmApp.model.Product;
@@ -52,8 +53,9 @@ public class StockServiceImpl implements StockService {
 						.getAgreement().getId());
 			}
 			if (serializedProductStock != null) {
-				throw new RuntimeException("Ya existe un registro de stock para el serie '" + stock.getSerialNumber() + "' del producto '"
-						+ stock.getProduct().getCode() + "'");
+				//throw new RuntimeException("Ya existe un registro de stock para el serie '" + stock.getSerialNumber() + "' del producto '" + stock.getProduct().getCode() + "'");
+				logger.warn(new ExistingStockException("Ya existe un registro de stock para el serie '" + stock.getSerialNumber() + "' del producto '" + stock.getProduct().getCode() + "'"));
+				return;
 			}
 		} else {
 			Stock batchExpirationDateStock = this.stockDAO.getBatchExpirationDateStockForUpdate(stock.getProduct().getId(), stock.getBatch(),
