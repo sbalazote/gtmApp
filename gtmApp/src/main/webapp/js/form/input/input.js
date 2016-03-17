@@ -572,6 +572,7 @@ Input = function() {
 	$("#confirmButton").click(function() {
 		if (validateForm()) {
 			if (inputDetailGroup.length > 0 || isUpdate ) {
+				$(this).attr("disabled", true);
 				isButtonConfirm = true;
 				var jsonInput = {
 					"id": $("#inputId").val(),
