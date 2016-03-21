@@ -66,17 +66,21 @@ public class StockDAOHibernateImpl implements StockDAO {
 	@Override
 	public Stock getSerializedProductStock(Integer productId, String serialNumber, String gtin, Integer agreementId) {
 		try {
+			Product product = null;
 			Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Stock.class, "stock");
-			criteria.add(Restrictions.eq("product.id", productId));
+			if(productId != null) {
+				product = this.productService.get(productId);
+				criteria.add(Restrictions.eq("product.id", productId));
+			}
 			criteria.add(Restrictions.eq("serialNumber", serialNumber));
 			if(agreementId != null) {
 				criteria.add(Restrictions.eq("agreement.id", agreementId));
 			}
 			criteria.createAlias("stock.product", "product");
 			criteria.createAlias("product.gtins", "gtin");
-			Product product = this.productService.get(productId);
-			if (gtin != null && product.getType().equals("PS")) {
-				if (gtin != "") {
+
+			if (gtin != null && product != null) {
+				if (!gtin.isEmpty() && product.getType().equals("PS")) {
 					criteria.add(Restrictions.eq("gtin.number", gtin));
 				}
 			}

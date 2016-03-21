@@ -105,7 +105,12 @@ SearchSerializedProduct = function() {
     $("#searchSerialButton").click(function() {
         myHideAlert();
         $("#cleanButton").trigger("click");
-        searchSerialParsed();
+        isSelfSerialized($("#serialParserSearch").val());
+        if (isProviderSelfSerialized) {
+            searchSelfSerialParsed();
+        } else{
+            searchSerialParsed();
+        }
     });
 
     $("#cleanSerialButton").click(function() {
@@ -315,7 +320,8 @@ SearchSerializedProduct = function() {
 
 	$('#serialParserSearch').keydown(function(e) {
 		if(e.keyCode == 13){ // Presiono Enter
-            searchSerialParsed($(this).val());
+            $("#searchSerialButton").trigger("click");
+            //searchSerialParsed($(this).val());
 		}
 	});
 
@@ -332,10 +338,83 @@ SearchSerializedProduct = function() {
             e.preventDefault(); // stop default behavior
     });
 
+    var isSelfSerialized = function(serialNumber){
+        $.ajax({
+            url: "isParseSelfSerial.do",
+            type: "GET",
+            async: false,
+            data: {
+                serial: serialNumber
+            },
+            success: function(response) {
+                isProviderSelfSerialized = response;
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                isProviderSelfSerialized = false;
+            }
+        });
+    };
+
+    var searchSelfSerialParsed = function(serial){
+        $.ajax({
+            url: "parseSerial.do",
+            type: "GET",
+            async: false,
+            data: {
+                serial: $('#serialParserSearch').val(),
+                formatSerializedId: null
+            },
+            success: function(response) {
+                serialFound = response.serialNumber;
+                if (response != "") {
+                    $.ajax({
+                        url: "getSerializedStock.do",
+                        type: "GET",
+                        async: false,
+                        data: {
+                            productId: null,
+                            serialNumber: serialFound,
+                            gtin: null,
+                            agreementId: null
+                        },
+                        success: function(response) {
+                            if (response) {
+                                $('#serialParserSearch').data("title", "").removeClass("has-error").tooltip("destroy");
+                                var gtin = null;
+                                if(response.product.lastGtin != null){
+                                    gtin = response.product.lastGtin;
+                                }
+                                productId = response.product.id;
+                                productCode = response.product.code;
+                                productDescription = response.product.description;
+                                $('#serialParserSearch').val(response.product.description + " Serie: " + serialFound);
+                                searchProduct(productId, serialFound);
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            myGenericError("serializedModalAlertDiv");
+                        }
+                    });
+                    searchProduct(null, serialFound);
+                } else {
+                    addToLabels("None", "None", "None", "None");
+                    $('#serialParserSearch').tooltip("destroy").data("title", "Formato de Serie Inv\u00e1lido").addClass("has-error").tooltip();
+                    $('#serialParserSearch').val('');
+                    $('#serialParserSearch').focus();
+                }
+                return false;
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                myGenericError();
+            }
+        });
+    };
+
     var searchSerialParsed = function(serial){
         $.ajax({
             url: "parseSerial.do",
             type: "GET",
+            async: false,
             data: {
                 serial: $('#serialParserSearch').val(),
                 formatSerializedId: null
@@ -343,19 +422,19 @@ SearchSerializedProduct = function() {
             success: function(response) {
                 serialFound = response.serialNumber;
                 gtinFound = response.gtin;
-                /*var batchFound = response.batch;
-                var expirationDateFound = response.expirationDate;*/
                 if (response != "") {
                     $.ajax({
                         url: "getProductBySerialOrGtin.do",
                         type: "GET",
+                        async: false,
                         data: {
                             serial: $('#serialParserSearch').val()
                         },
                         success: function(response) {
                             if (response != "") {
+                                $('#serialParserSearch').data("title", "").removeClass("has-error").tooltip("destroy");
                                 productId = response.id;
-                                productCode = response.id;
+                                productCode = response.code;
                                 productDescription = response.description;
                                 $('#serialParserSearch').val(response.description + " Serie: " + serialFound);
                                 searchProduct(productId, serialFound);

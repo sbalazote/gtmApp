@@ -121,11 +121,7 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/getSerializedStock", method = RequestMethod.GET)
-	public @ResponseBody Stock getSerializedStock(@RequestParam Map<String, String> parameters) {
-		Integer productId = Integer.valueOf(parameters.get("productId"));
-		String serialNumber = String.valueOf(parameters.get("serialNumber"));
-		String gtin = String.valueOf(parameters.get("gtin"));
-		Integer agreementId = Integer.valueOf(parameters.get("agreementId"));
+	public @ResponseBody Stock getSerializedStock(@RequestParam Integer productId, @RequestParam String serialNumber, @RequestParam String gtin, @RequestParam Integer agreementId) {
 		return this.stockService.getSerializedStock(productId, serialNumber, gtin, agreementId);
 	}
 
