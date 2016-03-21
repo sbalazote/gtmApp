@@ -104,7 +104,7 @@ public class ProviderDAOHibernateImpl implements ProviderDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Provider> getAllActives() {
-		return this.sessionFactory.getCurrentSession().createQuery("from Provider where active = true").list();
+		return this.sessionFactory.getCurrentSession().createQuery("from Provider where active = true order by name").list();
 	}
 
 	@Override
