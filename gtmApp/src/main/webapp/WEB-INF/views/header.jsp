@@ -61,8 +61,7 @@
 <link rel="stylesheet" type="text/css" href="${context}/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="${context}/css/fonts.googleapis-roboto.css">
 
-<%--<script type="text/javascript" src="${context}/js/jquery-1.10.2.min.js"></script>--%>
-<script type="text/javascript" src="${context}/js/jquery-2.2.0.min.js"></script>
+<script type="text/javascript" src="${context}/js/jquery-2.2.2.min.js"></script>
 <script type="text/javascript" src="${context}/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="${context}/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="${context}/js/chosen.jquery.min.js"></script>
