@@ -274,43 +274,35 @@ var Supplying = function() {
 			});
 	    }
 		if(e.keyCode == 119) { // Presiono F8
-			BootstrapDialog.show({
-				type: BootstrapDialog.TYPE_WARNING,
-				message: 'Desea asignar productos fuera de inventario?.',
-				closable: false,
-				title: 'Advertencia!',
-				closable: false,
-				buttons: [{
-					label: 'No',
-					action: function(dialogItself) {
-						dialogItself.close();
+			if (!assignOutOfStock) {
+				BootstrapDialog.show({
+					type: BootstrapDialog.TYPE_WARNING,
+					message: 'Desea asignar productos fuera de inventario?.',
+					title: 'Advertencia!',
+					closable: false,
+					buttons: [{
+						label: 'No',
+						action: function (dialogItself) {
+							dialogItself.close();
+						}
+					}, {
+						label: 'Si',
+						cssClass: 'btn-primary',
+						action: function (dialogItself) {
+							assignOutOfStock = true;
+							dialogItself.close();
+						}
+					}],
+					onhidden: function (dialogRef) {
+						if (assignOutOfStock) {
+							myShowAlert('info', 'ASIGNACION FUERA DE STOCK.', null, 0);
+						}
+						$("#productInput").focus();
 					}
-				}, {
-					label: 'Si',
-					cssClass: 'btn-primary',
-					action: function(dialogItself) {
-						assignOutOfStock = true;
-						dialogItself.close();
-					}
-				}],
-				onhidden: function(dialogRef) {
-					myShowAlert('info', 'ASIGNACION FUERA DE STOCK.', null, 0);
-					$("#productInput").focus();
-				}
-			});
+				});
+			}
 		}
 	});
-/*
-	$("#affiliateDocumentTypeInput").autocomplete({
-		source : [ "DNI", "LC", "LE" ],
-		minLength : 0,
-		autoFocus : true,
-		appendTo : "#addAffiliateModal"
-	}).focus(function() {
-		$(this).autocomplete("search", $("#affiliateDocumentTypeInput").val());
-	});
-	
-	*/
 
 	$('#amountModal').on('shown.bs.modal', function() {
 		$('#productAmountInput').focus();
