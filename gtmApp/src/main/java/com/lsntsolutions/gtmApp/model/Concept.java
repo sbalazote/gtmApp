@@ -52,7 +52,7 @@ public class Concept implements Serializable {
 	@JoinColumn(name = "delivery_note_enumerator_id")
 	private DeliveryNoteEnumerator deliveryNoteEnumerator;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "concept_event", joinColumns = @JoinColumn(name = "concept_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "event_id", nullable = false))
 	private List<Event> events;
 

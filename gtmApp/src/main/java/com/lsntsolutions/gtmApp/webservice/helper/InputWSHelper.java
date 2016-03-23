@@ -10,10 +10,12 @@ import com.lsntsolutions.gtmApp.webservice.WebServiceHelper;
 import com.inssjp.mywebservice.business.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@Transactional
 public class InputWSHelper {
 
     private static final Logger logger = Logger.getLogger(WebServiceHelper.class);
