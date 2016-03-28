@@ -167,21 +167,20 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	public void cancelDeliveryNotes(List<String> deliveryNoteNumbers, String username) {
 		Output output = null;
 		Supplying supplying = null;
-		Order order = null;
 
 		for (String deliveryNoteNumber : deliveryNoteNumbers) {
 			DeliveryNote deliveryNote = this.getDeliveryNoteFromNumber(deliveryNoteNumber);
-			deliveryNote.setCancelled(true);
 			try {
 				try {
 					if (deliveryNote.isInformAnmat() && deliveryNote.isInformed()) {
 						this.traceabilityService.cancelDeliveryNoteTransaction(deliveryNote);
+						deliveryNote.setCancelled(true);
+						this.save(deliveryNote);
 					}
 				} catch (Exception e) {
 					logger.info("No se ha podido informar la cancelacion a ANMAT " + deliveryNote.getId());
 					e.printStackTrace();
 				}
-				this.save(deliveryNote);
 			} catch (Exception e) {
 				logger.info("No se ha podido actualizar el estado al remito " + deliveryNote.getId());
 			}
