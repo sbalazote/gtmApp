@@ -28,7 +28,7 @@ public interface DeliveryNoteService {
 
 	Map<Integer, List<DeliveryNote>> getAssociatedSupplyings();
 
-	void save(DeliveryNote deliveryNote) throws Exception;
+	DeliveryNote save(DeliveryNote deliveryNote) throws Exception;
 
 	DeliveryNote getDeliveryNoteFromNumber(String deliveryNoteNumber);
 
@@ -46,7 +46,7 @@ public interface DeliveryNoteService {
 
 	OperationResult saveAndInform(DeliveryNote deliveryNote) throws Exception;
 
-	void sendTrasactionAsync(DeliveryNote deliveryNote) throws Exception;
+	void sendTrasactionAsync(String userName, String deliveryNoteComplete, DeliveryNote deliveryNote) throws Exception;
 
 	void authorizeWithoutInform(Map<String,String> deliveryNoteIds, String name);
 

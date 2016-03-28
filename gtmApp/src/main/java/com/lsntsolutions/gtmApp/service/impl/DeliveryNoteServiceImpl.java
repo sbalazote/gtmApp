@@ -67,9 +67,9 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	}
 
 	@Override
-	public void save(DeliveryNote deliveryNote) throws Exception {
-		this.deliveryNoteDAO.save(deliveryNote);
-		logger.info("Se han guardado los cambios exitosamente. Id de Remito: " + deliveryNote.getId());
+	public DeliveryNote save(DeliveryNote deliveryNote) throws Exception {
+		return this.deliveryNoteDAO.save(deliveryNote);
+		//logger.info("Se han guardado los cambios exitosamente. Id de Remito: " + deliveryNote.getId());
 	}
 
 	@Override
@@ -109,7 +109,10 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 
 	@Override
 	@Async
-	public void sendTrasactionAsync(DeliveryNote deliveryNote) throws Exception {
+	public void sendTrasactionAsync(String userName, String deliveryNoteComplete, DeliveryNote deliveryNote) throws Exception {
+		deliveryNote = this.save(deliveryNote);
+		logger.info("Se ha guardado el remito numero: " + deliveryNoteComplete);
+		this.auditService.addAudit(userName, deliveryNote.isFake() ? RoleOperation.FAKE_DELIVERY_NOTE_PRINT.getId() : RoleOperation.PENDING_TRANSACTIONS.getId(), deliveryNote.getId());
 		Order order = this.getOrder(deliveryNote);
 		Output output = this.getOutput(deliveryNote);
 		Supplying supplying = this.getSupplying(deliveryNote);
@@ -127,7 +130,7 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 
 	@Override
 	public OperationResult saveAndInform(DeliveryNote deliveryNote) throws Exception {
-		this.save(deliveryNote);
+		deliveryNote = this.save(deliveryNote);
 		Order order = this.getOrder(deliveryNote);
 		Output output = this.getOutput(deliveryNote);
 		Supplying supplying = this.getSupplying(deliveryNote);

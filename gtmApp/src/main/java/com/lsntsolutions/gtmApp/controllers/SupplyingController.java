@@ -74,8 +74,7 @@ public class SupplyingController {
 				supplyings.add(supplying.getId());
 				this.deliveryNoteSheetPrinter.print(auth.getName(), supplyings, printerResultDTO,true,false,false);
 			} else {
-				Integer deliveryNote = this.fakeDeliveryNoteSheetPrinter.print(supplying);
-				this.auditService.addAudit(auth.getName(), RoleOperation.FAKE_DELIVERY_NOTE_PRINT.getId(), deliveryNote);
+				this.fakeDeliveryNoteSheetPrinter.print(auth.getName(), supplying);
 			}
 		}
 		return printerResultDTO;

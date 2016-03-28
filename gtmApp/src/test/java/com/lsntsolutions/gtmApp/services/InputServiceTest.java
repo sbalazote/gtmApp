@@ -1,18 +1,16 @@
 package com.lsntsolutions.gtmApp.services;
 
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-
 import com.lsntsolutions.gtmApp.dto.InputDTO;
 import com.lsntsolutions.gtmApp.dto.InputDTOBuilder;
 import com.lsntsolutions.gtmApp.dto.InputDetailDTO;
 import com.lsntsolutions.gtmApp.dto.InputDetailDTOBuilder;
+import com.lsntsolutions.gtmApp.exceptions.*;
+import com.lsntsolutions.gtmApp.model.Agreement;
 import com.lsntsolutions.gtmApp.model.Concept;
 import com.lsntsolutions.gtmApp.model.Input;
 import com.lsntsolutions.gtmApp.model.ProductGtin;
 import com.lsntsolutions.gtmApp.persistence.dao.InputDAO;
+import com.lsntsolutions.gtmApp.service.*;
 import com.lsntsolutions.gtmApp.service.impl.InputServiceImpl;
 import org.junit.After;
 import org.junit.Before;
@@ -25,23 +23,10 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.lsntsolutions.gtmApp.exceptions.DateParseException;
-import com.lsntsolutions.gtmApp.exceptions.NullAgreementIdException;
-import com.lsntsolutions.gtmApp.exceptions.NullConceptIdException;
-import com.lsntsolutions.gtmApp.exceptions.NullDateException;
-import com.lsntsolutions.gtmApp.exceptions.NullProviderAndDeliveryLocationIdsException;
-import com.lsntsolutions.gtmApp.model.Agreement;
-import com.lsntsolutions.gtmApp.service.AgreementService;
-import com.lsntsolutions.gtmApp.service.AuditService;
-import com.lsntsolutions.gtmApp.service.ConceptService;
-import com.lsntsolutions.gtmApp.service.DeliveryLocationService;
-import com.lsntsolutions.gtmApp.service.PropertyService;
-import com.lsntsolutions.gtmApp.service.OrderService;
-import com.lsntsolutions.gtmApp.service.OutputService;
-import com.lsntsolutions.gtmApp.service.ProductGtinService;
-import com.lsntsolutions.gtmApp.service.ProductService;
-import com.lsntsolutions.gtmApp.service.ProviderService;
-import com.lsntsolutions.gtmApp.service.StockService;
+import java.util.Arrays;
+
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:application-context-test.xml")
@@ -90,8 +75,8 @@ public class InputServiceTest {
 		productGtin.setNumber("928029");
 		when(this.productGtinServiceMock.get(1)).thenReturn(productGtin);
 
-		InputDetailDTO iddto = new InputDetailDTOBuilder().amount(1).batch("L0065").expirationDate("110120").productId(1).productType("BE").serialNumber("")
-				.gtin("").build();
+		InputDetailDTO iddto = new InputDetailDTOBuilder().amount(1).batch("L0065").expirationDate("110120").productId(44437).productType("PS").serialNumber("000001977")
+				.gtin("7798096990406").build();
 
 		InputDTO dto = new InputDTOBuilder().agreementId(null).conceptId(1).date("01/01/2015").deliveryLocationId(1).deliveryNoteNumber("R0000da")
 				.providerId(1).purchaseOrderNumber("a").addInputDetail(iddto).build();

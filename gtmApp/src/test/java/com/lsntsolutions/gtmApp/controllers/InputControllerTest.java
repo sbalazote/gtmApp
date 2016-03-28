@@ -5,13 +5,10 @@ import com.lsntsolutions.gtmApp.dto.InputDTOBuilder;
 import com.lsntsolutions.gtmApp.dto.InputDetailDTO;
 import com.lsntsolutions.gtmApp.dto.InputDetailDTOBuilder;
 import com.lsntsolutions.gtmApp.exceptions.NullInputDetailsException;
-import com.lsntsolutions.gtmApp.service.ConceptService;
-import com.lsntsolutions.gtmApp.service.InputService;
 import com.lsntsolutions.gtmApp.util.IntegrationTestUtil;
 import com.lsntsolutions.gtmApp.util.MockSecurityContext;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +24,6 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.test.annotation.Repeat;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -76,7 +72,7 @@ public class InputControllerTest {
 	public final void tearDown() {
 		SecurityContextHolder.clearContext();
 	}
-/*
+
 	@Test(expected = NullInputDetailsException.class)
 	public void addEmptyInput() throws Exception {
 
@@ -90,14 +86,14 @@ public class InputControllerTest {
 						post("/saveInput.do").session(this.session).secure(true).param("isSerializedReturn", "false").accept(MediaType.APPLICATION_JSON)
 								.header("Content-Type", MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON)
 								.content(IntegrationTestUtil.convertObjectToJsonBytes(dto))).andDo(MockMvcResultHandlers.print()).andExpect(status().isOk());
-	}*/
+	}
 
 	@Test
 	@Transactional
 	public void addOneInput() throws Exception {
 
-		InputDetailDTO iddto = new InputDetailDTOBuilder().amount(1).batch("L0065").expirationDate("110120").productId(1).productType("BE").serialNumber(null)
-				.build();
+		InputDetailDTO iddto = new InputDetailDTOBuilder().amount(1).batch("L0065").expirationDate("110120").productId(44437).productType("PS").serialNumber("000001977")
+				.gtin("7798096990406").build();
 
 		InputDTO dto = new InputDTOBuilder().agreementId(1).conceptId(1).date("15/09/2014").deliveryLocationId(1).deliveryNoteNumber("R00012345678")
 				.providerId(1).purchaseOrderNumber("").build();

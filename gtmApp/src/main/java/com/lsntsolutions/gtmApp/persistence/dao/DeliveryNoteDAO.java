@@ -27,7 +27,7 @@ public interface DeliveryNoteDAO {
 
 	Map<Integer, List<DeliveryNote>> getAssociatedSupplyings();
 
-	void save(DeliveryNote deliveryNote);
+	DeliveryNote save(DeliveryNote deliveryNote);
 
 	DeliveryNote getDeliveryNoteFromNumber(String deliveryNoteNumber);
 

@@ -25,7 +25,7 @@ public class FakeDeliveryNoteSheetPrinter {
 	@Autowired
 	private PropertyService propertyService;
 
-	public Integer print(Egress egress) {
+	public void print(String userName, Egress egress) {
 		Date date = new Date();
 
 		List<Detail> outputDetails = egress.getDetails();
@@ -61,14 +61,11 @@ public class FakeDeliveryNoteSheetPrinter {
 			}
 			deliveryNote.setDate(date);
 			deliveryNote.setFake(true);
-			this.deliveryNoteService.save(deliveryNote);
-			this.deliveryNoteService.sendTrasactionAsync(deliveryNote);
-			logger.info("Se ha impreso el remito numero: " + deliveryNoteComplete);
+			//this.deliveryNoteService.save(deliveryNote);
+			this.deliveryNoteService.sendTrasactionAsync(userName, deliveryNoteComplete, deliveryNote);
 		} catch (Exception e1) {
-			logger.info("No se ha podido imprimir el remito numero: " + deliveryNoteComplete);
+			logger.info("No se ha podido guardar el remito numero: " + deliveryNoteComplete);
 		}
-
-		return deliveryNote.getId();
 	}
 
 	private Integer getConceptId(Egress egress){
