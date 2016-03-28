@@ -121,8 +121,8 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/getSerializedStock", method = RequestMethod.GET)
-	public @ResponseBody Stock getSerializedStock(@RequestParam Integer productId, @RequestParam String serialNumber, @RequestParam String gtin, @RequestParam Integer agreementId) {
-		return this.stockService.getSerializedStock(productId, serialNumber, gtin, agreementId);
+	public @ResponseBody Stock getSerializedStock(@RequestParam Integer productId, @RequestParam String serialNumber, @RequestParam(required = false) String batch, @RequestParam(required = false) String expirationDate, @RequestParam String gtin, @RequestParam Integer agreementId) {
+		return this.stockService.getSerializedStock(productId, serialNumber, batch, expirationDate, gtin, agreementId);
 	}
 
 	@RequestMapping(value = "/getStockByParseSerial", method = RequestMethod.GET)

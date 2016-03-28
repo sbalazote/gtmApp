@@ -64,7 +64,7 @@ public class StockDAOHibernateImpl implements StockDAO {
 	}
 
 	@Override
-	public Stock getSerializedProductStock(Integer productId, String serialNumber, String gtin, Integer agreementId) {
+	public Stock getSerializedProductStock(Integer productId, String serialNumber, String batch, String expirationDate, String gtin, Integer agreementId) {
 		try {
 			Product product = null;
 			Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Stock.class, "stock");
@@ -73,6 +73,19 @@ public class StockDAOHibernateImpl implements StockDAO {
 				criteria.add(Restrictions.eq("product.id", productId));
 			}
 			criteria.add(Restrictions.eq("serialNumber", serialNumber));
+			if (!StringUtils.isEmpty(expirationDate)) {
+				try {
+					SimpleDateFormat dateFormatter;
+					dateFormatter = (expirationDate.length() == 6) ? new SimpleDateFormat("yyMMdd") : new SimpleDateFormat("yyyyMMdd");
+					Date expirationDateParsed = dateFormatter.parse(expirationDate);
+					criteria.add(Restrictions.eq("expirationDate", expirationDateParsed));
+				} catch (ParseException e) {
+					throw new RuntimeException("El formato de la fecha ingresada no es valido.", e);
+				}
+			}
+			if (!StringUtils.isEmpty(batch)) {
+				criteria.add(Restrictions.eq("batch", batch));
+			}
 			if(agreementId != null) {
 				criteria.add(Restrictions.eq("agreement.id", agreementId));
 			}
