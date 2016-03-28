@@ -30,7 +30,7 @@ public interface StockService {
 
 	List<Stock> getBatchExpirationDateStock(Integer productId, Integer agreementId);
 
-	Stock getSerializedStock(Integer productId, String serialNumber, String gtin, Integer agreementId);
+	Stock getSerializedStock(Integer productId, String serialNumber, String batch, String expirationDate, String gtin, Integer agreementId);
 
 	Stock getStockByParseSerial(Integer productId, String serialNumber, Integer agreementId);
 

@@ -164,6 +164,7 @@ ProviderSerialized = function() {
 		parseSerial(readSerialNumber);
 		checkLast();
 	});
+
 	var isProviderSelfSerialized = false;
 
 	var generateRow = function() {
