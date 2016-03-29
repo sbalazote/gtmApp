@@ -40,6 +40,7 @@ import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:application-context-test.xml")
 @WebAppConfiguration
