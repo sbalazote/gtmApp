@@ -43,7 +43,11 @@ var PendingTransactions = function() {
 						for (var i = 0, lengthI = response.length; i < lengthI; i++) {
 							if(response[i].resultado == true){
 								$.unblockUI();
-								confirmedDeliveryNotes.push(response[i].operationId);
+								var operation = {
+									deliveryNoteNumber : response[i].operationId,
+									transactionCode: response[i].codigoTransaccion
+								}
+								confirmedDeliveryNotes.push(operation);
 							}else{
 								$.unblockUI();
 								var errors = "<strong>Remito " + response[i].operationId + " </strong>";
@@ -64,7 +68,7 @@ var PendingTransactions = function() {
 						if(confirmedDeliveryNotes.length > 0 && errorsList.length == 0){
 							var message = "Se han informado los siguientes remitos: <p></p><strong>";
 							$.each(confirmedDeliveryNotes, function( index, value ) {
-								message += "<p>" + value + "</p>";
+								message += "<p>" + value.deliveryNoteNumber +"  <span class='label label-success'> Trx: " + value.transactionCode +" </span></p>";
 							});
 							message += "</strong>";
 							myReload("success", message);
@@ -72,7 +76,7 @@ var PendingTransactions = function() {
 							if(errorsList.length > 0 && confirmedDeliveryNotes.length > 0){
 								var message = "Se han informado los siguientes remitos:  <p></p><strong>";
 								$.each(confirmedDeliveryNotes, function( index, value ) {
-									message += "<p>" + value + "</p>";
+									message += "<p>" + value.deliveryNoteNumber +"  <span class='label label-success'> Trx: " + value.transactionCode +" </span></p>";
 								});
 								message += "</strong><br />" +"Pero ocurrieron los siguientes errores:" + "<br />";
 								$.each(errorsList, function( index, value ) {
