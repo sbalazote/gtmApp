@@ -120,7 +120,7 @@ public class DeliveryNoteController {
 			for (String deliveryNoteNumber : deliveryNoteNumbers) {
 				DeliveryNote deliveryNote = this.deliveryNoteService.getDeliveryNoteFromNumber(deliveryNoteNumber);
 				OperationResult operationResult = this.deliveryNoteService.saveAndInform(deliveryNote);
-				this.auditService.addAudit(auth.getName(), RoleOperation.DELIVERY_NOTE_PRINT.getId(), deliveryNote.getId());
+				this.auditService.addAudit(auth.getName(), RoleOperation.PENDING_TRANSACTIONS.getId(), deliveryNote.getId());
 				operationResults.add(operationResult);
 			}
 		}

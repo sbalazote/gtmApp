@@ -112,12 +112,16 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	public void sendTrasactionAsync(String userName, String deliveryNoteComplete, DeliveryNote deliveryNote) throws Exception {
 		deliveryNote = this.save(deliveryNote);
 		logger.info("Se ha guardado el remito numero: " + deliveryNoteComplete);
-		this.auditService.addAudit(userName, deliveryNote.isFake() ? RoleOperation.FAKE_DELIVERY_NOTE_PRINT.getId() : RoleOperation.PENDING_TRANSACTIONS.getId(), deliveryNote.getId());
+		this.auditService.addAudit(userName, deliveryNote.isFake() ? RoleOperation.FAKE_DELIVERY_NOTE_PRINT.getId() : RoleOperation.DELIVERY_NOTE_PRINT.getId(), deliveryNote.getId());
 		Order order = this.getOrder(deliveryNote);
 		Output output = this.getOutput(deliveryNote);
 		Supplying supplying = this.getSupplying(deliveryNote);
 
 		OperationResult result = this.traceabilityService.processDeliveryNotePendingTransactions(deliveryNote, order, output, supplying);
+		saveResult(deliveryNote, result);
+	}
+
+	private void saveResult(DeliveryNote deliveryNote, OperationResult result) throws Exception {
 		if (result != null) {
 			// Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
 			if (result.getResultado()) {
@@ -136,14 +140,7 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 		Supplying supplying = this.getSupplying(deliveryNote);
 
 		OperationResult result = this.traceabilityService.processDeliveryNotePendingTransactions(deliveryNote, order, output, supplying);
-		if (result != null) {
-			// Si no hubo errores se setea el codigo de transaccion del ingreso y se ingresa la mercaderia en stock.
-			if (result.getResultado()) {
-				deliveryNote.setTransactionCodeANMAT(result.getCodigoTransaccion());
-				deliveryNote.setInformed(true);
-				this.save(deliveryNote);
-			}
-		}
+		saveResult(deliveryNote, result);
 		result.setOperationId(deliveryNote.getNumber());
 		return result;
 	}

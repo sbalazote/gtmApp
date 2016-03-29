@@ -5,6 +5,7 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.pdf.*;
 import com.lsntsolutions.gtmApp.constant.DeliveryNoteConfigParam;
+import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.model.*;
@@ -411,9 +412,6 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter {
                         logger.error("No se ha podido guardar el remito: " + deliveryNoteComplete + " para " + egress.getName() + " con Id: " + egress.getId());
                     }
 
-                    /*logger.info("Se ha guardado el remito numero: " + deliveryNoteComplete + " para " + egress.getName() + " con Id: " + egress.getId());
-                    this.auditService.addAudit(userName, RoleOperation.PENDING_TRANSACTIONS.getId(), egress.getId());*/
-
                     currentDeliveryNoteNumber++;
                     printsNumbers.add(dn.getNumber());
                 }
@@ -456,7 +454,7 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter {
 
                 ByteArrayInputStream pdfDocument = new ByteArrayInputStream(finishedDeliveryNotes.toByteArray());
                 this.printOnPrinter.sendPDFToSpool(egress.getAgreement().getDeliveryNotePrinter(), "remito-" + new SimpleDateFormat("dd/MM/yyyy_HH:mm:ss").format(new Date()), pdfDocument, printerResultDTO, deliveryNoteConcept.getDeliveryNoteCopies());
-
+                this.auditService.addAudit(userName, RoleOperation.DELIVERY_NOTE_PRINT.getId(), deliveryNote.getId());
                 try {
                     pdfDocument.close();
                 } catch (IOException e) {
