@@ -23,7 +23,7 @@ public class ConceptDAOHibernateImpl implements ConceptDAO {
 
 	@Override
 	public void save(Concept concept) {
-		this.sessionFactory.getCurrentSession().saveOrUpdate(concept);
+		this.sessionFactory.getCurrentSession().merge(concept);
 	}
 
 	@Override

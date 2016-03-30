@@ -15,7 +15,7 @@ public class PropertyDAOHibernateImpl implements PropertyDAO {
 
 	@Override
 	public void save(Property Property) {
-		this.sessionFactory.getCurrentSession().saveOrUpdate(Property);
+		this.sessionFactory.getCurrentSession().merge(Property);
 	}
 
 	@Override

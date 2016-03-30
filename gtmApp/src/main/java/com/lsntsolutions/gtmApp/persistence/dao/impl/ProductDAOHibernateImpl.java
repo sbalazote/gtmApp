@@ -29,7 +29,7 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 	@Override
 	@Cacheable(value="saveProductCache", key="#name")
 	public void save(Product product) {
-		this.sessionFactory.getCurrentSession().saveOrUpdate(product);
+		this.sessionFactory.getCurrentSession().merge(product);
 	}
 
 	@Override
