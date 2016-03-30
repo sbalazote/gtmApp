@@ -117,17 +117,39 @@ OutputSerialized = function() {
 
 	var generateRow = function() {
 		var readSerialNumber = $("#readSerialNumberInput");
-		isSelfSerialized(readSerialNumber.val());
-		if(isProviderSelfSerialized){
-			parseSerial(readSerialNumber);
-		}else {
-			if(formatSerializedId == null) {
-				getMatches(readSerialNumber);
-			}
 
-			if(formatSerializedId != null){
+		isSelfSerialized(readSerialNumber.val());
+		if (preloadedProductType == "PS") {
+			if(isProviderSelfSerialized){
 				parseSerial(readSerialNumber);
+			}else {
+				findStockBySerial(readSerialNumber.val());
 			}
+		} else {
+			// if self serialized
+
+			$.ajax({
+				url: "isParseSelfSerial.do",
+				type: "GET",
+				async: false,
+				data: {
+					serial: readSerialNumber.val()
+				},
+				success: function(response) {
+					if (!response) {
+						readSerialNumber.val("");
+						readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Inv\u00e1lido").addClass("has-error").tooltip();
+						addToLabels("None", "None", "None", "None");
+						return;
+					}
+
+					findStock(readSerialNumber.val().substring(3, 16) + readSerialNumber.val().substring(18),null, null, productSelectedGtin);
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					myGenericError("serializedModalAlertDiv");
+				}
+			});
+
 		}
 	};
 
@@ -148,38 +170,6 @@ OutputSerialized = function() {
 		});
 	};
 
-	var getMatches = function(readSerialNumber){
-		formatSerializedId = null;
-		$.ajax({
-			url: "getMatchParsers.do",
-			type: "GET",
-			async: false,
-			data: {
-				serial: readSerialNumber.val()
-			},
-			success: function (response) {
-				if(response.length > 1){
-					$('#formatSerializedInput').empty();
-					$('#formatSerializedInput').append("<option value=''></option>");
-					for(var i=0;i < response.length;i++){
-						$('#formatSerializedInput').append("<option value=" + response[i].providerSerializedFormatId + ">" + response[i].serialNumber + "</option>");
-					}
-					$('#formatSerializedInput').trigger("chosen:updated");
-					$('#formatSerializedModal').modal('show');
-				}else if(response.length == 1){
-					formatSerializedId = response[0].providerSerializedFormatId;
-				}else{
-					readSerialNumber.val("");
-					readSerialNumber.tooltip("destroy").data("title", "Formato de Serie Inv\u00e1lido").addClass("has-error").tooltip();
-					addToLabels("None", "None", "None", "None");
-					return;
-				}
-			},
-			error: function (jqXHR, textStatus, errorThrown) {
-				myGenericError("providerSerializedModalAlertDiv");
-			}
-		});
-	};
 
 	var parseSerial = function (readSerialNumber) {
 		$.ajax({
