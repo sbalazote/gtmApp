@@ -109,10 +109,7 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 
 	@Override
 	@Async
-	public void sendTrasactionAsync(String userName, String deliveryNoteComplete, DeliveryNote deliveryNote) throws Exception {
-		deliveryNote = this.save(deliveryNote);
-		logger.info("Se ha guardado el remito numero: " + deliveryNoteComplete);
-		this.auditService.addAudit(userName, deliveryNote.isFake() ? RoleOperation.FAKE_DELIVERY_NOTE_PRINT.getId() : RoleOperation.DELIVERY_NOTE_PRINT.getId(), deliveryNote.getId());
+	public void sendTrasactionAsync(DeliveryNote deliveryNote) throws Exception {
 		Order order = this.getOrder(deliveryNote);
 		Output output = this.getOutput(deliveryNote);
 		Supplying supplying = this.getSupplying(deliveryNote);

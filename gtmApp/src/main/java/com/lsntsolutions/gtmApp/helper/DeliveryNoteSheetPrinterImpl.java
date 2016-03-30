@@ -5,7 +5,6 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.pdf.*;
 import com.lsntsolutions.gtmApp.constant.DeliveryNoteConfigParam;
-import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.model.*;
@@ -406,8 +405,8 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter {
                     dn.setNumber(deliveryNoteComplete);
 
                     try {
-                        //this.deliveryNoteService.save(dn);
-                        this.deliveryNoteService.sendTrasactionAsync(userName, deliveryNoteComplete, deliveryNote);
+                        dn = this.deliveryNoteService.save(dn);
+                        this.deliveryNoteService.sendTrasactionAsync(dn);
                     } catch (Exception e) {
                         logger.error("No se ha podido guardar el remito: " + deliveryNoteComplete + " para " + egress.getName() + " con Id: " + egress.getId());
                     }

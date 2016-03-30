@@ -61,8 +61,9 @@ public class FakeDeliveryNoteSheetPrinter {
 			}
 			deliveryNote.setDate(date);
 			deliveryNote.setFake(true);
-			//this.deliveryNoteService.save(deliveryNote);
-			this.deliveryNoteService.sendTrasactionAsync(userName, deliveryNoteComplete, deliveryNote);
+			this.deliveryNoteService.save(deliveryNote);
+			this.deliveryNoteService.sendTrasactionAsync(deliveryNote);
+			logger.info("Se ha impreso el remito numero: " + deliveryNoteComplete);
 		} catch (Exception e1) {
 			logger.info("No se ha podido guardar el remito numero: " + deliveryNoteComplete);
 		}
