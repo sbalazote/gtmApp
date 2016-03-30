@@ -18,7 +18,7 @@ public class DeliveryNoteConfigDAOHibernateImpl implements DeliveryNoteConfigDAO
 
     @Override
     public void save(DeliveryNoteConfig deliveryNoteConfig) {
-        this.sessionFactory.getCurrentSession().merge(deliveryNoteConfig);
+        this.sessionFactory.getCurrentSession().saveOrUpdate(deliveryNoteConfig);
     }
 
     @Override

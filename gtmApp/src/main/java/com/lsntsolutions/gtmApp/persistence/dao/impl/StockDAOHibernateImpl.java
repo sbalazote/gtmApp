@@ -44,7 +44,7 @@ public class StockDAOHibernateImpl implements StockDAO {
 
 	@Override
 	public void save(Stock stock) {
-		this.sessionFactory.getCurrentSession().merge(stock);
+		this.sessionFactory.getCurrentSession().saveOrUpdate(stock);
 	}
 
 	@Override
