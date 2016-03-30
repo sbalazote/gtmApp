@@ -797,7 +797,9 @@ Input = function() {
 	});
 
 	//Se esconde el div de op.logistico asociado al proveedor.
-	$("#logisticsOperatorInput").attr('disabled', true).trigger("chosen:updated");
+	if(!isUpdate){
+		$("#logisticsOperatorInput").attr('disabled', true).trigger("chosen:updated");
+	}
 
 	$('#providerInput').on('change', function(evt, params) {
 		if (typeof params === "undefined") {
