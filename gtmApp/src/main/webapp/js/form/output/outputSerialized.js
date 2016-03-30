@@ -326,7 +326,7 @@ OutputSerialized = function() {
 				if (response) {
 					addAmount(1);
 					addToLabels((gtin != null) ? gtin : "None", serialNumber, batch, expirationDate);
-					addToTable((response.gtin != null) ? response.gtin : null, response.serialNumber, response.batch, myParseDate(response.expirationDate));
+					addToTable((gtin != null) ? gtin : null, response.serialNumber, response.batch, myParseDate(response.expirationDate));
 					tempSerialNumbers.push(serialNumber);
 					
 					readSerialNumber.val("");
