@@ -48,13 +48,16 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 	private Criteria buildCriteria(String searchPhrase, Boolean active, Integer brandId, Integer monodrugId, Integer productGroupId, Integer drugCategoryId, Boolean productFilterColdOption) {
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Product.class, "product");
 
-		criteria.createAlias("gtins", "g");
-		criteria.setFetchMode("gtins", FetchMode.SELECT);
-
 		if (StringUtility.isInteger(searchPhrase)) {
 			criteria.add(Restrictions.or(Restrictions.eq("id", Integer.parseInt(searchPhrase)), Restrictions.eq("code",  Integer.parseInt(searchPhrase))));
 		} else {
-			criteria.add(Restrictions.or(Restrictions.ilike("description", searchPhrase, MatchMode.ANYWHERE), Restrictions.ilike("g.number", searchPhrase, MatchMode.ANYWHERE), Restrictions.ilike("g.number", StringUtility.removeLeadingZero(searchPhrase), MatchMode.ANYWHERE)));
+			if(searchPhrase.matches("[0-9]+")){
+				criteria.createAlias("gtins", "g");
+				criteria.setFetchMode("gtins", FetchMode.SELECT);
+				criteria.add(Restrictions.or(Restrictions.ilike("g.number", searchPhrase, MatchMode.ANYWHERE), Restrictions.ilike("g.number", StringUtility.removeLeadingZero(searchPhrase), MatchMode.ANYWHERE)));
+			}else{
+				criteria.add(Restrictions.ilike("description", searchPhrase, MatchMode.ANYWHERE));
+			}
 		}
 
 		if (brandId != null) {
@@ -95,8 +98,6 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 		if (ids.size() > 0) {
 			criteria = this.sessionFactory.getCurrentSession().createCriteria(Product.class);
 			criteria.add(Restrictions.in("id", ids));
-            criteria.createAlias("gtins", "g");
-			criteria.setFetchMode("gtins", FetchMode.JOIN);
 			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
 			if (sortId != null) {
