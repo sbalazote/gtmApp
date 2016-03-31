@@ -237,20 +237,22 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 		Map<String, List<DeliveryNote>> outputDeliveryNotes = new HashMap<>();
 		Map<String, List<DeliveryNote>> supplyingDeliveryNotes = new HashMap<>();
 
-		Order order = this.getOrder(deliveryNote);
-		if(order != null){
-			List<DeliveryNote> deliveryNotes = this.deliveryNoteDAO.getDeliveryNoteByOrderId(order.getId());
-			orderDeliveryNotes.put("A" + order.getId(), deliveryNotes);
-		}
-		Supplying supplying = this.getSupplying(deliveryNote);
-		if(supplying != null){
-			List<DeliveryNote> deliveryNotes = this.deliveryNoteDAO.getDeliveryNoteBySupplyingId(supplying.getId());
-			supplyingDeliveryNotes.put("D" + supplying.getId(), deliveryNotes);
-		}
-		Output output = this.getOutput(deliveryNote);
-		if(output != null){
-			List<DeliveryNote> deliveryNotes = this.deliveryNoteDAO.getDeliveryNoteByOutpuId(output.getId());
-			outputDeliveryNotes.put("E" + output.getId(), deliveryNotes);
+		if(deliveryNote != null) {
+			Order order = this.getOrder(deliveryNote);
+			if (order != null) {
+				List<DeliveryNote> deliveryNotes = this.deliveryNoteDAO.getDeliveryNoteByOrderId(order.getId());
+				orderDeliveryNotes.put("A" + order.getId(), deliveryNotes);
+			}
+			Supplying supplying = this.getSupplying(deliveryNote);
+			if (supplying != null) {
+				List<DeliveryNote> deliveryNotes = this.deliveryNoteDAO.getDeliveryNoteBySupplyingId(supplying.getId());
+				supplyingDeliveryNotes.put("D" + supplying.getId(), deliveryNotes);
+			}
+			Output output = this.getOutput(deliveryNote);
+			if (output != null) {
+				List<DeliveryNote> deliveryNotes = this.deliveryNoteDAO.getDeliveryNoteByOutpuId(output.getId());
+				outputDeliveryNotes.put("E" + output.getId(), deliveryNotes);
+			}
 		}
 
 		canceleablesMap.putAll(orderDeliveryNotes);

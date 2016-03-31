@@ -61,6 +61,8 @@ DeliveryNoteCancellation = function() {
 
 	$("#searchButton").click(function() {
 		if(validateForm()) {
+			$("#POSDeliveryNoteNumberSearch").val(addLeadingZeros($("#POSDeliveryNoteNumberSearch").val(), 4));
+			$("#deliveryNoteNumberSearch").val(addLeadingZeros($("#deliveryNoteNumberSearch").val(), 8));
 			var deliveryNoteNumber = $("#POSDeliveryNoteNumberSearch").val() + "-" + $("#deliveryNoteNumberSearch").val();
 			makeQuery(deliveryNoteNumber);
 		}
