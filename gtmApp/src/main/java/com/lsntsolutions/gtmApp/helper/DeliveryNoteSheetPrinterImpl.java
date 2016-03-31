@@ -456,7 +456,11 @@ public class DeliveryNoteSheetPrinterImpl implements DeliveryNoteSheetPrinter {
 
 
                 ByteArrayInputStream pdfDocument = new ByteArrayInputStream(finishedDeliveryNotes.toByteArray());
-                this.printOnPrinter.sendPDFToSpool(egress.getAgreement().getDeliveryNotePrinter(), "remito-" + new SimpleDateFormat("dd/MM/yyyy_HH:mm:ss").format(new Date()), pdfDocument, printerResultDTO, deliveryNoteConcept.getDeliveryNoteCopies());
+                String deliveryNoteNumbersMessage = "REMITOS";
+                for (String deliveryNoteNumbers: printsNumbers) {
+                    deliveryNoteNumbersMessage = deliveryNoteNumbersMessage.concat("\n" + deliveryNoteNumbers);
+                }
+                this.printOnPrinter.sendPDFToSpool(egress.getAgreement().getDeliveryNotePrinter(), deliveryNoteNumbersMessage, pdfDocument, printerResultDTO, deliveryNoteConcept.getDeliveryNoteCopies());
                 try {
                     pdfDocument.close();
                 } catch (IOException e) {
