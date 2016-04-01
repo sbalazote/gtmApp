@@ -31,9 +31,9 @@ public interface DeliveryNoteDAO {
 
 	DeliveryNote getDeliveryNoteFromNumber(String deliveryNoteNumber);
 
-	Order gerOrder(DeliveryNote deliveryNote);
+	Order getOrder(DeliveryNote deliveryNote);
 
-	Output gerOutput(DeliveryNote deliveryNote);
+	Output getOutput(DeliveryNote deliveryNote);
 
 	Supplying getSupplying(DeliveryNote deliveryNote);
 

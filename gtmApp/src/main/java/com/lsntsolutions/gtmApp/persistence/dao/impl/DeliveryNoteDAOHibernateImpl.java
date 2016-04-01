@@ -559,7 +559,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
     }
 
 	@Override
-	public Order gerOrder(DeliveryNote deliveryNote) {
+	public Order getOrder(DeliveryNote deliveryNote) {
 		try {
 			String sentence = "select o.id from order_detail as od, delivery_note_detail as dnd, delivery_note as dn,`order` as o where od.id = dnd.order_detail_id and dn.id = dnd.delivery_note_id and od.order_id = o.id and dnd.delivery_note_id = "
 					+ deliveryNote.getId();
@@ -575,7 +575,7 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 	}
 
 	@Override
-	public Output gerOutput(DeliveryNote deliveryNote) {
+	public Output getOutput(DeliveryNote deliveryNote) {
 		try {
 			String sentence = "select o.id from output_detail as od, delivery_note_detail as dnd, delivery_note as dn, output as o where od.id = dnd.output_detail_id and dn.id = dnd.delivery_note_id and od.output_id = o.id and dnd.delivery_note_id = "
 					+ deliveryNote.getId();
