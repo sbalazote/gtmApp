@@ -4,7 +4,8 @@ SearchSerializedProduct = function() {
     var productDescription;
     var serialFound;
     var gtinFound;
-
+    var batchFound;
+    var expirationDateFound;
 
 	var orderId;
 	var outputId;
@@ -100,6 +101,7 @@ SearchSerializedProduct = function() {
         productId = "";
         $("#movementsTable").bootgrid("clear");
         $('#divMovements').hide();
+        clearLabels();
     });
 
     $("#searchSerialButton").click(function() {
@@ -321,7 +323,6 @@ SearchSerializedProduct = function() {
 	$('#serialParserSearch').keydown(function(e) {
 		if(e.keyCode == 13){ // Presiono Enter
             $("#searchSerialButton").trigger("click");
-            //searchSerialParsed($(this).val());
 		}
 	});
 
@@ -422,6 +423,8 @@ SearchSerializedProduct = function() {
             success: function(response) {
                 serialFound = response.serialNumber;
                 gtinFound = response.gtin;
+                batchFound = response.batch;
+                expirationDateFound = response.expirationDate;
                 if (response != "") {
                     $.ajax({
                         url: "getProductBySerialOrGtin.do",
@@ -436,6 +439,7 @@ SearchSerializedProduct = function() {
                                 productId = response.id;
                                 productCode = response.code;
                                 productDescription = response.description;
+                                addToLabels(productCode + " - " + productDescription, gtinFound, batchFound, expirationDateFound);
                                 $('#serialParserSearch').val(response.description + " Serie: " + serialFound);
                                 searchProduct(productId, serialFound);
                             } else {
@@ -467,7 +471,7 @@ SearchSerializedProduct = function() {
     var productIdByUrl = getURLParameter("productId");
     var serialByUrl = getURLParameter("serial");
 
-    if(productIdByUrl != undefined && serialByUrl != undefined){
+    if (productIdByUrl != undefined && serialByUrl != undefined) {
         $.ajax({
             url: "getProduct.do",
             type: "GET",
@@ -478,7 +482,10 @@ SearchSerializedProduct = function() {
             success: function(response) {
                 $("#productInput").val(response.code + " - " + response.description + " - " + response.brand.description + " - " + response.monodrug.description);
                 $("#serialNumberSearch").val(serialByUrl);
-                addToLabels(response.code + ' - ' + response.description, response.lastGtin, "None", "None");
+                productId = response.id;
+                productCode = response.code;
+                productDescription = response.description;
+                gtinFound = response.lastGtin;
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 myGenericError();
