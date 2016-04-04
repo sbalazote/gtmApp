@@ -168,8 +168,6 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 				try {
 					if (deliveryNote.isInformAnmat() && deliveryNote.isInformed()) {
 						this.traceabilityService.cancelDeliveryNoteTransaction(deliveryNote);
-						deliveryNote.setCancelled(true);
-						this.save(deliveryNote);
 					}
 				} catch (Exception e) {
 					logger.info("No se ha podido informar la cancelacion a ANMAT " + deliveryNote.getId());
@@ -193,6 +191,13 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 				}
 			}
 
+			deliveryNote.setCancelled(true);
+			try {
+				logger.info("No se ha podido anular el remito " + deliveryNote.getId());
+				this.save(deliveryNote);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			this.auditService.addAudit(username, RoleOperation.DELIVERY_NOTE_CANCELLATION.getId(), deliveryNote.getId());
 		}
 	}
