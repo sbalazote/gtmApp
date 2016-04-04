@@ -83,7 +83,7 @@ public class StockPdfView extends AbstractPdfView {
         @SuppressWarnings("unchecked")
         List<Stock> stockList = (List<Stock>) model.get("stocks");
 
-        TreeMap<String, List<Stock>> inputDetail = groupByProductAndBatch(stockList);
+        TreeMap<String, List<Stock>> inputDetail = groupByProductBatchAndExpirationDate(stockList);
 
         TreeMap<String, Integer> productsCount = countByProduct(stockList);
 
@@ -214,15 +214,16 @@ public class StockPdfView extends AbstractPdfView {
         table.addCell(col6Detail);
     }
 
-    private TreeMap<String, List<Stock>> groupByProductAndBatch(List<Stock> stocks) {
+    private TreeMap<String, List<Stock>> groupByProductBatchAndExpirationDate(List<Stock> stocks) {
 		TreeMap<String, List<Stock>> detailsMap = new TreeMap<>();
 
 		for(Stock stock : stocks){
 			String id = Integer.toString(stock.getProduct().getId());
 			String batch = stock.getBatch();
-			String key = id + "," + batch;
+            String expirationDate = String.valueOf(stock.getExpirationDate());
+			String key = id + "," + batch + "," + expirationDate;
 
-			List<Stock> list = (List<Stock>) detailsMap.get(key);
+			List<Stock> list = detailsMap.get(key);
 			if(list == null) {
 				list = new ArrayList<>();
 			}

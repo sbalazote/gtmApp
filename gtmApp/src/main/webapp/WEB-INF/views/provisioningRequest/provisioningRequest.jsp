@@ -207,7 +207,7 @@
 						</div>
 					</div>
 					<label for="productAmountInput"><spring:message code="common.amount"/></label>
-					<input type="text" class="form-control" name="productAmount" id="productAmountInput"/>
+					<input type="text" class="form-control" name="productAmount" id="productAmountInput" autocomplete="off"/>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.abort"/></button>

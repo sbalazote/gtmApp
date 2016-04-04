@@ -94,12 +94,12 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 
 	@Override
 	public Order getOrder(DeliveryNote deliveryNote) {
-		return this.deliveryNoteDAO.gerOrder(deliveryNote);
+		return this.deliveryNoteDAO.getOrder(deliveryNote);
 	}
 
 	@Override
 	public Output getOutput(DeliveryNote deliveryNote) {
-		return this.deliveryNoteDAO.gerOutput(deliveryNote);
+		return this.deliveryNoteDAO.getOutput(deliveryNote);
 	}
 
 	@Override
