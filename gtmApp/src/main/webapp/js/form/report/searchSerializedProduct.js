@@ -7,7 +7,8 @@ SearchSerializedProduct = function() {
     var batchFound;
     var expirationDateFound;
 
-	var orderId;
+    var inputId;
+    var orderId;
 	var outputId;
 	var deliveryNoteId;
 	var supplyingId;

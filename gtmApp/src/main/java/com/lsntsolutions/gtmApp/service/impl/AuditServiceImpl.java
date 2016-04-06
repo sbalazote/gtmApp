@@ -1,9 +1,7 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
-import com.lsntsolutions.gtmApp.dto.OutputOrderResultDTO;
-import com.lsntsolutions.gtmApp.dto.SearchProductDTO;
-import com.lsntsolutions.gtmApp.dto.SearchProductResultDTO;
+import com.lsntsolutions.gtmApp.dto.*;
 import com.lsntsolutions.gtmApp.model.Audit;
 import com.lsntsolutions.gtmApp.model.Input;
 import com.lsntsolutions.gtmApp.model.Role;
@@ -76,7 +74,7 @@ public class AuditServiceImpl implements AuditService {
 	}
 
 	@Override
-	public List<Audit> getAuditForSearch(AuditQuery auditQuery) {
+	public SearchAuditResultDTO getAuditForSearch(AuditQuery auditQuery) {
 		return this.auditDAO.getAuditForSearch(auditQuery);
 	}
 

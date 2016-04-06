@@ -8,7 +8,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -79,7 +78,8 @@ public class ReportAdministrationController {
 
 	@RequestMapping(value = "/searchAudit", method = RequestMethod.GET)
 	public String searchAudit(ModelMap modelMap) throws Exception {
-		List<RoleOperation> roleList = Arrays.asList(RoleOperation.values());
+		//List<RoleOperation> roleList = Arrays.asList(RoleOperation.values());
+		List<RoleOperation> roleList = RoleOperation.getAuditRoles();
 		modelMap.put("roles", roleList);
 		modelMap.put("users", this.userService.getAll());
 		return "searchAudit";

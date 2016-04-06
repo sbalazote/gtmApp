@@ -1,5 +1,8 @@
 package com.lsntsolutions.gtmApp.constant;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum RoleOperation {
 	INPUT("Ingreso", 1),
 	OUTPUT("Egreso", 2),
@@ -73,5 +76,34 @@ public enum RoleOperation {
 			}
 		}
 		return null;
+	}
+
+	public static List<RoleOperation> getAuditRoles() {
+		List<RoleOperation> auditRoles = new ArrayList<>();
+		auditRoles.add(RoleOperation.INPUT);
+		auditRoles.add(RoleOperation.OUTPUT);
+		auditRoles.add(RoleOperation.PROVISIONING_REQUEST);
+		auditRoles.add(RoleOperation.PROVISIONING_REQUEST_UPDATE);
+		auditRoles.add(RoleOperation.PROVISIONING_REQUEST_AUTHORIZATION);
+		auditRoles.add(RoleOperation.PROVISIONING_REQUEST_CANCELLATION);
+		auditRoles.add(RoleOperation.PROVISIONING_REQUEST_PRINT);
+		auditRoles.add(RoleOperation.ORDER_ASSEMBLY);
+		auditRoles.add(RoleOperation.ORDER_ASSEMBLY_CANCELLATION);
+		auditRoles.add(RoleOperation.DELIVERY_NOTE_PRINT);
+		auditRoles.add(RoleOperation.DELIVERY_NOTE_CANCELLATION);
+		auditRoles.add(RoleOperation.SERIALIZED_RETURNS);
+		auditRoles.add(RoleOperation.INPUT_CANCELLATION);
+		auditRoles.add(RoleOperation.INPUT_AUTHORIZATION);
+		auditRoles.add(RoleOperation.PRODUCT_DESTRUCTION);
+		auditRoles.add(RoleOperation.AGREEMENT_TRANSFER);
+		auditRoles.add(RoleOperation.SUPPLYING);
+		auditRoles.add(RoleOperation.PENDING_TRANSACTIONS);
+		auditRoles.add(RoleOperation.LOGISTIC_OPERATOR_ASSIGNMENT);
+		auditRoles.add(RoleOperation.ORDER_LABEL_PRINT);
+		auditRoles.add(RoleOperation.FAKE_DELIVERY_NOTE_PRINT);
+		auditRoles.add(RoleOperation.FORCED_INPUT);
+		auditRoles.add(RoleOperation.FORCED_INPUT_UPDATE);
+
+		return  auditRoles;
 	}
 }

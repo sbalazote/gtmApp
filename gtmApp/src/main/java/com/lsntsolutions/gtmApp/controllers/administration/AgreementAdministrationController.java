@@ -155,7 +155,7 @@ public class AgreementAdministrationController {
 	}
 
 	@RequestMapping(value = "/updateProductsAgreement", method = RequestMethod.POST)
-	public @ResponseBody void saveInput(@RequestBody AgreementTransferDTO agreementTransferDTO, HttpServletRequest request) throws Exception {
+	public @ResponseBody void updateProductsAgreement(@RequestBody AgreementTransferDTO agreementTransferDTO, HttpServletRequest request) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
 			this.agreementTransferService.updateAgreementStock(agreementTransferDTO, auth.getName());

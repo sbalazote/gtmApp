@@ -1,7 +1,7 @@
 package com.lsntsolutions.gtmApp.controllers.search;
 
+import com.lsntsolutions.gtmApp.dto.SearchAuditResultDTO;
 import com.lsntsolutions.gtmApp.dto.SearchProductResultDTO;
-import com.lsntsolutions.gtmApp.model.Audit;
 import com.lsntsolutions.gtmApp.query.AuditQuery;
 import com.lsntsolutions.gtmApp.service.AuditService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -28,7 +27,7 @@ public class AuditSearchController {
 
 	@RequestMapping(value = "/getAuditForSearch", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Audit> getAuditForSearch(@RequestBody AuditQuery auditQuery) throws Exception {
+	SearchAuditResultDTO getAuditForSearch(@RequestBody AuditQuery auditQuery) throws Exception {
 		return this.auditService.getAuditForSearch(auditQuery);
 	}
 

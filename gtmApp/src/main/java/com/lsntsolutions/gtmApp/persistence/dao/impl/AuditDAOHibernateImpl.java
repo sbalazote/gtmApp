@@ -1,7 +1,8 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
-import com.lsntsolutions.gtmApp.constant.Constants;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
+import com.lsntsolutions.gtmApp.dto.AuditResultDTO;
+import com.lsntsolutions.gtmApp.dto.SearchAuditResultDTO;
 import com.lsntsolutions.gtmApp.dto.SearchProductDTO;
 import com.lsntsolutions.gtmApp.dto.SearchProductResultDTO;
 import com.lsntsolutions.gtmApp.model.Audit;
@@ -9,16 +10,11 @@ import com.lsntsolutions.gtmApp.persistence.dao.AuditDAO;
 import com.lsntsolutions.gtmApp.query.AuditQuery;
 import com.lsntsolutions.gtmApp.service.RoleService;
 import com.lsntsolutions.gtmApp.service.UserService;
-import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,10 +50,154 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Audit> getAuditForSearch(AuditQuery auditQuery) {
+	public SearchAuditResultDTO getAuditForSearch(AuditQuery auditQuery) {
+		SearchAuditResultDTO searchAuditResultDTO = new SearchAuditResultDTO();
+		//Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Audit.class);
+		Query query = null;
+		String sentence = "SELECT {a.*} FROM audit a INNER JOIN ";
+		Integer roleId = auditQuery.getRoleId();
+		if (roleId != null) {
+			switch (roleId) {
 
-		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Audit.class);
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+			/*
+			INPUT("Ingreso", 1)
+			SERIALIZED_RETURNS("Devolución de Series", 13),
+			INPUT_CANCELLATION("Anulación de Ingreso", 14),
+			INPUT_AUTHORIZATION("Autorización de Ingreso", 15),
+			FORCED_INPUT("Ingreso Forzado", 46),
+			FORCED_INPUT_UPDATE("Modificación de Ingreso Forzado", 47),
+			 */
+				case 1:
+				case 13:
+				case 14:
+				case 15:
+				case 46:
+				case 47:
+					sentence += "input i ON a.operation_id = i.id WHERE a.role_id = " + roleId;
+					query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
+							.addEntity("a", Audit.class);
+					searchAuditResultDTO.setInputs(query.list());
+					break;
+
+			/*
+			 OUTPUT("Egreso", 2)
+			PRODUCT_DESTRUCTION("Destrucción de Mercadería", 16),
+			  */
+				case 2:
+				case 16:
+					sentence += "output o ON a.operation_id = o.id WHERE a.role_id = " + roleId;
+					query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
+							.addEntity("a", Audit.class);
+					searchAuditResultDTO.setOutputs(query.list());
+					break;
+
+			/*
+			PROVISIONING_REQUEST("Pedido", 3),
+			PROVISIONING_REQUEST_UPDATE("Modificación de Pedidos", 4),
+			PROVISIONING_REQUEST_AUTHORIZATION("Autorizacion de Pedidos", 5),
+			PROVISIONING_REQUEST_CANCELLATION("Anulación de Pedidos", 6),
+			PROVISIONING_REQUEST_PRINT("Impresión de Hoja de Picking", 7)
+			LOGISTIC_OPERATOR_ASSIGNMENT("Asignacion de Operador Logistico",20),
+			*/
+				case 3:
+				case 4:
+				case 5:
+				case 6:
+				case 7:
+				case 20:
+					sentence += "provisioning_request p ON a.operation_id = p.id WHERE a.role_id = " + roleId;
+					query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
+							.addEntity("a", Audit.class);
+					searchAuditResultDTO.setProvisioningRequests(query.list());
+					break;
+
+			/*
+			ORDER_ASSEMBLY("Armado de Pedido", 8),
+			ORDER_ASSEMBLY_CANCELLATION("Anulación de Armado de Pedido", 9),
+			ORDER_LABEL_PRINT("Impresión de Rótulos", 44),
+			 */
+				case 8:
+				case 9:
+				case 44:
+					sentence += "`order` o ON a.operation_id = o.id WHERE a.role_id = " + roleId;
+					query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
+							.addEntity("a", Audit.class);
+					searchAuditResultDTO.setOrders(query.list());
+					break;
+
+			/*
+			DELIVERY_NOTE_PRINT("Impresión de Remito", 10),
+			DELIVERY_NOTE_CANCELLATION("Anulación de Remito", 11),
+			PENDING_TRANSACTIONS("Transacciones Pendientes", 19),
+			FAKE_DELIVERY_NOTE_PRINT("Impresión de Remito Propio", 45),
+			 */
+				case 10:
+				case 11:
+				case 19:
+				case 45:
+					sentence += "delivery_note d ON a.operation_id = d.id WHERE a.role_id = " + roleId;
+					query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
+							.addEntity("a", Audit.class);
+					searchAuditResultDTO.setDeliveryNotes(query.list());
+					break;
+
+			/*
+			AGREEMENT_TRANSFER("Transferencia de Convenio", 17),
+			 */
+				case 17:
+					break;
+
+			/*
+			SUPPLYING("Dispensa", 18),
+			 */
+				case 18:
+					sentence += "supplying s ON a.operation_id = s.id WHERE a.role_id = " + roleId;
+					query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
+							.addEntity("a", Audit.class);
+					searchAuditResultDTO.setSupplyings(query.list());
+					break;
+
+				default:
+					//String sentence = "SELECT {a.*} FROM audit a INNER JOIN ";
+
+					break;
+
+			}
+		} else {
+			sentence += "input i ON a.operation_id = i.id";
+			query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
+					.addEntity("a", Audit.class);
+			searchAuditResultDTO.setInputs(query.list());
+
+			sentence = "SELECT {a.*} FROM audit a INNER JOIN output o ON a.operation_id = o.id";
+			query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
+					.addEntity("a", Audit.class);
+			searchAuditResultDTO.setOutputs(query.list());
+
+			sentence = "SELECT {a.*} FROM audit a INNER JOIN provisioning_request p ON a.operation_id = p.id";
+			query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
+					.addEntity("a", Audit.class);
+			searchAuditResultDTO.setProvisioningRequests(query.list());
+
+			sentence = "SELECT {a.*} FROM audit a INNER JOIN `order` o ON a.operation_id = o.id";
+			query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
+					.addEntity("a", Audit.class);
+			searchAuditResultDTO.setOrders(query.list());
+
+			sentence = "SELECT {a.*} FROM audit a INNER JOIN delivery_note d ON a.operation_id = d.id";
+			query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
+					.addEntity("a", Audit.class);
+			searchAuditResultDTO.setDeliveryNotes(query.list());
+
+			sentence = "SELECT {a.*} FROM audit a INNER JOIN supplying s ON a.operation_id = s.id";
+			query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
+					.addEntity("a", Audit.class);
+			searchAuditResultDTO.setSupplyings(query.list());
+		}
+
+
+
+		/*SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		Date dateFromFormated = null;
 		Date dateToFormated = null;
 
@@ -92,14 +232,15 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 
         criteria.addOrder(Order.desc("id"));
 
-		List<Audit> results = criteria.list();
+		List<Audit> results = query.list();*/
 
-		return results;
+		return searchAuditResultDTO;
 	}
 
 	@Override
 	public boolean getCountAuditSearch(AuditQuery auditQuery) {
-		return this.getAuditForSearch(auditQuery).size() < Constants.QUERY_MAX_RESULTS;
+		/*return this.getAuditForSearch(auditQuery).size() < Constants.QUERY_MAX_RESULTS;*/
+		return true;
 	}
 
 	@Override

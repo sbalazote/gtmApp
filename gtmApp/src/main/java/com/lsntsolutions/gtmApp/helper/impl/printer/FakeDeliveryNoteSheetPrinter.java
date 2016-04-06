@@ -1,6 +1,8 @@
 package com.lsntsolutions.gtmApp.helper.impl.printer;
 
+import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.model.*;
+import com.lsntsolutions.gtmApp.service.AuditService;
 import com.lsntsolutions.gtmApp.service.ConceptService;
 import com.lsntsolutions.gtmApp.service.DeliveryNoteService;
 import com.lsntsolutions.gtmApp.service.PropertyService;
@@ -22,6 +24,8 @@ public class FakeDeliveryNoteSheetPrinter {
 	private DeliveryNoteService deliveryNoteService;
 	@Autowired
 	private ConceptService conceptService;
+	@Autowired
+	private AuditService auditService;
 	@Autowired
 	private PropertyService propertyService;
 
@@ -64,6 +68,7 @@ public class FakeDeliveryNoteSheetPrinter {
 			deliveryNote = this.deliveryNoteService.save(deliveryNote);
 			this.deliveryNoteService.sendTrasactionAsync(deliveryNote);
 			logger.info("Se ha guardado el remito numero: " + deliveryNoteComplete);
+			this.auditService.addAudit(userName, RoleOperation.FAKE_DELIVERY_NOTE_PRINT.getId(), deliveryNote.getId());
 		} catch (Exception e1) {
 			logger.info("No se ha podido guardar el remito numero: " + deliveryNoteComplete);
 		}
