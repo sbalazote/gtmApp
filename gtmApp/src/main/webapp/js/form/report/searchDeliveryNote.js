@@ -71,6 +71,24 @@ SearchDeliveryNote = function() {
 
     });
 
+	$('#outputIdSearch').keydown(function(e) {
+		if(e.keyCode == 13){ // Presiono Enter
+			$("#searchOutputButton").trigger("click");
+		}
+	});
+
+	$('#provisioningIdSearch').keydown(function(e) {
+		if(e.keyCode == 13){ // Presiono Enter
+			$("#searchOrderButton").trigger("click");
+		}
+	});
+
+	$('#supplyingIdSearch').keydown(function(e) {
+		if(e.keyCode == 13){ // Presiono Enter
+			$("#searchSupplyingButton").trigger("click");
+		}
+	});
+
 	$("#outputProductInput, #supplyingProductInput, #orderProductInput").autocomplete({
 		source: function(request, response) {
 			$.ajax({
