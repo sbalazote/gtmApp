@@ -264,7 +264,16 @@ SearchAudit = function() {
 					caseSensitive: false
 				});
 				$("#auditTable").bootgrid("clear");
-				$("#auditTable").bootgrid("append", aaData);
+				var sortedDate = _.sortBy(aaData, function(row) {
+					var fullDate = row.date;
+					var dayTime = fullDate.split(" ");
+					var day = dayTime[0];
+					var time = dayTime[1];
+					var splittedDay = day.split("/");
+					var splittedTime = time.split(":");
+					return new Date(splittedDay[2], splittedDay[1]-1, splittedDay[0], splittedTime[0], splittedTime[1], splittedTime[2]);
+				}).reverse();
+				$("#auditTable").bootgrid("append", sortedDate);
 				$("#auditTable").bootgrid("search", $(".search-field").val());
 				
 				var params = '&dateFrom=' + jsonAuditSearch.dateFrom + 
