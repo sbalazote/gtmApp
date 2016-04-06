@@ -1,7 +1,7 @@
 package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
+import com.lsntsolutions.gtmApp.constant.Constants;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
-import com.lsntsolutions.gtmApp.dto.AuditResultDTO;
 import com.lsntsolutions.gtmApp.dto.SearchAuditResultDTO;
 import com.lsntsolutions.gtmApp.dto.SearchProductDTO;
 import com.lsntsolutions.gtmApp.dto.SearchProductResultDTO;
@@ -14,7 +14,9 @@ import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,8 +54,45 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 	@Override
 	public SearchAuditResultDTO getAuditForSearch(AuditQuery auditQuery) {
 		SearchAuditResultDTO searchAuditResultDTO = new SearchAuditResultDTO();
-		//Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Audit.class);
 		Query query = null;
+
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+		Date dateFromFormatted = null;
+		Date dateToFormatted = null;
+		Integer operationId = null;
+		Integer userId = null;
+
+		if (!StringUtils.isEmpty(auditQuery.getDateFrom())) {
+			try {
+				dateFromFormatted = dateFormatter.parse(auditQuery.getDateFrom());
+				//criteria.add(Restrictions.ge("date", dateFromFormated));
+			} catch (ParseException e) {
+				throw new RuntimeException("El formato de la fecha ingresada no es valido.", e);
+			}
+		}
+		if (!StringUtils.isEmpty(auditQuery.getDateTo())) {
+			try {
+				dateToFormatted = dateFormatter.parse(auditQuery.getDateTo());
+				//criteria.add(Restrictions.le("date", dateToFormated));
+			} catch (ParseException e) {
+				throw new RuntimeException("El formato de la fecha ingresada no es valido.", e);
+			}
+		}
+
+		if (auditQuery.getOperationId() != null) {
+			//criteria.add(Restrictions.eq("operationId", auditQuery.getOperationId()));
+			operationId = auditQuery.getOperationId();
+		}
+
+		/*if (auditQuery.getRoleId() != null) {
+			criteria.add(Restrictions.eq("role.id", auditQuery.getRoleId()));
+		}*/
+
+		if (auditQuery.getUserId() != null) {
+			//criteria.add(Restrictions.eq("user.id", auditQuery.getUserId()));
+			userId = auditQuery.getUserId();
+		}
+
 		String sentence = "SELECT {a.*} FROM audit a INNER JOIN ";
 		Integer roleId = auditQuery.getRoleId();
 		if (roleId != null) {
@@ -74,20 +113,56 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 				case 46:
 				case 47:
 					sentence += "input i ON a.operation_id = i.id WHERE a.role_id = " + roleId;
-					query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
-							.addEntity("a", Audit.class);
+					if (dateFromFormatted != null) {
+						sentence += " AND a.date >= :dateFromFormatted";
+					}
+					if (dateToFormatted != null) {
+						sentence += " AND a.date <= :dateToFormatted";
+					}
+					if (operationId != null) {
+						sentence += " AND a.operation_id = " + operationId;
+					}
+					if (userId != null) {
+						sentence += " AND a.user_id = " + userId;
+					}
+					sentence += " ORDER BY a.id DESC";
+					query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
+					if (dateFromFormatted != null) {
+						query.setDate("dateFromFormatted", dateFromFormatted);
+					}
+					if (dateToFormatted != null) {
+						query.setDate("dateToFormatted", dateToFormatted);
+					}
 					searchAuditResultDTO.setInputs(query.list());
 					break;
 
 			/*
-			 OUTPUT("Egreso", 2)
+			OUTPUT("Egreso", 2)
 			PRODUCT_DESTRUCTION("Destrucción de Mercadería", 16),
-			  */
+			 */
 				case 2:
 				case 16:
 					sentence += "output o ON a.operation_id = o.id WHERE a.role_id = " + roleId;
-					query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
-							.addEntity("a", Audit.class);
+					if (dateFromFormatted != null) {
+						sentence += " AND a.date >= :dateFromFormatted";
+					}
+					if (dateToFormatted != null) {
+						sentence += " AND a.date <= :dateToFormatted";
+					}
+					if (operationId != null) {
+						sentence += " AND a.operation_id = " + operationId;
+					}
+					if (userId != null) {
+						sentence += " AND a.user_id = " + userId;
+					}
+					sentence += " ORDER BY a.id DESC";
+					query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
+					if (dateFromFormatted != null) {
+						query.setDate("dateFromFormatted", dateFromFormatted);
+					}
+					if (dateToFormatted != null) {
+						query.setDate("dateToFormatted", dateToFormatted);
+					}
 					searchAuditResultDTO.setOutputs(query.list());
 					break;
 
@@ -106,8 +181,26 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 				case 7:
 				case 20:
 					sentence += "provisioning_request p ON a.operation_id = p.id WHERE a.role_id = " + roleId;
-					query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
-							.addEntity("a", Audit.class);
+					if (dateFromFormatted != null) {
+						sentence += " AND a.date >= :dateFromFormatted";
+					}
+					if (dateToFormatted != null) {
+						sentence += " AND a.date <= :dateToFormatted";
+					}
+					if (operationId != null) {
+						sentence += " AND a.operation_id = " + operationId;
+					}
+					if (userId != null) {
+						sentence += " AND a.user_id = " + userId;
+					}
+					sentence += " ORDER BY a.id DESC";
+					query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
+					if (dateFromFormatted != null) {
+						query.setDate("dateFromFormatted", dateFromFormatted);
+					}
+					if (dateToFormatted != null) {
+						query.setDate("dateToFormatted", dateToFormatted);
+					}
 					searchAuditResultDTO.setProvisioningRequests(query.list());
 					break;
 
@@ -120,8 +213,26 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 				case 9:
 				case 44:
 					sentence += "`order` o ON a.operation_id = o.id WHERE a.role_id = " + roleId;
-					query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
-							.addEntity("a", Audit.class);
+					if (dateFromFormatted != null) {
+						sentence += " AND a.date >= :dateFromFormatted";
+					}
+					if (dateToFormatted != null) {
+						sentence += " AND a.date <= :dateToFormatted";
+					}
+					if (operationId != null) {
+						sentence += " AND a.operation_id = " + operationId;
+					}
+					if (userId != null) {
+						sentence += " AND a.user_id = " + userId;
+					}
+					sentence += " ORDER BY a.id DESC";
+					query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
+					if (dateFromFormatted != null) {
+						query.setDate("dateFromFormatted", dateFromFormatted);
+					}
+					if (dateToFormatted != null) {
+						query.setDate("dateToFormatted", dateToFormatted);
+					}
 					searchAuditResultDTO.setOrders(query.list());
 					break;
 
@@ -136,8 +247,26 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 				case 19:
 				case 45:
 					sentence += "delivery_note d ON a.operation_id = d.id WHERE a.role_id = " + roleId;
-					query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
-							.addEntity("a", Audit.class);
+					if (dateFromFormatted != null) {
+						sentence += " AND a.date >= :dateFromFormatted";
+					}
+					if (dateToFormatted != null) {
+						sentence += " AND a.date <= :dateToFormatted";
+					}
+					if (operationId != null) {
+						sentence += " AND a.operation_id = " + operationId;
+					}
+					if (userId != null) {
+						sentence += " AND a.user_id = " + userId;
+					}
+					sentence += " ORDER BY a.id DESC";
+					query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
+					if (dateFromFormatted != null) {
+						query.setDate("dateFromFormatted", dateFromFormatted);
+					}
+					if (dateToFormatted != null) {
+						query.setDate("dateToFormatted", dateToFormatted);
+					}
 					searchAuditResultDTO.setDeliveryNotes(query.list());
 					break;
 
@@ -152,95 +281,178 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 			 */
 				case 18:
 					sentence += "supplying s ON a.operation_id = s.id WHERE a.role_id = " + roleId;
-					query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
-							.addEntity("a", Audit.class);
+					if (dateFromFormatted != null) {
+						sentence += " AND a.date >= :dateFromFormatted";
+					}
+					if (dateToFormatted != null) {
+						sentence += " AND a.date <= :dateToFormatted";
+					}
+					if (operationId != null) {
+						sentence += " AND a.operation_id = " + operationId;
+					}
+					if (userId != null) {
+						sentence += " AND a.user_id = " + userId;
+					}
+					sentence += " ORDER BY a.id DESC";
+					query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
+					if (dateFromFormatted != null) {
+						query.setDate("dateFromFormatted", dateFromFormatted);
+					}
+					if (dateToFormatted != null) {
+						query.setDate("dateToFormatted", dateToFormatted);
+					}
 					searchAuditResultDTO.setSupplyings(query.list());
 					break;
 
 				default:
-					//String sentence = "SELECT {a.*} FROM audit a INNER JOIN ";
-
 					break;
-
 			}
 		} else {
-			sentence += "input i ON a.operation_id = i.id";
-			query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
-					.addEntity("a", Audit.class);
+			sentence += "input i ON a.operation_id = i.id WHERE a.role_id IN (1, 13, 14, 15, 46, 47)";
+			if (dateFromFormatted != null) {
+				sentence += " AND a.date >= :dateFromFormatted";
+			}
+			if (dateToFormatted != null) {
+				sentence += " AND a.date <= :dateToFormatted";
+			}
+			if (operationId != null) {
+				sentence += " AND a.operation_id = " + operationId;
+			}
+			if (userId != null) {
+				sentence += " AND a.user_id = " + userId;
+			}
+			sentence += " ORDER BY a.id DESC";
+			query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
+			if (dateFromFormatted != null) {
+				query.setDate("dateFromFormatted", dateFromFormatted);
+			}
+			if (dateToFormatted != null) {
+				query.setDate("dateToFormatted", dateToFormatted);
+			}
 			searchAuditResultDTO.setInputs(query.list());
 
-			sentence = "SELECT {a.*} FROM audit a INNER JOIN output o ON a.operation_id = o.id";
-			query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
-					.addEntity("a", Audit.class);
+			sentence = "SELECT {a.*} FROM audit a INNER JOIN output o ON a.operation_id = o.id WHERE a.role_id IN (2, 16)";
+			if (dateFromFormatted != null) {
+				sentence += " AND a.date >= :dateFromFormatted";
+			}
+			if (dateToFormatted != null) {
+				sentence += " AND a.date <= :dateToFormatted";
+			}
+			if (operationId != null) {
+				sentence += " AND a.operation_id = " + operationId;
+			}
+			if (userId != null) {
+				sentence += " AND a.user_id = " + userId;
+			}
+			sentence += " ORDER BY a.id DESC";
+			query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
+			if (dateFromFormatted != null) {
+				query.setDate("dateFromFormatted", dateFromFormatted);
+			}
+			if (dateToFormatted != null) {
+				query.setDate("dateToFormatted", dateToFormatted);
+			}
 			searchAuditResultDTO.setOutputs(query.list());
 
-			sentence = "SELECT {a.*} FROM audit a INNER JOIN provisioning_request p ON a.operation_id = p.id";
-			query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
-					.addEntity("a", Audit.class);
+			sentence = "SELECT {a.*} FROM audit a INNER JOIN provisioning_request p ON a.operation_id = p.id WHERE a.role_id IN (3, 4, 5, 6, 7, 20)";
+			if (dateFromFormatted != null) {
+				sentence += " AND a.date >= :dateFromFormatted";
+			}
+			if (dateToFormatted != null) {
+				sentence += " AND a.date <= :dateToFormatted";
+			}
+			if (operationId != null) {
+				sentence += " AND a.operation_id = " + operationId;
+			}
+			if (userId != null) {
+				sentence += " AND a.user_id = " + userId;
+			}
+			sentence += " ORDER BY a.id DESC";
+			query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
+			if (dateFromFormatted != null) {
+				query.setDate("dateFromFormatted", dateFromFormatted);
+			}
+			if (dateToFormatted != null) {
+				query.setDate("dateToFormatted", dateToFormatted);
+			}
 			searchAuditResultDTO.setProvisioningRequests(query.list());
 
-			sentence = "SELECT {a.*} FROM audit a INNER JOIN `order` o ON a.operation_id = o.id";
-			query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
-					.addEntity("a", Audit.class);
+			sentence = "SELECT {a.*} FROM audit a INNER JOIN `order` o ON a.operation_id = o.id WHERE a.role_id IN (8, 9, 44)";
+			if (dateFromFormatted != null) {
+				sentence += " AND a.date >= :dateFromFormatted";
+			}
+			if (dateToFormatted != null) {
+				sentence += " AND a.date <= :dateToFormatted";
+			}
+			if (operationId != null) {
+				sentence += " AND a.operation_id = " + operationId;
+			}
+			if (userId != null) {
+				sentence += " AND a.user_id = " + userId;
+			}
+			sentence += " ORDER BY a.id DESC";
+			query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
+			if (dateFromFormatted != null) {
+				query.setDate("dateFromFormatted", dateFromFormatted);
+			}
+			if (dateToFormatted != null) {
+				query.setDate("dateToFormatted", dateToFormatted);
+			}
 			searchAuditResultDTO.setOrders(query.list());
 
-			sentence = "SELECT {a.*} FROM audit a INNER JOIN delivery_note d ON a.operation_id = d.id";
-			query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
-					.addEntity("a", Audit.class);
+			sentence = "SELECT {a.*} FROM audit a INNER JOIN delivery_note d ON a.operation_id = d.id WHERE a.role_id IN (10, 11, 19, 45)";
+			if (dateFromFormatted != null) {
+				sentence += " AND a.date >= :dateFromFormatted";
+			}
+			if (dateToFormatted != null) {
+				sentence += " AND a.date <= :dateToFormatted";
+			}
+			if (operationId != null) {
+				sentence += " AND a.operation_id = " + operationId;
+			}
+			if (userId != null) {
+				sentence += " AND a.user_id = " + userId;
+			}
+			sentence += " ORDER BY a.id DESC";
+			query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
+			if (dateFromFormatted != null) {
+				query.setDate("dateFromFormatted", dateFromFormatted);
+			}
+			if (dateToFormatted != null) {
+				query.setDate("dateToFormatted", dateToFormatted);
+			}
 			searchAuditResultDTO.setDeliveryNotes(query.list());
 
-			sentence = "SELECT {a.*} FROM audit a INNER JOIN supplying s ON a.operation_id = s.id";
-			query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence)
-					.addEntity("a", Audit.class);
+			sentence = "SELECT {a.*} FROM audit a INNER JOIN supplying s ON a.operation_id = s.id WHERE a.role_id IN (18)";
+			if (dateFromFormatted != null) {
+				sentence += " AND a.date >= :dateFromFormatted";
+			}
+			if (dateToFormatted != null) {
+				sentence += " AND a.date <= :dateToFormatted";
+			}
+			if (operationId != null) {
+				sentence += " AND a.operation_id = " + operationId;
+			}
+			if (userId != null) {
+				sentence += " AND a.user_id = " + userId;
+			}
+			sentence += " ORDER BY a.id DESC";
+			query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
+			if (dateFromFormatted != null) {
+				query.setDate("dateFromFormatted", dateFromFormatted);
+			}
+			if (dateToFormatted != null) {
+				query.setDate("dateToFormatted", dateToFormatted);
+			}
 			searchAuditResultDTO.setSupplyings(query.list());
 		}
-
-
-
-		/*SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-		Date dateFromFormated = null;
-		Date dateToFormated = null;
-
-		if (!StringUtils.isEmpty(auditQuery.getDateFrom())) {
-			try {
-				dateFromFormated = dateFormatter.parse(auditQuery.getDateFrom());
-				criteria.add(Restrictions.ge("date", dateFromFormated));
-			} catch (ParseException e) {
-				throw new RuntimeException("El formato de la fecha ingresada no es valido.", e);
-			}
-		}
-		if (!StringUtils.isEmpty(auditQuery.getDateTo())) {
-			try {
-				dateToFormated = dateFormatter.parse(auditQuery.getDateTo());
-				criteria.add(Restrictions.le("date", dateToFormated));
-			} catch (ParseException e) {
-				throw new RuntimeException("El formato de la fecha ingresada no es valido.", e);
-			}
-		}
-
-		if (auditQuery.getOperationId() != null) {
-			criteria.add(Restrictions.eq("operationId", auditQuery.getOperationId()));
-		}
-
-		if (auditQuery.getRoleId() != null) {
-			criteria.add(Restrictions.eq("role.id", auditQuery.getRoleId()));
-		}
-
-		if (auditQuery.getUserId() != null) {
-			criteria.add(Restrictions.eq("user.id", auditQuery.getUserId()));
-		}
-
-        criteria.addOrder(Order.desc("id"));
-
-		List<Audit> results = query.list();*/
 
 		return searchAuditResultDTO;
 	}
 
 	@Override
 	public boolean getCountAuditSearch(AuditQuery auditQuery) {
-		/*return this.getAuditForSearch(auditQuery).size() < Constants.QUERY_MAX_RESULTS;*/
-		return true;
+		return this.getAuditForSearch(auditQuery).getResultsSize() < Constants.QUERY_MAX_RESULTS;
 	}
 
 	@Override

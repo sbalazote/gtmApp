@@ -84,4 +84,8 @@ public class SearchAuditResultDTO {
     public void addSupplyingAudit(Audit audit) {
         this.supplyings.add(audit);
     }
+
+    public Integer getResultsSize() {
+        return (inputs.size() + outputs.size() + provisioningRequests.size() + orders.size() + deliveryNotes.size() + supplyings.size());
+    }
 }

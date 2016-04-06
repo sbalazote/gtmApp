@@ -93,10 +93,10 @@
 		<table class="table table-condensed table-hover table-striped" id="auditTable">
 			<thead>
 		        <tr>
-					<th data-identifier="true" data-column-id="id" data-type="numeric" data-visible="false"><spring:message code="common.id"/></th>
+					<%--<th data-identifier="true" data-column-id="id" data-type="numeric" data-visible="false"><spring:message code="common.id"/></th>--%>
 		            <th data-column-id="date"><spring:message code="common.date"/></th>
 		            <th data-column-id="role"><spring:message code="common.role"/></th>
-		            <%--<th data-column-id="operationNumber" data-type="numeric"><spring:message code="common.operationNumber"/></th>--%>
+		            <th data-column-id="operationNumber" data-type="numeric"><spring:message code="common.operationNumber"/></th>
 		            <th data-column-id="user"><spring:message code="common.user"/></th>
 					<th data-column-id="view"><spring:message code="common.option"/></th>
 		        </tr>

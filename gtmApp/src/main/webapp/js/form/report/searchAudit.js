@@ -47,7 +47,7 @@ SearchAudit = function() {
 	//Consulta de Ingresos
 	$('#auditTableBody').on("click", ".view-row-input", function() {
 		var parent = $(this).parent().parent();
-		inputId = parent.attr("data-row-id");
+		inputId = parent.find(":nth(2)").html();
 
 		showInputModal(inputId);
 	});
@@ -55,7 +55,7 @@ SearchAudit = function() {
 	//Consulta de Egresos
 	$('#auditTableBody').on("click", ".view-row-output", function() {
 		var parent = $(this).parent().parent();
-		outputId = parent.attr("data-row-id");
+		outputId = parent.find(":nth(2)").html();
 
 		showOutputModal(outputId);
 	});
@@ -63,7 +63,7 @@ SearchAudit = function() {
 	//Consulta de Pedido
 	$('#auditTableBody').on("click", ".view-row-provisioning", function() {
 		var parent = $(this).parent().parent();
-		provisioningId = parent.attr("data-row-id");
+		provisioningId = parent.find(":nth(2)").html();
 
 		showProvisioningRequestModal(provisioningId);
 	});
@@ -71,7 +71,7 @@ SearchAudit = function() {
 	//Consulta de Armado
 	$('#auditTableBody').on("click", ".view-row-order", function() {
 		var parent = $(this).parent().parent();
-		orderId = parent.attr("data-row-id");
+		orderId = parent.find(":nth(2)").html();
 
 		showOrderModal(orderId);
 	});
@@ -79,7 +79,7 @@ SearchAudit = function() {
 	//Consulta de Remito
 	$('#auditTableBody').on("click", ".view-row-deliveryNote", function() {
 		var parent = $(this).parent().parent();
-		deliveryNoteId = parent.attr("data-row-id");
+		deliveryNoteId = parent.find(":nth(2)").html();
 
 		showDeliveryNoteByIdModal(deliveryNoteId);
 	});
@@ -87,7 +87,7 @@ SearchAudit = function() {
 	//Consulta de Dispensa
 	$('#auditTableBody').on("click", ".view-row-supplying", function() {
 		var parent = $(this).parent().parent();
-		supplyingId = parent.attr("data-row-id");
+		supplyingId = parent.find(":nth(2)").html();
 
 		showSupplyingModal(supplyingId);
 	});
@@ -159,111 +159,107 @@ SearchAudit = function() {
 
 				for (var i = 0, l = response.inputs.length; i < l; ++i) {
 					var audit = {
-						id: 0,
+						/*id: 0,*/
 						date: "",
 						role: "",
+						operationNumber: 0,
 						user: "",
 						view: ""
 					};
-					audit.id = response.inputs[i].operationId;
+					/*audit.id = response.inputs[i].operationId;*/
 					audit.date = myParseDateTime(response.inputs[i].date);
 					audit.role = response.inputs[i].role.description;
+					audit.operationNumber = response.inputs[i].operationId;
 					audit.user = response.inputs[i].user.name;
 					audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-input\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
 					aaData.push(audit);
 				}
 				for (var i = 0, l = response.outputs.length; i < l; ++i) {
 					var audit = {
-						id: 0,
+						/*id: 0,*/
 						date: "",
 						role: "",
+						operationNumber: 0,
 						user: "",
 						view: ""
 					};
-					audit.id = response.outputs[i].operationId;
+					/*audit.id = response.outputs[i].operationId;*/
 					audit.date = myParseDateTime(response.outputs[i].date);
 					audit.role = response.outputs[i].role.description;
+					audit.operationNumber = response.outputs[i].operationId;
 					audit.user = response.outputs[i].user.name;
 					audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-output\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
 					aaData.push(audit);
 				}
 				for (var i = 0, l = response.provisioningRequests.length; i < l; ++i) {
 					var audit = {
-						id: 0,
+						/*id: 0,*/
 						date: "",
 						role: "",
+						operationNumber: 0,
 						user: "",
 						view: ""
 					};
-					audit.id = response.provisioningRequests[i].operationId;
+					/*audit.id = response.provisioningRequests[i].operationId;*/
 					audit.date = myParseDateTime(response.provisioningRequests[i].date);
 					audit.role = response.provisioningRequests[i].role.description;
+					audit.operationNumber = response.provisioningRequests[i].operationId;
 					audit.user = response.provisioningRequests[i].user.name;
 					audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-provisioning\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
 					aaData.push(audit);
 				}
 				for (var i = 0, l = response.orders.length; i < l; ++i) {
 					var audit = {
-						id: 0,
+						/*id: 0,*/
 						date: "",
 						role: "",
+						operationNumber: 0,
 						user: "",
 						view: ""
 					};
-					audit.id = response.orders[i].operationId;
+					/*audit.id = response.orders[i].operationId;*/
 					audit.date = myParseDateTime(response.orders[i].date);
 					audit.role = response.orders[i].role.description;
+					audit.operationNumber = response.orders[i].operationId;
 					audit.user = response.orders[i].user.name;
 					audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-order\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
 					aaData.push(audit);
 				}
 				for (var i = 0, l = response.deliveryNotes.length; i < l; ++i) {
 					var audit = {
-						id: 0,
+						/*id: 0,*/
 						date: "",
 						role: "",
+						operationNumber: 0,
 						user: "",
 						view: ""
 					};
-					audit.id = response.deliveryNotes[i].operationId;
+					/*audit.id = response.deliveryNotes[i].operationId;*/
 					audit.date = myParseDateTime(response.deliveryNotes[i].date);
 					audit.role = response.deliveryNotes[i].role.description;
+					audit.operationNumber = response.deliveryNotes[i].operationId;
 					audit.user = response.deliveryNotes[i].user.name;
 					audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-deliveryNote\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
 					aaData.push(audit);
 				}
 				for (var i = 0, l = response.supplyings.length; i < l; ++i) {
 					var audit = {
-						id: 0,
+						/*id: 0,*/
 						date: "",
 						role: "",
+						operationNumber: 0,
 						user: "",
 						view: ""
 					};
-					audit.id = response.supplyings[i].operationId;
+					/*audit.id = response.supplyings[i].operationId;*/
 					audit.date = myParseDateTime(response.supplyings[i].date);
 					audit.role = response.supplyings[i].role.description;
+					audit.operationNumber = response.supplyings[i].operationId;
 					audit.user = response.supplyings[i].user.name;
 					audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-supplying\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
 					aaData.push(audit);
 				}
 
-				/*for (var i = 0, l = response.length; i < l; ++i) {
-					var audit = {
-						date: "",
-						role: "",
-						operationNumber: 0,
-						action: "",
-						user: "",
-						action: ""
-					};
-					audit.date = myParseDateTime(response[i].date);
-					audit.role = response[i].role.description;
-					audit.operationNumber = response[i].operationId;
-					audit.user = response[i].user.name;
-					audit.action = "<button type=\"button\" class=\"btn btn-sm btn-default view-row\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
-					aaData.push(audit);
-				}*/
 				$("#auditTable").bootgrid({
 					caseSensitive: false
 				});
