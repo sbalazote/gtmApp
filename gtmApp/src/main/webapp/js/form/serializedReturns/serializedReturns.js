@@ -325,6 +325,8 @@ SerializedReturns = function() {
 							// Es un trazado de origen.
 							serialNumber = response.serialNumber;
 							populateSerializedReturnsDetailsTable();
+							$('#serialNumberInput').val('');
+							$('#serialNumberInput').focus();
 						}
 					},
 					error: function(jqXHR, textStatus, errorThrown) {
