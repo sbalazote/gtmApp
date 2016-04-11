@@ -632,6 +632,7 @@ Input = function() {
 									generateInputPDFReport(response.operationId,true);
 								}
 							}else{
+								$("#confirmButton").attr("disabled", false);
 								var errors = "";
 								for (var i = 0, lengthI = response.myOwnErrors.length; i < lengthI; i++) {
 									errors += response.myOwnErrors[i] + "<br />";
