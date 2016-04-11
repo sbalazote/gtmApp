@@ -265,12 +265,7 @@ public class Input implements Serializable {
 	public String getClientOrProviderDescription() {
 		String description = null;
 		if (this.getProvider() != null) {
-			if(this.getLogisticsOperator() != null){
-				description = this.getLogisticsOperator().getName();
-			}else {
-				description = this.getProvider().getName();
-			}
-
+			description = this.getProvider().getName();
 		}
 		if (this.getDeliveryLocation() != null) {
 			description = this.getDeliveryLocation().getName();
@@ -343,5 +338,21 @@ public class Input implements Serializable {
 
 	public boolean isInformed() {
 		return informed;
+	}
+
+	public String getInformant() {
+		String description = null;
+		if (this.getProvider() != null) {
+			if(this.getLogisticsOperator() != null){
+				description = this.getLogisticsOperator().getName();
+			}else {
+				description = this.getProvider().getName();
+			}
+
+		}
+		if (this.getDeliveryLocation() != null) {
+			description = this.getDeliveryLocation().getName();
+		}
+		return description;
 	}
 }

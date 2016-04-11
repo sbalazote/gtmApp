@@ -49,7 +49,7 @@ public class InputWSHelper {
             }
         } else {
             String error = "No ha podido obtenerse el evento a informar dado el concepto y el cliente/provedor seleccionados (Concepto: '"
-                    + input.getConcept().toString() + "' Cliente/Proveedor '" + input.getClientOrProviderDescription() + "' Tipo de Agente: '"
+                    + input.getConcept().toString() + "' Cliente/Proveedor '" + input.getInformant() + "' Tipo de Agente: '"
                     + input.getClientOrProviderAgentDescription() + "'). El ingreso no fue informado.";
             errors.add(error);
         }
