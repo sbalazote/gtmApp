@@ -171,10 +171,10 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 				expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(stock.getExpirationDate());
 				Integer stockAmount = stock.getAmount();
 				Integer amount;
-				if (stockAmount >= neededAmount) {
+				if (stockAmount >= (neededAmount - acumAmount)) {
 					amount = (neededAmount - acumAmount);
 				} else {
-					amount = stockAmount;
+					amount = (stockAmount - acumAmount);
 				}
 				details += "Lote: " + batch + " - Vto.: " + expirationDate + "  - Cant.: " + amount + "\t";
 				acumAmount += amount;
