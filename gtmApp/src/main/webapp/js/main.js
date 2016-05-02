@@ -177,6 +177,14 @@ $(document).ready(function() {
         return this.optional(element) || /^\d{1,7}\,\d{2}$/i.test(value);
     }, jQuery.format("El Precio debe ser del formato xxxxxxx,xx."));
 
+	jQuery.validator.addMethod("stringWithSpecialChars", function (value, element) {
+		var check = false;
+		var re = /^[a-zA-Z\u00C0-\u00ff]+$/;
+		if (re.test(value)) {
+			check = true;
+		}
+		return this.optional(element) || check;
+	}, jQuery.format("Solo se permiten letras"));
 
 	$.validator.addMethod("maxCurrentDate", function(value, element) {
 		var curDate = new Date();

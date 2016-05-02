@@ -92,11 +92,11 @@ AddAffiliate = function() {
                 },
                 affiliateSurname: {
                     required: true,
-                    letterswithbasicpunc: true
+                    stringWithSpecialChars: true
                 },
                 affiliateName: {
                     required: true,
-                    letterswithbasicpunc: true
+                    stringWithSpecialChars: true
                 },
                 affiliateDocument: {
                     digits: true
