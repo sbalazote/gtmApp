@@ -634,12 +634,16 @@ Input = function() {
 							}else{
 								$("#confirmButton").attr("disabled", false);
 								var errors = "";
-								for (var i = 0, lengthI = response.myOwnErrors.length; i < lengthI; i++) {
-									errors += response.myOwnErrors[i] + "<br />";
+								if(response.myOwnErrors != null){
+									for (var i = 0, lengthI = response.myOwnErrors.length; i < lengthI; i++) {
+										errors += response.myOwnErrors[i] + "<br />";
+									}
 								}
 
-								for (var i = 0, lengthI = response.mySelfSerializedOwnErrors.length; i < lengthI; i++) {
-									errors += response.mySelfSerializedOwnErrors[i] + "<br />";
+								if(response.mySelfSerializedOwnErrors != null) {
+									for (var i = 0, lengthI = response.mySelfSerializedOwnErrors.length; i < lengthI; i++) {
+										errors += response.mySelfSerializedOwnErrors[i] + "<br />";
+									}
 								}
 								
 								if(response.errores != null){

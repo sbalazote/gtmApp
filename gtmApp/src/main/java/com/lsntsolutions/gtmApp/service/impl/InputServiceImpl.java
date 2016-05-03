@@ -451,11 +451,13 @@ public class InputServiceImpl implements InputService {
 		}
 		if(selfSerializedResult != null){
 			result.setMySelfSerializedOwnErrors(selfSerializedResult.getMySelfSerializedOwnErrors());
+			result.setErrores(selfSerializedResult.getErrores());
 		}else{
 			result.setMySelfSerializedOwnErrors(new ArrayList<String>());
 		}
 		if(providerSerializedResult != null){
 			result.setMyOwnErrors(providerSerializedResult.getMyOwnErrors());
+			result.setErrores(providerSerializedResult.getErrores());
 		}else{
 			result.setMyOwnErrors(new ArrayList<String>());
 		}
