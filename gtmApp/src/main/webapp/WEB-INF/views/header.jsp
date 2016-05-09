@@ -92,3 +92,4 @@
 <script type="text/javascript" src="${context}/js/jQuery.download.js"></script>
 <script type="text/javascript" src="${context}/js/jquery.numeric.js"></script>
 <script type="text/javascript" src="${context}/js/underscore-min.js"></script>
+<script type="text/javascript" src="${context}/js/moment.min.js"></script>

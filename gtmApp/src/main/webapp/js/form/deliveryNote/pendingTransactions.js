@@ -104,6 +104,16 @@ var PendingTransactions = function() {
 	    multiSelect: true,
 	    rowSelect: false,
 	    keepSelection: true,
+		converters: {
+			datetime: {
+				from: function (value) {
+					return moment(value);
+				},
+				to: function (value) {
+					return value.format("DD/MM/YYYY HH:mm:ss a");
+				}
+			}
+		},
 	    formatters: {
 	        "option": function(column, row)
 	        {
