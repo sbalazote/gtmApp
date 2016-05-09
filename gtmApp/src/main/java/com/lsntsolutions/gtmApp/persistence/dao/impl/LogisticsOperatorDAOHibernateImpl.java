@@ -116,7 +116,7 @@ public class LogisticsOperatorDAOHibernateImpl implements LogisticsOperatorDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<LogisticsOperator> getAllActives(boolean input) {
-		return this.sessionFactory.getCurrentSession().createQuery("from LogisticsOperator where active = true and input = " + input).list();
+		return this.sessionFactory.getCurrentSession().createQuery("from LogisticsOperator where active = true and input = " + input + " order by name").list();
 	}
 
 	@Override
