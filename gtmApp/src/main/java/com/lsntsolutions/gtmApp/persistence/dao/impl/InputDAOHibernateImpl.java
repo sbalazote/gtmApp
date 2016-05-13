@@ -2,6 +2,9 @@ package com.lsntsolutions.gtmApp.persistence.dao.impl;
 
 import com.lsntsolutions.gtmApp.constant.Constants;
 import com.lsntsolutions.gtmApp.model.Input;
+import com.lsntsolutions.gtmApp.model.InputDetail;
+import com.lsntsolutions.gtmApp.model.Product;
+import com.lsntsolutions.gtmApp.model.Stock;
 import com.lsntsolutions.gtmApp.persistence.dao.InputDAO;
 import com.lsntsolutions.gtmApp.query.InputQuery;
 import com.lsntsolutions.gtmApp.util.StringUtility;
@@ -216,5 +219,18 @@ public class InputDAOHibernateImpl implements InputDAO {
 		Query query = this.sessionFactory.getCurrentSession().createQuery("from Input where concept.id = :conceptId");
         query.setParameter("conceptId", conceptId);
         return !query.list().isEmpty();
+	}
+
+	@Override
+	public InputDetail getSelfSerializedProductBySerial(String serialNumber) {
+		try {
+			Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(InputDetail.class, "inputDetail");
+			criteria.add(Restrictions.eq("serialNumber", serialNumber));
+			criteria.createAlias("inputDetail.product", "product");
+			criteria.createAlias("product.gtins", "gtin");
+			return (InputDetail) criteria.list().get(0);
+		} catch (IndexOutOfBoundsException e) {
+			return null;
+		}
 	}
 }

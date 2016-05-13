@@ -49,4 +49,6 @@ public interface InputService {
 	boolean isConceptInUse(Integer conceptId);
 
 	Input importStock(List<InputDetail> inputDetails, Integer agreementId, Integer conceptId, Integer providerId, String userName);
+
+	InputDetail getSelfSerializedProductBySerial(String serialNumber);
 }

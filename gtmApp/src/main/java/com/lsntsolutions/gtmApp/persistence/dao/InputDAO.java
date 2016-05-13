@@ -3,6 +3,8 @@ package com.lsntsolutions.gtmApp.persistence.dao;
 import java.util.List;
 
 import com.lsntsolutions.gtmApp.model.Input;
+import com.lsntsolutions.gtmApp.model.InputDetail;
+import com.lsntsolutions.gtmApp.model.Stock;
 import com.lsntsolutions.gtmApp.query.InputQuery;
 
 public interface InputDAO {
@@ -30,4 +32,6 @@ public interface InputDAO {
 	List<Input> getCancelables(InputQuery inputQuery);
 
 	boolean isConceptInUse(Integer conceptId);
+
+	InputDetail getSelfSerializedProductBySerial(String serialNumber);
 }

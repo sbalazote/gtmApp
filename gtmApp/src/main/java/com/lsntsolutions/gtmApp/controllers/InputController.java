@@ -278,6 +278,11 @@ public class InputController {
 		return modelAndView;
 	}
 
+	@RequestMapping(value = "/getSelfSerializedProductBySerial", method = RequestMethod.GET)
+	public @ResponseBody InputDetail getSelfSerializedProductBySerial(@RequestParam String serialNumber) {
+		return this.inputService.getSelfSerializedProductBySerial(serialNumber);
+	}
+
 	private InputQuery getInputQuery(HttpServletRequest request) {
 		Integer id = null;
 		if (!(request.getParameterValues("id")[0]).equals("null")) {

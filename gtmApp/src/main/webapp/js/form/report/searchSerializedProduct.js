@@ -370,14 +370,11 @@ SearchSerializedProduct = function() {
                 serialFound = response.serialNumber;
                 if (response != "") {
                     $.ajax({
-                        url: "getSerializedStock.do",
+                        url: "getSelfSerializedProductBySerial.do",
                         type: "GET",
                         async: false,
                         data: {
-                            productId: null,
                             serialNumber: serialFound,
-                            gtin: null,
-                            agreementId: null
                         },
                         success: function(response) {
                             if (response) {

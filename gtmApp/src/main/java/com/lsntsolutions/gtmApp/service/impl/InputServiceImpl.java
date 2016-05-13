@@ -576,4 +576,9 @@ public class InputServiceImpl implements InputService {
 		this.auditService.addAudit(userName, RoleOperation.INPUT.getId(), input.getId());
 		return input;
 	}
+
+	@Override
+	public InputDetail getSelfSerializedProductBySerial(String serialNumber) {
+		return this.inputDAO.getSelfSerializedProductBySerial(serialNumber);
+	}
 }
