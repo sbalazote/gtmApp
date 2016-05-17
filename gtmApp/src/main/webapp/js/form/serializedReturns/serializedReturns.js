@@ -3,6 +3,7 @@ SerializedReturns = function() {
 	var found = false;
 	var inputDetails = [];
 	var outputOrderDetails = [];
+	var originalOutputOrderDetails = [];
 	var serialNumber = null;
 	var inputId = "";
 	var currentDate = new Date();
@@ -35,6 +36,7 @@ SerializedReturns = function() {
 					}
 					$("#agreementInput").val(response.agreement.id).trigger("chosen:updated");
 					outputOrderDetails.push(response.outputDetails);
+					originalOutputOrderDetails.push(response.outputDetails.slice(0));
 					populateSerializedReturnsDetailsTable();
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
@@ -59,6 +61,7 @@ SerializedReturns = function() {
 					$("#deliveryLocationInput").val(response.provisioningRequest.deliveryLocation.id).trigger("chosen:updated");
 					$("#agreementInput").val(response.provisioningRequest.agreement.id).trigger("chosen:updated");
 					outputOrderDetails.push(response.orderDetails);
+					originalOutputOrderDetails.push(response.orderDetails.slice(0));
 					populateSerializedReturnsDetailsTable();
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
@@ -110,7 +113,18 @@ SerializedReturns = function() {
 			outputOrderDetails[0].splice(indexOf, 1);
 			
 		} else {
-			myShowAlert('danger', 'Serie Inexistente o ya le\u00eddo.');
+			var alreadyFound = false;
+			$.each(originalOutputOrderDetails, function (index, value) {
+				$.each(value, function (index, detail) {
+					if (detail.serialNumber == serialNumber) {
+						alreadyFound = true;
+						myShowAlert('danger', 'Serie ya le\u00eddo.');
+					}
+				});
+			});
+			if (!alreadyFound) {
+				myShowAlert('danger', 'Serie Inexistente');
+			}
 		}
 	};
 	
