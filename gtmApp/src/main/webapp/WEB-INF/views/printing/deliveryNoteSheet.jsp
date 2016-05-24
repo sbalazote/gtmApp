@@ -83,6 +83,7 @@
 		<tr>
 			<th data-column-id="orderId" data-type="numeric" data-identifier="true" data-visible="false"><spring:message code="common.orderAssembly"/></th>
 			<th data-column-id="id" data-type="numeric"><spring:message code="provisioningRequest.provisioningRequestNumber"/></th>
+			<th data-column-id="deliveryDate" data-type="datetime"><spring:message code="common.deliveryDate"/></th>
 			<th data-column-id="agreement"><spring:message code="common.agreement"/></th>
 			<th data-column-id="logisticsOperator"><spring:message code="common.logisticsOperator"/></th>
 			<th data-column-id="client"><spring:message code="common.client"/></th>

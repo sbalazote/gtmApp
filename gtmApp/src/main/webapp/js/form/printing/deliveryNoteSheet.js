@@ -85,6 +85,7 @@ var DeliveryNoteSheet = function() {
 					var orderDetail = {
 						orderId: 0,
 						id: 0,
+						deliveryDate: "",
 						agreement: "",
 						logisticsOperator: "",
 						client: "",
@@ -94,6 +95,7 @@ var DeliveryNoteSheet = function() {
 
 					orderDetail.orderId = response[i].id;
 					orderDetail.id = response[i].provisioningRequest.id;
+					orderDetail.deliveryDate = response[i].provisioningRequest.deliveryDate;
 					orderDetail.agreement = response[i].provisioningRequest.agreement.description;
 					orderDetail.logisticsOperator = (response[i].provisioningRequest.logisticsOperator != null) ?  response[i].provisioningRequest.logisticsOperator.name : "N/I";
 					orderDetail.client = response[i].provisioningRequest.client.name;
@@ -108,7 +110,18 @@ var DeliveryNoteSheet = function() {
 					selection: true,
 					multiSelect: true,
 					rowSelect: false,
-					keepSelection: true
+					keepSelection: true,
+					converters: {
+						datetime: {
+							from: function (value) {
+								return moment(value);
+							},
+							to: function (value) {
+								//return value.format("DD/MM/YYYY");
+								return moment(value).format("DD/MM/YYYY");
+							}
+						}
+					}
 				}).on("selected.rs.jquery.bootgrid", function(e, rows) {
 					for (var i = 0; i < rows.length; i++) {
 						ordersToPrint.push(rows[i].orderId);
