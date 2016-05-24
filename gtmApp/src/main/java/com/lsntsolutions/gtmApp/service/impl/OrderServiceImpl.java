@@ -4,6 +4,8 @@ import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.dto.OrderDTO;
 import com.lsntsolutions.gtmApp.dto.OrderDetailDTO;
 import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
+import com.lsntsolutions.gtmApp.dto.ProviderSerializedSerialFormatDTO;
+import com.lsntsolutions.gtmApp.helper.SerialParser;
 import com.lsntsolutions.gtmApp.model.*;
 import com.lsntsolutions.gtmApp.persistence.dao.OrderDAO;
 import com.lsntsolutions.gtmApp.query.DeliveryNoteQuery;
@@ -35,6 +37,8 @@ public class OrderServiceImpl implements OrderService {
 	private StockService stockService;
 	@Autowired
 	private ProductGtinService productGtinService;
+	@Autowired
+	private SerialParser serialParser;
 
 	@Override
 	public Order save(OrderDTO orderDTO) {
@@ -194,5 +198,19 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<Order> getPrintableOrCancelableOrder(Integer provisioningId, boolean isCancellation) {
 		return this.orderDAO.getPrintableOrCancelableOrder(provisioningId, isCancellation);
+	}
+
+	@Override
+	public String searchSerialNumberOnOutput(Integer outputId, String serialNumber){
+		Order order = this.orderDAO.get(outputId);
+		List<ProviderSerializedSerialFormatDTO> parsers = serialParser.getMatchParsers(serialNumber);
+		for(ProviderSerializedSerialFormatDTO providerSerializedSerialFormatDTO : parsers){
+			for(OrderDetail orderDetail : order.getOrderDetails()) {
+				if(providerSerializedSerialFormatDTO.getSerialNumber().equals(orderDetail.getSerialNumber())){
+					return providerSerializedSerialFormatDTO.getSerialNumber();
+				}
+			}
+		}
+		return "";
 	}
 }

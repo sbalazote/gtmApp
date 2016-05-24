@@ -25,4 +25,6 @@ public interface OutputService {
 	void cancel(Output output);
 
 	boolean isConceptInUse(Integer conceptId);
+
+	String searchSerialNumberOnOutput(Integer outputId, String serialNumber);
 }

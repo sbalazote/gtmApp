@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lsntsolutions.gtmApp.dto.OutputDTO;
-import com.lsntsolutions.gtmApp.model.Agreement;
-import com.lsntsolutions.gtmApp.model.Product;
+import com.lsntsolutions.gtmApp.dto.ProviderSerializedSerialFormatDTO;
+import com.lsntsolutions.gtmApp.helper.SerialParser;
+import com.lsntsolutions.gtmApp.model.*;
 import com.lsntsolutions.gtmApp.persistence.dao.OutputDAO;
 import com.lsntsolutions.gtmApp.query.OutputQuery;
-import com.lsntsolutions.gtmApp.model.Output;
 import com.lsntsolutions.gtmApp.service.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lsntsolutions.gtmApp.dto.OutputDetailDTO;
-import com.lsntsolutions.gtmApp.model.OutputDetail;
-import com.lsntsolutions.gtmApp.model.ProductGtin;
 
 @Service
 @Transactional
@@ -43,6 +41,8 @@ public class OutputServiceImpl implements OutputService {
 	private ProductGtinService productGtinService;
 	@Autowired
 	private LogisticsOperatorService logisticsOperatorService;
+	@Autowired
+	private SerialParser serialParser;
 
 	@Override
 	public Output save(OutputDTO outputDTO) {
@@ -164,5 +164,19 @@ public class OutputServiceImpl implements OutputService {
 	@Override
 	public boolean isConceptInUse(Integer conceptId){
 		return this.outputDAO.isConceptInUse(conceptId);
+	}
+
+	@Override
+	public String searchSerialNumberOnOutput(Integer outputId, String serialNumber){
+		Output output = this.outputDAO.get(outputId);
+		List<ProviderSerializedSerialFormatDTO> parsers = serialParser.getMatchParsers(serialNumber);
+		for(ProviderSerializedSerialFormatDTO providerSerializedSerialFormatDTO : parsers){
+			for(OutputDetail outputDetail : output.getOutputDetails()) {
+				if(providerSerializedSerialFormatDTO.getSerialNumber().equals(outputDetail.getSerialNumber())){
+					return providerSerializedSerialFormatDTO.getSerialNumber();
+				}
+			}
+		}
+		return "";
 	}
 }

@@ -8,12 +8,16 @@ SerializedReturns = function() {
 	var inputId = "";
 	var currentDate = new Date();
 	var jsonInput;
+	var outputID;
+	var orderID;
 
     $("#deliveryNotePOSInput").numeric();
 
     $("#deliveryNoteNumberInput").numeric();
 	
 	var buildReturn = function(outputId, orderId) {
+		outputID = outputId;
+		orderID = orderId;
 		if (outputId != null) {
 			
 			$.ajax({
@@ -301,12 +305,13 @@ SerializedReturns = function() {
 				
 				// Busco si se trata de un trazado de origen.
 				$.ajax({
-					url: "parseSerial.do",
+					url: "searchSerialNumberOnEgress.do",
 					type: "GET",
 					async: false,
 					data: {
-						serial: $('#serialNumberInput').val(),
-						formatSerializedId: null
+						serialNumber: $('#serialNumberInput').val(),
+						outputId: outputID,
+						orderId: orderID
 					},
 					success: function(response) {
 						// No es un trazado de origen; busco a ver si se trata de un trazado propio.
@@ -337,7 +342,7 @@ SerializedReturns = function() {
 							});
 						} else {
 							// Es un trazado de origen.
-							serialNumber = response.serialNumber;
+							serialNumber = response;
 							populateSerializedReturnsDetailsTable();
 							$('#serialNumberInput').val('');
 							$('#serialNumberInput').focus();

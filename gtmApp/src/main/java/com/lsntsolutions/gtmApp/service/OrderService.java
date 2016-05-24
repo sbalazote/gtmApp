@@ -38,4 +38,6 @@ public interface OrderService {
 	List<LogisticsOperator> getLogisticsOperatorsForOrderToPrint();
 
 	List<Order> getPrintableOrCancelableOrder(Integer provisioningId, boolean isCancellation);
+
+	String searchSerialNumberOnOutput(Integer outputId, String serialNumber);
 }
