@@ -138,7 +138,7 @@ public class InputServiceImpl implements InputService {
 
 		inputDTO.setInputDetails(newDetails);
 
-		return (!selfSerializedDetails.isEmpty());
+		return (!selfSerializedDetails.isEmpty() && !isSerializedReturn);
 	}
 
 	private List<InputDetailDTO> generateSelfSerializedDetails(Integer totalAmount, List<InputDetailDTO> selfSerializedDetails, Property Property) {
