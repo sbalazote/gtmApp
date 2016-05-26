@@ -13,11 +13,13 @@ SearchSerializedProduct = function() {
 	var deliveryNoteId;
 	var supplyingId;
 
-    var addToLabels = function(product, gtin, batch, expirationDate) {
+    var addToLabels = function(product, gtin, batch, expirationDate, serialNumber) {
         $("#serializedLastProduct").text(product);
         $("#serializedLastGtin").text(gtin);
         $("#serializedLastBatch").text(batch);
         $("#serializedLastExpirationDate").text(expirationDate);
+        var serial = (serialNumber != null) ? serialNumber : serialFound;
+        $("#serializedLastSerialNumber").text(serial);
     };
 
     var clearLabels = function() {
@@ -25,6 +27,7 @@ SearchSerializedProduct = function() {
         $("#serializedLastGtin").text('');
         $("#serializedLastBatch").text('');
         $("#serializedLastExpirationDate").text('');
+        $("#serializedLastSerialNumber").text('');
     };
 
 	// Product autocomplete
@@ -123,6 +126,7 @@ SearchSerializedProduct = function() {
         $('#divMovements').hide();
         $('#serialParserSearch').data("title", "").removeClass("has-error").tooltip("destroy");
         clearLabels();
+        $('#serialParserSearch').focus();
     });
 
 	//Consulta de Ingresos
@@ -178,7 +182,7 @@ SearchSerializedProduct = function() {
                 $('#divMovements').show();
 
                 if(response.inputs.length > 0 || response.outputs.length > 0 || response.orders.length > 0 || response.deliveryNotes.length > 0 || response.supplyings.length > 0){
-                    addToLabels(productCode + ' - ' + productDescription, gtinFound, response.batch, response.expirationDate);
+                    addToLabels(productCode + ' - ' + productDescription, gtinFound, response.batch, response.expirationDate, response.serialNumber);
                     var aaData = [];
                     if(response.inputs != null){
                         /*if(response.inputs.length > 0){
@@ -386,7 +390,8 @@ SearchSerializedProduct = function() {
                                 productId = response.product.id;
                                 productCode = response.product.code;
                                 productDescription = response.product.description;
-                                $('#serialParserSearch').val(response.product.description + " Serie: " + serialFound);
+                                $('#serialParserSearch').val('');
+                                $('#serialParserSearch').focus();
                                 searchProduct(productId, serialFound);
                             }
                         },
@@ -396,7 +401,7 @@ SearchSerializedProduct = function() {
                     });
                     searchProduct(null, serialFound);
                 } else {
-                    addToLabels("None", "None", "None", "None");
+                    addToLabels("None", "None", "None", "None", "None");
                     $('#serialParserSearch').tooltip("destroy").data("title", "Formato de Serie Inv\u00e1lido").addClass("has-error").tooltip();
                     $('#serialParserSearch').val('');
                     $('#serialParserSearch').focus();
@@ -437,11 +442,12 @@ SearchSerializedProduct = function() {
                                 productId = response.id;
                                 productCode = response.code;
                                 productDescription = response.description;
-                                addToLabels(productCode + " - " + productDescription, gtinFound, batchFound, expirationDateFound);
-                                $('#serialParserSearch').val(response.description + " Serie: " + serialFound);
+                                addToLabels(productCode + " - " + productDescription, gtinFound, batchFound, expirationDateFound, serialFound);
+                                $('#serialParserSearch').val('');
                                 searchProduct(productId, serialFound);
+                                $('#serialParserSearch').focus();
                             } else {
-                                addToLabels("None", "None", "None", "None");
+                                addToLabels("None", "None", "None", "None", "None");
                                 $('#serialParserSearch').tooltip("destroy").data("title", "Producto Inexistente o Inactivo").addClass("has-error").tooltip();
                                 $('#serialParserSearch').val('');
                                 $('#serialParserSearch').focus();
