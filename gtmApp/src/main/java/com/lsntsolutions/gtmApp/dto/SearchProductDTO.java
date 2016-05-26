@@ -10,10 +10,11 @@ public class SearchProductDTO {
     private String date;
     private String username;
     private Boolean cancelled;
+    private String operationDate;
 
     public SearchProductDTO() {}
 
-    public SearchProductDTO(Integer id, String role, Integer operationId, String date, String username, Boolean cancelled) {
+    public SearchProductDTO(Integer id, String role, Integer operationId, String date, String username, Boolean cancelled, String operationDate) {
         super();
         this.id = id;
         this.role = role;
@@ -21,6 +22,7 @@ public class SearchProductDTO {
         this.date = date;
         this.username = username;
         this.cancelled = cancelled;
+        this.operationDate = operationDate;
     }
 
     public Integer getId() {
@@ -69,5 +71,13 @@ public class SearchProductDTO {
 
     public void setCancelled(Boolean cancelled) {
         this.cancelled = cancelled;
+    }
+
+    public String getOperationDate() {
+        return operationDate;
+    }
+
+    public void setOperationDate(String operationDate) {
+        this.operationDate = operationDate;
     }
 }

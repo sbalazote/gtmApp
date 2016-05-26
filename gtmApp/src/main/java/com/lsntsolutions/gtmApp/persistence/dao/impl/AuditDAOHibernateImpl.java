@@ -461,7 +461,7 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		SearchProductResultDTO searchProductResultDTO = new SearchProductResultDTO();
 		boolean isSerialBatchExpirationAssigned = false;
 
-		String sentence = "select distinct a.*, i.cancelled, id.batch, id.expiration_date from audit as a, input_detail as id, input as i " +
+		String sentence = "select distinct a.*, i.cancelled, id.batch, id.expiration_date, i.date as inputDate from audit as a, input_detail as id, input as i " +
 				"where ((a.role_id = " + RoleOperation.INPUT.getId() + " or a.role_id = " + RoleOperation.SERIALIZED_RETURNS.getId() + ") and a.operation_id = id.input_id and i.id = id.input_id";
 
 		if (productId != null) {
@@ -484,7 +484,7 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 
 		sentence += ") order by a.`date` desc";
 
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		SimpleDateFormat expirationDateFormatter = new SimpleDateFormat("yyMMdd");
 		Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
 		List<Object[]> inputsAudit = query.list();
@@ -497,12 +497,12 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		}
 		List<SearchProductDTO> inputsSearchProductDTO = new ArrayList<>();
 		for (Object[] audit : inputsAudit) {
-			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5]);
+			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5], (String)dateFormatter.format(audit[8]));
 			inputsSearchProductDTO.add(searchProductDTO);
 		}
 		searchProductResultDTO.setInputs(inputsSearchProductDTO);
 
-		sentence = "select distinct a.*, o.cancelled, od.batch, od.expiration_date from audit as a, output_detail as od, output as o " +
+		sentence = "select distinct a.*, o.cancelled, od.batch, od.expiration_date, o.date as outputDate from audit as a, output_detail as od, output as o " +
 				"where ((a.role_id = " + RoleOperation.OUTPUT.getId() + " or a.role_id = " + RoleOperation.PRODUCT_DESTRUCTION.getId() + ") and a.operation_id = od.output_id and o.id = od.output_id";
 
 		if (productId != null) {
@@ -536,12 +536,12 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		}
 		List<SearchProductDTO> outputsSearchProductDTO = new ArrayList<>();
 		for (Object[] audit : outputsAudit) {
-			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5]);
+			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5], (String)dateFormatter.format(audit[8]));
 			outputsSearchProductDTO.add(searchProductDTO);
 		}
 		searchProductResultDTO.setOutputs(outputsSearchProductDTO);
 
-		sentence = "select distinct a.*, s.cancelled, sd.batch, sd.expiration_date from audit as a, supplying_detail as sd, supplying as s " +
+		sentence = "select distinct a.*, s.cancelled, sd.batch, sd.expiration_date, s.date as supplyingDate from audit as a, supplying_detail as sd, supplying as s " +
 				"where (a.role_id = " + RoleOperation.SUPPLYING.getId() + " and a.operation_id = sd.supplying_id and s.id = sd.supplying_id";
 
 		if (productId != null) {
@@ -575,13 +575,13 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		}
 		List<SearchProductDTO> supplyingsSearchProductDTO = new ArrayList<>();
 		for (Object[] audit : supplyingsAudit) {
-			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5]);
+			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5], (String)dateFormatter.format(audit[8]));
 			supplyingsSearchProductDTO.add(searchProductDTO);
 		}
 		searchProductResultDTO.setSupplyings(supplyingsSearchProductDTO);
 
-		sentence = "select distinct a.*, o.cancelled, od.batch, od.expiration_date from audit as a, order_detail as od, `order` as o " +
-					"where (a.role_id = " + RoleOperation.ORDER_ASSEMBLY.getId() + " and a.operation_id = od.order_id and o.id = od.order_id";
+		sentence = "select distinct a.*, o.cancelled, od.batch, od.expiration_date, p.delivery_date as provisioningDate from audit as a, order_detail as od, `order` as o, provisioning_request as p " +
+					"where (a.role_id = " + RoleOperation.ORDER_ASSEMBLY.getId() + " and a.operation_id = od.order_id and o.provisioning_request_id = p.id and o.id = od.order_id";
 
 		if (productId != null) {
 			sentence += " and od.product_id = " + productId;
@@ -614,12 +614,12 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		}
 		List<SearchProductDTO> ordersSearchProductDTO = new ArrayList<>();
 		for (Object[] audit : ordersAudit) {
-			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5]);
+			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5], (String)dateFormatter.format(audit[8]));
 			ordersSearchProductDTO.add(searchProductDTO);
 		}
 		searchProductResultDTO.setOrders(ordersSearchProductDTO);
 
-		sentence = "select distinct a.*, dn.cancelled, od.batch, od.expiration_date from audit as a, delivery_note_detail as dnd, order_detail as od, delivery_note as dn " +
+		sentence = "select distinct a.*, dn.cancelled, od.batch, od.expiration_date, dn.date as deliveryDate from audit as a, delivery_note_detail as dnd, order_detail as od, delivery_note as dn " +
 					"where (a.role_id = " + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and a.operation_id = dnd.delivery_note_id and dn.id = dnd.delivery_note_id and dnd.order_detail_id = od.id and dnd.output_detail_id is null and dnd.supplying_detail_id is null";
 
 		if (productId != null) {
@@ -653,11 +653,11 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		}
 		List<SearchProductDTO> deliveryNoteSearchProductDTO = new ArrayList<>();
 		for (Object[] audit : deliveryNoteAudit) {
-			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5]);
+			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5], (String)dateFormatter.format(audit[8]));
 			deliveryNoteSearchProductDTO.add(searchProductDTO);
 		}
 
-		sentence = "select distinct a.*, dn.cancelled, od.batch, od.expiration_date from audit as a, delivery_note_detail as dnd, output_detail as od, delivery_note as dn " +
+		sentence = "select distinct a.*, dn.cancelled, od.batch, od.expiration_date, dn.date as deliveryDate from audit as a, delivery_note_detail as dnd, output_detail as od, delivery_note as dn " +
 					"where (a.role_id = " + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and a.operation_id = dnd.delivery_note_id and dn.id = dnd.delivery_note_id and dnd.output_detail_id = od.id and dnd.order_detail_id is null";
 
 		if (productId != null) {
@@ -690,11 +690,11 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 			isSerialBatchExpirationAssigned = true;
 		}
 		for (Object[] audit : deliveryNoteAudit) {
-			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5]);
+			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5], (String)dateFormatter.format(audit[8]));
 			deliveryNoteSearchProductDTO.add(searchProductDTO);
 		}
 
-		sentence = "select distinct a.*, dn.cancelled, sd.batch, sd.expiration_date from audit as a, delivery_note_detail as dnd, supplying_detail as sd, delivery_note as dn " +
+		sentence = "select distinct a.*, dn.cancelled, sd.batch, sd.expiration_date, dn.date as deliveryDate from audit as a, delivery_note_detail as dnd, supplying_detail as sd, delivery_note as dn " +
 					"where (a.role_id = " + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and a.operation_id = dnd.delivery_note_id and dn.id = dnd.delivery_note_id and dnd.supplying_detail_id = sd.id and dnd.order_detail_id is null and dnd.output_detail_id is null";
 
 		if (productId != null) {
@@ -726,7 +726,7 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 			searchProductResultDTO.setExpirationDate(expirationDateFormatter.format(deliveryNoteAuditAux[7]));
 		}
         for (Object[] audit : deliveryNoteAudit) {
-			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5]);
+			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5], (String)dateFormatter.format(audit[8]));
 			deliveryNoteSearchProductDTO.add(searchProductDTO);
         }
 
