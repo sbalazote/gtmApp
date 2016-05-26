@@ -1,5 +1,6 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
+import com.inssjp.mywebservice.business.WebServiceResult;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import com.lsntsolutions.gtmApp.model.Order;
@@ -161,13 +162,13 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	public void cancelDeliveryNotes(List<String> deliveryNoteNumbers, String username) {
 		Output output = null;
 		Supplying supplying = null;
-
+		WebServiceResult result = null;
 		for (String deliveryNoteNumber : deliveryNoteNumbers) {
 			DeliveryNote deliveryNote = this.getDeliveryNoteFromNumber(deliveryNoteNumber);
 			try {
 				try {
 					if (deliveryNote.isInformAnmat() && deliveryNote.isInformed()) {
-						this.traceabilityService.cancelDeliveryNoteTransaction(deliveryNote);
+						result = this.traceabilityService.cancelDeliveryNoteTransaction(deliveryNote);
 					}
 				} catch (Exception e) {
 					logger.info("No se ha podido informar la cancelacion a ANMAT " + deliveryNote.getId());
@@ -177,28 +178,33 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 				logger.info("No se ha podido actualizar el estado al remito " + deliveryNote.getId());
 			}
 
-			if (output == null) {
-				output = this.getOutput(deliveryNote);
-				if (output != null) {
-					this.outputService.cancel(output);
+			if(result != null && result.getResultado()) {
+				if (output == null) {
+					output = this.getOutput(deliveryNote);
+					if (output != null) {
+						this.outputService.cancel(output);
+					}
 				}
-			}
 
-			if (supplying == null) {
-				supplying = this.getSupplying(deliveryNote);
-				if (supplying != null) {
-					this.supplyingService.cancel(supplying);
+				if (supplying == null) {
+					supplying = this.getSupplying(deliveryNote);
+					if (supplying != null) {
+						this.supplyingService.cancel(supplying);
+					}
 				}
-			}
 
-			deliveryNote.setCancelled(true);
-			try {
+				deliveryNote.setCancelled(true);
+				try {
+					logger.info("No se ha podido anular el remito " + deliveryNote.getId());
+					this.save(deliveryNote);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				this.auditService.addAudit(username, RoleOperation.DELIVERY_NOTE_CANCELLATION.getId(), deliveryNote.getId());
+			}else{
 				logger.info("No se ha podido anular el remito " + deliveryNote.getId());
-				this.save(deliveryNote);
-			} catch (Exception e) {
-				e.printStackTrace();
+				logger.info("Error en ANMAT al anular " + result);
 			}
-			this.auditService.addAudit(username, RoleOperation.DELIVERY_NOTE_CANCELLATION.getId(), deliveryNote.getId());
 		}
 	}
 
