@@ -386,7 +386,7 @@ SerializedReturns = function() {
 					"date": $("#currentDateInput").val(),
 					"inputDetails": []
 				};
-				
+
 				for (var i = 0; i < inputDetails.length; i++) {
 					jsonInput.inputDetails.push(inputDetails[i]);
 				}
@@ -396,14 +396,15 @@ SerializedReturns = function() {
 					type: "POST",
 					contentType:"application/json",
 					data: JSON.stringify(jsonInput),
-					async: true,
+                    async: false,
 					beforeSend : function() {
 						$.blockUI({ message: 'Espere un Momento por favor...' });
 					},
 					success: function(response, textStatus, jqXHR) {
 						$.unblockUI();
 						inputId = response.operationId;
-						if(response.resultado == true){
+                        generateInputPDFReport(inputId, false, true);
+                        if(response.resultado == true){
 							if (textStatus === 'success') {
 								$('#destructionModal').modal({backdrop: 'static', keyboard: false})
 							}
@@ -463,31 +464,26 @@ SerializedReturns = function() {
 			url: "saveOutput.do",
 			type: "POST",
 			contentType:"application/json",
+            async: false,
 			data: JSON.stringify(jsonOutput),
-			async: false,
 			beforeSend : function() {
 				$.blockUI({ message: 'Espere un Momento por favor...' });
 			},
-			success: function(response) {
+			success: function(response, textStatus, jqXHR) {
+                $.unblockUI();
+                if (textStatus === 'success') {
+                    generateOutputPDFReport(jqXHR.responseJSON, true);
+                }
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myGenericError();
-			},
-			complete: function(jqXHR, textStatus) {
-				$.unblockUI();
-				if (textStatus === 'success') {
-					generateOutputPDFReport(jqXHR.responseJSON);
-				}
 			}
 		});
-	});
+        myReload("success", "Se ha registrado la devoluci\u00f3n de serie con n\u00famero: " + inputId);
+    });
 
 	var hasChanged = function() {
-		if (inputDetails.length > 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return inputDetails.length > 0;
 	};
 
 	$(window).bind("beforeunload", function(event) {

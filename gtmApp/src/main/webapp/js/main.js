@@ -37,7 +37,8 @@ $(document).ready(function() {
     });
 
 	// My Global Functions
-	
+	var fileDownloadCheckTimer;
+
 	myShowErrors = function(errorMap, errorList) {
 		// Limpio los tooltips para elementos validos.
 		$.each(this.validElements(), function (index, element) {
@@ -60,7 +61,7 @@ $(document).ready(function() {
 			}
 		});
 	};
-	
+
 	myResetForm = function(form, validator) {
 		$("input", form).each(function() {
 			$(this).data("title", "").removeClass("has-error").tooltip("destroy");
@@ -70,7 +71,7 @@ $(document).ready(function() {
 			validator.resetForm();
 		}
 	};
-	
+
 	myParseDate = function(date) {
 		var myDate = new Date(date);
 		var day = ("0" + myDate.getDate()).slice(-2);
@@ -83,10 +84,10 @@ $(document).ready(function() {
 		var myDate = new Date(date);
 		var day = ("0" + myDate.getDate()).slice(-2);
 		var month = ("0" + (myDate.getMonth() + 1)).slice(-2);
-		var year = ("0"+myDate.getFullYear()).slice(-2)
+		var year = ("0"+myDate.getFullYear()).slice(-2);
 		return day + month + year;
 	};
-	
+
 	myParseDateTime = function(date) {
 		var myDate = new Date(date);
 		var day = ("0" + myDate.getDate()).slice(-2);
@@ -97,7 +98,7 @@ $(document).ready(function() {
 		var seconds = ("0" + myDate.getSeconds()).slice(-2);
 		return day + "/" + month + "/" + year + " " + hour + ":" + minutes + ":" + seconds;
 	};
-	
+
 	validateExpirationDate = function(dd, mm, aaaa) {
 		var valid = false;
 		var xdata = new Date(aaaa,mm-1,dd);
@@ -109,7 +110,7 @@ $(document).ready(function() {
 		}
 		return valid;
 	};
-	
+
 	addLeadingZeros = function(n, length)
 	{
 	    var str = (n > 0 ? n : -n) + "";
@@ -142,8 +143,8 @@ $(document).ready(function() {
 
 	jQuery.validator.addMethod("formatDate", function(value, element) {
 		var check = false;
-		var re = re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;;
-		if (re.test(value)) {
+        var re = re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
+        if (re.test(value)) {
 			check = true;
 		}
 		return this.optional(element) || check;
@@ -220,7 +221,6 @@ $(document).ready(function() {
 	    return value > param;
 	},"Por favor, ingrese un n\u00famero mayor a cero");
 	
-	var fileDownloadCheckTimer;
 	blockUIForDownload = function(path) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
 		$.download(path,'fileDownloadToken=' + token, 'POST' );
@@ -237,7 +237,7 @@ $(document).ready(function() {
 		$.removeCookie('fileDownloadToken'/*, { path: '/gtm-app/' }*/); //clears this cookie value
 		$.unblockUI();
 	};
-	
+
 	exportTableHTML = function(url) {
 		return "<div class=\"btn-group\" style=\"margin-right: 20px;\">" +
 		"<button class=\"btn btn-warning dropdown-toggle\" data-toggle=\"dropdown\">" +
@@ -254,7 +254,7 @@ $(document).ready(function() {
 		"</ul>" +
 		"</div>";
 	};
-	
+
 	exportQueryTableHTML = function(url, params) {
 		return "<div class=\"btn-group\" style=\"margin-right: 20px;\">" +
 		"<button class=\"btn btn-warning dropdown-toggle\" data-toggle=\"dropdown\">" +
@@ -272,7 +272,6 @@ $(document).ready(function() {
 		"</div>";
 	};
 	
-	var fileDownloadCheckTimer;
 	blockUIForDownloadQuery = function(path, params) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
 		$.download(path,'fileDownloadToken=' + token + params, 'POST' );
@@ -284,8 +283,7 @@ $(document).ready(function() {
 		}, 1000);
 	};
 
-	var fileDownloadCheckTimer;
-	generateInputPDFReport = function(inputId,isUpdate) {
+	generateInputPDFReport = function(inputId, isUpdate, isSerializedReturn) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
 		$.download('./rest/inputs.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + inputId + '&dateTo=&conceptId=null&providerId=null&deliveryLocationId=null&agreementId=null&deliveryNoteNumber=&purchaseOrderNumber=&cancelled=null&productId=null&productMonodrugId=null', 'POST');
 		$.blockUI({message: 'Generando Reporte de Ingreso. Espere un Momento por favor...'});
@@ -293,17 +291,17 @@ $(document).ready(function() {
 			var cookieValue = $.cookie('fileDownloadToken');
 			if (cookieValue == token) {
 				finishDownload();
-				if(isUpdate == true){
-					myRedirect("success", "Se ha autorizado el Ingreso de mercader\u00eda n\u00famero: " + inputId, "searchInputToUpdate.do");
-				}else{
-					myRedirect("success", "Se ha registrado el Ingreso de mercader\u00eda n\u00famero: " + inputId, "input.do" );
-				}
-
+                if (typeof(isSerializedReturn) === 'undefined') {
+                    if (isUpdate == true) {
+                        myRedirect("success", "Se ha autorizado el Ingreso de mercader\u00eda n\u00famero: " + inputId, "searchInputToUpdate.do");
+                    } else {
+                        myRedirect("success", "Se ha registrado el Ingreso de mercader\u00eda n\u00famero: " + inputId, "input.do");
+                    }
+                }
 			}
 		}, 1000);
 	};
 
-	var fileDownloadCheckTimer;
 	generateSupplyingPDFReport = function(response) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
 		$.download('./rest/supplyings.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + response.operationId + '&dateTo=&affiliateId=null&clientId=null&agreementId=null&productId=null&cancelled=null', 'POST');
@@ -330,8 +328,7 @@ $(document).ready(function() {
 		}, 1000);
 	};
 
-	var fileDownloadCheckTimer;
-	generateOutputPDFReport = function(response) {
+	generateOutputPDFReport = function(response, isSerializedReturn) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
 		$.download('./rest/outputs.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + response.operationId + '&dateTo=&conceptId=null&providerId=null&deliveryLocationId=null&agreementId=null&productId=null&cancelled=null', 'POST');
 		$.blockUI({message: 'Generando Reporte de Egreso. Espere un Momento por favor...'});
@@ -339,25 +336,26 @@ $(document).ready(function() {
 			var cookieValue = $.cookie('fileDownloadToken');
 			if (cookieValue == token) {
 				finishDownload();
-				var msgType = "success";
-				var message = "Se ha registrado el Egreso de mercader\u00eda n\u00famero: " + response.operationId;
-				if (response.errorMessages.length > 0) {
-					$.each(response.errorMessages, function (index, value) {
-						message += "<strong><p>" + value + "</p></strong>";
-					});
-					msgType = "warning";
-				}
-				if (response.successMessages.length > 0) {
-					$.each(response.successMessages, function (index, value) {
-						message += "<strong><p>" + value + "</p></strong>";
-					});
-				}
-				myRedirect(msgType, message, "output.do");
+                if (typeof(isSerializedReturn) === 'undefined') {
+                    var msgType = "success";
+                    var message = "Se ha registrado el Egreso de mercader\u00eda n\u00famero: " + response.operationId;
+                    if (response.errorMessages.length > 0) {
+                        $.each(response.errorMessages, function (index, value) {
+                            message += "<strong><p>" + value + "</p></strong>";
+                        });
+                        msgType = "warning";
+                    }
+                    if (response.successMessages.length > 0) {
+                        $.each(response.successMessages, function (index, value) {
+                            message += "<strong><p>" + value + "</p></strong>";
+                        });
+                    }
+                    myRedirect(msgType, message, "output.do");
+                }
 			}
 		}, 1000);
 	};
 
-	var fileDownloadCheckTimer;
 	generateProvisioningRequestPDFReport = function(provisioningRequestId) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
 		$.download('./rest/provisionings.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + provisioningRequestId + '&dateTo=&clientId=null&affiliateId=null&agreementId=null&comment=&deliveryLocation=null&logisticsOperator=null&stateId=null&productId=null&productMonodrugId=null', 'POST');
@@ -371,7 +369,6 @@ $(document).ready(function() {
 		}, 1000);
 	};
 
-	var fileDownloadCheckTimer;
 	generatePickingSheetPDF = function(provisioningRequestIds) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
 		$.download('./rest/pickingSheets.pdf', 'fileDownloadToken=' + token + '&provisioningIds=' + provisioningRequestIds, 'POST');

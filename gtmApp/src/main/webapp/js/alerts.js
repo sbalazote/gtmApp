@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	
 	// My Global Functions
-	myReload = function(type, message) {
+	myReload = function (type, message) {
 		var postObject = {
 			"type": type,
 			"message": message
@@ -10,7 +10,7 @@ $(document).ready(function() {
 		window.location = window.location;
 	};
 
-	myRedirect = function(type, message, redirectLocation) {
+	myRedirect = function (type, message, redirectLocation) {
 		var postObject = {
 			"type": type,
 			"message": message
@@ -19,8 +19,8 @@ $(document).ready(function() {
 		window.location.href = redirectLocation;
 	};
 
-	myShowAlert = function(type, message, element, time) {
-		if (typeof(time)==='undefined') time = 3000;
+	myShowAlert = function (type, message, element, time) {
+		if (typeof(time) === 'undefined') time = 3000;
 
 		var myDiv = "alertDiv";
 		if (element) {
@@ -42,8 +42,8 @@ $(document).ready(function() {
 			"hideEasing": "linear",
 			"showMethod": "fadeIn",
 			"hideMethod": "fadeOut",
-			"tapToDismiss" : false,
-			"target": "#"+myDiv
+			"tapToDismiss": false,
+			"target": "#" + myDiv
 		};
 		// Muestro mensaje dependiendo el tipo.
 		switch (type) {
@@ -62,55 +62,55 @@ $(document).ready(function() {
 		}
 	};
 
-	myHideAlert = function() {
+	myHideAlert = function () {
 		var myDiv = "alertDiv";
-		$('#'+myDiv).empty();
+		$('#' + myDiv).empty();
 	};
 	
 	// Alerts
 
-	myGenericError = function(element) {
+	myGenericError = function (element) {
 		var message = 'Ha ocurrido un error al intentar procesar su solicitud. Por favor, comun\u00edquese con el Administrador del Sistema.';
 		myShowAlert('danger', message, element);
 		BootstrapDialog.show({
 			type: BootstrapDialog.TYPE_DANGER,
-	        title: 'Operaci\u00f3n Fallida',
-	        message: message,
-	        buttons: [{
-                label: 'Cerrar',
-                action: function(dialogItself){
-                    dialogItself.close();
-                }
-            }]
+			title: 'Operaci\u00f3n Fallida',
+			message: message,
+			buttons: [{
+				label: 'Cerrar',
+				action: function (dialogItself) {
+					dialogItself.close();
+				}
+			}]
 		});
 	};
 
-	myAbortWarning = function(element) {
+	myAbortWarning = function (element) {
 		var message = 'Desea regresar a la pagina principal?';
 		//myShowAlert('danger', message, element);
 		BootstrapDialog.show({
 			type: BootstrapDialog.TYPE_WARNING,
-	        title: 'Advertencia!',
-	        message: message,
-	        closable: false,
-            /*data: {
-                'callback': callback
-            },*/
-            buttons: [{
-                    label: 'No',
-                    action: function(dialogItself) {
-                        //typeof dialogItself.getData('callback') === 'function' && dialogItself.getData('callback')(false);
-                        dialogItself.close();
-                    }
-                }, {
-                    label: 'Si',
-					cssClass: 'btn-primary',
-                    action: function(dialogItself) {
-                        //typeof dialogItself.getData('callback') === 'function' && dialogItself.getData('callback')(true);
-                        dialogItself.close();
-                        window.location.href = 'home.do';
-                    }
-                }]
+			title: 'Advertencia!',
+			message: message,
+			closable: false,
+			/*data: {
+			 'callback': callback
+			 },*/
+			buttons: [{
+				label: 'No',
+				action: function (dialogItself) {
+					//typeof dialogItself.getData('callback') === 'function' && dialogItself.getData('callback')(false);
+					dialogItself.close();
+				}
+			}, {
+				label: 'Si',
+				cssClass: 'btn-primary',
+				action: function (dialogItself) {
+					//typeof dialogItself.getData('callback') === 'function' && dialogItself.getData('callback')(true);
+					dialogItself.close();
+					window.location.href = 'home.do';
+				}
+			}]
 		});
 	};
 
