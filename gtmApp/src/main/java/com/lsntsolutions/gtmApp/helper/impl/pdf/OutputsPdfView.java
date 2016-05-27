@@ -1,22 +1,17 @@
 package com.lsntsolutions.gtmApp.helper.impl.pdf;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.lsntsolutions.gtmApp.config.PropertyProvider;
-import com.lsntsolutions.gtmApp.constant.Constants;
 import com.lsntsolutions.gtmApp.helper.AbstractPdfView;
 import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import com.lsntsolutions.gtmApp.model.Output;
 import com.lsntsolutions.gtmApp.model.OutputDetail;
 import com.lsntsolutions.gtmApp.util.StringUtility;
-import com.itextpdf.text.*;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.*;
-import com.itextpdf.text.pdf.draw.LineSeparator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -73,7 +68,6 @@ public class OutputsPdfView extends AbstractPdfView {
 			PdfPCell productSerialNumberHeader = new PdfPCell(new Paragraph("Serie"));
 			PdfPCell productAmountHeader = new PdfPCell(new Paragraph("Cant."));
 
-			productCodeHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 			productCodeHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 			productDescriptionHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 			productBatchHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);

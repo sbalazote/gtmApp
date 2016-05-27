@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SerializedReturnsPdfView  extends AbstractPdfView {
+public class SerializedReturnsPdfView extends AbstractPdfView {
 
     @Override
     protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest req, HttpServletResponse resp)
@@ -270,19 +270,17 @@ public class SerializedReturnsPdfView  extends AbstractPdfView {
 
         // Si hay egreso lo imprimo
         if (output != null) {
-
             HashMap<Integer, List<OutputDetail>> groupByProduct2 = groupByProduct(output);
 
-        /*PdfPTable table = new PdfPTable(6); // 6 columnas
-        table.setWidthPercentage(95);
-        table.setSpacingBefore(10f);
+            table = new PdfPTable(6); // 6 columnas
+            table.setWidthPercentage(95);
+            table.setSpacingBefore(10f);
 
-        table.setSpacingAfter(10f);
+            table.setSpacingAfter(10f);
 
-        table.setWidths(PdfConstants.columnWidths);*/
+            table.setWidths(PdfConstants.columnWidths);
 
             //Encabezado
-
             productCodeHeader = new PdfPCell(new Paragraph("GTIN."));
             productDescriptionHeader = new PdfPCell(new Paragraph("Descripcion (Cod.)"));
             productBatchHeader = new PdfPCell(new Paragraph("Lote"));
@@ -290,7 +288,6 @@ public class SerializedReturnsPdfView  extends AbstractPdfView {
             productSerialNumberHeader = new PdfPCell(new Paragraph("Serie"));
             productAmountHeader = new PdfPCell(new Paragraph("Cant."));
 
-            productCodeHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
             productCodeHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
             productDescriptionHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
             productBatchHeader.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
@@ -329,7 +326,7 @@ public class SerializedReturnsPdfView  extends AbstractPdfView {
             cb.endText();
 
             // DOC. NRO
-            List<DeliveryNote> outputDeliveryNotes = associatedOutputs.get(new Integer(output.getId()));
+            List<DeliveryNote> outputDeliveryNotes = associatedOutputs.get(output.getId());
             String dnNumbers = "";
             if (outputDeliveryNotes != null) {
                 int offsetY = 190;
