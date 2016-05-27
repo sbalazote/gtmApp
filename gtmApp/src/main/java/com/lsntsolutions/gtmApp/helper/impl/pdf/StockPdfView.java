@@ -1,11 +1,11 @@
 package com.lsntsolutions.gtmApp.helper.impl.pdf;
 
-import com.lowagie.text.*;
-import com.lowagie.text.Font;
-import com.lowagie.text.Image;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.*;
-import com.lowagie.text.pdf.draw.LineSeparator;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.lsntsolutions.gtmApp.config.PropertyProvider;
 import com.lsntsolutions.gtmApp.helper.AbstractPdfView;
 import com.lsntsolutions.gtmApp.model.ProductGtin;
@@ -49,7 +49,7 @@ public class StockPdfView extends AbstractPdfView {
     @Override
     protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest req, HttpServletResponse resp)
             throws Exception {
-        fontDetails = new Font(Font.TIMES_ROMAN, 10f, Font.BOLD, Color.BLACK);
+        fontDetails = new Font(com.itextpdf.text.Font.FontFamily.TIMES_ROMAN, 10f, com.itextpdf.text.Font.NORMAL, BaseColor.BLACK);
 
 
         // Logo
@@ -276,10 +276,10 @@ public class StockPdfView extends AbstractPdfView {
 			this.pagenumber++;
 
 			try {
-				Font fontHeader = new Font(Font.HELVETICA, 10f, Font.NORMAL, Color.BLACK);
-				Font fontHeaderName = new Font(Font.HELVETICA, 14f, Font.NORMAL, Color.BLACK);
-				Font fontHeaderBold = new Font(Font.HELVETICA, 9f, Font.BOLD, Color.BLACK);
-				Font fontHeaderProvisioningRequest = new Font(Font.HELVETICA, 14f, Font.BOLD, Color.BLACK);
+				Font fontHeader = new Font(Font.FontFamily.HELVETICA, 10f, com.itextpdf.text.Font.NORMAL, BaseColor.BLACK);
+				Font fontHeaderName = new Font(Font.FontFamily.HELVETICA, 14f, com.itextpdf.text.Font.NORMAL, BaseColor.BLACK);
+				Font fontHeaderBold = new Font(Font.FontFamily.HELVETICA, 9f, Font.BOLD, BaseColor.BLACK);
+				Font fontHeaderProvisioningRequest = new Font(Font.FontFamily.HELVETICA, 14f, Font.BOLD, BaseColor.BLACK);
 
 				Image logoImage = Image.getInstance(logoPath);
 				logoImage.scaleToFit(80f, 80f);

@@ -1,13 +1,13 @@
 package com.lsntsolutions.gtmApp.helper.impl.printer;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.Image;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.Barcode128;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfWriter;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.Barcode128;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.lsntsolutions.gtmApp.dto.PrinterResultDTO;
 import com.lsntsolutions.gtmApp.helper.PrintOnPrinter;
 import com.lsntsolutions.gtmApp.model.Affiliate;

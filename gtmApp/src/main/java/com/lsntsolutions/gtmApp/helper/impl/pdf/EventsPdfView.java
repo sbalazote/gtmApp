@@ -2,12 +2,12 @@ package com.lsntsolutions.gtmApp.helper.impl.pdf;
 
 import com.lsntsolutions.gtmApp.config.PropertyProvider;
 import com.lsntsolutions.gtmApp.helper.AbstractPdfView;
-import com.lowagie.text.*;
-import com.lowagie.text.Font;
-import com.lowagie.text.Image;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.*;
-import com.lowagie.text.pdf.draw.LineSeparator;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.lsntsolutions.gtmApp.model.Event;
 
 import javax.servlet.http.HttpServletRequest;
@@ -87,7 +87,7 @@ public class EventsPdfView extends AbstractPdfView {
 				document.add(new Chunk(ls));
 
 				// Fuente
-				Font fontHeader = new Font(Font.TIMES_ROMAN, 9f, Font.NORMAL, Color.BLACK);
+				Font fontHeader = new Font(com.itextpdf.text.Font.FontFamily.TIMES_ROMAN, 9f, com.itextpdf.text.Font.NORMAL, BaseColor.BLACK);
 
 				//Encabezado
 				PdfPCell eventIdHeader = new PdfPCell(new Paragraph("ID", fontHeader));
@@ -139,7 +139,7 @@ public class EventsPdfView extends AbstractPdfView {
 		List<com.lsntsolutions.gtmApp.model.Event> events = (List<Event>) model.get("events");
 
 		// Fuente
-		Font fontDetails = new Font(Font.TIMES_ROMAN, 8f, Font.NORMAL, Color.BLACK);
+		Font fontDetails = new Font(com.itextpdf.text.Font.FontFamily.TIMES_ROMAN, 8f, com.itextpdf.text.Font.NORMAL, BaseColor.BLACK);
 
 		for (Event event : events) {
 

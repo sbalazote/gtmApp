@@ -1,8 +1,8 @@
 package com.lsntsolutions.gtmApp.helper.impl.pdf;
 
-import com.lowagie.text.*;
-import com.lowagie.text.pdf.*;
-import com.lowagie.text.pdf.draw.LineSeparator;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.lsntsolutions.gtmApp.config.PropertyProvider;
 import com.lsntsolutions.gtmApp.helper.AbstractPdfView;
 import com.lsntsolutions.gtmApp.model.Audit;

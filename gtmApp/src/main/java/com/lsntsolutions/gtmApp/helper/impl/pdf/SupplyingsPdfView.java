@@ -9,12 +9,12 @@ import com.lsntsolutions.gtmApp.service.DeliveryNoteService;
 import com.lsntsolutions.gtmApp.util.StringUtility;
 import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import com.lsntsolutions.gtmApp.model.Supplying;
-import com.lowagie.text.*;
-import com.lowagie.text.Font;
-import com.lowagie.text.Image;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.*;
-import com.lowagie.text.pdf.draw.LineSeparator;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.draw.LineSeparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -44,8 +44,8 @@ public class SupplyingsPdfView extends AbstractPdfView {
 		Map<Integer, List<DeliveryNote>> associatedSupplyings = (Map<Integer, List<DeliveryNote>>) model.get("associatedSupplyings");
 
 		// Fuentes
-		Font fontHeader = new Font(Font.TIMES_ROMAN, 11f, Font.NORMAL, Color.BLACK);
-		Font fontDetails = new Font(Font.TIMES_ROMAN, 10f, Font.NORMAL, Color.BLACK);
+		Font fontHeader = new Font(com.itextpdf.text.Font.FontFamily.TIMES_ROMAN, 11f, com.itextpdf.text.Font.NORMAL, BaseColor.BLACK);
+		Font fontDetails = new Font(com.itextpdf.text.Font.FontFamily.TIMES_ROMAN, 10f, com.itextpdf.text.Font.NORMAL, BaseColor.BLACK);
 		// Logo
 		String realPath = getServletContext().getRealPath("/images/uploadedLogo.png");
 
