@@ -1,13 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:mvc="http://www.springframework.org/schema/mvc"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-    					http://www.springframework.org/schema/beans/spring-beans.xsd
-    					http://www.springframework.org/schema/context
-    					http://www.springframework.org/schema/context/spring-context.xsd
-    					http://www.springframework.org/schema/mvc
-    					http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+    					http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
     <bean id="affiliates" class="com.lsntsolutions.gtmApp.helper.impl.pdf.AffiliatesPdfView"/>
 	
@@ -42,6 +36,8 @@
 	<bean id="provisionings" class="com.lsntsolutions.gtmApp.helper.impl.pdf.ProvisioningPdfView"/>
 	<bean id="audits" class="com.lsntsolutions.gtmApp.helper.impl.pdf.AuditPdfView"/>
 	<bean id="supplyings" class="com.lsntsolutions.gtmApp.helper.impl.pdf.SupplyingsPdfView"/>
+	<bean id="serializedReturns" class="com.lsntsolutions.gtmApp.helper.impl.pdf.SerializedReturnsPdfView"/>
+
 
 	<bean id="productTrace" class="com.lsntsolutions.gtmApp.helper.impl.pdf.ProductTracePdfView"/>
 

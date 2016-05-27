@@ -485,6 +485,7 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		sentence += ") order by a.`date` desc";
 
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat auditDateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		SimpleDateFormat expirationDateFormatter = new SimpleDateFormat("yyMMdd");
 		Query query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence);
 		List<Object[]> inputsAudit = query.list();
@@ -497,7 +498,7 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		}
 		List<SearchProductDTO> inputsSearchProductDTO = new ArrayList<>();
 		for (Object[] audit : inputsAudit) {
-			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5], (String)dateFormatter.format(audit[8]));
+			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], auditDateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5], dateFormatter.format(audit[8]));
 			inputsSearchProductDTO.add(searchProductDTO);
 		}
 		searchProductResultDTO.setInputs(inputsSearchProductDTO);
@@ -536,7 +537,7 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		}
 		List<SearchProductDTO> outputsSearchProductDTO = new ArrayList<>();
 		for (Object[] audit : outputsAudit) {
-			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5], (String)dateFormatter.format(audit[8]));
+			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], auditDateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5], dateFormatter.format(audit[8]));
 			outputsSearchProductDTO.add(searchProductDTO);
 		}
 		searchProductResultDTO.setOutputs(outputsSearchProductDTO);
@@ -575,7 +576,7 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		}
 		List<SearchProductDTO> supplyingsSearchProductDTO = new ArrayList<>();
 		for (Object[] audit : supplyingsAudit) {
-			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5], (String)dateFormatter.format(audit[8]));
+			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], auditDateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5], dateFormatter.format(audit[8]));
 			supplyingsSearchProductDTO.add(searchProductDTO);
 		}
 		searchProductResultDTO.setSupplyings(supplyingsSearchProductDTO);
@@ -614,7 +615,7 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		}
 		List<SearchProductDTO> ordersSearchProductDTO = new ArrayList<>();
 		for (Object[] audit : ordersAudit) {
-			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5], (String)dateFormatter.format(audit[8]));
+			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], auditDateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5], dateFormatter.format(audit[8]));
 			ordersSearchProductDTO.add(searchProductDTO);
 		}
 		searchProductResultDTO.setOrders(ordersSearchProductDTO);
@@ -653,7 +654,7 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		}
 		List<SearchProductDTO> deliveryNoteSearchProductDTO = new ArrayList<>();
 		for (Object[] audit : deliveryNoteAudit) {
-			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5], (String)dateFormatter.format(audit[8]));
+			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], auditDateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5], dateFormatter.format(audit[8]));
 			deliveryNoteSearchProductDTO.add(searchProductDTO);
 		}
 
@@ -690,7 +691,7 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 			isSerialBatchExpirationAssigned = true;
 		}
 		for (Object[] audit : deliveryNoteAudit) {
-			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5], (String)dateFormatter.format(audit[8]));
+			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], auditDateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5], dateFormatter.format(audit[8]));
 			deliveryNoteSearchProductDTO.add(searchProductDTO);
 		}
 
@@ -726,7 +727,7 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 			searchProductResultDTO.setExpirationDate(expirationDateFormatter.format(deliveryNoteAuditAux[7]));
 		}
         for (Object[] audit : deliveryNoteAudit) {
-			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], (String)dateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5], (String)dateFormatter.format(audit[8]));
+			SearchProductDTO searchProductDTO = new SearchProductDTO((Integer)audit[0], roleService.get((Integer)audit[1]).getDescription(), (Integer)audit[2], auditDateFormatter.format(audit[3]), userService.get((Integer)audit[4]).getName(), (Boolean)audit[5], dateFormatter.format(audit[8]));
 			deliveryNoteSearchProductDTO.add(searchProductDTO);
         }
 

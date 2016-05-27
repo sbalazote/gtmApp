@@ -37,7 +37,6 @@ $(document).ready(function() {
     });
 
 	// My Global Functions
-	var fileDownloadCheckTimer;
 
 	myShowErrors = function(errorMap, errorList) {
 		// Limpio los tooltips para elementos validos.
@@ -221,6 +220,7 @@ $(document).ready(function() {
 	    return value > param;
 	},"Por favor, ingrese un n\u00famero mayor a cero");
 	
+	var fileDownloadCheckTimer;
 	blockUIForDownload = function(path) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
 		$.download(path,'fileDownloadToken=' + token, 'POST' );
@@ -272,6 +272,7 @@ $(document).ready(function() {
 		"</div>";
 	};
 	
+	var fileDownloadCheckTimer;
 	blockUIForDownloadQuery = function(path, params) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
 		$.download(path,'fileDownloadToken=' + token + params, 'POST' );
@@ -283,6 +284,7 @@ $(document).ready(function() {
 		}, 1000);
 	};
 
+	var fileDownloadCheckTimer;
 	generateInputPDFReport = function(inputId, isUpdate, isSerializedReturn) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
 		$.download('./rest/inputs.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + inputId + '&dateTo=&conceptId=null&providerId=null&deliveryLocationId=null&agreementId=null&deliveryNoteNumber=&purchaseOrderNumber=&cancelled=null&productId=null&productMonodrugId=null', 'POST');
@@ -302,6 +304,7 @@ $(document).ready(function() {
 		}, 1000);
 	};
 
+	var fileDownloadCheckTimer;
 	generateSupplyingPDFReport = function(response) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
 		$.download('./rest/supplyings.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + response.operationId + '&dateTo=&affiliateId=null&clientId=null&agreementId=null&productId=null&cancelled=null', 'POST');
@@ -328,6 +331,7 @@ $(document).ready(function() {
 		}, 1000);
 	};
 
+	var fileDownloadCheckTimer;
 	generateOutputPDFReport = function(response, isSerializedReturn) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
 		$.download('./rest/outputs.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + response.operationId + '&dateTo=&conceptId=null&providerId=null&deliveryLocationId=null&agreementId=null&productId=null&cancelled=null', 'POST');
@@ -356,6 +360,7 @@ $(document).ready(function() {
 		}, 1000);
 	};
 
+	var fileDownloadCheckTimer;
 	generateProvisioningRequestPDFReport = function(provisioningRequestId) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
 		$.download('./rest/provisionings.pdf', 'fileDownloadToken=' + token + '&dateFrom=&id=' + provisioningRequestId + '&dateTo=&clientId=null&affiliateId=null&agreementId=null&comment=&deliveryLocation=null&logisticsOperator=null&stateId=null&productId=null&productMonodrugId=null', 'POST');
@@ -369,6 +374,7 @@ $(document).ready(function() {
 		}, 1000);
 	};
 
+	var fileDownloadCheckTimer;
 	generatePickingSheetPDF = function(provisioningRequestIds) {
 		var token = new Date().getTime(); //use the current timestamp as the token value
 		$.download('./rest/pickingSheets.pdf', 'fileDownloadToken=' + token + '&provisioningIds=' + provisioningRequestIds, 'POST');
@@ -381,6 +387,24 @@ $(document).ready(function() {
 			}
 		}, 1000);
 	};
+
+    var fileDownloadCheckTimer;
+    generateSerializedReturnPDFReport = function(inputId, outputId) {
+        var token = new Date().getTime(); //use the current timestamp as the token value
+        $.download('./rest/serializedReturns.pdf', 'fileDownloadToken=' + token + '&inputId=' + inputId + '&outputId=' + outputId, 'POST');
+        $.blockUI({message: 'Generando Reporte de Devolucion de Series. Espere un Momento por favor...'});
+        fileDownloadCheckTimer = window.setInterval(function () {
+            var cookieValue = $.cookie('fileDownloadToken');
+            if (cookieValue == token) {
+                finishDownload();
+                if (outputId != "") {
+                    myRedirect("success", "Se ha registrado la devoluci\u00f3n de serie con n\u00famero: " + inputId + " y destrucci\u00f3n de serie con n\u00famero: " + outputId, "serializedReturns.do");
+                } else {
+                    myRedirect("success", "Se ha registrado la devoluci\u00f3n de serie con n\u00famero: " + inputId, "serializedReturns.do");
+                }
+            }
+        }, 1000);
+    };
 
 
 	getURLParameter = function(sParam) {

@@ -1,9 +1,9 @@
 package com.lsntsolutions.gtmApp.controllers;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.lsntsolutions.gtmApp.dto.OutputOrderResultDTO;
+import com.lsntsolutions.gtmApp.model.DeliveryNote;
+import com.lsntsolutions.gtmApp.model.Input;
+import com.lsntsolutions.gtmApp.model.Output;
 import com.lsntsolutions.gtmApp.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class SerializedReturnsController {
@@ -26,8 +33,12 @@ public class SerializedReturnsController {
 	private AgreementService agreementService;
 	@Autowired
 	private DeliveryLocationService deliveryLocationService;
+    @Autowired
+    private InputService inputService;
 	@Autowired
 	private OutputService outputService;
+    @Autowired
+    private DeliveryNoteService deliveryNoteService;
 	@Autowired
 	private OrderService orderService;
 
@@ -64,4 +75,21 @@ public class SerializedReturnsController {
 		return "";
 	}
 
+	@RequestMapping(value = "/serializedReturns", method = RequestMethod.POST)
+	public ModelAndView serializedReturns(@RequestParam String inputId, @RequestParam String outputId) {
+        Input input = this.inputService.get(Integer.parseInt(inputId));
+        Output output = null;
+        Map<String, Object> map = new HashMap<>();
+
+        if (!outputId.isEmpty()) {
+            output = this.outputService.get(Integer.parseInt(outputId));
+            Map<Integer, List<DeliveryNote>> outputDeliveryNotes = this.deliveryNoteService.getAssociatedOutputs();
+            map.put("associatedOutputs", outputDeliveryNotes);
+        }
+
+        map.put("input", input);
+        map.put("output", output);
+
+		return new ModelAndView("serializedReturns", map);
+	}
 }
