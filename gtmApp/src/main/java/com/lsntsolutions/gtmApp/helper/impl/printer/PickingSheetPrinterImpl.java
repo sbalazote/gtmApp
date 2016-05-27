@@ -1,12 +1,12 @@
 package com.lsntsolutions.gtmApp.helper.impl.printer;
 
-import com.lowagie.text.*;
-import com.lowagie.text.Font;
-import com.lowagie.text.Image;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.*;
-import com.lowagie.text.pdf.draw.DottedLineSeparator;
-import com.lowagie.text.pdf.draw.LineSeparator;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.draw.DottedLineSeparator;
+import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.lsntsolutions.gtmApp.config.PropertyProvider;
 import com.lsntsolutions.gtmApp.constant.State;
 import com.lsntsolutions.gtmApp.helper.AbstractPdfView;
@@ -49,10 +49,10 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 
         try {
 
-			Font fontHeader = new Font(Font.HELVETICA, 10f, Font.NORMAL, Color.BLACK);
-			Font fontHeaderName = new Font(Font.HELVETICA, 14f, Font.NORMAL, Color.BLACK);
-			Font fontHeaderBold = new Font(Font.HELVETICA, 9f, Font.BOLD, Color.BLACK);
-			Font fontHeaderProvisioningRequest = new Font(Font.HELVETICA, 14f, Font.BOLD, Color.BLACK);
+			Font fontHeader = new Font(Font.FontFamily.HELVETICA, 10f, com.itextpdf.text.Font.NORMAL, BaseColor.BLACK);
+			Font fontHeaderName = new Font(Font.FontFamily.HELVETICA, 14f, com.itextpdf.text.Font.NORMAL, BaseColor.BLACK);
+			Font fontHeaderBold = new Font(Font.FontFamily.HELVETICA, 9f, Font.BOLD, BaseColor.BLACK);
+			Font fontHeaderProvisioningRequest = new Font(Font.FontFamily.HELVETICA, 14f, Font.BOLD, BaseColor.BLACK);
 
 			Image logoImage = Image.getInstance(logoPath);
             logoImage.scaleToFit(80f, 80f);
@@ -204,7 +204,7 @@ public class PickingSheetPrinterImpl extends AbstractPdfView {
 		header.addCell(cell);
 
 		PdfContentByte canvas = writer.getDirectContent();
-		Font fontBatchExpirationDate = new Font(Font.HELVETICA, 8.0f, Font.ITALIC, Color.BLACK);
+		Font fontBatchExpirationDate = new Font(Font.FontFamily.HELVETICA, 8f, Font.ITALIC, BaseColor.BLACK);
 		header.writeSelectedRows(0, -1, 15.0f * MILLIMITER_TO_POINTS_FACTOR, (297.0f - offset) * MILLIMITER_TO_POINTS_FACTOR, canvas);
 		if (!details.isEmpty()) {
 			header.flushContent();

@@ -3,12 +3,12 @@ package com.lsntsolutions.gtmApp.helper.impl.pdf;
 import com.lsntsolutions.gtmApp.config.PropertyProvider;
 import com.lsntsolutions.gtmApp.helper.AbstractPdfView;
 import com.lsntsolutions.gtmApp.model.Agreement;
-import com.lowagie.text.*;
-import com.lowagie.text.Font;
-import com.lowagie.text.Image;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.*;
-import com.lowagie.text.pdf.draw.LineSeparator;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.draw.LineSeparator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -87,7 +87,7 @@ public class AgreementsPdfView extends AbstractPdfView {
 				document.add(new Chunk(ls));
 
 				// Fuente
-				Font fontHeader = new Font(Font.TIMES_ROMAN, 9f, Font.NORMAL, Color.BLACK);
+				Font fontHeader = new Font(Font.FontFamily.TIMES_ROMAN, 9f, Font.NORMAL, BaseColor.BLACK);
 
 				//Encabezado
 				PdfPCell agreementIdHeader = new PdfPCell(new Paragraph("ID", fontHeader));
@@ -148,7 +148,7 @@ public class AgreementsPdfView extends AbstractPdfView {
 		List<Agreement> agreements = (List<Agreement>) model.get("agreements");
 
 		// Fuente
-		Font fontDetails = new Font(Font.TIMES_ROMAN, 8f, Font.NORMAL, Color.BLACK);
+		Font fontDetails = new Font(Font.FontFamily.TIMES_ROMAN, 8f, Font.NORMAL, BaseColor.BLACK);
 
 		for (Agreement agreement : agreements) {
 

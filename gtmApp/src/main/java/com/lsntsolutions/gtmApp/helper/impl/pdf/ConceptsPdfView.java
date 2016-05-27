@@ -1,18 +1,18 @@
 package com.lsntsolutions.gtmApp.helper.impl.pdf;
 
+import com.itextpdf.text.*;
 import com.lsntsolutions.gtmApp.config.PropertyProvider;
 import com.lsntsolutions.gtmApp.helper.AbstractPdfView;
 import com.lsntsolutions.gtmApp.model.Concept;
-import com.lowagie.text.*;
-import com.lowagie.text.Font;
-import com.lowagie.text.Image;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.*;
-import com.lowagie.text.pdf.draw.LineSeparator;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.draw.LineSeparator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -89,7 +89,7 @@ public class ConceptsPdfView extends AbstractPdfView {
 				document.add(new Chunk(ls));
 
 				// Fuente
-				Font fontHeader = new Font(Font.TIMES_ROMAN, 9f, Font.NORMAL, Color.BLACK);
+				Font fontHeader = new Font(com.itextpdf.text.Font.FontFamily.TIMES_ROMAN, 9f, com.itextpdf.text.Font.NORMAL, BaseColor.BLACK);
 
 				//Encabezado
 				PdfPCell conceptIdHeader = new PdfPCell(new Paragraph("ID", fontHeader));
@@ -157,7 +157,7 @@ public class ConceptsPdfView extends AbstractPdfView {
 		List<Concept> concepts = (List<Concept>) model.get("concepts");
 
 		// Fuente
-		Font fontDetails = new Font(Font.TIMES_ROMAN, 8f, Font.NORMAL, Color.BLACK);
+		Font fontDetails = new Font(com.itextpdf.text.Font.FontFamily.TIMES_ROMAN, 8f, com.itextpdf.text.Font.NORMAL, BaseColor.BLACK);
 
 		for (Concept concept : concepts) {
 
