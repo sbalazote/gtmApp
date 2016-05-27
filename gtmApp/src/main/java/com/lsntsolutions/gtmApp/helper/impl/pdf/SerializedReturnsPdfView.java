@@ -48,7 +48,7 @@ public class SerializedReturnsPdfView extends AbstractPdfView {
         String name = PropertyProvider.getInstance().getProp("name");
 
 
-        HashMap<Integer, List<InputDetail>> groupByProduct = groupByProduct(input);
+        HashMap<Integer, List<InputDetail>> groupInputByProduct = groupInputByProduct(input);
 
         PdfPTable table = new PdfPTable(6); // 6 columnas
         table.setWidthPercentage(95);
@@ -187,9 +187,9 @@ public class SerializedReturnsPdfView extends AbstractPdfView {
         document.add(destinationGLN);
         document.add(Chunk.NEWLINE);
 
-        for (Integer productId : groupByProduct.keySet()) {
+        for (Integer productId : groupInputByProduct.keySet()) {
             String gtin = "-";
-            InputDetail id = groupByProduct.get(productId).get(0);
+            InputDetail id = groupInputByProduct.get(productId).get(0);
             if (id.getGtin() != null) {
                 gtin = id.getGtin().getNumber();
             }
@@ -201,7 +201,7 @@ public class SerializedReturnsPdfView extends AbstractPdfView {
             PdfPCell productAmountDetail;
 
             boolean isGroup = false;
-            if (groupByProduct.get(productId).size() > 1) {
+            if (groupInputByProduct.get(productId).size() > 1) {
                 isGroup = true;
                 productCodeDetail = new PdfPCell(new Paragraph(gtin, PdfConstants.fontDetails));
                 productDescriptionDetail = new PdfPCell(new Paragraph(id.getProduct().getDescription() + " (" + String.valueOf(id.getProduct().getCode()) + ")", PdfConstants.fontDetails));
@@ -209,7 +209,7 @@ public class SerializedReturnsPdfView extends AbstractPdfView {
                 productExpirationDateDetail = (new PdfPCell(new Paragraph("", PdfConstants.fontDetails)));
                 productSerialNumberDetail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
                 Integer total = 0;
-                for (InputDetail inputDetail : groupByProduct.get(productId)) {
+                for (InputDetail inputDetail : groupInputByProduct.get(productId)) {
                     total += inputDetail.getAmount();
                 }
                 productAmountDetail = new PdfPCell(new Paragraph(String.valueOf(total), PdfConstants.fontDetails));
@@ -229,7 +229,7 @@ public class SerializedReturnsPdfView extends AbstractPdfView {
                 table.addCell(productAmountDetail);
             }
 
-            for (InputDetail inputDetail : groupByProduct.get(productId)) {
+            for (InputDetail inputDetail : groupInputByProduct.get(productId)) {
                 gtin = "-";
                 if (inputDetail.getGtin() != null) {
                     gtin = inputDetail.getGtin().getNumber();
@@ -270,7 +270,7 @@ public class SerializedReturnsPdfView extends AbstractPdfView {
 
         // Si hay egreso lo imprimo
         if (output != null) {
-            HashMap<Integer, List<OutputDetail>> groupByProduct2 = groupByProduct(output);
+            HashMap<Integer, List<OutputDetail>> groupOutputByProduct = groupOutputByProduct(output);
 
             table = new PdfPTable(6); // 6 columnas
             table.setWidthPercentage(95);
@@ -377,9 +377,9 @@ public class SerializedReturnsPdfView extends AbstractPdfView {
             document.add(code);
             document.add(Chunk.NEWLINE);
 
-            for (Integer productId : groupByProduct2.keySet()) {
+            for (Integer productId : groupOutputByProduct.keySet()) {
                 String gtin = "-";
-                OutputDetail id = groupByProduct2.get(productId).get(0);
+                OutputDetail id = groupOutputByProduct.get(productId).get(0);
                 if (id.getGtin() != null) {
                     gtin = id.getGtin().getNumber();
                 }
@@ -391,7 +391,7 @@ public class SerializedReturnsPdfView extends AbstractPdfView {
                 PdfPCell productAmountDetail;
 
                 boolean isGroup = false;
-                if (groupByProduct2.get(productId).size() > 1) {
+                if (groupOutputByProduct.get(productId).size() > 1) {
                     isGroup = true;
                     productCodeDetail = new PdfPCell(new Paragraph(gtin, PdfConstants.fontDetails));
                     productDescriptionDetail = new PdfPCell(new Paragraph(id.getProduct().getDescription() + " (" + String.valueOf(id.getProduct().getCode()) + ")", PdfConstants.fontDetails));
@@ -399,7 +399,7 @@ public class SerializedReturnsPdfView extends AbstractPdfView {
                     productExpirationDateDetail = (new PdfPCell(new Paragraph("", PdfConstants.fontDetails)));
                     productSerialNumberDetail = new PdfPCell(new Paragraph("", PdfConstants.fontDetails));
                     Integer total = 0;
-                    for (OutputDetail outputDetail : groupByProduct2.get(productId)) {
+                    for (OutputDetail outputDetail : groupOutputByProduct.get(productId)) {
                         total += outputDetail.getAmount();
                     }
                     productAmountDetail = new PdfPCell(new Paragraph(String.valueOf(total), PdfConstants.fontDetails));
@@ -419,7 +419,7 @@ public class SerializedReturnsPdfView extends AbstractPdfView {
                     table.addCell(productAmountDetail);
                 }
 
-                for (OutputDetail outputDetail : groupByProduct2.get(productId)) {
+                for (OutputDetail outputDetail : groupOutputByProduct.get(productId)) {
                     gtin = "-";
                     if (outputDetail.getGtin() != null) {
                         gtin = outputDetail.getGtin().getNumber();
@@ -458,7 +458,7 @@ public class SerializedReturnsPdfView extends AbstractPdfView {
         }
     }
 
-    private HashMap<Integer, List<InputDetail>> groupByProduct(Input input) {
+    private HashMap<Integer, List<InputDetail>> groupInputByProduct(Input input) {
         HashMap<Integer, List<InputDetail>> details = new HashMap<>();
 
         for (InputDetail inputDetail : input.getInputDetails()) {
@@ -473,7 +473,7 @@ public class SerializedReturnsPdfView extends AbstractPdfView {
         return details;
     }
 
-    private HashMap<Integer, List<OutputDetail>> groupByProduct(Output output) {
+    private HashMap<Integer, List<OutputDetail>> groupOutputByProduct(Output output) {
         HashMap<Integer, List<OutputDetail>> details = new HashMap<>();
 
         for (OutputDetail outputDetail : output.getOutputDetails()) {

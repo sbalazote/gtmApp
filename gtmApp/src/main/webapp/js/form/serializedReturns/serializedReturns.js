@@ -524,7 +524,7 @@ SerializedReturns = function() {
 
 	$("#destructionConceptInput").chosen({
 		width: '100%'
-	});
+	}).addClass("chosen-select");
 
 
 	mySerializedRefundAlert = function(type, message, element, time) {
