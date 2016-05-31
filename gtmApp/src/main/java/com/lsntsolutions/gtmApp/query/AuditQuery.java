@@ -2,11 +2,21 @@ package com.lsntsolutions.gtmApp.query;
 
 public class AuditQuery {
 
+	private String deliveryNoteNumber;
 	private Integer roleId;
 	private Integer operationId;
 	private String dateFrom;
 	private String dateTo;
 	private Integer userId;
+	private Integer provisioningRequestId;
+
+	public String getDeliveryNoteNumber() {
+		return deliveryNoteNumber;
+	}
+
+	public void setDeliveryNoteNumber(String deliveryNoteNumber) {
+		this.deliveryNoteNumber = deliveryNoteNumber;
+	}
 
 	public Integer getRoleId() {
 		return this.roleId;
@@ -48,13 +58,23 @@ public class AuditQuery {
 		this.userId = userId;
 	}
 
-	public static AuditQuery createFromParameters(String dateFrom, String dateTo, Integer roleId, Integer operationId, Integer userId) {
+	public Integer getProvisioningRequestId() {
+		return provisioningRequestId;
+	}
+
+	public void setProvisioningRequestId(Integer provisioningRequestId) {
+		this.provisioningRequestId = provisioningRequestId;
+	}
+
+	public static AuditQuery createFromParameters(String dateFrom, String dateTo, Integer roleId, Integer operationId, Integer userId, String deliveryNoteNumber, Integer provisioningRequestId) {
 		AuditQuery inputQuery = new AuditQuery();
 		inputQuery.dateFrom = dateFrom;
 		inputQuery.dateTo = dateTo;
 		inputQuery.roleId = roleId;
 		inputQuery.operationId = operationId;
 		inputQuery.userId = userId;
+		inputQuery.deliveryNoteNumber = deliveryNoteNumber;
+		inputQuery.provisioningRequestId = provisioningRequestId;
 		return inputQuery;
 	}
 

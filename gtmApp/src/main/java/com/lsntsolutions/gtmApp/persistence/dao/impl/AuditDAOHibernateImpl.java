@@ -61,11 +61,12 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		Date dateToFormatted = null;
 		Integer operationId = null;
 		Integer userId = null;
+		Integer provisioningRequestId = null;
+		String deliveryNoteNumber = null;
 
 		if (!StringUtils.isEmpty(auditQuery.getDateFrom())) {
 			try {
 				dateFromFormatted = dateFormatter.parse(auditQuery.getDateFrom());
-				//criteria.add(Restrictions.ge("date", dateFromFormated));
 			} catch (ParseException e) {
 				throw new RuntimeException("El formato de la fecha ingresada no es valido.", e);
 			}
@@ -73,24 +74,25 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		if (!StringUtils.isEmpty(auditQuery.getDateTo())) {
 			try {
 				dateToFormatted = dateFormatter.parse(auditQuery.getDateTo());
-				//criteria.add(Restrictions.le("date", dateToFormated));
 			} catch (ParseException e) {
 				throw new RuntimeException("El formato de la fecha ingresada no es valido.", e);
 			}
 		}
 
 		if (auditQuery.getOperationId() != null) {
-			//criteria.add(Restrictions.eq("operationId", auditQuery.getOperationId()));
 			operationId = auditQuery.getOperationId();
 		}
 
-		/*if (auditQuery.getRoleId() != null) {
-			criteria.add(Restrictions.eq("role.id", auditQuery.getRoleId()));
-		}*/
-
 		if (auditQuery.getUserId() != null) {
-			//criteria.add(Restrictions.eq("user.id", auditQuery.getUserId()));
 			userId = auditQuery.getUserId();
+		}
+
+		if (auditQuery.getProvisioningRequestId() != null) {
+			provisioningRequestId = auditQuery.getProvisioningRequestId();
+		}
+
+		if (!StringUtils.isEmpty(auditQuery.getDeliveryNoteNumber())) {
+			deliveryNoteNumber = auditQuery.getDeliveryNoteNumber();
 		}
 
 		String sentence = "SELECT {a.*} FROM audit a INNER JOIN ";
@@ -193,6 +195,9 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 					if (userId != null) {
 						sentence += " AND a.user_id = " + userId;
 					}
+					if (provisioningRequestId != null) {
+						sentence += " AND p.id = " + provisioningRequestId;
+					}
 					sentence += " ORDER BY a.id DESC";
 					query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
 					if (dateFromFormatted != null) {
@@ -258,6 +263,9 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 					}
 					if (userId != null) {
 						sentence += " AND a.user_id = " + userId;
+					}
+					if (deliveryNoteNumber != null) {
+						sentence += " AND d.number = " + deliveryNoteNumber;
 					}
 					sentence += " ORDER BY a.id DESC";
 					query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
@@ -367,6 +375,9 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 			if (userId != null) {
 				sentence += " AND a.user_id = " + userId;
 			}
+			if (provisioningRequestId != null) {
+				sentence += " AND p.id = " + provisioningRequestId;
+			}
 			sentence += " ORDER BY a.id DESC";
 			query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);
 			if (dateFromFormatted != null) {
@@ -412,6 +423,9 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 			}
 			if (userId != null) {
 				sentence += " AND a.user_id = " + userId;
+			}
+			if (deliveryNoteNumber != null) {
+				sentence += " AND d.number = " + deliveryNoteNumber;
 			}
 			sentence += " ORDER BY a.id DESC";
 			query = this.sessionFactory.getCurrentSession().createSQLQuery(sentence).addEntity("a", Audit.class);

@@ -62,8 +62,12 @@ public class AuditSearchController {
 		if (!(request.getParameterValues("roleId")[0]).equals("null")) {
 			roleId = Integer.valueOf(request.getParameterValues("roleId")[0]);
 		}
+		Integer provisioningRequestId = null;
+		if (!(request.getParameterValues("provisioningRequestId")[0]).equals("null")) {
+			provisioningRequestId = Integer.valueOf(request.getParameterValues("provisioningRequestId")[0]);
+		}
 		AuditQuery auditQuery = AuditQuery.createFromParameters(request.getParameterValues("dateFrom")[0], request.getParameterValues("dateTo")[0], roleId,
-				operationId, userId);
+				operationId, userId, request.getParameterValues("deliveryNoteNumber")[0], provisioningRequestId);
 
 		return auditQuery;
 	}

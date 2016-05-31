@@ -26,7 +26,7 @@
 	</div>
 	<div>
 		<div class="row">
-			<div class="col-md-12  col-lg-12 form-group">
+			<div class="col-md-4 col-lg-4 form-group">
 				<label for="roleSearch"><spring:message code="common.role"/></label>
 				<select id="roleSearch" name="roleSearch" class="form-control chosen-select" data-placeholder="<spring:message code='common.select.option'/>">
 					<option value=""></option>
@@ -34,6 +34,18 @@
 						<option value="${role.id}"><c:out value="${role.description}"></c:out></option>
 					</c:forEach>
 				</select>
+			</div>
+			<div class="col-md-4 col-lg-4 form-group">
+				<label for="provisioningIdSearch"><spring:message code="provisioningRequest.provisioningRequestNumber"/></label>
+				<input type="text" class="form-control" name="provisioningIdSearch" id="provisioningIdSearch" autocomplete="off">
+			</div>
+			<div class="col-md-4 col-lg-4 form-group">
+				<label><spring:message code="common.deliveryNote"/></label>
+				<div class="input-group">
+					<input type="text" class="form-control" name="POSDeliveryNoteNumberSearch" id="POSDeliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.POS"/>' autocomplete="off">
+					<span class="input-group-addon">-</span>
+					<input type="text" class="form-control" name="deliveryNoteNumberSearch" id="deliveryNoteNumberSearch" placeholder='<spring:message code="common.deliveryNote.number"/>' autocomplete="off">
+				</div>
 			</div>
 		</div>
 		

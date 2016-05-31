@@ -26,6 +26,9 @@ SearchAudit = function() {
 		var form = $("#searchAuditForm");
 		form.validate({
 			rules: {
+				provisioningIdSearch: {
+					digits: true
+				},
 				operationNumberSearch: {
 					digits: true
 				},
@@ -91,8 +94,21 @@ SearchAudit = function() {
 
 		showSupplyingModal(supplyingId);
 	});
+
+	$("#POSDeliveryNoteNumberSearch").numeric();
+	$("#deliveryNoteNumberSearch").numeric();
+
+	$("input").blur(function() {
+		if ($("#POSDeliveryNoteNumberSearch").val() != "")
+			$("#POSDeliveryNoteNumberSearch").val(addLeadingZeros($("#POSDeliveryNoteNumberSearch").val(), 4));
+		if ($("#deliveryNoteNumberSearch").val() != "")
+			$("#deliveryNoteNumberSearch").val(addLeadingZeros($("#deliveryNoteNumberSearch").val(), 8));
+	});
 	
 	$("#cleanButton").click(function() {
+		$("#provisioningIdSearch").val('');
+		$("#deliveryNoteNumberSearch").val('');
+		$("#POSDeliveryNoteNumberSearch").val('');
 		if($("#dateFromSearch").val()!= ""){
 			$.datepicker._clearDate('#dateFromSearch');
 		}
@@ -109,12 +125,18 @@ SearchAudit = function() {
 	$("#searchButton").click(function() {
 		myHideAlert();
 		if(validateForm()){
+			var deliveryNoteNumber = "";
+			if($("#POSDeliveryNoteNumberSearch").val() != "" && $("#deliveryNoteNumberSearch").val() != ""){
+				deliveryNoteNumber = $("#POSDeliveryNoteNumberSearch").val() + "-" + $("#deliveryNoteNumberSearch").val();
+			}
 			var jsonAuditSearch = {
+				"deliveryNoteNumber": deliveryNoteNumber,
 				"dateFrom": $("#dateFromSearch").val(),
 				"dateTo": $("#dateToSearch").val(),
 				"userId": $("#userSearch").val() || null,
 				"operationId": $("#operationNumberSearch").val() || null,
 				"roleId": $("#roleSearch").val() || null,
+				"provisioningRequestId": $("#provisioningIdSearch").val() || null
 			};
 			
 			$.ajax({
