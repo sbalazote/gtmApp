@@ -148,9 +148,11 @@ public class OrderLabelPrinter implements ServletContextAware {
 			// imprimo 2 lineas separadoras
 			overContent.saveState();
 			overContent.setLineWidth(0.05f);
+			overContent.endText();
 			overContent.moveTo((5.0f+coordinateXStart) * UNIT, (297.0f - 12.0f - coordinateYStart) * UNIT);
 			overContent.lineTo((75.0f+coordinateXStart) * UNIT, (297.0f - 12.0f - coordinateYStart) * UNIT);
 			overContent.stroke();
+			overContent.beginText();
 			overContent.restoreState();
 
 			overContent.setFontAndSize(timesHelveticaBaseFont, 8.0f);
@@ -159,9 +161,11 @@ public class OrderLabelPrinter implements ServletContextAware {
 
 			overContent.saveState();
 			overContent.setLineWidth(0.05f);
+			overContent.endText();
 			overContent.moveTo((5.0f+coordinateXStart) * UNIT, (297.0f - 16.0f - coordinateYStart) * UNIT);
 			overContent.lineTo((75.0f+coordinateXStart) * UNIT, (297.0f - 16.0f - coordinateYStart) * UNIT);
 			overContent.stroke();
+			overContent.beginText();
 			overContent.restoreState();
 
 			// dibujo 2 rectangulos
@@ -172,8 +176,9 @@ public class OrderLabelPrinter implements ServletContextAware {
 			Rectangle rect = new Rectangle((80.0f+coordinateXStart) * UNIT, (297.0f - 12.0f - coordinateYStart) * UNIT, (85.0f+coordinateXStart) * UNIT, (297.0f - 17.0f - coordinateYStart) * UNIT);
 			rect.setBorder(Rectangle.BOX);
 			rect.setBorderWidth(1.0f);
+			overContent.endText();
 			overContent.rectangle(rect);
-
+			overContent.beginText();
 			overContent.setFontAndSize(timesHelveticaBaseFont, 8.0f);
 			overContent.setTextMatrix((87.0f+coordinateXStart) * UNIT, (297.0f - 14.0f - coordinateYStart) * UNIT);
 			overContent.showText("C");
@@ -181,7 +186,9 @@ public class OrderLabelPrinter implements ServletContextAware {
 			rect = new Rectangle((90.0f+coordinateXStart) * UNIT, (297.0f - 12.0f - coordinateYStart) * UNIT, (95.0f+coordinateXStart) * UNIT, (297.0f - 17.0f - coordinateYStart) * UNIT);
 			rect.setBorder(Rectangle.BOX);
 			rect.setBorderWidth(1.0f);
+			overContent.endText();
 			overContent.rectangle(rect);
+			overContent.beginText();
 
 			// imprimo datos del afiliado
 			overContent.setFontAndSize(timesHelveticaBaseFont, 8.0f);
@@ -197,9 +204,11 @@ public class OrderLabelPrinter implements ServletContextAware {
 			// imprimo linea separadora
 			overContent.saveState();
 			overContent.setLineWidth(0.05f);
+			overContent.endText();
 			overContent.moveTo((5.0f+coordinateXStart) * UNIT, (297.0f - 25.0f - coordinateYStart) * UNIT);
 			overContent.lineTo((90.0f+coordinateXStart) * UNIT, (297.0f - 25.0f - coordinateYStart) * UNIT);
 			overContent.stroke();
+			overContent.beginText();
 			overContent.restoreState();
 
 			// imprimo fecha y numero de pedido
@@ -222,9 +231,11 @@ public class OrderLabelPrinter implements ServletContextAware {
 
 				overContent.saveState();
 				overContent.setLineWidth(0.05f);
+				overContent.endText();
 				overContent.moveTo((5.0f+coordinateXStart) * UNIT, (297.0f - j - coordinateYStart) * UNIT);
 				overContent.lineTo((90.0f+coordinateXStart) * UNIT, (297.0f - j - coordinateYStart) * UNIT);
 				overContent.stroke();
+				overContent.beginText();
 				overContent.restoreState();
 
 				j+=4;
