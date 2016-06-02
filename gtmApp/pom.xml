@@ -354,12 +354,12 @@
 					<artifactId>slf4j-jdk14</artifactId>
 				</exclusion>
 				<exclusion>
+                    <groupId>org.apache.geronimo.specs</groupId>
 					<artifactId>geronimo-servlet_2.5_spec</artifactId>
-					<groupId>org.apache.geronimo.specs</groupId>
 				</exclusion>
                 <exclusion>
-                    <artifactId>org.bouncycastle</artifactId>
-                    <groupId>bcprov-jdk15on</groupId>
+					<groupId>org.bouncycastle</groupId>
+					<artifactId>bcprov-jdk15on</artifactId>
                 </exclusion>
 				</exclusions>
 		</dependency>
