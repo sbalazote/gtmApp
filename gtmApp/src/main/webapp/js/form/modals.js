@@ -398,6 +398,8 @@ $(document).ready(function() {
 			$("#outputCancelled").hide();
 		}
 
+		$("#outputModalTransactionCode").html("");
+
 		if(deliveriesNotesNumbers.length > 0){
 			$("#outputDeliveriesNotesLabel").show();
 			$("#outputDeliveriesNotesNumbers").html("");
@@ -409,13 +411,50 @@ $(document).ready(function() {
 			$("#outputDeliveriesNotesNumbers").html("");
 		}
 
-		if (response.transactionCodeANMAT != null) {
-			$("#outputModalANMATCode").show();
-			$("#outputModalTransactionCode").text(response.transactionCodeANMAT);
-		} else {
-			$("#outputModalANMATCode").hide();
-			$("#outputModalTransactionCode").text("");
-		}
+		var jsonDeliveryNoteSearch = {
+			"deliveryNoteNumber": "",
+			"dateFrom": "",
+			"dateTo": "",
+			"conceptId": null,
+			"providerId": null,
+			"deliveryLocationId": null,
+			"agreementId": null,
+			"productId": null,
+			"clientId": null,
+			"affiliateId": null,
+			"outputId": response.id,
+			"supplyingId": null,
+			"provisioningRequestId": null,
+			"cancelled": null,
+			"productMonodrugId": null
+		};
+
+		$.ajax({
+			url: "getDeliveryNoteFromOutputForSearch.do",
+			type: "POST",
+			contentType:"application/json",
+			async: false,
+			data: JSON.stringify(jsonDeliveryNoteSearch),
+			success: function(deliveryNoteList) {
+				for (var i = 0, l = deliveryNoteList.length; i < l; ++i) {
+					if (deliveryNoteList[i].transactionCodeANMAT != null) {
+						//$("#outputModalTransactionCode").text(deliveryNoteList[i].transactionCodeANMAT);
+						$("#outputModalTransactionCode").append("<span class=\"label label-info\">" + deliveryNoteList[i].transactionCodeANMAT + "</span> ");
+					} else {
+						if(deliveryNoteList[i].informAnmat == true) {
+							//$("#outputModalTransactionCode").text("Pendiente");
+                            $("#outputModalTransactionCode").append("<span class=\"label label-warning\">Pendiente</span> ");
+                        }else{
+							//$("#outputModalTransactionCode").text("No informa");
+                            $("#outputModalTransactionCode").append("<span class=\"label label-warning\">No informa</span> ");
+                        }
+					}
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myGenericError();
+			}
+		});
 
 		$('#dateModalOutput').val(myParseDate(response.date));
 		var conceptCode = addLeadingZeros(response.concept.code,4);

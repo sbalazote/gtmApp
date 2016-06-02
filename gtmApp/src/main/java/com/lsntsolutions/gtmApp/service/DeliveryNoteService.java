@@ -54,11 +54,11 @@ public interface DeliveryNoteService {
 
 	List<String> getSupplyingsDeliveriesNoteNumbers(Integer supplyingId);
 
-	List<String> getOutputsDeliveriesNoteNumbers(Integer supplyingId);
+	List<String> getOutputsDeliveriesNoteNumbers(Integer outputId);
 
 	List<String> getOrdersDeliveriesNoteNumbers(Integer orderId);
 
 	Boolean existsDeliveryNoteNumber(Integer deliveryNotePOS, Integer lastDeliveryNoteNumberInput, boolean fake);
 
-	Map<String, List<DeliveryNote>>  getDeliveryNotes(String deliveryNoteNumber);
+	Map<String, List<DeliveryNote>> getDeliveryNotes(String deliveryNoteNumber);
 }
