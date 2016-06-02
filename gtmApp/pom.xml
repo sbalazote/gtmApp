@@ -315,16 +315,6 @@
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itextpdf</artifactId>
 			<version>5.5.6</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.bouncycastle</groupId>
-					<artifactId>bcpkix-jdk15on</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.bouncycastle</groupId>
-					<artifactId>bcprov-jdk15on</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		
@@ -354,23 +344,6 @@
 			<version>1.1</version>
 		</dependency>
 
-		<!-- <dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-distribution-manifest</artifactId>
-			<version>2.2</version>
-			<scope>provided</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-jdk14</artifactId>
-				</exclusion>
-				<exclusion>
-					<artifactId>geronimo-servlet_2.5_spec</artifactId>
-					<groupId>org.apache.geronimo.specs</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency> -->
-		
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-distribution-manifest</artifactId>
@@ -384,10 +357,13 @@
 					<artifactId>geronimo-servlet_2.5_spec</artifactId>
 					<groupId>org.apache.geronimo.specs</groupId>
 				</exclusion>
+                <exclusion>
+                    <artifactId>org.bouncycastle</artifactId>
+                    <groupId>bcprov-jdk15on</groupId>
+                </exclusion>
 				</exclusions>
 		</dependency>
 		
-
  		<dependency>
 			<groupId>commons-discovery</groupId>
 			<artifactId>commons-discovery</artifactId>
