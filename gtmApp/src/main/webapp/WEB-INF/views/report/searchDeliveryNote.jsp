@@ -126,13 +126,13 @@
 					</div>
 					<div class="row">
 						<div class="col-md-3 col-lg-2 col-lg-offset-8 col-md-offset-8 form-margin">
-							<button class="btn btn-success btn-block" type="submit" id="searchOutputButton">
+							<button class="btn btn-success btn-block" type="button" id="searchOutputButton">
 								<span class="glyphicon glyphicon-search"></span>
 								<spring:message code="common.search" />
 							</button>
 						</div>
 						<div class="col-md-3 col-lg-2 form-margin">
-							<button class="btn btn-info btn-block" type="submit" id="cleanOutputButton">
+							<button class="btn btn-info btn-block" type="reset" id="cleanOutputButton">
 								<span class="glyphicon glyphicon-trash"></span>
 								<spring:message code="common.clean" />
 							</button>

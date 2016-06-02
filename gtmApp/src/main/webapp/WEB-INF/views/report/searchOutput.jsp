@@ -101,13 +101,13 @@
 				<input id="productInput" name="productInput" type="search" placeholder='<spring:message code="search.product.description"/>' class="form-control" name="product" autosave="" results="5" incremental="incremental" />
 			</div>
 			<div class="col-md-3 col-lg-2 form-margin">
-				<button class="btn btn-success btn-block" type="submit" id="searchButton">
+				<button class="btn btn-success btn-block" type="button" id="searchButton">
 				<span class="glyphicon glyphicon-search"></span>
 				<spring:message code="common.search" />
 				</button>
 			</div>
 			<div class="col-md-3 col-lg-2 form-margin">
-				<button class="btn btn-info btn-block" type="submit" id="cleanButton">
+				<button class="btn btn-info btn-block" type="reset" id="cleanButton">
 				<span class="glyphicon glyphicon-trash"></span>
 				<spring:message code="common.clean" />
 				</button>

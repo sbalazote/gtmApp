@@ -32,13 +32,13 @@
         </div>
 		<div class="row">
 			<div class="col-md-2 col-lg-2 col-md-offset-8 col-lg-offset-8">
-				<button class="btn btn-success btn-block" id="searchSerialButton">
+				<button class="btn btn-success btn-block" type="button" id="searchSerialButton">
 					<span class="glyphicon glyphicon-search"></span>
 					<spring:message code="common.search" />
 				</button>
 			</div>
 			<div class="col-md-2 col-lg-2">
-				<button class="btn btn-info btn-block" id="cleanSerialButton">
+				<button class="btn btn-info btn-block" type="reset" id="cleanSerialButton">
 					<span class="glyphicon glyphicon-trash"></span>
 					<spring:message code="common.clean" />
 				</button>

@@ -87,7 +87,7 @@
 					</button>
 				</div>
 				<div class="col-md-3 col-lg-2">
-					<button class="btn btn-info btn-block" type="button" id="cleanButton">
+					<button class="btn btn-info btn-block" type="reset" id="cleanButton">
 						<span class="glyphicon glyphicon-trash"></span>
 						<spring:message code="common.clean" />
 					</button>
