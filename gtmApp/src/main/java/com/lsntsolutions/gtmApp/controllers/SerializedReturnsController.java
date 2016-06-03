@@ -70,7 +70,7 @@ public class SerializedReturnsController {
 			return this.outputService.searchSerialNumberOnOutput(outputId, serialNumber);
 		}
 		if(orderId != null){
-			return this.orderService.searchSerialNumberOnOutput(outputId, serialNumber);
+			return this.orderService.searchSerialNumberOnOutput(orderId, serialNumber);
 		}
 		return "";
 	}
