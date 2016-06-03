@@ -238,25 +238,37 @@ public class StockDAOHibernateImpl implements StockDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Product> getForAutocomplete(String term, Integer agreementId) {
-		String sentence = "select distinct (p) from Stock as s inner join s.product as p where (p.description like :description or p.brand.description like :brand or p.monodrug.description like :monodrug";
-		if (StringUtility.isInteger(term)) {
-			sentence += " or convert(p.code, CHAR) like :code";
-		}
-		sentence += ")";
+		String sentence = "select distinct (p) from Stock as s inner join s.product as p ";
+		if (!StringUtility.isInteger(term)) {
+            if (term.matches("[0-9]{13}")) {
+                sentence += "inner join s.gtin as g where g.number = :gtinNumber";
+            } else {
+                sentence += "where (p.description like :description or p.brand.description like :brand or p.monodrug.description like :monodrug)";
+            }
+        } else {
+            sentence += " where convert(p.code, CHAR) like :code";
+        }
+
 		if (agreementId != null) {
 			sentence += " and s.agreement.id = :agreementId";
 		}
 
 		Query query = this.sessionFactory.getCurrentSession().createQuery(sentence);
-		query.setParameter("description", "%" + term + "%");
-		query.setParameter("brand", "%" + term + "%");
-		query.setParameter("monodrug", "%" + term + "%");
+
 		if (agreementId != null) {
 			query.setParameter("agreementId", agreementId);
 		}
-		if (StringUtility.isInteger(term)) {
-			query.setParameter("code", "%" + term + "%");
-		}
+		if (!StringUtility.isInteger(term)) {
+            if (term.matches("[0-9]{13}")) {
+                query.setParameter("gtinNumber", term);
+            } else {
+                query.setParameter("description", "%" + term + "%");
+                query.setParameter("brand", "%" + term + "%");
+                query.setParameter("monodrug", "%" + term + "%");
+            }
+		} else {
+            query.setParameter("code", "%" + term + "%");
+        }
 		return query.list();
 	}
 
