@@ -117,13 +117,13 @@ public class ConceptDAOHibernateImpl implements ConceptDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Concept> getAll() {
-		return this.sessionFactory.getCurrentSession().createCriteria(Concept.class).list();
+		return this.sessionFactory.getCurrentSession().createCriteria(Concept.class).addOrder(Order.asc("description")).list();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Concept> getAllActives(Boolean input) {
-		Query query = this.sessionFactory.getCurrentSession().createQuery("from Concept where active = true and input = :input");
+		Query query = this.sessionFactory.getCurrentSession().createQuery("from Concept where active = true and input = :input order by description");
 		if (input != null) {
 			query.setParameter("input", input.booleanValue());
 		}

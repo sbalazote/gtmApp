@@ -101,13 +101,13 @@ public class ClientDAOHibernateImpl implements ClientDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Client> getAll() {
-		return this.sessionFactory.getCurrentSession().createCriteria(Client.class).list();
+		return this.sessionFactory.getCurrentSession().createCriteria(Client.class).addOrder(Order.asc("name")).list();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Client> getAllActives() {
-		return this.sessionFactory.getCurrentSession().createQuery("from Client where active = true").list();
+		return this.sessionFactory.getCurrentSession().createQuery("from Client where active = true order by name").list();
 	}
 
 	@Override

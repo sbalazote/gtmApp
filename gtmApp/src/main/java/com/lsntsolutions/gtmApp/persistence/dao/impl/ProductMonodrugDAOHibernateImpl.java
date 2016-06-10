@@ -103,7 +103,7 @@ public class ProductMonodrugDAOHibernateImpl implements ProductMonodrugDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ProductMonodrug> getAll() {
-		return this.sessionFactory.getCurrentSession().createCriteria(ProductMonodrug.class).list();
+		return this.sessionFactory.getCurrentSession().createCriteria(ProductMonodrug.class).addOrder(Order.asc("description")).list();
 	}
 
 	@Override

@@ -113,13 +113,13 @@ public class AgreementDAOHibernateImpl implements AgreementDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Agreement> getAll() {
-		return this.sessionFactory.getCurrentSession().createCriteria(Agreement.class).list();
+		return this.sessionFactory.getCurrentSession().createCriteria(Agreement.class).addOrder(Order.asc("description")).list();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Agreement> getAllActives() {
-		return this.sessionFactory.getCurrentSession().createQuery("from Agreement where active = true").list();
+		return this.sessionFactory.getCurrentSession().createQuery("from Agreement where active = true order by description").list();
 	}
 
 	@Override

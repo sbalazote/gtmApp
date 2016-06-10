@@ -97,7 +97,7 @@ public class UserDAOHibernateImpl implements UserDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getAll() {
-		return this.sessionFactory.getCurrentSession().createCriteria(User.class).list();
+		return this.sessionFactory.getCurrentSession().createCriteria(User.class).addOrder(Order.asc("name")).list();
 	}
 
 	@Override
