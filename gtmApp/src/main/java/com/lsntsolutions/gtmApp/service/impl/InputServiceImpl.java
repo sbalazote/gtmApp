@@ -328,7 +328,7 @@ public class InputServiceImpl implements InputService {
 		for (InputDetail inputDetail : input.getInputDetails()) {
 			this.stockService.updateStock(inputDetail, input.getAgreement());
 		}
-		this.inputDAO.save(input);
+		this.inputDAO.onlySave(input);
 	}
 
 	@Override
