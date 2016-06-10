@@ -48,6 +48,11 @@ public class InputDAOHibernateImpl implements InputDAO {
 	}
 
 	@Override
+	public void onlySave(Input input) {
+		this.sessionFactory.getCurrentSession().merge(input);
+	}
+
+	@Override
 	public Input get(Integer id) {
 		return (Input) this.sessionFactory.getCurrentSession().get(Input.class, id);
 	}

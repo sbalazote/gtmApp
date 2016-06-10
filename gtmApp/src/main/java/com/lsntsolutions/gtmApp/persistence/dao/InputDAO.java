@@ -34,4 +34,6 @@ public interface InputDAO {
 	boolean isConceptInUse(Integer conceptId);
 
 	InputDetail getSelfSerializedProductBySerial(String serialNumber);
+
+	void onlySave(Input input);
 }
