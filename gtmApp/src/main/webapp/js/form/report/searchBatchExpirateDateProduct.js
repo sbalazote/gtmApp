@@ -107,7 +107,7 @@ SearchBatchExpirateDateProduct = function() {
                                 audit.action = response.inputs[i].role;
                                 audit.cancelled = response.inputs[i].cancelled ? "Si" : "No";
                                 audit.user = response.inputs[i].username;
-                                audit.date = response.inputs[i].date;
+                                audit.date = moment(response.inputs[i].operationDate, "DD/MM/YYYY").format("YYYY-MM-DD")
                                 audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-input\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
                                 aaData.push(audit);
                             }
@@ -127,7 +127,7 @@ SearchBatchExpirateDateProduct = function() {
                                 audit.action = response.outputs[i].role;
                                 audit.cancelled = response.outputs[i].cancelled ? "Si" : "No";
                                 audit.user = response.outputs[i].username;
-                                audit.date = response.outputs[i].date;
+                                audit.date = moment(response.outputs[i].operationDate, "DD/MM/YYYY").format("YYYY-MM-DD")
                                 audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-output\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
                                 aaData.push(audit);
                             }
@@ -147,7 +147,7 @@ SearchBatchExpirateDateProduct = function() {
                                 audit.action = response.orders[i].role;
                                 audit.cancelled = response.orders[i].cancelled ? "Si" : "No";
                                 audit.user = response.orders[i].username;
-                                audit.date = response.orders[i].date;
+                                audit.date = moment(response.orders[i].operationDate, "DD/MM/YYYY").format("YYYY-MM-DD")
                                 audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-order\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
                                 aaData.push(audit);
                             }
@@ -167,7 +167,7 @@ SearchBatchExpirateDateProduct = function() {
                                 audit.action = response.deliveryNotes[i].role;
                                 audit.cancelled = response.deliveryNotes[i].cancelled ? "Si" : "No";
                                 audit.user = response.deliveryNotes[i].username;
-                                audit.date = response.deliveryNotes[i].date;
+                                audit.date = moment(response.deliveryNotes[i].operationDate, "DD/MM/YYYY").format("YYYY-MM-DD")
                                 audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-deliveryNote\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
                                 aaData.push(audit);
                             }
@@ -187,26 +187,19 @@ SearchBatchExpirateDateProduct = function() {
                                 audit.action = response.supplyings[i].role;
                                 audit.cancelled = response.supplyings[i].cancelled ? "Si" : "No";
                                 audit.user = response.supplyings[i].username;
-                                audit.date = response.supplyings[i].date;
+                                audit.date = moment(response.supplyings[i].operationDate, "DD/MM/YYYY").format("YYYY-MM-DD")
                                 audit.view = "<button type=\"button\" class=\"btn btn-sm btn-default view-row-supplying\"><span class=\"glyphicon glyphicon-eye-open\"></span> Detalle</button>";
                                 aaData.push(audit);
                             }
                         }
-                        $("#movementsTable").bootgrid({
+
+                        var table = $("#movementsTable").bootgrid({
                             caseSensitive: false
                         });
-                        $("#movementsTable").bootgrid("clear");
-                        var sortedDate = _.sortBy(aaData, function(row) {
-                            var fullDate = row.date;
-                            var dayTime = fullDate.split(" ");
-                            var day = dayTime[0];
-                            var time = dayTime[1];
-                            var splittedDay = day.split("/");
-                            var splittedTime = time.split(":");
-                            return new Date(splittedDay[2], splittedDay[1]-1, splittedDay[0], splittedTime[0], splittedTime[1], splittedTime[2]);
-                        }).reverse();
-                        $("#movementsTable").bootgrid("append", sortedDate);
-                        $("#movementsTable").bootgrid("search", $(".search-field").val());
+
+                        table.bootgrid("clear").bootgrid("append", aaData);
+
+                        table.bootgrid("search", $(".search-field").val());
 
                         var params = '&productId=' + productId +
                             '&batch=' + $("#batchSearch").val() +
@@ -223,13 +216,11 @@ SearchBatchExpirateDateProduct = function() {
                     }else{
                         myEmptyQueryAlert();
                     }
-
                 },
 				error: function(jqXHR, textStatus, errorThrown) {
                     myGenericError();
 				}
 			});
-			
 		}
 	});
 

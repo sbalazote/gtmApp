@@ -68,8 +68,8 @@
                 <th data-column-id="action"><spring:message code="common.operation"/></th>
 				<th data-column-id="cancelled"><spring:message code="common.cancelled"/></th>
                 <th data-column-id="user"><spring:message code="common.user"/></th>
-                <th data-column-id="date"><spring:message code="common.date"/></th>
-                <th data-column-id="view"><spring:message code="common.action"/></th>
+                <th data-column-id="date" data-order="desc"><spring:message code="common.date.iso"/></th>
+                <th data-column-id="view" data-sortable="false"><spring:message code="common.action"/></th>
             </tr>
             </thead>
             <tbody id="movementsTableBody">
