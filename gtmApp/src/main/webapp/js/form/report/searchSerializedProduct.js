@@ -13,6 +13,8 @@ SearchSerializedProduct = function() {
 	var deliveryNoteId;
 	var supplyingId;
 
+    var searchBySerial = false;
+
     var addToLabels = function(product, gtin, batch, expirationDate, serialNumber) {
         $("#serializedLastProduct").text(product);
         $("#serializedLastGtin").text(gtin);
@@ -91,10 +93,12 @@ SearchSerializedProduct = function() {
 	};
 	$("#searchButton").click(function() {
         myHideAlert();
-        $("#cleanSerialButton").trigger("click");
+        searchBySerial = true;
         if(validateForm()){
             searchProduct(productId,$("#serialNumberSearch").val());
         }
+        $('#productInput').val('');
+        $('#serialNumberSearch').val('');
 	});
 
     $("#cleanButton").click(function() {
@@ -110,6 +114,7 @@ SearchSerializedProduct = function() {
 
     $("#searchSerialButton").click(function() {
         myHideAlert();
+        searchBySerial = false;
         $("#cleanButton").trigger("click");
         isSelfSerialized($("#serialParserSearch").val());
         if (isProviderSelfSerialized) {
@@ -182,7 +187,11 @@ SearchSerializedProduct = function() {
                 $('#divMovements').show();
 
                 if(response.inputs.length > 0 || response.outputs.length > 0 || response.orders.length > 0 || response.deliveryNotes.length > 0 || response.supplyings.length > 0){
-                    addToLabels(productCode + ' - ' + productDescription, gtinFound, response.batch, response.expirationDate, response.serialNumber);
+                    var serial = response.serialNumber;
+                    if(searchBySerial){
+                        serial = $("#serialNumberSearch").val();
+                    }
+                    addToLabels(productCode + ' - ' + productDescription, gtinFound, response.batch, response.expirationDate, serial);
                     var aaData = [];
                     if(response.inputs != null){
                         /*if(response.inputs.length > 0){
