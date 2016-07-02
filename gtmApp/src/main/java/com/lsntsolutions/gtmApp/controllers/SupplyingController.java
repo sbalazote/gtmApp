@@ -58,7 +58,7 @@ public class SupplyingController {
 	}
 
 	@RequestMapping(value = "/saveSupplying", method = RequestMethod.POST)
-	public @ResponseBody
+	public synchronized @ResponseBody
 	PrinterResultDTO saveSupplying(@RequestBody SupplyingDTO supplyingDTO, HttpServletRequest request) throws Exception {
 		Supplying supplying = null;
 		PrinterResultDTO printerResultDTO = null;
