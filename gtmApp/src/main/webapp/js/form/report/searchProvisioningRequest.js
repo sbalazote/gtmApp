@@ -207,5 +207,14 @@ SearchProvisioningRequest = function() {
 		showProvisioningRequestModal(provisioningId);
 	});
 
-	
+	$("#affiliateSearch").attr("disabled", true);
+
+	$('#clientSearch').on('change', function(evt, params) {
+		if ($("#clientSearch").val() == "") {
+			$("#affiliateSearch").attr("disabled", true);
+		} else {
+			$("#affiliateSearch").attr("disabled", false);
+		}
+		$("#affiliateSearch").val("");
+	});
 };
