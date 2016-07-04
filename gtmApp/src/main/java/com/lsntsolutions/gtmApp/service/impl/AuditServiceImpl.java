@@ -96,6 +96,7 @@ public class AuditServiceImpl implements AuditService {
 		List<SearchProductDTO> inputs = auditResultDTO.getInputs();
 		List<SearchProductDTO> outputs = auditResultDTO.getOutputs();
 
+		boolean found = !inputs.isEmpty();
 		// Si egresos y armados no existen, no hay devolucion.
 		if (outputs.isEmpty() && orders.isEmpty()) {
 			outputOrderResultDTO.setOutputId(null);
@@ -164,6 +165,7 @@ public class AuditServiceImpl implements AuditService {
 				}
 			}
 		}
+		outputOrderResultDTO.setFound(found);
 		return outputOrderResultDTO;
 	}
 

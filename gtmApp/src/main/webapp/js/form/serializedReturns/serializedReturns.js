@@ -290,7 +290,11 @@ SerializedReturns = function() {
 											},
 											success: function(response) {
 												if (response.outputId == null && response.orderId == null) {
-													myShowAlert('danger', 'Serie Inexistente.');
+													if(response.found){
+														myShowAlert('danger', 'Serie con transacciones.');
+													}else{
+														myShowAlert('danger', 'Serie Inexistente.');
+													}
 												}
 												else {
 													found = true;
