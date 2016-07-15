@@ -15,7 +15,7 @@ public final class Constants {
 
 	public static final String AES_ENCRYPTION_KEY = "DROGUERIAONCOMED";
 
-	public static final Integer QUERY_MAX_RESULTS = 500;
+	public static final Integer QUERY_MAX_RESULTS = 2000;
 
 	public static final String ERROR_ANMAT_ALREADY_CANCELLED = "4";
 
