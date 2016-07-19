@@ -170,40 +170,39 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 					if (deliveryNote.isInformAnmat() && deliveryNote.isInformed()) {
 						result = this.traceabilityService.cancelDeliveryNoteTransaction(deliveryNote);
 					}
+					if((result != null && result.getResultado()) || !deliveryNote.isInformAnmat()) {
+						if (output == null) {
+							output = this.getOutput(deliveryNote);
+							if (output != null) {
+								this.outputService.cancel(output);
+							}
+						}
+
+						if (supplying == null) {
+							supplying = this.getSupplying(deliveryNote);
+							if (supplying != null) {
+								this.supplyingService.cancel(supplying);
+							}
+						}
+
+						deliveryNote.setCancelled(true);
+						try {
+							logger.info("No se ha podido anular el remito " + deliveryNote.getId());
+							this.save(deliveryNote);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						this.auditService.addAudit(username, RoleOperation.DELIVERY_NOTE_CANCELLATION.getId(), deliveryNote.getId());
+					}else{
+						logger.info("No se ha podido anular el remito " + deliveryNote.getId());
+						logger.info("Error en ANMAT al anular " + result);
+					}
 				} catch (Exception e) {
 					logger.info("No se ha podido informar la cancelacion a ANMAT " + deliveryNote.getId());
 					e.printStackTrace();
 				}
 			} catch (Exception e) {
 				logger.info("No se ha podido actualizar el estado al remito " + deliveryNote.getId());
-			}
-
-			if(result != null && result.getResultado()) {
-				if (output == null) {
-					output = this.getOutput(deliveryNote);
-					if (output != null) {
-						this.outputService.cancel(output);
-					}
-				}
-
-				if (supplying == null) {
-					supplying = this.getSupplying(deliveryNote);
-					if (supplying != null) {
-						this.supplyingService.cancel(supplying);
-					}
-				}
-
-				deliveryNote.setCancelled(true);
-				try {
-					logger.info("No se ha podido anular el remito " + deliveryNote.getId());
-					this.save(deliveryNote);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				this.auditService.addAudit(username, RoleOperation.DELIVERY_NOTE_CANCELLATION.getId(), deliveryNote.getId());
-			}else{
-				logger.info("No se ha podido anular el remito " + deliveryNote.getId());
-				logger.info("Error en ANMAT al anular " + result);
 			}
 		}
 	}
