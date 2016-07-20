@@ -635,7 +635,7 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		searchProductResultDTO.setOrders(ordersSearchProductDTO);
 
 		sentence = "select distinct a.*, dn.cancelled, od.batch, od.expiration_date, dn.date as deliveryDate from audit as a, delivery_note_detail as dnd, order_detail as od, delivery_note as dn " +
-					"where ((a.role_id = " + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " or a.role_id = " + RoleOperation.PENDING_TRANSACTIONS.getId() + ") and a.operation_id = dnd.delivery_note_id and dn.id = dnd.delivery_note_id and dnd.order_detail_id = od.id and dnd.output_detail_id is null and dnd.supplying_detail_id is null";
+					"where (a.role_id = " + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and a.operation_id = dnd.delivery_note_id and dn.id = dnd.delivery_note_id and dnd.order_detail_id = od.id and dnd.output_detail_id is null and dnd.supplying_detail_id is null";
 
 		if (productId != null) {
 			sentence += " and od.product_id = " + productId;
@@ -673,7 +673,7 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		}
 
 		sentence = "select distinct a.*, dn.cancelled, od.batch, od.expiration_date, dn.date as deliveryDate from audit as a, delivery_note_detail as dnd, output_detail as od, delivery_note as dn " +
-					"where ((a.role_id = " + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " or a.role_id = " + RoleOperation.PENDING_TRANSACTIONS.getId() + ") and a.operation_id = dnd.delivery_note_id and dn.id = dnd.delivery_note_id and dnd.output_detail_id = od.id and dnd.order_detail_id is null";
+					"where (a.role_id = " + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and a.operation_id = dnd.delivery_note_id and dn.id = dnd.delivery_note_id and dnd.output_detail_id = od.id and dnd.order_detail_id is null";
 
 		if (productId != null) {
 			sentence += " and od.product_id = " + productId;
@@ -710,7 +710,7 @@ public class AuditDAOHibernateImpl implements AuditDAO {
 		}
 
 		sentence = "select distinct a.*, dn.cancelled, sd.batch, sd.expiration_date, dn.date as deliveryDate from audit as a, delivery_note_detail as dnd, supplying_detail as sd, delivery_note as dn " +
-					"where ((a.role_id = " + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " or a.role_id = " + RoleOperation.PENDING_TRANSACTIONS.getId() + ") and a.operation_id = dnd.delivery_note_id and dn.id = dnd.delivery_note_id and dnd.supplying_detail_id = sd.id and dnd.order_detail_id is null and dnd.output_detail_id is null";
+					"where (a.role_id = " + RoleOperation.DELIVERY_NOTE_PRINT.getId() + " and a.operation_id = dnd.delivery_note_id and dn.id = dnd.delivery_note_id and dnd.supplying_detail_id = sd.id and dnd.order_detail_id is null and dnd.output_detail_id is null";
 
 		if (productId != null) {
 			sentence += " and sd.product_id = " + productId;
