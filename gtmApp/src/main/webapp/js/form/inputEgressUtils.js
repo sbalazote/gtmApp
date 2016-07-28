@@ -92,11 +92,11 @@ AddAffiliate = function() {
                 },
                 affiliateSurname: {
                     required: true,
-                    maxlength: 45,
+                    maxlength: 45
                 },
                 affiliateName: {
                     required: true,
-                    maxlength: 45,
+                    maxlength: 45
                 },
                 affiliateDocument: {
                     digits: true

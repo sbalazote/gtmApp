@@ -54,13 +54,19 @@ public class AffiliateAdministrationController {
 	@RequestMapping(value = "/addAffiliateToClient", method = RequestMethod.POST)
 	public @ResponseBody
 	Affiliate addAffiliateToClient(@RequestParam String code, @RequestParam Integer clientId) throws Exception {
+		boolean clientFound = false;
 		Affiliate affiliate = this.affiliateService.get(code);
 		Client client = this.clientService.get(clientId);
-		affiliate.getClients().add(client);
+		List<Client> affiliateClients = affiliate.getClients();
+		for (Client affiliateClient : affiliateClients) {
+			if (clientId.equals(affiliateClient.getId()))
+				clientFound = true;
+		}
+		if (!clientFound)
+			affiliateClients.add(client);
 		this.affiliateService.save(affiliate);
 		return affiliate;
 	}
-
 
 	private Affiliate buildModel(AffiliateDTO affiliateDTO) {
 		Affiliate affiliate = new Affiliate();

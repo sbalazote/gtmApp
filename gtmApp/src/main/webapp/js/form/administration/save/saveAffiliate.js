@@ -11,13 +11,13 @@ SaveAffiliate = function() {
 				},
 				name: {
 					required: true,
-					maxlength: 45,
-					letterswithbasicpunc: true
+					maxlength: 45
+					//letterswithbasicpunc: true
 				},
 				surname: {
 					required: true,
-					maxlength: 45,
-					letterswithbasicpunc: true
+					maxlength: 45
+					//letterswithbasicpunc: true
 				},
 				document: {
 					digits: true,
