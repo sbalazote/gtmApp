@@ -153,6 +153,7 @@ SelfSerialized = function() {
 		var rows = Array();
 		rows[0] = parseInt($(this).attr("data-row-id"));
 		$("#selfSerializedTable").bootgrid("remove", rows);
+		$("#selfSerializedTable").bootgrid("search", "");
 	});
 	
 	var preloadModalData = function () {

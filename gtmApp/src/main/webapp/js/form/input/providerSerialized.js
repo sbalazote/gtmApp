@@ -407,6 +407,7 @@ ProviderSerialized = function() {
 		var rows = Array();
 		rows[0] = $(this).attr("data-row-id");
 		$("#providerSerializedTable").bootgrid("remove", rows);
+		$("#providerSerializedTable").bootgrid("search", "");
 	});
 	
 	var preloadModalData = function () {
