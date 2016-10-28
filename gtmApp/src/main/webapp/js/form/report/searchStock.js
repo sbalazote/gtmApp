@@ -101,6 +101,7 @@ SearchStock = function() {
 			productType = ui.item.type;
 			$("#productInput").val(productDescription);
 			$('#productInput').data("title", "").removeClass("has-error").tooltip("destroy");
+			$("#searchButton").focus();
 			autocomplete = true;
 	    },
 		minLength: 3,

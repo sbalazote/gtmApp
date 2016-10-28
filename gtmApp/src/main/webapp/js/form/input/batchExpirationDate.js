@@ -151,6 +151,7 @@ BatchExpirationDate = function() {
 		var rows = Array();
 		rows[0] = parseInt($(this).attr("data-row-id"));
 		$("#batchExpirationDateTable").bootgrid("remove", rows);
+		$("#batchExpirationDateTable").bootgrid("search", "");
 	});
 	
 	var preloadModalData = function () {

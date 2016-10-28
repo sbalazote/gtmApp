@@ -17,6 +17,7 @@ import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.*;
+import org.hibernate.sql.JoinType;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
 import org.hibernate.type.Type;
@@ -313,7 +314,7 @@ public class StockDAOHibernateImpl implements StockDAO {
 		Date dateToFormated;
 		criteria.createAlias("stock.product", "product");
 		criteria.createAlias("stock.agreement", "agreement");
-		criteria.createAlias("stock.gtin", "gtin");
+		criteria.createAlias("stock.gtin", "gtin", JoinType.LEFT_OUTER_JOIN);
 
 		criteria.add(Restrictions.or(Restrictions.ilike("gtin.number", searchPhrase, MatchMode.ANYWHERE), Restrictions.ilike("product.description", searchPhrase, MatchMode.ANYWHERE)));
 
