@@ -322,7 +322,7 @@ public class InputController {
 		}
 		Integer productMonodrugId = null;
 		if (!(request.getParameterValues("productMonodrugId")[0]).equals("null")) {
-			productId = Integer.valueOf(request.getParameterValues("productMonodrugId")[0]);
+			productMonodrugId = Integer.valueOf(request.getParameterValues("productMonodrugId")[0]);
 		}
 
 		InputQuery inputQuery = InputQuery.createFromParameters(id, request.getParameterValues("dateFrom")[0], request.getParameterValues("dateTo")[0],

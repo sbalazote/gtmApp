@@ -144,6 +144,7 @@
 		            <th data-column-id="agreement"><spring:message code="common.agreement"/></th>
 		            <th data-column-id="providerOrDeliveryLocation"><spring:message code="common.clientOrProvider"/></th>
 		            <th data-column-id="date"><spring:message code="common.date"/></th>
+					<th data-column-id="deliveryNoteNumber"><spring:message code="deliveryNote.title"/></th>
 					<th data-column-id="cancelled"><spring:message code="common.cancelled"/></th>
 		          	<th data-column-id="option"><spring:message code="common.option"/></th>
 		        </tr>

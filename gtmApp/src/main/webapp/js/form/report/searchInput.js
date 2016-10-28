@@ -136,6 +136,7 @@ SearchInput = function() {
 						agreement: "",
 						providerOrDeliveryLocation: "",
 						date: "",
+						deliveryNoteNumber: "",
 						cancelled: "",
 						option: ""
 					};
@@ -148,6 +149,14 @@ SearchInput = function() {
 						input.providerOrDeliveryLocation = response[i].deliveryLocation.name;
 					}
 					input.date = myParseDate(response[i].date);
+					if(!response[i].deliveryNoteNumber.trim()){
+						input.deliveryNoteNumber = "-";
+
+					}else{
+                        var POS = response[i].deliveryNoteNumber.substr(0, 4);
+                        var number = response[i].deliveryNoteNumber.substr(4, 12);
+						input.deliveryNoteNumber = "R" + POS + "-" + number;
+					}
 					if(response[i].cancelled){
 						input.cancelled = "Si";
 					}else{
