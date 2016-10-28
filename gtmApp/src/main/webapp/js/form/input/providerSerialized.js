@@ -27,6 +27,7 @@ ProviderSerialized = function() {
 	var isUpdate = false;
 	var preloadedProductId = null;
 	var formatSerializedId = null;
+	var changedReading = false;
 	var isProviderSelfSerialized = false;
 	
 	var setTempSerialNumbers = function(value) {
@@ -180,6 +181,10 @@ ProviderSerialized = function() {
 			if(formatSerializedId != null){
 				parseSerial(readSerialNumber);
 			}
+
+			if (changedReading) {
+				parseSerial(readSerialNumber);
+			}
 		}
 	};
 
@@ -202,6 +207,7 @@ ProviderSerialized = function() {
 
 	var getMatches = function(readSerialNumber){
 		formatSerializedId = null;
+		changedReading = false;
 		$.ajax({
 			url: "getMatchParsers.do",
 			type: "GET",
@@ -251,6 +257,8 @@ ProviderSerialized = function() {
 						return;
 					}else{
 						getMatches(readSerialNumber);
+						// si llegue aca es porque no matcheo el formato anterior de lectura con lo que estoy leyendo ahora.
+						changedReading = true;
 					}
 				}
 				var gtinFound = false;
