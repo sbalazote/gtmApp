@@ -118,12 +118,12 @@ OutputSerialized = function() {
 	var generateRow = function() {
 		var readSerialNumber = $("#readSerialNumberInput");
 
-		isSelfSerialized(readSerialNumber.val());
+		isSelfSerialized(readSerialNumber.val().trim());
 		if (preloadedProductType == "PS") {
 			if(isProviderSelfSerialized){
 				parseSerial(readSerialNumber);
 			}else {
-				findStockBySerial(readSerialNumber.val());
+				findStockBySerial(readSerialNumber.val().trim());
 			}
 		} else {
 			// if self serialized
@@ -177,7 +177,7 @@ OutputSerialized = function() {
 			type: "GET",
 			async: false,
 			data: {
-				serial: readSerialNumber.val(),
+				serial: readSerialNumber.val().trim(),
 				formatSerializedId: formatSerializedId
 			},
 			success: function(response) {

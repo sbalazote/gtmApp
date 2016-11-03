@@ -170,7 +170,7 @@ ProviderSerialized = function() {
 
 	var generateRow = function() {
 		var readSerialNumber = $("#readSerialNumberInput");
-		isSelfSerialized(readSerialNumber.val());
+		isSelfSerialized(readSerialNumber.val().trim());
 		if(isProviderSelfSerialized){
 			parseSerial(readSerialNumber);
 		}else{
@@ -213,7 +213,7 @@ ProviderSerialized = function() {
 			type: "GET",
 			async: false,
 			data: {
-				serial: readSerialNumber.val()
+				serial: readSerialNumber.val().trim()
 			},
 			success: function (response) {
 				if(response.length > 1){
@@ -245,7 +245,7 @@ ProviderSerialized = function() {
 			type: "GET",
 			async: false,
 			data: {
-				serial: readSerialNumber.val(),
+				serial: readSerialNumber.val().trim(),
 				formatSerializedId: formatSerializedId
 			},
 			success: function(response) {

@@ -215,7 +215,7 @@ Output = function() {
 				url: "getProductFromStockBySerialOrGtin.do",
 				type: "GET",
 				data: {
-					serial: $(this).val(),
+					serial: $(this).val().trim(),
 					agreementId: $("#agreementInput").val()
 				},
 				success: function(response) {

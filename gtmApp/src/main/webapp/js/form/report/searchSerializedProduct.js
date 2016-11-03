@@ -95,7 +95,7 @@ SearchSerializedProduct = function() {
         myHideAlert();
         searchBySerial = true;
         if(validateForm()){
-            searchProduct(productId,$("#serialNumberSearch").val());
+            searchProduct(productId,$("#serialNumberSearch").val().trim());
         }
         $('#productInput').val('');
         $('#serialNumberSearch').val('');
@@ -116,7 +116,7 @@ SearchSerializedProduct = function() {
         myHideAlert();
         searchBySerial = false;
         $("#cleanButton").trigger("click");
-        isSelfSerialized($("#serialParserSearch").val());
+        isSelfSerialized($("#serialParserSearch").val().trim());
         if (isProviderSelfSerialized) {
             searchSelfSerialParsed();
         } else{
@@ -428,7 +428,7 @@ SearchSerializedProduct = function() {
             type: "GET",
             async: false,
             data: {
-                serial: $('#serialParserSearch').val(),
+                serial: $('#serialParserSearch').val().trim(),
                 formatSerializedId: null
             },
             success: function(response) {

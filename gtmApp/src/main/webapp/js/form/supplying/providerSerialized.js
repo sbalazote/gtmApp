@@ -149,7 +149,7 @@ ProviderSerialized = function() {
 	};
 
 	var generateRow = function() {
-		var readSerialNumber = $("#outOfStockReadSerialNumberInput");
+		var readSerialNumber = $("#outOfStockReadSerialNumberInput").trim;
 		if(formatSerializedId == null){
 			getMatches(readSerialNumber);
 		}
@@ -166,7 +166,7 @@ ProviderSerialized = function() {
 			type: "GET",
 			async: false,
 			data: {
-				serial: readSerialNumber.val()
+				serial: readSerialNumber.val().trim()
 			},
 			success: function (response) {
 				if(response.length > 1){
@@ -198,7 +198,7 @@ ProviderSerialized = function() {
 			type: "GET",
 			async: false,
 			data: {
-				serial: readSerialNumber.val(),
+				serial: readSerialNumber.val().trim(),
 				formatSerializedId: null
 			},
 			success: function(response) {

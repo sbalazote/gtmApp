@@ -199,7 +199,7 @@ Input = function() {
 	
 	$('#productInput').keydown(function(e) {
 	    if(e.keyCode == 13) { // Presiono Enter
-			var serial = $(this).val();
+			var serial = $(this).val().trim();
 			if (!autocomplete) {
 				$.ajax({
 					url: "getProductBySerialOrGtin.do",

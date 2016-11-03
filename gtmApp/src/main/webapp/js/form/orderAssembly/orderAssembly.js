@@ -33,7 +33,7 @@ OrderAssembly = function() {
 				url: "getProductBySerialOrGtin.do",
 				type: "GET",
 				data: {
-					serial: $(this).val()
+					serial: $(this).val().trim()
 				},
 				success: function(response) {
 					if (response != "") {
