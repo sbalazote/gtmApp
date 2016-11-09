@@ -149,7 +149,7 @@ ProviderSerialized = function() {
 	};
 
 	var generateRow = function() {
-		var readSerialNumber = $("#outOfStockReadSerialNumberInput").trim;
+		var readSerialNumber = $("#outOfStockReadSerialNumberInput");
 		if(formatSerializedId == null){
 			getMatches(readSerialNumber);
 		}
