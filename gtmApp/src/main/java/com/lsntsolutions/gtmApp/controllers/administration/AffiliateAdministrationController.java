@@ -87,12 +87,13 @@ public class AffiliateAdministrationController {
 
 		List<Integer> clientsId = affiliateDTO.getClients();
 		List<ClientAffiliate> clients = new ArrayList<>();
-		for (Integer clientId : clientsId) {
+		//TODO setear esto
+		/*for (Integer clientId : clientsId) {
 			Client client = this.clientService.get(clientId);
 
 			clients.add();
 		}
-		affiliate.setClients(clients);
+		affiliate.setClients(clients);*/
 
 		return affiliate;
 	}

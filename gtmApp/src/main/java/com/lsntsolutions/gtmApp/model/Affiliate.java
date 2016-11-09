@@ -59,7 +59,7 @@ public class Affiliate implements Serializable {
 	@Column(name = "phone")
 	private String phone;
 
-	@OneToMany(mappedBy="client")
+	@OneToMany(mappedBy = "pk.affiliate")
 	private List<ClientAffiliate> clientAffiliates;
 
 	public Integer getId() {

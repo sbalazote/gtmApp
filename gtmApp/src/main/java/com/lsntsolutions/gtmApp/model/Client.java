@@ -55,6 +55,9 @@ public class Client implements Serializable {
 	@Column(name = "medical_insurance_code", unique = true)
 	private Integer medicalInsuranceCode;
 
+	@OneToMany(mappedBy = "pk.client")
+	private List<ClientAffiliate> clientAffiliates;
+
 	@ManyToMany
 	@JoinTable(name = "client_delivery_location", joinColumns = @JoinColumn(name = "client_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "delivery_location_id", nullable = false))
 	private List<DeliveryLocation> deliveryLocations;
