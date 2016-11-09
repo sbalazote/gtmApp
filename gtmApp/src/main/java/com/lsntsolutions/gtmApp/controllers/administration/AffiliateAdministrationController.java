@@ -4,6 +4,7 @@ import com.lsntsolutions.gtmApp.constant.DocumentType;
 import com.lsntsolutions.gtmApp.dto.AffiliateDTO;
 import com.lsntsolutions.gtmApp.model.Affiliate;
 import com.lsntsolutions.gtmApp.model.Client;
+import com.lsntsolutions.gtmApp.model.ClientAffiliate;
 import com.lsntsolutions.gtmApp.service.AffiliateService;
 import com.lsntsolutions.gtmApp.service.ClientService;
 import org.codehaus.jettison.json.JSONArray;
@@ -57,13 +58,16 @@ public class AffiliateAdministrationController {
 		boolean clientFound = false;
 		Affiliate affiliate = this.affiliateService.get(code);
 		Client client = this.clientService.get(clientId);
-		List<Client> affiliateClients = affiliate.getClients();
-		for (Client affiliateClient : affiliateClients) {
-			if (clientId.equals(affiliateClient.getId()))
+		List<ClientAffiliate> affiliateClients = affiliate.getClientAffiliates();
+		for (ClientAffiliate affiliateClient : affiliateClients) {
+			if (clientId.equals(affiliateClient.getClient().getId()))
 				clientFound = true;
 		}
+		ClientAffiliate clientAffiliate = new ClientAffiliate();
+		clientAffiliate.setAffiliate(affiliate);
+		clientAffiliate.setClient(client);
 		if (!clientFound)
-			affiliateClients.add(client);
+			affiliateClients.add(clientAffiliate);
 		this.affiliateService.save(affiliate);
 		return affiliate;
 	}
@@ -82,9 +86,11 @@ public class AffiliateAdministrationController {
 		affiliate.setActive(affiliateDTO.isActive());
 
 		List<Integer> clientsId = affiliateDTO.getClients();
-		List<Client> clients = new ArrayList<>();
+		List<ClientAffiliate> clients = new ArrayList<>();
 		for (Integer clientId : clientsId) {
-			clients.add(this.clientService.get(clientId));
+			Client client = this.clientService.get(clientId);
+
+			clients.add();
 		}
 		affiliate.setClients(clients);
 

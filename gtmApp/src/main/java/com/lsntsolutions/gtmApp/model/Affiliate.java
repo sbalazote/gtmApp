@@ -35,10 +35,32 @@ public class Affiliate implements Serializable {
 	@Column(name = "active", nullable = false)
 	private boolean active;
 
-	@ManyToMany
-    @JoinTable(name = "client_affiliate", joinColumns = @JoinColumn(name = "affiliate_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "client_id", nullable = false))
-	@JsonManagedReference
-	private List<Client> clients;
+	@Column(name = "sex")
+	private String sex;
+
+	@Column(name = "address")
+	private String address;
+
+	@Column(name = "locality")
+	private String locality;
+
+	@Column(name = "number")
+	private String number;
+
+	@Column(name = "floor")
+	private String floor;
+
+	@Column(name = "apartment")
+	private String apartment;
+
+	@Column(name = "zip_code")
+	private String zipCode;
+
+	@Column(name = "phone")
+	private String phone;
+
+	@OneToMany(mappedBy="client")
+	private List<ClientAffiliate> clientAffiliates;
 
 	public Integer getId() {
 		return this.id;
@@ -96,11 +118,75 @@ public class Affiliate implements Serializable {
 		this.active = active;
 	}
 
-	public List<Client> getClients() {
-		return clients;
+	public List<ClientAffiliate> getClientAffiliates() {
+		return clientAffiliates;
 	}
 
-	public void setClients(List<Client> clients) {
-		this.clients = clients;
+	public void setClientAffiliates(List<ClientAffiliate> clientAffiliates) {
+		this.clientAffiliates = clientAffiliates;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getLocality() {
+		return locality;
+	}
+
+	public void setLocality(String locality) {
+		this.locality = locality;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public String getFloor() {
+		return floor;
+	}
+
+	public void setFloor(String floor) {
+		this.floor = floor;
+	}
+
+	public String getApartment() {
+		return apartment;
+	}
+
+	public void setApartment(String apartment) {
+		this.apartment = apartment;
+	}
+
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 }
