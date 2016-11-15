@@ -56,7 +56,7 @@ public class AffiliateAdministrationController {
 	public @ResponseBody
 	Affiliate addAffiliateToClient(@RequestParam String code, @RequestParam Integer clientId) throws Exception {
 		boolean clientFound = false;
-		Affiliate affiliate = this.affiliateService.get(code);
+		Affiliate affiliate = this.affiliateService.getByCode(code);
 		Client client = this.clientService.get(clientId);
 		List<ClientAffiliate> affiliateClients = affiliate.getClientAffiliates();
 		for (ClientAffiliate affiliateClient : affiliateClients) {
@@ -101,6 +101,44 @@ public class AffiliateAdministrationController {
 	@RequestMapping(value = "/readAffiliate", method = RequestMethod.GET)
 	public @ResponseBody Affiliate readAffiliate(@RequestParam Integer affiliateId) throws Exception {
 		return this.affiliateService.get(affiliateId);
+	}
+
+	@RequestMapping(value = "/getClientAffiliates", method = RequestMethod.POST)
+	public @ResponseBody String getClientAffiliates(@RequestParam Map<String, String> parametersMap) throws Exception {
+		String id = parametersMap.get("affiliateId");
+		Affiliate affiliate = this.affiliateService.get(Integer.valueOf(id));
+		List<ClientAffiliate> clientAffiliates = affiliate.getClientAffiliates();
+		Integer current = Integer.parseInt(parametersMap.get("current"));
+		Integer rowCount = Integer.parseInt(parametersMap.get("rowCount"));
+
+		JSONArray jsonArray = new JSONArray();
+		int start = (current - 1) * rowCount;
+		int length = rowCount;
+		long total = clientAffiliates.size();
+		if (total < start + length) {
+			clientAffiliates = clientAffiliates.subList(start, (int) total);
+		} else {
+			if(length > 0) {
+				clientAffiliates = clientAffiliates.subList(start, start + length);
+			}
+		}
+
+		for (ClientAffiliate clientAffiliate : clientAffiliates) {
+			JSONObject dataJson = new JSONObject();
+
+			dataJson.put("id", clientAffiliate.getId());
+			dataJson.put("code", clientAffiliate.getClient().getCode());
+			dataJson.put("name", clientAffiliate.getClient().getName());
+			dataJson.put("associateNumber", clientAffiliate.getAssociateNumber());
+			jsonArray.put(dataJson);
+		}
+
+		JSONObject responseJson = new JSONObject();
+		responseJson.put("current", current);
+		responseJson.put("rowCount", (total < (start + length)) ? (total - length) : length);
+		responseJson.put("rows", jsonArray);
+		responseJson.put("total", total);
+		return responseJson.toString();
 	}
 
 	@RequestMapping(value = "/deleteAffiliate", method = RequestMethod.POST)

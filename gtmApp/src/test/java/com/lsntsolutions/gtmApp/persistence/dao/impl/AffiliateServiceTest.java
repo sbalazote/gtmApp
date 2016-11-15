@@ -4,7 +4,6 @@ import com.lsntsolutions.gtmApp.model.Affiliate;
 import com.lsntsolutions.gtmApp.model.Client;
 import com.lsntsolutions.gtmApp.service.AffiliateService;
 import com.lsntsolutions.gtmApp.service.VATLiabilityService;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +64,7 @@ public class AffiliateServiceTest {
 		affiliate.setSurname("gomez");
 		this.affiliateService.save(affiliate);
 
-		Affiliate savedAffiliate = this.affiliateService.get(affiliate.getId());
+		Affiliate savedAffiliate = this.affiliateService.getByCode(affiliate.getId());
 		Assert.isTrue(affiliate.getSurname().equals(savedAffiliate.getSurname()));
 
 		this.affiliateService.delete(affiliate.getId());

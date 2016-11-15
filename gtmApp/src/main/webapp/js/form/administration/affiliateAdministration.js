@@ -123,6 +123,7 @@ $(document).ready(function() {
 			$('#readAffiliateLabel').hide();
 			$('#updateAffiliateLabel').show();
 			$('#affiliateModal').modal('show');
+			loadAffiliateClientsTable($(this).data("row-id"));
 		}).end().find(".command-delete").on("click", function(e) {
 			affiliateId = $(this).data("row-id");
 			$('#deleteConfirmationModal').modal('show');
@@ -171,5 +172,60 @@ $(document).ready(function() {
 			searchHTML.prev().html(exportHTML);
 		}
 		affiliatesTable.bootgrid("reload");
+	});
+
+	var loadAffiliateClientsTable = function(affiliateId) {
+		var affiliateClientsTable = $("#affiliateClientsTable").bootgrid({
+			columnSelection: false,
+			ajax: true,
+			requestHandler: function (request) {
+				return {
+					affiliateId: affiliateId,
+					current: request.current,
+					rowCount: request.rowCount
+				};
+			},
+			url: "./getClientAffiliates.do",
+			formatters: {
+				"commands": function (column, row) {
+					return "<button type=\"button\" class=\"btn btn-sm btn-default edit\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-pencil\"></span></button> " +
+						"<button type=\"button\" class=\"btn btn-sm btn-default delete\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button>";
+				}
+			}
+		}).on("loaded.rs.jquery.bootgrid", function () {
+			/* Executes after data is loaded and rendered */
+			affiliatesTable.find(".edit").on("click", function (e) {
+				resetForm();
+				toggleElements(false);
+				$("#codeInput").attr('disabled', true);
+				readAffiliate($(this).data("row-id"));
+				$('#addButton').hide();
+				$('#updateButton').show();
+				$('#addAffiliateLabel').hide();
+				$('#readAffiliateLabel').hide();
+				$('#updateAffiliateLabel').show();
+				$('#affiliateModal').modal('show');
+			}).end().find(".delete").on("click", function (e) {
+				affiliateId = $(this).data("row-id");
+				$('#deleteConfirmationModal').modal('show');
+			});
+		});
+	};
+
+	$("#addClientAffiliate").click(function() {
+		$('#addClientAffiliateDiv').show();
+		$('#addClientAffiliate').hide();
+	});
+
+	$("#cancelAddClientAffiliateButton").click(function() {
+		$('#addClientAffiliateDiv').hide();
+		$('#addClientAffiliate').show();
+	});
+
+
+	$('#addClientAffiliateDiv').hide();
+
+	$("#clientInput").chosen({
+		width: '100%' /* desired width */
 	});
 });

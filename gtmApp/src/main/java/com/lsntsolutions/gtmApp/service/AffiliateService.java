@@ -12,7 +12,7 @@ public interface AffiliateService {
 
 	Boolean exists(String code);
 
-	Affiliate get(String code);
+	Affiliate getByCode(String code);
 
 	List<Affiliate> getForAutocomplete(String term, Boolean active, Integer cllientId, String sortId, String sortCode, String sortName, String sortSurname, String sortDocumentType, String sortDocument, String sortActive);
 

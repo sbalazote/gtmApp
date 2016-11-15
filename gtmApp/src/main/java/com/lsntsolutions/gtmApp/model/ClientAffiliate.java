@@ -52,4 +52,12 @@ public class ClientAffiliate implements Serializable {
     public void setAssociateNumber(String associateNumber) {
         this.associateNumber = associateNumber;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }
