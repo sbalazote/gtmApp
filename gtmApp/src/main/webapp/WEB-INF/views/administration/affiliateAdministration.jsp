@@ -72,6 +72,21 @@
 	</div>
 </div>
 
+<%-- Confirmaci�n de que se borrar� definitivamente --%>
+<div class="modal fade" data-backdrop="static" id="deleteClientAffiliateConfirmationModal" tabindex="10" style="z-index:100000;" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width:250px">
+        <div class="modal-content">
+            <div class="modal-body">
+                <strong><span style="color:red"><spring:message code="administration.entity.delete"/></span></strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.no"/></button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="deleteClientAffiliateButton"><spring:message code="common.yes"/></button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <%-- Modal de Lectura/Modificacion --%>
 <div class="modal fade" data-backdrop="static" id="affiliateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:80%">
@@ -141,10 +156,6 @@
                         <div class="col-md-4 col-lg-4 form-group">
                             <label for="clientInput"><spring:message code="common.client" /></label>
                             <select id="clientInput" name="client" class="form-control" data-placeholder="<spring:message code='common.select.option'/>" autofocus>
-                                <option value=""></option>
-                                <c:forEach items="${clients}" var="client" varStatus="status">
-                                    <option value="${client.id}"><c:out value="${client.code} - ${client.name}"></c:out></option>
-                                </c:forEach>
                             </select>
                         </div>
                         <div class="col-md-4 col-lg-4 form-group">

@@ -6,6 +6,7 @@ import com.lsntsolutions.gtmApp.model.Affiliate;
 import com.lsntsolutions.gtmApp.model.Client;
 import com.lsntsolutions.gtmApp.model.ClientAffiliate;
 import com.lsntsolutions.gtmApp.service.AffiliateService;
+import com.lsntsolutions.gtmApp.service.ClientAffiliateService;
 import com.lsntsolutions.gtmApp.service.ClientService;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -29,6 +30,9 @@ public class AffiliateAdministrationController {
 	@Autowired
 	private AffiliateService affiliateService;
 
+	@Autowired
+	private ClientAffiliateService clientAffiliateService;
+
 	@RequestMapping(value = "/affiliates", method = RequestMethod.POST)
 	public ModelAndView affiliates(@RequestParam Map<String, String> parametersMap) {
 		String searchPhrase = parametersMap.get("searchPhrase");
@@ -50,6 +54,24 @@ public class AffiliateAdministrationController {
 		Affiliate affiliate = this.buildModel(affiliateDTO);
 		this.affiliateService.save(affiliate);
 		return affiliate;
+	}
+
+	@RequestMapping(value = "/saveClientAffiliate", method = RequestMethod.POST)
+	public @ResponseBody
+	ClientAffiliate saveClientAffiliate(@RequestParam Integer affiliateId, @RequestParam Integer clientId, @RequestParam String associateNumber) throws Exception {
+		Affiliate affiliate = this.affiliateService.get(affiliateId);
+		Client client = this.clientService.get(clientId);
+		ClientAffiliate clientAffiliate = new ClientAffiliate();
+		clientAffiliate.setAffiliate(affiliate);
+		clientAffiliate.setClient(client);
+		clientAffiliate.setAssociateNumber(associateNumber);
+		this.clientAffiliateService.save(clientAffiliate);
+		return clientAffiliate;
+	}
+
+	@RequestMapping(value = "/deleteClientAffiliate", method = RequestMethod.POST)
+	public @ResponseBody boolean deleteClientAffiliate(@RequestParam Integer clientAffiliateId) throws Exception {
+		return this.clientAffiliateService.delete(clientAffiliateId);
 	}
 
 	@RequestMapping(value = "/addAffiliateToClient", method = RequestMethod.POST)

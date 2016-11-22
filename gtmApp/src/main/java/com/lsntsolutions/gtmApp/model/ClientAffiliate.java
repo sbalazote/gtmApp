@@ -16,12 +16,12 @@ public class ClientAffiliate implements Serializable {
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="client_id")
     @JsonBackReference
     private Client client;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="affiliate_id")
     @JsonBackReference
     private Affiliate affiliate;

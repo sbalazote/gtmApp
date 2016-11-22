@@ -23,9 +23,6 @@ SaveAffiliate = function() {
 					digits: true,
 					maxlength: 15
 				},
-				client: {
-					required: true
-				},
 				active: {
 					required: true
 				}

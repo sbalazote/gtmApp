@@ -64,7 +64,7 @@ public class AffiliateServiceTest {
 		affiliate.setSurname("gomez");
 		this.affiliateService.save(affiliate);
 
-		Affiliate savedAffiliate = this.affiliateService.getByCode(affiliate.getId());
+		Affiliate savedAffiliate = this.affiliateService.get(affiliate.getId());
 		Assert.isTrue(affiliate.getSurname().equals(savedAffiliate.getSurname()));
 
 		this.affiliateService.delete(affiliate.getId());

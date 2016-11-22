@@ -2,6 +2,7 @@ $(document).ready(function() {
 	
 	var affiliateId;
 	var clientId = "";
+	var clientAffiliateId;
 	
 	var resetForm = function() {
 		$("#idInput").val('');
@@ -36,15 +37,17 @@ $(document).ready(function() {
 		});
 	};
 	
-	var readAffiliate = function(affiliateId) {
+	var readAffiliate = function(id) {
+		affiliateId = id;
 		$.ajax({
 			url: "readAffiliate.do",
 			type: "GET",
 			data: {
-				affiliateId: affiliateId
+				affiliateId: id
 			},
 			async: false,
 			success: function(response) {
+				$("#affiliateClientsTable").bootgrid("destroy");
 				$("#idInput").val(response.id);
 				$("#codeInput").val(response.code);
 				$("#surnameInput").val(response.surname);
@@ -188,27 +191,35 @@ $(document).ready(function() {
 			url: "./getClientAffiliates.do",
 			formatters: {
 				"commands": function (column, row) {
-					return "<button type=\"button\" class=\"btn btn-sm btn-default edit\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-pencil\"></span></button> " +
-						"<button type=\"button\" class=\"btn btn-sm btn-default delete\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button>";
+					// return "<button type=\"button\" class=\"btn btn-sm btn-default edit\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-pencil\"></span></button> " +
+						return "<button type=\"button\" class=\"btn btn-sm btn-default delete\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button>";
 				}
 			}
 		}).on("loaded.rs.jquery.bootgrid", function () {
 			/* Executes after data is loaded and rendered */
-			affiliatesTable.find(".edit").on("click", function (e) {
-				resetForm();
-				toggleElements(false);
-				$("#codeInput").attr('disabled', true);
-				readAffiliate($(this).data("row-id"));
-				$('#addButton').hide();
-				$('#updateButton').show();
-				$('#addAffiliateLabel').hide();
-				$('#readAffiliateLabel').hide();
-				$('#updateAffiliateLabel').show();
-				$('#affiliateModal').modal('show');
+			affiliateClientsTable.find(".edit").on("click", function (e) {
+				//TODO editar la relacion
 			}).end().find(".delete").on("click", function (e) {
-				affiliateId = $(this).data("row-id");
-				$('#deleteConfirmationModal').modal('show');
+				clientAffiliateId = $(this).data("row-id");
+				$('#deleteClientAffiliateConfirmationModal').modal('show');
 			});
+		});
+	};
+
+	var deleteClientAffiliate = function(clientAffiliateId) {
+		$.ajax({
+			url: "deleteClientAffiliate.do",
+			type: "POST",
+			data: {
+				clientAffiliateId: clientAffiliateId
+			},
+			async: true,
+			success: function(response) {
+				$("#affiliateClientsTable").bootgrid("reload");
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myDeleteError();
+			}
 		});
 	};
 
@@ -217,11 +228,35 @@ $(document).ready(function() {
 		$('#addClientAffiliate').hide();
 	});
 
+	$("#deleteClientAffiliateButton").click(function() {
+		deleteClientAffiliate(clientAffiliateId);
+	});
+
 	$("#cancelAddClientAffiliateButton").click(function() {
 		$('#addClientAffiliateDiv').hide();
 		$('#addClientAffiliate').show();
 	});
 
+	$("#addClientAffiliateButton").click(function() {
+		$.ajax({
+			url: "saveClientAffiliate.do",
+			type: "POST",
+			data: {
+				affiliateId: affiliateId,
+				clientId: $("#clientInput").val(),
+				associateNumber: $("#associateNumberInput").val()
+			},
+			async: false,
+			success: function(response) {
+				$('#addClientAffiliateDiv').hide();
+				$('#addClientAffiliate').show();
+				$("#affiliateClientsTable").bootgrid("reload");
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myDeleteError();
+			}
+		});
+	});
 
 	$('#addClientAffiliateDiv').hide();
 
