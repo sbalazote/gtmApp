@@ -5,6 +5,8 @@ import com.inssjp.mywebservice.business.WebServiceError;
 import com.inssjp.mywebservice.business.WebServiceResult;
 import com.lsntsolutions.gtmApp.config.PropertyProvider;
 import com.lsntsolutions.gtmApp.constant.Constants;
+import com.lsntsolutions.gtmApp.model.Affiliate;
+import com.lsntsolutions.gtmApp.model.ClientAffiliate;
 import com.lsntsolutions.gtmApp.util.StringUtility;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +73,7 @@ public class WebServiceHelper {
 
 	public void setDrug(MedicamentosDTO drug, String originGLN, String destinationGLN, String originTax, String destinationTax, String deliveryNote,
 						String expirationDate, String gtin, String eventId, String serialNumber, String batch, Date date, boolean isDeliveryNote,
-						String document, Integer medicalInsuranceCode) {
+						Affiliate affiliate, Integer medicalInsuranceCode, String associateNumber) {
 		String dateFormatted = new SimpleDateFormat("dd/MM/yyyy").format(date).toString();
 		drug.setF_evento(dateFormatted);
 
@@ -89,8 +91,43 @@ public class WebServiceHelper {
 			drug.setCuit_destino(destinationTax);
 			drug.setId_evento(eventId);
 			drug.setGtin(StringUtility.addLeadingZeros(gtin, 14));
-			if (document != null) {
-				drug.setNro_asociado(document);
+			if(associateNumber != null){
+				drug.setNro_asociado(associateNumber);
+			}
+			if (affiliate != null) {
+				if(affiliate.getSurname() != null) {
+					drug.setApellido(affiliate.getSurname());
+				}
+				if(affiliate.getName() != null){
+					drug.setNombres(affiliate.getName());
+				}
+				if(affiliate.getAddress() != null){
+					drug.setDireccion(affiliate.getAddress());
+				}
+				if(affiliate.getApartment() != null){
+					drug.setDepto(affiliate.getApartment());
+				}
+				if(affiliate.getDocument() != null){
+					drug.setN_documento(affiliate.getDocument());
+				}
+				if(affiliate.getDocumentType() != null){
+					drug.setTipo_documento(affiliate.getDocumentType());
+				}
+				if(affiliate.getFloor() != null){
+					drug.setPiso(affiliate.getFloor());
+				}
+				if(affiliate.getLocality() != null){
+					drug.setLocalidad(affiliate.getLocality());
+				}
+				if(affiliate.getNumber() != null){
+					drug.setNumero(affiliate.getNumber());
+				}
+				if(affiliate.getPhone() != null){
+					drug.setTelefono(affiliate.getPhone());
+				}
+				if(affiliate.getZipCode() != null){
+					drug.setN_postal(affiliate.getZipCode());
+				}
 			}
 			if (medicalInsuranceCode != null) {
 				drug.setId_obra_social(String.valueOf(medicalInsuranceCode));
@@ -103,8 +140,8 @@ public class WebServiceHelper {
 			drug.setCuit_destino(Constants.TEST_DESTINATION_TAXID);
 			drug.setId_evento(Constants.TEST_EVENT);
 			drug.setGtin(Constants.TEST_GTIN);
-			if (document != null) {
-				drug.setNro_asociado(document);
+			if (affiliate != null) {
+				drug.setNro_asociado(associateNumber);
 			}
 			if (medicalInsuranceCode != null) {
 				drug.setId_obra_social(String.valueOf(medicalInsuranceCode));

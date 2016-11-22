@@ -76,7 +76,7 @@ public class AffiliateAdministrationController {
 
 	@RequestMapping(value = "/addAffiliateToClient", method = RequestMethod.POST)
 	public @ResponseBody
-	Affiliate addAffiliateToClient(@RequestParam String code, @RequestParam Integer clientId) throws Exception {
+	Affiliate addAffiliateToClient(@RequestParam String code, @RequestParam Integer clientId, @RequestParam String associateNumber) throws Exception {
 		boolean clientFound = false;
 		Affiliate affiliate = this.affiliateService.getByCode(code);
 		Client client = this.clientService.get(clientId);
@@ -88,10 +88,25 @@ public class AffiliateAdministrationController {
 		ClientAffiliate clientAffiliate = new ClientAffiliate();
 		clientAffiliate.setAffiliate(affiliate);
 		clientAffiliate.setClient(client);
+		clientAffiliate.setAssociateNumber(associateNumber);
 		if (!clientFound)
 			affiliateClients.add(clientAffiliate);
-		this.affiliateService.save(affiliate);
+		this.clientAffiliateService.save(clientAffiliate);
 		return affiliate;
+	}
+
+	@RequestMapping(value = "/saveAffiliateAndClient", method = RequestMethod.POST)
+	public @ResponseBody
+	Affiliate saveAffiliateAndClient(@RequestBody AffiliateDTO affiliate) throws Exception {
+		Affiliate newAffiliate = this.buildModel(affiliate);
+		this.affiliateService.save(newAffiliate);
+		Client client = this.clientService.get(affiliate.getClientId());
+
+		ClientAffiliate clientAffiliate = new ClientAffiliate();
+		clientAffiliate.setAffiliate(newAffiliate);
+		clientAffiliate.setClient(client);
+		this.clientAffiliateService.save(clientAffiliate);
+		return newAffiliate;
 	}
 
 	private Affiliate buildModel(AffiliateDTO affiliateDTO) {
@@ -106,16 +121,14 @@ public class AffiliateAdministrationController {
 		affiliate.setDocumentType(affiliateDTO.getDocumentType());
 		affiliate.setDocument(affiliateDTO.getDocument());
 		affiliate.setActive(affiliateDTO.isActive());
-
-		List<Integer> clientsId = affiliateDTO.getClients();
-		List<ClientAffiliate> clients = new ArrayList<>();
-		//TODO setear esto
-		/*for (Integer clientId : clientsId) {
-			Client client = this.clientService.get(clientId);
-
-			clients.add();
-		}
-		affiliate.setClients(clients);*/
+		affiliate.setSex(affiliateDTO.getSex());
+		affiliate.setAddress(affiliateDTO.getAddress());
+		affiliate.setLocality(affiliateDTO.getLocality());
+		affiliate.setNumber(affiliateDTO.getNumber());
+		affiliate.setFloor(affiliateDTO.getFloor());
+		affiliate.setApartment(affiliateDTO.getApartment());
+		affiliate.setZipCode(affiliateDTO.getZipCode());
+		affiliate.setPhone(affiliateDTO.getPhone());
 
 		return affiliate;
 	}

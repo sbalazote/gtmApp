@@ -138,6 +138,47 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4 form-group">
+                            <label for="sexSelect"><spring:message code="common.sex"/></label>
+                            <select class="form-control chosen-select" id="sexSelect" name="sex">
+                                <option value="M"><spring:message code="common.male.sex"/></option>
+                                <option value="M"><spring:message code="common.female.sex"/></option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 col-lg-4 form-group">
+                            <label for="addressInput"><spring:message code="common.address"/></label>
+                            <input type="text" class="form-control" id="addressInput" name="address">
+                        </div>
+                        <div class="col-md-4 col-lg-4 form-group">
+                            <label for="localityInput"><spring:message code="common.locality"/></label>
+                            <input type="text" class="form-control" id="localityInput" name="locality">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2 col-lg-2 form-group">
+                            <label for="numberInput"><spring:message code="common.number"/></label>
+                            <input type="text" class="form-control" id="numberInput" name="number">
+                        </div>
+                        <div class="col-md-2 col-lg-2 form-group">
+                            <label for="floorInput"><spring:message code="common.floor"/></label>
+                            <input type="text" class="form-control" id="floorInput" name="floor">
+                        </div>
+                        <div class="col-md-2 col-lg-2 form-group">
+                            <label for="apartmentInput"><spring:message code="common.apartment"/></label>
+                            <input type="text" class="form-control" id="apartmentInput" name="apartment">
+                        </div>
+                        <div class="col-md-2 col-lg-2 form-group">
+                            <label for="zipCodeInput"><spring:message code="common.zipCode"/></label>
+                            <input type="text" class="form-control" id="zipCodeInput" name="zipCode">
+                        </div>
+                        <div class="col-md-4 col-lg-4 form-group">
+                            <label for="phoneInput"><spring:message code="common.phone"/></label>
+                            <input type="text" class="form-control" id="phoneInput" name="phone">
+                        </div>
+                    </div>
+
                     <br>
 
                     <div class="row">

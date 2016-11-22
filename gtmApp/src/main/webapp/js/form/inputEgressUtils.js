@@ -40,23 +40,30 @@ ProductAutocomplete = function(name) {
 AddAffiliate = function() {
     $("#addAffiliateModalAcceptButton").click(function() {
         if (validateAddAffiliateModalForm()) {
-            var clients =  [];
-            clients.push(parseInt($("#clientInput").val()));
+            var client = parseInt($("#clientInput").val());
             var jsonAffiliate = {
                 "code" : $("#affiliateCodeInput").val(),
                 "name" : $("#affiliateNameInput").val(),
                 "surname" : $("#affiliateSurnameInput").val(),
                 "documentType" : $("#affiliateDocumentTypeSelect option:selected").val() || null,
                 "document" : $("#affiliateDocumentInput").val() || null,
-                "clients": clients,
-                "active" : true
+                "active" : true,
+                "sex": $("#affiliateSexSelect option:selected").val(),
+                "address": $("#affiliateAddressInput").val(),
+                "locality": $("#affiliateLocalityInput").val(),
+                "number": $("#affiliateNumberInput").val(),
+                "floor": $("#affiliateFloorInput").val(),
+                "apartment": $("#affiliateApartmentInput").val(),
+                "zipCode": $("#affiliateZipCodeInput").val(),
+                "phone": $("#affiliatePhoneInput").val(),
+                "clientId": client
             };
             if (existsAffiliate()) {
                 $("#addAffiliateModal").modal('hide');
                 $("#addExistAffiliateConfirmationModal").modal('show');
             } else {
                 $.ajax({
-                    url : "saveAffiliate.do",
+                    url : "saveAffiliateAndClient.do",
                     type : "POST",
                     contentType : "application/json",
                     data : JSON.stringify(jsonAffiliate),
@@ -133,7 +140,8 @@ AddAffiliate = function() {
             type : "POST",
             data : {
                 "code" : $("#affiliateCodeInput").val(),
-                "clientId" : parseInt($("#clientInput").val())
+                "clientId" : parseInt($("#clientInput").val()),
+                "associateNumber" : $("#associateNumberInput").val(),
             },
             async : true,
             success : function(response) {
