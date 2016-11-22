@@ -226,6 +226,25 @@ $(document).ready(function() {
 	$("#addClientAffiliate").click(function() {
 		$('#addClientAffiliateDiv').show();
 		$('#addClientAffiliate').hide();
+		$.ajax({
+			url: "getClientToAssociate.do",
+			type: "GET",
+			data: {
+				affiliateId: affiliateId
+			},
+			async: false,
+			success: function(response) {
+				$('#clientInput').empty();
+				$('#clientInput').append("<option value=''></option>");
+				for(var i=0;i < response.length;i++){
+					$('#clientInput').append("<option value=" + response[i].id + ">" + response[i].code + " " + response[i].name + "</option>");
+				}
+				$('#clientInput').trigger("chosen:updated");
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myDeleteError();
+			}
+		});
 	});
 
 	$("#deleteClientAffiliateButton").click(function() {
@@ -251,6 +270,7 @@ $(document).ready(function() {
 				$('#addClientAffiliateDiv').hide();
 				$('#addClientAffiliate').show();
 				$("#affiliateClientsTable").bootgrid("reload");
+				$('#associateNumberInput').val('');
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myDeleteError();
