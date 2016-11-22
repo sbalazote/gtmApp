@@ -1,5 +1,6 @@
 package com.lsntsolutions.gtmApp.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lsntsolutions.gtmApp.util.StringUtility;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ public class Client implements Serializable {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "id", unique = true, nullable = false)
+	@Column(name = "client_id", unique = true, nullable = false)
 	private Integer id;
 
 	@Column(name = "code", unique = true, nullable = false)
@@ -54,6 +55,10 @@ public class Client implements Serializable {
 
 	@Column(name = "medical_insurance_code", unique = true)
 	private Integer medicalInsuranceCode;
+
+	@OneToMany(mappedBy = "client")
+	@JsonManagedReference
+	private List<ClientAffiliate> clientAffiliates;
 
 	@ManyToMany
 	@JoinTable(name = "client_delivery_location", joinColumns = @JoinColumn(name = "client_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "delivery_location_id", nullable = false))

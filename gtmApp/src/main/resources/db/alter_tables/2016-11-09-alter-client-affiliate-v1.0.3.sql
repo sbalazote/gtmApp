@@ -8,3 +8,6 @@ ALTER TABLE drugstore_dev.affiliate ADD zip_code VARCHAR(8) NULL;
 ALTER TABLE drugstore_dev.affiliate ADD phone VARCHAR(30) NULL;
 
 ALTER TABLE drugstore_dev.client_affiliate ADD associate_number VARCHAR(30) NULL;
+
+ALTER TABLE drugstore_dev.affiliate CHANGE id affiliate_id INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE drugstore_dev.client CHANGE id client_id INT(11) NOT NULL AUTO_INCREMENT;

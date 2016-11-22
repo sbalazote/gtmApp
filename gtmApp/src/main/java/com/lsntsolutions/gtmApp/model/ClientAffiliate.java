@@ -1,18 +1,29 @@
 package com.lsntsolutions.gtmApp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Table(name="client_affiliate")
-public class ClientAffiliate {
+@Table(name = "client_affiliate")
+public class ClientAffiliate implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue
+    @Column(name = "id", unique = true, nullable = false)
+    private Integer id;
 
     @ManyToOne
-    @PrimaryKeyJoinColumn(name="client_id", referencedColumnName="ID")
+    @JoinColumn(name="client_id")
+    @JsonBackReference
     private Client client;
 
     @ManyToOne
-    @PrimaryKeyJoinColumn(name="affiliate_id", referencedColumnName="ID")
+    @JoinColumn(name="affiliate_id")
+    @JsonBackReference
     private Affiliate affiliate;
 
     @Column(name="associate_number")
@@ -40,5 +51,13 @@ public class ClientAffiliate {
 
     public void setAssociateNumber(String associateNumber) {
         this.associateNumber = associateNumber;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

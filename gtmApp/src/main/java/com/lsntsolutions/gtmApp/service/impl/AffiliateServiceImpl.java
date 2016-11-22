@@ -37,7 +37,7 @@ public class AffiliateServiceImpl implements AffiliateService {
 	}
 
 	@Override
-	public Affiliate get(String code) {
+	public Affiliate getByCode(String code) {
 		return this.affiliateDAO.get(code);
 	}
 

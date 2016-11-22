@@ -6,6 +6,7 @@ import com.lsntsolutions.gtmApp.model.Affiliate;
 import com.lsntsolutions.gtmApp.model.Client;
 import com.lsntsolutions.gtmApp.model.ClientAffiliate;
 import com.lsntsolutions.gtmApp.service.AffiliateService;
+import com.lsntsolutions.gtmApp.service.ClientAffiliateService;
 import com.lsntsolutions.gtmApp.service.ClientService;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -28,6 +29,9 @@ public class AffiliateAdministrationController {
 
 	@Autowired
 	private AffiliateService affiliateService;
+
+	@Autowired
+	private ClientAffiliateService clientAffiliateService;
 
 	@RequestMapping(value = "/affiliates", method = RequestMethod.POST)
 	public ModelAndView affiliates(@RequestParam Map<String, String> parametersMap) {
@@ -52,11 +56,29 @@ public class AffiliateAdministrationController {
 		return affiliate;
 	}
 
+	@RequestMapping(value = "/saveClientAffiliate", method = RequestMethod.POST)
+	public @ResponseBody
+	ClientAffiliate saveClientAffiliate(@RequestParam Integer affiliateId, @RequestParam Integer clientId, @RequestParam String associateNumber) throws Exception {
+		Affiliate affiliate = this.affiliateService.get(affiliateId);
+		Client client = this.clientService.get(clientId);
+		ClientAffiliate clientAffiliate = new ClientAffiliate();
+		clientAffiliate.setAffiliate(affiliate);
+		clientAffiliate.setClient(client);
+		clientAffiliate.setAssociateNumber(associateNumber);
+		this.clientAffiliateService.save(clientAffiliate);
+		return clientAffiliate;
+	}
+
+	@RequestMapping(value = "/deleteClientAffiliate", method = RequestMethod.POST)
+	public @ResponseBody boolean deleteClientAffiliate(@RequestParam Integer clientAffiliateId) throws Exception {
+		return this.clientAffiliateService.delete(clientAffiliateId);
+	}
+
 	@RequestMapping(value = "/addAffiliateToClient", method = RequestMethod.POST)
 	public @ResponseBody
-	Affiliate addAffiliateToClient(@RequestParam String code, @RequestParam Integer clientId) throws Exception {
+	Affiliate addAffiliateToClient(@RequestParam String code, @RequestParam Integer clientId, @RequestParam String associateNumber) throws Exception {
 		boolean clientFound = false;
-		Affiliate affiliate = this.affiliateService.get(code);
+		Affiliate affiliate = this.affiliateService.getByCode(code);
 		Client client = this.clientService.get(clientId);
 		List<ClientAffiliate> affiliateClients = affiliate.getClientAffiliates();
 		for (ClientAffiliate affiliateClient : affiliateClients) {
@@ -66,10 +88,25 @@ public class AffiliateAdministrationController {
 		ClientAffiliate clientAffiliate = new ClientAffiliate();
 		clientAffiliate.setAffiliate(affiliate);
 		clientAffiliate.setClient(client);
+		clientAffiliate.setAssociateNumber(associateNumber);
 		if (!clientFound)
 			affiliateClients.add(clientAffiliate);
-		this.affiliateService.save(affiliate);
+		this.clientAffiliateService.save(clientAffiliate);
 		return affiliate;
+	}
+
+	@RequestMapping(value = "/saveAffiliateAndClient", method = RequestMethod.POST)
+	public @ResponseBody
+	Affiliate saveAffiliateAndClient(@RequestBody AffiliateDTO affiliate) throws Exception {
+		Affiliate newAffiliate = this.buildModel(affiliate);
+		this.affiliateService.save(newAffiliate);
+		Client client = this.clientService.get(affiliate.getClientId());
+
+		ClientAffiliate clientAffiliate = new ClientAffiliate();
+		clientAffiliate.setAffiliate(newAffiliate);
+		clientAffiliate.setClient(client);
+		this.clientAffiliateService.save(clientAffiliate);
+		return newAffiliate;
 	}
 
 	private Affiliate buildModel(AffiliateDTO affiliateDTO) {
@@ -84,15 +121,14 @@ public class AffiliateAdministrationController {
 		affiliate.setDocumentType(affiliateDTO.getDocumentType());
 		affiliate.setDocument(affiliateDTO.getDocument());
 		affiliate.setActive(affiliateDTO.isActive());
-
-		List<Integer> clientsId = affiliateDTO.getClients();
-		List<ClientAffiliate> clients = new ArrayList<>();
-		for (Integer clientId : clientsId) {
-			Client client = this.clientService.get(clientId);
-
-			clients.add();
-		}
-		affiliate.setClients(clients);
+		affiliate.setSex(affiliateDTO.getSex());
+		affiliate.setAddress(affiliateDTO.getAddress());
+		affiliate.setLocality(affiliateDTO.getLocality());
+		affiliate.setNumber(affiliateDTO.getNumber());
+		affiliate.setFloor(affiliateDTO.getFloor());
+		affiliate.setApartment(affiliateDTO.getApartment());
+		affiliate.setZipCode(affiliateDTO.getZipCode());
+		affiliate.setPhone(affiliateDTO.getPhone());
 
 		return affiliate;
 	}
@@ -100,6 +136,64 @@ public class AffiliateAdministrationController {
 	@RequestMapping(value = "/readAffiliate", method = RequestMethod.GET)
 	public @ResponseBody Affiliate readAffiliate(@RequestParam Integer affiliateId) throws Exception {
 		return this.affiliateService.get(affiliateId);
+	}
+
+	@RequestMapping(value = "/getClientAffiliates", method = RequestMethod.POST)
+	public @ResponseBody String getClientAffiliates(@RequestParam Map<String, String> parametersMap) throws Exception {
+		String id = parametersMap.get("affiliateId");
+		Affiliate affiliate = this.affiliateService.get(Integer.valueOf(id));
+		List<ClientAffiliate> clientAffiliates = affiliate.getClientAffiliates();
+		Integer current = Integer.parseInt(parametersMap.get("current"));
+		Integer rowCount = Integer.parseInt(parametersMap.get("rowCount"));
+
+		JSONArray jsonArray = new JSONArray();
+		int start = (current - 1) * rowCount;
+		int length = rowCount;
+		long total = clientAffiliates.size();
+		if (total < start + length) {
+			clientAffiliates = clientAffiliates.subList(start, (int) total);
+		} else {
+			if(length > 0) {
+				clientAffiliates = clientAffiliates.subList(start, start + length);
+			}
+		}
+
+		for (ClientAffiliate clientAffiliate : clientAffiliates) {
+			JSONObject dataJson = new JSONObject();
+
+			dataJson.put("id", clientAffiliate.getId());
+			dataJson.put("code", clientAffiliate.getClient().getCode());
+			dataJson.put("name", clientAffiliate.getClient().getName());
+			dataJson.put("associateNumber", clientAffiliate.getAssociateNumber());
+			jsonArray.put(dataJson);
+		}
+
+		JSONObject responseJson = new JSONObject();
+		responseJson.put("current", current);
+		responseJson.put("rowCount", (total < (start + length)) ? (total - length) : length);
+		responseJson.put("rows", jsonArray);
+		responseJson.put("total", total);
+		return responseJson.toString();
+	}
+
+	@RequestMapping(value = "/getClientToAssociate", method = RequestMethod.GET)
+	public @ResponseBody List<Client> getClientToAssociate(@RequestParam Integer affiliateId) throws Exception {
+		Affiliate affiliate = this.affiliateService.get(affiliateId);
+		List<ClientAffiliate> clientAffiliates = affiliate.getClientAffiliates();
+		List<Client> clients = this.clientService.getAll();
+		List<Client> clientsToReturn = new ArrayList<>();
+		for(Client client : clients){
+			boolean found = false;
+			for(ClientAffiliate clientAffiliate : clientAffiliates){
+				if(clientAffiliate.getClient().getId() == client.getId()){
+					found = true;
+				}
+			}
+			if(!found){
+				clientsToReturn.add(client);
+			}
+		}
+		return clientsToReturn;
 	}
 
 	@RequestMapping(value = "/deleteAffiliate", method = RequestMethod.POST)

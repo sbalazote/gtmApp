@@ -23,9 +23,6 @@ SaveAffiliate = function() {
 					digits: true,
 					maxlength: 15
 				},
-				client: {
-					required: true
-				},
 				active: {
 					required: true
 				}
@@ -72,7 +69,14 @@ SaveAffiliate = function() {
 					"document": $("#documentInput").val() || null,
 					"clientId": $("#clientSelect option:selected").val(),
 					"active": $("#activeSelect option:selected").val(),
-					"clients": $("#my-select").val() || []
+					"sex": $("#sexSelect option:selected").val(),
+					"address": $("#addressInput").val(),
+					"locality": $("#localityInput").val(),
+					"number": $("#numberInput").val(),
+					"floor": $("#floorInput").val(),
+					"apartment": $("#apartmentInput").val(),
+					"zipCode": $("#zipCodeInput").val(),
+					"phone": $("#phone").val()
 			};
 
 			//	si existe el codigo y ademas no se trata de una actualizacion, lanzo modal.

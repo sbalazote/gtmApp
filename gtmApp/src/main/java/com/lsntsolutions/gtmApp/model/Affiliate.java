@@ -14,7 +14,7 @@ public class Affiliate implements Serializable {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "id", unique = true, nullable = false)
+	@Column(name = "affiliate_id", unique = true, nullable = false)
 	private Integer id;
 
 	@Column(name = "code", nullable = false)
@@ -59,7 +59,8 @@ public class Affiliate implements Serializable {
 	@Column(name = "phone")
 	private String phone;
 
-	@OneToMany(mappedBy="client")
+	@OneToMany(mappedBy = "affiliate")
+	@JsonManagedReference
 	private List<ClientAffiliate> clientAffiliates;
 
 	public Integer getId() {

@@ -93,6 +93,10 @@ var ProvisioningRequest = function() {
 
 	new AddAffiliate();
 
+	$("#sexSelect").chosen({
+		width: '100%' /* desired width */
+	});
+
 	if(isUpdate){
 		$.ajax({
 			url: "getProvisioningRequestDetails.do",
