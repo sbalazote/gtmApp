@@ -2,10 +2,8 @@ package com.lsntsolutions.gtmApp.service.impl;
 
 import com.inssjp.mywebservice.business.WebServiceResult;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
-import com.lsntsolutions.gtmApp.model.DeliveryNote;
-import com.lsntsolutions.gtmApp.model.Order;
-import com.lsntsolutions.gtmApp.model.Output;
-import com.lsntsolutions.gtmApp.model.Supplying;
+import com.lsntsolutions.gtmApp.constant.State;
+import com.lsntsolutions.gtmApp.model.*;
 import com.lsntsolutions.gtmApp.persistence.dao.DeliveryNoteDAO;
 import com.lsntsolutions.gtmApp.query.DeliveryNoteQuery;
 import com.lsntsolutions.gtmApp.service.*;
@@ -36,6 +34,10 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	private OutputService outputService;
 	@Autowired
 	private SupplyingService supplyingService;
+	@Autowired
+	private ProvisioningRequestStateService provisioningRequestStateService;
+	@Autowired
+	private ProvisioningRequestService provisioningRequestService;
 
 	@Override
 	public DeliveryNote get(Integer id) {
@@ -163,6 +165,7 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 		Output output = null;
 		Supplying supplying = null;
 		WebServiceResult result = null;
+		Order order = null;
 		for (String deliveryNoteNumber : deliveryNoteNumbers) {
 			DeliveryNote deliveryNote = this.getDeliveryNoteFromNumber(deliveryNoteNumber);
 			try {
@@ -184,11 +187,19 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 								this.supplyingService.cancel(supplying);
 							}
 						}
+						if(order == null){
+							order = this.getOrder(deliveryNote);
+							if(order != null){
+								ProvisioningRequest provisioningRequest = order.getProvisioningRequest();
+								provisioningRequest.setState(this.provisioningRequestStateService.get(State.ASSEMBLED.getId()));
+								this.provisioningRequestService.save(provisioningRequest);
+							}
+						}
 
 						deliveryNote.setCancelled(true);
 						try {
-							logger.info("No se ha podido anular el remito " + deliveryNote.getId());
 							this.save(deliveryNote);
+							logger.info("Se anulo el remito: " + deliveryNote.getId());
 						} catch (Exception e) {
 							e.printStackTrace();
 						}

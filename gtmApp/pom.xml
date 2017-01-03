@@ -5,7 +5,7 @@
 	<groupId>com.lsntsolutions.gtmApp</groupId>
 	<artifactId>gtmApp</artifactId>
 	<packaging>war</packaging>
-	<version>1.0.2-${maven.build.timestamp}</version>
+	<version>1.0.3-${maven.build.timestamp}</version>
 	<name>Aplicacion para Gestion de Trazabilidad de Medicamentos</name>
 	<organization>
     	<name>LS&amp;T Solutions</name>

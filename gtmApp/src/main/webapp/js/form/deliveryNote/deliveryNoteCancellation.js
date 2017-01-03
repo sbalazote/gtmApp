@@ -185,19 +185,6 @@ DeliveryNoteCancellation = function() {
 			async: false,
 			success: function(response) {
 				myReload("success", "Se han anulado los siguientes remitos: " + deliveryNotesToCancel);
-				$.ajax({
-					url: "reassemblyOrders.do",
-					type: "POST",
-					contentType: "application/json",
-					data: JSON.stringify(ordersToReassembly),
-					async: false,
-					success: function(response) {
-						//myReload("success", "Se han anulado los siguientes remitos: " + deliveryNotesToCancel);
-					},
-					error: function(jqXHR, textStatus, errorThrown) {
-						myGenericError();
-					}
-				});
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myGenericError();
