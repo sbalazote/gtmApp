@@ -56,7 +56,11 @@ public class ProductDAOHibernateImpl implements ProductDAO {
 				criteria.setFetchMode("gtins", FetchMode.SELECT);
 				criteria.add(Restrictions.or(Restrictions.ilike("g.number", searchPhrase, MatchMode.ANYWHERE), Restrictions.ilike("g.number", StringUtility.removeLeadingZero(searchPhrase), MatchMode.ANYWHERE)));
 			}else{
-				criteria.add(Restrictions.ilike("description", searchPhrase, MatchMode.ANYWHERE));
+				criteria.createAlias("brand", "brand");
+				criteria.createAlias("monodrug", "mono");
+				criteria.setFetchMode("brand", FetchMode.SELECT);
+				criteria.setFetchMode("monodrug", FetchMode.SELECT);
+				criteria.add(Restrictions.or(Restrictions.ilike("description", searchPhrase, MatchMode.ANYWHERE), Restrictions.ilike("brand.description", searchPhrase, MatchMode.ANYWHERE), Restrictions.ilike("mono.description", searchPhrase, MatchMode.ANYWHERE)));
 			}
 		}
 
