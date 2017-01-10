@@ -140,4 +140,17 @@ public class DeliveryNoteController {
 
 		return null;
 	}
+
+	@RequestMapping(value = "/cancellableDeliveryNoteCount", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer cancellableDeliveryNoteCount(@RequestBody List<String> deliveryNoteNumbers) {
+		Integer numberOfCancellableDeliveryNotes = 0;
+		for (String deliveryNoteNumber : deliveryNoteNumbers) {
+			if (!this.deliveryNoteService.isCancelled(deliveryNoteNumber)) {
+				numberOfCancellableDeliveryNotes++;
+			}
+		}
+
+		return numberOfCancellableDeliveryNotes;
+	}
 }

@@ -56,4 +56,6 @@ public interface DeliveryNoteDAO {
 	List<DeliveryNote> getDeliveryNoteByOrderId(Integer orderId);
 
 	List<DeliveryNote> getDeliveryNoteByOutpuId(Integer outputId);
+
+    Boolean isCancelled(String deliveryNoteNumber);
 }

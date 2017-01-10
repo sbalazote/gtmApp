@@ -697,4 +697,10 @@ public class DeliveryNoteDAOHibernateImpl implements DeliveryNoteDAO {
 				.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 		return query.list();
 	}
+
+	@Override
+	public Boolean isCancelled(String deliveryNoteNumber) {
+		DeliveryNote deliveryNote = (DeliveryNote) this.sessionFactory.getCurrentSession().createCriteria(DeliveryNote.class).add(Restrictions.like("number", deliveryNoteNumber)).uniqueResult();
+		return deliveryNote.isCancelled();
+	}
 }

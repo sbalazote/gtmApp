@@ -282,4 +282,9 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 
 		return canceleablesMap;
 	}
+
+	@Override
+	public Boolean isCancelled(String deliveryNoteNumber) {
+		return this.deliveryNoteDAO.isCancelled(deliveryNoteNumber);
+	}
 }
