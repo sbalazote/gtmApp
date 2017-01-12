@@ -150,31 +150,53 @@ DeliveryNoteCancellation = function() {
 		if (_.uniq(deliveryNotesToCancel).length == 1) {
 			cancelDeliveryNotes(deliveryNotesToCancel);
 		} else if (_.uniq(deliveryNotesToCancel).length > 1) {
-			BootstrapDialog.show({
-				type: BootstrapDialog.TYPE_WARNING,
-				size: BootstrapDialog.SIZE_LARGE,
-				message: 'Hay uno o mas remitos asociados al indicado. Desea eliminarlos todos?.',
-				closable: false,
-				title: 'Advertencia!',
-				closable: false,
-				buttons: [{
-					label: 'No',
-					action: function(dialogItself) {
-						dialogItself.close();
-					}
-				}, {
-					label: 'Si',
-					cssClass: 'btn-primary',
-					action: function(dialogItself) {
-						dialogItself.close();
-						cancelDeliveryNotes(deliveryNotesToCancel);
-					}
-				}]
-			});
+			if (cancellableDeliveryNoteCount(deliveryNotesToCancel) > 1) {
+				BootstrapDialog.show({
+					type: BootstrapDialog.TYPE_WARNING,
+					size: BootstrapDialog.SIZE_LARGE,
+					message: 'Hay uno o mas remitos asociados al indicado. Desea eliminarlos todos?.',
+					closable: false,
+					title: 'Advertencia!',
+					closable: false,
+					buttons: [{
+						label: 'No',
+						action: function (dialogItself) {
+							dialogItself.close();
+						}
+					}, {
+						label: 'Si',
+						cssClass: 'btn-primary',
+						action: function (dialogItself) {
+							dialogItself.close();
+							cancelDeliveryNotes(deliveryNotesToCancel);
+						}
+					}]
+				});
+			} else {
+				cancelDeliveryNotes(deliveryNotesToCancel);
+			}
 		} else {
 			myShowAlert('info', 'Seleccione al menos un Armado/Egreso/Dispensa');
 		}
 	});
+
+	var cancellableDeliveryNoteCount = function(deliveryNotesToCancel) {
+		var numberOfCancellableDeliveryNotes = 0;
+		$.ajax({
+			url: "cancellableDeliveryNoteCount.do",
+			type: "POST",
+			contentType: "application/json",
+			data: JSON.stringify(_.uniq(deliveryNotesToCancel)),
+			async: false,
+			success: function(response) {
+				numberOfCancellableDeliveryNotes = response;
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myGenericError();
+			}
+		});
+		return numberOfCancellableDeliveryNotes;
+	};
 
 	var cancelDeliveryNotes = function(deliveryNotesToCancel) {
 		$.ajax({
@@ -184,20 +206,7 @@ DeliveryNoteCancellation = function() {
 			data: JSON.stringify(_.uniq(deliveryNotesToCancel)),
 			async: false,
 			success: function(response) {
-				myReload("success", "Se han anulado los siguientes remitos: " + deliveryNotesToCancel);
-				$.ajax({
-					url: "reassemblyOrders.do",
-					type: "POST",
-					contentType: "application/json",
-					data: JSON.stringify(ordersToReassembly),
-					async: false,
-					success: function(response) {
-						//myReload("success", "Se han anulado los siguientes remitos: " + deliveryNotesToCancel);
-					},
-					error: function(jqXHR, textStatus, errorThrown) {
-						myGenericError();
-					}
-				});
+				myReload("success", "Se han anulado los siguientes remitos: " + _.uniq(deliveryNotesToCancel));
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myGenericError();

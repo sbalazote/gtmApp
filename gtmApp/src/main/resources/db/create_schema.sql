@@ -224,7 +224,7 @@ CREATE TABLE `provider` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `client` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL AUTO_INCREMENT,
   `code` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
   `tax_id` varchar(15) NOT NULL,
@@ -237,7 +237,7 @@ CREATE TABLE `client` (
   `phone` varchar(45) DEFAULT NULL,
   `active` bit(1) NOT NULL,
   `medical_insurance_code` int(11),
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`client_id`),
   UNIQUE KEY `code_UNIQUE` (`code`),
   KEY `fk_client_province_idx` (`province_id`),
   KEY `fk_client_VAT_liability_idx` (`VAT_liability_id`),
@@ -278,19 +278,19 @@ CREATE TABLE `client_delivery_location` (
   PRIMARY KEY (`id`),
   KEY `fk_client_delivery_location_client_idx` (`client_id`),
   KEY `fk_client_delivery_location_delivery_location_idx` (`delivery_location_id`),
-  CONSTRAINT `fk_client_delivery_location_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_client_delivery_location_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`client_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_client_delivery_location_delivery_location` FOREIGN KEY (`delivery_location_id`) REFERENCES `delivery_location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `affiliate` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `affiliate_id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(45) NOT NULL,
   `name` varchar(45) NOT NULL,
   `surname` varchar(45) NOT NULL,
   `document_type` varchar(10) DEFAULT NULL,
   `document` varchar(15) DEFAULT NULL,
   `active` bit(1) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`affiliate_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `logistics_operator` (
@@ -424,8 +424,8 @@ CREATE TABLE `supplying` (
   KEY `fk_supplying_client_idx` (`client_id`),
   KEY `fk_supplying_affiliate_idx` (`affiliate_id`),
   KEY `fk_supplying_agreement_idx` (`agreement_id`),
-  CONSTRAINT `fk_supplying_client_idx` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_supplying_affiliate_idx` FOREIGN KEY (`affiliate_id`) REFERENCES `affiliate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_supplying_client_idx` FOREIGN KEY (`client_id`) REFERENCES `client` (`client_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_supplying_affiliate_idx` FOREIGN KEY (`affiliate_id`) REFERENCES `affiliate` (`affiliate_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_supplying_agreement_idx` FOREIGN KEY (`agreement_id`) REFERENCES `agreement` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -472,9 +472,9 @@ CREATE TABLE `provisioning_request` (
   KEY `fk_provisioning_request_affiliate_idx` (`affiliate_id`),
   KEY `fk_provisioning_request_provisioning_request_state_idx` (`state_id`),
   CONSTRAINT `fk_provisioning_request_provisioning_request_state` FOREIGN KEY (`state_id`) REFERENCES `provisioning_request_state` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_provisioning_request_affiliate` FOREIGN KEY (`affiliate_id`) REFERENCES `affiliate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_provisioning_request_affiliate` FOREIGN KEY (`affiliate_id`) REFERENCES `affiliate` (`affiliate_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_provisioning_request_agreement` FOREIGN KEY (`agreement_id`) REFERENCES `agreement` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_provisioning_request_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_provisioning_request_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`client_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_provisioning_request_delivery_location` FOREIGN KEY (`delivery_location_id`) REFERENCES `delivery_location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_provisioning_request_logistics_operator` FOREIGN KEY (`logistics_operator_id`) REFERENCES `logistics_operator` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -694,8 +694,8 @@ CREATE TABLE `client_affiliate` (
   PRIMARY KEY (`id`),
   KEY `fk_client_affiliate_client_idx` (`client_id`),
   KEY `fk_client_affiliate_affiliate_idx` (`affiliate_id`),
-  CONSTRAINT `fk_client_affiliate_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_client_affiliate_affiliate` FOREIGN KEY (`affiliate_id`) REFERENCES `affiliate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_client_affiliate_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`client_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_client_affiliate_affiliate` FOREIGN KEY (`affiliate_id`) REFERENCES `affiliate` (`affiliate_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `provider_logistics_operator` (

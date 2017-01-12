@@ -236,13 +236,12 @@ var Supplying = function() {
 	
 	$('#productInput').keydown(function(e) {
 		if(e.keyCode == 13){ // Presiono Enter
+			var url = assignOutOfStock ? "getProductBySerialOrGtin.do" : "getProductFromStockBySerialOrGtin.do";
+			var data = assignOutOfStock ? { serial: $(this).val().trim() } : { serial: $(this).val().trim(), agreementId: $("#agreementInput").val()};
 	    	$.ajax({
-				url: "getProductFromStockBySerialOrGtin.do",
+				url: url,
 				type: "GET",
-				data: {
-					serial: $(this).val().trim(),
-					agreementId: $("#agreementInput").val()
-				},
+				data: data,
 				success: function(response) {
 					if (response != "") {
 						if (!productEntered(response.id)) {

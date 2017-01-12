@@ -110,16 +110,24 @@ public class DeliveryNoteWSHelper {
 								.getProduct().getType()))) {
 					String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(orderDetail.getExpirationDate()).toString();
 
+					String associateNumber = null;
+					if(order.getProvisioningRequest().getClient() != null) {
+						for (ClientAffiliate clientAffiliate : order.getProvisioningRequest().getAffiliate().getClientAffiliates()) {
+							if (clientAffiliate.getClient().getId() == order.getProvisioningRequest().getClient().getId()) {
+								associateNumber = clientAffiliate.getAssociateNumber();
+							}
+						}
+					}
 					if(this.propertyService.get().getAgent().getId() == ESTABLECIMIENTO_ASISTENCIAL || this.propertyService.get().getAgent().getId() == FARMACIA){
 						this.webServiceHelper.setDrug(drug, this.propertyService.get().getGln(), null, this.propertyService.get().getTaxId(), null,
 								deliveryNoteFormated, expirationDate, orderDetail.getGtin().getNumber(), eventId, deliveryNoteDetail
 										.getOrderDetail().getSerialNumber(), orderDetail.getBatch(), deliveryNote.getDate(), true,
-								order.getProvisioningRequest().getAffiliate().getCode(), order.getProvisioningRequest().getClient().getMedicalInsuranceCode());
+								order.getProvisioningRequest().getAffiliate(), order.getProvisioningRequest().getClient().getMedicalInsuranceCode(), associateNumber);
 					}else{
 						this.webServiceHelper.setDrug(drug, this.propertyService.get().getGln(), order.getProvisioningRequest().getDeliveryLocation().getGln(),
 								this.propertyService.get().getTaxId(), order.getProvisioningRequest().getDeliveryLocation().getTaxId(), deliveryNoteFormated,
-								expirationDate, orderDetail.getGtin().getNumber(), eventId, orderDetail.getSerialNumber(), orderDetail.getBatch(), deliveryNote.getDate(), true, null,
-								null);
+								expirationDate, orderDetail.getGtin().getNumber(), eventId, orderDetail.getSerialNumber(), orderDetail.getBatch(), deliveryNote.getDate(), true, order.getProvisioningRequest().getAffiliate(),
+								null, associateNumber);
 					}
 					medicines.add(drug);
 				}
@@ -134,7 +142,7 @@ public class DeliveryNoteWSHelper {
 					String destinationTax = output.getConcept().isDestruction() ? null : output.getDestinationTax();
 					this.webServiceHelper.setDrug(drug, this.propertyService.get().getGln(), destinationGln , this.propertyService.get().getTaxId(), destinationTax
 							, deliveryNoteFormated, expirationDate, outputDetail.getGtin().getNumber(),	eventId, outputDetail.getSerialNumber(), outputDetail.getBatch(),
-							output.getDate(), true, null, null);
+							output.getDate(), true, null, null, null);
 					medicines.add(drug);
 				}
 			}
@@ -145,11 +153,18 @@ public class DeliveryNoteWSHelper {
 						&& ("PS".equals(supplyingDetail.getProduct().getType()) || "SS".equals(supplyingDetail
 								.getProduct().getType()))) {
 					String expirationDate = new SimpleDateFormat("dd/MM/yyyy").format(supplyingDetail.getExpirationDate()).toString();
-
+					String associateNumber = null;
+					if(supplying.getClient() != null) {
+						for (ClientAffiliate clientAffiliate : supplying.getAffiliate().getClientAffiliates()) {
+							if (clientAffiliate.getClient().getId() == supplying.getClient().getId()) {
+								associateNumber = clientAffiliate.getAssociateNumber();
+							}
+						}
+					}
 					this.webServiceHelper.setDrug(drug, this.propertyService.get().getGln(), null, this.propertyService.get().getTaxId(), null,
 							deliveryNoteFormated, expirationDate, supplyingDetail.getGtin().getNumber(), eventId, deliveryNoteDetail
 									.getSupplyingDetail().getSerialNumber(), supplyingDetail.getBatch(), supplying.getDate(), true,
-							supplying.getAffiliate().getCode(), supplying.getClient().getMedicalInsuranceCode());
+							supplying.getAffiliate(), supplying.getClient().getMedicalInsuranceCode(), associateNumber);
 					medicines.add(drug);
 				}
 			}

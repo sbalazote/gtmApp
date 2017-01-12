@@ -2,6 +2,7 @@ $(document).ready(function() {
 	
 	var affiliateId;
 	var clientId = "";
+	var clientAffiliateId;
 	
 	var resetForm = function() {
 		$("#idInput").val('');
@@ -36,15 +37,17 @@ $(document).ready(function() {
 		});
 	};
 	
-	var readAffiliate = function(affiliateId) {
+	var readAffiliate = function(id) {
+		affiliateId = id;
 		$.ajax({
 			url: "readAffiliate.do",
 			type: "GET",
 			data: {
-				affiliateId: affiliateId
+				affiliateId: id
 			},
 			async: false,
 			success: function(response) {
+				$("#affiliateClientsTable").bootgrid("destroy");
 				$("#idInput").val(response.id);
 				$("#codeInput").val(response.code);
 				$("#surnameInput").val(response.surname);
@@ -123,6 +126,7 @@ $(document).ready(function() {
 			$('#readAffiliateLabel').hide();
 			$('#updateAffiliateLabel').show();
 			$('#affiliateModal').modal('show');
+			loadAffiliateClientsTable($(this).data("row-id"));
 		}).end().find(".command-delete").on("click", function(e) {
 			affiliateId = $(this).data("row-id");
 			$('#deleteConfirmationModal').modal('show');
@@ -171,5 +175,112 @@ $(document).ready(function() {
 			searchHTML.prev().html(exportHTML);
 		}
 		affiliatesTable.bootgrid("reload");
+	});
+
+	var loadAffiliateClientsTable = function(affiliateId) {
+		var affiliateClientsTable = $("#affiliateClientsTable").bootgrid({
+			columnSelection: false,
+			ajax: true,
+			requestHandler: function (request) {
+				return {
+					affiliateId: affiliateId,
+					current: request.current,
+					rowCount: request.rowCount
+				};
+			},
+			url: "./getClientAffiliates.do",
+			formatters: {
+				"commands": function (column, row) {
+					// return "<button type=\"button\" class=\"btn btn-sm btn-default edit\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-pencil\"></span></button> " +
+						return "<button type=\"button\" class=\"btn btn-sm btn-default delete\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button>";
+				}
+			}
+		}).on("loaded.rs.jquery.bootgrid", function () {
+			/* Executes after data is loaded and rendered */
+			affiliateClientsTable.find(".edit").on("click", function (e) {
+				//TODO editar la relacion
+			}).end().find(".delete").on("click", function (e) {
+				clientAffiliateId = $(this).data("row-id");
+				$('#deleteClientAffiliateConfirmationModal').modal('show');
+			});
+		});
+	};
+
+	var deleteClientAffiliate = function(clientAffiliateId) {
+		$.ajax({
+			url: "deleteClientAffiliate.do",
+			type: "POST",
+			data: {
+				clientAffiliateId: clientAffiliateId
+			},
+			async: true,
+			success: function(response) {
+				$("#affiliateClientsTable").bootgrid("reload");
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myDeleteError();
+			}
+		});
+	};
+
+	$("#addClientAffiliate").click(function() {
+		$('#addClientAffiliateDiv').show();
+		$('#addClientAffiliate').hide();
+		$.ajax({
+			url: "getClientToAssociate.do",
+			type: "GET",
+			data: {
+				affiliateId: affiliateId
+			},
+			async: false,
+			success: function(response) {
+				$('#clientInput').empty();
+				$('#clientInput').append("<option value=''></option>");
+				for(var i=0;i < response.length;i++){
+					$('#clientInput').append("<option value=" + response[i].id + ">" + response[i].code + " " + response[i].name + "</option>");
+				}
+				$('#clientInput').trigger("chosen:updated");
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myDeleteError();
+			}
+		});
+	});
+
+	$("#deleteClientAffiliateButton").click(function() {
+		deleteClientAffiliate(clientAffiliateId);
+	});
+
+	$("#cancelAddClientAffiliateButton").click(function() {
+		$('#addClientAffiliateDiv').hide();
+		$('#addClientAffiliate').show();
+	});
+
+	$("#addClientAffiliateButton").click(function() {
+		$.ajax({
+			url: "saveClientAffiliate.do",
+			type: "POST",
+			data: {
+				affiliateId: affiliateId,
+				clientId: $("#clientInput").val(),
+				associateNumber: $("#associateNumberInput").val()
+			},
+			async: false,
+			success: function(response) {
+				$('#addClientAffiliateDiv').hide();
+				$('#addClientAffiliate').show();
+				$("#affiliateClientsTable").bootgrid("reload");
+				$('#associateNumberInput').val('');
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				myDeleteError();
+			}
+		});
+	});
+
+	$('#addClientAffiliateDiv').hide();
+
+	$("#clientInput").chosen({
+		width: '100%' /* desired width */
 	});
 });

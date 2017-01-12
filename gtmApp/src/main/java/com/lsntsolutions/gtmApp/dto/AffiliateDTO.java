@@ -13,8 +13,16 @@ public class AffiliateDTO implements Serializable {
 	private String surname;
 	private String documentType;
 	private String document;
-	private List<Integer> clients;
 	private boolean active;
+	private String sex;
+	private String address;
+	private String locality;
+	private String number;
+	private String floor;
+	private String apartment;
+	private String zipCode;
+	private String phone;
+	private Integer clientId;
 
 	public Integer getId() {
 		return this.id;
@@ -64,13 +72,6 @@ public class AffiliateDTO implements Serializable {
 		this.document = document;
 	}
 
-	public List<Integer> getClients() {
-		return clients;
-	}
-
-	public void setClients(List<Integer> clients) {
-		this.clients = clients;
-	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -84,4 +85,75 @@ public class AffiliateDTO implements Serializable {
 		this.active = active;
 	}
 
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getLocality() {
+		return locality;
+	}
+
+	public void setLocality(String locality) {
+		this.locality = locality;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public String getFloor() {
+		return floor;
+	}
+
+	public void setFloor(String floor) {
+		this.floor = floor;
+	}
+
+	public String getApartment() {
+		return apartment;
+	}
+
+	public void setApartment(String apartment) {
+		this.apartment = apartment;
+	}
+
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public Integer getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(Integer clientId) {
+		this.clientId = clientId;
+	}
 }

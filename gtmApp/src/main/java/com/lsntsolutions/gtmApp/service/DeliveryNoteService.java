@@ -61,4 +61,6 @@ public interface DeliveryNoteService {
 	Boolean existsDeliveryNoteNumber(Integer deliveryNotePOS, Integer lastDeliveryNoteNumberInput, boolean fake);
 
 	Map<String, List<DeliveryNote>> getDeliveryNotes(String deliveryNoteNumber);
+
+	Boolean isCancelled(String deliveryNoteNumber);
 }

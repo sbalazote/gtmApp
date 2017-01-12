@@ -29,13 +29,7 @@ public class DeliveryNoteController {
 	@Autowired
 	private AuditService auditService;
 	@Autowired
-	private ProvisioningRequestService provisioningRequestService;
-	@Autowired
-	private ProvisioningRequestStateService provisioningRequestStateService;
-	@Autowired
 	private DeliveryNoteSheetPrinter deliveryNoteSheetPrinter;
-	@Autowired
-	private LogisticsOperatorService logisticsOperatorService;
 
 	@RequestMapping(value = "/deliveryNoteSheet", method = RequestMethod.GET)
 	public String deliveryNoteSheet(ModelMap modelMap) throws Exception {
@@ -83,18 +77,6 @@ public class DeliveryNoteController {
 	public @ResponseBody
 	Map<String, List<DeliveryNote>> getCancelableDeliveryNotes(@RequestParam String deliveryNoteNumber) throws Exception {
 		return this.deliveryNoteService.getDeliveryNotes(deliveryNoteNumber);
-	}
-
-	@RequestMapping(value = "/reassemblyOrders", method = RequestMethod.POST)
-	public @ResponseBody
-	void reassemblyOrders(@RequestBody List<Integer> orderIds) throws Exception {
-		for (Integer orderId : orderIds) {
-			Order order = this.orderService.get(orderId);
-			ProvisioningRequest provisioningRequest = order.getProvisioningRequest();
-			provisioningRequest.setState(this.provisioningRequestStateService.get(State.ASSEMBLED.getId()));
-			this.provisioningRequestService.save(provisioningRequest);
-		}
-
 	}
 
 	@RequestMapping(value = "/pendingTransactions", method = RequestMethod.GET)
@@ -157,5 +139,18 @@ public class DeliveryNoteController {
 		}
 
 		return null;
+	}
+
+	@RequestMapping(value = "/cancellableDeliveryNoteCount", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer cancellableDeliveryNoteCount(@RequestBody List<String> deliveryNoteNumbers) {
+		Integer numberOfCancellableDeliveryNotes = 0;
+		for (String deliveryNoteNumber : deliveryNoteNumbers) {
+			if (!this.deliveryNoteService.isCancelled(deliveryNoteNumber)) {
+				numberOfCancellableDeliveryNotes++;
+			}
+		}
+
+		return numberOfCancellableDeliveryNotes;
 	}
 }

@@ -168,6 +168,46 @@
 							<input type="text" class="form-control" id="affiliateDocumentInput" name="affiliateDocument">
 						</div>
 					</div>
+					<div class="row">
+						<div class="col-md-4 col-lg-4 form-group">
+							<label for="affiliateSexSelect"><spring:message code="common.sex"/></label>
+							<select class="form-control" id="affiliateSexSelect" name="sex">
+								<option value="M"><spring:message code="common.male.sex"/></option>
+								<option value="M"><spring:message code="common.female.sex"/></option>
+							</select>
+						</div>
+						<div class="col-md-4 col-lg-4 form-group">
+							<label for="affiliateAddressInput"><spring:message code="common.address"/></label>
+							<input type="text" class="form-control" id="affiliateAddressInput" name="address">
+						</div>
+						<div class="col-md-4 col-lg-4 form-group">
+							<label for="affiliateLocalityInput"><spring:message code="common.locality"/></label>
+							<input type="text" class="form-control" id="affiliateLocalityInput" name="locality">
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-2 col-lg-2 form-group">
+							<label for="affiliateNumberInput"><spring:message code="common.number"/></label>
+							<input type="text" class="form-control" id="affiliateNumberInput" name="number">
+						</div>
+						<div class="col-md-2 col-lg-2 form-group">
+							<label for="affiliateFloorInput"><spring:message code="common.floor"/></label>
+							<input type="text" class="form-control" id="affiliateFloorInput" name="floor">
+						</div>
+						<div class="col-md-2 col-lg-2 form-group">
+							<label for="affiliateApartmentInput"><spring:message code="common.apartment"/></label>
+							<input type="text" class="form-control" id="affiliateApartmentInput" name="apartment">
+						</div>
+						<div class="col-md-2 col-lg-2 form-group">
+							<label for="affiliateZipCodeInput"><spring:message code="common.zipCode"/></label>
+							<input type="text" class="form-control" id="affiliateZipCodeInput" name="zipCode">
+						</div>
+						<div class="col-md-4 col-lg-4 form-group">
+							<label for="affiliatePhoneInput"><spring:message code="common.phone"/></label>
+							<input type="text" class="form-control" id="affiliatePhoneInput" name="phone">
+						</div>
+					</div>
 				</div>
 			
 				<div class="modal-footer">
@@ -238,7 +278,13 @@
 	<div class="modal-dialog" style="width:250px">
 		<div class="modal-content">
 			<div class="modal-body">
-				<strong><span style="color:red"><spring:message code="suupplying.existsAffiliate.confirmation"/></span></strong>
+                <strong><span style="color:red"><spring:message code="suupplying.existsAffiliate.confirmation"/></span></strong>
+                <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                    <label for="associateNumberInput"><spring:message code="common.associateNumber"/></label>
+                    <input type="text" class="form-control" name="associateNumber" id="associateNumberInput" >
+                </div>
+                </div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.no"/></button>
