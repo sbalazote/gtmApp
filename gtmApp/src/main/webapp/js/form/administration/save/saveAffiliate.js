@@ -21,7 +21,7 @@ SaveAffiliate = function() {
 				},
 				document: {
 					digits: true,
-					maxlength: 15
+					maxlength: 10
 				},
 				active: {
 					required: true

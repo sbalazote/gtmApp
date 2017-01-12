@@ -103,10 +103,11 @@ AddAffiliate = function() {
                 },
                 affiliateName: {
                     required: true,
-                    maxlength: 45
+                    maxlength: 45,
                 },
                 affiliateDocument: {
-                    digits: true
+                    digits: true,
+                    maxlength: 10
                 }
             },
             showErrors: myShowErrors,
