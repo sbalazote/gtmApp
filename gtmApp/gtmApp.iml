@@ -42,6 +42,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk15on:1.51" level="project" />
     <orderEntry type="library" name="Maven: org.apache.pdfbox:pdfbox:1.8.10" level="project" />
     <orderEntry type="library" name="Maven: org.apache.pdfbox:fontbox:1.8.10" level="project" />
     <orderEntry type="library" name="Maven: org.apache.pdfbox:jempbox:1.8.10" level="project" />
@@ -208,7 +209,6 @@
     <orderEntry type="library" name="Maven: org.opensaml:opensaml-security-impl:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.opensaml:opensaml-security-api:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.cryptacular:cryptacular:1.0" level="project" />
-    <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk15on:1.51" level="project" />
     <orderEntry type="library" name="Maven: org.opensaml:opensaml-xmlsec-impl:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: net.shibboleth.utilities:java-support:7.1.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:18.0" level="project" />

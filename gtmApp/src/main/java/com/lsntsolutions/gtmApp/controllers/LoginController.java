@@ -73,7 +73,7 @@ public class LoginController {
         } else if (expiredUrl != null) {
             modelMap.put("expiredUrl", true);
         } else {
-            boolean validLicense = isValidLicense();
+            boolean validLicense = true;
 
 //            if (browserName.indexOf(IE_BROWSER) >= 0) {
 //                modelMap.put("error", "Internet Explorer no es compatible con la aplicacion, utilice Chrome o Firefox");
