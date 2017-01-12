@@ -163,9 +163,13 @@
 							</select>
 						</div>
 					
-						<div class="col-md-8 col-lg-8 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="affiliateDocumentInput"><spring:message code="common.document"/></label> 
 							<input type="text" class="form-control" id="affiliateDocumentInput" name="affiliateDocument">
+						</div>
+						<div class="col-md-4 col-lg-4 form-group">
+							<label for="associateNumberInput"><spring:message code="common.associateNumber"/></label>
+							<input type="text" class="form-control" name="associateNumber" id="associateNumberInput" >
 						</div>
 					</div>
 					<div class="row">
@@ -279,12 +283,6 @@
 		<div class="modal-content">
 			<div class="modal-body">
                 <strong><span style="color:red"><spring:message code="suupplying.existsAffiliate.confirmation"/></span></strong>
-                <div class="row">
-                    <div class="col-md-12 col-lg-12">
-                    <label for="associateNumberInput"><spring:message code="common.associateNumber"/></label>
-                    <input type="text" class="form-control" name="associateNumber" id="associateNumberInput" >
-                </div>
-                </div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="common.no"/></button>

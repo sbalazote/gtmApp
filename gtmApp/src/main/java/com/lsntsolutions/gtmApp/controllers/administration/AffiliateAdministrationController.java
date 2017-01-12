@@ -105,6 +105,7 @@ public class AffiliateAdministrationController {
 		ClientAffiliate clientAffiliate = new ClientAffiliate();
 		clientAffiliate.setAffiliate(newAffiliate);
 		clientAffiliate.setClient(client);
+		clientAffiliate.setAssociateNumber(affiliate.getAssociateNumber());
 		this.clientAffiliateService.save(clientAffiliate);
 		return newAffiliate;
 	}

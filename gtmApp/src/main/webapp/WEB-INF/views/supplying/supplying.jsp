@@ -136,10 +136,13 @@
 								</c:forEach>
 							</select>
 						</div>
-					
-						<div class="col-md-8 col-lg-8 form-group">
+						<div class="col-md-4 col-lg-4 form-group">
 							<label for="affiliateDocumentInput"><spring:message code="common.document"/></label> 
 							<input type="text" class="form-control" id="affiliateDocumentInput" name="affiliateDocument">
+						</div>
+						<div class="col-md-4 col-lg-4 form-group">
+							<label for="associateNumberInput"><spring:message code="common.associateNumber"/></label>
+							<input type="text" class="form-control" name="associateNumber" id="associateNumberInput" >
 						</div>
 					</div>
 

@@ -56,7 +56,8 @@ AddAffiliate = function() {
                 "apartment": $("#affiliateApartmentInput").val(),
                 "zipCode": $("#affiliateZipCodeInput").val(),
                 "phone": $("#affiliatePhoneInput").val(),
-                "clientId": client
+                "clientId": client,
+                "associateNumber" : $("#associateNumberInput").val(),
             };
             if (existsAffiliate()) {
                 $("#addAffiliateModal").modal('hide');
@@ -108,6 +109,9 @@ AddAffiliate = function() {
                 affiliateDocument: {
                     digits: true,
                     maxlength: 10
+                },
+                associateNumber:{
+                    required: true
                 }
             },
             showErrors: myShowErrors,

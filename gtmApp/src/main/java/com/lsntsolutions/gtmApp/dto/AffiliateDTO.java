@@ -23,6 +23,7 @@ public class AffiliateDTO implements Serializable {
 	private String zipCode;
 	private String phone;
 	private Integer clientId;
+	private String associateNumber;
 
 	public Integer getId() {
 		return this.id;
@@ -155,5 +156,13 @@ public class AffiliateDTO implements Serializable {
 
 	public void setClientId(Integer clientId) {
 		this.clientId = clientId;
+	}
+
+	public String getAssociateNumber() {
+		return associateNumber;
+	}
+
+	public void setAssociateNumber(String associateNumber) {
+		this.associateNumber = associateNumber;
 	}
 }
