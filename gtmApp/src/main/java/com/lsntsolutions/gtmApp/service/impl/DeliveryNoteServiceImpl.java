@@ -173,7 +173,7 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 					if (deliveryNote.isInformAnmat() && deliveryNote.isInformed()) {
 						result = this.traceabilityService.cancelDeliveryNoteTransaction(deliveryNote);
 					}
-					if((result != null && result.getResultado()) || !deliveryNote.isInformAnmat()) {
+					if((result != null && result.getResultado()) || !deliveryNote.isInformAnmat() || (deliveryNote.isInformAnmat() && !deliveryNote.isInformed())) {
 						if (output == null) {
 							output = this.getOutput(deliveryNote);
 							if (output != null) {
