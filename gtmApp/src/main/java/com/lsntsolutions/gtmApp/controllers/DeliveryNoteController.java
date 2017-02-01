@@ -9,6 +9,7 @@ import com.lsntsolutions.gtmApp.model.DeliveryNote;
 import com.lsntsolutions.gtmApp.model.Order;
 import com.lsntsolutions.gtmApp.model.ProvisioningRequest;
 import com.lsntsolutions.gtmApp.service.*;
+import com.lsntsolutions.gtmApp.util.CancelDeliveryNoteResult;
 import com.lsntsolutions.gtmApp.util.OperationResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -62,15 +63,16 @@ public class DeliveryNoteController {
 
 	@RequestMapping(value = "/cancelDeliveryNotes", method = RequestMethod.POST)
 	public @ResponseBody
-	void cancelDeliveryNotes(@RequestBody List<String> deliveryNoteNumbers) throws Exception {
+	List<CancelDeliveryNoteResult> cancelDeliveryNotes(@RequestBody List<String> deliveryNoteNumbers) throws Exception {
 		Set<String> hs = new HashSet<>();
 		hs.addAll(deliveryNoteNumbers);
 		deliveryNoteNumbers.clear();
 		deliveryNoteNumbers.addAll(hs);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
-			this.deliveryNoteService.cancelDeliveryNotes(deliveryNoteNumbers, auth.getName());
+			return this.deliveryNoteService.cancelDeliveryNotes(deliveryNoteNumbers, auth.getName());
 		}
+		return new ArrayList<>();
 	}
 
 	@RequestMapping(value = "/getCancelableDeliveryNotes", method = RequestMethod.POST)

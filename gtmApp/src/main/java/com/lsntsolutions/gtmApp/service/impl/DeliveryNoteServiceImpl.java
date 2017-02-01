@@ -1,5 +1,6 @@
 package com.lsntsolutions.gtmApp.service.impl;
 
+import com.inssjp.mywebservice.business.WebServiceError;
 import com.inssjp.mywebservice.business.WebServiceResult;
 import com.lsntsolutions.gtmApp.constant.RoleOperation;
 import com.lsntsolutions.gtmApp.constant.State;
@@ -7,6 +8,7 @@ import com.lsntsolutions.gtmApp.model.*;
 import com.lsntsolutions.gtmApp.persistence.dao.DeliveryNoteDAO;
 import com.lsntsolutions.gtmApp.query.DeliveryNoteQuery;
 import com.lsntsolutions.gtmApp.service.*;
+import com.lsntsolutions.gtmApp.util.CancelDeliveryNoteResult;
 import com.lsntsolutions.gtmApp.util.OperationResult;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -161,17 +164,23 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 	}
 
 	@Override
-	public void cancelDeliveryNotes(List<String> deliveryNoteNumbers, String username) {
+	public List<CancelDeliveryNoteResult> cancelDeliveryNotes(List<String> deliveryNoteNumbers, String username) {
 		Output output = null;
 		Supplying supplying = null;
 		WebServiceResult result = null;
+		List<CancelDeliveryNoteResult> results = new ArrayList<>();
 		Order order = null;
 		for (String deliveryNoteNumber : deliveryNoteNumbers) {
 			DeliveryNote deliveryNote = this.getDeliveryNoteFromNumber(deliveryNoteNumber);
 			try {
 				try {
+					CancelDeliveryNoteResult cancelDeliveryNoteResult = null;
 					if (deliveryNote.isInformAnmat() && deliveryNote.isInformed()) {
 						result = this.traceabilityService.cancelDeliveryNoteTransaction(deliveryNote);
+						if((result != null && result.getResultado()) ) {
+							cancelDeliveryNoteResult = new CancelDeliveryNoteResult(result);
+							cancelDeliveryNoteResult.setDeliveryNoteNumber(deliveryNoteNumber);
+						}
 					}
 					if((result != null && result.getResultado()) || !deliveryNote.isInformAnmat() || (deliveryNote.isInformAnmat() && !deliveryNote.isInformed())) {
 						if (output == null) {
@@ -197,17 +206,27 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 						}
 
 						deliveryNote.setCancelled(true);
+
+						if(!deliveryNote.isInformAnmat() || (deliveryNote.isInformAnmat() && !deliveryNote.isInformed())){
+							cancelDeliveryNoteResult = new CancelDeliveryNoteResult(true);
+							cancelDeliveryNoteResult.setDeliveryNoteNumber(deliveryNoteNumber);
+						}
 						try {
 							this.save(deliveryNote);
 							logger.info("Se anulo el remito: " + deliveryNote.getId());
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
+
 						this.auditService.addAudit(username, RoleOperation.DELIVERY_NOTE_CANCELLATION.getId(), deliveryNote.getId());
 					}else{
 						logger.info("No se ha podido anular el remito " + deliveryNote.getId());
 						logger.info("Error en ANMAT al anular " + result);
+						cancelDeliveryNoteResult = new CancelDeliveryNoteResult(false);
+						cancelDeliveryNoteResult.setError("Error en ANMAT al anular ");
+						cancelDeliveryNoteResult.setDeliveryNoteNumber(deliveryNoteNumber);
 					}
+					results.add(cancelDeliveryNoteResult);
 				} catch (Exception e) {
 					logger.info("No se ha podido informar la cancelacion a ANMAT " + deliveryNote.getId());
 					e.printStackTrace();
@@ -216,6 +235,7 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 				logger.info("No se ha podido actualizar el estado al remito " + deliveryNote.getId());
 			}
 		}
+		return results;
 	}
 
 	@Override

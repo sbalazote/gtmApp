@@ -5,6 +5,7 @@ import com.lsntsolutions.gtmApp.model.Order;
 import com.lsntsolutions.gtmApp.model.Output;
 import com.lsntsolutions.gtmApp.model.Supplying;
 import com.lsntsolutions.gtmApp.query.DeliveryNoteQuery;
+import com.lsntsolutions.gtmApp.util.CancelDeliveryNoteResult;
 import com.lsntsolutions.gtmApp.util.OperationResult;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public interface DeliveryNoteService {
 
 	void authorizeWithoutInform(Map<String,String> deliveryNoteIds, String name);
 
-	void cancelDeliveryNotes(List<String> deliveryNoteNumbers, String username) throws Exception;
+	List<CancelDeliveryNoteResult> cancelDeliveryNotes(List<String> deliveryNoteNumbers, String username) throws Exception;
 
 	List<String> getSupplyingsDeliveriesNoteNumbers(Integer supplyingId);
 

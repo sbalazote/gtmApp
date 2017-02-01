@@ -206,7 +206,23 @@ DeliveryNoteCancellation = function() {
 			data: JSON.stringify(_.uniq(deliveryNotesToCancel)),
 			async: false,
 			success: function(response) {
-				myReload("success", "Se han anulado los siguientes remitos: " + _.uniq(deliveryNotesToCancel));
+				var errors = "";
+				for (var j = 0; j < response.length; j++) {
+					if (response[j].resultado == true) {
+						errors += "Se anulo correctamente remito: " + response[j].deliveryNoteNumber + "<br />";
+					} else {
+						errors += "Error al anular remito: " + response[j].deliveryNoteNumber + "<br />";
+					}
+					if (response[j].errores != null) {
+						for (var i = 0, lengthI = response[j].errores.length; i < lengthI; i++) {
+							errors += response[j].errores[i] + "<br />";
+						}
+					}
+					if (response[j].error != null) {
+						errors += response[j].error + "<br />";
+					}
+				}
+				myReload("info", "Detalle de las anulaciones: <br /> " + errors);
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				myGenericError();
