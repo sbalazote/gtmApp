@@ -1,6 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script type="text/javascript" src="js/form/modals.js"></script>
 <script type="text/javascript" src="js/form/input/searchInputToUpdate.js"></script>
@@ -23,6 +24,8 @@
 	<table class="table table-condensed table-hover table-striped" id="mainTable">
 		<thead>
 	          	<th data-column-id="id" data-type="numeric" data-identifier="true"><spring:message code="common.id"/></th>
+				<th data-column-id="date"><spring:message code="common.date"/></th>
+				<th data-column-id="clientOrProvider"><spring:message code="common.clientOrProvider"/></th>
 	        	<th data-column-id="concept"><spring:message code="common.concept"/></th>
 	        	<th data-column-id="agreement"><spring:message code="common.agreement"/></th>
 				<th data-column-id="view" data-formatter="view" data-sortable="false"><spring:message code="common.view"/></th>
@@ -35,6 +38,9 @@
 			<c:forEach items="${inputs}" var="input" varStatus="status">
 			<tr>
 				<td><c:out value="${input.id}"></c:out></td>
+				<fmt:formatDate value="${input.date}" pattern="dd/MM/yyyy" var="newdatevar" />
+				<td><c:out value="${newdatevar}"></c:out></td>
+				<td><c:out value="${input.deliveryLocation != null ? input.deliveryLocation.name : input.provider.name}"></c:out></td>
 				<td><c:out value="${input.concept.description}"></c:out></td>
 				<td><c:out value="${input.agreement.description}"></c:out></td>
 				<td></td>
