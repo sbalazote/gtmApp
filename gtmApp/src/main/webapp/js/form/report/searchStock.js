@@ -37,7 +37,8 @@ SearchStock = function() {
 				"agreementId": agreementId,
 				"serialNumber": $("#serialNumberSearch").val() || null,
 				"batchNumber": $("#batchNumberSearch").val() || null,
-				"monodrugId": $("#monodrugSearch").val() || null
+				"monodrugId": $("#monodrugSearch").val() || null,
+                "groupId": $("#groupSearch").val() || null
 			},
 			success: function (stock) {
 				for (var i = 0, l = stock.length; i < l; ++i) {
@@ -214,6 +215,7 @@ SearchStock = function() {
 		$('input[name=dateToSearch]').rules("remove", "minDate");
 		$('#agreementSearch').val('').trigger('chosen:updated');
 		$('#monodrugSearch').val('').trigger('chosen:updated');
+        $('#groupSearch').val('').trigger('chosen:updated');
 		$('#productInput').val('');
 		productId = "";
 		
@@ -233,6 +235,7 @@ SearchStock = function() {
 				"serialNumber": $("#serialNumberSearch").val().trim(),
 				"batchNumber": $("#batchNumberSearch").val().trim(),
 				"monodrugId": $("#monodrugSearch").val() || null,
+                "groupId": $("#groupSearch").val() || null,
 				"searchPhrase": $(".search-field").val() || null
 			};
 			refreshTable(jsonStockSearch);
@@ -251,6 +254,7 @@ SearchStock = function() {
 				request.serialNumber = $("#serialNumberSearch").val().trim();
 				request.batchNumber = $("#batchNumberSearch").val().trim();
 				request.monodrugId = $("#monodrugSearch").val() || null;
+                request.groupId = $("#groupSearch").val() || null;
 				return request;
 			},
 			ajax: true,
@@ -303,6 +307,7 @@ SearchStock = function() {
 			'&serialNumber=' + (jsonStockSearch.serialNumber || null) +
 			'&batchNumber=' + (jsonStockSearch.batchNumber || null) +
 			'&monodrugId=' + (jsonStockSearch.monodrugId || null) +
+            '&groupId=' + (jsonStockSearch.groupId || null) +
 			'&searchPhrase=' + (jsonStockSearch.searchPhrase || null);
 
 		var exportHTML = exportQueryTableHTML("./rest/stocks", params);

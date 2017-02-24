@@ -227,7 +227,7 @@ public class StockServiceImpl implements StockService {
 	}
 
 	@Override
-	public List<StockDTO> getForAutocomplete(String searchPhrase, String sortCode, String sortProduct, String sortAgreement, String sortGtin, String sortAmount, String agreementId, String batchNumber, String expirateDateFrom, String expirateDateTo, String monodrugId, String productId, String serialNumber) {
-		return this.stockDAO.getForAutocomplete(searchPhrase, sortCode, sortProduct, sortAgreement, sortGtin, sortAmount, agreementId, batchNumber, expirateDateFrom, expirateDateTo, monodrugId, productId, serialNumber);
+	public List<StockDTO> getForAutocomplete(String searchPhrase, String sortCode, String sortProduct, String sortAgreement, String sortGtin, String sortAmount, String agreementId, String batchNumber, String expirateDateFrom, String expirateDateTo, String monodrugId, String groupId, String productId, String serialNumber) {
+		return this.stockDAO.getForAutocomplete(searchPhrase, sortCode, sortProduct, sortAgreement, sortGtin, sortAmount, agreementId, batchNumber, expirateDateFrom, expirateDateTo, monodrugId, groupId, productId, serialNumber);
 	}
 }

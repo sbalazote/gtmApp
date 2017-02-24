@@ -36,6 +36,7 @@ public class StockPdfView extends AbstractPdfView {
     private String serialNumber;
     private String agreement;
     private String productMonodrug;
+    private String productGroup;
     private PdfPTable table;
     private PdfPCell col1Detail;
     private PdfPCell col2Detail;
@@ -74,6 +75,7 @@ public class StockPdfView extends AbstractPdfView {
         this.serialNumber = (String) model.get("serialNumber");
         this.agreement = (String) model.get("agreement");
         this.productMonodrug = (String) model.get("monodrug");
+        this.productGroup = (String) model.get("group");
 
         //document.setPageSize(PageSize.A4);
         HeaderFooter event = new HeaderFooter();
@@ -316,12 +318,16 @@ public class StockPdfView extends AbstractPdfView {
 				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(serialNumber, fontHeaderBold), 40.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 40f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
 
 				// imprimo Convenio.
-				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Convenio: ", fontHeader), 120.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 40f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
-				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(agreement, fontHeaderBold), 145.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 40f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Convenio: ", fontHeader), 80.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 40f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(agreement, fontHeaderBold), 100.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 40f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
 
 				// imprimo Monodroga.
-				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Monodroga: ", fontHeader), 240.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 40f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
-				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(productMonodrug, fontHeaderBold), 265.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 40f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Monodroga: ", fontHeader), 145.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 40f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(productMonodrug, fontHeaderBold), 170.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 40f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+
+                // imprimo Agrupacion.
+                ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Agrupacion: ", fontHeader), 210.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 40f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
+                ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(productGroup, fontHeaderBold), 230.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 40f) * MILLIMITER_TO_POINTS_FACTOR, 0f);
 
 				//headerSeparator = new LineSeparator();
 				headerSeparator.drawLine(canvas, 15.0f * MILLIMITER_TO_POINTS_FACTOR, 282.0f * MILLIMITER_TO_POINTS_FACTOR, (210.0f - 42f) * MILLIMITER_TO_POINTS_FACTOR);

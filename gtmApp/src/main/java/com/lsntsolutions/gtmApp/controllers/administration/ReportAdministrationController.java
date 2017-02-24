@@ -15,24 +15,36 @@ public class ReportAdministrationController {
 
 	@Autowired
 	private ConceptService conceptService;
+
 	@Autowired
 	private ProviderService providerService;
+
 	@Autowired
 	private AgreementService agreementService;
+
 	@Autowired
 	private LogisticsOperatorService logisticsOperatorService;
+
 	@Autowired
 	private ProvisioningRequestStateService provisioningRequestStateService;
+
 	@Autowired
 	private ClientService clientService;
+
 	@Autowired
 	private DeliveryLocationService deliveryLocationService;
+
 	@Autowired
 	private UserService userService;
+
 	@Autowired
 	private AuditService auditService;
+
 	@Autowired
 	private ProductMonodrugService productMonodrugService;
+
+	@Autowired
+	private ProductGroupService productGroupService;
 
 	@RequestMapping(value = "/searchInput", method = RequestMethod.GET)
 	public String searchInput(ModelMap modelMap) throws Exception {
@@ -50,6 +62,7 @@ public class ReportAdministrationController {
 		modelMap.put("concepts", this.conceptService.getAll());
 		modelMap.put("providers", this.providerService.getAll());
 		modelMap.put("monodrugs", this.productMonodrugService.getAll());
+		modelMap.put("groups", this.productGroupService.getAll());
 		return "searchStock";
 	}
 

@@ -4,15 +4,9 @@ import com.lsntsolutions.gtmApp.constant.Constants;
 import com.lsntsolutions.gtmApp.dto.ProviderSerializedProductDTO;
 import com.lsntsolutions.gtmApp.dto.StockDTO;
 import com.lsntsolutions.gtmApp.helper.SerialParser;
-import com.lsntsolutions.gtmApp.model.Agreement;
-import com.lsntsolutions.gtmApp.model.Product;
-import com.lsntsolutions.gtmApp.model.ProductMonodrug;
-import com.lsntsolutions.gtmApp.model.Stock;
+import com.lsntsolutions.gtmApp.model.*;
 import com.lsntsolutions.gtmApp.query.StockQuery;
-import com.lsntsolutions.gtmApp.service.AgreementService;
-import com.lsntsolutions.gtmApp.service.ProductMonodrugService;
-import com.lsntsolutions.gtmApp.service.ProductService;
-import com.lsntsolutions.gtmApp.service.StockService;
+import com.lsntsolutions.gtmApp.service.*;
 import com.lsntsolutions.gtmApp.util.StringUtility;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
@@ -30,12 +24,19 @@ public class StockSearchController {
 
 	@Autowired
 	private ProductService productService;
+
 	@Autowired
 	private ProductMonodrugService productMonodrugService;
+
+	@Autowired
+	private ProductGroupService productGroupService;
+
 	@Autowired
 	private AgreementService agreementService;
+
 	@Autowired
 	private StockService stockService;
+
 	@Autowired
 	private SerialParser serialParser;
 
@@ -56,8 +57,9 @@ public class StockSearchController {
 																	 @RequestParam Integer agreementId,
 																	 @RequestParam String serialNumber,
 																	 @RequestParam String batchNumber,
-																	 @RequestParam Integer monodrugId) throws Exception {
-		StockQuery stockQuery = StockQuery.createFromParameters(expirateDateFrom, expirateDateTo, productId, agreementId, serialNumber, batchNumber, monodrugId, null);
+																	 @RequestParam Integer monodrugId,
+																	 @RequestParam Integer groupId) throws Exception {
+		StockQuery stockQuery = StockQuery.createFromParameters(expirateDateFrom, expirateDateTo, productId, agreementId, serialNumber, batchNumber, monodrugId, groupId, null);
 		return this.stockService.getStockForSearch(stockQuery);
 	}
 
@@ -79,6 +81,7 @@ public class StockSearchController {
 		String expirateDateFrom = (String) parametersMap.get("expirateDateFrom");
 		String expirateDateTo = (String) parametersMap.get("expirateDateTo");
 		String monodrugId = (String) parametersMap.get("monodrugId");
+		String groupId = (String) parametersMap.get("groupId");
 		String productId = (String) parametersMap.get("productId");
 		String serialNumber = (String) parametersMap.get("serialNumber");
 
@@ -88,7 +91,7 @@ public class StockSearchController {
 		long total;
 
 		List<StockDTO> stockList;
-		stockList = this.stockService.getForAutocomplete(searchPhrase, sortCode, sortProduct, sortAgreement, sortGtin, sortAmount, agreementId, batchNumber, expirateDateFrom, expirateDateTo, monodrugId, productId, serialNumber);
+		stockList = this.stockService.getForAutocomplete(searchPhrase, sortCode, sortProduct, sortAgreement, sortGtin, sortAmount, agreementId, batchNumber, expirateDateFrom, expirateDateTo, monodrugId, groupId, productId, serialNumber);
 		total = stockList.size();
 		if (total < start + length) {
 			stockList = stockList.subList(start, (int) total);
@@ -171,43 +174,64 @@ public class StockSearchController {
 			modelAndView.addObject("monodrug", "*");
 		}
 
+		if (stockQuery.getGroupId() != null) {
+			ProductGroup productGroup = this.productGroupService.get(stockQuery.getGroupId());
+			modelAndView.addObject("group", StringUtility.addLeadingZeros(String.valueOf(productGroup.getCode()), 4) + " - " + productGroup.getDescription());
+		} else {
+			modelAndView.addObject("group", "*");
+		}
+
 		return modelAndView;
 	}
 
 	private StockQuery getStockQuery(HttpServletRequest request) {
+
 		Integer productId = null;
 		if (!(request.getParameterValues("productId")[0]).equals("null")) {
 			productId = Integer.valueOf(request.getParameterValues("productId")[0]);
 		}
+
 		Integer agreementId = null;
 		if (!(request.getParameterValues("agreementId")[0]).equals("null")) {
 			agreementId = Integer.valueOf(request.getParameterValues("agreementId")[0]);
 		}
+
 		Integer monodrugId = null;
 		if (!(request.getParameterValues("monodrugId")[0]).equals("null")) {
 			monodrugId = Integer.valueOf(request.getParameterValues("monodrugId")[0]);
 		}
+
+		Integer groupId = null;
+		if (!(request.getParameterValues("groupId")[0]).equals("null")) {
+			groupId = Integer.valueOf(request.getParameterValues("groupId")[0]);
+		}
+
 		String expirateDateFrom = null;
 		if (!(request.getParameterValues("expirateDateFrom")[0]).equals("null")) {
 			expirateDateFrom = request.getParameterValues("expirateDateFrom")[0];
 		}
+
 		String expirateDateTo = null;
 		if (!(request.getParameterValues("expirateDateTo")[0]).equals("null")) {
 			expirateDateTo = request.getParameterValues("expirateDateTo")[0];
 		}
+
 		String serialNumber = null;
 		if (!(request.getParameterValues("serialNumber")[0]).equals("null")) {
 			serialNumber = request.getParameterValues("serialNumber")[0];
 		}
+
 		String batchNumber = null;
 		if (!(request.getParameterValues("batchNumber")[0]).equals("null")) {
 			batchNumber = request.getParameterValues("batchNumber")[0];
 		}
+
 		String searchPhrase = null;
 		if (!(request.getParameterValues("searchPhrase")[0]).equals("null")) {
 			searchPhrase = request.getParameterValues("searchPhrase")[0];
 		}
-		StockQuery stockQuery = StockQuery.createFromParameters(expirateDateFrom, expirateDateTo, productId, agreementId, serialNumber, batchNumber, monodrugId, searchPhrase);
+
+		StockQuery stockQuery = StockQuery.createFromParameters(expirateDateFrom, expirateDateTo, productId, agreementId, serialNumber, batchNumber, monodrugId, groupId, searchPhrase);
 		return stockQuery;
 	}
 }

@@ -38,7 +38,7 @@ public interface StockDAO {
 
 	boolean delete(Integer stockId);
 
-	List<StockDTO> getForAutocomplete(String searchPhrase, String sortCode, String sortProduct, String sortAgreement, String sortGtin, String sortAmount, String agreementId, String batchNumber, String expirateDateFrom, String expirateDateTo, String monodrugId, String productId, String serialNumber);
+	List<StockDTO> getForAutocomplete(String searchPhrase, String sortCode, String sortProduct, String sortAgreement, String sortGtin, String sortAmount, String agreementId, String batchNumber, String expirateDateFrom, String expirateDateTo, String monodrugId, String groupId, String productId, String serialNumber);
 
 	Stock getStockByParseSerial(Integer productId, String serialNumber, Integer agreementId);
 }

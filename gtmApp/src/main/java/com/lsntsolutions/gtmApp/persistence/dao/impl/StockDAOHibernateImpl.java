@@ -225,6 +225,10 @@ public class StockDAOHibernateImpl implements StockDAO {
 			criteria.add(Restrictions.eq("product.monodrug.id", stockQuery.getMonodrugId()));
 		}
 
+		if (stockQuery.getGroupId() != null) {
+			criteria.add(Restrictions.eq("product.group.id", stockQuery.getGroupId()));
+		}
+
 		List<Stock> results = criteria.list();
 
 		return results;
@@ -306,7 +310,7 @@ public class StockDAOHibernateImpl implements StockDAO {
 	}
 
 	@Override
-	public List<StockDTO> getForAutocomplete(String searchPhrase, String sortCode, String sortProduct, String sortAgreement, String sortGtin, String sortAmount, String agreementId, String batchNumber, String expirateDateFrom, String expirateDateTo, String monodrugId, String productId, String serialNumber) {
+	public List<StockDTO> getForAutocomplete(String searchPhrase, String sortCode, String sortProduct, String sortAgreement, String sortGtin, String sortAmount, String agreementId, String batchNumber, String expirateDateFrom, String expirateDateTo, String monodrugId, String groupId, String productId, String serialNumber) {
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Stock.class, "stock");
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		SimpleDateFormat sqlDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -353,6 +357,10 @@ public class StockDAOHibernateImpl implements StockDAO {
 
 		if (!StringUtils.isEmpty(monodrugId)) {
 			criteria.add(Restrictions.eq("product.monodrug.id", Integer.parseInt(monodrugId)));
+		}
+
+		if (!StringUtils.isEmpty(groupId)) {
+			criteria.add(Restrictions.eq("product.group.id", Integer.parseInt(groupId)));
 		}
 
 		ProjectionList projectionList = Projections.projectionList();
