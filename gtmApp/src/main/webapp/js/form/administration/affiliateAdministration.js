@@ -12,6 +12,14 @@ $(document).ready(function() {
 		$('#documentTypeSelect').val($("#documentTypeSelect option:first").val());
 		$('#documentInput').val('');
 		$("#activeSelect").val($("#activeSelect option:first").val());
+		$('#addressInput').val('');
+		$('#localityInput').val('');
+		$('#numberInput').val('');
+		$('#floorInput').val('');
+		$('#apartmentInput').val('');
+		$('#zipCodeInput').val('');
+		$('#phoneInput').val('');
+
 		$('#my-select').multiSelect('deselect_all');
 	};
 	
@@ -56,6 +64,15 @@ $(document).ready(function() {
 				$('#documentInput').val(response.document);
 				var isActive = (response.active) ? "true" : "false";
 				$("#activeSelect").val(isActive).trigger('chosen:update');
+				$('#sexSelect').val(response.sex).trigger('chosen:update');
+				$('#addressInput').val(response.address);
+				$('#localityInput').val(response.locality);
+				$('#numberInput').val(response.number);
+				$('#floorInput').val(response.floor);
+				$('#apartmentInput').val(response.apartment);
+				$('#zipCodeInput').val(response.zipCode);
+				$('#phoneInput').val(response.phone);
+
 				$.each(response.clients, function (idx, value) {
 					$('#my-select').multiSelect('select', value.id.toString());
 				});
@@ -226,11 +243,12 @@ $(document).ready(function() {
 	$("#addClientAffiliate").click(function() {
 		$('#addClientAffiliateDiv').show();
 		$('#addClientAffiliate').hide();
+		var id = affiliateId == undefined ? null : affiliateId;
 		$.ajax({
 			url: "getClientToAssociate.do",
 			type: "GET",
 			data: {
-				affiliateId: affiliateId
+				affiliateId: id
 			},
 			async: false,
 			success: function(response) {

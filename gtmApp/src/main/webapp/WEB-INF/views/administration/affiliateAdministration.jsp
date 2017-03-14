@@ -143,7 +143,7 @@
                             <label for="sexSelect"><spring:message code="common.sex"/></label>
                             <select class="form-control chosen-select" id="sexSelect" name="sex">
                                 <option value="M"><spring:message code="common.male.sex"/></option>
-                                <option value="M"><spring:message code="common.female.sex"/></option>
+                                <option value="F"><spring:message code="common.female.sex"/></option>
                             </select>
                         </div>
                         <div class="col-md-4 col-lg-4 form-group">

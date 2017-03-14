@@ -179,22 +179,26 @@ public class AffiliateAdministrationController {
 
 	@RequestMapping(value = "/getClientToAssociate", method = RequestMethod.GET)
 	public @ResponseBody List<Client> getClientToAssociate(@RequestParam Integer affiliateId) throws Exception {
-		Affiliate affiliate = this.affiliateService.get(affiliateId);
-		List<ClientAffiliate> clientAffiliates = affiliate.getClientAffiliates();
 		List<Client> clients = this.clientService.getAll();
 		List<Client> clientsToReturn = new ArrayList<>();
-		for(Client client : clients){
-			boolean found = false;
-			for(ClientAffiliate clientAffiliate : clientAffiliates){
-				if(clientAffiliate.getClient().getId() == client.getId()){
-					found = true;
+		if(affiliateId != null) {
+			Affiliate affiliate = this.affiliateService.get(affiliateId);
+			List<ClientAffiliate> clientAffiliates = affiliate.getClientAffiliates();
+			for(Client client : clients){
+				boolean found = false;
+				for(ClientAffiliate clientAffiliate : clientAffiliates){
+					if(clientAffiliate.getClient().getId() == client.getId()){
+						found = true;
+					}
+				}
+				if(!found){
+					clientsToReturn.add(client);
 				}
 			}
-			if(!found){
-				clientsToReturn.add(client);
-			}
+			return clientsToReturn;
+		}else{
+			return clients;
 		}
-		return clientsToReturn;
 	}
 
 	@RequestMapping(value = "/deleteAffiliate", method = RequestMethod.POST)
