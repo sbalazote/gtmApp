@@ -278,7 +278,7 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 		Map<String, List<DeliveryNote>> outputDeliveryNotes = new HashMap<>();
 		Map<String, List<DeliveryNote>> supplyingDeliveryNotes = new HashMap<>();
 
-		if(deliveryNote != null) {
+		if(deliveryNote != null && !deliveryNote.isCancelled()) {
 			Order order = this.getOrder(deliveryNote);
 			if (order != null) {
 				List<DeliveryNote> deliveryNotes = this.deliveryNoteDAO.getDeliveryNoteByOrderId(order.getId());
