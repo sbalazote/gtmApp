@@ -174,6 +174,7 @@ SearchSerializedProduct = function() {
 	});
 
     var searchProduct = function(productId,serial){
+
         $.ajax({
             url: "getSerializedProductAudit.do",
             type: "GET",
@@ -375,7 +376,7 @@ SearchSerializedProduct = function() {
             type: "GET",
             async: false,
             data: {
-                serial: $('#serialParserSearch').val(),
+                serial: $('#serialParserSearch').val().trim(),
                 formatSerializedId: null
             },
             success: function(response) {

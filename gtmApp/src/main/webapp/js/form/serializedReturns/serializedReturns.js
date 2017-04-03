@@ -219,7 +219,7 @@ SerializedReturns = function() {
 					type: "GET",
 					async: false,
 					data: {
-						serial: $('#serialNumberInput').val(),
+						serial: $('#serialNumberInput').val().trim(),
 						formatSerializedId: null
 					},
 					success: function(response) {
@@ -276,7 +276,7 @@ SerializedReturns = function() {
 								type: "GET",
 								async: false,
 								data: {
-									serial: $('#serialNumberInput').val()
+									serial: $('#serialNumberInput').val().trim()
 								},
 								success: function(response) {
 									if (response != "") {
