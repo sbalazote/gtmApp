@@ -182,7 +182,8 @@ public class DeliveryNoteServiceImpl implements DeliveryNoteService {
 							cancelDeliveryNoteResult.setDeliveryNoteNumber(deliveryNoteNumber);
 						}
 					}
-					if((result != null && result.getResultado()) || !deliveryNote.isInformAnmat() || (deliveryNote.isInformAnmat() && !deliveryNote.isInformed())) {
+					if((result != null && result.getResultado()) || !deliveryNote.isInformAnmat() || (deliveryNote.isInformAnmat() && !deliveryNote.isInformed()) ||
+							(deliveryNote.isInformAnmat() && deliveryNote.isInformed() && deliveryNote.getTransactionCodeANMAT() == null)) {
 						if (output == null) {
 							output = this.getOutput(deliveryNote);
 							if (output != null) {
